@@ -1,0 +1,43 @@
+{
+	"Device": {
+		"ID": "6D0000011D08DD70",
+		"Hardware": "02.01.00",
+		"Firmware": "02.04.00"
+	},
+	"Power": {
+		"Charger": {
+			"Status": 5
+		},
+		"Battery": {
+			"IV": 3.89,
+			"T": 25.43,
+			"AC": -51.72,
+			"SOC": 17.97,
+			"FB": 718,
+			"IB": 718,
+			"CYC": 32
+		}
+	},
+
+
+
+	"IoT": {
+		"GSM": {
+			"Manufacturer": 1,
+			"Model": 1,
+			"Firmware": "13.00.007",
+			"Serial": "0001767743",
+			"IMEI": "353613080341871",
+			"ICCID": "8990011916180292763",
+			"Code": 28601,
+			"RSSI": 11
+		}
+	},
+	"Data": {
+		"DeviceStatus": 100,
+		"FaultStatus": 500,
+		"TimeStamp": "2022-04-26  06:19:13",
+		"Temperature": 22.5,
+		"Humidity": 28.23
+	}
+}
