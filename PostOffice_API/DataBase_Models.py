@@ -3,9 +3,12 @@ from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from .Database import Base
 
-class Post(Base):
+class Post_Table(Base):
+
+    # Declare Table Name
     __tablename__ = "posts"
 
+    # Declare Table Fields
     id = Column(Integer, primary_key=True, nullable=False)
     title = Column(String, nullable=False)
     content = Column(String, nullable=False)
