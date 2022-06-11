@@ -11,6 +11,8 @@ router = APIRouter(
 
 @router.get("/", status_code=status.HTTP_200_OK, response_model=List[Schemas.PostResponse])
 def get_posts(request: Request, db: Session = Depends(Get_DataBase)):
+    
+    # Query Table
     posts = db.query(DataBase_Models.Post_Table).all()
 
     # Get Remote IP
@@ -20,6 +22,8 @@ def get_posts(request: Request, db: Session = Depends(Get_DataBase)):
     print("------------------------")
     print("Client IP :", IP)
     print("------------------------")
+
+    # Send Response
     return posts
 
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=Schemas.PostResponse)
@@ -32,9 +36,19 @@ def get_post(id: int, db: Session = Depends(Get_DataBase)):
 	return get_post
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=Schemas.PostResponse)
-def create_posts(post: Schemas.PostCreate, db: Session = Depends(Get_DataBase)):
-	new_post = DataBase_Models.Post_Table(**post.dict())
-	db.add(new_post)
-	db.commit()
-	db.refresh(new_post)
-	return new_post
+def create_posts(Post_Schema: Schemas.PostCreate, db: Session = Depends(Get_DataBase)):
+    
+    # Set Inputs
+    new_post = DataBase_Models.Post_Table(**Post_Schema.dict())
+    
+    # Add Post To Table
+    db.add(new_post)
+    
+    # Commit Database
+    db.commit()
+
+    # Refresh Data
+    db.refresh(new_post)
+    
+    # Send Response
+    return new_post
