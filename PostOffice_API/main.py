@@ -2,6 +2,7 @@ from fastapi import FastAPI, status
 from . import DataBase_Models
 from .Database import DB_Engine, Get_DataBase
 from .Routers import Post
+from .Config import settings
 
 # Control for Table
 DataBase_Models.Base.metadata.create_all(bind=DB_Engine)
