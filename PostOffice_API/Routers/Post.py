@@ -1,17 +1,15 @@
 from typing import List
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter, Request
-from fastapi_versioning import VersionedFastAPI, version
 from ..Database import Get_DataBase
 from .. import DataBase_Models, Schemas
 
 API_Router = APIRouter(
     prefix="/posts",
-    tags=['Posts'] 
+    tags=['Posts']
 )
 
 @API_Router.get("/", status_code=status.HTTP_200_OK, response_model=List[Schemas.PostResponse])
-@version(1,0)
 def get_posts(request: Request, db: Session = Depends(Get_DataBase)):
     
     # Query Table
@@ -29,7 +27,6 @@ def get_posts(request: Request, db: Session = Depends(Get_DataBase)):
     return posts
 
 @API_Router.get("/{id}", status_code=status.HTTP_200_OK, response_model=Schemas.PostResponse)
-@version(1,0)
 def get_post(id: int, db: Session = Depends(Get_DataBase)):
 
 	get_post = db.query(DataBase_Models.Post_Table).filter(DataBase_Models.Post_Table.id == id).first()
@@ -39,7 +36,6 @@ def get_post(id: int, db: Session = Depends(Get_DataBase)):
 	return get_post
 
 @API_Router.post("/", status_code=status.HTTP_201_CREATED, response_model=Schemas.PostResponse)
-@version(1,0)
 def create_posts(Post_Schema: Schemas.PostCreate, db: Session = Depends(Get_DataBase)):
     
     # Set Inputs

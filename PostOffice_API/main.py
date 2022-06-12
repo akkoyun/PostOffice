@@ -1,5 +1,4 @@
 from fastapi import FastAPI, status
-from fastapi_versioning import VersionedFastAPI, version
 from . import DataBase_Models
 from .Database import DB_Engine, Get_DataBase
 from .Routers import Post
@@ -15,6 +14,4 @@ PostOffice.include_router(Post.router)
 
 @PostOffice.get("/", status_code=status.HTTP_202_ACCEPTED)
 def root():
-	return {"PostOffice API": "v01.00.01"}
-
-PostOffice = VersionedFastAPI(PostOffice)
+	return {"PostOffice API": "v01.00.02"}
