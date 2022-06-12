@@ -10,8 +10,10 @@ DataBase_Models.Base.metadata.create_all(bind=DB_Engine)
 # Declare Object
 PostOffice = FastAPI()
 
+# Route Request
 PostOffice.include_router(Post.router)
 
+# Default Request
 @PostOffice.get("/", status_code=status.HTTP_202_ACCEPTED)
 def root():
 	return {"PostOffice API": "v01.00.01"}
