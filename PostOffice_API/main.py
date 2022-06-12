@@ -8,7 +8,7 @@ from .Config import Settings
 DataBase_Models.Base.metadata.create_all(bind=DB_Engine)
 
 # Declare Object
-PostOffice = FastAPI()
+PostOffice = FastAPI(title="STF PostOffice V1")
 
 # Route Request
 PostOffice.include_router(Post.router)
