@@ -14,5 +14,5 @@ PostOffice.include_router(Post.router)
 
 @PostOffice.get("/", status_code=status.HTTP_202_ACCEPTED)
 def root():
-	return {"PostOffice API": "v01.00.00"}
+	return {"PostOffice API": "v01.00.01"}
 
