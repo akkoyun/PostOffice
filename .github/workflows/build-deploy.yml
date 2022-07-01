@@ -6,8 +6,6 @@ jobs:
   build:
     environment:
       name: testing
-
-    services:
     runs-on: ubuntu-latest
     steps:
       - name: pulling git repo
