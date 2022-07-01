@@ -15,8 +15,7 @@ jobs:
         with:
           host: ${{secrets.HOSTNAME}}
           username: ${{secrets.PROD_USERNAME}}
-          key: ${{secrets.PROD_PASSWORD}}
-          fingerprint: SHA256:l7sNN/mrfMtWvQ0p8ffGyUX7Tsv0KVA5XurMIOYuNZQ
+          password: ${{secrets.PROD_PASSWORD}}
           script: |
             cd app/src
             git pull
