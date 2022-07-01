@@ -33,7 +33,8 @@ jobs:
           host: ${{secrets.HOSTNAME}}
           username: ${{secrets.PROD_USERNAME}}
           password: ${{secrets.PROD_PASSWORD}}
+          fingerprint: ${{secrets.PROD_FINGERPRINT}}
           script: |
             cd app/src
             git pull
-            echo 00204063f4b4!N | sudo -S systemctl restart api
+            echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart PostOffice
