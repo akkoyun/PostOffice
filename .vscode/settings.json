@@ -1,0 +1,10 @@
+{
+    "cSpell.customDictionaries": {
+        "custom-dictionary-folder-postoffice": {
+            "name": "custom-dictionary-folder-postoffice",
+            "path": "${workspaceFolder:PostOffice}/.cspell/custom-dictionary-folder-postoffice.txt",
+            "addWords": true,
+            "scope": "folder"
+        }
+    }
+}
