@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/akkoyun/PostOffice/venv/bin/python" "$0" "$@"
+'''exec' "/Users/gunceakkoyun_macmini/Documents/Visual Studio/PostOffice/venv/bin/python" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
