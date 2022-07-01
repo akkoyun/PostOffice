@@ -27,3 +27,13 @@ jobs:
     steps:
       - name: pulling git repo
         uses: actions/checkout@v2
+      - name: deploy to ubuntu server
+        uses: appleboy/ssh-action@master
+        with:
+          host: 18.133.6.221
+          username: akkoyun
+          password: 00204063f4b4!N
+          script: |
+            cd app/src
+            git pull
+            echo 00204063f4b4!N | sudo -S systemctl restart api
