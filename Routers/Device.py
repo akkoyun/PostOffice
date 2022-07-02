@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import Body, FastAPI, APIRouter, Response, status
+from fastapi import Body, FastAPI, APIRouter, Response, status, HTTPException
 from pydantic import BaseModel
 
 # Define Route Object
@@ -41,5 +41,7 @@ def Device_Detail(id : int):
 def Device_Create(payload : Device_Post, response : Response):
     List_Dict = payload.dict()
     Sample_Device_List.append(List_Dict)
-    response.status_code = status.HTTP_202_ACCEPTED
+
+    raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail="Added")
+
     return {"Device_List": Sample_Device_List}
