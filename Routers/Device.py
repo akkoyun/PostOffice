@@ -31,9 +31,14 @@ def Device_Root():
 def Device_List():
     return {"Device_List": Sample_Device_List}
 
+# Device Detail
+@Device.get("/Detail/{id}")
+def Device_Detail(id : int):
+    return {"Device_List": id}
+
 # Device Create
 @Device.post("/Create")
 def Device_Create(payload : Device_Post):
     List_Dict = payload.dict()
     Sample_Device_List.append(List_Dict)
-    return {"Device_ID": payload.ID}
+    return {"Device_List": Sample_Device_List}
