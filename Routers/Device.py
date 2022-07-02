@@ -34,4 +34,6 @@ def Device_List():
 # Device Create
 @Device.post("/Create")
 def Device_Create(payload : Device_Post):
+    List_Dict = payload.dict()
+    Sample_Device_List.append(List_Dict)
     return {"Device_ID": payload.ID}
