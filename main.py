@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from Routers import Device
 
-app = FastAPI()
+app = FastAPI(
+    tags=['Root Operations']
+)
 
+# Root Message
 @app.get("/")
 def root():
     return {"message": "Hello PostOffice"}

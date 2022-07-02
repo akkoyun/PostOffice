@@ -8,5 +8,10 @@ Device = APIRouter(
 
 # Device End Point Default Request
 @Device.get("/")
-def root():
+def Device_Root():
     return {"message": "Device End Point"}
+
+# Device Create
+@Device.post("/Create")
+def root():
+    return {"message": "Device Create"}
