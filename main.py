@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .Routers import Device
+from Routers import Device
 
 API = FastAPI()
 
