@@ -1,10 +1,19 @@
 from fastapi import Body, FastAPI, APIRouter
+from pydantic import BaseModel
 
 # Define Route Object
 Device = APIRouter(
     prefix= "/Device",
     tags=['Device Operations']
 )
+
+# Define Schema
+class Device_Post(BaseModel):
+    Type: int
+    ID: str
+    Location: str
+    Owner: str
+    IP: str
 
 # Device End Point Default Request
 @Device.get("/")
@@ -13,5 +22,5 @@ def Device_Root():
 
 # Device Create
 @Device.post("/Create")
-def Device_Create(payload : dict = Body(...)):
-    return {"message": f"request {payload['Device']['ID']}"}
+def Device_Create(payload : Device_Post):
+    return {"Device_ID": payload.ID}
