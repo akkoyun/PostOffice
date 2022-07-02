@@ -33,7 +33,6 @@ jobs:
           host: ${{secrets.HOSTNAME}}
           username: ${{secrets.PROD_USERNAME}}
           password: ${{secrets.PROD_PASSWORD}}
-          fingerprint: ${{secrets.PROD_FINGERPRINT}}
           script: |
             cd app/src
             git pull
