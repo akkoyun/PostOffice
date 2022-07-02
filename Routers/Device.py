@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import Body, FastAPI, APIRouter
 
 # Define Route Object
 Device = APIRouter(
@@ -13,5 +13,5 @@ def Device_Root():
 
 # Device Create
 @Device.post("/Create")
-def root():
-    return {"message": "Device Create"}
+def Device_Create(payload : dict = Body(...)):
+    return {"message": f"request {payload['ID']}"}
