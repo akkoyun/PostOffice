@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import Body, FastAPI, APIRouter
+from fastapi import Body, FastAPI, APIRouter, Response, status
 from pydantic import BaseModel
 
 # Define Route Object
@@ -38,7 +38,8 @@ def Device_Detail(id : int):
 
 # Device Create
 @Device.post("/Create")
-def Device_Create(payload : Device_Post):
+def Device_Create(payload : Device_Post, response : Response):
     List_Dict = payload.dict()
     Sample_Device_List.append(List_Dict)
+    response.status_code = status.HTTP_202_ACCEPTED
     return {"Device_List": Sample_Device_List}
