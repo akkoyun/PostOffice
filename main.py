@@ -1,7 +1,11 @@
 from fastapi import FastAPI
+from .Routers import Device
 
-app = FastAPI()
+API = FastAPI()
 
-@app.get("/")
+@API.get("/")
 def root():
     return {"message": "Hello PostOffice"}
+
+# Device End Point Route
+API.include_router(Device.Device)
