@@ -21,6 +21,8 @@ class Device_Post(BaseModel):
 try:
     conn = psycopg2.connect(host='localhost', database='postgre', user='postgre', password='00204063f4b4!N', cursor_factory=RealDictCursor )
     cursor = conn.cursor()
+except Exception as error:
+    print("Fail")
 
 
 
