@@ -1,9 +1,9 @@
-from asyncio.windows_events import NULL
-from typing import Optional
 from fastapi import Body, Depends, FastAPI, APIRouter, Response, status, HTTPException
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from .. import Models
+from typing import Optional
+from sqlalchemy import func
+from pydantic import BaseModel
+from .. import Models, Schemas
 from ..Database import DB_Engine, DB_Session, get_db
 
 # Define Route Object
@@ -11,14 +11,6 @@ Device = APIRouter(
     prefix= "/Device",
     tags=['Device Operations']
 )
-
-# Define Schema
-class Device_Post(BaseModel):
-    Type: int
-    ID: str
-    Location: Optional[str]
-    Owner: Optional[str]
-    IP: Optional[str]
 
 
 
