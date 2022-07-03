@@ -1,17 +1,14 @@
 from typing import Optional
 from fastapi import Body, FastAPI, APIRouter, Response, status, HTTPException
 from pydantic import BaseModel
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 # Define Route Object
 Device = APIRouter(
     prefix= "/Device",
     tags=['Device Operations']
 )
-
-Sample_Device_List = [
-    {"Type" :101, "ID" : "00112233445566", "Location" : "Konya", "Owner" : "STF", "IP" : "1.1.1.1"},
-    {"Type" :102, "ID" : "00112233445566", "Location" : "Sarayonu", "Owner" : "STF", "IP" : "2.2.2.2"}
-    ]
 
 # Define Schema
 class Device_Post(BaseModel):
@@ -20,6 +17,23 @@ class Device_Post(BaseModel):
     Location: Optional[str] = "STF HQ"
     Owner: Optional[str] = "STF"
     IP: Optional[str] = "0.0.0.0"
+
+try:
+    conn = psycopg2.connect(host='localhost', database='postgre', user='postgre', password='00204063f4b4!N', cursor_factory=RealDictCursor )
+    cursor = conn.cursor()
+
+
+
+
+Sample_Device_List = [
+    {"Type" :101, "ID" : "00112233445566", "Location" : "Konya", "Owner" : "STF", "IP" : "1.1.1.1"},
+    {"Type" :102, "ID" : "00112233445566", "Location" : "Sarayonu", "Owner" : "STF", "IP" : "2.2.2.2"}
+    ]
+
+
+
+
+
 
 # Device End Point Default Request
 @Device.get("/")
