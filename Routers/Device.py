@@ -1,10 +1,6 @@
-from fastapi import Body, Depends, FastAPI, APIRouter, Response, status, HTTPException
-from sqlalchemy.orm import Session
 from typing import Optional
-from sqlalchemy import func
+from fastapi import Body, FastAPI, APIRouter, Response, status, HTTPException
 from pydantic import BaseModel
-from .. import Models, Schemas
-from ..Database import DB_Engine, DB_Session, get_db
 
 # Define Route Object
 Device = APIRouter(
@@ -12,8 +8,18 @@ Device = APIRouter(
     tags=['Device Operations']
 )
 
+Sample_Device_List = [
+    {"Type" :101, "ID" : "00112233445566", "Location" : "Konya", "Owner" : "STF", "IP" : "1.1.1.1"},
+    {"Type" :102, "ID" : "00112233445566", "Location" : "Sarayonu", "Owner" : "STF", "IP" : "2.2.2.2"}
+    ]
 
-
+# Define Schema
+class Device_Post(BaseModel):
+    Type: int = 101
+    ID: str
+    Location: Optional[str] = "STF HQ"
+    Owner: Optional[str] = "STF"
+    IP: Optional[str] = "0.0.0.0"
 
 # Device End Point Default Request
 @Device.get("/")
@@ -22,8 +28,8 @@ def Device_Root():
 
 # Device List
 @Device.get("/List")
-def Device_List(db: Session = Depends(get_db)):
-    return {"Status": "OK"}
+def Device_List():
+    return {"Device_List": Sample_Device_List}
 
 # Device Detail
 @Device.get("/Detail/{id}")
@@ -31,9 +37,11 @@ def Device_Detail(id : int):
     return {"Device_List": id}
 
 # Device Create
-@Device.post("/Create", status_code=status.HTTP_201_CREATED)
+@Device.post("/Create")
 def Device_Create(payload : Device_Post, response : Response):
-
     List_Dict = payload.dict()
-    #raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail="Added")
-    return {"Device_List": "Sample_Device_List"}
+    Sample_Device_List.append(List_Dict)
+
+    raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail="Added")
+
+    return {"Device_List": Sample_Device_List}
