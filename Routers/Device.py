@@ -45,7 +45,8 @@ def Device_Root():
 # Device List
 @Device.get("/List")
 def Device_List():
-    return {"Device_List": Sample_Device_List}
+    post = cursor.execute(""" SELECT * FROM Devices """)
+    return {"Device_List": post}
 
 # Device Detail
 @Device.get("/Detail/{id}")
