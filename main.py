@@ -2,8 +2,8 @@ from fastapi import Depends, FastAPI
 from Routers import Device
 
 from sqlalchemy.orm import Session
-from . import Models
-from .Database import engine, SessionLocal
+import Models
+from Database import engine, SessionLocal
 
 Models.Base.metadata.create_all(bind=engine)
 
