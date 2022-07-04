@@ -21,8 +21,9 @@ class Device_Post(BaseModel):
 try:
     conn = psycopg2.connect(host='localhost', database='postgre', user='postgre', password='00204063f4b4!N', cursor_factory=RealDictCursor )
     cursor = conn.cursor()
+    a = "OK"
 except Exception as error:
-    print("Fail")
+    a = "FAIL"
 
 
 
@@ -40,7 +41,7 @@ Sample_Device_List = [
 # Device End Point Default Request
 @Device.get("/")
 def Device_Root():
-    return {"message": "Device End Point"}
+    return {"message": a}
 
 # Device List
 @Device.get("/List")
