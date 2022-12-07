@@ -41,7 +41,8 @@ async def Record_Message():
         print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
         print("---------------------------------------------------------")
 
-        await db.close()
+        # Close Database
+        db.close()
 
 # Handle All Message in Topic
 Record_Message()
