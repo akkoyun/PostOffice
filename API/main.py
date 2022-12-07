@@ -2,23 +2,21 @@
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-import asyncio, aiokafka, json
 from . import Schema
+from json import dumps
+from kafka import KafkaProducer
+from kafka.errors import KafkaError
 
 # Define FastAPI Object
 PostOffice = FastAPI()
 
-# Define Loop
-Kafka_Loop = asyncio.get_event_loop()
-
 # Defne Kafka Producer
-Kafka_Producer = aiokafka.AIOKafkaProducer(loop=Kafka_Loop, bootstrap_servers="165.227.154.147:9092")
+Kafka_Producer = KafkaProducer(
+    value_serializer=lambda m: dumps(m).encode('utf-8'),
+    bootstrap_servers="165.227.154.147:9092")
 
 @PostOffice.on_event("startup")
 async def Startup_Event():
-
-    # Wait for Kafka Start
-    await Kafka_Producer.start()
 
     # LOG
     print("------------------------------------------------")
@@ -27,9 +25,6 @@ async def Startup_Event():
 
 @PostOffice.on_event("shutdown")
 async def Shutdown_event():
-
-    # Wait for Kafka Stop
-    await Kafka_Producer.stop()   
 
     # LOG
     print("------------------------------------------------")
@@ -41,6 +36,12 @@ async def Shutdown_event():
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
+
+    # Send Message to Queue
+    Kafka_Producer.send("Error", value=str(request))
+
+    # LOG
+    print("Error..")
 
     return JSONResponse(
         status_code=status.HTTP_406_NOT_ACCEPTABLE,
@@ -59,23 +60,22 @@ async def kafka_middleware(request: Request, call_next):
 @PostOffice.post("/", status_code=status.HTTP_201_CREATED)
 async def API(request: Request, Data: Schema.IoT_Data_Pack_Model):
 
-    # Get Client IP
-    client_host = request.client.host
-
     # Print LOG
     print("API Log -->", Data.Payload.TimeStamp, " - ", Data.Device.Info.ID, " - ", Data.Command, " --> Sended to Kafka Queue..")
 
-    # Create Producer Object
-    Kafka_Producer = request.state.Kafka_Producer
+    # Set Message Header
+    Kafka_Message_Headers = [('Command', bytes(Data.Command, 'utf-8')), ('ID', bytes(Data.Device.Info.ID, 'utf-8')), ('IP', bytes(request.client.host, 'utf-8'))]
 
-    # Handle Incomming Message
-    Kafka_Message = json.dumps(Data.dict(), indent=2).encode('utf-8')
+    try:
 
-    # Send Message to Queue
-    f = await Kafka_Producer.send('RAW', Kafka_Message)
+        # Send Message to Queue
+        Kafka_Producer.send("RAW", value=Data.dict(), headers=Kafka_Message_Headers)
 
-    # Print LOG
-    print("Kafka - ", f)
+    except KafkaError as exc:
+
+        print("Exception during getting assigned partitions - {}".format(exc))
+
+        pass
 
 	# Send Success
     return {"Event": 200}

@@ -9,8 +9,12 @@ class Settings(BaseSettings):
 	POSTOFFICE_DB_NAME: str
 	POSTOFFICE_DB_USERNAME: str
 
+	KAFKA_HOSTNAME: str
+	KAFKA_PORT: str
+	KAFKA_TOPIC_RAW: str
+
 	class Config:
 		env_file = ".env"
 
 # Set Setting
-Database_Settings = Settings()
+APP_Settings = Settings()
