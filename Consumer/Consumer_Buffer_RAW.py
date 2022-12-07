@@ -29,12 +29,12 @@ async def Record_Message():
         print(".........................................................")
 
         # Create Add Record Command
-        New_Buffer_Post = await Incoming_Buffer(Buffer_Device_ID = Device_ID, Buffer_Client_IP = Device_IP, Buffer_Command = Command, Buffer_Data = str(Kafka_Message))
+        New_Buffer_Post = Incoming_Buffer(Buffer_Device_ID = Device_ID, Buffer_Client_IP = Device_IP, Buffer_Command = Command, Buffer_Data = str(Kafka_Message))
 
         # Add and Refresh DataBase
         db = SessionLocal()
-        await db.add(New_Buffer_Post)
-        await db.commit()
+        db.add(New_Buffer_Post)
+        db.commit()
         await db.refresh(New_Buffer_Post)
 
         # Print LOG
