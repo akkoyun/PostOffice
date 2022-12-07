@@ -11,7 +11,7 @@ Kafka_Consumer = KafkaConsumer(APP_Settings.KAFKA_TOPIC_RAW,
     group_id="Data_Consumer", 
     enable_auto_commit=True)
 
-def Record_Message():
+async def Record_Message():
 
     for Message in Kafka_Consumer:
 
@@ -40,6 +40,8 @@ def Record_Message():
         # Print LOG
         print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
         print("---------------------------------------------------------")
+
+        await db.close()
 
 # Handle All Message in Topic
 Record_Message()
