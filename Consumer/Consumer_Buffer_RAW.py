@@ -1,9 +1,8 @@
 # Import Libraries
 from Config import APP_Settings
-from Database import SessionLocal
-from Models import Incoming_Buffer
+from Database import SessionLocal, DB_Engine
+from . import Models
 from kafka import KafkaConsumer
-from kafka import TopicPartition , OffsetAndMetadata
 import json
 
 # Define Consumer
@@ -13,6 +12,8 @@ Kafka_Consumer = KafkaConsumer(APP_Settings.KAFKA_TOPIC_RAW,
     auto_offset_reset='earliest',
     enable_auto_commit=False)
 
+# Create DB Models
+Models.Base.metadata.create_all(bind=DB_Engine)
 
 def Record_Message():
 
@@ -37,13 +38,14 @@ def Record_Message():
             print(".........................................................")
 
             # Create Add Record Command
-            New_Buffer_Post = Incoming_Buffer(
+            New_Buffer_Post = Models.Incoming_Buffer(
                 Buffer_Device_ID = Device_ID, 
                 Buffer_Client_IP = Device_IP, 
                 Buffer_Command = Command, 
                 Buffer_Data = str(Kafka_Message))
 
             # Add and Refresh DataBase
+            #db = Create_Database()
             db = SessionLocal()
             db.add(New_Buffer_Post)
             db.commit()
