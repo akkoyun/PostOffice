@@ -29,7 +29,7 @@ def Info_Parser():
             print(".........................................................")
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print(".........................................................")
-            print(Message.value.decode())
+            print(Message.value)
             print(".........................................................")
             print("")
 
