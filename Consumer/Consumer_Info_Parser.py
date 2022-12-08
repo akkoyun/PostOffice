@@ -10,7 +10,7 @@ from json import dumps
 Models.Base.metadata.create_all(bind=DB_Engine)
 
 # Define Consumer
-Kafka_Consumer = KafkaConsumer(APP_Settings.KAFKA_TOPIC_INFO_PARSER, 
+Kafka_Consumer = KafkaConsumer('Device.Info', 
     bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", 
     group_id="Data_Parser", 
     auto_offset_reset='earliest',
