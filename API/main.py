@@ -38,7 +38,7 @@ async def Shutdown_event():
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
     # Send Message to Queue
-    Kafka_Producer.send("Error", request)
+    Kafka_Producer.send("Error", request.body())
 
     # LOG
     print("Error..")
