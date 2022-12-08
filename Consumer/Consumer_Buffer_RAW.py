@@ -66,7 +66,7 @@ def Handle_RAW_Topic():
             Kafka_Message_Headers = [('Command', Message.headers[0][1]), ('ID', Message.headers[1][1]), ('IP', Message.headers[2][1])]
 
             # Parse Model
-            Device_Info_JSON = Kafka_Message.Device.Info.dict()
+            Device_Info_JSON = Kafka_Message.Device.Info.dict(exclude={'ID'})
             Device_Power_JSON = Kafka_Message.Device.Power.dict()
             Device_IoT_JSON = Kafka_Message.Device.IoT.dict()
             Device_Payload_JSON = Kafka_Message.Payload.dict()
