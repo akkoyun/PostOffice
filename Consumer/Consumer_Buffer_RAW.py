@@ -1,7 +1,7 @@
 # Import Libraries
 from Config import APP_Settings
 from Database import SessionLocal, DB_Engine
-from . import Models
+from Consumer import Models
 from kafka import KafkaConsumer
 import json
 
