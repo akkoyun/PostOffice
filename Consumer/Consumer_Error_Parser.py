@@ -23,13 +23,13 @@ def Info_Parser():
         for Message in Kafka_Consumer:
 
             # handle Message.
-            Kafka_Message = json.loads(Message.value.decode())
+            #Kafka_Message = json.loads(Message.value.decode())
 
             # Print LOG
             print(".........................................................")
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print(".........................................................")
-            print(Kafka_Message.dict())
+            print(Message.value.decode())
             print(".........................................................")
             print("")
 
