@@ -69,7 +69,7 @@ def Handle_RAW_Topic():
 
 
 
-            print("Kafka_Message.dict(include={'Device'})")
+            print(Kafka_Message.dict(include={'Device'}))
 
 
 
