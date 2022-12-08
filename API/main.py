@@ -35,10 +35,10 @@ async def Shutdown_event():
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(params: Text2kgParams):
 
     # Send Message to Queue
-    Kafka_Producer.send("Error", request.body())
+    Kafka_Producer.send("Error", params.text)
 
     # LOG
     print("Error..")
