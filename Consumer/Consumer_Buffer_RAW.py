@@ -69,6 +69,7 @@ def Handle_RAW_Topic():
             Device_Info_JSON = Kafka_Message.dict(include={'Device': {'Info'}})
             Device_Power_JSON = Kafka_Message.dict(include={'Device': {'Power'}})
             Device_IoT_JSON = Kafka_Message.dict(include={'Device': {'IoT'}})
+            Device_Payload_JSON = Kafka_Message.dict(include={'Payload'})
 
             # Sending Queue
             try:
@@ -77,6 +78,7 @@ def Handle_RAW_Topic():
                 Kafka_Producer.send("Device.Info", value=Device_Info_JSON, headers=Kafka_Message_Headers)
                 Kafka_Producer.send("Device.Power", value=Device_Power_JSON, headers=Kafka_Message_Headers)
                 Kafka_Producer.send("Device.IoT", value=Device_IoT_JSON, headers=Kafka_Message_Headers)
+                Kafka_Producer.send("Device.Payload", value=Device_Payload_JSON, headers=Kafka_Message_Headers)
 
             except KafkaError as exc:
 
