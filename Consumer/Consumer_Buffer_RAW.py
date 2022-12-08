@@ -54,8 +54,7 @@ def Handle_RAW_Topic():
 
             # Print LOG
             print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
-            print("---------------------------------------------------------")
-            print("")
+            print(".........................................................")
 
             # Close Database
             db.close()
@@ -85,24 +84,8 @@ def Handle_RAW_Topic():
 
                 pass
 
-
-            
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            print("Message parsed to consumers...")
+            print("---------------------------------------------------------")
 
     finally:
         print("Error Accured !!")
