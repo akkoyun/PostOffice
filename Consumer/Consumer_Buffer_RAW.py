@@ -9,7 +9,6 @@ import json
 # Define Consumer
 Kafka_Consumer = KafkaConsumer(APP_Settings.KAFKA_TOPIC_RAW, 
     bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", 
-    value_deserializer=lambda m: json.loads(m.decode('utf-8')),
     group_id="Data_Consumer", 
     auto_offset_reset='earliest',
     enable_auto_commit=False)
@@ -20,7 +19,7 @@ def Record_Message():
     for Message in Kafka_Consumer:
 
         # handle Message
-        Kafka_Message = Message.value()
+        Kafka_Message = json.loads(Message.value.decode())
 
         # Get Headers
         Command = Message.headers[0][1].decode('ASCII')
