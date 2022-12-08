@@ -61,8 +61,8 @@ def Record_Message():
         # Commit Message
         TP = TopicPartition(Kafka_Topic, Kafka_Partition)
         OM = OffsetAndMetadata(Kafka_Offset + 1, Kafka_TimeStamp)
-        Kafka_Consumer.commit()
-        Kafka_Consumer.close()
+        Kafka_Consumer.commit(asynchronous=False)
+        #Kafka_Consumer.close()
         #Kafka_Consumer.commit({TP, OM})
 
 # Handle All Message in Topic
