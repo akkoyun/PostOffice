@@ -29,7 +29,6 @@ def Handle_RAW_Topic():
         for Message in Kafka_Consumer:
 
             # handle Message.
-            #Kafka_Message = json.loads(Message.value.decode())
             Kafka_Message = Schema.IoT_Data_Pack_Model(**json.loads(Message.value.decode()))
 
             # Print LOG
@@ -69,6 +68,8 @@ def Handle_RAW_Topic():
 
 
 
+
+            print("Kafka_Message.dict(include={'Device'})")
 
 
 
