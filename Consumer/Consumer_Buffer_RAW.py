@@ -16,54 +16,52 @@ Kafka_Consumer = KafkaConsumer(APP_Settings.KAFKA_TOPIC_RAW,
 
 def Record_Message():
 
-    for Message in Kafka_Consumer:
+    try:
 
-        # handle Message.
-        Kafka_Message = json.loads(Message.value.decode())
+        for Message in Kafka_Consumer:
 
-        # Get Headers
-        Command = Message.headers[0][1].decode('ASCII')
-        Device_ID = Message.headers[1][1].decode('ASCII')
-        Device_IP = Message.headers[2][1].decode('ASCII')
+            # handle Message.
+            Kafka_Message = json.loads(Message.value.decode())
 
-        # Get Kafka Parameters
-        Kafka_Key = Message.key
-        Kafka_Topic = Message.topic
-        Kafka_Partition = Message.partition
-        Kafka_Offset = Message.offset
-        Kafka_TimeStamp = Message.timestamp
+            # Get Headers
+            Command = Message.headers[0][1].decode('ASCII')
+            Device_ID = Message.headers[1][1].decode('ASCII')
+            Device_IP = Message.headers[2][1].decode('ASCII')
 
-        # Print LOG
-        print("Command     : ", Command)
-        print("Device ID   : ", Device_ID)
-        print("Client IP   : ", Device_IP)
-        print(".........................................................")
-        print("Topic : ", Kafka_Topic, " - Partition : ", Kafka_Partition, " - Offset : ", Kafka_Offset, " - TimeStamp : ", Kafka_TimeStamp)
-        print(".........................................................")
+            # Print LOG
+            print("Command     : ", Command)
+            print("Device ID   : ", Device_ID)
+            print("Client IP   : ", Device_IP)
+            print(".........................................................")
+            print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
+            print(".........................................................")
 
-        # Create Add Record Command
-        New_Buffer_Post = Incoming_Buffer(Buffer_Device_ID = Device_ID, Buffer_Client_IP = Device_IP, Buffer_Command = Command, Buffer_Data = str(Kafka_Message))
+            # Create Add Record Command
+            New_Buffer_Post = Incoming_Buffer(
+                Buffer_Device_ID = Device_ID, 
+                Buffer_Client_IP = Device_IP, 
+                Buffer_Command = Command, 
+                Buffer_Data = str(Kafka_Message))
 
-        # Add and Refresh DataBase
-        db = SessionLocal()
-        db.add(New_Buffer_Post)
-        db.commit()
-        db.refresh(New_Buffer_Post)
+            # Add and Refresh DataBase
+            db = SessionLocal()
+            db.add(New_Buffer_Post)
+            db.commit()
+            db.refresh(New_Buffer_Post)
 
-        # Print LOG
-        print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
-        print("---------------------------------------------------------")
-        print("")
+            # Close Database
+            db.close()
 
-        # Close Database
-        db.close()
+            # Print LOG
+            print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
+            print("---------------------------------------------------------")
+            print("")
 
-        # Commit Message
-        TP = TopicPartition(Kafka_Topic, Kafka_Partition)
-        OM = OffsetAndMetadata(Kafka_Offset + 1, Kafka_TimeStamp)
-        Kafka_Consumer.commit()
-        #Kafka_Consumer.close()
-        #Kafka_Consumer.commit({TP, OM})
+            # Commit Message
+            Kafka_Consumer.commit()
+            
+    finally:
+        print("Error Accured !!")
 
 # Handle All Message in Topic
 Record_Message()
