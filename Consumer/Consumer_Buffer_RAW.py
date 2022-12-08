@@ -56,7 +56,6 @@ def Handle_RAW_Topic():
             # Print LOG
             print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
             print("---------------------------------------------------------")
-            print("Test : ", Kafka_Message.Device.Info.Hardware)
             print("")
 
             # Close Database
