@@ -18,7 +18,7 @@ def Record_Message():
 
     for Message in Kafka_Consumer:
 
-        # handle Message
+        # handle Message.
         Kafka_Message = json.loads(Message.value.decode())
 
         # Get Headers
