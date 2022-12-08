@@ -29,7 +29,7 @@ def Info_Parser():
             print(".........................................................")
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print(".........................................................")
-            print(Kafka_Message)
+            print(Kafka_Message.dict())
             print(".........................................................")
             print("")
 
