@@ -67,9 +67,9 @@ def Handle_RAW_Topic():
 
             # Parse Model
             Device_Info_JSON = Kafka_Message.Device.Info.dict()
-            Device_Power_JSON = Kafka_Message.dict(include={'Device': {'Power'}})
-            Device_IoT_JSON = Kafka_Message.dict(include={'Device': {'IoT'}})
-            Device_Payload_JSON = Kafka_Message.dict(include={'Payload'})
+            Device_Power_JSON = Kafka_Message.Device.Power.dict()
+            Device_IoT_JSON = Kafka_Message.Device.IoT.dict()
+            Device_Payload_JSON = Kafka_Message.Payload.dict()
 
             # Sending Queue
             try:
