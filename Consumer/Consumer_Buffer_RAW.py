@@ -5,15 +5,15 @@ from . import Models
 from kafka import KafkaConsumer
 import json
 
+# Create DB Models
+Models.Base.metadata.create_all(bind=DB_Engine)
+
 # Define Consumer
 Kafka_Consumer = KafkaConsumer(APP_Settings.KAFKA_TOPIC_RAW, 
     bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", 
     group_id="Data_Consumer", 
     auto_offset_reset='earliest',
     enable_auto_commit=False)
-
-# Create DB Models
-Models.Base.metadata.create_all(bind=DB_Engine)
 
 def Record_Message():
 
