@@ -20,7 +20,7 @@ def Record_Message():
     for Message in Kafka_Consumer:
 
         # handle Message
-        Kafka_Message = json.loads(Message.value())
+        Kafka_Message = Message.value()
 
         # Get Headers
         Command = Message.headers[0][1].decode('ASCII')
