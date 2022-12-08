@@ -38,7 +38,7 @@ def Record_Message():
         print("Device ID   : ", Device_ID)
         print("Client IP   : ", Device_IP)
         print(".........................................................")
-        print("Kafka Key : ", Kafka_Key, " - Topic : ", Kafka_Topic, " - Partition : ", Kafka_Partition, " - Offset : ", Kafka_Offset, " - TimeStamp : ", Kafka_TimeStamp)
+        print("Topic : ", Kafka_Topic, " - Partition : ", Kafka_Partition, " - Offset : ", Kafka_Offset, " - TimeStamp : ", Kafka_TimeStamp)
         print(".........................................................")
 
         # Create Add Record Command
@@ -53,6 +53,7 @@ def Record_Message():
         # Print LOG
         print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
         print("---------------------------------------------------------")
+        print("")
 
         # Close Database
         db.close()
@@ -60,6 +61,8 @@ def Record_Message():
         # Commit Message
         TP = TopicPartition(Kafka_Topic, Kafka_Partition)
         OM = OffsetAndMetadata(Kafka_Offset + 1, Kafka_TimeStamp)
+        Kafka_Consumer.commit()
+        Kafka_Consumer.close()
         #Kafka_Consumer.commit({TP, OM})
 
 # Handle All Message in Topic
