@@ -24,7 +24,8 @@ def Info_Parser():
 
             # Print LOG
             print("-----------------------------------------------------------------------------------------------------")
-            print("Device_ID : ", Device_ID, " Device Time : ", Device_Time, " Command : ", Command, " IP : ", Device_IP)
+            print("Device_ID : ", Device_ID, " Device Time : ", Device_Time)
+            print("Command : ", Command, " IP : ", Device_IP)
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print("-----------------------------------------------------------------------------------------------------")
             print(Kafka_Info_Message)
