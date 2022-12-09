@@ -19,18 +19,21 @@ def Info_Parser():
             # handle Message.
             Kafka_Info_Message = Schema.Pack_Info(**json.loads(Message.value.decode()))
 
+            # Handle Headers
+            Device_ID = Message.headers[0][1].decode('ASCII')
+            Device_Time = Message.headers[1][1].decode('ASCII')
+
             # Print LOG
-            print(" Device_ID : ", Message.headers[0][1].decode('ASCII'), " Device Time : ", Message.headers[1][1].decode('ASCII'))
+            print("Device_ID : ", Device_ID, " Device Time : ", Device_Time)
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print(".....................................................................................................")
             print(Kafka_Info_Message)
             print(".....................................................................................................")
-            print("")
 
             # Create Add Record Command
             New_Info_Post = Models.Device_Info(
-                Device_Time = Message.headers[1][1].decode('ASCII'), 
-                Device_ID = Message.headers[0][1].decode('ASCII'), 
+                Device_Time = Device_Time, 
+                Device_ID = Device_ID, 
                 Hardware_Version = Kafka_Info_Message.Hardware,
                 Firmware_Version = Kafka_Info_Message.Firmware,
                 Temperature = Kafka_Info_Message.Temperature,
@@ -44,7 +47,7 @@ def Info_Parser():
 
             # Print LOG
             print("Message recorded to Info DB with Info_ID : ", New_Info_Post.Info_ID)
-            print(".........................................................")
+            print("-----------------------------------------------------------------------------------------------------")
 
             # Close Database
             db.close()
