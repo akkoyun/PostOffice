@@ -17,8 +17,10 @@ def Info_Parser():
             Kafka_Info_Message = Schema.Pack_Info(**json.loads(Message.value.decode()))
 
             # Handle Headers
-            Device_ID = Message.headers[0][1].decode('ASCII')
-            Device_Time = Message.headers[1][1].decode('ASCII')
+            Command = Message.headers[0][1].decode('ASCII')
+            Device_ID = Message.headers[1][1].decode('ASCII')
+            Device_Time = Message.headers[2][1].decode('ASCII')
+            Device_IP = Message.headers[3][1].decode('ASCII')
 
             # Print LOG
             print("Device_ID : ", Device_ID, " Device Time : ", Device_Time)

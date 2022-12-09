@@ -66,7 +66,7 @@ async def API(request: Request, Data: Schema.IoT_Data_Pack_Model):
     try:
 
         # Send Message to Queue
-        Kafka_Producer.send("RAW", value=Data.dict(), headers=[('Command', bytes(Data.Command, 'utf-8')), ('ID', bytes(Data.Device.Info.ID, 'utf-8')), ('IP', bytes(request.client.host, 'utf-8'))])
+        Kafka_Producer.send("RAW", value=Data.dict(), headers=[('Command', bytes(Data.Command, 'utf-8')), ('ID', bytes(Data.Device.Info.ID, 'utf-8')), ('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), ('IP', bytes(request.client.host, 'utf-8'))])
 
     except KafkaError as exc:
 

@@ -34,8 +34,8 @@ def Handle_RAW_Topic():
             # Handle Headers
             Command = Message.headers[0][1].decode('ASCII')
             Device_ID = Message.headers[1][1].decode('ASCII')
-            Device_IP = Message.headers[2][1].decode('ASCII')
-            Device_Time = Kafka_Message.Payload.TimeStamp
+            Device_Time = Message.headers[2][1].decode('ASCII')
+            Device_IP = Message.headers[3][1].decode('ASCII')
 
             # Print LOG
             print("Command     : ", Command)
@@ -74,33 +74,31 @@ def Handle_RAW_Topic():
 
 
 
-            # Set Header
-            Kafka_Handle_Headers = [('ID', bytes(Device_ID, 'utf-8')), ('Device_Time', bytes(Device_Time, 'utf-8'))]
 
             # Send Info Message to Queue
             try:
-                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=Kafka_Handle_Headers)
+                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}))
             except KafkaError as exc:
                 print("Exception (Info) during getting assigned partitions - {}".format(exc))
                 pass
 
             # Send Power Message to Queue
             try:
-                Kafka_Producer.send("Device.Power", value=Kafka_Message.Device.Power.dict(), headers=Kafka_Handle_Headers)
+                Kafka_Producer.send("Device.Power", value=Kafka_Message.Device.Power.dict())
             except KafkaError as exc:
                 print("Exception (Power) during getting assigned partitions - {}".format(exc))
                 pass
 
             # Send IoT Message to Queue
             try:
-                Kafka_Producer.send("Device.IoT", value=Kafka_Message.Device.IoT.dict(), headers=Kafka_Handle_Headers)
+                Kafka_Producer.send("Device.IoT", value=Kafka_Message.Device.IoT.dict())
             except KafkaError as exc:
                 print("Exception (IoT) during getting assigned partitions - {}".format(exc))
                 pass
 
             # Send Payload Message to Queue
             try:
-                Kafka_Producer.send("Device.Payload", value=Kafka_Message.Payload.dict(exclude={'TimeStamp'}), headers=Kafka_Handle_Headers)
+                Kafka_Producer.send("Device.Payload", value=Kafka_Message.Payload.dict(exclude={'TimeStamp'}))
             except KafkaError as exc:
                 print("Exception (Payload) during getting assigned partitions - {}".format(exc))
                 pass
