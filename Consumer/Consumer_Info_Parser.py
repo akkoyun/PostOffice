@@ -21,11 +21,10 @@ def Info_Parser():
 
             # Print LOG
             print("Command : ", Message.headers[0][1].decode('ASCII'), " Device_ID : ", Message.headers[1][1].decode('ASCII'), " Client IP : ", Message.headers[2][1].decode('ASCII'))
-            print(".........................................................")
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
-            print(".........................................................")
+            print(".....................................................................................................")
             print(Kafka_Message)
-            print(".........................................................")
+            print(".....................................................................................................")
             print("")
 
             # Commit Message

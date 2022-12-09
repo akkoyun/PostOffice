@@ -16,3 +16,19 @@ class Incoming_Buffer(Base):
 	Buffer_Command = Column(String, nullable=True)
 	Buffer_Client_IP = Column(String, nullable=True)
 	Buffer_Data = Column(String, nullable=True)
+
+# Device Info Database Model
+class Device_Info(Base):
+
+	# Define Buffer Database
+	__tablename__ = "Device_Info"
+
+	# Define Colomns
+	Info_ID = Column(Integer, primary_key=True, nullable=False)
+	Created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+	Device_Time = Column(TIMESTAMP(timezone=True), nullable=False)
+	Device_ID = Column(String, nullable=False)
+	Hardware_Version = Column(String, nullable=True)
+	Firmware_Version = Column(String, nullable=True)
+	Temperature = Column(float, nullable=False)
+	Humidity = Column(float, nullable=False)
