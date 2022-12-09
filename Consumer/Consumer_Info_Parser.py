@@ -20,9 +20,7 @@ def Info_Parser():
             Kafka_Message = json.loads(Message.value.decode())
 
             # Print LOG
-            print("Command     : ", Message.headers[0][1].decode('ASCII'))
-            print("Device ID   : ", Message.headers[1][1].decode('ASCII'))
-            print("Client IP   : ", Message.headers[2][1].decode('ASCII'))
+            print("Command : ", Message.headers[0][1].decode('ASCII'), " Device_ID : ", Message.headers[1][1].decode('ASCII'), " Client IP : ", Message.headers[2][1].decode('ASCII'))
             print(".........................................................")
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print(".........................................................")
