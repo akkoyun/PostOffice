@@ -62,11 +62,37 @@ def Handle_RAW_Topic():
             # Commit Message
             Kafka_Consumer.commit()
 
+
+
+
+            # Send Info Message to Queue
+            try:
+                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=[('ID', Message.headers[1][1]), ('Device_Time', Kafka_Message.Payload.TimeStamp)])
+            except KafkaError as exc:
+                print("Exception during getting assigned partitions - {}".format(exc))
+                pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             # Set Message Header
             Kafka_Message_Headers = [('Command', Message.headers[0][1]), ('ID', Message.headers[1][1]), ('IP', Message.headers[2][1]), ('Device_Time', Kafka_Message.Payload.TimeStamp)]
 
             # Parse Model
-            Device_Info_JSON = Kafka_Message.Device.Info.dict(exclude={'ID'})
             Device_Power_JSON = Kafka_Message.Device.Power.dict()
             Device_IoT_JSON = Kafka_Message.Device.IoT.dict()
             Device_Payload_JSON = Kafka_Message.Payload.dict()
@@ -75,7 +101,6 @@ def Handle_RAW_Topic():
             try:
 
                 # Send Message to Queue
-                Kafka_Producer.send("Device.Info", value=Device_Info_JSON, headers=Kafka_Message_Headers)
                 Kafka_Producer.send("Device.Power", value=Device_Power_JSON, headers=Kafka_Message_Headers)
                 Kafka_Producer.send("Device.IoT", value=Device_IoT_JSON, headers=Kafka_Message_Headers)
                 Kafka_Producer.send("Device.Payload", value=Device_Payload_JSON, headers=Kafka_Message_Headers)
