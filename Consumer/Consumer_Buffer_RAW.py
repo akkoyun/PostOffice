@@ -68,6 +68,7 @@ def Handle_RAW_Topic():
 
             # Send Info Message to Queue
             try:
+#                Kafka_Info_Headers = [('ID', Message.headers[1][1]), ('IP', Message.headers[2][1]), ('Device_Time', Kafka_Message.Payload.TimeStamp)]
                 Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=[('ID', Message.headers[1][1])])
             except KafkaError as exc:
                 print("Exception during getting assigned partitions - {}".format(exc))
@@ -91,7 +92,7 @@ def Handle_RAW_Topic():
 
 
             # Set Message Header
-            Kafka_Message_Headers = [('Command', Message.headers[0][1]), ('ID', Message.headers[1][1]), ('IP', Message.headers[2][1]), ('Device_Time', Kafka_Message.Payload.TimeStamp)]
+            Kafka_Message_Headers = [('Command', Message.headers[0][1]), ('ID', Message.headers[1][1]), ('IP', Message.headers[2][1])]
 
             # Parse Model
             Device_Power_JSON = Kafka_Message.Device.Power.dict()
