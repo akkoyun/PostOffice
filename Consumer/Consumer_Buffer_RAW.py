@@ -97,7 +97,7 @@ def Handle_RAW_Topic():
 
             # Send Payload Message to Queue
             try:
-                Kafka_Producer.send("Device.Payload", value=Kafka_Message.Device.Payload.dict(exclude={'TimeStamp'}), headers=Kafka_Handle_Headers)
+                Kafka_Producer.send("Device.Payload", value=Kafka_Message.Payload.dict(exclude={'TimeStamp'}), headers=Kafka_Handle_Headers)
             except KafkaError as exc:
                 print("Exception (Payload) during getting assigned partitions - {}".format(exc))
                 pass
