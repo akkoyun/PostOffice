@@ -54,7 +54,7 @@ def Handle_RAW_Topic():
 
             # Print LOG
             print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
-            print(Kafka_Message.Payload.TimeStamp)
+            print("TimeStamp ", Kafka_Message.Payload.TimeStamp)
             print(".........................................................")
 
             # Close Database
