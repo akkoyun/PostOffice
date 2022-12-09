@@ -1,32 +1,18 @@
 # Import Libraries
-from Config import APP_Settings
+from Setup.Config import Kafka_RAW_Consumer
+from Setup.Config import KafkaProducer as Kafka_Producer
 from Database import SessionLocal, DB_Engine
 import Models, Schema
-from kafka import KafkaConsumer, KafkaProducer
-from kafka.errors import KafkaError
 import json
-from json import dumps
 
 # Create DB Models
 Models.Base.metadata.create_all(bind=DB_Engine)
-
-# Define Consumer
-Kafka_Consumer = KafkaConsumer(APP_Settings.KAFKA_TOPIC_RAW, 
-    bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", 
-    group_id="Data_Consumer", 
-    auto_offset_reset='earliest',
-    enable_auto_commit=False)
-
-# Defne Kafka Producer
-Kafka_Producer = KafkaProducer(
-    value_serializer=lambda m: dumps(m).encode('utf-8'),
-    bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}")
 
 def Handle_RAW_Topic():
 
     try:
 
-        for Message in Kafka_Consumer:
+        for Message in Kafka_RAW_Consumer:
 
             # handle Message.
             Kafka_Message = Schema.IoT_Data_Pack_Model(**json.loads(Message.value.decode()))
@@ -67,7 +53,8 @@ def Handle_RAW_Topic():
             db.close()
 
             # Commit Message
-            Kafka_Consumer.commit()
+            Kafka_RAW_Consumer.commit()
+
 
             # Set headers
             Kafka_Parser_Headers = [

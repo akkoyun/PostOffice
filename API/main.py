@@ -2,18 +2,12 @@
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from Setup.Config import KafkaProducer as Kafka_Producer
 from . import Schema
-from json import dumps
-from kafka import KafkaProducer
 from kafka.errors import KafkaError
 
 # Define FastAPI Object
 PostOffice = FastAPI()
-
-# Defne Kafka Producer
-Kafka_Producer = KafkaProducer(
-    value_serializer=lambda m: dumps(m).encode('utf-8'),
-    bootstrap_servers="165.227.154.147:9092")
 
 @PostOffice.on_event("startup")
 async def Startup_Event():
@@ -60,19 +54,24 @@ async def kafka_middleware(request: Request, call_next):
 @PostOffice.post("/", status_code=status.HTTP_201_CREATED)
 async def API(request: Request, Data: Schema.IoT_Data_Pack_Model):
 
+    # Handle Headers
+    Command = Data.Command
+    Device_ID = Data.Device.Info.ID
+    Device_Time = Data.Payload.TimeStamp
+    Device_IP = request.client.host
+
+    # Set headers
+    Kafka_Header = [
+        ('Command', bytes(Command, 'utf-8')), 
+        ('ID', bytes(Device_ID, 'utf-8')), 
+        ('Device_Time', bytes(Device_Time, 'utf-8')), 
+        ('IP', bytes(Device_IP, 'utf-8'))]
+
     # Print LOG
     print("API Log -->", Data.Payload.TimeStamp, " - ", Data.Device.Info.ID, " - ", Data.Command, " --> Sended to Kafka Queue..")
 
-    try:
-
-        # Send Message to Queue
-        Kafka_Producer.send("RAW", value=Data.dict(), headers=[('Command', bytes(Data.Command, 'utf-8')), ('ID', bytes(Data.Device.Info.ID, 'utf-8')), ('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), ('IP', bytes(request.client.host, 'utf-8'))])
-
-    except KafkaError as exc:
-
-        print("Exception during getting assigned partitions - {}".format(exc))
-
-        pass
+    # Send Message to Queue
+    Kafka_Producer.send("RAW", value=Data.dict(), headers=Kafka_Header)
 
 	# Send Success
     return {"Event": 200}
