@@ -29,6 +29,7 @@ def Info_Parser():
 
             # Create Add Record Command
             New_Info_Post = Models.Device_Info(
+                Device_Time = Message.headers[3][1].decode('ASCII'), 
                 Device_ID = Message.headers[1][1].decode('ASCII'), 
                 Hardware_Version = Kafka_Info_Message.Hardware,
                 Firmware_Version = Kafka_Info_Message.Firmware,
