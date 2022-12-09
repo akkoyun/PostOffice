@@ -32,3 +32,22 @@ class Device_Info(Base):
 	Firmware_Version = Column(String, nullable=True)
 	Temperature = Column(FLOAT, nullable=False)
 	Humidity = Column(FLOAT, nullable=False)
+
+# Device Info Database Model
+class Device_Battery(Base):
+
+	# Define Buffer Database
+	__tablename__ = "Device_Battery"
+
+	# Define Colomns
+	Battery_ID = Column(Integer, primary_key=True, nullable=False)
+	Created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+	Device_Time = Column(TIMESTAMP(timezone=True), nullable=True)
+	Device_ID = Column(String, nullable=False)
+	IV = Column(FLOAT, nullable=False)
+	AC = Column(FLOAT, nullable=False)
+	SOC = Column(FLOAT, nullable=False)
+	Charge = Column(Integer, nullable=False)
+	T = Column(FLOAT, nullable=True)
+	FB = Column(Integer, nullable=True)
+	IB = Column(Integer, nullable=True)
