@@ -31,20 +31,26 @@ def Handle_RAW_Topic():
             # handle Message.
             Kafka_Message = Schema.IoT_Data_Pack_Model(**json.loads(Message.value.decode()))
 
+            # Handle Headers
+            Command = Message.headers[0][1].decode('ASCII')
+            Device_ID = Message.headers[1][1].decode('ASCII')
+            Device_IP = Message.headers[2][1].decode('ASCII')
+            Device_Time = Kafka_Message.Payload.TimeStamp
+
             # Print LOG
-            print("Command     : ", Message.headers[0][1].decode('ASCII'))
-            print("Device ID   : ", Message.headers[1][1].decode('ASCII'))
-            print("Client IP   : ", Message.headers[2][1].decode('ASCII'))
-            print("Device Time : ", Kafka_Message.Payload.TimeStamp)
+            print("Command     : ", Command)
+            print("Device ID   : ", Device_ID)
+            print("Client IP   : ", Device_IP)
+            print("Device Time : ", Device_Time)
             print(".........................................................")
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print(".........................................................")
 
             # Create Add Record Command
             New_Buffer_Post = Models.Incoming_Buffer(
-                Buffer_Device_ID = Message.headers[1][1].decode('ASCII'), 
-                Buffer_Client_IP = Message.headers[2][1].decode('ASCII'), 
-                Buffer_Command = Message.headers[0][1].decode('ASCII'), 
+                Buffer_Device_ID = Device_ID, 
+                Buffer_Client_IP = Device_IP, 
+                Buffer_Command = Command, 
                 Buffer_Data = str(Kafka_Message))
 
             # Add and Refresh DataBase
@@ -69,7 +75,7 @@ def Handle_RAW_Topic():
             # Send Info Message to Queue
             try:
 #                Kafka_Info_Headers = [('ID', Message.headers[1][1]), ('IP', Message.headers[2][1]), ('Device_Time', Kafka_Message.Payload.TimeStamp)]
-                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=[('ID', Message.headers[1][1]),('Device_Time', Kafka_Message.Payload.TimeStamp)])
+                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=[('ID', Device_ID),('Device_Time', Device_Time)])
             except KafkaError as exc:
                 print("Exception during getting assigned partitions - {}".format(exc))
                 pass
