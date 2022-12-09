@@ -77,28 +77,28 @@ def Handle_RAW_Topic():
 
             # Send Info Message to Queue
             try:
-                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}))
+                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=[('Command', bytes(Command, 'utf-8')), ('ID', bytes(Device_ID, 'utf-8')), ('Device_Time', bytes(Device_Time, 'utf-8')), ('IP', bytes(Device_IP, 'utf-8'))])
             except KafkaError as exc:
                 print("Exception (Info) during getting assigned partitions - {}".format(exc))
                 pass
 
             # Send Power Message to Queue
             try:
-                Kafka_Producer.send("Device.Power", value=Kafka_Message.Device.Power.dict())
+                Kafka_Producer.send("Device.Power", value=Kafka_Message.Device.Power.dict(), headers=[('Command', bytes(Command, 'utf-8')), ('ID', bytes(Device_ID, 'utf-8')), ('Device_Time', bytes(Device_Time, 'utf-8')), ('IP', bytes(Device_IP, 'utf-8'))])
             except KafkaError as exc:
                 print("Exception (Power) during getting assigned partitions - {}".format(exc))
                 pass
 
             # Send IoT Message to Queue
             try:
-                Kafka_Producer.send("Device.IoT", value=Kafka_Message.Device.IoT.dict())
+                Kafka_Producer.send("Device.IoT", value=Kafka_Message.Device.IoT.dict(), headers=[('Command', bytes(Command, 'utf-8')), ('ID', bytes(Device_ID, 'utf-8')), ('Device_Time', bytes(Device_Time, 'utf-8')), ('IP', bytes(Device_IP, 'utf-8'))])
             except KafkaError as exc:
                 print("Exception (IoT) during getting assigned partitions - {}".format(exc))
                 pass
 
             # Send Payload Message to Queue
             try:
-                Kafka_Producer.send("Device.Payload", value=Kafka_Message.Payload.dict(exclude={'TimeStamp'}))
+                Kafka_Producer.send("Device.Payload", value=Kafka_Message.Payload.dict(exclude={'TimeStamp'}), headers=[('Command', bytes(Command, 'utf-8')), ('ID', bytes(Device_ID, 'utf-8')), ('Device_Time', bytes(Device_Time, 'utf-8')), ('IP', bytes(Device_IP, 'utf-8'))])
             except KafkaError as exc:
                 print("Exception (Payload) during getting assigned partitions - {}".format(exc))
                 pass
