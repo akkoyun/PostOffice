@@ -1,18 +1,15 @@
 # Import Libraries
-from .Setup.Config import Kafka_RAW_Consumer
-from .Setup.Config import KafkaProducer as Kafka_Producer
-from Database import SessionLocal, DB_Engine
-import Models, Schema
+from . import Database, Kafka_Functions, Schema, Models, LOG_Functions
 import json
 
 # Create DB Models
-Models.Base.metadata.create_all(bind=DB_Engine)
+Database.Base.metadata.create_all(bind=Database.DB_Engine)
 
 def Handle_RAW_Topic():
 
     try:
 
-        for Message in Kafka_RAW_Consumer:
+        for Message in Kafka_Functions.Kafka_RAW_Consumer:
 
             # handle Message.
             Kafka_Message = Schema.IoT_Data_Pack_Model(**json.loads(Message.value.decode()))
@@ -24,13 +21,7 @@ def Handle_RAW_Topic():
             Device_IP = Message.headers[3][1].decode('ASCII')
 
             # Print LOG
-            print("Command     : ", Command)
-            print("Device ID   : ", Device_ID)
-            print("Client IP   : ", Device_IP)
-            print("Device Time : ", Device_Time)
-            print(".........................................................")
-            print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
-            print(".........................................................")
+            LOG_Functions.LOG_Kafka_Header(Command, Device_ID, Device_IP, Device_Time, Message.topic, Message.partition, Message.offset)
 
             # Create Add Record Command
             New_Buffer_Post = Models.Incoming_Buffer(
@@ -40,7 +31,7 @@ def Handle_RAW_Topic():
                 Buffer_Data = str(Kafka_Message))
 
             # Add and Refresh DataBase
-            db = SessionLocal()
+            db = Database.SessionLocal()
             db.add(New_Buffer_Post)
             db.commit()
             db.refresh(New_Buffer_Post)
@@ -53,7 +44,7 @@ def Handle_RAW_Topic():
             db.close()
 
             # Commit Message
-            Kafka_RAW_Consumer.commit()
+            Kafka_Functions.Kafka_RAW_Consumer.commit()
 
 
             # Set headers
@@ -64,10 +55,10 @@ def Handle_RAW_Topic():
                 ('IP', bytes(Device_IP, 'utf-8'))]
 
             # Send Parsed Message to Queue
-            Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=Kafka_Parser_Headers)
-            Kafka_Producer.send("Device.Power", value=Kafka_Message.Device.Power.dict(), headers=Kafka_Parser_Headers)
-            Kafka_Producer.send("Device.IoT", value=Kafka_Message.Device.IoT.dict(), headers=Kafka_Parser_Headers)
-            Kafka_Producer.send("Device.Payload", value=Kafka_Message.Payload.dict(exclude={'TimeStamp'}), headers=Kafka_Parser_Headers)
+            Kafka_Functions.Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=Kafka_Parser_Headers)
+            Kafka_Functions.Kafka_Producer.send("Device.Power", value=Kafka_Message.Device.Power.dict(), headers=Kafka_Parser_Headers)
+            Kafka_Functions.Kafka_Producer.send("Device.IoT", value=Kafka_Message.Device.IoT.dict(), headers=Kafka_Parser_Headers)
+            Kafka_Functions.Kafka_Producer.send("Device.Payload", value=Kafka_Message.Payload.dict(exclude={'TimeStamp'}), headers=Kafka_Parser_Headers)
 
             print("Message parsed to consumers...")
             print("---------------------------------------------------------")

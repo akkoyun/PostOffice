@@ -1,22 +1,6 @@
-# Import Libraries
-from pydantic import BaseSettings
+# Include Libraries
 from kafka import KafkaConsumer, KafkaProducer
 from json import dumps
-
-# Define Setting
-class Settings(BaseSettings):
-
-	POSTOFFICE_DB_HOSTNAME: str
-	POSTOFFICE_DB_PORT: str
-	POSTOFFICE_DB_PASSWORD: str
-	POSTOFFICE_DB_NAME: str
-	POSTOFFICE_DB_USERNAME: str
-
-	class Config:
-		env_file = ".env"
-
-# Set Setting
-APP_Settings = Settings()
 
 # Defne Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
