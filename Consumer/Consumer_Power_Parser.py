@@ -23,7 +23,7 @@ def Power_Parser():
             Device_IP = Message.headers[3][1].decode('ASCII')
 
             # Print LOG
-            print("Device_ID : ", Device_ID, " Device Time : ", Device_Time)
+            print("Device_ID : ", Device_ID, " Device Time : ", Device_Time, " Command : ", Command, " IP : ", Device_IP)
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print(".....................................................................................................")
             print(Kafka_Power_Message)
