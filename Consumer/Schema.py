@@ -3,10 +3,7 @@ from typing import Optional
 from datetime import date, datetime, time, timedelta
 
 # Define Info
-class IoT_Data_Pack_Info(BaseModel):
-	
-	# Device ID
-	ID: str
+class Pack_Info(BaseModel):
 	
 	# Device Hardware Version
 	Hardware: Optional[str] = None
@@ -19,6 +16,12 @@ class IoT_Data_Pack_Info(BaseModel):
 	
 	# Device PCB Humidity
 	Humidity: float
+
+# Define Info
+class IoT_Data_Pack_Info(Pack_Info):
+	
+	# Device ID
+	ID: str
 
 # Define Power
 class IoT_Data_Pack_Power(BaseModel):
@@ -256,4 +259,3 @@ class IoT_Data_Pack_Model(BaseModel):
 
 	# Payload
 	Payload: IoT_Data_Pack_Payload
-

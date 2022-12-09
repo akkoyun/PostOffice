@@ -26,7 +26,7 @@ class Device_Info(Base):
 	# Define Colomns
 	Info_ID = Column(Integer, primary_key=True, nullable=False)
 	Created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-	Device_Time = Column(TIMESTAMP(timezone=True), nullable=False)
+	Device_Time = Column(TIMESTAMP(timezone=True), nullable=True)
 	Device_ID = Column(String, nullable=False)
 	Hardware_Version = Column(String, nullable=True)
 	Firmware_Version = Column(String, nullable=True)
