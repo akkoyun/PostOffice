@@ -35,6 +35,7 @@ def Handle_RAW_Topic():
             print("Command     : ", Message.headers[0][1].decode('ASCII'))
             print("Device ID   : ", Message.headers[1][1].decode('ASCII'))
             print("Client IP   : ", Message.headers[2][1].decode('ASCII'))
+            print("Device Time : ", Kafka_Message.Payload.TimeStamp)
             print(".........................................................")
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
             print(".........................................................")
@@ -54,7 +55,6 @@ def Handle_RAW_Topic():
 
             # Print LOG
             print("Message recorded to Buffer DB with Buffer_ID : ", New_Buffer_Post.Buffer_ID)
-            print("TimeStamp ", Kafka_Message.Payload.TimeStamp)
             print(".........................................................")
 
             # Close Database
@@ -68,7 +68,7 @@ def Handle_RAW_Topic():
 
             # Send Info Message to Queue
             try:
-                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=[('ID', Message.headers[1][1]), ('Device_Time', Kafka_Message.Payload.TimeStamp)])
+                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=[('ID', Message.headers[1][1])])
             except KafkaError as exc:
                 print("Exception during getting assigned partitions - {}".format(exc))
                 pass
