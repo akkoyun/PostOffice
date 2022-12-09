@@ -1,5 +1,5 @@
 # Import Libraries
-from Config import APP_Settings
+from Config import Kafka_Info_Consumer
 from Database import SessionLocal, DB_Engine
 import Models, Schema
 from kafka import KafkaConsumer
@@ -9,18 +9,12 @@ from json import dumps
 # Create DB Models
 Models.Base.metadata.create_all(bind=DB_Engine)
 
-# Define Consumer
-Kafka_Consumer = KafkaConsumer('Device.Info', 
-    bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", 
-    group_id="Data_Parser", 
-    auto_offset_reset='earliest',
-    enable_auto_commit=False)
-
+# Info Parser Function
 def Info_Parser():
 
     try:
 
-        for Message in Kafka_Consumer:
+        for Message in Kafka_Info_Consumer:
 
             # handle Message.
             Kafka_Message = json.loads(Message.value.decode())
@@ -37,7 +31,7 @@ def Info_Parser():
             print("")
 
             # Commit Message
-            Kafka_Consumer.commit()
+            Kafka_Info_Consumer.commit()
 
     finally:
         print("Error Accured !!")

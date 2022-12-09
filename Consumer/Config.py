@@ -1,4 +1,5 @@
 from pydantic import BaseSettings
+from kafka import KafkaConsumer
 
 # Define Setting
 class Settings(BaseSettings):
@@ -18,3 +19,6 @@ class Settings(BaseSettings):
 
 # Set Setting
 APP_Settings = Settings()
+
+# Define Consumer
+Kafka_Info_Consumer = KafkaConsumer('Device.Info', bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id="Data_Parser", auto_offset_reset='earliest', enable_auto_commit=False)
