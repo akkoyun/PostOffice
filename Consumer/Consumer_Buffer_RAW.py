@@ -74,7 +74,8 @@ def Handle_RAW_Topic():
 
             # Send Info Message to Queue
             try:
-                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=[('ID', Device_ID)])
+                Kafka_Info_Headers = [('ID', bytes(Device_ID, 'utf-8')), ('Device_Time', bytes(Device_Time, 'utf-8'))]
+                Kafka_Producer.send("Device.Info", value=Kafka_Message.Device.Info.dict(exclude={'ID'}), headers=Kafka_Info_Headers)
             except KafkaError as exc:
                 print("Exception during getting assigned partitions - {}".format(exc))
                 pass
