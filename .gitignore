@@ -1,3 +1,4 @@
 PostOffice_ENV/
 __pycache__
 .DS_Store
+.vscode/
