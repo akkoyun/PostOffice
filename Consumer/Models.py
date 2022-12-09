@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, FLOAT
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from Database import Base
@@ -30,5 +30,5 @@ class Device_Info(Base):
 	Device_ID = Column(String, nullable=False)
 	Hardware_Version = Column(String, nullable=True)
 	Firmware_Version = Column(String, nullable=True)
-	Temperature = Column(float, nullable=False)
-	Humidity = Column(float, nullable=False)
+	Temperature = Column(FLOAT, nullable=False)
+	Humidity = Column(FLOAT, nullable=False)
