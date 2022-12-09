@@ -1,7 +1,8 @@
 # Import Libraries
-from Config import Kafka_Info_Consumer
+from Setup.Config import Kafka_Info_Consumer
 from Database import SessionLocal, DB_Engine
-import Models, Schema, json
+import Models, Schema
+import json
 
 # Create DB Models
 Models.Base.metadata.create_all(bind=DB_Engine)
@@ -23,11 +24,13 @@ def Info_Parser():
             Device_IP = Message.headers[3][1].decode('ASCII')
 
             # Print LOG
-            print("-----------------------------------------------------------------------------------------------------")
-            print("Device_ID : ", Device_ID, " Device Time : ", Device_Time)
-            print("Command : ", Command, " IP : ", Device_IP)
+            print("Command     : ", Command)
+            print("Device ID   : ", Device_ID)
+            print("Client IP   : ", Device_IP)
+            print("Device Time : ", Device_Time)
+            print(".........................................................")
             print("Topic : ", Message.topic, " - Partition : ", Message.partition, " - Offset : ", Message.offset)
-            print("-----------------------------------------------------------------------------------------------------")
+            print(".........................................................")
             print(Kafka_Info_Message)
 
             # Create Add Record Command
@@ -47,7 +50,7 @@ def Info_Parser():
 
             # Print LOG
             print("Message recorded to Info DB with Info_ID : ", New_Info_Post.Info_ID)
-            print("-----------------------------------------------------------------------------------------------------")
+            print(".........................................................")
             print("")
             # Close Database
             db.close()
