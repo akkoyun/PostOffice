@@ -1,6 +1,6 @@
 # Import Libraries
-from ..Setup.Config import Kafka_RAW_Consumer
-from ..Setup.Config import KafkaProducer as Kafka_Producer
+from .Setup.Config import Kafka_RAW_Consumer
+from .Setup.Config import KafkaProducer as Kafka_Producer
 from Database import SessionLocal, DB_Engine
 import Models, Schema
 import json
