@@ -45,7 +45,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 
 	Client_IP = ""
 	for X in list(request.headers):
-		print(X[0], " - ", X[1])
+		print(X)
 
 
 	# Set headers
