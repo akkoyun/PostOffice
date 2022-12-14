@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from config.schema import IoT_Data_Pack_Model
 from config.log_functions import Log_API_Online, Log_API_Offline, Log_API_Error, Log_API_Incomming_Data
 from kafka import KafkaProducer
-from json import dumps
+import json
 
 # Define FastAPI Object
 PostOffice = FastAPI()
@@ -23,7 +23,7 @@ async def Shutdown_event():
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
 	# Defne Kafka Producers
-	Kafka_Producer = KafkaProducer(value_serializer=lambda m: dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
+	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
 
 	# Send Message to Queue
 	Kafka_Producer.send("Error", value=str(request))
@@ -41,9 +41,10 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 def API(request: Request, Data: IoT_Data_Pack_Model):
 
 	# Defne Kafka Producers
-	Kafka_Producer = KafkaProducer(value_serializer=lambda m: dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
+	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
 
-	print(request.headers)
+	Header = json.loads(request.headers)
+	print(Header["remote_addr"])
 
 
 	# Set headers
