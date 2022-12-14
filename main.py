@@ -48,7 +48,6 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	Header = request.headers
 
 	print(type(Header))
-	print(Header[0])
 
 	for X in Header:
 		if X[0] == "remote_addr":
