@@ -44,7 +44,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	Kafka_Producer = KafkaProducer(value_serializer=lambda m: dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
 
 	# Get IP
-	x_forwarded_for = request.META.get('HTTP_REMOTE_ADDR')
+	x_forwarded_for = request.headers
 	if x_forwarded_for:
 		ip = x_forwarded_for.split(',')[0]
 	else:
