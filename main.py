@@ -52,7 +52,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 		('Command', bytes(Data.Command, 'utf-8')), 
 		('ID', bytes(Data.Device.Info.ID, 'utf-8')), 
 		('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
-		('IP', bytes(ip, 'utf-8'))]
+		('IP', bytes(request.client.host, 'utf-8'))]
 
     # Send Message to Queue
 	Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
