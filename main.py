@@ -45,7 +45,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 
 	Header = json.dumps(list(request.headers), indent=4)
 	print(Header)
-	print(Header["remote_addr"])
+	print(Header[0])
 
 
 	# Set headers
