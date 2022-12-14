@@ -47,11 +47,6 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	print(type(Header))
 	print(Header)
 
-	print(json.loads(Header))
-	print(type(json.loads(Header)))
-
-	print(type(list(Header)))
-	print(list(Header))
 
 
 
