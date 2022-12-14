@@ -45,7 +45,8 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 
 	Header = request.headers
 	print(type(Header))
-	print(Header[0])
+	print(Header)
+	print(json.dumps(Header).encode('utf-8'))
 	print(type(list(Header)))
 	print(list(Header))
 
