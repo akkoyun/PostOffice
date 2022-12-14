@@ -43,7 +43,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	# Defne Kafka Producers
 	Kafka_Producer = KafkaProducer(value_serializer=lambda m: dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
 
-	print(request.client.remote_addr)
+	print(request.header)
 
 
 	# Set headers
@@ -51,7 +51,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 		('Command', bytes(Data.Command, 'utf-8')), 
 		('ID', bytes(Data.Device.Info.ID, 'utf-8')), 
 		('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
-		('IP', bytes(request.client.remote_addr, 'utf-8'))]
+		('IP', bytes(request.client.host, 'utf-8'))]
 
     # Send Message to Queue
 	Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
