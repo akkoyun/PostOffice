@@ -44,9 +44,10 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	Kafka_Producer = KafkaProducer(value_serializer=lambda m: dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
 
 	# Set Variable
+	Header_Client_IP = ""
 	for X in request.headers:
 		if X[0] == "x-forwarded-for":
-			Client_IP = X[1]
+			Header_Client_IP = X[1]
 			break
 
 	# Set headers
@@ -54,7 +55,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 		('Command', bytes(Data.Command, 'utf-8')), 
 		('ID', bytes(Data.Device.Info.ID, 'utf-8')), 
 		('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
-		('IP', bytes(Client_IP, 'utf-8'))]
+		('IP', bytes(Header_Client_IP, 'utf-8'))]
 
     # Send Message to Queue
 	Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
