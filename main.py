@@ -45,10 +45,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 
 	# Get IP
 	x_forwarded_for = request.headers
-	if x_forwarded_for:
-		ip = x_forwarded_for.split(',')[0]
-	else:
-		ip = request.META.get('REMOTE_ADDR')
+	print(x_forwarded_for)
 
 	# Set headers
 	Kafka_Header = [
