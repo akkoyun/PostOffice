@@ -50,6 +50,8 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 			Header_Client_IP = X[1]
 			break
 
+	print(Header_Client_IP)
+
 	# Set headers
 	Kafka_Header = [
 		('Command', bytes(Data.Command, 'utf-8')), 
