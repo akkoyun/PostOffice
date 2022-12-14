@@ -45,11 +45,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 
 	Client_IP = ""
 	for X in list(request.headers):
-		if X[0] == "remote_addr":
-			Client_IP = X[1]
-			break
-
-	print(Client_IP)
+		print(X[0], " - ", X[1])
 
 
 	# Set headers
