@@ -43,12 +43,13 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	# Defne Kafka Producers
 	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
 
-	Header = request.headers
-	print(type(Header))
-	print(Header)
-	print(type(list(Header)))
-	print(list(Header))
-#	print(Header[0][1])
+	Client_IP = ""
+	for X in list(request.headers):
+		if X[0] == "remote_addr":
+			Client_IP = X[1]
+			break
+
+	print(Client_IP)
 
 
 	# Set headers
