@@ -44,7 +44,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
 
 	Header = json.dumps(request.headers)
-	print(Header["remote_addr"])
+	print(json.loads(Header)["remote_addr"])
 
 
 	# Set headers
