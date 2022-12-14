@@ -44,7 +44,7 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="165.227.154.147:9092")
 
 	Header = json.loads(request.headers)
-	print(Header)
+	print(type(Header))
 
 
 	# Set headers
