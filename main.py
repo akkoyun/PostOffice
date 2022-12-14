@@ -47,7 +47,8 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 	Header_Client_IP = ""
 	Header = request.headers
 	for X in Header:
-		if X[0] == "x-forwarded-for":
+		if X[0] == "remote_addr":
+			print(X[1])
 			Header_Client_IP = X[1]
 			break
 
