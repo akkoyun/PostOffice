@@ -45,11 +45,13 @@ def API(request: Request, Data: IoT_Data_Pack_Model):
 
 	# Set Variable
 	Header_Client_IP = ""
-	for X in request.headers:
+	Header = request.headers
+	for X in Header:
 		if X[0] == "x-forwarded-for":
 			Header_Client_IP = X[1]
 			break
 
+	print(Header)
 	print(Header_Client_IP)
 
 	# Set headers
