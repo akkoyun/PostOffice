@@ -18,6 +18,9 @@ coloredlogs.install(level='DEBUG', logger=Service_Logger)
 # Define FastAPI Object
 PostOffice = FastAPI()
 
+# Defne Kafka Producers
+Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}")
+
 # API Boot Sequence
 @PostOffice.on_event("startup")
 async def Startup_Event():
@@ -44,9 +47,6 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Log Message
 	Service_Logger.error(f"Unknown data come from device. ['{request.headers['remote_addr']}']")
 
-	# Defne Kafka Producers
-	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}")
-
 	# Send Message to Queue
 	Kafka_Producer.send("Error", value=str(request), headers=Kafka_Error_Parser_Headers)
 
@@ -61,9 +61,6 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 # IoT Post Method
 @PostOffice.post("/", status_code=status.HTTP_201_CREATED)
 def API(request: Request, Data: Schema.IoT_Data_Pack_Model):
-
-	# Defne Kafka Producers
-	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}")
 
 	# Set headers
 	Kafka_Header = [
