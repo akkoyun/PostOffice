@@ -7,7 +7,6 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from kafka import KafkaProducer
 import json
-import webbrowser
 
 # Set Log Options
 Service_Logger = logging.getLogger(__name__)
@@ -17,7 +16,7 @@ logging.basicConfig(filename='Log/Service.LOG', level=logging.INFO, format='%(as
 coloredlogs.install(level='DEBUG', logger=Service_Logger)
 
 # Define FastAPI Object
-PostOffice = FastAPI()
+PostOffice = FastAPI(version="01.00.00", title="PostOffice")
 
 # Defne Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}")
@@ -62,9 +61,6 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 # IoT Get Method
 @PostOffice.get("/", status_code=status.HTTP_200_OK)
 def Root(request: Request):
-
-	# Redirect
-	webbrowser.open('http://www.stf.com.tr')
 
 	# Send Success
 	return {"STF": "IoT Backend", "Security": "Your IP is recorded for inspection."}
