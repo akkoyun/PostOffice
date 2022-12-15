@@ -58,6 +58,13 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		content={"Event": 201},
 	)
 
+# IoT Get Method
+@PostOffice.get("/", status_code=status.HTTP_200_OK)
+def Root(request: Request):
+
+	# Send Success
+	return {"STF": "IoT Backend", "Security": "Your IP is recorded for inspection."}
+
 # IoT Post Method
 @PostOffice.post("/", status_code=status.HTTP_201_CREATED)
 def API(request: Request, Data: Schema.IoT_Data_Pack_Model):
