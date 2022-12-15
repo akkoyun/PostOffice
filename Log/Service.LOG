@@ -1,0 +1,25 @@
+2022-12-15 16:09:29,104 - Service Started.
+2022-12-15 16:09:29,915 - Service Stopped.
+2022-12-15 16:09:30,317 - Service Started.
+2022-12-15 16:09:30,520 - Service Stopped.
+2022-12-15 16:09:30,806 - Service Started.
+2022-12-15 16:09:31,212 - Service Stopped.
+2022-12-15 16:09:31,833 - Service Started.
+2022-12-15 16:09:32,036 - Service Stopped.
+2022-12-15 16:09:32,330 - Service Started.
+2022-12-15 16:09:40,820 - Service Stopped.
+2022-12-15 16:09:41,275 - Service Started.
+2022-12-15 16:09:41,477 - Service Stopped.
+2022-12-15 16:09:42,079 - Service Started.
+2022-12-15 16:10:20,365 - Service Stopped.
+2022-12-15 16:10:20,829 - Service Started.
+2022-12-15 16:10:24,568 - Service Stopped.
+2022-12-15 16:10:24,850 - Service Started.
+2022-12-15 16:10:40,280 - <BrokerConnection node_id=bootstrap-0 host=165.227.154.147:9092 <connecting> [IPv4 ('165.227.154.147', 9092)]>: connecting to 165.227.154.147:9092 [('165.227.154.147', 9092) IPv4]
+2022-12-15 16:10:40,281 - Probing node bootstrap-0 broker version
+2022-12-15 16:10:40,339 - <BrokerConnection node_id=bootstrap-0 host=165.227.154.147:9092 <connecting> [IPv4 ('165.227.154.147', 9092)]>: Connection complete.
+2022-12-15 16:10:40,562 - Broker version identified as 2.5.0
+2022-12-15 16:10:40,563 - Set configuration api_version=(2, 5, 0) to skip auto check_version requests on startup
+2022-12-15 16:11:18,706 - Service Stopped.
+2022-12-15 16:11:18,710 - Closing the Kafka producer with 0 secs timeout.
+2022-12-15 16:11:18,710 - Proceeding to force close the producer since pending requests could not be completed within timeout 0.
