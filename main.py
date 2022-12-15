@@ -7,6 +7,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from kafka import KafkaProducer
 import json
+import webbrowser
 
 # Set Log Options
 Service_Logger = logging.getLogger(__name__)
@@ -61,6 +62,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 # IoT Get Method
 @PostOffice.get("/", status_code=status.HTTP_200_OK)
 def Root(request: Request):
+
+	# Redirect
+	webbrowser.open('http://www.stf.com.tr')
 
 	# Send Success
 	return {"STF": "IoT Backend", "Security": "Your IP is recorded for inspection."}
