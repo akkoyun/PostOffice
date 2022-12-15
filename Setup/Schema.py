@@ -56,10 +56,10 @@ class IoT_Data_Pack_Power(BaseModel):
 class IoT_Data_Pack_IoT_Module(BaseModel):
 	
 	# GSM Module Firmware
-	Firmware: Optional[str] = Field(default=None, example="13.00.007")
+	Firmware: Optional[str] = Field(default="", example="13.00.007")
 
 	# Module IMEI Number
-	IMEI: Optional[str] = Field(default=None, example="356156060000000")
+	IMEI: Optional[str] = Field(default="", example="356156060000000")
 
 	# Module Manufacturer
 	Manufacturer: Optional[int] = Field(default=1, example=1)
@@ -68,7 +68,7 @@ class IoT_Data_Pack_IoT_Module(BaseModel):
 	Model: Optional[int] = Field(default=1, example=1)
 
 	# Module Serial Number
-	Serial: Optional[str] = Field(default=None, example="0000020273")
+	Serial: Optional[str] = Field(default="", example="0000020273")
 
 # Define IoT Operator
 class IoT_Data_Pack_IoT_Operator(BaseModel):
@@ -113,55 +113,55 @@ class IoT_Data_Pack_IoT(BaseModel):
 class IoT_Data_Pack_Payload_PowerStat_Pressure(BaseModel):
 	
 	# Min Pressure in Measurement Interval
-	Min: Optional[float] = None
+	Min: Optional[float] = Field(default=None, example=1.25)
 
 	# Max Pressure in Measurement Interval
-	Max: Optional[float] = None
+	Max: Optional[float] = Field(default=None, example=3.25)
 
 	# Avg Pressure of Measurement Interval
-	Avg: Optional[float] = None
+	Avg: Optional[float] = Field(default=None, example=2.25)
 
 	# Last Readed Pressure in Measurement Interval
-	Inst: Optional[float] = None
+	Inst: Optional[float] = Field(default=None, example=1.89)
 
 	# Slope of Pressure Trend in Measurement Interval
-	Slope: Optional[float] = None
+	Slope: Optional[float] = Field(default=None, example=0.12)
 
 	# Offset of Pressure Trend in Measurement Interval
-	Offset: Optional[float] = None
+	Offset: Optional[float] = Field(default=None, example=0.85)
 
 	# R2 of Pressure Trend in Measurement Interval
-	R2: Optional[float] = None
+	R2: Optional[float] = Field(default=None, example=85)
 
 	# Measured Data Count in Measurement Interval
-	DataCount: Optional[int] = None
+	DataCount: Optional[int] = Field(default=None, example=22)
 
 # Energy Model Definition
 class IoT_Data_Pack_Payload_PowerStat_Energy(BaseModel):
 
 	# Last Measured Voltage Array (R,S,T)
-	Voltage: list[Optional[float]] = None
+	Voltage: list[Optional[float]] = Field(default=None, example=[220.12, 221.23, 220.33])
 
 	# Last Measured Current Array (R,S,T)
-	Current: list[Optional[float]] = None
+	Current: list[Optional[float]] = Field(default=None, example=[1.22, 1.32, 1.43])
 
 	# Last Measured PowerFactor Average
-	PowerFactor: Optional[float] = None
+	PowerFactor: Optional[float] = Field(default=None, example=0.85)
 
 	# Total Energy Consumption Array in Send Interval (Active,Reactive)
-	Consumption: list[Optional[float]] = None
+	Consumption: list[Optional[float]] = Field(default=None, example=[2323, 2321])
 
 	# Last Measured Frequency Value
-	Frequency: Optional[float] = None
+	Frequency: Optional[float] = Field(default=None, example=50.21)
 
 # PowerStat Model Definition
 class IoT_Data_Pack_Payload_PowerStat(BaseModel):
 
 	# Device Status
-	DeviceStatus: int
+	DeviceStatus: int = Field(default=None, example=240)
 
 	# Fault Status
-	FaultStatus: int
+	FaultStatus: int = Field(default=None, example=500)
 
 	# Pressure
 	Pressure: Optional[IoT_Data_Pack_Payload_PowerStat_Pressure]
@@ -170,49 +170,49 @@ class IoT_Data_Pack_Payload_PowerStat(BaseModel):
 	Energy: Optional[IoT_Data_Pack_Payload_PowerStat_Energy]
 
 	# Falut Control List Array
-	Fault: list[Optional[bool]] = None
+	Fault: list[Optional[bool]] = Field(default=None, example=[True, True, False, False])
 
 # Location Definition
 class IoT_Data_Pack_Payload_WeatherStat_Location(BaseModel):
 	
 	# Latitude Value of Device
-	Latitude: float
+	Latitude: float = Field(default=None, example=1.243242342)
 
 	# Longtitude Value of Device
-	Longitude: float
+	Longitude: float = Field(default=None, example=23.3213232)
 
 # Environment Measurement Definition
 class IoT_Data_Pack_Payload_WeatherStat_Environment(BaseModel):
 	
 	# Last Measured Air Temperature Value
-	AT: Optional[float] = None
+	AT: Optional[float] = Field(default=None, example=28.3232)
 
 	# Last Measured Relative Humidity Value
-	AH: Optional[float] = None
+	AH: Optional[float] = Field(default=None, example=85.2332)
 
 	# Last Measured Air Pressure Value
-	AP: Optional[float] = None
+	AP: Optional[float] = Field(default=None, example=985.55)
 
 	# Last Measured UV Value
-	UV: Optional[int] = None
+	UV: Optional[int] = Field(default=None, example=2)
 
 	# Last Measured Soil Temperature Value
-	ST: list[Optional[float]] = None
+	ST: list[Optional[float]] = Field(default=None, example=[28.12, 27.12, 26.12, 25,12])
 
 	# Last Measured Rain Value
-	R: Optional[int] = None
+	R: Optional[int] = Field(default=None, example=23)
 
 	# Last Measured Wind Direction Value
-	WD: Optional[int] = None
+	WD: Optional[int] = Field(default=None, example=275)
 
 	# Last Measured Wind Speed Value
-	WS: Optional[float] = None
+	WS: Optional[float] = Field(default=None, example=25)
 
 # WeatherStat Model Definition
 class IoT_Data_Pack_Payload_WeatherStat(BaseModel):
 
 	# Device Status
-	DeviceStatus: int
+	DeviceStatus: int = Field(default=200, example=200)
 
 	# Location
 	Location: Optional[IoT_Data_Pack_Payload_WeatherStat_Location]
@@ -236,7 +236,7 @@ class IoT_Data_Pack_Device(BaseModel):
 class IoT_Data_Pack_Payload(BaseModel):
 
 	# TimeStamp
-	TimeStamp: str
+	TimeStamp: str = Field(default="2022-07-19 08:28:32", example="2022-07-19 08:28:32")
 
 	# PowerStat Payload
 	PowerStat: Optional[IoT_Data_Pack_Payload_PowerStat]
@@ -250,7 +250,7 @@ class IoT_Data_Pack_Payload(BaseModel):
 class IoT_Data_Pack_Model(BaseModel):
 
 	# Define Command
-	Command: str
+	Command: str = Field(default="", example="Demo:PowerStat.Online")
 
 	# Device
 	Device: IoT_Data_Pack_Device
