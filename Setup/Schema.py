@@ -20,31 +20,31 @@ class Pack_Info(BaseModel):
 class IoT_Data_Pack_Info(Pack_Info):
 	
 	# Device ID
-	ID: str
+	ID: str = Field(example="8B00000000000000")
 
 # Define Battery
 class IoT_Data_Pack_Battery(BaseModel):
 
 	# Instant Battery Voltage
-	IV: float
+	IV: float = Field(example=3.8)
 
 	# Average Battery Current
-	AC: float
+	AC: float = Field(example=0.2)
 
 	# Battery State of Charge
-	SOC: float
+	SOC: float = Field(example=97.30)
 
 	# Battery Charge State
-	Charge: int
+	Charge: int = Field(example=3)
 
 	# Battery Temperature
-	T: Optional[float]
+	T: Optional[float] = Field(default=None, example=32.1903)
 
 	# Battery Full Battery Cap
-	FB: Optional[int]
+	FB: Optional[int] = Field(default=None, example=2000)
 
 	# Battery Instant Battery Cap
-	IB: Optional[int]
+	IB: Optional[int] = Field(default=None, example=1820)
 
 # Define Power
 class IoT_Data_Pack_Power(BaseModel):
@@ -56,43 +56,43 @@ class IoT_Data_Pack_Power(BaseModel):
 class IoT_Data_Pack_IoT_Module(BaseModel):
 	
 	# GSM Module Firmware
-	Firmware: Optional[str] = None
+	Firmware: Optional[str] = Field(default=None, example="13.00.007")
 
 	# Module IMEI Number
-	IMEI: Optional[str] = None
+	IMEI: Optional[str] = Field(default=None, example="356156060000000")
 
 	# Module Manufacturer
-	Manufacturer: Optional[int] = 1
+	Manufacturer: Optional[int] = Field(default=1, example=1)
 
 	# Module Model
-	Model: Optional[int] = 1
+	Model: Optional[int] = Field(default=1, example=1)
 
 	# Module Serial Number
-	Serial: Optional[str] = None
+	Serial: Optional[str] = Field(default=None, example="0000020273")
 
 # Define IoT Operator
 class IoT_Data_Pack_IoT_Operator(BaseModel):
 	
 	# SIM ICCID
-	ICCID: Optional[str] = None
+	ICCID: Optional[str] = Field(default=None, example="8990011916180280000")
 
 	# Operator Code
-	Code: int = 0
+	Code: int = Field(default=0, example=28601)
 
 	# IP
-	IP: Optional[str] = None
+	IP: Optional[str] = Field(default=None, example="127.0.0.1")
 	
 	# RSSI
-	RSSI: int = 0
+	RSSI: int = Field(default=0, example=28)
 	
 	# Connection Time
-	ConnTime: Optional[int] = 0
+	ConnTime: Optional[int] = Field(default=0, example=12)
 	
 	# LAC
-	LAC: Optional[str] = None
+	LAC: Optional[str] = Field(default=None, example="855E")
 	
 	# Cell ID
-	Cell_ID: Optional[str] = None
+	Cell_ID: Optional[str] = Field(default=None, example="E678")
 
 # Define GSM
 class IoT_Data_Pack_GSM(BaseModel):
