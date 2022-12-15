@@ -48,7 +48,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}")
 
 	# Send Message to Queue
-	Kafka_Producer.send("Error", partition=5, value=str(request), headers=Kafka_Error_Parser_Headers)
+	Kafka_Producer.send("Error", value=str(request), headers=Kafka_Error_Parser_Headers)
 
 	# Log Message
 	Service_Logger.debug("Request sended to queue...")
@@ -74,7 +74,7 @@ def API(request: Request, Data: Schema.IoT_Data_Pack_Model):
 		('Size', bytes(request.headers['content-length'], 'utf-8'))]
 
     # Send Message to Queue
-	Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header, partition=5)
+	Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
 
 	# Log Message
 	Service_Logger.error(f"Incomming data from ['{Data.Device.Info.ID}'] with ['{Data.Command}'] at ['{Data.Payload.TimeStamp}']")
