@@ -77,7 +77,7 @@ def API(request: Request, Data: Schema.IoT_Data_Pack_Model):
 	Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
 
 	# Log Message
-	Service_Logger.error(f"Incomming data from ['{Data.Device.Info.ID}'] with ['{Data.Command}'] at ['{Data.Payload.TimeStamp}']")
+	Service_Logger.debug(f"Incomming data from ['{Data.Device.Info.ID}'] with ['{Data.Command}'] at ['{Data.Payload.TimeStamp}']")
 
 	# Send Success
 	return {"Event": 200}
