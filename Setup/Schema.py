@@ -1,20 +1,20 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 
 # Define Info
 class Pack_Info(BaseModel):
 
 	# Device Hardware Version
-	Hardware: Optional[str] = None
+	Hardware: Optional[str] = Field(default=None, example="01.00.00")
 	
 	# Device Firmware Version
-	Firmware: Optional[str] = None
+	Firmware: Optional[str] = Field(default=None, example="01.00.00")
 	
 	# Device PCB Temperature
-	Temperature: float
+	Temperature: float = Field(example=28.1903)
 	
 	# Device PCB Humidity
-	Humidity: float
+	Humidity: float = Field(example=28.1903)
 
 # Define Info
 class IoT_Data_Pack_Info(Pack_Info):
