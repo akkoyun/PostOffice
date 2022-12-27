@@ -2,7 +2,7 @@
 import logging, coloredlogs
 from Setup import Schema
 from Setup.Config import APP_Settings
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, status, Body
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from kafka import KafkaProducer
@@ -37,7 +37,7 @@ async def Shutdown_event():
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(request: Request, exc: RequestValidationError, Item = Body(embed=True)):
 
 	# Set headers
 	Kafka_Error_Parser_Headers = [
@@ -46,7 +46,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 	# Log Message
 	Service_Logger.error(f"Unknown data come from device. ['{request.headers['remote_addr']}']")
-	results = {"Pack": request}
+	results = {"Pack": Item}
 	Service_Logger.error(results)
 
 	# Send Message to Queue
