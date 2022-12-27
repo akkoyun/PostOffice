@@ -46,7 +46,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 	# Log Message
 	Service_Logger.error(f"Unknown data come from device. ['{request.headers['remote_addr']}']")
-	Service_Logger.error(request.body)
+	Service_Logger.error(request.body().__dict__)
 
 	# Send Message to Queue
 	Kafka_Producer.send("Error", value=str(request), headers=Kafka_Error_Parser_Headers)
