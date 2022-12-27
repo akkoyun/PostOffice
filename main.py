@@ -37,7 +37,7 @@ async def Shutdown_event():
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError, Item = Body(embed=True)):
+async def validation_exception_handler(request: Request, exc: RequestValidationError, Item : Body(embed=True)):
 
 	# Set headers
 	Kafka_Error_Parser_Headers = [
