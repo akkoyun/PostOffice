@@ -1,0 +1,325 @@
+2023-07-02 14:28:42,870 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-02 14:28:45,752 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-02 14:28:48,911 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 14:28:52,698 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['203']
+2023-07-02 14:28:56,239 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-02 14:29:01,756 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-02 14:31:37,426 - ['70A11D1D01000026'] - Incomming data pack from ['STF'] - ['WeatherStat'] with ['Timed']
+2023-07-02 14:35:12,742 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 14:35:12,785 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 14:35:12,789 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 14:35:12,842 - Service Stopped.
+2023-07-02 14:35:13,498 - Service Started.
+2023-07-02 14:36:07,904 - Service Stopped.
+2023-07-02 14:36:08,362 - Service Started.
+2023-07-02 14:57:37,830 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 18:33:32,112 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:21:03,871 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:21:11,356 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-02 21:21:13,174 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:21:58,460 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:24:33,306 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:24:34,182 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:24:35,105 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:24:36,415 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:24:50,590 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:27:45,341 - ['70A11D1D01000023'] - Incomming WebSocket data. ['Connected']
+2023-07-02 21:27:53,829 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-02 21:27:56,947 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-02 21:28:26,198 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-02 21:28:39,958 - ['70A11D1D01000023'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 21:28:44,687 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 21:28:51,251 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 21:28:54,452 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:28:57,729 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 21:28:59,231 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 21:29:03,011 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 21:29:06,196 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 21:29:11,220 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Status']
+2023-07-02 21:29:18,231 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['203']
+2023-07-02 21:30:14,167 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['203']
+2023-07-02 21:30:17,654 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-02 21:30:22,697 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-02 21:30:28,376 - ['BroadCast'] - Outgoing WebSocket data. ['211']
+2023-07-02 21:30:37,024 - ['BroadCast'] - Outgoing WebSocket data. ['211']
+2023-07-02 21:30:37,421 - ['BroadCast'] - Outgoing WebSocket data. ['211']
+2023-07-02 21:30:37,954 - ['BroadCast'] - Outgoing WebSocket data. ['211']
+2023-07-02 21:30:38,334 - ['BroadCast'] - Outgoing WebSocket data. ['211']
+2023-07-02 21:33:41,078 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 21:33:42,881 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 21:34:00,502 - ['BroadCast'] - Outgoing WebSocket data. ['211']
+2023-07-02 21:34:03,217 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['203']
+2023-07-02 21:34:03,520 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['203']
+2023-07-02 21:34:03,878 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['203']
+2023-07-02 22:09:39,260 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 22:09:45,713 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:09:47,321 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:09:54,697 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 22:13:39,891 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 22:15:19,910 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:15:20,140 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:15:20,144 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:15:20,154 - Service Stopped.
+2023-07-02 22:15:21,591 - Service Started.
+2023-07-02 22:16:40,650 - ['Device'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:16:43,863 - ['Device'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:16:43,962 - Service Stopped.
+2023-07-02 22:16:44,688 - Service Started.
+2023-07-02 22:16:49,251 - Service Stopped.
+2023-07-02 22:16:49,675 - Service Started.
+2023-07-02 22:16:53,969 - ['Device'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:16:59,023 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:17:02,026 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:17:04,375 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:17:50,770 - ['Device'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:17:50,803 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:17:50,808 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:17:50,825 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:17:50,870 - Service Stopped.
+2023-07-02 22:17:51,364 - Service Started.
+2023-07-02 22:17:55,059 - ['Device'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:17:57,458 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:18:03,209 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:18:05,681 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:18:08,949 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['203']
+2023-07-02 22:18:51,219 - ['Device'] - Incomming WebSocket data. ['Subscribe']
+2023-07-02 22:19:30,323 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:19:30,332 - ['Device'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:19:30,334 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:19:30,336 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:19:30,424 - Service Stopped.
+2023-07-02 22:19:31,302 - Service Started.
+2023-07-02 22:19:34,958 - ['Device'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:19:37,584 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:19:39,999 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:19:42,599 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:19:53,197 - ['Device'] - Incomming WebSocket data. ['Subscribe']
+2023-07-02 22:19:59,915 - ['Device'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:20:00,899 - ['Device'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:20:04,131 - ['Device'] - Incomming WebSocket data. ['Subscribe']
+2023-07-02 22:20:22,811 - ['Device'] - Incomming WebSocket data. ['Status']
+2023-07-02 22:20:38,428 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:20:38,439 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:20:38,442 - ['Device'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:20:38,446 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-02 22:20:38,528 - Service Stopped.
+2023-07-02 22:20:39,178 - Service Started.
+2023-07-02 22:23:38,421 - Service Stopped.
+2023-07-02 22:23:39,144 - Service Started.
+2023-07-02 22:24:02,830 - Service Stopped.
+2023-07-02 22:24:03,269 - Service Started.
+2023-07-02 22:24:13,788 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:24:16,472 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:24:19,823 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-02 22:24:23,398 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-02 22:24:33,366 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['203']
+2023-07-02 22:24:38,984 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-02 23:19:05,203 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:01:02,605 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:01:03,162 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:01:03,171 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:01:03,180 - Service Stopped.
+2023-07-03 00:01:04,135 - Service Started.
+2023-07-03 00:01:13,567 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:02:33,668 - Service Stopped.
+2023-07-03 00:02:34,350 - Service Started.
+2023-07-03 00:04:24,136 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 00:04:46,961 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:05:41,557 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:05:41,657 - Service Stopped.
+2023-07-03 00:05:42,421 - Service Started.
+2023-07-03 00:06:13,539 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 00:06:20,704 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:07:21,595 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:07:21,696 - Service Stopped.
+2023-07-03 00:07:47,852 - Service Started.
+2023-07-03 00:08:34,607 - Service Stopped.
+2023-07-03 00:08:35,189 - Service Started.
+2023-07-03 00:09:38,246 - Service Stopped.
+2023-07-03 00:09:38,707 - Service Started.
+2023-07-03 00:29:36,867 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 00:29:43,418 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:29:44,026 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:34:45,399 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:34:45,693 - Service Stopped.
+2023-07-03 00:34:46,567 - Service Started.
+2023-07-03 00:34:47,783 - Service Stopped.
+2023-07-03 00:34:48,097 - Service Started.
+2023-07-03 00:35:15,414 - Service Stopped.
+2023-07-03 00:35:15,833 - Service Started.
+2023-07-03 00:35:34,198 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 00:35:51,237 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:36:12,258 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:36:12,360 - Service Stopped.
+2023-07-03 00:36:12,807 - Service Started.
+2023-07-03 00:36:14,027 - Service Stopped.
+2023-07-03 00:36:14,392 - Service Started.
+2023-07-03 00:36:17,190 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 00:36:28,103 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-03 00:36:34,723 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-03 00:38:22,613 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:38:57,461 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 00:40:47,290 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:43:12,463 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 00:43:12,685 - Service Stopped.
+2023-07-03 00:43:13,298 - Service Started.
+2023-07-03 00:43:55,784 - Service Stopped.
+2023-07-03 00:43:56,276 - Service Started.
+2023-07-03 00:44:25,830 - Service Stopped.
+2023-07-03 00:44:26,257 - Service Started.
+2023-07-03 00:44:37,190 - Service Stopped.
+2023-07-03 00:44:37,603 - Service Started.
+2023-07-03 00:45:06,111 - Service Stopped.
+2023-07-03 00:45:06,562 - Service Started.
+2023-07-03 00:45:33,681 - Service Stopped.
+2023-07-03 00:45:34,117 - Service Started.
+2023-07-03 00:45:46,957 - Service Stopped.
+2023-07-03 00:45:47,394 - Service Started.
+2023-07-03 00:46:19,880 - Service Stopped.
+2023-07-03 00:46:20,333 - Service Started.
+2023-07-03 00:46:43,894 - Service Stopped.
+2023-07-03 00:46:44,357 - Service Started.
+2023-07-03 00:47:21,771 - Service Stopped.
+2023-07-03 00:47:22,230 - Service Started.
+2023-07-03 00:47:34,264 - Service Stopped.
+2023-07-03 00:47:34,690 - Service Started.
+2023-07-03 00:47:47,133 - Service Stopped.
+2023-07-03 00:47:48,649 - Service Started.
+2023-07-03 00:48:34,783 - Service Stopped.
+2023-07-03 00:48:35,253 - Service Started.
+2023-07-03 00:49:07,731 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 00:49:37,789 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-03 00:50:09,967 - Service Stopped.
+2023-07-03 00:50:10,418 - Service Started.
+2023-07-03 00:50:45,540 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 00:59:55,409 - Service Stopped.
+2023-07-03 00:59:56,479 - Service Started.
+2023-07-03 01:01:03,274 - Service Stopped.
+2023-07-03 01:01:04,170 - Service Started.
+2023-07-03 01:01:06,600 - Service Stopped.
+2023-07-03 01:01:07,060 - Service Started.
+2023-07-03 01:01:19,732 - Service Stopped.
+2023-07-03 01:01:20,230 - Service Started.
+2023-07-03 01:01:22,422 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-03 01:01:25,124 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 01:01:28,258 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-03 01:01:31,381 - ['BroadCast'] - Outgoing WebSocket data. ['202']
+2023-07-03 01:10:08,027 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:01:50,773 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:15:25,351 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:15:34,716 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 08:15:34,728 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 08:15:34,730 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 08:15:34,816 - Service Stopped.
+2023-07-03 08:15:35,702 - Service Started.
+2023-07-03 08:15:36,408 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:16:03,870 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 08:16:18,162 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Subscribe']
+2023-07-03 08:16:26,106 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Battery']
+2023-07-03 08:16:36,427 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:16:36,962 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:16:37,515 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:16:42,060 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:16:52,034 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-03 08:16:57,855 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-03 08:16:59,209 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:05,522 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:17:06,126 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:17:14,993 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:15,559 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:16,624 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:19,714 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 08:17:20,646 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:21,423 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:21,823 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:24,091 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-03 08:17:26,781 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:32,184 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:35,627 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 08:17:42,651 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-03 08:17:44,294 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:17:45,270 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:18:00,323 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['299']
+2023-07-03 08:18:14,290 - ['70A11D1D01000023'] - Outgoing WebSocket data. ['299']
+2023-07-03 08:18:18,328 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:18:26,099 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['299']
+2023-07-03 08:18:42,586 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:18:43,549 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:18:44,110 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:18:44,515 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:18:44,929 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:18:48,409 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 08:18:48,794 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 08:18:49,164 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 08:19:15,366 - ['BroadCast'] - Outgoing WebSocket data. ['999']
+2023-07-03 08:21:26,320 - ['BroadCast'] - Outgoing WebSocket data. ['999']
+2023-07-03 08:21:48,360 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 08:21:48,916 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 08:21:51,244 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Subscribe']
+2023-07-03 08:22:03,864 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Battery']
+2023-07-03 08:22:07,906 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Operator']
+2023-07-03 08:22:13,352 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 08:22:14,122 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 08:22:14,947 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 08:22:20,302 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:22:21,020 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:23:08,717 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:24:30,926 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 08:25:06,500 - ['70A11D1D01000026'] - Incomming data pack from ['STF'] - ['WeatherStat'] with ['Timed']
+2023-07-03 08:25:23,243 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:25:23,896 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:25:24,555 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:27:14,362 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:27:17,100 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 08:27:17,959 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 09:06:39,452 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 09:06:40,917 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 09:06:42,910 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 09:06:43,638 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 09:06:47,537 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 09:06:49,336 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 09:06:52,570 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Operator']
+2023-07-03 09:06:53,388 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Operator']
+2023-07-03 09:06:57,647 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Operator']
+2023-07-03 09:06:59,581 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 10:52:32,344 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 10:52:39,361 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 10:52:39,447 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 10:52:39,450 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 10:52:39,461 - Service Stopped.
+2023-07-03 10:52:40,374 - Service Started.
+2023-07-03 10:53:10,059 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Connected']
+2023-07-03 10:53:15,119 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Connected']
+2023-07-03 10:53:17,631 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Connected']
+2023-07-03 10:53:23,090 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 10:54:30,669 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Subscribe']
+2023-07-03 10:54:36,703 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Battery']
+2023-07-03 10:54:41,084 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Operator']
+2023-07-03 10:54:49,814 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 10:54:50,425 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 10:54:50,997 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Energy']
+2023-07-03 10:54:54,078 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 10:54:54,566 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 10:54:54,957 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Pressure']
+2023-07-03 10:54:58,954 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 10:54:59,455 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 10:55:00,140 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Status']
+2023-07-03 10:55:16,932 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Wrong Device']
+2023-07-03 10:55:37,826 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['299']
+2023-07-03 10:55:48,801 - ['70A11D1D01000026'] - Outgoing WebSocket data. ['2999']
+2023-07-03 10:56:01,030 - ['70A11D1D0100002'] - Outgoing WebSocket data. ['2999']
+2023-07-03 10:56:16,130 - ['BroadCast'] - Outgoing WebSocket data. ['999']
+2023-07-03 10:56:27,330 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 10:56:30,757 - ['70A11D1D01000026'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 10:56:32,036 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 10:57:37,411 - ['70A11D1D01000026'] - Incomming data pack from ['STF'] - ['WeatherStat'] with ['Timed']
+2023-07-03 10:57:47,146 - Unknown data come from device. ['127.0.0.1']
+2023-07-03 10:58:01,726 - Wrong device data pack from ['STF'] - ['PowerStat'] (WeatherStat) with ['Timed']
+2023-07-03 10:58:09,652 - Wrong device data pack from ['Unknown'] - ['Unknown'] (WeatherStat) with ['Unknown']
+2023-07-03 10:59:02,128 - ['0'] - Incomming WebSocket data. ['Status']
+2023-07-03 12:52:39,553 - ['70A11D1D01000027'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 12:52:39,884 - ['70A11D1D01000028'] - Incomming WebSocket data. ['Disconnected']
+2023-07-03 12:52:39,893 - Service Stopped.
+2023-07-03 12:52:40,734 - Service Started.
+2023-07-03 12:53:23,942 - Service Stopped.
+2023-07-03 12:53:24,431 - Service Started.
