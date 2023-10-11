@@ -1,20 +1,26 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing import Optional
+from datetime import datetime
+from enum import Enum
 
 # Define Status Check Base Model
 # Version 01.00.00
-class Status_Pack_Model(BaseModel):
 
-	# Define Command
-	Status: str = Field(default="", example="TimeStamp")
+# Define Charge_State
+class Charge_State_Class(Enum):
+	Not_Charging = 0
+	Pre_Charging = 1
+	Fast_Charging = 2
+	Charge_Done = 3
 
-class WebSocket_Command_Model(BaseModel):
-
-	# Define Command
-	Command: int = Field(default="", example="262")
-
-
-
+# Define SIM_Type
+class SIM_Type_Class(Enum):
+	Unknown = 0
+	Normal_SIM = 1
+	Micro_SIM = 2
+	Nano_SIM = 3
+	Embedded_SIM = 4
+	Removable_eSIM = 5
 
 # Define Info
 class Pack_Info(BaseModel):
@@ -40,9 +46,6 @@ class Pack_Battery(BaseModel):
 	# Battery State of Charge
 	SOC: float = Field(description="Battery state of charge.", example=97.30, min=0.0, max=100.0)
 
-	# Battery Charge State
-	Charge: int = Field(description="Battery charge state", example=3, min=0, max=5)
-
 	# Battery Temperature
 	T: Optional[float] = Field(default=None, description="Battery temperature.", example=32.1903, min=-40.0, max=85.0)
 
@@ -51,6 +54,9 @@ class Pack_Battery(BaseModel):
 
 	# Battery Instant Battery Cap
 	IB: Optional[int] = Field(default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
+
+	# Battery Charge State
+	Charge: Charge_State_Class = Field(description="Battery charge state.", example=Charge_State_Class.Charge_Done, min=0, max=3)
 
 # Define Power
 class Pack_Power(BaseModel):
@@ -78,27 +84,36 @@ class Pack_IoT_Module(BaseModel):
 
 # Define IoT Operator
 class Pack_IoT_Operator(BaseModel):
-	
+
+	# SIM Type
+	SIM_Type: Optional[SIM_Type_Class] = Field(default=None, description="SIM card type.", example=SIM_Type_Class.Normal_SIM, min=0, max=5)
+
 	# SIM ICCID
-	ICCID: Optional[str] = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
+	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
+
+	# Operator Country Code
+	MCC: int = Field(default=0, description="Operator country code.", example=286, min=0, max=999)
 
 	# Operator Code
-	Code: int = Field(default=0, description="Operator code.", example=28601, min=0, max=99999)
+	MNC: int = Field(default=0, description="Operator code.", example=1, min=0, max=99)
+
+	# RSSI
+	RSSI: int = Field(default=0, description="IoT RSSI signal level.", example=28, min=0, max=100)
+
+	# TAC
+	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E", min_length=4, max_length=4)
+
+	# LAC
+	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E", min_length=4, max_length=4)
+
+	# Cell ID
+	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678", min_length=4, max_length=4)
 
 	# IP
 	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1", min_length=7, max_length=15)
-	
-	# RSSI
-	RSSI: int = Field(default=0, description="IoT rssi signal level.", example=28, min=0, max=100)
-	
+		
 	# Connection Time
 	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12, min=0, max=500)
-	
-	# LAC
-	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E", min_length=4, max_length=4)
-	
-	# Cell ID
-	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678", min_length=4, max_length=4)
 
 # Define GSM
 class Pack_GSM(BaseModel):
@@ -114,6 +129,18 @@ class Pack_IoT(BaseModel):
 	
 	# Device GSM
 	GSM: Pack_GSM
+
+# Define Device
+class Pack_Device(BaseModel):
+
+	# Device Info
+	Info: Pack_Info
+
+	# Device Power
+	Power: Pack_Power
+
+	# Device IoT
+	IoT: Pack_IoT
 
 # Location Definition
 class Payload_WeatherStat_Location(BaseModel):
@@ -136,11 +163,17 @@ class Payload_WeatherStat_Environment(BaseModel):
 	# Last Measured Air Pressure Value
 	AP: Optional[float] = Field(default=None, description="Air pressure.", example=985.55, min=0.0, max=5000.0)
 
+	# Last Measured Visual Light Value
+	VL: Optional[int] = Field(default=None, description="Visual light.", example=2, min=0)
+
+	# Last Measured Infrared Light Value
+	IR: Optional[int] = Field(default=None, description="Infrared light.", example=2, min=0)
+
 	# Last Measured UV Value
-	UV: Optional[int] = Field(default=None, description="UV index.", example=2, min=0, max=10)
+	UV: Optional[float] = Field(default=None, description="UV index.", example=2, min=0)
 
 	# Last Measured Soil Temperature Value
-	ST: list[Optional[float]] = Field(default=None, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25,12], min_items=1, max_items=10)
+	ST: list[Optional[float]] = Field(default=None, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10)
 
 	# Last Measured Rain Value
 	R: Optional[int] = Field(default=None, description="Rain tip counter.", example=23, min=0, max=1000)
@@ -164,27 +197,34 @@ class Payload_WeatherStat(BaseModel):
 class Payload(BaseModel):
 
 	# TimeStamp
-	TimeStamp: str = Field(default="2022-07-19 08:28:32", description="Measurement time stamp.", example="2022-07-19 08:28:32", min_length=10, max_length=20)
+	TimeStamp: str = Field(
+		default="2022-07-19T08:28:32Z", 
+		description="Measurement time stamp.", 
+		example="2022-07-19T08:28:32Z", 
+		min_length=10, 
+		max_length=20
+	)
+
+	# TimeStamp Validator
+	@validator('TimeStamp')
+	def Validator(cls, value):
+		try:
+			# Convert TimeStamp to Datetime
+			datetime.fromisoformat(value)
+		except ValueError:
+			raise ValueError('Incorrect data format, should be YYYY-MM-DDThh:mm:ssZ')
+		return value
 
 	# WeatherStat Payload
 	WeatherStat: Optional[Payload_WeatherStat]
-
-# Define Device
-class Pack_Device(BaseModel):
-
-	# Device Info
-	Info: Pack_Info
-
-	# Device Power
-	Power: Pack_Power
-
-	# Device IoT
-	IoT: Pack_IoT
 
 # Define IoT RAW Data Base Model
 # PowerStat Model Version 01.03.00
 # WeatherStat Model Version 01.03.00
 class Data_Pack_Model(BaseModel):
+
+	# Define Schema
+	_Schema: Optional[str] = Field(..., alias="$schema")
 
 	# Define Command
 	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online", min_length=8, max_length=32)

@@ -11,18 +11,24 @@ PostOffice_WeatherStat = APIRouter()
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
-    # Handle Command
-	Request_Command = Data.Command
-
-    # Handle Company, Device and Command
+    # Handle Company
 	try:
-		Company = Request_Command.split(":")[0]
-		Device = Request_Command.split(":")[1].split(".")[0]
-		Command = Request_Command.split(":")[1].split(".")[1]
+		Company = Data.Command.split(":")[0]		
 	except:
 		Company = "Unknown"
+
+	# Handle Device
+	try:
+		Device = Data.Command.split(":")[1].split(".")[0]
+	except:
 		Device = "Unknown"
+
+	# Handle Command
+	try:
+		Command = Data.Command.split(":")[1].split(".")[1]
+	except:
 		Command = "Unknown"
+
 
     # Device is WeatherStat
 	if Device == "WeatherStat":
@@ -31,24 +37,25 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		Log.WeatherStat_Log(Data.Device.Info.ID, Company, Device, Command)
 
 		# Create Add Record Command
-		New_Buffer = Models.Valid_Data_Buffer(
-			Buffer_Device_ID = Data.Device.Info.ID,
-			Buffer_Client_IP = request.client.host,
-			Buffer_Company = Company,
-			Buffer_Device = Device,
-			Buffer_Command = Command,
-			Buffer_Data = str(Data),)
-
+		RAW_Data = Models.RAW_Data(
+			RAW_Data_Device_ID = Data.Device.Info.ID,
+			RAW_Data_Client_IP = request.client.host,
+			RAW_Data_Company = Company,
+			RAW_Data_Device = Device,
+			RAW_Data_Command = Command,
+			RAW_Data = str(Data)
+		)
+	
 		# Define DB
-		DB_Buffer = Database.SessionLocal()
+		DB_RAW_Data = Database.SessionLocal()
 
 		# Add and Refresh DataBase
-		DB_Buffer.add(New_Buffer)
-		DB_Buffer.commit()
-		DB_Buffer.refresh(New_Buffer)
+		DB_RAW_Data.add(RAW_Data)
+		DB_RAW_Data.commit()
+		DB_RAW_Data.refresh(RAW_Data)
 
 		# Close Database
-		DB_Buffer.close()
+		DB_RAW_Data.close()
 
 		# Send Success
 		return JSONResponse(
@@ -63,20 +70,21 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		Log.Wrong_Device_Log(Company, Device, Command)
 
 		# Create Add Record Command
-		New_Buffer = Models.Wrong_Data_Buffer(
-			Buffer_Client_IP = request.client.host,
-			Buffer_Data = str(await request.body()))
+		RAW_Data = Models.RAW_Data(
+			RAW_Data_Client_IP = request.client.host,
+			RAW_Data = str(await request.body())
+		)
 
 		# Define DB
-		DB_Buffer = Database.SessionLocal()
+		DB_RAW_Data = Database.SessionLocal()
 
 		# Add and Refresh DataBase
-		DB_Buffer.add(New_Buffer)
-		DB_Buffer.commit()
-		DB_Buffer.refresh(New_Buffer)
+		DB_RAW_Data.add(RAW_Data)
+		DB_RAW_Data.commit()
+		DB_RAW_Data.refresh(RAW_Data)
 
 		# Close Database
-		DB_Buffer.close()
+		DB_RAW_Data.close()
 
 		# Send Error
 		return JSONResponse(
