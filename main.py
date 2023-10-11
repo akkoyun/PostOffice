@@ -3,7 +3,7 @@ from Setup import Database, Models, Log
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from Routers import Status, WeatherStat, PowerStat
+from Routers import WeatherStat, PowerStat
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine) 
@@ -24,6 +24,37 @@ async def Shutdown_event():
 
 	# Log Message
 	Log.Stop_Log()
+
+# Schema Error Handler
+@PostOffice.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+
+	# Log Message
+	Log.Unknown_Log(request)
+
+	# Create Add Record Command
+	RAW_Data = Models.RAW_Data(
+		RAW_Data_IP = request.client.host,
+		RAW_Data = exc.body,
+		RAW_Data_Valid = False
+	)
+
+	# Define DB
+	DB_RAW_Data = Database.SessionLocal()
+
+	# Add and Refresh DataBase
+	DB_RAW_Data.add(RAW_Data)
+	DB_RAW_Data.commit()
+	DB_RAW_Data.refresh(RAW_Data)
+
+	# Close Database
+	DB_RAW_Data.close()
+
+	# Send Error
+	return JSONResponse(
+		status_code=status.HTTP_400_BAD_REQUEST,
+		content={"Event": status.HTTP_406_NOT_ACCEPTABLE},
+	)
 
 # Include Routers
 PostOffice.include_router(WeatherStat.PostOffice_WeatherStat)

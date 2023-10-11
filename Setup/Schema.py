@@ -202,18 +202,8 @@ class Payload(BaseModel):
 		description="Measurement time stamp.", 
 		example="2022-07-19T08:28:32Z", 
 		min_length=10, 
-		max_length=20
+		max_length=22
 	)
-
-	# TimeStamp Validator
-	@validator('TimeStamp')
-	def Validator(cls, value):
-		try:
-			# Convert TimeStamp to Datetime
-			datetime.fromisoformat(value)
-		except ValueError:
-			raise ValueError('Incorrect data format, should be YYYY-MM-DDThh:mm:ssZ')
-		return value
 
 	# WeatherStat Payload
 	WeatherStat: Optional[Payload_WeatherStat]

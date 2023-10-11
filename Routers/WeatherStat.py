@@ -39,11 +39,11 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
 			RAW_Data_Device_ID = Data.Device.Info.ID,
-			RAW_Data_Client_IP = request.client.host,
+			RAW_Data_IP = request.client.host,
 			RAW_Data_Company = Company,
 			RAW_Data_Device = Device,
 			RAW_Data_Command = Command,
-			RAW_Data = str(Data)
+			RAW_Data = await request.json()
 		)
 	
 		# Define DB
@@ -71,8 +71,8 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
-			RAW_Data_Client_IP = request.client.host,
-			RAW_Data = str(await request.body())
+			RAW_Data_Device_ID = request.client.host,
+			RAW_Data = await request.body()
 		)
 
 		# Define DB
