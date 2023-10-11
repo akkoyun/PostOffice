@@ -92,3 +92,12 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 			content={"Event": status.HTTP_406_NOT_ACCEPTABLE},
 		)
 
+# IoT Get Method
+@PostOffice_WeatherStat.get("/WeatherStat/", status_code=status.HTTP_200_OK)
+def Root(request: Request):
+
+	# Log Message
+	Log.Get_Log(request)
+
+	# Send Success
+	return {"Service": "WeatherStat", "Version": "02.00.00"}
