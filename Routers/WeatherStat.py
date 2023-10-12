@@ -38,22 +38,6 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Log Message
 		Log.WeatherStat_Log(Data.Device.Info.ID, Company, Device, Command)
 
-		# Defne Kafka Producers
-		Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="10.114.0.5:9092")
-
-		# Set headers
-		Kafka_Header = [
-			('Command', bytes(Data.Command, 'utf-8')), 
-			('Device_ID', bytes(Data.Device.Info.ID, 'utf-8')),
-			('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
-#			('Device_IP', bytes(request.headers['remote_addr'], 'utf-8')),
-			('Size', bytes(request.headers['content-length'], 'utf-8'))
-		]
-
-    	# Send Message to Queue
-#		Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
-		Kafka_Producer.send(topic='RAW', value=Data.json(), headers=Kafka_Header)
-
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
 			RAW_Data_Device_ID = Data.Device.Info.ID,
@@ -74,6 +58,22 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
 		# Close Database
 		DB_RAW_Data.close()
+
+		# Defne Kafka Producers
+		Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="10.114.0.5:9092")
+
+		# Set headers
+		Kafka_Header = [
+			('Command', bytes(Data.Command, 'utf-8')), 
+			('Device_ID', bytes(Data.Device.Info.ID, 'utf-8')),
+			('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
+#			('Device_IP', bytes(request.headers['remote_addr'], 'utf-8')),
+			('Size', bytes(request.headers['content-length'], 'utf-8'))
+		]
+
+    	# Send Message to Queue
+#		Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
+		Kafka_Producer.send(topic='RAW', value=Data.json(), headers=Kafka_Header)
 
 		# Send Success
 		return JSONResponse(
