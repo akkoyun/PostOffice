@@ -52,7 +52,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
     	# Send Message to Queue
 #		Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
-		Kafka_Producer.send(topic='RAW', value="test")
+		Kafka_Producer.send(topic='RAW', value=Data.json())
 
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
