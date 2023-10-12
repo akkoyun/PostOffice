@@ -46,7 +46,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 			('Command', bytes(Data.Command, 'utf-8')), 
 			('Device_ID', bytes(Data.Device.Info.ID, 'utf-8')),
 			('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
-			('Device_IP', bytes(request.headers['remote_addr'], 'utf-8')),
+#			('Device_IP', bytes(request.headers['remote_addr'], 'utf-8')),
 			('Size', bytes(request.headers['content-length'], 'utf-8'))
 		]
 
