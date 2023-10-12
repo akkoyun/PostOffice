@@ -14,6 +14,10 @@ class Settings(BaseSettings):
 	POSTOFFICE_DB_NAME: str
 	POSTOFFICE_DB_USERNAME: str
 
+	# Kafka Settings
+	POSTOFFICE_KAFKA_HOSTNAME: str
+	POSTOFFICE_KAFKA_PORT: int
+
 	# Load env File
 	class Config:
 		env_file = "Setup/.env"
