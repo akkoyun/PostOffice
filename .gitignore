@@ -3,3 +3,4 @@
 /Setup/.env
 __pycache__
 /.vscode/
+/Log/Service.LOG
