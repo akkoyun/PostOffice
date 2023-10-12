@@ -3,7 +3,7 @@ from Setup import Schema, Database, Models, Log
 from fastapi import Request, status, APIRouter
 import json
 from fastapi.responses import JSONResponse
-from aiokafka import AIOKafkaProducer
+from kafka import KafkaProducer
 from Setup.Config import APP_Settings
 
 # Define FastAPI Object
