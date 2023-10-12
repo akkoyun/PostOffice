@@ -39,7 +39,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		Log.WeatherStat_Log(Data.Device.Info.ID, Company, Device, Command)
 
 		# Defne Kafka Producers
-		Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}")
+		Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="10.114.0.5:9092")
 
 		# Set headers
 		Kafka_Header = [
