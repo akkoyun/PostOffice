@@ -48,7 +48,6 @@ def Handle_Command(Command_String):
 	# End Function
 	return Command
 
-
 # IoT Post Method
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
@@ -167,11 +166,25 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		)
 
 # IoT Get Method
-@PostOffice_WeatherStat.get("/WeatherStat/", status_code=status.HTTP_200_OK)
-def Root(request: Request):
+@PostOffice_WeatherStat.get("/WeatherStat/{ID}")
+def Root(request: Request, ID: str):
 
-	# Log Message
-	Log.Get_Log(request)
+	# Database Query
+	Query_Module = Database.SessionLocal.query(Models.RAW_Data).filter(Models.RAW_Data.RAW_Data_Device_ID.like(ID)).order_by(Models.RAW_Data.RAW_Data_ID.desc()).first()
 
-	# Send Success
-	return {"Service": "WeatherStat", "Version": "02.00.00"}
+	# Check Query
+	if not Query_Module:
+		
+		# Send Error
+		return JSONResponse(
+			status_code=status.HTTP_404_NOT_FOUND,
+			content={"Event": status.HTTP_404_NOT_FOUND},
+		)
+	
+	else:
+
+		# Send Success
+		return JSONResponse(
+			status_code=status.HTTP_200_OK,
+			content={"Update_Time": Query_Module.RAW_Data_Create_Date},
+		)
