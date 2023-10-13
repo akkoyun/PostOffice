@@ -85,10 +85,13 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Log Messageü
 		Log.Wrong_Device_Log(Company, Device, Command)
 
+		# Get Body
+		Body = await request.body()
+
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
 			RAW_Data_Device_ID = request.client.host,
-			RAW_Data = await request.body()
+			RAW_Data = Body
 		)
 
 		# Define DB
@@ -103,7 +106,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		DB_RAW_Data.close()
 
     	# Send Message to Queue
-		Kafka_Producer.send(topic='UNDEFINED', value=request.body())
+		Kafka_Producer.send(topic='UNDEFINED', value=Body)
 
 		# Send Error
 		return JSONResponse(
