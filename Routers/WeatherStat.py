@@ -188,6 +188,6 @@ def Root(request: Request, ID: str):
 
 		# Send Success
 		return JSONResponse(
-			status_code=status.HTTP_200_OK,
-			content={"Update_Time": Query_Module.RAW_Data_Create_Date},
+    		status_code=status.HTTP_200_OK,
+    		content={"Update_Time": Query_Module.RAW_Data_Create_Date.isoformat()},
 		)
