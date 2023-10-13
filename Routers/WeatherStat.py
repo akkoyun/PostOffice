@@ -12,38 +12,81 @@ PostOffice_WeatherStat = APIRouter()
 # Defne Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="10.114.0.6:9092")
 
+# Handle Company
+def Handle_Company(Command_String):
+
+    # Handle Company
+	try:
+		Company = Command_String.split(":")[0]
+	except:
+		Company = "Unknown"
+
+	# End Function
+	return Company
+
+# Handle Device
+def Handle_Device(Command_String):
+
+	# Handle Device
+	try:
+		Device = Command_String.split(":")[1].split(".")[0]
+	except:
+		Device = "Unknown"
+
+	# End Function
+	return Device
+
+# Handle Command
+def Handle_Command(Command_String):
+
+	# Handle Command
+	try:
+		Command = Command_String.split(":")[1].split(".")[1]
+	except:
+		Command = "Unknown"
+
+	# End Function
+	return Command
+
+
 # IoT Post Method
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
-    # Handle Company
+	# Control for Command
 	try:
-		Company = Data.Command.split(":")[0]		
+		Command_String = Data.Command
 	except:
-		Company = "Unknown"
+		Command_String = "Unknown"
 
-	# Handle Device
+	# Handle Device ID
 	try:
-		Device = Data.Command.split(":")[1].split(".")[0]
+		Device_ID = Data.Device.Info.ID
 	except:
-		Device = "Unknown"
+		Device_ID = "Unknown"
 
-	# Handle Command
-	try:
-		Command = Data.Command.split(":")[1].split(".")[1]
-	except:
-		Command = "Unknown"
+	# Handle Command String
+	if Command_String != "Unknown":
+		Company = Handle_Company(Data.Command)
+		Device = Handle_Device(Data.Command)
+		Command = Handle_Command(Data.Command)
+
+	# Get Client IP
+	Client_IP = request.client.host
+
+	# Log Message
+	if Command_String != "Unknown" and Device_ID != "Unknown":
+		Log.WeatherStat_Log(Device_ID, Company, Device, Command)
+	else:
+		Log.Wrong_Device_Log(Company, Device, Command)
 
     # Device is WeatherStat
-	if Device == "WeatherStat":
-
-		# Log Message
-		Log.WeatherStat_Log(Data.Device.Info.ID, Company, Device, Command)
+	if Device == "WeatherStat" and Device_ID != "Unknown":
 
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
-			RAW_Data_Device_ID = Data.Device.Info.ID,
-			RAW_Data_IP = request.client.host,
+			RAW_Data_Device_ID = Device_ID,
+			RAW_Data_IP = Client_IP,
 			RAW_Data_Company = Company,
 			RAW_Data_Device = Device,
 			RAW_Data_Command = Command,
@@ -67,10 +110,10 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
 		# Set headers
 		Kafka_Header = [
-			('Command', bytes(Data.Command, 'utf-8')), 
-			('Device_ID', bytes(Data.Device.Info.ID, 'utf-8')),
+			('Command', bytes(Command, 'utf-8')), 
+			('Device_ID', bytes(Device_ID, 'utf-8')),
 			('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
-			('Device_IP', bytes(request.client.host, 'utf-8')),
+			('Device_IP', bytes(Client_IP, 'utf-8')),
 			('Size', bytes(request.headers['content-length'], 'utf-8'))
 		]
 
@@ -85,9 +128,6 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
 	# Device is not WeatherStat
 	else:
-
-		# Log Messageü
-		Log.Wrong_Device_Log(Company, Device, Command)
 
 		# Get Body
 		Body = await request.body()
@@ -105,9 +145,13 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Define DB
 		DB_RAW_Data = Database.SessionLocal()
 
-		# Add and Refresh DataBase
+		# Add Record to DataBase
 		DB_RAW_Data.add(RAW_Data)
+		
+		# Commit DataBase
 		DB_RAW_Data.commit()
+
+		# Refresh DataBase
 		DB_RAW_Data.refresh(RAW_Data)
 
 		# Close Database
