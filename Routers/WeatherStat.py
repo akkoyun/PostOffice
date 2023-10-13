@@ -59,9 +59,6 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Commit DataBase
 		DB_RAW_Data.commit()
 
-		# Get RAW_Data_ID
-		RAW_Data_ID = RAW_Data.RAW_Data_ID
-
 		# Refresh DataBase
 		DB_RAW_Data.refresh(RAW_Data)
 
@@ -74,7 +71,6 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 			('Device_ID', bytes(Data.Device.Info.ID, 'utf-8')),
 			('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
 			('Device_IP', bytes(request.client.host, 'utf-8')),
-			('RAW_Data_ID', bytes(RAW_Data_ID, 'utf-8')),
 			('Size', bytes(request.headers['content-length'], 'utf-8'))
 		]
 
