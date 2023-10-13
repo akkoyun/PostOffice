@@ -4,6 +4,8 @@ from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from Routers import WeatherStat, PowerStat
+from kafka import KafkaProducer
+import json
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine) 
@@ -42,18 +44,28 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Define DB
 	DB_RAW_Data = Database.SessionLocal()
 
-	# Add and Refresh DataBase
+	# Add Record to DataBase
 	DB_RAW_Data.add(RAW_Data)
+	
+	# Commit DataBase
 	DB_RAW_Data.commit()
+
+	# Refresh DataBase
 	DB_RAW_Data.refresh(RAW_Data)
 
 	# Close Database
 	DB_RAW_Data.close()
 
+	# Defne Kafka Producers
+	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="10.114.0.6:9092")
+
+	# Send Message to Queue
+	Kafka_Producer.send(topic='UNDEFINED', value=exc.body)
+
 	# Send Error
 	return JSONResponse(
 		status_code=status.HTTP_400_BAD_REQUEST,
-		content={"Event": status.HTTP_406_NOT_ACCEPTABLE},
+		content={"Event": status.HTTP_400_BAD_REQUEST},
 	)
 
 # Include Routers
