@@ -88,10 +88,14 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Get Body
 		Body = await request.body()
 
+		# Convert Body to String
+		Body_str = Body.decode("utf-8")
+		Body_dict = json.loads(Body_str)
+
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
 			RAW_Data_Device_ID = request.client.host,
-			RAW_Data = Body
+			RAW_Data = Body_dict
 		)
 
 		# Define DB
