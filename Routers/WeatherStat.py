@@ -178,6 +178,9 @@ def Root(request: Request, ID: str):
 	# Check Query
 	if not Query_Module:
 		
+		# Close Database
+		DB_Module.close()
+
 		# Send Error
 		return JSONResponse(
 			status_code=status.HTTP_404_NOT_FOUND,
@@ -186,8 +189,14 @@ def Root(request: Request, ID: str):
 	
 	else:
 
+		# Get TimeStamp
+		TimeStamp = Query_Module.RAW_Data_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+		# Close Database
+		DB_Module.close()
+
 		# Send Success
 		return JSONResponse(
     		status_code=status.HTTP_200_OK,
-    		content={"Update_Time": Query_Module.RAW_Data_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")},
+    		content={"Update_Time": TimeStamp}
 		)
