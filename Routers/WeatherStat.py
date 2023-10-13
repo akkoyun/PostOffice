@@ -110,7 +110,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		DB_RAW_Data.close()
 
     	# Send Message to Queue
-		Kafka_Producer.send(topic='UNDEFINED', value=Body)
+		Kafka_Producer.send(topic='UNDEFINED', value=Body_dict)
 
 		# Send Error
 		return JSONResponse(
