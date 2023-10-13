@@ -53,9 +53,16 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Define DB
 		DB_RAW_Data = Database.SessionLocal()
 
-		# Add and Refresh DataBase
+		# Add Record to DataBase
 		DB_RAW_Data.add(RAW_Data)
+		
+		# Commit DataBase
 		DB_RAW_Data.commit()
+
+		# Get RAW_Data_ID
+		RAW_Data_ID = RAW_Data.RAW_Data_ID
+
+		# Refresh DataBase
 		DB_RAW_Data.refresh(RAW_Data)
 
 		# Close Database
@@ -66,12 +73,12 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 			('Command', bytes(Data.Command, 'utf-8')), 
 			('Device_ID', bytes(Data.Device.Info.ID, 'utf-8')),
 			('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
-#			('Device_IP', bytes(request.headers['remote_addr'], 'utf-8')),
+			('Device_IP', bytes(request.client.host, 'utf-8')),
 			('Size', bytes(request.headers['content-length'], 'utf-8'))
 		]
 
     	# Send Message to Queue
-		Kafka_Producer.send(topic='RAW', value=Data.json(), headers=Kafka_Header)
+		Kafka_Producer.send(topic='RAW', value=Data.json(), headers=RAW_Data_ID)
 
 		# Send Success
 		return JSONResponse(
