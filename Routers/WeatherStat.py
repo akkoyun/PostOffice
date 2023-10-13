@@ -10,7 +10,7 @@ from Setup.Config import APP_Settings
 PostOffice_WeatherStat = APIRouter()
 
 # Defne Kafka Producers
-Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="10.114.0.6:9092")
+Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}')
 
 # Handle Company
 def Handle_Company(Command_String):
