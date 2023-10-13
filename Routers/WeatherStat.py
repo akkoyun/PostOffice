@@ -9,6 +9,9 @@ from Setup.Config import APP_Settings
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
 
+# Defne Kafka Producers
+Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="10.114.0.6:9092")
+
 # IoT Post Method
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
@@ -30,7 +33,6 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		Command = Data.Command.split(":")[1].split(".")[1]
 	except:
 		Command = "Unknown"
-
 
     # Device is WeatherStat
 	if Device == "WeatherStat":
@@ -59,20 +61,16 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Close Database
 		DB_RAW_Data.close()
 
-		# Defne Kafka Producers
-		Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers="10.114.0.6:9092")
-
 		# Set headers
 		Kafka_Header = [
-#			('Command', bytes(Data.Command, 'utf-8')), 
-#			('Device_ID', bytes(Data.Device.Info.ID, 'utf-8')),
-#			('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
+			('Command', bytes(Data.Command, 'utf-8')), 
+			('Device_ID', bytes(Data.Device.Info.ID, 'utf-8')),
+			('Device_Time', bytes(Data.Payload.TimeStamp, 'utf-8')), 
 #			('Device_IP', bytes(request.headers['remote_addr'], 'utf-8')),
 			('Size', bytes(request.headers['content-length'], 'utf-8'))
 		]
 
     	# Send Message to Queue
-#		Kafka_Producer.send(topic='RAW', value=Data.dict(), headers=Kafka_Header)
 		Kafka_Producer.send(topic='RAW', value=Data.json(), headers=Kafka_Header)
 
 		# Send Success
@@ -103,6 +101,9 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
 		# Close Database
 		DB_RAW_Data.close()
+
+    	# Send Message to Queue
+		Kafka_Producer.send(topic='UNDEFINED', value=request.body())
 
 		# Send Error
 		return JSONResponse(
