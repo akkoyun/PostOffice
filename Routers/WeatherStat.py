@@ -169,8 +169,11 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 @PostOffice_WeatherStat.get("/WeatherStat/{ID}")
 def Root(request: Request, ID: str):
 
+	# Define DB
+	DB_Module = Database.SessionLocal()
+
 	# Database Query
-	Query_Module = Database.SessionLocal.query(Models.RAW_Data).filter(Models.RAW_Data.RAW_Data_Device_ID.like(ID)).order_by(Models.RAW_Data.RAW_Data_ID.desc()).first()
+	Query_Module = DB_Module.query(Models.RAW_Data).filter(Models.RAW_Data.RAW_Data_Device_ID.like(ID)).order_by(Models.RAW_Data.RAW_Data_ID.desc()).first()
 
 	# Check Query
 	if not Query_Module:
