@@ -138,7 +138,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
-			RAW_Data_Device_ID = request.client.host,
+			RAW_Data_Device_ID = Client_IP,
 			RAW_Data = Body_dict
 		)
 
