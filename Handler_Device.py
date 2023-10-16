@@ -21,6 +21,7 @@ def Device_Handler():
     # Define DB
     DB_Module = Database.SessionLocal()
 
+    # Handle Messages
     try:
         for Message in Kafka_Consumer:
 
@@ -44,17 +45,23 @@ def Device_Handler():
                 # Skip to the next iteration
                 continue
 
+            # Database Query
+            Query_Module = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Headers.Device_ID)).first()
+
+            # Control for Query
+            if not Query_Module:
+
+                print("No Device Found")
+
+            else:
+
+                print("Device Found")
 
 
 
 
 
 
-
-
-
-
-            print(Headers.Command + "-" + Headers.Device_ID + "-" + Headers.Device_Time + "-" + Headers.Device_IP + "-" + Headers.Size)
 
 
 
