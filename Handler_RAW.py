@@ -79,6 +79,9 @@ def Parse_Topics():
 			# Send Message to Queue
             Kafka_Producer.send("Device.Info", value=Kafka_RAW_Message.Device.Info.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
 
+            # Commit Kafka
+            RAW_Message.commit()
+
     finally:
 
         # Log Message

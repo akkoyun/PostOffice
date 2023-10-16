@@ -92,6 +92,9 @@ def Device_Handler():
                 # Print Device ID
                 print(Module_ID)
 
+            # Commit Kafka
+            Message.commit()
+
     finally:
 
         # Close Database

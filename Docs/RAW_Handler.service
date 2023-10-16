@@ -1,0 +1,14 @@
+[Unit]
+Description=PostOffice RAW Data Handler Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /root/PostOffice/Handler_RAW.py
+WorkingDirectory=/root/PostOffice
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
