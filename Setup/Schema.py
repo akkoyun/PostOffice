@@ -155,34 +155,34 @@ class Payload_WeatherStat_Location(BaseModel):
 class Payload_WeatherStat_Environment(BaseModel):
 	
 	# Last Measured Air Temperature Value
-	AT: Optional[float] = Field(default=None, description="Air temperature.", example=28.3232, min=-40.0, max=85.0)
+	AT: Optional[float] = Field(default=None, description="Air temperature.", example=28.3232)
 
 	# Last Measured Relative Humidity Value
-	AH: Optional[float] = Field(default=None, description="Air humidity.", example=85.2332, min=0.0, max=100.0)
+	AH: Optional[float] = Field(default=None, description="Air humidity.", example=85.2332)
 
 	# Last Measured Air Pressure Value
-	AP: Optional[float] = Field(default=None, description="Air pressure.", example=985.55, min=0.0, max=5000.0)
+	AP: Optional[float] = Field(default=None, description="Air pressure.", example=985.55)
 
 	# Last Measured Visual Light Value
-	VL: Optional[int] = Field(default=None, description="Visual light.", example=2, min=0)
+	VL: Optional[int] = Field(default=None, description="Visual light.")
 
 	# Last Measured Infrared Light Value
-	IR: Optional[int] = Field(default=None, description="Infrared light.", example=2, min=0)
+	IR: Optional[int] = Field(default=None, description="Infrared light.")
 
 	# Last Measured UV Value
-	UV: Optional[float] = Field(default=None, description="UV index.", example=2, min=0)
+	UV: Optional[float] = Field(default=None, description="UV index.")
 
 	# Last Measured Soil Temperature Value
 	ST: list[Optional[float]] = Field(default=None, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10)
 
 	# Last Measured Rain Value
-	R: Optional[int] = Field(default=None, description="Rain tip counter.", example=23, min=0, max=1000)
+	R: Optional[int] = Field(default=None, description="Rain tip counter.", example=23)
 
 	# Last Measured Wind Direction Value
-	WD: Optional[int] = Field(default=None, description="Wind direction.", example=275, min=0, max=360)
+	WD: Optional[int] = Field(default=None, description="Wind direction.", example=275)
 
 	# Last Measured Wind Speed Value
-	WS: Optional[float] = Field(default=None, description="Wind speed.", example=25, min=0.0, max=100.0)
+	WS: Optional[float] = Field(default=None, description="Wind speed.", example=25)
 
 # WeatherStat Model Definition
 class Payload_WeatherStat(BaseModel):
