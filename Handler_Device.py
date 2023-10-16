@@ -31,9 +31,6 @@ def Device_Handler():
     try:
         for Message in Kafka_Consumer:
 
-            # Öneri 2: Daha fazla detaylı log ekleme
-            Log.info(f"New message received. Processing...")
-
             # Handle Message
             Kafka_Message = Schema.Data_Pack_Model(**json.loads(Message.value.decode()))
 
@@ -56,7 +53,7 @@ def Device_Handler():
 
             if not Query_Module:
                 New_Module = Models.Module(
-                        Device_ID=Headers.Device_ID,
+                        Device_ID=Kafka_Message.Device_ID,
                         Device_Data_Count=1,
                         Device_Create_Date=datetime.now(),
                         Device_Last_Online=datetime.now()
