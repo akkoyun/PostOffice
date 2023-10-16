@@ -9,7 +9,7 @@ from datetime import datetime
 Kafka_Consumer = KafkaConsumer('RAW',
                                bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
                                group_id="RAW_Consumer",
-                               auto_offset_reset='earliest',
+                               auto_offset_reset='latest',
                                enable_auto_commit=True)
 
 # Kafka Producers
@@ -80,9 +80,6 @@ def Parse_Topics():
 
 			# Send Message to Queue
             Kafka_Producer.send("Device.Info", value=Kafka_RAW_Message.Device.Info.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
-
-            # Commit Kafka
-            RAW_Message.commit()
 
     finally:
 
