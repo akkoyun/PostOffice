@@ -6,15 +6,6 @@ from enum import Enum
 # Define Status Check Base Model
 # Version 01.00.00
 
-# Define SIM_Type
-class SIM_Type_Class(Enum):
-	Unknown = 0
-	Normal_SIM = 1
-	Micro_SIM = 2
-	Nano_SIM = 3
-	Embedded_SIM = 4
-	Removable_eSIM = 5
-
 # Define Info
 class Pack_Info(BaseModel):
 
@@ -86,7 +77,7 @@ class Pack_IoT_Module(BaseModel):
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[SIM_Type_Class] = Field(default=None, description="SIM card type.", example=SIM_Type_Class.Normal_SIM, min=0, max=5)
+	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1, min=0, max=5)
 
 	# SIM ICCID
 	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
@@ -114,6 +105,13 @@ class Pack_IoT_Operator(BaseModel):
 		
 	# Connection Time
 	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12, min=0, max=500)
+
+	# SIM_Type State Validator
+	def __init__(self, **data):
+		SIM_Type_Value = data.get('SIM_Type', 5)
+		if SIM_Type_Value < 0 or SIM_Type_Value > 5:
+			data['SIM_Type'] = 0
+		super().__init__(**data)
 
 # Define GSM
 class Pack_GSM(BaseModel):
