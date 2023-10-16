@@ -166,6 +166,7 @@ class Device(Base):
 	Device_ID = Column(String, primary_key=True, nullable=False)
 	Device_Status = Column(Boolean, nullable=False)
 	Device_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False)
+	Device_Last_Online = Column(TIMESTAMP(timezone=True), nullable=False)
 
 # Settings Database Model
 class Settings(Base):
