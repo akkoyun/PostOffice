@@ -51,19 +51,32 @@ def Device_Handler():
             # Control for Query
             if not Query_Module:
 
-                print("No Device Found")
+                # Create New Device
+                New_Module = Models.Module(
+                        Device_ID=Headers.Device_ID,
+                        Device_Data_Count=1,
+                        Device_Create_Date=datetime.now(),
+                        Device_Last_Online=datetime.now()
+                )
+
+                # Add Record to DataBase
+                DB_Module.add(New_Module)
+
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Refresh DataBase
+                DB_Module.refresh(New_Module)
+
+                # Get New Device ID
+                Module_ID = getattr(New_Module, "Module_ID", None)
+
+                # Print Device ID
+                print(Module_ID)
 
             else:
 
                 print("Device Found")
-
-
-
-
-
-
-
-
 
     finally:
 
