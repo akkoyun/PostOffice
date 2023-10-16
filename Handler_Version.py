@@ -18,9 +18,6 @@ Kafka_Consumer = KafkaConsumer('RAW',
 # Parser Function
 def Version_Handler():
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
     # Handle Messages
     try:
         for Message in Kafka_Consumer:
@@ -30,10 +27,13 @@ def Version_Handler():
             message_dict = json.loads(message_value)
             print(message_dict.get('Device', {}).get('Info', {}).get('Firmware', 'Firmware not found'))
 
-    finally:
+    except Exception as e:
 
-        # Close Database
-        DB_Module.close()
+        # Log Message
+        print(f"Header Error: {e}")
+
+        # Skip to the next iteration
+        pass
 
 # Handle Device
 Version_Handler()
