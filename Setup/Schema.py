@@ -54,7 +54,7 @@ class Pack_Battery(BaseModel):
 	# Charge State Validator
 	def __init__(self, **data):
 		Charge_Value = data.get('Charge', 5)
-		if Charge_Value < 0 or Charge_Value > 5:
+		if Charge_Value < 0 or Charge_Value > 5 or Charge_Value == None or Charge_Value.isnumeric() == False:
 			data['Charge'] = 5
 		super().__init__(**data)
 
