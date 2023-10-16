@@ -26,6 +26,19 @@ def Device_Handler():
     try:
         for Message in Kafka_Consumer:
 
+            # Decode Message
+            decoded_value = Message.value.decode()
+
+            # Parse JSON
+            parsed_json = json.loads(decoded_value)
+
+            # Check if JSON is a string
+            if isinstance(parsed_json, str):
+                parsed_json = json.loads(parsed_json)
+
+            # Get RAW Data
+            Kafka_Device_Message = Schema.Pack_Info(**parsed_json)
+
             # Check if all required headers are present
             if len(Message.headers) >= 5:
 
@@ -91,8 +104,8 @@ def Device_Handler():
 
 
             # Get Consumer Record
-            Firmware = Message.value.get("Firmware", None)
-            Hardware = Message.value.get("Hardware", None)
+            Firmware = Kafka_Device_Message.Firmware
+            Hardware = Kafka_Device_Message.Hardware
 
             # Database Version Table Query
             Query_Version_Table = DB_Module.query(Models.Version).filter(
