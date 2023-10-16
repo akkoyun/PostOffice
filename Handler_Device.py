@@ -31,8 +31,16 @@ def Device_Handler():
     try:
         for Message in Kafka_Consumer:
 
+            Raw_Message = Message.value.decode()
+            if not isinstance(Raw_Message, str):
+                Raw_Message = str(Raw_Message)
+            Raw_Message_JSON = json.loads(Raw_Message)
+
             # Handle Message
             Kafka_Message = Schema.Data_Pack_Model(**json.loads(Message.value.decode()))
+
+            # Log Message
+            Log.Device_Handler_Log(str(e))
 
             # Handle Headers
             class Headers:
@@ -45,15 +53,9 @@ def Device_Handler():
             # Database Query
             Query_Module = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Headers.Device_ID)).first()
 
-            # Log Message
-            try:
-                Log.Device_Handler_Log(Headers.Device_ID)
-            except Exception as e:
-                Log.error(f"Logging failed: {e}")
-
             if not Query_Module:
                 New_Module = Models.Module(
-                        Device_ID=Kafka_Message.Device_ID,
+                        Device_ID=Headers.Device_ID,
                         Device_Data_Count=1,
                         Device_Create_Date=datetime.now(),
                         Device_Last_Online=datetime.now()
