@@ -8,10 +8,15 @@ from enum import Enum
 
 # Define Charge_State
 class Charge_State_Class(Enum):
+
+	# Define Charge State
 	Not_Charging = 0
 	Pre_Charging = 1
 	Fast_Charging = 2
 	Charge_Done = 3
+
+	def to_json(self):
+		return self.name
 
 # Define SIM_Type
 class SIM_Type_Class(Enum):
