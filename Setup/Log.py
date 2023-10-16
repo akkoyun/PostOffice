@@ -22,8 +22,6 @@ def Stop_Log():
 	# Log Message
 	Service_Logger.debug("Service Stopped.")
 
-
-
 # WeatherStat Log Message
 def WeatherStat_Log(ID, Company, Device, Command):
 
@@ -35,6 +33,16 @@ def Wrong_Device_Log(Company, Device, Command):
 
 	Service_Logger.error(f"Wrong device data pack ['{Company}'] - ['{Device}'] with ['{Command}']")
 
+# Kafka Device Handle Log Message
+def Device_Handler_Log(ID):
+
+    # Log Message
+    Service_Logger.info(f"Handling Device Info ['{ID}']")
+
+def Device_Handler_Error_Log(ID):
+
+    # Log Message
+    Service_Logger.info(f"Handling Device Error ['{ID}']")
 
 
 

@@ -65,19 +65,19 @@ class Pack_IoT_Module(BaseModel):
 	IMEI: Optional[str] = Field(default="", description="GSM modem IMEI number.", example="356156060000000", min_length=12, max_length=16)
 
 	# Module Manufacturer
-	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1, min=0, max=5)
+	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1, min=0, max=10)
 
 	# Module Model
-	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1, min=0, max=5)
+	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1, min=0, max=10)
 
 	# Module Serial Number
-	Serial: Optional[str] = Field(default="", description="GSM modem serial ID.", example="0000020273", min_length=1, max_length=10)
+	Serial: Optional[str] = Field(default="", description="GSM modem serial ID.", example="0000020273", min_length=1, max_length=20)
 
 # Define IoT Operator
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1, min=0, max=5)
+	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1)
 
 	# SIM ICCID
 	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
@@ -89,22 +89,22 @@ class Pack_IoT_Operator(BaseModel):
 	MNC: int = Field(default=0, description="Operator code.", example=1, min=0, max=99)
 
 	# RSSI
-	RSSI: int = Field(default=0, description="IoT RSSI signal level.", example=28, min=0, max=100)
+	RSSI: int = Field(default=0, description="IoT RSSI signal level.", example=28, min=-100, max=100)
 
 	# TAC
-	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E", min_length=4, max_length=4)
+	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
 
 	# LAC
-	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E", min_length=4, max_length=4)
+	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E")
 
 	# Cell ID
-	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678", min_length=4, max_length=4)
+	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678")
 
 	# IP
 	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1", min_length=7, max_length=15)
 		
 	# Connection Time
-	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12, min=0, max=500)
+	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12)
 
 	# SIM_Type State Validator
 	def __init__(self, **data):
