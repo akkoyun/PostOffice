@@ -48,7 +48,7 @@ def Device_Handler():
             # Database Query
             Query_Module = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Headers.Device_ID)).first()
 
-            # Control for Query
+            # Device Not Found
             if not Query_Module:
 
                 # Create New Device
@@ -74,9 +74,23 @@ def Device_Handler():
                 # Print Device ID
                 print(Module_ID)
 
+            # Device Found
             else:
 
-                print("Device Found")
+                # Get Device ID
+                Module_ID = getattr(Query_Module, "Module_ID", None)
+
+                # Update Device
+                setattr(Query_Module, 'Last_Online_Time', datetime.now())
+
+                # Update Device
+                setattr(Query_Module, 'Data_Count', (Query_Module.Data_Count + 1))
+
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Print Device ID
+                print(Module_ID)
 
     finally:
 
