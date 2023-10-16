@@ -87,12 +87,19 @@ def Device_Handler():
                 # Commit DataBase
                 DB_Module.commit()
 
+
+
+
+            # Get Consumer Record
+            Firmware = Message.value.get("Firmware", None)
+            Hardware = Message.value.get("Hardware", None)
+
             # Database Version Table Query
             Query_Version_Table = DB_Module.query(Models.Version).filter(
                 and_(
                     Models.Version.Device_ID.like(Headers.Device_ID),
-                    Models.Version.Version_Firmware.like(Message.Firmware),
-                    Models.Version.Version_Hardware.like(Message.Hardware)
+                    Models.Version.Version_Firmware.like(Firmware),
+                    Models.Version.Version_Hardware.like(Hardware)
                 )
                 ).first()
 
@@ -102,8 +109,8 @@ def Device_Handler():
                 # Create New Version
                 New_Version = Models.Version(
                         Device_ID=Headers.Device_ID,
-                        Version_Firmware=Message.Firmware,
-                        Version_Hardware=Message.Hardware,
+                        Version_Firmware=Firmware,
+                        Version_Hardware=Hardware,
                         Version_Update_Date=datetime.now()
                 )
 
