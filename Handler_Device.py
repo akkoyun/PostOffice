@@ -78,7 +78,7 @@ def Device_Handler():
     finally:
 
         # Log Message
-        Log.Device_Handler_Error_Log()
+        Log.Device_Handler_Error_Log(Headers.Device_ID)
 
 # Handle Device
 Device_Handler()
