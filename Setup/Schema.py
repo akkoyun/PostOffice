@@ -83,13 +83,13 @@ class Pack_IoT_Operator(BaseModel):
 	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
 
 	# Operator Country Code
-	MCC: int = Field(default=0, description="Operator country code.", example=286, min=0, max=999)
+	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286, min=0, max=999)
 
 	# Operator Code
-	MNC: int = Field(default=0, description="Operator code.", example=1, min=0, max=99)
+	MNC: Optional[int] = Field(default=0, description="Operator code.", example=1, min=0, max=99)
 
 	# RSSI
-	RSSI: int = Field(default=0, description="IoT RSSI signal level.", example=28, min=-100, max=100)
+	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28, min=-100, max=100)
 
 	# TAC
 	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
