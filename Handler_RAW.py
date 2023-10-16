@@ -55,7 +55,8 @@ def Parse_Topics():
                 continue
 
             # handle Message.
-            Kafka_RAW_Message = Schema.Data_Pack_Model(**json.loads(RAW_Message.value.decode()))
+#            Kafka_RAW_Message = Schema.Data_Pack_Model(**json.loads(RAW_Message.value.decode()))
+            print("Raw message:", RAW_Message.value.decode())
 
             # Set headers
             Kafka_Header = [
@@ -67,7 +68,7 @@ def Parse_Topics():
             ]
 
 			# Send Message to Queue
-            Kafka_Producer.send("Device", value=Kafka_RAW_Message.Device.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
+#            Kafka_Producer.send("Device", value=Kafka_RAW_Message.Device.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
 
     finally:
 
