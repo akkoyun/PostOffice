@@ -52,7 +52,7 @@ def Device_Handler():
             if not Query_Module:
 
                 # Create New Device
-                New_Module = Models.Module(
+                New_Device = Models.Device(
                         Device_ID=Headers.Device_ID,
                         Device_Data_Count=1,
                         Device_Create_Date=datetime.now(),
@@ -60,16 +60,16 @@ def Device_Handler():
                 )
 
                 # Add Record to DataBase
-                DB_Module.add(New_Module)
+                DB_Module.add(New_Device)
 
                 # Commit DataBase
                 DB_Module.commit()
 
                 # Refresh DataBase
-                DB_Module.refresh(New_Module)
+                DB_Module.refresh(New_Device)
 
                 # Get New Device ID
-                Module_ID = getattr(New_Module, "Module_ID", None)
+                Module_ID = getattr(New_Device, "Device_ID", None)
 
                 # Print Device ID
                 print(Module_ID)
