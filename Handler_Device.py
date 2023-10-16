@@ -15,16 +15,6 @@ Kafka_Consumer = KafkaConsumer('RAW',
                                auto_offset_reset='earliest',
                                enable_auto_commit=False)
 
-class Headers:
-
-    def __init__(self, headers):
-        self.Command = headers[0][1].decode('ASCII')
-        self.Device_ID = headers[1][1].decode('ASCII')
-        self.Device_Time = headers[2][1].decode('ASCII')
-        self.Device_IP = headers[3][1].decode('ASCII')
-        self.Size = headers[4][1].decode('ASCII')
-
-
 # Parser Function
 def Device_Handler():
 
@@ -34,10 +24,16 @@ def Device_Handler():
     try:
         for Message in Kafka_Consumer:
 
+            # Handle Headers
+            class Headers:
+                Command = Message.headers[0][1].decode('ASCII')
+                Device_ID = Message.headers[1][1].decode('ASCII')
+                Device_Time = Message.headers[2][1].decode('ASCII')
+                Device_IP = Message.headers[3][1].decode('ASCII')
+                Size = Message.headers[4][1].decode('ASCII')
 
+            print(Headers.Command)
 
-            print(Message.headers)
-            print(Message.value)
 
     finally:
 
