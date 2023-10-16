@@ -34,41 +34,10 @@ def Device_Handler():
     try:
         for Message in Kafka_Consumer:
 
-            print("Headers", Message.headers)
-
             # Handle Headers
             msg_headers = Headers(Message.headers)
 
-            # Database Query
-            Query_Module = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(msg_headers.Device_ID)).first()
-
-            if not Query_Module:
-                New_Module = Models.Module(
-                        Device_ID=msg_headers.Device_ID,
-                        Device_Data_Count=1,
-                        Device_Create_Date=datetime.now(),
-                        Device_Last_Online=datetime.now()
-                )
-                DB_Module.add(New_Module)
-                DB_Module.commit()
-                DB_Module.refresh(New_Module)
-
-                Module_ID = getattr(New_Module, "Module_ID", None)
-
-            else:
-                Module_ID = getattr(Query_Module, "Module_ID", None)
-                setattr(Query_Module, 'Last_Online_Time', datetime.now())
-                setattr(Query_Module, 'Data_Count', (Query_Module.Data_Count + 1))
-
-                DB_Module.commit()
-
-            # Log Message
-            Log.Device_Handler_Log(str(Module_ID))
-
-    except Exception as e:
-
-        # Error Log
-        Log.Device_Handler_Error_Log(str(e))
+            print(msg_headers.Device_ID)
 
     finally:
 
