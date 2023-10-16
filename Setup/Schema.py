@@ -14,6 +14,7 @@ class Charge_State_Class(Enum):
 	Pre_Charging = 1
 	Fast_Charging = 2
 	Charge_Done = 3
+	Unknown = 5
 
 	def to_json(self):
 		return self.name
@@ -61,7 +62,14 @@ class Pack_Battery(BaseModel):
 	IB: Optional[int] = Field(default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
 
 	# Battery Charge State
-	Charge: Charge_State_Class = Field(description="Battery charge state.", example=Charge_State_Class.Charge_Done, min=0, max=3)
+	Charge: Charge_State_Class = Field(description="Battery charge state.", example=Charge_State_Class.Charge_Done, min=0, max=5)
+
+	# Charge State Validator
+	@validator('Charge', pre=True, always=True)
+	def check_charge(cls, value):
+		if value not in Charge_State_Class:
+			return Charge_State_Class.Unknown
+		return value
 
 # Define Power
 class Pack_Power(BaseModel):
