@@ -54,21 +54,18 @@ def Parse_Topics():
                 # Skip to the next iteration
                 continue
 
-
+            # Decode Message
             decoded_value = RAW_Message.value.decode()
+
+            # Parse JSON
             parsed_json = json.loads(decoded_value)
-            # Eğer parsed_json hala bir stringse, bir daha çözümleyin
+
+            # Check if JSON is a string
             if isinstance(parsed_json, str):
                 parsed_json = json.loads(parsed_json)
 
+            # Get RAW Data
             Kafka_RAW_Message = Schema.Data_Pack_Model(**parsed_json)
-
-
-            print(Kafka_RAW_Message.Device.Info.dict())
-
-
-
-
 
             # Set headers
             Kafka_Header = [
@@ -80,7 +77,7 @@ def Parse_Topics():
             ]
 
 			# Send Message to Queue
-#            Kafka_Producer.send("Device", value=Kafka_RAW_Message.Device.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
+            Kafka_Producer.send("Device.Info", value=Kafka_RAW_Message.Device.Info.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
 
     finally:
 
