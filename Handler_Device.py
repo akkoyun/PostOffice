@@ -37,10 +37,7 @@ def Device_Handler():
             Raw_Message_JSON = json.loads(Raw_Message)
 
             # Handle Message
-            Kafka_Message = Schema.Data_Pack_Model(**json.loads(Message.value.decode()))
-
-            # Log Message
-            Log.Device_Handler_Log(str(e))
+            Kafka_Message = Schema.Data_Pack_Model(**Raw_Message_JSON)
 
             # Handle Headers
             class Headers:
@@ -71,6 +68,9 @@ def Device_Handler():
 
                 # Öneri 4: Commit işlemi
                 DB_Module.commit()
+
+            # Log Message
+            Log.Device_Handler_Log(str(Module_ID))
 
     except Exception as e:
         
