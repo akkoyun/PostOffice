@@ -140,10 +140,10 @@ def Device_Handler():
             else:
 
                 # Update Version
-                setattr(Query_Version_Table, 'Version_Firmware', Message.Firmware)
+                setattr(Query_Version_Table, 'Version_Firmware', Firmware)
 
                 # Update Version
-                setattr(Query_Version_Table, 'Version_Hardware', Message.Hardware)
+                setattr(Query_Version_Table, 'Version_Hardware', Hardware)
 
                 # Update Version
                 setattr(Query_Version_Table, 'Version_Update_Date', datetime.now())
