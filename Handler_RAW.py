@@ -8,7 +8,7 @@ from datetime import datetime
 # Kafka Consumer
 Kafka_Consumer = KafkaConsumer('RAW',
                                bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
-                               group_id="Device_Consumer",
+                               group_id="RAW_Consumer",
                                auto_offset_reset='earliest',
                                enable_auto_commit=True)
 
@@ -75,6 +75,8 @@ def Parse_Topics():
                 ('Device_IP', bytes(Headers.Device_IP, 'utf-8')),
                 ('Size', bytes(Headers.Size, 'utf-8'))
             ]
+
+            print(Headers.Device_ID)
 
 			# Send Message to Queue
             Kafka_Producer.send("Device.Info", value=Kafka_RAW_Message.Device.Info.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
