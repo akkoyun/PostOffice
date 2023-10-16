@@ -71,9 +71,6 @@ def Device_Handler():
                 # Get New Device ID
                 Module_ID = getattr(New_Device, "Device_ID", None)
 
-                # Print Device ID
-                print(Module_ID)
-
             # Device Found
             else:
 
@@ -88,12 +85,6 @@ def Device_Handler():
 
                 # Commit DataBase
                 DB_Module.commit()
-
-                # Print Device ID
-                print(Module_ID)
-
-            # Commit Kafka
-            Message.commit()
 
     finally:
 
