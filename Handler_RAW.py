@@ -57,17 +57,15 @@ def Parse_Topics():
             decoded_json_str = RAW_Message.value.decode()
             decoded_json_dict = json.loads(decoded_json_str)
 
-            Kafka_RAW_Message = Schema.Data_Pack_Model(**decoded_json_dict)
+            print("Type of decoded_json_dict:", type(decoded_json_dict))
+
+            #Kafka_RAW_Message = Schema.Data_Pack_Model(**decoded_json_dict)
 
 
 
 
 
-            # Handle Message.
-#            Kafka_RAW_Message = Schema.Data_Pack_Model(**json.loads(RAW_Message.value.decode()))
 
-            print(f"Decoded message: {Kafka_RAW_Message}")
-            print(f"Type of decoded json: {type(Kafka_RAW_Message)}")
 
 
 
