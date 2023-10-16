@@ -164,7 +164,7 @@ class Device(Base):
 
 	# Define Colomns
 	Device_ID = Column(String, primary_key=True, nullable=False)
-	Device_Status = Column(Boolean, nullable=False)
+	Device_Status = Column(Boolean, nullable=False, default=False)
 	Device_Data_Count = Column(Integer, nullable=False, default=0)
 	Device_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False)
 	Device_Last_Online = Column(TIMESTAMP(timezone=True), nullable=False)
