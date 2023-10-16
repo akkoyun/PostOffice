@@ -4,6 +4,7 @@ from Setup.Config import APP_Settings
 from kafka import KafkaConsumer
 import json
 from datetime import datetime
+from sqlalchemy import and_
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine)
@@ -45,11 +46,11 @@ def Device_Handler():
                 # Skip to the next iteration
                 continue
 
-            # Database Query
-            Query_Module = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Headers.Device_ID)).first()
+            # Database Device Table Query
+            Query_Device_Table = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Headers.Device_ID)).first()
 
             # Device Not Found
-            if not Query_Module:
+            if not Query_Device_Table:
 
                 # Create New Device
                 New_Device = Models.Device(
@@ -75,13 +76,57 @@ def Device_Handler():
             else:
 
                 # Get Device ID
-                Module_ID = getattr(Query_Module, "Device_ID", None)
+                Module_ID = getattr(Query_Device_Table, "Device_ID", None)
 
                 # Update Device
-                setattr(Query_Module, 'Device_Last_Online', datetime.now())
+                setattr(Query_Device_Table, 'Device_Last_Online', datetime.now())
 
                 # Update Device
-                setattr(Query_Module, 'Device_Data_Count', (Query_Module.Device_Data_Count + 1))
+                setattr(Query_Device_Table, 'Device_Data_Count', (Query_Device_Table.Device_Data_Count + 1))
+
+                # Commit DataBase
+                DB_Module.commit()
+
+            # Database Version Table Query
+            Query_Version_Table = DB_Module.query(Models.Version).filter(
+                and_(
+                    Models.Version.Device_ID.like(Headers.Device_ID),
+                    Models.Version.Version_Firmware.like(Message.Firmware),
+                    Models.Version.Version_Hardware.like(Message.Hardware)
+                )
+                ).first()
+
+            # Version Not Found
+            if not Query_Version_Table:
+
+                # Create New Version
+                New_Version = Models.Version(
+                        Device_ID=Headers.Device_ID,
+                        Version_Firmware=Message.Firmware,
+                        Version_Hardware=Message.Hardware,
+                        Version_Update_Date=datetime.now()
+                )
+
+                # Add Record to DataBase
+                DB_Module.add(New_Version)
+
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Refresh DataBase
+                DB_Module.refresh(New_Version)
+
+            # Version Found
+            else:
+
+                # Update Version
+                setattr(Query_Version_Table, 'Version_Firmware', Message.Firmware)
+
+                # Update Version
+                setattr(Query_Version_Table, 'Version_Hardware', Message.Hardware)
+
+                # Update Version
+                setattr(Query_Version_Table, 'Version_Update_Date', datetime.now())
 
                 # Commit DataBase
                 DB_Module.commit()
