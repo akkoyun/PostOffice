@@ -56,11 +56,12 @@ def Parse_Topics():
 
 
             decoded_value = RAW_Message.value.decode()
-            print(f"Type of decoded_value: {type(decoded_value)}")
-
             parsed_json = json.loads(decoded_value)
-            print(f"Type of parsed_json: {type(parsed_json)}")
+            # Eğer parsed_json hala bir stringse, bir daha çözümleyin
+            if isinstance(parsed_json, str):
+                parsed_json = json.loads(parsed_json)
 
+            print(f"Type of parsed_json after double parsing: {type(parsed_json)}")
 
 
 
