@@ -33,11 +33,6 @@ def Device_Handler():
     try:
         for Message in Kafka_Consumer:
 
-            Raw_Message_JSON = json.loads(Message.value.decode())
-
-            # Handle Message
-            Kafka_Message = Schema.Data_Pack_Model(**Raw_Message_JSON)
-
             # Handle Headers
             msg_headers = Headers(Message.headers)
 
