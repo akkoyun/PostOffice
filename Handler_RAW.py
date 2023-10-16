@@ -55,7 +55,8 @@ def Parse_Topics():
                 continue
 
 
-            print(f"Type of RAW Message: {type(RAW_Message)}")
+            decoded_value = RAW_Message.value.decode()
+            print(f"Type of decoded_value: {type(decoded_value)}")
 
 
 
