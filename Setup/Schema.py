@@ -6,19 +6,6 @@ from enum import Enum
 # Define Status Check Base Model
 # Version 01.00.00
 
-# Define Charge_State
-class Charge_State_Class(Enum):
-
-	# Define Charge State
-	Not_Charging = 0
-	Pre_Charging = 1
-	Fast_Charging = 2
-	Charge_Done = 3
-	Unknown = 5
-
-	def to_json(self):
-		return self.name
-
 # Define SIM_Type
 class SIM_Type_Class(Enum):
 	Unknown = 0
@@ -62,14 +49,14 @@ class Pack_Battery(BaseModel):
 	IB: Optional[int] = Field(default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
 
 	# Battery Charge State
-	Charge: Charge_State_Class = Field(description="Battery charge state.", example=Charge_State_Class.Charge_Done, min=0, max=5)
+	Charge: int = Field(description="Battery charge state.", example=1, min=0, max=5)
 
 	# Charge State Validator
-	@validator('Charge', pre=True, always=True)
-	def check_charge(cls, value):
-		if value not in Charge_State_Class:
-			return Charge_State_Class.Unknown
-		return value
+	def __init__(self, **data):
+		Charge_Value = data.get('Charge', 5)
+		if Charge_Value < 0 or Charge_Value > 5:
+			data['Charge'] = 5
+		super().__init__(**data)
 
 # Define Power
 class Pack_Power(BaseModel):
