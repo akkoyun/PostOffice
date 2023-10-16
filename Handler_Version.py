@@ -25,13 +25,7 @@ def Version_Handler():
     try:
         for Message in Kafka_Consumer:
 
-			# handle Message.
-            Kafka_Message = Schema.IoT_Data_Pack_Device(**json.loads(Message.value.decode()))
-
-            # Control for Version
-            if Kafka_Message.Info.Firmware != None or Kafka_Message.Info.Hardware != None:
-
-                print(Kafka_Message.Info.Firmware)
+            print(Message.Device.Info.Firmware)
 
     finally:
 
