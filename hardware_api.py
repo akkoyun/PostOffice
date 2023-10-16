@@ -66,7 +66,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	return JSONResponse(
 		status_code=status.HTTP_400_BAD_REQUEST,
 # 		content={"Event": status.HTTP_400_BAD_REQUEST},
- 		content={"Event": exc.errors()}
+ 		
+		content={"Event": exc.errors()}
 	)
 
 # Include Routers
