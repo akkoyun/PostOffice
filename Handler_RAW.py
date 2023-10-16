@@ -56,8 +56,13 @@ def Parse_Topics():
 
             # handle Message.
 #            Kafka_RAW_Message = Schema.Data_Pack_Model(**json.loads(RAW_Message.value.decode()))
-            Kafka_RAW_Message = Schema.Data_Pack_Model(**json.loads(RAW_Message.value.decode()))
-            print("Raw message:", Kafka_RAW_Message.Device.Device.Info.Device_ID)
+#            Kafka_RAW_Message = Schema.Data_Pack_Model(**json.loads(RAW_Message.value.decode()))
+ #           print("Raw message:", Kafka_RAW_Message.Device.Device.Info.Device_ID)
+            print("Decoded message:", RAW_Message.value.decode())
+
+            decoded_json = json.loads(RAW_Message.value.decode())
+            print("Type of decoded json:", type(decoded_json))
+
 
 
             # Set headers
