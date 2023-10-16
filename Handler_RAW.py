@@ -64,7 +64,7 @@ def Parse_Topics():
             Kafka_RAW_Message = Schema.Data_Pack_Model(**parsed_json)
 
 
-            print(Kafka_RAW_Message.Device.dict())
+            print(Kafka_RAW_Message.Device.Info.dict())
 
 
 
