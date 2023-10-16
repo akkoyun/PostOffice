@@ -106,13 +106,6 @@ class Pack_IoT_Operator(BaseModel):
 	# Connection Time
 	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12)
 
-	# SIM_Type State Validator
-	def __init__(self, **data):
-		SIM_Type_Value = data.get('SIM_Type', 5)
-		if SIM_Type_Value < 0 or SIM_Type_Value > 5:
-			data['SIM_Type'] = 0
-		super().__init__(**data)
-
 # Define GSM
 class Pack_GSM(BaseModel):
 
