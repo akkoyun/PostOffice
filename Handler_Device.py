@@ -78,13 +78,13 @@ def Device_Handler():
             else:
 
                 # Get Device ID
-                Module_ID = getattr(Query_Module, "Module_ID", None)
+                Module_ID = getattr(Query_Module, "Device_ID", None)
 
                 # Update Device
-                setattr(Query_Module, 'Last_Online_Time', datetime.now())
+                setattr(Query_Module, 'Device_Last_Online', datetime.now())
 
                 # Update Device
-                setattr(Query_Module, 'Data_Count', (Query_Module.Data_Count + 1))
+                setattr(Query_Module, 'Device_Data_Count', (Query_Module.Device_Data_Count + 1))
 
                 # Commit DataBase
                 DB_Module.commit()
