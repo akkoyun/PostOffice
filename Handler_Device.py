@@ -34,8 +34,8 @@ def Device_Handler():
     try:
         for Message in Kafka_Consumer:
 
-            print(Message.headers)
-            print(Message.value)
+            print(Headers(Message.headers))
+
 
     finally:
 
