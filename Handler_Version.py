@@ -26,6 +26,7 @@ def Version_Handler():
         for Message in Kafka_Consumer:
 
             message_value = Message.value.decode('utf-8')
+            print(f"Raw message_value: {message_value}")
             message_dict = json.loads(message_value)
             print(message_dict.get('Device', {}).get('Info', {}).get('Firmware', 'Firmware not found'))
 
