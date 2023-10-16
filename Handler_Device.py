@@ -16,6 +16,7 @@ Kafka_Consumer = KafkaConsumer('RAW',
                                enable_auto_commit=False)
 
 class Headers:
+
     def __init__(self, headers):
         self.Command = headers[0][1].decode('ASCII')
         self.Device_ID = headers[1][1].decode('ASCII')
@@ -32,6 +33,8 @@ def Device_Handler():
 
     try:
         for Message in Kafka_Consumer:
+
+            print("Headers", Message.headers)
 
             # Handle Headers
             msg_headers = Headers(Message.headers)
