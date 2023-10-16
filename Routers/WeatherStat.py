@@ -48,6 +48,16 @@ def Handle_Command(Command_String):
 	# End Function
 	return Command
 
+# Kafka Callbacks
+def Kafka_Send_Success(record_metadata):
+    print(record_metadata.topic)
+    print(record_metadata.partition)
+    print(record_metadata.offset)
+
+# Kafka Callbacks
+def Kafka_Send_Error(excp):
+    print(f"Error: {excp}")
+
 # IoT Post Method
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
@@ -116,8 +126,16 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 			('Size', bytes(request.headers['content-length'], 'utf-8'))
 		]
 
-    	# Send Message to Queue
-		Kafka_Producer.send(topic='RAW', value=Data.json(), headers=Kafka_Header)
+		# Send Message to Queue
+		try:
+
+			# Send Message to Queue
+			Kafka_Producer.send(topic='RAW', value=Data.json(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
+
+		except Exception as e:
+
+			# Log Message
+			print(f"Failed to send RAW data: {e}")
 
 		# Send Success
 		return JSONResponse(
