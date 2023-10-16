@@ -61,12 +61,10 @@ def Parse_Topics():
             if isinstance(parsed_json, str):
                 parsed_json = json.loads(parsed_json)
 
-            print(f"Type of parsed_json after double parsing: {type(parsed_json)}")
+            Kafka_RAW_Message = Schema.Data_Pack_Model(**parsed_json)
 
 
-
-
-
+            print(Kafka_RAW_Message.Device.dict())
 
 
 
