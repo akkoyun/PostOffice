@@ -59,8 +59,8 @@ def Parse_Topics():
             decoded_json_str = RAW_Message.value.decode()
 
             decoded_json_dict = json.loads(decoded_json_str)
-            print(f"Decoded JSON dict: {decoded_json_dict}")
-            print(f"Type of decoded_json_dict: {type(decoded_json_dict)}")
+            print(f"Decoded JSON dict right after json.loads(): {decoded_json_dict}")
+            print(f"Type of decoded_json_dict right after json.loads(): {type(decoded_json_dict)}")
 
 
 
