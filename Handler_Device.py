@@ -24,14 +24,24 @@ def Device_Handler():
     try:
         for Message in Kafka_Consumer:
 
-            # Handle Headers
-            class Headers:
-                Command = Message.headers[0][1].decode('ASCII')
-                Device_ID = Message.headers[1][1].decode('ASCII')
-                Device_Time = Message.headers[2][1].decode('ASCII')
-                Device_IP = Message.headers[3][1].decode('ASCII')
-                Size = Message.headers[4][1].decode('ASCII')
 
+            # Check if all required headers are present
+            if len(Message.headers) >= 5:
+                # Handle Headers
+                class Headers:
+                    Command = Message.headers[0][1].decode('ASCII')
+                    Device_ID = Message.headers[1][1].decode('ASCII')
+                    Device_Time = Message.headers[2][1].decode('ASCII')
+                    Device_IP = Message.headers[3][1].decode('ASCII')
+                    Size = Message.headers[4][1].decode('ASCII')
+                # ... (rest of the code)
+
+            else:
+                print(f"Expected at least 5 headers, but got {len(Message.headers)}")
+                continue  # Skip to the next iteration
+
+
+            
             print(Headers.Command)
 
 
