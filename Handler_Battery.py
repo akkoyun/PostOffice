@@ -14,7 +14,7 @@ Kafka_Consumer = KafkaConsumer('Device.Power',
                                bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
                                group_id="Power_Consumer",
                                auto_offset_reset='latest',
-                               enable_auto_commit=True)
+                               enable_auto_commit=False)
 
 # Power Measurement Handler Function
 def Power_Handler():
@@ -288,6 +288,9 @@ def Power_Handler():
 
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_Charge)
+
+            # Commit Queue
+            Kafka_Consumer.commit()
 
     finally:
 
