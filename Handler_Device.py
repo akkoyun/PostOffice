@@ -92,6 +92,9 @@ def Device_Handler():
                 # Update Device
                 setattr(Query_Device_Table, 'Device_Data_Count', (Query_Device_Table.Device_Data_Count + 1))
 
+                # Update Online Time
+                setattr(Query_Device_Table, 'Device_Last_Online', datetime.now())
+
                 # Commit DataBase
                 DB_Module.commit()
 
