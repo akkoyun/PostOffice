@@ -14,7 +14,7 @@ Kafka_Consumer = KafkaConsumer('Device.Power',
                                bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
                                group_id="Power_Consumer",
                                auto_offset_reset='latest',
-                               enable_auto_commit=False)
+                               enable_auto_commit=True)
 
 # Power Measurement Handler Function
 def Power_Handler():
@@ -48,7 +48,7 @@ def Power_Handler():
             # --------------
 
             # Check if all required headers are present
-            if len(Message.headers) >= 6:
+            if len(Message.headers) >= 5:
 
                 # Handle Headers
                 class Headers:
@@ -57,7 +57,6 @@ def Power_Handler():
                     Device_Time = Message.headers[2][1].decode('ASCII')
                     Device_IP = Message.headers[3][1].decode('ASCII')
                     Size = Message.headers[4][1].decode('ASCII')
-                    Data_Stream_ID = Message.headers[5][1].decode('ASCII')
 
             # If not, log the error and skip to the next iteration
             else:
@@ -69,10 +68,9 @@ def Power_Handler():
                 continue
 
             # Variable Control
-            print(Headers.Data_Stream_ID)
 
             # Set Stream ID
-            Data_Stream_ID = Headers.Data_Stream_ID
+            Data_Stream_ID = 1
 
             # Battery IV Variable Control
             if Kafka_Power_Message.Battery.IV is not None:
@@ -290,9 +288,6 @@ def Power_Handler():
 
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_Charge)
-
-            # Commit Queue
-            Kafka_Consumer.commit()
 
     finally:
 
