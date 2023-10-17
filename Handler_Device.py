@@ -40,7 +40,7 @@ def Device_Handler():
             Kafka_Device_Message = Schema.Pack_Info(**parsed_json)
 
             # Check if all required headers are present
-            if len(Message.headers) >= 5:
+            if len(Message.headers) >= 6:
 
                 # Handle Headers
                 class Headers:
@@ -49,6 +49,7 @@ def Device_Handler():
                     Device_Time = Message.headers[2][1].decode('ASCII')
                     Device_IP = Message.headers[3][1].decode('ASCII')
                     Size = Message.headers[4][1].decode('ASCII')
+                    Data_Stream_ID = Message.headers[5][1].decode('ASCII')
 
             # If not, log the error and skip to the next iteration
             else:

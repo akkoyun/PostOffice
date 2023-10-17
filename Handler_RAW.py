@@ -5,6 +5,9 @@ from kafka import KafkaConsumer, KafkaProducer
 import json
 from datetime import datetime
 
+# Create DB Models
+Database.Base.metadata.create_all(bind=Database.DB_Engine)
+
 # Kafka Consumer
 Kafka_Consumer = KafkaConsumer('RAW',
                                bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
@@ -28,11 +31,17 @@ def Kafka_Send_Error(excp):
 # Parse Topics
 def Parse_Topics():
 
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
     # Try to Parse Topics
     try:
 
         # Parse Topics
         for RAW_Message in Kafka_Consumer:
+
+            # Get Headers
+            # -----------
 
             # Check if all required headers are present
             if len(RAW_Message.headers) >= 5:
@@ -55,17 +64,44 @@ def Parse_Topics():
                 continue
 
             # Decode Message
-            decoded_value = RAW_Message.value.decode()
+            # --------------
+
+            # Decode Message
+            Decoded_Value = RAW_Message.value.decode()
 
             # Parse JSON
-            parsed_json = json.loads(decoded_value)
+            Parsed_JSON = json.loads(Decoded_Value)
 
             # Check if JSON is a string
-            if isinstance(parsed_json, str):
-                parsed_json = json.loads(parsed_json)
+            if isinstance(Parsed_JSON, str):
+                Parsed_JSON = json.loads(Parsed_JSON)
 
             # Get RAW Data
-            Kafka_RAW_Message = Schema.Data_Pack_Model(**parsed_json)
+            Kafka_RAW_Message = Schema.Data_Pack_Model(**Parsed_JSON)
+
+            # Data Stream Record Add
+            # ----------------------
+
+            # Create New Data Stream Record
+            New_Data_Stream = Models.Data_Stream(
+                Device_ID = Headers.Device_ID,
+                Data_Stream_Read_Date = datetime.now()
+            )
+
+            # Add Record to DataBase
+            DB_Module.add(New_Data_Stream)
+
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Get New Data Stream ID
+            Data_Stream_ID = New_Data_Stream.Data_Stream_ID
+
+            # Refresh DataBase
+            DB_Module.refresh(New_Data_Stream)
+
+            # Set Headers
+            # -----------
 
             # Set headers
             Kafka_Header = [
@@ -73,10 +109,12 @@ def Parse_Topics():
                 ('Device_ID', bytes(Headers.Device_ID, 'utf-8')),
                 ('Device_Time', bytes(Headers.Device_Time, 'utf-8')), 
                 ('Device_IP', bytes(Headers.Device_IP, 'utf-8')),
-                ('Size', bytes(Headers.Size, 'utf-8'))
+                ('Size', bytes(Headers.Size, 'utf-8')),
+                ('Data_Stream_ID', bytes(Data_Stream_ID, 'utf-8'))
             ]
 
-            print(Headers.Device_ID)
+            # Send Message to Queue
+            # ---------------------
 
 			# Send Message to Queue
             Kafka_Producer.send("Device.Info", value=Kafka_RAW_Message.Device.Info.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
@@ -86,7 +124,7 @@ def Parse_Topics():
     finally:
 
         # Log Message
-        print(f"Header Error")
+        Log.Kafka_Que_Error_Log()
 
 # Handle Device
 Parse_Topics()

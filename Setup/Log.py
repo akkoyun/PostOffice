@@ -48,6 +48,11 @@ def Device_Handler_Error_Log(ID):
 
 
 
+# Kafka Que Error Log Message
+def Kafka_Que_Error_Log():
+    
+	# Log Message
+	Service_Logger.debug("Kafka Que Error.")
 
 
 
