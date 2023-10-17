@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 
 # Create DB Models
-Database.Base.metadata.create_all(bind=Database.DB_Engine)
+#Database.Base.metadata.create_all(bind=Database.DB_Engine)
 
 # Kafka Consumer
 Kafka_Consumer = KafkaConsumer('RAW',
