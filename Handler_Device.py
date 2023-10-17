@@ -14,7 +14,7 @@ Kafka_Consumer = KafkaConsumer('Device.Info',
                                bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
                                group_id="Device_Consumer",
                                auto_offset_reset='latest',
-                               enable_auto_commit=True)
+                               enable_auto_commit=False)
 
 # Parser Function
 def Device_Handler():
@@ -148,6 +148,9 @@ def Device_Handler():
 
                 # Commit DataBase
                 DB_Module.commit()
+
+            # Commit Queue
+            Kafka_Consumer.commit()
 
     finally:
 
