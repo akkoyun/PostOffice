@@ -89,12 +89,6 @@ def Device_Handler():
             # Device Found
             else:
 
-                # Get Device ID
-                Module_ID = getattr(Query_Device_Table, "Device_ID", None)
-
-                # Update Device
-                setattr(Query_Device_Table, 'Device_Last_Online', datetime.now())
-
                 # Update Device
                 setattr(Query_Device_Table, 'Device_Data_Count', (Query_Device_Table.Device_Data_Count + 1))
 
