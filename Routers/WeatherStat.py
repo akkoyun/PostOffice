@@ -250,6 +250,9 @@ def Battery_IV(request: Request, ID: str):
 	
 	else:
 
+		if gmt_time.tzinfo is not None:
+			gmt_time = gmt_time.replace(tzinfo=None)
+
 		# Get TimeStamp and localize it to GMT
 		gmt_time = Query_Battery_IV.Measurement_Create_Date
 		gmt_time = pytz.timezone('GMT').localize(gmt_time)
