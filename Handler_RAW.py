@@ -80,6 +80,8 @@ def Parse_Topics():
 
 			# Send Message to Queue
             Kafka_Producer.send("Device.Info", value=Kafka_RAW_Message.Device.Info.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
+            Kafka_Producer.send("Device.Power", value=Kafka_RAW_Message.Device.Power.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
+            Kafka_Producer.send("Device.IoT", value=Kafka_RAW_Message.Device.IoT.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
 
     finally:
 

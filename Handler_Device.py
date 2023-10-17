@@ -100,9 +100,6 @@ def Device_Handler():
                 # Commit DataBase
                 DB_Module.commit()
 
-
-
-
             # Get Consumer Record
             Firmware = Kafka_Device_Message.Firmware
             Hardware = Kafka_Device_Message.Hardware
