@@ -83,18 +83,18 @@ def Parse_Topics():
             # ----------------------
 
             # Create New Data Stream Record
-            New_Data_Stream = Models.Data_Stream(
-                Device_ID = Headers.Device_ID
-            )
+#            New_Data_Stream = Models.Data_Stream(
+#                Device_ID = Headers.Device_ID
+#            )
 
             # Add Record to DataBase
-            DB_Module.add(New_Data_Stream)
+#            DB_Module.add(New_Data_Stream)
 
             # Commit DataBase
-            DB_Module.commit()
+#            DB_Module.commit()
 
             # Get New Data Stream ID
-            Data_Stream_ID = New_Data_Stream.Data_Stream_ID
+#            Data_Stream_ID = New_Data_Stream.Data_Stream_ID
 
             # Set Headers
             # -----------
@@ -106,7 +106,7 @@ def Parse_Topics():
                 ('Device_Time', bytes(Headers.Device_Time, 'utf-8')), 
                 ('Device_IP', bytes(Headers.Device_IP, 'utf-8')),
                 ('Size', bytes(Headers.Size, 'utf-8')),
-                ('Data_Stream_ID', bytes(Data_Stream_ID, 'utf-8'))
+#                ('Data_Stream_ID', bytes(Data_Stream_ID, 'utf-8'))
             ]
 
             # Send Message to Queue
