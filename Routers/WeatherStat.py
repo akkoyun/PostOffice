@@ -250,14 +250,16 @@ def Battery_IV(request: Request, ID: str):
 	
 	else:
 
-		# Get TimeStamp
-		TimeStamp = Query_Battery_IV.Measurement_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")
+		# Get TimeStamp and localize it to GMT
+		gmt_time = Query_Battery_IV.Measurement_Create_Date
+		gmt_time = pytz.timezone('GMT').localize(gmt_time)
 
-		# Set Time Zone
-		TimeZone = pytz.timezone("Europe/Istanbul")
+		# Convert to Turkey Time Zone
+		turkey_tz = pytz.timezone('Europe/Istanbul')
+		turkey_time = gmt_time.astimezone(turkey_tz)
 
-		# Set TimeStamp
-		Turkey_Time = TimeStamp.astimezone(TimeZone)
+		# Format Turkey Time
+		TimeStamp = turkey_time.strftime("%Y-%m-%dT%H:%M:%S%z")
 
 		# Close Database
 		DB_Module.close()
@@ -265,5 +267,5 @@ def Battery_IV(request: Request, ID: str):
 		# Send Success
 		return JSONResponse(
     		status_code=status.HTTP_200_OK,
-    		content={"Update_Time": Turkey_Time, "IV": Query_Battery_IV.Measurement_Value}
+    		content={"Update_Time": TimeStamp, "IV": Query_Battery_IV.Measurement_Value}
 		)
