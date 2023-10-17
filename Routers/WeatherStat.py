@@ -221,7 +221,7 @@ def Root(request: Request, ID: str):
 		)
 
 # Battery IV Value Get Method
-@PostOffice_WeatherStat.get("/WeatherStat/IV/{ID}")
+@PostOffice_WeatherStat.get("/WeatherStat/{ID}/IV")
 def Battery_IV(request: Request, ID: str):
 
 	# Define DB
@@ -250,7 +250,7 @@ def Battery_IV(request: Request, ID: str):
 	else:
 
 		# Get TimeStamp
-		TimeStamp = Query_Battery_IV.RAW_Data_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")
+		TimeStamp = Query_Battery_IV.Measurement_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 		# Close Database
 		DB_Module.close()
