@@ -89,7 +89,7 @@ def Parse_Topics():
             DB_Module.commit()
 
             # Get DataStream ID
-            New_Data_Stream_ID = New_Data_Stream.Data_Stream_ID
+            New_Data_Stream_ID = str(New_Data_Stream.Data_Stream_ID)
 
             # Set Headers
             # -----------
