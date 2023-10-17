@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from kafka import KafkaProducer
 from Setup.Config import APP_Settings
 from sqlalchemy import and_
+import pytz
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -252,11 +253,17 @@ def Battery_IV(request: Request, ID: str):
 		# Get TimeStamp
 		TimeStamp = Query_Battery_IV.Measurement_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
+		# Set Time Zone
+		TimeZone = pytz.timezone("Europe/Istanbul")
+
+		# Set TimeStamp
+		Turkey_Time = TimeStamp.astimezone(TimeZone)
+
 		# Close Database
 		DB_Module.close()
 
 		# Send Success
 		return JSONResponse(
     		status_code=status.HTTP_200_OK,
-    		content={"Update_Time": TimeStamp, "IV": Query_Battery_IV.Measurement_Value}
+    		content={"Update_Time": Turkey_Time, "IV": Query_Battery_IV.Measurement_Value}
 		)
