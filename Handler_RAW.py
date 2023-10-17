@@ -96,9 +96,6 @@ def Parse_Topics():
             # Get New Data Stream ID
             Data_Stream_ID = New_Data_Stream.Data_Stream_ID
 
-            # Refresh DataBase
-            DB_Module.refresh(New_Data_Stream)
-
             # Set Headers
             # -----------
 
@@ -122,8 +119,8 @@ def Parse_Topics():
 
     finally:
 
-        # Log Message
-        Log.Kafka_Que_Error_Log()
+        # Close Database
+        DB_Module.close()
 
 # Handle Device
 Parse_Topics()

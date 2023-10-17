@@ -68,11 +68,6 @@ def Power_Handler():
                 # Skip to the next iteration
                 continue
 
-            # Variable Control
-
-            # Set Stream ID
-            Data_Stream_ID = 1
-
             # Battery IV Variable Control
             if Kafka_Power_Message.Battery.IV is not None:
 
