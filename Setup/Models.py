@@ -205,6 +205,7 @@ class Measurement(Base):
 	# Define Colomns
 	Measurement_ID = Column(Integer, primary_key=True, nullable=False)
 	Data_Stream_ID = Column(Integer, nullable=False)
+	Device_ID = Column(String, nullable=False)
 	Measurement_Type_ID = Column(Integer, nullable=False)
 	Measurement_Data_Count = Column(Integer, nullable=False)
 	Measurement_Value = Column(Float, nullable=True)

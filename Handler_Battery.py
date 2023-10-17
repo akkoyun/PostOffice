@@ -84,6 +84,7 @@ def Power_Handler():
                     # Create New Version
                     New_Measurement_IV = Models.Measurement(
                     	Data_Stream_ID = 1,
+                        Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_IV,
                         Measurement_Data_Count = 1,
                         Measurement_Value = Kafka_Power_Message.Battery.IV,
