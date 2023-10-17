@@ -233,7 +233,7 @@ def Battery_IV(request: Request, ID: str):
 			Models.Measurement.Device_ID.like(ID),
 			Models.Measurement.Measurement_Type_ID == 101
 		)
-		).order_by(Models.Measurement.Measurement_Create_Date.desc()).first()
+		).order_by(Models.Measurement.Measurement_Create_Date.desc()).limit(10).all()
 
 	# Check Query
 	if not Query_Battery_IV:
@@ -255,8 +255,12 @@ def Battery_IV(request: Request, ID: str):
 		# Close Database
 		DB_Module.close()
 
+		# Prepare Data
+		Time_Stamps = [record.Measurement_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ") for record in Query_Battery_IV]
+		IV_Values = [record.Measurement_Value for record in Query_Battery_IV]
+
 		# Send Success
 		return JSONResponse(
-    		status_code=status.HTTP_200_OK,
-    		content={"Update_Time": TimeStamp, "IV": Query_Battery_IV.Measurement_Value}
+			status_code=status.HTTP_200_OK,
+			content={"Update_Time": Time_Stamps, "IV": IV_Values}
 		)
