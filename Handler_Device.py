@@ -121,8 +121,7 @@ def Device_Handler():
                 New_Version = Models.Version(
                         Device_ID=Headers.Device_ID,
                         Version_Firmware=Firmware,
-                        Version_Hardware=Hardware,
-                        Version_Update_Date=datetime.now()
+                        Version_Hardware=Hardware
                 )
 
                 # Add Record to DataBase

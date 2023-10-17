@@ -80,7 +80,10 @@ def Parse_Topics():
             # ---------------------
 
             # Create New DataStream
-            New_Data_Stream = Models.Data_Stream(Device_ID = Headers.Device_ID)
+            New_Data_Stream = Models.Data_Stream(
+                Device_ID = Headers.Device_ID,
+                Data_Stream_Create_Date = datetime.now()
+            )
 
             # Add Record to DataBase
             DB_Module.add(New_Data_Stream)

@@ -154,7 +154,7 @@ class Version(Base):
 	Device_ID = Column(String, nullable=False)
 	Version_Firmware = Column(String, nullable=True)
 	Version_Hardware = Column(String, nullable=True)
-	Version_Update_Date = Column(TIMESTAMP(timezone=True), nullable=False)
+	Version_Update_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Device Database Model
 class Device(Base):
