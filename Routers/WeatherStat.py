@@ -6,7 +6,6 @@ from fastapi.responses import JSONResponse
 from kafka import KafkaProducer
 from Setup.Config import APP_Settings
 from sqlalchemy import and_
-import pytz
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -250,19 +249,8 @@ def Battery_IV(request: Request, ID: str):
 	
 	else:
 
-		# Get TimeStamp and localize it to GMT
-		gmt_time = Query_Battery_IV.Measurement_Create_Date
-		gmt_time = pytz.timezone('GMT').localize(gmt_time)
-
-		if gmt_time.tzinfo is not None:
-			gmt_time = gmt_time.replace(tzinfo=None)
-
-		# Convert to Turkey Time Zone
-		turkey_tz = pytz.timezone('Europe/Istanbul')
-		turkey_time = gmt_time.astimezone(turkey_tz)
-
-		# Format Turkey Time
-		TimeStamp = turkey_time.strftime("%Y-%m-%dT%H:%M:%S%z")
+		# Get TimeStamp
+		TimeStamp = Query_Battery_IV.Measurement_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 		# Close Database
 		DB_Module.close()
