@@ -10,7 +10,7 @@ Kafka_Consumer = KafkaConsumer('RAW',
                                bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
                                group_id="RAW_Consumer",
                                auto_offset_reset='latest',
-                               enable_auto_commit=True)
+                               enable_auto_commit=False)
 
 # Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}')
@@ -27,6 +27,9 @@ def Kafka_Send_Error(excp):
 
 # Parse Topics
 def Parse_Topics():
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
 
     # Try to Parse Topics
     try:
@@ -73,6 +76,21 @@ def Parse_Topics():
             # Get RAW Data
             Kafka_RAW_Message = Schema.Data_Pack_Model(**Parsed_JSON)
 
+            # Add DataStream Record
+            # ---------------------
+
+            # Create New DataStream
+            New_Data_Stream = Models.Data_Stream(Device_ID = Headers.Device_ID)
+
+            # Add Record to DataBase
+            DB_Module.add(New_Data_Stream)
+
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Get DataStream ID
+            New_Data_Stream_ID = New_Data_Stream.Data_Stream_ID
+
             # Set Headers
             # -----------
 
@@ -82,7 +100,8 @@ def Parse_Topics():
                 ('Device_ID', bytes(Headers.Device_ID, 'utf-8')),
                 ('Device_Time', bytes(Headers.Device_Time, 'utf-8')), 
                 ('Device_IP', bytes(Headers.Device_IP, 'utf-8')),
-                ('Size', bytes(Headers.Size, 'utf-8'))
+                ('Size', bytes(Headers.Size, 'utf-8')),
+                ('Data_Stream_ID', bytes(New_Data_Stream_ID, 'utf-8'))
             ]
 
             # Send Message to Queue
@@ -92,6 +111,9 @@ def Parse_Topics():
             Kafka_Producer.send("Device.Info", value=Kafka_RAW_Message.Device.Info.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
             Kafka_Producer.send("Device.Power", value=Kafka_RAW_Message.Device.Power.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
             Kafka_Producer.send("Device.IoT", value=Kafka_RAW_Message.Device.IoT.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
+
+            # Commit Queue
+            Kafka_Consumer.commit()
 
     finally:
 
