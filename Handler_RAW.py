@@ -84,8 +84,7 @@ def Parse_Topics():
 
             # Create New Data Stream Record
             New_Data_Stream = Models.Data_Stream(
-                Device_ID = Headers.Device_ID,
-                Data_Stream_Read_Date = datetime.now()
+                Device_ID = Headers.Device_ID
             )
 
             # Add Record to DataBase
