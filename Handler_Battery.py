@@ -67,7 +67,10 @@ def Power_Handler():
                 # Skip to the next iteration
                 continue
 
-            # Instant Voltage Variable Control
+            # Variable Control
+
+            # Set Stream ID
+            Data_Stream_ID = 1
 
             # Battery IV Variable Control
             if Kafka_Power_Message.Battery.IV is not None:
@@ -83,7 +86,7 @@ def Power_Handler():
 
                     # Create New Version
                     New_Measurement_IV = Models.Measurement(
-                    	Data_Stream_ID = 1,
+                    	Data_Stream_ID = Data_Stream_ID,
                         Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_IV,
                         Measurement_Data_Count = 1,
@@ -100,12 +103,191 @@ def Power_Handler():
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_IV)
 
+            # Battery AC Variable Control
+            if Kafka_Power_Message.Battery.AC is not None:
 
+                # AC Variable ID Query
+                Query_Measurement_Type_AC = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like('AC')).first()
 
+                # Control for Query
+                if Query_Measurement_Type_AC is not None:
 
+                    # Get Measurement Type ID
+                    Measurement_Type_ID_AC = Query_Measurement_Type_AC.Measurement_Type_ID
 
+                    # Create New Version
+                    New_Measurement_AC = Models.Measurement(
+                    	Data_Stream_ID = Data_Stream_ID,
+                        Device_ID = Headers.Device_ID,
+                        Measurement_Type_ID = Measurement_Type_ID_AC,
+                        Measurement_Data_Count = 1,
+                        Measurement_Value = Kafka_Power_Message.Battery.AC,
+                        Measurement_Create_Date = Headers.Device_Time
+                    )
 
+                    # Add Record to DataBase
+                    DB_Module.add(New_Measurement_AC)
 
+                    # Commit DataBase
+                    DB_Module.commit()
+
+                    # Refresh DataBase
+                    DB_Module.refresh(New_Measurement_AC)
+
+            # Battery FB Variable Control
+            if Kafka_Power_Message.Battery.FB is not None:
+
+                # FB Variable ID Query
+                Query_Measurement_Type_FB = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like('FB')).first()
+
+                # Control for Query
+                if Query_Measurement_Type_FB is not None:
+
+                    # Get Measurement Type ID
+                    Measurement_Type_ID_FB = Query_Measurement_Type_FB.Measurement_Type_ID
+
+                    # Create New Version
+                    New_Measurement_FB = Models.Measurement(
+                    	Data_Stream_ID = Data_Stream_ID,
+                        Device_ID = Headers.Device_ID,
+                        Measurement_Type_ID = Measurement_Type_ID_FB,
+                        Measurement_Data_Count = 1,
+                        Measurement_Value = Kafka_Power_Message.Battery.FB,
+                        Measurement_Create_Date = Headers.Device_Time
+                    )
+
+                    # Add Record to DataBase
+                    DB_Module.add(New_Measurement_FB)
+
+                    # Commit DataBase
+                    DB_Module.commit()
+
+                    # Refresh DataBase
+                    DB_Module.refresh(New_Measurement_FB)
+
+            # Battery IB Variable Control
+            if Kafka_Power_Message.Battery.IB is not None:
+
+                # IB Variable ID Query
+                Query_Measurement_Type_IB = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like('IB')).first()
+
+                # Control for Query
+                if Query_Measurement_Type_IB is not None:
+
+                    # Get Measurement Type ID
+                    Measurement_Type_ID_IB = Query_Measurement_Type_IB.Measurement_Type_ID
+
+                    # Create New Version
+                    New_Measurement_IB = Models.Measurement(
+                    	Data_Stream_ID = Data_Stream_ID,
+                        Device_ID = Headers.Device_ID,
+                        Measurement_Type_ID = Measurement_Type_ID_IB,
+                        Measurement_Data_Count = 1,
+                        Measurement_Value = Kafka_Power_Message.Battery.IB,
+                        Measurement_Create_Date = Headers.Device_Time
+                    )
+
+                    # Add Record to DataBase
+                    DB_Module.add(New_Measurement_IB)
+
+                    # Commit DataBase
+                    DB_Module.commit()
+
+                    # Refresh DataBase
+                    DB_Module.refresh(New_Measurement_IB)
+
+            # Battery SOC Variable Control
+            if Kafka_Power_Message.Battery.SOC is not None:
+
+                # SOC Variable ID Query
+                Query_Measurement_Type_SOC = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like('SOC')).first()
+
+                # Control for Query
+                if Query_Measurement_Type_SOC is not None:
+
+                    # Get Measurement Type ID
+                    Measurement_Type_ID_SOC = Query_Measurement_Type_SOC.Measurement_Type_ID
+
+                    # Create New Version
+                    New_Measurement_SOC = Models.Measurement(
+                    	Data_Stream_ID = Data_Stream_ID,
+                        Device_ID = Headers.Device_ID,
+                        Measurement_Type_ID = Measurement_Type_ID_SOC,
+                        Measurement_Data_Count = 1,
+                        Measurement_Value = Kafka_Power_Message.Battery.SOC,
+                        Measurement_Create_Date = Headers.Device_Time
+                    )
+
+                    # Add Record to DataBase
+                    DB_Module.add(New_Measurement_SOC)
+
+                    # Commit DataBase
+                    DB_Module.commit()
+
+                    # Refresh DataBase
+                    DB_Module.refresh(New_Measurement_SOC)
+
+            # Battery T Variable Control
+            if Kafka_Power_Message.Battery.T is not None:
+
+                # T Variable ID Query
+                Query_Measurement_Type_T = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like('T')).first()
+
+                # Control for Query
+                if Query_Measurement_Type_T is not None:
+
+                    # Get Measurement Type ID
+                    Measurement_Type_ID_T = Query_Measurement_Type_T.Measurement_Type_ID
+
+                    # Create New Version
+                    New_Measurement_T = Models.Measurement(
+                    	Data_Stream_ID = Data_Stream_ID,
+                        Device_ID = Headers.Device_ID,
+                        Measurement_Type_ID = Measurement_Type_ID_T,
+                        Measurement_Data_Count = 1,
+                        Measurement_Value = Kafka_Power_Message.Battery.T,
+                        Measurement_Create_Date = Headers.Device_Time
+                    )
+
+                    # Add Record to DataBase
+                    DB_Module.add(New_Measurement_T)
+
+                    # Commit DataBase
+                    DB_Module.commit()
+
+                    # Refresh DataBase
+                    DB_Module.refresh(New_Measurement_T)
+
+            # Battery Charge Variable Control
+            if Kafka_Power_Message.Battery.Charge is not None:
+
+                # Charge Variable ID Query
+                Query_Measurement_Type_Charge = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like('Charge')).first()
+
+                # Control for Query
+                if Query_Measurement_Type_Charge is not None:
+
+                    # Get Measurement Type ID
+                    Measurement_Type_ID_Charge = Query_Measurement_Type_Charge.Measurement_Type_ID
+
+                    # Create New Version
+                    New_Measurement_Charge = Models.Measurement(
+                    	Data_Stream_ID = Data_Stream_ID,
+                        Device_ID = Headers.Device_ID,
+                        Measurement_Type_ID = Measurement_Type_ID_Charge,
+                        Measurement_Data_Count = 1,
+                        Measurement_Value = Kafka_Power_Message.Battery.Charge,
+                        Measurement_Create_Date = Headers.Device_Time
+                    )
+
+                    # Add Record to DataBase
+                    DB_Module.add(New_Measurement_Charge)
+
+                    # Commit DataBase
+                    DB_Module.commit()
+
+                    # Refresh DataBase
+                    DB_Module.refresh(New_Measurement_Charge)
 
     finally:
 
