@@ -106,7 +106,7 @@ def Parse_Topics():
                 ('Device_Time', bytes(Headers.Device_Time, 'utf-8')), 
                 ('Device_IP', bytes(Headers.Device_IP, 'utf-8')),
                 ('Size', bytes(Headers.Size, 'utf-8')),
-#                ('Data_Stream_ID', bytes(Data_Stream_ID, 'utf-8'))
+                ('Data_Stream_ID', bytes(1, 'utf-8'))
             ]
 
             # Send Message to Queue

@@ -57,7 +57,7 @@ def Power_Handler():
                     Device_Time = Message.headers[2][1].decode('ASCII')
                     Device_IP = Message.headers[3][1].decode('ASCII')
                     Size = Message.headers[4][1].decode('ASCII')
-                    Data_Stream_ID = Message.headers[5][1].decode('ASCII')
+                    Stream_ID = Message.headers[5][1].decode('ASCII')
 
             # If not, log the error and skip to the next iteration
             else:
@@ -67,6 +67,11 @@ def Power_Handler():
                 
                 # Skip to the next iteration
                 continue
+
+            # Variable Control
+
+            # Set Stream ID
+            Data_Stream_ID = Headers.Stream_ID
 
             # Battery IV Variable Control
             if Kafka_Power_Message.Battery.IV is not None:
@@ -82,7 +87,7 @@ def Power_Handler():
 
                     # Create New Version
                     New_Measurement_IV = Models.Measurement(
-                    	Data_Stream_ID = Headers.Data_Stream_ID,
+                    	Data_Stream_ID = Data_Stream_ID,
                         Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_IV,
                         Measurement_Data_Count = 1,
@@ -113,7 +118,7 @@ def Power_Handler():
 
                     # Create New Version
                     New_Measurement_AC = Models.Measurement(
-                    	Data_Stream_ID = Headers.Data_Stream_ID,
+                    	Data_Stream_ID = Data_Stream_ID,
                         Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_AC,
                         Measurement_Data_Count = 1,
@@ -144,7 +149,7 @@ def Power_Handler():
 
                     # Create New Version
                     New_Measurement_FB = Models.Measurement(
-                    	Data_Stream_ID = Headers.Data_Stream_ID,
+                    	Data_Stream_ID = Data_Stream_ID,
                         Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_FB,
                         Measurement_Data_Count = 1,
@@ -175,7 +180,7 @@ def Power_Handler():
 
                     # Create New Version
                     New_Measurement_IB = Models.Measurement(
-                    	Data_Stream_ID = Headers.Data_Stream_ID,
+                    	Data_Stream_ID = Data_Stream_ID,
                         Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_IB,
                         Measurement_Data_Count = 1,
@@ -206,7 +211,7 @@ def Power_Handler():
 
                     # Create New Version
                     New_Measurement_SOC = Models.Measurement(
-                    	Data_Stream_ID = Headers.Data_Stream_ID,
+                    	Data_Stream_ID = Data_Stream_ID,
                         Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_SOC,
                         Measurement_Data_Count = 1,
@@ -237,7 +242,7 @@ def Power_Handler():
 
                     # Create New Version
                     New_Measurement_T = Models.Measurement(
-                    	Data_Stream_ID = Headers.Data_Stream_ID,
+                    	Data_Stream_ID = Data_Stream_ID,
                         Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_T,
                         Measurement_Data_Count = 1,
@@ -268,7 +273,7 @@ def Power_Handler():
 
                     # Create New Version
                     New_Measurement_Charge = Models.Measurement(
-                    	Data_Stream_ID = Headers.Data_Stream_ID,
+                    	Data_Stream_ID = Data_Stream_ID,
                         Device_ID = Headers.Device_ID,
                         Measurement_Type_ID = Measurement_Type_ID_Charge,
                         Measurement_Data_Count = 1,
