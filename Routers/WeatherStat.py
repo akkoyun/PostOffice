@@ -249,15 +249,12 @@ def Battery_IV(request: Request, ID: str):
 	
 	else:
 
-		# Get TimeStamp
-		TimeStamp = Query_Battery_IV.Measurement_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")
-
-		# Close Database
-		DB_Module.close()
-
 		# Prepare Data
 		Time_Stamps = [record.Measurement_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ") for record in Query_Battery_IV]
 		IV_Values = [record.Measurement_Value for record in Query_Battery_IV]
+
+		# Close Database
+		DB_Module.close()
 
 		# Send Success
 		return JSONResponse(
