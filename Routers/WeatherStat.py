@@ -5,6 +5,7 @@ import json
 from fastapi.responses import JSONResponse
 from kafka import KafkaProducer
 from Setup.Config import APP_Settings
+from sqlalchemy import and_
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -217,4 +218,45 @@ def Root(request: Request, ID: str):
 		return JSONResponse(
     		status_code=status.HTTP_200_OK,
     		content={"Update_Time": TimeStamp}
+		)
+
+# Battery IV Value Get Method
+@PostOffice_WeatherStat.get("/WeatherStat/IV/{ID}")
+def Battery_IV(request: Request, ID: str):
+
+	# Define DB
+	DB_Module = Database.SessionLocal()
+
+	# Database Query
+	Query_Battery_IV = DB_Module.query(Models.Measurement).filter(
+		and_(
+			Models.Measurement.Device_ID.like(ID),
+			Models.Measurement.Measurement_Type_ID == 101
+		)
+		).order_by(Models.Measurement.Measurement_Create_Date.desc()).first()
+
+	# Check Query
+	if not Query_Battery_IV:
+		
+		# Close Database
+		DB_Module.close()
+
+		# Send Error
+		return JSONResponse(
+			status_code=status.HTTP_404_NOT_FOUND,
+			content={"Event": status.HTTP_404_NOT_FOUND},
+		)
+	
+	else:
+
+		# Get TimeStamp
+		TimeStamp = Query_Battery_IV.RAW_Data_Create_Date.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+		# Close Database
+		DB_Module.close()
+
+		# Send Success
+		return JSONResponse(
+    		status_code=status.HTTP_200_OK,
+    		content={"Update_Time": TimeStamp, "IV": Query_Battery_IV.Measurement_Value}
 		)
