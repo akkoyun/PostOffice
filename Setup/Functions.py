@@ -152,6 +152,33 @@ def Decode_Message(RAW_Message, Kafka_Consumer, Schema):
         print(f"An error occurred: {e}")
         return None
 
+# Decode and Parse Message IoT Hub
+def Decode_IoT_Message(RAW_Message, Kafka_Consumer, Schema):
+    
+    try:
+
+        # Decode Message
+        Decoded_Value = RAW_Message.value.decode()
+        
+        # Parse JSON
+        Parsed_JSON = json.loads(Decoded_Value)
+
+        # Check if JSON is a string
+        if isinstance(Parsed_JSON, str):
+            Parsed_JSON = json.loads(Parsed_JSON)
+        
+        # Get RAW Data
+        Kafka_RAW_Message = Schema.Pack_IoT(**Parsed_JSON)
+
+        return Kafka_RAW_Message
+
+    except json.JSONDecodeError:
+        print("JSON Decode Error")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
 # Add DataStream Record
 def DB_Datastream_Add_Record(Headers, DB_Module, Models):
 
