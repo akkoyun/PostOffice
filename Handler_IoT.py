@@ -32,8 +32,62 @@ def IoT_Handler():
             # Decode Message
             Kafka_IoT_Message = Functions.Decode_IoT_Message(Message, Kafka_Consumer, Schema)
 
-            print(Kafka_IoT_Message)
+            # Control for ICCID
+            if Kafka_IoT_Message.GSM.Operator.ICCID is not None:
 
+                    # Query SIM Table
+                    Query_SIM_Table = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(Kafka_IoT_Message.GSM.Operator.ICCID)).first()
+    
+                    # SIM Record Not Found
+                    if not Query_SIM_Table:
+    
+                        # Create New SIM Record
+                        New_SIM = Models.SIM(
+                            SIM_ICCID = Kafka_IoT_Message.GSM.Operator.ICCID,
+                            SIM_MCC = Kafka_IoT_Message.GSM.Operator.MCC,
+                            SIM_MNC = Kafka_IoT_Message.GSM.Operator.MNC,
+                            SIM_Create_Date = Headers.Device_Time
+                        )
+    
+                        # Add Record to DataBase
+                        DB_Module.add(New_SIM)
+    
+                        # Commit DataBase
+                        DB_Module.commit()
+    
+                        # Refresh DataBase
+                        DB_Module.refresh(New_SIM)
+
+                    # SIM Record Found
+                    else:
+
+                        # Get SIM ID
+                        SIM_ID = getattr(Query_SIM_Table, "SIM_ID", None)
+
+            print(SIM_ID)
+
+            # Create New Connection Record
+            New_Connection = Models.Connection(
+                Device_ID = Headers.Device_ID,
+                SIM_ID = SIM_ID,
+                Connection_RSSI = Kafka_IoT_Message.GSM.Operator.RSSI,
+                Connection_IP = Kafka_IoT_Message.GSM.Operator.IP,
+                Connection_Time = Kafka_IoT_Message.GSM.Operator.Time,
+                Connection_Data_Size = int(Headers.Size),
+                Connection_Create_Date = Headers.Device_Time
+            )
+        
+            # Add Record to DataBase
+            DB_Module.add(New_Connection)
+
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Refresh DataBase
+            DB_Module.refresh(New_Connection)
+
+            # Commit Queue
+            Kafka_Consumer.commit()
 
 
 
