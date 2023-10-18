@@ -20,6 +20,9 @@ def IoT_Handler():
     # Define DB
     DB_Module = Database.SessionLocal()
 
+    # Define SIM ID
+    SIM_ID = None
+
     # Handle Messages
     try:
 
