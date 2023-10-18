@@ -20,6 +20,10 @@ def IoT_Handler():
         # Parse Messages
         for Message in Kafka_Consumer:
 
+            # Log Message
+            print(f"Message Received: {Message}")
+            print("----------------------------------------------")
+
             # Define SIM ID
             SIM_ID = 0
 
@@ -60,7 +64,10 @@ def IoT_Handler():
 
                             # Commit DataBase
                             DB_Module.commit()
-    
+
+                            # Log Message
+                            print(f"New SIM Added: {New_SIM.SIM_ID}")
+
                         # Except Error
                         except Exception as e:
 
@@ -78,6 +85,15 @@ def IoT_Handler():
 
                         # Get SIM ID
                         SIM_ID = Query_SIM_Table.SIM_ID
+
+            # ICCID not found
+            else:
+
+                # Log Message
+                print(f"ICCID not found")
+
+            # Log Message
+            print(f"SIM ID: {SIM_ID}")
 
             # Control for RSSI
             if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
