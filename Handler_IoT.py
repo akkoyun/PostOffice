@@ -67,8 +67,6 @@ def IoT_Handler():
                         # Get SIM ID
                         SIM_ID = getattr(Query_SIM_Table, "SIM_ID", None)
 
-            print(SIM_ID)
-
             # Control for RSSI
             if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
                 _RSSI = Kafka_IoT_Message.GSM.Operator.RSSI
