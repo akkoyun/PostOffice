@@ -21,8 +21,8 @@ def IoT_Handler():
         for Message in Kafka_Consumer:
 
             # Log Message
-            Log.Log_Message(f"Message Received: {Message}")
-            Log.Log_Message("----------------------------------------------")
+            Log.LOG_Message(f"Message Received: {Message}")
+            Log.LOG_Message("----------------------------------------------")
 
             # Define SIM ID
             SIM_ID = 0
@@ -66,13 +66,13 @@ def IoT_Handler():
                             DB_Module.commit()
 
                             # Log Message
-                            Log.Log_Message(f"New SIM Added: {New_SIM.SIM_ID}")
+                            Log.LOG_Message(f"New SIM Added: {New_SIM.SIM_ID}")
 
                         # Except Error
                         except Exception as e:
 
                             # Log Message
-                            Log.Log_Message(f"An error occurred while adding SIM: {e}")
+                            Log.LOG_Message(f"An error occurred while adding SIM: {e}")
 
                             # Rollback DataBase
                             DB_Module.rollback()
@@ -90,10 +90,10 @@ def IoT_Handler():
             else:
 
                 # Log Message
-                Log.Log_Message(f"ICCID not found")
+                Log.LOG_Message(f"ICCID not found")
                 
             # Log Message
-            Log.Log_Message(f"SIM ID: {SIM_ID}")
+            Log.LOG_Message(f"SIM ID: {SIM_ID}")
 
             # Control for RSSI
             if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
@@ -142,7 +142,7 @@ def IoT_Handler():
             except Exception as e:
 
                 # Log Message
-                Log.Log_Message(f"An error occurred while adding SIM: {e}")
+                Log.LOG_Message(f"An error occurred while adding SIM: {e}")
 
                 # Rollback DataBase
                 DB_Module.rollback()
