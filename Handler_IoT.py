@@ -21,7 +21,7 @@ def IoT_Handler():
     DB_Module = Database.SessionLocal()
 
     # Define SIM ID
-    SIM_ID = None
+    SIM_ID = 0
 
     # Handle Messages
     try:
@@ -68,7 +68,7 @@ def IoT_Handler():
                     else:
 
                         # Get SIM ID
-                        SIM_ID = getattr(Query_SIM_Table, "SIM_ID", None)
+                        SIM_ID = Query_SIM_Table.SIM_ID
 
             # Control for RSSI
             if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
