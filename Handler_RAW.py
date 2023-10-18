@@ -94,6 +94,11 @@ def Parse_Topics():
             # Get DataStream ID
             New_Data_Stream_ID = str(New_Data_Stream.Data_Stream_ID)
 
+            # Control for Stream Record
+            if New_Data_Stream_ID == None:
+
+                New_Data_Stream_ID = "0"
+
             # Set Headers
             # -----------
 
