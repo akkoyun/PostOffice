@@ -69,13 +69,31 @@ def IoT_Handler():
 
             print(SIM_ID)
 
+            # Control for RSSI
+            if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
+                _RSSI = Kafka_IoT_Message.GSM.Operator.RSSI
+            else:
+                _RSSI = 0
+
+            # Control for IP
+            if Kafka_IoT_Message.GSM.Operator.IP is not None:
+                _IP = Kafka_IoT_Message.GSM.Operator.IP
+            else:
+                _IP = ""
+
+            # Control for Connection Time
+            if Kafka_IoT_Message.GSM.Operator.ConnTime is not None:
+                _ConnTime = Kafka_IoT_Message.GSM.Operator.ConnTime 
+            else:
+                _ConnTime = 0
+
             # Create New Connection Record
             New_Connection = Models.Connection(
                 Device_ID = Headers.Device_ID,
                 SIM_ID = SIM_ID,
-                Connection_RSSI = Kafka_IoT_Message.GSM.Operator.RSSI,
-                Connection_IP = Kafka_IoT_Message.GSM.Operator.IP,
-                Connection_Time = Kafka_IoT_Message.GSM.Operator.Time,
+                Connection_RSSI = _RSSI,
+                Connection_IP = _IP,
+                Connection_Time = _ConnTime,
                 Connection_Data_Size = int(Headers.Size),
                 Connection_Create_Date = Headers.Device_Time
             )
