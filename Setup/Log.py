@@ -95,3 +95,8 @@ def Device_Header_Handler_Error():
     # Log Message
     Service_Logger.error(f"Error -> Handling headers...")
 
+# Log Message
+def LOG_Message(Message):
+    
+	# Log Message
+	Service_Logger.info(f"--> {Message}")

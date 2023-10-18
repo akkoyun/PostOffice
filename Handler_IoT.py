@@ -1,6 +1,6 @@
 # Library Includes
 import Setup.Functions as Functions
-from Setup import Database, Models, Schema
+from Setup import Database, Models, Schema, Log
 from Setup.Config import APP_Settings
 from kafka import KafkaConsumer
 from datetime import datetime
@@ -21,8 +21,8 @@ def IoT_Handler():
         for Message in Kafka_Consumer:
 
             # Log Message
-            print(f"Message Received: {Message}")
-            print("----------------------------------------------")
+            Log.Log_Message(f"Message Received: {Message}")
+            Log.Log_Message("----------------------------------------------")
 
             # Define SIM ID
             SIM_ID = 0
@@ -66,13 +66,13 @@ def IoT_Handler():
                             DB_Module.commit()
 
                             # Log Message
-                            print(f"New SIM Added: {New_SIM.SIM_ID}")
+                            Log.Log_Message(f"New SIM Added: {New_SIM.SIM_ID}")
 
                         # Except Error
                         except Exception as e:
 
                             # Log Message
-                            print(f"An error occurred while adding SIM: {e}")
+                            Log.Log_Message(f"An error occurred while adding SIM: {e}")
 
                             # Rollback DataBase
                             DB_Module.rollback()
@@ -90,10 +90,10 @@ def IoT_Handler():
             else:
 
                 # Log Message
-                print(f"ICCID not found")
-
+                Log.Log_Message(f"ICCID not found")
+                
             # Log Message
-            print(f"SIM ID: {SIM_ID}")
+            Log.Log_Message(f"SIM ID: {SIM_ID}")
 
             # Control for RSSI
             if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
@@ -123,21 +123,34 @@ def IoT_Handler():
                 Connection_Data_Size = int(Headers.Size),
                 Connection_Create_Date = Headers.Device_Time
             )
-        
+
             # Add Record to DataBase
-            DB_Module.add(New_Connection)
+            try:
 
-            # Commit DataBase
-            DB_Module.commit()
+                # Add Record to DataBase
+                DB_Module.add(New_Connection)
 
-            # Refresh DataBase
-            DB_Module.refresh(New_Connection)
+                # Database Flush
+                DB_Module.flush()
 
-            # Commit Queue
-            Kafka_Consumer.commit()
+                # Commit DataBase
+                DB_Module.commit()
 
-            # Close Database
-            DB_Module.close()
+                # Commit Queue
+                Kafka_Consumer.commit()
+
+            except Exception as e:
+
+                # Log Message
+                Log.Log_Message(f"An error occurred while adding SIM: {e}")
+
+                # Rollback DataBase
+                DB_Module.rollback()
+
+            finally:
+
+                # Close Database
+                DB_Module.close()
 
     finally:
 
