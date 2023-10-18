@@ -1,17 +1,10 @@
 # Library Includes
-from Setup import Database, Models, Log, Schema
-from Setup.Config import APP_Settings
 from kafka import KafkaConsumer, KafkaProducer
-import json
+from Setup.Config import APP_Settings
 from datetime import datetime
+import Log
+import json
 import time
-
-# Kafka Consumer
-Kafka_Consumer = KafkaConsumer('RAW',
-                               bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
-                               group_id="RAW_Consumer",
-                               auto_offset_reset='latest',
-                               enable_auto_commit=False)
 
 # Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}')
@@ -39,6 +32,20 @@ class Incomming_Headers:
         self.Device_IP = device_ip
         self.Size = size
 
+# Define Full Headers
+class Full_Headers:
+
+    # Define Incomming Headers
+    def __init__(self, command, device_id, device_time, device_ip, size, data_stream_id):
+        
+        # Get Incomming Headers
+        self.Command = command
+        self.Device_ID = device_id
+        self.Device_Time = device_time
+        self.Device_IP = device_ip
+        self.Size = size
+        self.Data_Stream_ID = data_stream_id
+
 # Handle Incomming Headers
 def Handle_Headers(message):
 
@@ -52,6 +59,33 @@ def Handle_Headers(message):
             message.headers[2][1].decode('ASCII'),
             message.headers[3][1].decode('ASCII'),
             message.headers[4][1].decode('ASCII')
+        )
+
+        # Return Headers
+        return headers
+    
+    else:
+
+        # Log Message
+        Log.Device_Header_Handler_Error()
+
+        # Skip to the next iteration
+        return None
+
+# Handle Full Headers
+def Handle_Full_Headers(message):
+
+    # Check if all required headers are present    
+    if len(message.headers) >= 6:
+    
+        # Handle Headers
+        headers = Full_Headers(
+            message.headers[0][1].decode('ASCII'),
+            message.headers[1][1].decode('ASCII'),
+            message.headers[2][1].decode('ASCII'),
+            message.headers[3][1].decode('ASCII'),
+            message.headers[4][1].decode('ASCII'),
+            message.headers[5][1].decode('ASCII')
         )
 
         # Return Headers
@@ -180,77 +214,3 @@ def Kafka_Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
     # Log Message
     print(f"Failed to send message to {topic} after {max_retries} attempts.")
 
-
-
-
-
-
-
-
-
-
-
-
-
-# Parse Topics
-def Parse_Topics():
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    # Try to Parse Topics
-    try:
-
-        # Parse Topics
-        for RAW_Message in Kafka_Consumer:
-
-            # Get Headers
-            Headers = Handle_Headers(RAW_Message)
-
-            # Decode Message
-            Kafka_RAW_Message = Decode_Message(RAW_Message, Kafka_Consumer, Schema)
-
-            # Control for Decoded Message
-            if Kafka_RAW_Message is None:
-                continue
-
-            # Add DataStream Record
-            Data_Stream_ID = str(DB_Datastream_Add_Record(Headers, DB_Module, Models))
-
-            # Control for DataStream ID
-            if Data_Stream_ID is None:
-                continue
-            
-            # Commit Kafka Consumer
-            Kafka_Consumer.commit()
-
-            # Set Headers
-            New_Headers = Parse_Headers(Headers, Data_Stream_ID)
-
-            # Set Topics and Values
-            Topics_And_Values = [
-                
-                # Device Info
-                ("Device.Info", Kafka_RAW_Message.Device.Info.dict()),
-                
-                # Device Power
-                ("Device.Power", Kafka_RAW_Message.Device.Power.dict()),
-                
-                # Device IoT
-                ("Device.IoT", Kafka_RAW_Message.Device.IoT.dict())
-
-            ]
-
-            # Send to Topic
-            for topic, value in Topics_And_Values:
-                
-                # Send to Topic
-                Kafka_Send_To_Topic(topic, value, New_Headers)
-
-    finally:
-
-        # Log Message
-        print(f"Header Error")
-
-# Handle Device
-Parse_Topics()
