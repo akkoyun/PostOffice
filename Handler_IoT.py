@@ -58,6 +58,9 @@ def IoT_Handler():
                         # Refresh DataBase
                         DB_Module.refresh(New_SIM)
 
+                        # Get SIM ID
+                        SIM_ID = New_SIM.SIM_ID
+
                     # SIM Record Found
                     else:
 
