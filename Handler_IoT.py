@@ -111,7 +111,7 @@ def IoT_Handler():
                 Device_ID = Headers.Device_ID,
                 SIM_ID = SIM_ID,
                 Connection_RSSI = _RSSI,
-                Connection_IP = Headers.IP,
+                Connection_IP = Headers.Device_IP,
                 Connection_Time = _ConnTime,
                 Connection_Data_Size = int(Headers.Size),
                 Connection_Create_Date = Headers.Device_Time
