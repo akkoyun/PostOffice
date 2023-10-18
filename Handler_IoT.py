@@ -44,8 +44,8 @@ def IoT_Handler():
                         # Create New SIM Record
                         New_SIM = Models.SIM(
                             SIM_ICCID = Kafka_IoT_Message.GSM.Operator.ICCID,
-                            SIM_MCC = Kafka_IoT_Message.GSM.Operator.MCC,
-                            SIM_MNC = Kafka_IoT_Message.GSM.Operator.MNC,
+                            MCC_ID = Kafka_IoT_Message.GSM.Operator.MCC,
+                            MNC_ID = Kafka_IoT_Message.GSM.Operator.MNC,
                             SIM_Create_Date = Headers.Device_Time
                         )
     
