@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field, validator
+from pydantic_settings import BaseSettings
 from typing import Optional
 from datetime import datetime
 from enum import Enum
@@ -74,7 +75,7 @@ class Pack_IoT_Module(BaseModel):
 	Serial: Optional[str] = Field(default="", description="GSM modem serial ID.", example="0000020273")
 
 # Define IoT Operator
-class Pack_IoT_Operator(BaseModel):
+class Pack_IoT_Operator(BaseModel, case_sensitive=False):
 
 	# SIM Type
 	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1)
