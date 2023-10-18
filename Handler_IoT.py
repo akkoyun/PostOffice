@@ -32,9 +32,6 @@ def IoT_Handler():
             # Decode Message
             Kafka_IoT_Message = Functions.Decode_Message(Message, Kafka_Consumer, Schema)
 
-            # Declare SIM_ID
-            SIM_ID = 0
-
             # Control for ICCID
             if Kafka_IoT_Message.GSM.Operator.ICCID is not None:
 
