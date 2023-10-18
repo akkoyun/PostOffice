@@ -37,12 +37,11 @@ class SIM(Base):
 
 	# Define Colomns
 	SIM_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Device_ID = Column(String, nullable=False)
 	SIM_ICCID = Column(String, nullable=False)
 	MCC_ID = Column(Integer, nullable=False)
 	MNC_ID = Column(Integer, nullable=False)
 	SIM_Number = Column(String, nullable=True)
-	SIM_IP = Column(String, nullable=True)
+	SIM_Static_IP = Column(String, nullable=True)
 	SIM_Status = Column(Boolean, nullable=False, server_default=text('false'))
 	SIM_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
