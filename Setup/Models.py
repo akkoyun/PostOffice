@@ -12,7 +12,9 @@ class GSM_MNC(Base):
 
 	# Define Colomns
 	MNC_ID = Column(Integer, primary_key=True, nullable=False)
-	MNC_Name = Column(String, nullable=False)
+	MNC_Brand_Name = Column(String, nullable=False)
+	MNC_Operator_Name = Column(String, nullable=False)
+	MNC_Operator_Image_URL = Column(String, nullable=True)
 
 # GSM_MCC Database Model
 class GSM_MCC(Base):
@@ -22,7 +24,10 @@ class GSM_MCC(Base):
 
 	# Define Colomns
 	MCC_ID = Column(Integer, primary_key=True, nullable=False)
-	MCC_Name = Column(String, nullable=False)
+	MCC_ISO = Column(String, nullable=False)
+	MCC_Country_Name = Column(String, nullable=False)
+	MCC_Country_Code = Column(Integer, nullable=False)
+	MCC_Country_Flag_Image_URL = Column(String, nullable=True)
 
 # SIM Database Model
 class SIM(Base):

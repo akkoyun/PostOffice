@@ -3,8 +3,6 @@ from Setup import Database, Models, Log, Schema
 from Setup.Config import APP_Settings
 from kafka import KafkaConsumer
 import json
-from datetime import datetime
-from sqlalchemy import and_
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine)
