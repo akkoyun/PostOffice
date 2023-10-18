@@ -59,19 +59,19 @@ class Pack_Power(BaseModel):
 class Pack_IoT_Module(BaseModel):
 	
 	# GSM Module Firmware
-	Firmware: Optional[str] = Field(default="", description="GSM modem firmware version.", example="13.00.007", min_length=5, max_length=10)
+	Firmware: Optional[str] = Field(default="", description="GSM modem firmware version.", example="13.00.007")
 
 	# Module IMEI Number
-	IMEI: Optional[str] = Field(default="", description="GSM modem IMEI number.", example="356156060000000", min_length=12, max_length=16)
+	IMEI: Optional[str] = Field(default="", description="GSM modem IMEI number.", example="356156060000000")
 
 	# Module Manufacturer
-	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1, min=0, max=10)
+	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1)
 
 	# Module Model
-	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1, min=0, max=10)
+	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[str] = Field(default="", description="GSM modem serial ID.", example="0000020273", min_length=1, max_length=20)
+	Serial: Optional[str] = Field(default="", description="GSM modem serial ID.", example="0000020273")
 
 # Define IoT Operator
 class Pack_IoT_Operator(BaseModel):
@@ -83,13 +83,13 @@ class Pack_IoT_Operator(BaseModel):
 	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
 
 	# Operator Country Code
-	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286, min=0, max=999)
+	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286)
 
 	# Operator Code
-	MNC: Optional[int] = Field(default=0, description="Operator code.", example=1, min=0, max=99)
+	MNC: Optional[int] = Field(default=0, description="Operator code.", example=1)
 
 	# RSSI
-	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28, min=-100, max=100)
+	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28)
 
 	# TAC
 	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
@@ -101,7 +101,7 @@ class Pack_IoT_Operator(BaseModel):
 	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678")
 
 	# IP
-	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1", min_length=7, max_length=15)
+	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1")
 		
 	# Connection Time
 	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12)
