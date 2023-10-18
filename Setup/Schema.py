@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, validator
-from pydantic_settings import BaseSettings
+#from pydantic_settings import BaseSettings
 from typing import Optional
 from datetime import datetime
 from enum import Enum
