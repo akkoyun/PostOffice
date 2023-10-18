@@ -100,12 +100,6 @@ def IoT_Handler():
             else:
                 _RSSI = 0
 
-            # Control for IP
-            if Kafka_IoT_Message.GSM.Operator.IP is not None:
-                _IP = Kafka_IoT_Message.GSM.Operator.IP
-            else:
-                _IP = ""
-
             # Control for Connection Time
             if Kafka_IoT_Message.GSM.Operator.ConnTime is not None:
                 _ConnTime = Kafka_IoT_Message.GSM.Operator.ConnTime 
@@ -117,7 +111,7 @@ def IoT_Handler():
                 Device_ID = Headers.Device_ID,
                 SIM_ID = SIM_ID,
                 Connection_RSSI = _RSSI,
-                Connection_IP = _IP,
+                Connection_IP = Headers.IP,
                 Connection_Time = _ConnTime,
                 Connection_Data_Size = int(Headers.Size),
                 Connection_Create_Date = Headers.Device_Time
