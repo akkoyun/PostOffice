@@ -76,6 +76,9 @@ def Parse_Topics():
             # Get RAW Data
             Kafka_RAW_Message = Schema.Data_Pack_Model(**Parsed_JSON)
 
+            # Commit Queue
+            Kafka_Consumer.commit()
+
             # Add DataStream Record
             # ---------------------
 
@@ -93,11 +96,6 @@ def Parse_Topics():
 
             # Get DataStream ID
             New_Data_Stream_ID = str(New_Data_Stream.Data_Stream_ID)
-
-            # Control for Stream Record
-            if New_Data_Stream_ID == None:
-
-                New_Data_Stream_ID = "0"
 
             # Set Headers
             # -----------
@@ -119,9 +117,6 @@ def Parse_Topics():
             Kafka_Producer.send("Device.Info", value=Kafka_RAW_Message.Device.Info.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
             Kafka_Producer.send("Device.Power", value=Kafka_RAW_Message.Device.Power.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
             Kafka_Producer.send("Device.IoT", value=Kafka_RAW_Message.Device.IoT.dict(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
-
-            # Commit Queue
-            Kafka_Consumer.commit()
 
     finally:
 
