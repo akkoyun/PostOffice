@@ -82,3 +82,16 @@ def Get_Log(request):
 
 	# Log Message
 	Service_Logger.debug(f"Incomming GET request from ['{request.client.host}']")
+
+
+
+
+
+
+
+
+def Device_Header_Handler_Error():
+
+    # Log Message
+    Service_Logger.error(f"Error -> Handling headers...")
+
