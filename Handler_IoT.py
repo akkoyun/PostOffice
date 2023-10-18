@@ -9,26 +9,22 @@ from datetime import datetime
 Database.Base.metadata.create_all(bind=Database.DB_Engine)
 
 # Kafka Consumer
-Kafka_Consumer = KafkaConsumer('Device.IoT',
-                               bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
-                               group_id="IoT_Consumer",
-                               auto_offset_reset='latest',
-                               enable_auto_commit=False)
+Kafka_Consumer = KafkaConsumer('Device.IoT', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="IoT_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
 # IoT Handler Function
 def IoT_Handler():
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    # Define SIM ID
-    SIM_ID = 0
 
     # Handle Messages
     try:
 
         # Parse Messages
         for Message in Kafka_Consumer:
+
+            # Define SIM ID
+            SIM_ID = 0
+
+            # Define DB
+            DB_Module = Database.SessionLocal()
 
             # Get Headers
             Headers = Functions.Handle_Full_Headers(Message)
@@ -54,13 +50,25 @@ def IoT_Handler():
                         )
     
                         # Add Record to DataBase
-                        DB_Module.add(New_SIM)
+                        try:
+
+                            # Add Record to DataBase
+                            DB_Module.add(New_SIM)
     
-                        # Commit DataBase
-                        DB_Module.commit()
+                            # Database Flush
+                            DB_Module.flush()
+
+                            # Commit DataBase
+                            DB_Module.commit()
     
-                        # Refresh DataBase
-                        DB_Module.refresh(New_SIM)
+                        # Except Error
+                        except Exception as e:
+
+                            # Log Message
+                            print(f"An error occurred while adding SIM: {e}")
+
+                            # Rollback DataBase
+                            DB_Module.rollback()
 
                         # Get SIM ID
                         SIM_ID = New_SIM.SIM_ID
@@ -112,12 +120,13 @@ def IoT_Handler():
             # Commit Queue
             Kafka_Consumer.commit()
 
-
+            # Close Database
+            DB_Module.close()
 
     finally:
 
         # Close Database
-        DB_Module.close()            
+        DB_Module.close()
 
 # Handle Device
 IoT_Handler()
