@@ -3,6 +3,7 @@ import Setup.Functions as Functions
 from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
 from kafka import KafkaConsumer
+from datetime import datetime
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine)
@@ -49,7 +50,7 @@ def IoT_Handler():
                             SIM_ICCID = Kafka_IoT_Message.GSM.Operator.ICCID,
                             MCC_ID = Kafka_IoT_Message.GSM.Operator.MCC,
                             MNC_ID = Kafka_IoT_Message.GSM.Operator.MNC,
-                            SIM_Create_Date = Headers.Device_Time
+                            SIM_Create_Date = datetime.now()
                         )
     
                         # Add Record to DataBase
