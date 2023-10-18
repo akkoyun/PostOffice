@@ -30,7 +30,7 @@ def IoT_Handler():
             Headers = Functions.Handle_Full_Headers(Message)
 
             # Decode Message
-            Kafka_IoT_Message = Functions.Decode_Message(Message, Kafka_Consumer, Schema)
+            Kafka_IoT_Message = Functions.Decode_IoT_Message(Message, Kafka_Consumer, Schema)
 
             print(Kafka_IoT_Message)
 
