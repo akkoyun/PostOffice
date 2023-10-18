@@ -21,8 +21,7 @@ def IoT_Handler():
         for Message in Kafka_Consumer:
 
             # Log Message
-            Log.LOG_Message(f"Message Received: {Message}")
-            Log.LOG_Message("----------------------------------------------")
+            Log.LOG_Message(f"Message Received")
 
             # Define SIM ID
             SIM_ID = 0
@@ -93,7 +92,7 @@ def IoT_Handler():
                 Log.LOG_Message(f"ICCID not found")
                 
             # Log Message
-            Log.LOG_Message(f"SIM ID: {SIM_ID}")
+            Log.LOG_Message(f"SIM ID: {SIM_ID} - ICCID: {Kafka_IoT_Message.GSM.Operator.ICCID}")
 
             # Control for RSSI
             if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
@@ -151,6 +150,9 @@ def IoT_Handler():
 
                 # Close Database
                 DB_Module.close()
+
+            # Log Message
+            Log.LOG_Message("---------------------------")
 
     finally:
 
