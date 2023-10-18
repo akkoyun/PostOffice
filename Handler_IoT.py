@@ -29,6 +29,8 @@ def IoT_Handler():
             # Decode Message
             # --------------
 
+            print(Message)
+
             # Decode Message
             Decoded_Value = Message.value.decode()
 
@@ -65,6 +67,9 @@ def IoT_Handler():
                 
                 # Skip to the next iteration
                 continue
+
+            print("/r/n")
+            print(Headers)
 
             # Control for SIM Record
             # ----------------------
@@ -110,6 +115,11 @@ def IoT_Handler():
 
                         # Get SIM ID
                         SIM_ID = getattr(Query_SIM_Table, "SIM_ID", None)
+
+            print("/r/n")
+            print(SIM_ID)
+            print("/r/n")
+            print("/r/n")
 
             # Add Record to Connection Table
             # ------------------------------
