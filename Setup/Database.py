@@ -11,8 +11,8 @@ SQLALCHEMY_DATABASE_URL = f'postgresql://{APP_Settings.POSTOFFICE_DB_USERNAME}:{
 DB_Engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_size=20, max_overflow=0)
 
 # Insert Initial Data
-event.listen(DB_Engine, 'after_create', Models.Insert_Initial_GSM_MNC)
-event.listen(DB_Engine, 'after_create', Models.Insert_Initial_GSM_MCC)
+event.listen(Models.GSM_MNC.__table__, 'after_create', Models.Insert_Initial_GSM_MNC)
+event.listen(Models.GSM_MCC.__table__, 'after_create', Models.Insert_Initial_GSM_MCC)
 
 # Create Session
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=DB_Engine)
