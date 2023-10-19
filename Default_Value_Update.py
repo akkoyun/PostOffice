@@ -1,5 +1,5 @@
 # Library Includes
-import Database, Models, Log
+from Setup import Database, Models, Log
 
 # Define DB
 DB_Module = Database.SessionLocal()
