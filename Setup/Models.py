@@ -21,16 +21,21 @@ class GSM_MNC(Base):
 
 	# GSM_MNC Table Default Values
 	@classmethod
-	def Insert_Initial_GSM_MNC(cls):
+	def Insert_Initial_GSM_MNC(cls, *args, **kwargs):
+
+		# Insert Query
+		Connection = kwargs.get('connection')
 
 		# Initial GSM MNC Data
-		cls.__table__.insert().execute(
-			[
-				{"MNC_ID": 1, "MNC_Brand_Name": "Turkcell", "MNC_Operator_Name": "Turkcell Iletisim Hizmetleri A.S."},
-				{"MNC_ID": 2, "MNC_Brand_Name": "Vodafone", "MNC_Operator_Name": "Vodafone Turkey"},
-				{"MNC_ID": 3, "MNC_Brand_Name": "Turk Telekom", "MNC_Operator_Name": "Türk Telekom"},
-				{"MNC_ID": 4, "MNC_Brand_Name": "Aycell", "MNC_Operator_Name": "Aycell"}
-			]
+		Connection.execute(
+			cls.__table__.insert().values(
+				[
+					{"MNC_ID": 1, "MNC_Brand_Name": "Turkcell", "MNC_Operator_Name": "Turkcell Iletisim Hizmetleri A.S."},
+					{"MNC_ID": 2, "MNC_Brand_Name": "Vodafone", "MNC_Operator_Name": "Vodafone Turkey"},
+					{"MNC_ID": 3, "MNC_Brand_Name": "Turk Telekom", "MNC_Operator_Name": "Türk Telekom"},
+					{"MNC_ID": 4, "MNC_Brand_Name": "Aycell", "MNC_Operator_Name": "Aycell"}
+				]
+			)
 		)
 
 	# GSM_MNC Table Default Values
@@ -58,14 +63,19 @@ class GSM_MCC(Base):
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mcc")
 
 	# GSM_MCC Table Default Values
-	@staticmethod
-	def Insert_Initial_GSM_MCC(cls):
+	@classmethod
+	def Insert_Initial_GSM_MCC(cls, *args, **kwargs):
 
 		# Insert Query
-		cls.__table__.insert().execute(
-			[
-				{"MCC_ID": 286, "MCC_ISO": "TR", "MCC_Country_Name": "Turkey", "MCC_Country_Code": 90},
-			]
+		Connection = kwargs.get('connection')
+
+		# Initial GSM MNC Data
+		Connection.execute(
+			cls.__table__.insert().values(
+				[
+					{"MCC_ID": 286, "MCC_ISO": "TR", "MCC_Country_Name": "Turkey", "MCC_Country_Code": 90},
+				]
+			)
 		)
 	
 	# GSM_MNC Table Default Values
