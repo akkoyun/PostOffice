@@ -4,22 +4,13 @@ from Setup.Config import APP_Settings
 from kafka import KafkaConsumer, KafkaProducer
 import json
 from datetime import datetime
-import time
 from Setup import Functions as Functions
 
-
 # Kafka Consumer
-Kafka_Consumer = KafkaConsumer('RAW',
-                               bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
-                               group_id="RAW_Consumer",
-                               auto_offset_reset='latest',
-                               enable_auto_commit=False)
+Kafka_Consumer = KafkaConsumer('RAW', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="RAW_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
 # Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}')
-
-
-
 
 # Add DataStream Record
 def DB_Datastream_Add_Record(Headers, DB_Module, Models):
@@ -40,30 +31,20 @@ def DB_Datastream_Add_Record(Headers, DB_Module, Models):
 
         # Get DataStream ID
         New_Data_Stream_ID = str(New_Data_Stream.Data_Stream_ID)
-        
+
+        # Log Message
+        Log.LOG_Message(f"New DataStream Record Added: {New_Data_Stream_ID}")
+
         # Return DataStream ID
         return New_Data_Stream_ID
     
     except Exception as e:
-        
+
         # Log Message
-        print(f"An error occurred while adding DataStream: {e}")
-        
+        Log.LOG_Error_Message(f"An error occurred while adding DataStream: {e}")
+
         # Return None
         return None
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Parse Topics
 def Parse_Topics():
@@ -76,6 +57,9 @@ def Parse_Topics():
 
         # Parse Topics
         for RAW_Message in Kafka_Consumer:
+
+            # Log Message
+            Log.LOG_Message(f"Message Received")
 
             # Get Headers
             Headers = Functions.Handle_Headers(RAW_Message)
@@ -122,8 +106,8 @@ def Parse_Topics():
 
     finally:
 
-        # Log Message
-        print(f"Header Error")
+    	# Log Message
+	    Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
 
 # Handle Device
 Parse_Topics()

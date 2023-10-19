@@ -8,11 +8,7 @@ import json
 Database.Base.metadata.create_all(bind=Database.DB_Engine)
 
 # Kafka Consumer
-Kafka_Consumer = KafkaConsumer('Device.Power',
-                               bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}",
-                               group_id="Power_Consumer",
-                               auto_offset_reset='latest',
-                               enable_auto_commit=False)
+Kafka_Consumer = KafkaConsumer('Device.Power', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="Power_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
 # Power Measurement Handler Function
 def Power_Handler():
@@ -25,6 +21,9 @@ def Power_Handler():
 
         # Parse Messages
         for Message in Kafka_Consumer:
+
+            # Log Message
+            Log.LOG_Message(f"Message Received")
 
             # Decode Message
             # --------------
@@ -61,7 +60,7 @@ def Power_Handler():
             else:
                 
                 # Log Message
-                print(f"Header Error")
+                Log.LOG_Error_Message(f"Header Error")
                 
                 # Skip to the next iteration
                 continue
@@ -103,6 +102,9 @@ def Power_Handler():
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_IV)
 
+                    # Log Message
+                    Log.LOG_Message(f"New IV Measurement Record Added: {New_Measurement_IV.Measurement_ID}")
+
             # Battery AC Variable Control
             if Kafka_Power_Message.Battery.AC is not None:
 
@@ -133,6 +135,9 @@ def Power_Handler():
 
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_AC)
+
+                    # Log Message
+                    Log.LOG_Message(f"New AC Measurement Record Added: {New_Measurement_AC.Measurement_ID}")
 
             # Battery FB Variable Control
             if Kafka_Power_Message.Battery.FB is not None:
@@ -165,6 +170,9 @@ def Power_Handler():
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_FB)
 
+                    # Log Message
+                    Log.LOG_Message(f"New FB Measurement Record Added: {New_Measurement_FB.Measurement_ID}")
+
             # Battery IB Variable Control
             if Kafka_Power_Message.Battery.IB is not None:
 
@@ -195,6 +203,9 @@ def Power_Handler():
 
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_IB)
+
+                    # Log Message
+                    Log.LOG_Message(f"New IB Measurement Record Added: {New_Measurement_IB.Measurement_ID}")
 
             # Battery SOC Variable Control
             if Kafka_Power_Message.Battery.SOC is not None:
@@ -227,6 +238,9 @@ def Power_Handler():
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_SOC)
 
+                    # Log Message
+                    Log.LOG_Message(f"New SOC Measurement Record Added: {New_Measurement_SOC.Measurement_ID}")
+
             # Battery T Variable Control
             if Kafka_Power_Message.Battery.T is not None:
 
@@ -258,6 +272,9 @@ def Power_Handler():
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_T)
 
+                    # Log Message
+                    Log.LOG_Message(f"New T Measurement Record Added: {New_Measurement_T.Measurement_ID}")
+
             # Battery Charge Variable Control
             if Kafka_Power_Message.Battery.Charge is not None:
 
@@ -288,6 +305,9 @@ def Power_Handler():
 
                     # Refresh DataBase
                     DB_Module.refresh(New_Measurement_Charge)
+
+                    # Log Message
+                    Log.LOG_Message(f"New Charge Measurement Record Added: {New_Measurement_Charge.Measurement_ID}")
 
             # Commit Queue
             Kafka_Consumer.commit()
