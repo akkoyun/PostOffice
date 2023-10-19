@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-from .Database import Base, Initial_Connection
+from .Database import Base
 
 # GSM_MNC Database Model
 class GSM_MNC(Base):
