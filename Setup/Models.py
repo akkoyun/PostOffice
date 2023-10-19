@@ -10,11 +10,14 @@ class GSM_MNC(Base):
 	# Define Table Name
 	__tablename__ = "GSM_MNC"
 
-	# Define Colomns
+	# Define Columns
 	MNC_ID = Column(Integer, primary_key=True, nullable=False)
 	MNC_Brand_Name = Column(String, nullable=False)
 	MNC_Operator_Name = Column(String, nullable=False)
 	MNC_Operator_Image_URL = Column(String, nullable=True)
+
+	# Define Relationships
+	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mnc")
 
 # GSM_MCC Database Model
 class GSM_MCC(Base):
@@ -22,12 +25,15 @@ class GSM_MCC(Base):
 	# Define Table Name
 	__tablename__ = "GSM_MCC"
 
-	# Define Colomns
+	# Define Columns
 	MCC_ID = Column(Integer, primary_key=True, nullable=False)
 	MCC_ISO = Column(String, nullable=False)
 	MCC_Country_Name = Column(String, nullable=False)
 	MCC_Country_Code = Column(Integer, nullable=False)
 	MCC_Country_Flag_Image_URL = Column(String, nullable=True)
+
+	# Define Relationships
+	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mcc")
 
 # SIM Database Model
 class SIM(Base):
@@ -35,15 +41,18 @@ class SIM(Base):
 	# Define Table Name
 	__tablename__ = "SIM"
 
-	# Define Colomns
+	# Define Columns
 	SIM_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	SIM_ICCID = Column(String, nullable=False)
-	MCC_ID = Column(Integer, nullable=False)
-	MNC_ID = Column(Integer, nullable=False)
+	MCC_ID = Column(Integer, ForeignKey("GSM_MCC.MCC_ID"), nullable=False)
+	MNC_ID = Column(Integer, ForeignKey("GSM_MNC.MNC_ID"), nullable=False)
 	SIM_Number = Column(String, nullable=True)
 	SIM_Static_IP = Column(String, nullable=True)
 	SIM_Status = Column(Boolean, nullable=False, server_default=text('false'))
 	SIM_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+	# Define Relationships
+	Relation_Connection = relationship("Connection", cascade="all, delete", backref="sim")
 
 # Connection Database Model
 class Connection(Base):
@@ -51,10 +60,10 @@ class Connection(Base):
 	# Define Table Name
 	__tablename__ = "Connection"
 
-	# Define Colomns
+	# Define Columns
 	Connection_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
-	SIM_ID = Column(Integer, nullable=False)
+	SIM_ID = Column(Integer, ForeignKey("SIM.SIM_ID", nullable=False))
 	Connection_RSSI = Column(Integer, nullable=True)
 	Connection_IP = Column(String, nullable=True)
 	Connection_Time	= Column(Integer, nullable=True)
@@ -67,7 +76,7 @@ class Module_Type(Base):
 	# Define Table Name
 	__tablename__ = "Module_Type"
 
-	# Define Colomns
+	# Define Columns
 	Module_Type_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Module_Type_Name = Column(String, nullable=False)
 
@@ -77,7 +86,7 @@ class Module_Manufacturer(Base):
 	# Define Table Name
 	__tablename__ = "Module_Manufacturer"
 
-	# Define Colomns
+	# Define Columns
 	Module_Manufacturer_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Module_Manufacturer_Name = Column(String, nullable=False)
 
@@ -87,7 +96,7 @@ class Module_Model(Base):
 	# Define Table Name
 	__tablename__ = "Module_Model"
 
-	# Define Colomns
+	# Define Columns
 	Module_Model_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Module_Model_Name = Column(String, nullable=False)
 
@@ -97,7 +106,7 @@ class IoT_Module(Base):
 	# Define Table Name
 	__tablename__ = "IoT_Module"
 
-	# Define Colomns
+	# Define Columns
 	Module_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
 	Module_Type_ID = Column(Integer, nullable=False)
@@ -114,7 +123,7 @@ class Location(Base):
 	# Define Table Name
 	__tablename__ = "Location"
 
-	# Define Colomns
+	# Define Columns
 	Location_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
 	Location_TAC = Column(Integer, nullable=True)
@@ -130,7 +139,7 @@ class Register(Base):
 	# Define Table Name
 	__tablename__ = "Register"
 
-	# Define Colomns
+	# Define Columns
 	Register_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
 	Register_Status = Column(Integer, nullable=False)
@@ -142,7 +151,7 @@ class Data_Stream(Base):
 	# Define Table Name
 	__tablename__ = "Data_Stream"
 
-	# Define Colomns
+	# Define Columns
 	Data_Stream_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
 	Data_Stream_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
@@ -153,7 +162,7 @@ class Version(Base):
 	# Define Table Name
 	__tablename__ = "Version"
 
-	# Define Colomns
+	# Define Columns
 	Version_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
 	Version_Firmware = Column(String, nullable=True)
@@ -166,7 +175,7 @@ class Device(Base):
 	# Define Table Name
 	__tablename__ = "Device"
 
-	# Define Colomns
+	# Define Columns
 	Device_ID = Column(String, primary_key=True, nullable=False)
 	Device_Status = Column(Boolean, nullable=False, default=False)
 	Device_Data_Count = Column(Integer, nullable=False, default=0)
@@ -179,7 +188,7 @@ class Settings(Base):
 	# Define Table Name
 	__tablename__ = "Settings"
 
-	# Define Colomns
+	# Define Columns
 	Settings_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
 	Publish_Register = Column(Integer, nullable=False)
@@ -193,7 +202,7 @@ class Measurement_Type(Base):
 	# Define Table Name
 	__tablename__ = "Measurement_Type"
 
-	# Define Colomns
+	# Define Columns
 	Measurement_Type_ID = Column(Integer, primary_key=True, nullable=False)
 	Measurement_Type_Name = Column(String, nullable=False)
 	Measurement_Type_Variable = Column(String, nullable=False)
@@ -206,7 +215,7 @@ class Measurement(Base):
 	# Define Table Name
 	__tablename__ = "Measurement"
 
-	# Define Colomns
+	# Define Columns
 	Measurement_ID = Column(Integer, primary_key=True, nullable=False)
 	Data_Stream_ID = Column(Integer, nullable=False)
 	Device_ID = Column(String, nullable=False)
@@ -229,7 +238,7 @@ class RAW_Data(Base):
 	# Define Table Name
 	__tablename__ = "RAW_Data"
 
-	# Define Colomns
+	# Define Columns
 	RAW_Data_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	RAW_Data_Device_ID = Column(String, nullable=True)
 	RAW_Data_Company = Column(String, nullable=True)

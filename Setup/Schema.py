@@ -188,12 +188,10 @@ class Payload_WeatherStat(BaseModel):
 class Payload(BaseModel):
 
 	# TimeStamp
-	TimeStamp: str = Field(
-		default="2022-07-19T08:28:32Z", 
-		description="Measurement time stamp.", 
-		example="2022-07-19T08:28:32Z", 
-		min_length=10, 
-		max_length=22
+	TimeStamp: datetime = Field(
+		default="2022-07-19T08:28:32Z",
+		description="Measurement time stamp.",
+		example="2022-07-19T08:28:32Z"
 	)
 
 	# WeatherStat Payload
@@ -208,7 +206,7 @@ class Data_Pack_Model(BaseModel):
 	_Schema: Optional[str] = Field(..., alias="$schema")
 
 	# Define Command
-	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online", min_length=8, max_length=32)
+	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online")
 
 	# Device
 	Device: Optional[Pack_Device]
