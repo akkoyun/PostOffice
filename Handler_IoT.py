@@ -5,9 +5,6 @@ from Setup.Config import APP_Settings
 from kafka import KafkaConsumer
 from datetime import datetime
 
-# Create DB Models
-Database.Base.metadata.create_all(bind=Database.DB_Engine)
-
 # Kafka Consumer
 Kafka_Consumer = KafkaConsumer('Device.IoT', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="IoT_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 

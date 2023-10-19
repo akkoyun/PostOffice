@@ -9,7 +9,7 @@ import json
 from datetime import datetime
 
 # Create DB Models
-Database.Base.metadata.create_all(bind=Database.DB_Engine) 
+Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.00.00", title="PostOffice")

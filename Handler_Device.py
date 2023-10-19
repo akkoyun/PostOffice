@@ -6,9 +6,6 @@ import json
 from datetime import datetime
 from sqlalchemy import and_
 
-# Create DB Models
-Database.Base.metadata.create_all(bind=Database.DB_Engine)
-
 # Kafka Consumer
 Kafka_Consumer = KafkaConsumer('Device.Info', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="Device_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
