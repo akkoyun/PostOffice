@@ -5,6 +5,8 @@ from kafka import KafkaConsumer, KafkaProducer
 import json
 from datetime import datetime
 import time
+from .Setup import Functions as Functions
+
 
 # Kafka Consumer
 Kafka_Consumer = KafkaConsumer('RAW',
@@ -15,16 +17,6 @@ Kafka_Consumer = KafkaConsumer('RAW',
 
 # Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}')
-
-# Kafka Callbacks
-def Kafka_Send_Success(record_metadata):
-    print(record_metadata.topic)
-    print(record_metadata.partition)
-    print(record_metadata.offset)
-
-# Kafka Callbacks
-def Kafka_Send_Error(excp):
-    print(f"Error: {excp}")
 
 # Define Incomming Headers
 class Incomming_Headers:
@@ -161,7 +153,7 @@ def Kafka_Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
         try:
 
             # Send Message to Queue
-            Kafka_Producer.send(topic, value=value, headers=headers).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
+            Kafka_Producer.send(topic, value=value, headers=headers).add_callback(Functions.Kafka_Send_Success).add_errback(Functions.Kafka_Send_Error)
 
             # Break Loop
             return

@@ -8,6 +8,9 @@ from Setup.Config import APP_Settings
 from sqlalchemy import and_
 from datetime import datetime
 
+from ..Setup import Functions as Functions
+
+
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
 
@@ -49,18 +52,6 @@ def Handle_Command(Command_String):
 
 	# End Function
 	return Command
-
-# Kafka Callbacks
-def Kafka_Send_Success(record_metadata):
-
-	# Log Message
-	Log.LOG_Message(f"Send to Kafka Queue: {datetime.now()} - {record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}")
-
-# Kafka Callbacks
-def Kafka_Send_Error(excp):
-
-	# Log Message
-	Log.LOG_Error_Message(f"Kafka Send Error: {excp} - {datetime.now()}")
 
 # IoT Post Method
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
@@ -134,7 +125,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		try:
 
 			# Send Message to Queue
-			Kafka_Producer.send(topic='RAW', value=Data.json(), headers=Kafka_Header).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
+			Kafka_Producer.send(topic='RAW', value=Data.json(), headers=Kafka_Header).add_callback(Functions.Kafka_Send_Success).add_errback(Functions.Kafka_Send_Error)
 
 		except Exception as e:
 
