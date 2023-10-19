@@ -5,13 +5,13 @@ from sqlalchemy.sql.sqltypes import TIMESTAMP
 from .Database import Base, SessionLocal, DB_Engine
 
 # GSM_MCC Table Default Values
-def Insert_Initial_GSM_MCC(Mapper, Connection, Target):
+def Insert_Initial_GSM_MCC(mapper, connection, target):
 
     # Initial GSM MCC Data
-    Connection.execute(
+    connection.execute(
         
 		# Insert Query
-		Target.__table__.insert(),
+		target.__table__.insert(),
         [
             {"MCC_ID": 286, "MCC_ISO": "TR", "MCC_Country_Name": "Turkey", "MCC_Country_Code": 90},
         ]
@@ -19,13 +19,13 @@ def Insert_Initial_GSM_MCC(Mapper, Connection, Target):
     )
 
 # GSM_MNC Table Default Values
-def Insert_Initial_GSM_MNC(Mapper, Connection, Target):
+def Insert_Initial_GSM_MNC(mapper, connection, target):
 
     # Initial GSM MNC Data
-    Connection.execute(
+    connection.execute(
 
 		# Insert Query
-        Target.__table__.insert(),
+        target.__table__.insert(),
         [
             {"MNC_ID": 1, "MNC_Brand_Name": "Turkcell", "MNC_Operator_Name": "Turkcell Iletisim Hizmetleri A.S."},
             {"MNC_ID": 2, "MNC_Brand_Name": "Vodafone", "MNC_Operator_Name": "Vodafone Turkey"},
