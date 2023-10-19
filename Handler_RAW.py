@@ -5,7 +5,7 @@ from kafka import KafkaConsumer, KafkaProducer
 import json
 from datetime import datetime
 import time
-from .Setup import Functions as Functions
+from Setup import Functions as Functions
 
 
 # Kafka Consumer

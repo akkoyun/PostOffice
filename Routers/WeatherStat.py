@@ -8,7 +8,7 @@ from Setup.Config import APP_Settings
 from sqlalchemy import and_
 from datetime import datetime
 
-from ..Setup import Functions as Functions
+from Setup import Functions as Functions
 
 
 # Define FastAPI Object
