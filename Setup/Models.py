@@ -21,7 +21,7 @@ class GSM_MNC(Base):
 
 	# GSM_MNC Table Default Values
 	@classmethod
-	def Insert_Initial_GSM_MNC(mapper, connection, target):
+	def Insert_Initial_GSM_MNC(cls, mapper, connection, target, **kwargs):
 
 		# Initial GSM MNC Data
 		connection.execute(
@@ -63,7 +63,7 @@ class GSM_MCC(Base):
 
 	# GSM_MCC Table Default Values
 	@staticmethod
-	def Insert_Initial_GSM_MCC(mapper, connection, target):
+	def Insert_Initial_GSM_MCC(cls, mapper, connection, target, **kwargs):
 
 		# Initial GSM MCC Data
 		connection.execute(
