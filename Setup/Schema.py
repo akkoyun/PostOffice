@@ -188,7 +188,7 @@ class Payload_WeatherStat(BaseModel):
 class Payload(BaseModel):
 
 	# TimeStamp
-	TimeStamp: datetime = Field(
+	TimeStamp: str = Field(
 		default="2022-07-19T08:28:32Z",
 		description="Measurement time stamp.",
 		example="2022-07-19T08:28:32Z"
