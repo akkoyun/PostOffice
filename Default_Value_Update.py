@@ -56,6 +56,95 @@ def MCC_Initial_Values():
         # Log Message
         Log.LOG_Error_Message(f"An error occurred while adding GSM_MCC Table : {e}")
 
+# GSM Module Type Add Record
+def Module_Type_Initial_Values():
+    
+    try:
+
+        # Define MCC Records
+        Module_Type_Records = [
+            Models.Module_Type(Module_Type_ID=0, Module_Type_Name="Unknown"),
+            Models.Module_Type(Module_Type_ID=1, Module_Type_Name="GSM"),
+            Models.Module_Type(Module_Type_ID=2, Module_Type_Name="LORA"),
+            Models.Module_Type(Module_Type_ID=3, Module_Type_Name="NB-IOT"),
+        ]
+
+        # Add Record to DataBase
+        for record in Module_Type_Records:
+            DB_Module.add(record)
+
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Log Message
+        Log.LOG_Message(f"Module_Type Table Default Values Updated")
+
+    except Exception as e:
+
+        # Log Message
+        Log.LOG_Error_Message(f"An error occurred while adding Module_Type Table : {e}")
+
+# GSM Module Manufacturer Add Record
+def GSM_Manufacturer_Initial_Values():
+    
+    try:
+
+        # Define MNC Records
+        Manufacturer_Records = [
+            Models.Module_Manufacturer(Module_Manufacturer_ID=0, Module_Manufacturer_Name="Unknown"),
+            Models.Module_Manufacturer(Module_Manufacturer_ID=1, Module_Manufacturer_Name="Telit"),
+        ]
+
+        # Add Record to DataBase
+        for record in Manufacturer_Records:
+            DB_Module.add(record)
+        
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Log Message
+        Log.LOG_Message(f"Module_Manufacturer Table Default Values Updated")
+
+    except Exception as e:
+
+        # Log Message
+        Log.LOG_Error_Message(f"An error occurred while adding Module_Manufacturer Table : {e}")
+
+# GSM Module Model Add Record
+def GSM_Model_Initial_Values():
+    
+    try:
+
+        # Define MNC Records
+        Model_Records = [
+            Models.Module_Model(Module_Model_ID=0, Module_Model_Name="Unknown"),
+            Models.Module_Model(Module_Model_ID=1, Module_Model_Name="GE910 QUAD"),
+            Models.Module_Model(Module_Model_ID=2, Module_Model_Name="GE910 QUAD V3"),
+            Models.Module_Model(Module_Model_ID=3, Module_Model_Name="GE910 GNSS"),
+            Models.Module_Model(Module_Model_ID=4, Module_Model_Name="LE910 S1 EA"),
+            Models.Module_Model(Module_Model_ID=5, Module_Model_Name="LE910 S1 EAG"),
+            Models.Module_Model(Module_Model_ID=6, Module_Model_Name="LE910 R1 EU"),
+            Models.Module_Model(Module_Model_ID=7, Module_Model_Name="LE910 C1 EUX"),
+        ]
+
+        # Add Record to DataBase
+        for record in Model_Records:
+            DB_Module.add(record)
+        
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Log Message
+        Log.LOG_Message(f"Module_Model Table Default Values Updated")
+
+    except Exception as e:
+
+        # Log Message
+        Log.LOG_Error_Message(f"An error occurred while adding Module_Model Table : {e}")
+
 # Call Functions
 MNC_Initial_Values()
 MCC_Initial_Values()
+Module_Type_Initial_Values()
+GSM_Manufacturer_Initial_Values()
+GSM_Model_Initial_Values()
