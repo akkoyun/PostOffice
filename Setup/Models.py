@@ -1,8 +1,39 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, UniqueConstraint, JSON
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, UniqueConstraint, JSON, event
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from .Database import Base, SessionLocal, DB_Engine
+
+# GSM_MCC Table Default Values
+def Insert_Initial_GSM_MCC(Mapper, Connection, Target):
+
+    # Initial GSM MCC Data
+    Connection.execute(
+        
+		# Insert Query
+		Target.__table__.insert(),
+        [
+            {"MCC_ID": 286, "MCC_ISO": "TR", "MCC_Country_Name": "Turkey", "MCC_Country_Code": 90},
+        ]
+
+    )
+
+# GSM_MNC Table Default Values
+def Insert_Initial_GSM_MNC(Mapper, Connection, Target):
+
+    # Initial GSM MNC Data
+    Connection.execute(
+
+		# Insert Query
+        Target.__table__.insert(),
+        [
+            {"MNC_ID": 1, "MNC_Brand_Name": "Turkcell", "MNC_Operator_Name": "Turkcell Iletisim Hizmetleri A.S."},
+            {"MNC_ID": 2, "MNC_Brand_Name": "Vodafone", "MNC_Operator_Name": "Vodafone Turkey"},
+            {"MNC_ID": 3, "MNC_Brand_Name": "Turk Telekom", "MNC_Operator_Name": "Türk Telekom"},
+            {"MNC_ID": 4, "MNC_Brand_Name": "Aycell", "MNC_Operator_Name": "Aycell"}
+        ]
+
+    )
 
 # GSM_MNC Database Model
 class GSM_MNC(Base):
@@ -19,6 +50,9 @@ class GSM_MNC(Base):
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mnc")
 
+	# Insert Initial Data
+	event.listen(Base.metadata, 'after_create', Insert_Initial_GSM_MNC)
+
 # GSM_MCC Database Model
 class GSM_MCC(Base):
 
@@ -34,6 +68,9 @@ class GSM_MCC(Base):
 
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mcc")
+
+	# Insert Initial Data
+	event.listen(Base.metadata, 'after_create', Insert_Initial_GSM_MCC)
 
 # SIM Database Model
 class SIM(Base):
