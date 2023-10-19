@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from kafka import KafkaProducer
 from Setup.Config import APP_Settings
 from sqlalchemy import and_
+from datetime import datetime
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -51,13 +52,15 @@ def Handle_Command(Command_String):
 
 # Kafka Callbacks
 def Kafka_Send_Success(record_metadata):
-    print(record_metadata.topic)
-    print(record_metadata.partition)
-    print(record_metadata.offset)
+
+	# Log Message
+	Log.LOG_Message(f"Send to Kafka Queue: {datetime.now()} - {record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}")
 
 # Kafka Callbacks
 def Kafka_Send_Error(excp):
-    print(f"Error: {excp}")
+
+	# Log Message
+	Log.LOG_Error_Message(f"Kafka Send Error: {excp} - {datetime.now()}")
 
 # IoT Post Method
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)

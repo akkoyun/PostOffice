@@ -100,3 +100,9 @@ def LOG_Message(Message):
     
 	# Log Message
 	Service_Logger.info(f"--> {Message}")
+
+# Log Error Message
+def LOG_Error_Message(Message):
+    
+	# Log Message
+	Service_Logger.error(f"--> {Message}")

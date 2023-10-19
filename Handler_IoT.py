@@ -71,7 +71,7 @@ def IoT_Handler():
                         except Exception as e:
 
                             # Log Message
-                            Log.LOG_Message(f"An error occurred while adding SIM: {e}")
+                            Log.LOG_Error_Message(f"An error occurred while adding SIM: {e}")
 
                             # Rollback DataBase
                             DB_Module.rollback()
@@ -84,6 +84,9 @@ def IoT_Handler():
 
                         # Get SIM ID
                         SIM_ID = Query_SIM_Table.SIM_ID
+
+                        # Log Message
+                        Log.LOG_Message(f"ICCID found. SIM ID: {SIM_ID}")
 
             # ICCID not found
             else:
@@ -132,10 +135,13 @@ def IoT_Handler():
                 # Commit Queue
                 Kafka_Consumer.commit()
 
+                # Log Message
+                Log.LOG_Message(f"New Connection Added: {New_Connection.Connection_ID}")
+
             except Exception as e:
 
                 # Log Message
-                Log.LOG_Message(f"An error occurred while adding SIM: {e}")
+                Log.LOG_Error_Message(f"An error occurred while adding SIM: {e}")
 
                 # Rollback DataBase
                 DB_Module.rollback()
@@ -146,7 +152,7 @@ def IoT_Handler():
                 DB_Module.close()
 
             # Log Message
-            Log.LOG_Message("---------------------------")
+            Log.LOG_Message("---------------------------------------")
 
     finally:
 

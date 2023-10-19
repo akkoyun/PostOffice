@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from Routers import WeatherStat, PowerStat
 from kafka import KafkaProducer
 import json
+from datetime import datetime
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine) 
@@ -18,14 +19,14 @@ PostOffice = FastAPI(version="02.00.00", title="PostOffice")
 async def Startup_Event():
 
 	# Log Message
-	Log.Start_Log()
+	Log.LOG_Message(f"PostOffice API Started {datetime.now()}")
 
 # API ShutDown Sequence
 @PostOffice.on_event("shutdown")
 async def Shutdown_event():
 
 	# Log Message
-	Log.Stop_Log()
+	Log.LOG_Message(f"PostOffice API Shutdown {datetime.now()}")
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
@@ -34,27 +35,46 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Log Message
 	Log.Unknown_Log(request)
 
+	# Log Message
+	Log.LOG_Message(f"New Undefinied Data Recieved")
+
 	# Create Add Record Command
-	RAW_Data = Models.RAW_Data(
+	Undefinied_RAW_Data = Models.RAW_Data(
 		RAW_Data_IP = request.client.host,
 		RAW_Data = exc.body,
 		RAW_Data_Valid = False
 	)
 
 	# Define DB
-	DB_RAW_Data = Database.SessionLocal()
+	DB_Undefinied_RAW_Data = Database.SessionLocal()
 
 	# Add Record to DataBase
-	DB_RAW_Data.add(RAW_Data)
-	
-	# Commit DataBase
-	DB_RAW_Data.commit()
+	try:
 
-	# Refresh DataBase
-	DB_RAW_Data.refresh(RAW_Data)
+		# Add Record to DataBase
+		DB_Undefinied_RAW_Data.add(Undefinied_RAW_Data)
 
-	# Close Database
-	DB_RAW_Data.close()
+		# Database Flush
+		DB_Undefinied_RAW_Data.flush()
+
+		# Commit DataBase
+		DB_Undefinied_RAW_Data.commit()
+
+		# Log Message
+		Log.LOG_Message(f"Data Recorded to RAW Table")
+
+	except Exception as e:
+
+		# Log Message
+		Log.LOG_Error_Message(f"An error occurred while adding SIM: {e}")
+
+		# Rollback DataBase
+		DB_Undefinied_RAW_Data.rollback()
+
+	finally:
+
+		# Close Database
+		DB_Undefinied_RAW_Data.close()
 
 	# Defne Kafka Producers
 	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{Config.APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{Config.APP_Settings.POSTOFFICE_KAFKA_PORT}')
@@ -65,9 +85,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Send Error
 	return JSONResponse(
 		status_code=status.HTTP_400_BAD_REQUEST,
-# 		content={"Event": status.HTTP_400_BAD_REQUEST},
- 		
-		content={"Event": exc.errors()}
+ 		content={"Event": status.HTTP_400_BAD_REQUEST},
 	)
 
 # Include Routers
@@ -79,7 +97,7 @@ PostOffice.include_router(PowerStat.PostOffice_PowerStat)
 def Root(request: Request):
 
 	# Log Message
-	Log.Get_Log(request)
+	Log.LOG_Message(f"New Get Request: {request.client.host} - {datetime.now()}")
 
 	# Send Success
 	return {"Service": "PostOffice", "Version": "02.00.00"}
