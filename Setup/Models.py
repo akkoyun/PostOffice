@@ -21,9 +21,9 @@ class GSM_MNC(Base):
 
 	# GSM_MNC Table Default Values
 	@classmethod
-	def Insert_Initial_GSM_MNC(cls, mapper, connection, target, **kwargs):
+	def Insert_Initial_GSM_MNC(cls):
 
-		# Insert Query
+		# Initial GSM MNC Data
 		cls.__table__.insert().execute(
 			[
 				{"MNC_ID": 1, "MNC_Brand_Name": "Turkcell", "MNC_Operator_Name": "Turkcell Iletisim Hizmetleri A.S."},
@@ -59,7 +59,7 @@ class GSM_MCC(Base):
 
 	# GSM_MCC Table Default Values
 	@staticmethod
-	def Insert_Initial_GSM_MCC(cls, mapper, connection, target, **kwargs):
+	def Insert_Initial_GSM_MCC(cls):
 
 		# Insert Query
 		cls.__table__.insert().execute(
