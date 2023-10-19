@@ -23,20 +23,16 @@ class GSM_MNC(Base):
 	@classmethod
 	def Insert_Initial_GSM_MNC(cls, mapper, connection, target, **kwargs):
 
-		# Initial GSM MNC Data
-		connection.execute(
-
-			# Insert Query
-			target.__table__.insert(),
+		# Insert Query
+		cls.__table__.insert().execute(
 			[
 				{"MNC_ID": 1, "MNC_Brand_Name": "Turkcell", "MNC_Operator_Name": "Turkcell Iletisim Hizmetleri A.S."},
 				{"MNC_ID": 2, "MNC_Brand_Name": "Vodafone", "MNC_Operator_Name": "Vodafone Turkey"},
 				{"MNC_ID": 3, "MNC_Brand_Name": "Turk Telekom", "MNC_Operator_Name": "Türk Telekom"},
 				{"MNC_ID": 4, "MNC_Brand_Name": "Aycell", "MNC_Operator_Name": "Aycell"}
 			]
-
 		)
-	
+
 	# GSM_MNC Table Default Values
 	@classmethod
 	def Listen(cls):
@@ -65,15 +61,11 @@ class GSM_MCC(Base):
 	@staticmethod
 	def Insert_Initial_GSM_MCC(cls, mapper, connection, target, **kwargs):
 
-		# Initial GSM MCC Data
-		connection.execute(
-			
-			# Insert Query
-			target.__table__.insert(),
+		# Insert Query
+		cls.__table__.insert().execute(
 			[
 				{"MCC_ID": 286, "MCC_ISO": "TR", "MCC_Country_Name": "Turkey", "MCC_Country_Code": 90},
 			]
-
 		)
 	
 	# GSM_MNC Table Default Values
