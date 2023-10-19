@@ -63,7 +63,7 @@ class Connection(Base):
 	# Define Columns
 	Connection_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
-	SIM_ID = Column(Integer, ForeignKey("SIM.SIM_ID", nullable=False))
+	SIM_ID = Column(Integer, ForeignKey("SIM.SIM_ID"), nullable=False)
 	Connection_RSSI = Column(Integer, nullable=True)
 	Connection_IP = Column(String, nullable=True)
 	Connection_Time	= Column(Integer, nullable=True)
