@@ -19,27 +19,6 @@ class GSM_MNC(Base):
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mnc")
 
-	# GSM_MNC Table Default Values
-	@classmethod
-	def Insert_Initial_GSM_MNC(Connection = Initial_Connection):
-
-		# Initial GSM MNC Data
-		Connection.execute(
-			cls.__table__.insert().values(
-				[
-					{"MNC_ID": 1, "MNC_Brand_Name": "Turkcell", "MNC_Operator_Name": "Turkcell Iletisim Hizmetleri A.S."},
-					{"MNC_ID": 2, "MNC_Brand_Name": "Vodafone", "MNC_Operator_Name": "Vodafone Turkey"},
-					{"MNC_ID": 3, "MNC_Brand_Name": "Turk Telekom", "MNC_Operator_Name": "Türk Telekom"},
-					{"MNC_ID": 4, "MNC_Brand_Name": "Aycell", "MNC_Operator_Name": "Aycell"}
-				]
-			)
-		)
-
-	# GSM_MNC Table Default Values
-	@classmethod
-	def Listen(cls):
-		event.listen(cls.__table__, 'after_create', cls.Insert_Initial_GSM_MNC)
-
 # Insert Initial Data
 GSM_MNC.Listen()
 
@@ -58,27 +37,6 @@ class GSM_MCC(Base):
 
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mcc")
-
-	# GSM_MCC Table Default Values
-	@classmethod
-	def Insert_Initial_GSM_MCC(Connection = Initial_Connection):
-
-		# Initial GSM MNC Data
-		Connection.execute(
-			cls.__table__.insert().values(
-				[
-					{"MCC_ID": 286, "MCC_ISO": "TR", "MCC_Country_Name": "Turkey", "MCC_Country_Code": 90},
-				]
-			)
-		)
-	
-	# GSM_MNC Table Default Values
-	@classmethod
-	def Listen(cls):
-		event.listen(cls.__table__, 'after_create', cls.Insert_Initial_GSM_MCC)
-
-# Insert Initial Data
-GSM_MCC.Listen()
 
 # SIM Database Model
 class SIM(Base):
