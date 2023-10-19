@@ -19,9 +19,6 @@ class GSM_MNC(Base):
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mnc")
 
-# Insert Initial Data
-GSM_MNC.Listen()
-
 # GSM_MCC Database Model
 class GSM_MCC(Base):
 
