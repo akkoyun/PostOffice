@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, UniqueConstraint, JSON, event
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-from .Database import Base, SessionLocal, DB_Engine
+from .Database import Base
 
 # GSM_MCC Table Default Values
 def Insert_Initial_GSM_MCC(mapper, connection, target):
@@ -50,9 +50,6 @@ class GSM_MNC(Base):
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mnc")
 
-	# Insert Initial Data
-	event.listen(Base.metadata, 'after_create', Insert_Initial_GSM_MNC)
-
 # GSM_MCC Database Model
 class GSM_MCC(Base):
 
@@ -68,9 +65,6 @@ class GSM_MCC(Base):
 
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mcc")
-
-	# Insert Initial Data
-	event.listen(Base.metadata, 'after_create', Insert_Initial_GSM_MCC)
 
 # SIM Database Model
 class SIM(Base):
