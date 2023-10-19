@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON, event
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
@@ -50,6 +50,9 @@ class GSM_MNC(Base):
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mnc")
 
+# Insert Initial Data
+event.listen(GSM_MNC.__table__, 'after_create', Insert_Initial_GSM_MNC)
+
 # GSM_MCC Database Model
 class GSM_MCC(Base):
 
@@ -65,6 +68,9 @@ class GSM_MCC(Base):
 
 	# Define Relationships
 	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mcc")
+
+# Insert Initial Data
+event.listen(GSM_MCC.__table__, 'after_create', Insert_Initial_GSM_MCC)
 
 # SIM Database Model
 class SIM(Base):
