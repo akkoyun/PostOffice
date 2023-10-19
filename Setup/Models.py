@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-from .Database import Base
+from .Database import Base, Initial_Connection
 
 # GSM_MNC Database Model
 class GSM_MNC(Base):
@@ -21,10 +21,7 @@ class GSM_MNC(Base):
 
 	# GSM_MNC Table Default Values
 	@classmethod
-	def Insert_Initial_GSM_MNC(cls, *args, **kwargs):
-
-		# Insert Query
-		Connection = kwargs.get('connection')
+	def Insert_Initial_GSM_MNC(Connection = Initial_Connection):
 
 		# Initial GSM MNC Data
 		Connection.execute(
@@ -64,10 +61,7 @@ class GSM_MCC(Base):
 
 	# GSM_MCC Table Default Values
 	@classmethod
-	def Insert_Initial_GSM_MCC(cls, *args, **kwargs):
-
-		# Insert Query
-		Connection = kwargs.get('connection')
+	def Insert_Initial_GSM_MCC(Connection = Initial_Connection):
 
 		# Initial GSM MNC Data
 		Connection.execute(

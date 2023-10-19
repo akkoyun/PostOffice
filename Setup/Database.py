@@ -10,6 +10,9 @@ SQLALCHEMY_DATABASE_URL = f'postgresql://{APP_Settings.POSTOFFICE_DB_USERNAME}:{
 # Create Database Engine
 DB_Engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_size=20, max_overflow=0)
 
+# Connect
+Initial_Connection = DB_Engine.connect()
+
 # Create Session
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=DB_Engine)
 
