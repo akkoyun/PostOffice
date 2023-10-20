@@ -20,11 +20,11 @@ def Power_Handler():
         # Parse Messages
         for Message in Kafka_Consumer:
 
-            # Log Message
-            Log.LOG_Message(f"Message Received")
-
             # Get Headers
             Headers = Functions.Handle_Full_Headers(Message)
+
+            # Log Message
+            Log.LOG_Message(f"Message Received : {Headers.Device_ID}")
 
             # Decode Message
             try:
