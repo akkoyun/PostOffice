@@ -283,4 +283,4 @@ def Add_Measurement(DB_Module, Models, Data_Stream_ID, Device_ID, Device_Time, v
         DB_Module.refresh(New_Measurement)
 
         # Log Message
-        Log.LOG_Message(f"New '{variable_name}' Measurement Record Added: {New_Measurement.Measurement_ID}")
+        Log.LOG_Message(f"New '{variable_name}:{variable_value}' Measurement Record Added: {New_Measurement.Measurement_ID}")
