@@ -215,12 +215,12 @@ class Data_Pack_Model(BaseModel):
 		pattern = r'^[a-zA-Z]+:[a-zA-Z]+\.[a-zA-Z]+$'
         
 		# Check Command
-		if not re.match(pattern, Command_Value):
+		if not re.match(pattern, Command_Value, re.IGNORECASE):
 			
 			raise ValueError(f"Invalid command format. Expected 'xxx:yyy.zzz', got {Command_Value}")
 
 		# Return Command
-		return Command_Value
+		return Command_Value.upper()
 
 	# Device
 	Device: Optional[Pack_Device]

@@ -21,6 +21,19 @@ def Kafka_Send_Error(excp):
 	# Log Message
 	Log.LOG_Error_Message(f"Kafka Send Error: {excp} - {datetime.now()}")
 
+# Define RAW Topic Headers
+class RAW_Topic_Headers:
+
+    # Define Incomming Headers
+    def __init__(self, command, device_id, device_time, device_ip, size):
+        
+        # Get Incomming Headers
+        self.Command = command
+        self.Device_ID = device_id
+        self.Device_Time = device_time
+        self.Device_IP = device_ip
+        self.Size = size
+
 # Define Incomming Headers
 class Incomming_Headers:
 
@@ -320,3 +333,33 @@ def Handle_Command(Command_String):
 
 	# End Function
 	return Command
+
+
+
+
+
+
+# Parse Headers
+def Parse_RAW_Topic_Header(Command, Device_ID, Device_Time, Device_IP, Pack_Size):
+
+    try:
+
+        # Set headers
+        RAW_Header = [
+            ('Command', bytes(Command, 'utf-8')), 
+            ('Device_ID', bytes(Device_ID, 'utf-8')),
+            ('Device_Time', bytes(Device_Time, 'utf-8')), 
+            ('Device_IP', bytes(Device_IP, 'utf-8')),
+            ('Size', bytes(Pack_Size, 'utf-8')),
+        ]
+
+        # Return Kafka Header
+        return RAW_Header
+
+    except Exception as e:
+
+        # Log Message
+        print(f"An error occurred while setting RAW topic headers: {e}")
+        
+        # Return None
+        return None
