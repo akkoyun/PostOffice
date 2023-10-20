@@ -200,6 +200,9 @@ class Payload(BaseModel):
 
 		try:
 
+            # Remove 'Z' if it exists
+			TimeStamp_Value = TimeStamp_Value.rstrip('Z')
+	
 			# Convert to Datetime
 			datetime.fromisoformat(TimeStamp_Value)
 
