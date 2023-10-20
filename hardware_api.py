@@ -83,6 +83,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Send Message to Queue
 	Kafka_Producer.send(topic='UNDEFINED', value=exc.body)
 
+	# Log Message
+	Log.LOG_Message("---------------------------------------")
+
 	# Send Error
 	return JSONResponse(
 		status_code=status.HTTP_400_BAD_REQUEST,

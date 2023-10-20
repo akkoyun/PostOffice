@@ -43,7 +43,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		DB_RAW_Data.refresh(RAW_Data)
 
         # Log Message
-		Log.LOG_Message(f"---> New Valid WeatherStat RAW Data Record Added: ['{request.client.host}' - '{Data.Device.Info.ID}']")
+		Log.LOG_Message(f"New Valid WeatherStat RAW Data Record Added: ['{request.client.host}' - '{Data.Device.Info.ID}']")
 
 		# Close Database
 		DB_RAW_Data.close()
@@ -62,6 +62,9 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 			# Log Message
 			Log.LOG_Error_Message(f"Failed to send RAW data: {e}")
 
+		# Log Message
+		Log.LOG_Message("---------------------------------------")
+
 		# Send Success
 		return JSONResponse(
 		    status_code=status.HTTP_200_OK,
@@ -74,10 +77,13 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Log Message
 		Log.LOG_Message(f"New Undefinied Data Recieved. Device: {Functions.Handle_Device(Data.Command)}")
 
+		# Log Message
+		Log.LOG_Message("---------------------------------------")
+
 		# Send Error
 		return JSONResponse(
 			status_code=status.HTTP_406_NOT_ACCEPTABLE,
-			content={"Event1": status.HTTP_406_NOT_ACCEPTABLE},
+			content={"Event": status.HTTP_406_NOT_ACCEPTABLE},
 		)
 
 # IoT Get Method
