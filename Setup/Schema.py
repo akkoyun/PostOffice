@@ -67,38 +67,128 @@ class Pack_Info(BaseModel):
 class Pack_Battery(BaseModel):
 
 	# Instant Battery Voltage
-	IV: float = Field(description="Battery instant voltage.", example=3.8, min=0.0, max=5.0)
+	IV: float = Field(..., alias="iv", description="Battery instant voltage.", example=3.8, min=0.0, max=10.0)
 
 	# Average Battery Current
-	AC: float = Field(description="Battery average current.", example=0.2)
+	AC: float = Field(..., alias="ac", description="Battery average current.", example=0.2, min=-10000, max=10000)
 
 	# Battery State of Charge
-	SOC: float = Field(description="Battery state of charge.", example=97.30, min=0.0, max=100.0)
+	SOC: float = Field(..., alias="soc", description="Battery state of charge.", example=97.30, min=0.0, max=150.0)
 
 	# Battery Temperature
-	T: Optional[float] = Field(default=None, description="Battery temperature.", example=32.1903, min=-40.0, max=85.0)
+	T: Optional[float] = Field(..., alias="t", default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
 
 	# Battery Full Battery Cap
-	FB: Optional[int] = Field(default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
+	FB: Optional[int] = Field(..., alias="fb", default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
 
 	# Battery Instant Battery Cap
-	IB: Optional[int] = Field(default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
+	IB: Optional[int] = Field(..., alias="ib", default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
 
 	# Battery Charge State
-	Charge: int = Field(description="Battery charge state.", example=1, min=0, max=5)
+	Charge: int = Field(..., alias="charge", description="Battery charge state.", example=1, min=0, max=10)
 
-	# Charge State Validator
-	def __init__(self, **data):
-		Charge_Value = data.get('Charge', 5)
-		if Charge_Value < 0 or Charge_Value > 5:
-			data['Charge'] = 5
-		super().__init__(**data)
+	# IV Validator
+	@validator('IV', pre=True, always=True)
+	def validate_IV(cls, value):
+		
+		# Check IV
+		if value < 0.0 or value > 10.0:
+			
+			# Raise Error
+			raise ValueError(f"Invalid IV value. Expected a float between 0.0 and 10.0, got {value}")
+		
+		# Return IV
+		return value
+
+	# AC Validator
+	@validator('AC', pre=True, always=True)
+	def validate_AC(cls, value):
+		
+		# Check AC
+		if value < -10000 or value > 10000:
+			
+			# Raise Error
+			raise ValueError(f"Invalid AC value. Expected a float between -10000 and 10000, got {value}")
+		
+		# Return AC
+		return value
+
+	# SOC Validator
+	@validator('SOC', pre=True, always=True)
+	def validate_SOC(cls, value):
+		
+		# Check SOC
+		if value < 0.0 or value > 150.0:
+			
+			# Raise Error
+			raise ValueError(f"Invalid SOC value. Expected a float between 0.0 and 150.0, got {value}")
+		
+		# Return SOC
+		return value
+
+	# T Validator
+	@validator('T', pre=True, always=True)
+	def validate_T(cls, value):
+		
+		# Check T
+		if value < -50.0 or value > 100.0:
+			
+			# Raise Error
+			raise ValueError(f"Invalid T value. Expected a float between -50.0 and 100.0, got {value}")
+		
+		# Return T
+		return value
+
+	# FB Validator
+	@validator('FB', pre=True, always=True)
+	def validate_FB(cls, value):
+		
+		# Check FB
+		if value < 0 or value > 10000:
+			
+			# Raise Error
+			raise ValueError(f"Invalid FB value. Expected an integer between 0 and 10000, got {value}")
+		
+		# Return FB
+		return value
+
+	# IB Validator
+	@validator('IB', pre=True, always=True)
+	def validate_IB(cls, value):
+		
+		# Check IB
+		if value < 0 or value > 10000:
+			
+			# Raise Error
+			raise ValueError(f"Invalid IB value. Expected an integer between 0 and 10000, got {value}")
+		
+		# Return IB
+		return value
+
+	# Charge Validator
+	@validator('Charge', pre=True, always=True)
+	def validate_charge(cls, value):
+		
+		# Check Charge
+		if value < 0 or value > 10:
+
+			# Set Charge
+			return 5
+		
+		# Return Charge
+		return value
+
+	# Define Config
+	class Config:
+
+		# Allow Population by Field Name
+		allow_population_by_field_name = True
 
 # Define Power
 class Pack_Power(BaseModel):
 
 	# Device Battery
-	Battery: Pack_Battery
+	Battery: Pack_Battery = Field(..., alias="battery", description="Device battery.")
 
 # Define IoT Module
 class Pack_IoT_Module(BaseModel):
@@ -113,10 +203,10 @@ class Pack_IoT_Module(BaseModel):
 	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1)
 
 	# Module Model
-	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1)
+	Model: Optional[int] = Field(..., alias="model", default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(default=0, description="GSM modem serial ID.", example=20273)
+	Serial: Optional[int] = Field(..., alias="serial", default=0, description="GSM modem serial ID.", example=20273)
 
 	# GSM Firmware Validator
 	@validator('Firmware')
@@ -128,6 +218,7 @@ class Pack_IoT_Module(BaseModel):
 		# Check Firmware
 		if not re.match(pattern, Firmware_Value, re.IGNORECASE):
 			
+			# Raise Error
 			raise ValueError(f"Invalid Firmware format. Expected 'XX.XX.XXX', got {Firmware_Value}")
 
 		# Return Firmware
@@ -143,6 +234,7 @@ class Pack_IoT_Module(BaseModel):
 		# Check IMEI
 		if not re.match(pattern, IMEI_Value, re.IGNORECASE):
 			
+			# Raise Error
 			raise ValueError(f"Invalid IMEI format. Expected 'XXXXXXXXXXXXXXX', got {IMEI_Value}")
 
 		# Return IMEI
@@ -155,7 +247,8 @@ class Pack_IoT_Module(BaseModel):
 		# Check Manufacturer
 		if Manufacturer_Value < 0 or Manufacturer_Value > 100:
 			
-			raise ValueError(f"Invalid Manufacturer ID. Expected 0-100, got {Manufacturer_Value}")
+			# Set Manufacturer
+			Manufacturer_Value = 0
 
 		# Return Manufacturer
 		return Manufacturer_Value
@@ -167,7 +260,8 @@ class Pack_IoT_Module(BaseModel):
 		# Check Model
 		if Model_Value < 0 or Model_Value > 100:
 			
-			raise ValueError(f"Invalid Model ID. Expected 0-100, got {Model_Value}")
+			# Set Model
+			Model_Value = 0
 
 		# Return Model
 		return Model_Value
@@ -179,7 +273,8 @@ class Pack_IoT_Module(BaseModel):
 		# Check Serial
 		if Serial_Value < 0:
 			
-			raise ValueError(f"Invalid Serial ID, got {Serial_Value}")
+			# Set Serial
+			Serial_Value = 0
 
 		# Return Serial
 		return Serial_Value
@@ -188,19 +283,19 @@ class Pack_IoT_Module(BaseModel):
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1)
+	SIM_Type: Optional[int] = Field(..., alias="sim_type", default=None, description="SIM card type.", example=1)
 
 	# SIM ICCID
 	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
 
 	# Operator Country Code
-	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286)
+	MCC: Optional[int] = Field(..., alias="mcc", default=0, description="Operator country code.", example=286)
 
 	# Operator Code
-	MNC: Optional[int] = Field(default=0, description="Operator code.", example=1)
+	MNC: Optional[int] = Field(..., alias="mnc", default=0, description="Operator code.", example=1)
 
 	# RSSI
-	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28)
+	RSSI: Optional[int] = Field(..., alias="rssi", default=0, description="IoT RSSI signal level.", example=28)
 
 	# TAC
 	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
@@ -215,7 +310,7 @@ class Pack_IoT_Operator(BaseModel):
 	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1")
 		
 	# Connection Time
-	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12)
+	ConnTime: Optional[int] = Field(..., alias="conntime", default=0, description="IoT connection time.", example=12)
 
 	# SIM Type Validator
 	@validator('SIM_Type')
@@ -224,7 +319,8 @@ class Pack_IoT_Operator(BaseModel):
 		# Check SIM Type
 		if SIM_Type_Value < 0 or SIM_Type_Value > 100:
 			
-			raise ValueError(f"Invalid SIM Type ID. Expected 0-100, got {SIM_Type_Value}")
+			# Set SIM Type
+			SIM_Type_Value = 0
 
 		# Return SIM Type
 		return SIM_Type_Value
@@ -251,7 +347,8 @@ class Pack_IoT_Operator(BaseModel):
 		# Check MCC
 		if MCC_Value < 0 or MCC_Value > 1000:
 			
-			raise ValueError(f"Invalid MCC ID. Expected 0-1000, got {MCC_Value}")
+			# Set MCC
+			MCC_Value = 0
 
 		# Return MCC
 		return MCC_Value
@@ -263,7 +360,8 @@ class Pack_IoT_Operator(BaseModel):
 		# Check MNC
 		if MNC_Value < 0 or MNC_Value > 1000:
 			
-			raise ValueError(f"Invalid MNC ID. Expected 0-1000, got {MNC_Value}")
+			# Set MNC
+			MNC_Value = 0
 
 		# Return MNC
 		return MNC_Value
@@ -275,7 +373,8 @@ class Pack_IoT_Operator(BaseModel):
 		# Check RSSI
 		if RSSI_Value < -100 or RSSI_Value > 100:
 			
-			raise ValueError(f"Invalid RSSI ID. Expected 0-100, got {RSSI_Value}")
+			# Set RSSI
+			RSSI_Value = 0
 
 		# Return RSSI
 		return RSSI_Value
@@ -349,7 +448,8 @@ class Pack_IoT_Operator(BaseModel):
 		# Check ConnTime
 		if ConnTime_Value < 0 or ConnTime_Value > 1000:
 			
-			raise ValueError(f"Invalid ConnTime ID. Expected 0-1000, got {ConnTime_Value}")
+			# Set ConnTime
+			ConnTime_Value = 0
 
 		# Return ConnTime
 		return ConnTime_Value
@@ -358,79 +458,231 @@ class Pack_IoT_Operator(BaseModel):
 class Pack_GSM(BaseModel):
 
 	# Device IoT Module
-	Module: Optional[Pack_IoT_Module]
+	Module: Optional[Pack_IoT_Module] = Field(default=None, alias="module", description="Device IoT module.")
 
 	# IoT Operator
-	Operator: Pack_IoT_Operator
+	Operator: Pack_IoT_Operator = Field(default=None, alias="operator", description="Device IoT operator.")
 
 # Define IoT
 class Pack_IoT(BaseModel):
 	
 	# Device GSM
-	GSM: Pack_GSM
+	GSM: Pack_GSM = Field(..., alias="gsm", description="Device GSM.")
 
 # Define Device
 class Pack_Device(BaseModel):
 
 	# Device Info
-	Info: Pack_Info
+	Info: Pack_Info = Field(..., alias="info", description="Device information.")
 
 	# Device Power
-	Power: Pack_Power
+	Power: Pack_Power = Field(..., alias="power", description="Device power.")
 
 	# Device IoT
-	IoT: Pack_IoT
+	IoT: Pack_IoT = Field(..., alias="iot", description="Device IoT.")
 
 # Location Definition
 class Payload_WeatherStat_Location(BaseModel):
 	
 	# Latitude Value of Device
-	Latitude: float = Field(default=None, description="GNSS lattitude value.", example=1.243242342)
+	Latitude: float = Field(..., alias="lat", default=None, description="GNSS lattitude value.", example=1.243242342)
 
 	# Longtitude Value of Device
-	Longtitude: float = Field(default=None, description="GNSS longtitude value.", example=23.3213232)
+	Longtitude: float = Field(..., alias="lon", default=None, description="GNSS longtitude value.", example=23.3213232)
+
+	# Latitude Validator
+	@validator("Latitude")
+	def validate_latitude(cls, value):
+		
+		# Check Latitude
+		if value is not None and (value < -90.0 or value > 90.0):
+			
+			# Raise Error
+			raise ValueError(f"Invalid latitude value. Must be between -90.0 and 90.0, got {value}")
+		
+		# Return value
+		return value
+	
+	# Longtitude Validator
+	@validator("Longitude")
+	def validate_longitude(cls, value):
+		
+		# Check Longitude
+		if value is not None and (value < -180.0 or value > 180.0):
+			
+			# Raise Error
+			raise ValueError(f"Invalid longitude value. Must be between -180.0 and 180.0, got {value}")
+		
+		# Return value
+		return value
 
 # Environment Measurement Definition
 class Payload_WeatherStat_Environment(BaseModel):
 	
 	# Last Measured Air Temperature Value
-	AT: Optional[float] = Field(default=None, description="Air temperature.", example=28.3232)
+	AT: Optional[float] = Field(..., alias="at", default=None, description="Air temperature.", example=28.3232)
 
 	# Last Measured Relative Humidity Value
-	AH: Optional[float] = Field(default=None, description="Air humidity.", example=85.2332)
+	AH: Optional[float] = Field(..., alias="ah", default=None, description="Air humidity.", example=85.2332)
 
 	# Last Measured Air Pressure Value
-	AP: Optional[float] = Field(default=None, description="Air pressure.", example=985.55)
+	AP: Optional[float] = Field(..., alias="ap", default=None, description="Air pressure.", example=985.55)
 
 	# Last Measured Visual Light Value
-	VL: Optional[int] = Field(default=None, description="Visual light.")
+	VL: Optional[int] = Field(..., alias="vl", default=None, description="Visual light.")
 
 	# Last Measured Infrared Light Value
-	IR: Optional[int] = Field(default=None, description="Infrared light.")
+	IR: Optional[int] = Field(..., alias="ir", default=None, description="Infrared light.")
 
 	# Last Measured UV Value
-	UV: Optional[float] = Field(default=None, description="UV index.")
+	UV: Optional[float] = Field(..., alias="uv", default=None, description="UV index.")
 
 	# Last Measured Soil Temperature Value
-	ST: list[Optional[float]] = Field(default=None, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10)
+	ST: list[Optional[float]] = Field(..., alias="st", default=None, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10)
 
 	# Last Measured Rain Value
-	R: Optional[int] = Field(default=None, description="Rain tip counter.", example=23)
+	R: Optional[int] = Field(..., alias="r", default=None, description="Rain tip counter.", example=23)
 
 	# Last Measured Wind Direction Value
-	WD: Optional[int] = Field(default=None, description="Wind direction.", example=275)
+	WD: Optional[int] = Field(..., alias="wd", default=None, description="Wind direction.", example=275)
 
 	# Last Measured Wind Speed Value
-	WS: Optional[float] = Field(default=None, description="Wind speed.", example=25)
+	WS: Optional[float] = Field(..., alias="ws", default=None, description="Wind speed.", example=25)
+
+	# AT Validator
+	@validator("AT")
+	def validate_at(cls, value):
+		
+		# Check AT
+		if value is not None and (value < -50.0 or value > 100.0):
+			
+			# Set AT
+			value = -999
+
+		return value
+
+	# AH Validator
+	@validator("AH")
+	def validate_ah(cls, value):
+		
+		# Check AH
+		if value is not None and (value < 0.0 or value > 100.0):
+
+			# Set AH
+			value = -999
+
+		return value
+    
+	# AP Validator
+	@validator("AP")
+	def validate_ap(cls, value):
+	
+		# Check AP
+		if value is not None and (value < 500.0 or value > 2000.0):
+
+			# Set AP
+			value = -999
+
+		return value
+
+	# VL Validator
+	@validator("VL")
+	def validate_vl(cls, value):
+
+		# Check VL
+		if value is not None and (value < 0 or value > 100000):
+
+			# Set VL
+			value = -999
+
+		return value
+
+	# IR Validator
+	@validator("IR")
+	def validate_ir(cls, value):
+		
+		# Check IR
+		if value is not None and (value < 0 or value > 100000):
+
+			# Set IR
+			value = -999
+
+		return value
+
+	# UV Validator
+	@validator("UV")
+	def validate_uv(cls, value):
+		
+		# Check UV
+		if value is not None and (value < 0.0 or value > 20.0):
+
+			# Set UV
+			value = -999
+
+		return value
+
+	# ST Validator
+	@validator("ST")
+	def validate_st(cls, value):
+
+		# Check ST
+		if value is not None:
+
+			# Check ST
+			for st in value:
+
+				# Check ST
+				if st < -50.0 or st > 100.0:
+
+					# Set ST
+					value = [-999]
+
+		return value
+
+	# R Validator
+	@validator("R")
+	def validate_r(cls, value):
+
+		# Check R
+		if value is not None and (value < 0 or value > 100000):
+
+			# Set R
+			value = -999
+
+		return value
+
+	# WD Validator
+	@validator("WD")
+	def validate_wd(cls, value):
+
+		# Check WD
+		if value is not None and (value < 0 or value > 360):
+
+			# Set WD
+			value = -999
+
+		return value
+
+	# WS Validator
+	@validator("WS")
+	def validate_ws(cls, value):
+
+		# Check WS
+		if value is not None and (value < 0.0 or value > 100.0):
+
+			# Set WS
+			value = -999
+
+		return value
 
 # WeatherStat Model Definition
 class Payload_WeatherStat(BaseModel):
 
 	# Location
-	Location: Optional[Payload_WeatherStat_Location]
+	Location: Optional[Payload_WeatherStat_Location] = Field(default=None, alias="location", description="Location.")
 
 	# Environment
-	Environment: Payload_WeatherStat_Environment
+	Environment: Payload_WeatherStat_Environment = Field(default=None, alias="environment", description="Environment.")
 
 # Define payload
 class Payload(BaseModel):
@@ -463,7 +715,7 @@ class Payload(BaseModel):
 		return TimeStamp_Value.upper()
 
 	# WeatherStat Payload
-	WeatherStat: Optional[Payload_WeatherStat]
+	WeatherStat: Optional[Payload_WeatherStat] = Field(default=None, alias="weatherstat", description="WeatherStat payload.")
 
 # Define IoT RAW Data Base Model
 # PowerStat Model Version 01.03.00
@@ -492,7 +744,7 @@ class Data_Pack_Model(BaseModel):
 		return Command_Value.upper()
 
 	# Device
-	Device: Optional[Pack_Device]
+	Device: Optional[Pack_Device] = Field(default=None, alias="device", description="Device information.")
 
 	# Payload
-	Payload: Payload
+	Payload: Payload = Field(default=None, alias="payload", description="Payload.")
