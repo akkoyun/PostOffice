@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from kafka import KafkaProducer
 from sqlalchemy import and_
 import json
+from datetime import datetime
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -160,3 +161,13 @@ def Battery_IV(request: Request, ID: str):
 			status_code=status.HTTP_200_OK,
 			content={"Update_Time": Time_Stamps, "IV": IV_Values}
 		)
+
+# Get Method
+@PostOffice_WeatherStat.get("/WeatherStat/")
+def WeatherStat_Get(request: Request):
+
+	# Log Message
+	Log.LOG_Message(f"New Get Request: {request.client.host} - {datetime.now()}")
+
+	# Send Success
+	return {"Service": "WeatherStat", "Version": "01.00.00"}
