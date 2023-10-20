@@ -116,7 +116,7 @@ class Pack_IoT_Module(BaseModel):
 	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[str] = Field(default="", description="GSM modem serial ID.", example="0000020273")
+	Serial: Optional[int] = Field(default=0, description="GSM modem serial ID.", example=20273)
 
 	# GSM Firmware Validator
 	@validator('Firmware')
@@ -176,13 +176,10 @@ class Pack_IoT_Module(BaseModel):
 	@validator('Serial')
 	def Serial_Validator(cls, Serial_Value):
 
-		# Define Regex Pattern
-		pattern = r'^[0-9]{10}$'
-		
 		# Check Serial
-		if not re.match(pattern, Serial_Value, re.IGNORECASE):
+		if Serial_Value < 0:
 			
-			raise ValueError(f"Invalid Serial format. Expected 'XXXXXXXXXX', got {Serial_Value}")
+			raise ValueError(f"Invalid Serial ID, got {Serial_Value}")
 
 		# Return Serial
 		return Serial_Value
