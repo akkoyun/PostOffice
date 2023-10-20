@@ -17,6 +17,9 @@ Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
+	# Log Message
+	Log.LOG_Message(Functions.Handle_Device(Data.Command))
+
     # Device is WeatherStat
 	if Functions.Handle_Device(Data.Command) == "WeatherStat":
 

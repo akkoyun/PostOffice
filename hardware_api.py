@@ -37,10 +37,7 @@ async def Shutdown_event():
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
 	# Log Message
-	Log.Unknown_Log(request)
-
-	# Log Message
-	Log.LOG_Message(f"New Undefinied Data Recieved")
+	Log.LOG_Error_Message(f"New Undefinied Data Recieved from: {request.client.host}")
 
 	# Create Add Record Command
 	Undefinied_RAW_Data = Models.RAW_Data(
@@ -70,7 +67,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	except Exception as e:
 
 		# Log Message
-		Log.LOG_Error_Message(f"An error occurred while adding SIM: {e}")
+		Log.LOG_Error_Message(f"An error occurred while adding RAW_Data: {e}")
 
 		# Rollback DataBase
 		DB_Undefinied_RAW_Data.rollback()
