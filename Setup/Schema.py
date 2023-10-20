@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, validator
 from typing import Optional
 import re
+from datetime import datetime
 
 # Define Status Check Base Model
 # Version 01.00.00
@@ -192,6 +193,23 @@ class Payload(BaseModel):
 		description="Measurement time stamp.",
 		example="2022-07-19T08:28:32Z"
 	)
+
+    # TimeStamp Validator
+	@validator('TimeStamp')
+	def validate_timestamp(cls, TimeStamp_Value):
+
+		try:
+
+			# Convert to Datetime
+			datetime.fromisoformat(TimeStamp_Value)
+
+		except ValueError:
+			
+			# Raise Error
+			raise ValueError(f"Invalid TimeStamp format. Expected ISO 8601 format, got {TimeStamp_Value}")
+        
+		# Return TimeStamp
+		return TimeStamp_Value
 
 	# WeatherStat Payload
 	WeatherStat: Optional[Payload_WeatherStat]
