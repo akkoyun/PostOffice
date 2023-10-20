@@ -11,7 +11,9 @@ class GSM_MNC(Base):
 	__tablename__ = "GSM_MNC"
 
 	# Define Columns
-	MNC_ID = Column(Integer, primary_key=True, nullable=False)
+	MNC_Record_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	MCC_ID = Column(Integer, nullable=False)
+	MNC_ID = Column(Integer, nullable=False)
 	MNC_Brand_Name = Column(String, nullable=False)
 	MNC_Operator_Name = Column(String, nullable=False)
 	MNC_Operator_Image_URL = Column(String, nullable=True)
