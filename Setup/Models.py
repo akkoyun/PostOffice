@@ -18,9 +18,6 @@ class GSM_MNC(Base):
 	MNC_Operator_Name = Column(String, nullable=False)
 	MNC_Operator_Image_URL = Column(String, nullable=True)
 
-	# Define Relationships
-	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mnc")
-
 # GSM_MCC Database Model
 class GSM_MCC(Base):
 
@@ -34,9 +31,6 @@ class GSM_MCC(Base):
 	MCC_Country_Code = Column(Integer, nullable=False)
 	MCC_Country_Flag_Image_URL = Column(String, nullable=True)
 
-	# Define Relationships
-	Relation_SIM = relationship("SIM", cascade="all, delete", backref="gsm_mcc")
-
 # SIM Database Model
 class SIM(Base):
 
@@ -46,15 +40,12 @@ class SIM(Base):
 	# Define Columns
 	SIM_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	SIM_ICCID = Column(String, nullable=False)
-	MCC_ID = Column(Integer, ForeignKey("GSM_MCC.MCC_ID"), nullable=False)
-	MNC_ID = Column(Integer, ForeignKey("GSM_MNC.MNC_ID"), nullable=False)
+	MCC_ID = Column(Integer, nullable=False)
+	MNC_ID = Column(Integer, nullable=False)
 	SIM_Number = Column(String, nullable=True)
 	SIM_Static_IP = Column(String, nullable=True)
 	SIM_Status = Column(Boolean, nullable=False, server_default=text('false'))
 	SIM_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-
-	# Define Relationships
-	Relation_Connection = relationship("Connection", cascade="all, delete", backref="sim")
 
 # Connection Database Model
 class Connection(Base):
