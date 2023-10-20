@@ -94,6 +94,9 @@ def Power_Handler():
                 # Add Measurement Record
                 Functions.Add_Measurement(DB_Module, Models, Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'Charge', Kafka_Power_Message.Battery.Charge)
 
+            # Log Message
+            Log.LOG_Message("-----------------------------------------------------------")
+
             # Commit Queue
             Kafka_Consumer.commit()
 
