@@ -62,9 +62,6 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 			# Log Message
 			Log.LOG_Error_Message(f"Failed to send RAW data: {e}")
 
-		# Log Message
-		Log.LOG_Message("---------------------------------------")
-
 		# Send Success
 		return JSONResponse(
 		    status_code=status.HTTP_200_OK,
