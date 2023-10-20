@@ -7,8 +7,9 @@ from kafka import KafkaProducer
 from Setup.Config import APP_Settings
 from sqlalchemy import and_
 from datetime import datetime
-
 from Setup import Functions as Functions
+
+
 
 
 # Define FastAPI Object
@@ -17,45 +18,14 @@ PostOffice_WeatherStat = APIRouter()
 # Defne Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}')
 
-# Handle Company
-def Handle_Company(Command_String):
-
-    # Handle Company
-	try:
-		Company = Command_String.split(":")[0]
-	except:
-		Company = "Unknown"
-
-	# End Function
-	return Company
-
-# Handle Device
-def Handle_Device(Command_String):
-
-	# Handle Device
-	try:
-		Device = Command_String.split(":")[1].split(".")[0]
-	except:
-		Device = "Unknown"
-
-	# End Function
-	return Device
-
-# Handle Command
-def Handle_Command(Command_String):
-
-	# Handle Command
-	try:
-		Command = Command_String.split(":")[1].split(".")[1]
-	except:
-		Command = "Unknown"
-
-	# End Function
-	return Command
-
 # IoT Post Method
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
+
+
+
+
+
 
 	# Control for Command
 	try:
@@ -63,17 +33,26 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 	except:
 		Command_String = "Unknown"
 
+
+
+
+
 	# Handle Device ID
 	try:
 		Device_ID = Data.Device.Info.ID
 	except:
 		Device_ID = "Unknown"
 
+
+
+
+
+
 	# Handle Command String
 	if Command_String != "Unknown":
-		Company = Handle_Company(Data.Command)
-		Device = Handle_Device(Data.Command)
-		Command = Handle_Command(Data.Command)
+		Company = Functions.Handle_Company(Data.Command)
+		Device = Functions.Handle_Device(Data.Command)
+		Command = Functions.Handle_Command(Data.Command)
 
 	# Get Client IP
 	Client_IP = request.client.host
@@ -82,7 +61,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 	Log.LOG_Message(f"New Data Recieved from ['{Client_IP}'] - ['{Company}'] - ['{Device}'] - ['{Command}']")
 
     # Device is WeatherStat
-	if Device == "WeatherStat" and Device_ID != "Unknown":
+	if Device == "WeatherStat":
 
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
@@ -167,7 +146,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		DB_RAW_Data.close()
 
     	# Send Message to Queue
-		Kafka_Producer.send(topic='UNDEFINED', value=Body_dict)
+		Kafka_Producer.send(topic='UNDEFINED_1', value=Body_dict)
 
 		# Send Error
 		return JSONResponse(

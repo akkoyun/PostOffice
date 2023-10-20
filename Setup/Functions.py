@@ -284,3 +284,39 @@ def Add_Measurement(DB_Module, Models, Data_Stream_ID, Device_ID, Device_Time, v
 
         # Log Message
         Log.LOG_Message(f"New '{variable_name}:{variable_value}' Measurement Record Added: {New_Measurement.Measurement_ID}")
+
+# Handle Company
+def Handle_Company(Command_String):
+
+    # Handle Company
+	try:
+		Company = Command_String.split(":")[0]
+	except:
+		Company = "Unknown"
+
+	# End Function
+	return Company
+
+# Handle Device
+def Handle_Device(Command_String):
+
+	# Handle Device
+	try:
+		Device = Command_String.split(":")[1].split(".")[0]
+	except:
+		Device = "Unknown"
+
+	# End Function
+	return Device
+
+# Handle Command
+def Handle_Command(Command_String):
+
+	# Handle Command
+	try:
+		Command = Command_String.split(":")[1].split(".")[1]
+	except:
+		Command = "Unknown"
+
+	# End Function
+	return Command
