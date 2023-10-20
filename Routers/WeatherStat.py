@@ -79,10 +79,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 	Client_IP = request.client.host
 
 	# Log Message
-	if Command_String != "Unknown" and Device_ID != "Unknown":
-		Log.WeatherStat_Log(Device_ID, Company, Device, Command)
-	else:
-		Log.Wrong_Device_Log(Company, Device, Command)
+	Log.LOG_Message(f"New Data Recieved from ['{Client_IP}'] - ['{Company}'] - ['{Device}'] - ['{Command}']")
 
     # Device is WeatherStat
 	if Device == "WeatherStat" and Device_ID != "Unknown":
@@ -130,7 +127,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		except Exception as e:
 
 			# Log Message
-			print(f"Failed to send RAW data: {e}")
+			Log.LOG_Error_Message(f"Failed to send RAW data: {e}")
 
 		# Send Success
 		return JSONResponse(
