@@ -182,9 +182,60 @@ def GSM_Model_Initial_Values():
         # Log Message
         Log.LOG_Error_Message(f"An error occurred while adding Module_Model Table : {e}")
 
+# Measurment Type Add Record
+def Measurement_Type_Initial_Values():
+    
+    try:
+
+        # Define Measurement Type Records
+        Model_Records = [
+
+            # Unknown Measurement Type
+            Models.Measurement_Type(Measurement_Type_ID=0, Measurement_Type_Name="Unknown", Measurement_Type_Variable="", Measurement_Type_Unit="", Measurement_Type_Segment="Unknown"),
+
+            # Battery Measurement Types
+            Models.Measurement_Type(Measurement_Type_ID=101, Measurement_Type_Name="Battery Instant Voltage", Measurement_Type_Variable="IV", Measurement_Type_Unit="V", Measurement_Type_Segment="Battery"),
+            Models.Measurement_Type(Measurement_Type_ID=102, Measurement_Type_Name="Battery Average Current", Measurement_Type_Variable="AC", Measurement_Type_Unit="mA", Measurement_Type_Segment="Battery"),
+            Models.Measurement_Type(Measurement_Type_ID=103, Measurement_Type_Name="Battery State of Charge", Measurement_Type_Variable="SOC", Measurement_Type_Unit="%", Measurement_Type_Segment="Battery"),
+            Models.Measurement_Type(Measurement_Type_ID=104, Measurement_Type_Name="Battery Temperature", Measurement_Type_Variable="T", Measurement_Type_Unit="C", Measurement_Type_Segment="Battery"),
+            Models.Measurement_Type(Measurement_Type_ID=105, Measurement_Type_Name="Battery Full Capacity", Measurement_Type_Variable="FB", Measurement_Type_Unit="mAh", Measurement_Type_Segment="Battery"),
+            Models.Measurement_Type(Measurement_Type_ID=106, Measurement_Type_Name="Battery Instant Capacity", Measurement_Type_Variable="IB", Measurement_Type_Unit="mAh", Measurement_Type_Segment="Battery"),
+            Models.Measurement_Type(Measurement_Type_ID=107, Measurement_Type_Name="Battery Charge State", Measurement_Type_Variable="Charge", Measurement_Type_Unit="-", Measurement_Type_Segment="Battery"),
+
+        ]
+
+        # Add Record to DataBase
+        for record in Model_Records:
+
+            # Check for Existing Record
+            Query_Record = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_ID==(record.Measurement_Type_ID)).first()
+
+            # Record Not Found
+            if not Query_Record:
+
+                # Add Record to DataBase
+                DB_Module.add(record)
+        
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Log Message
+        Log.LOG_Message(f"Measurement_Type Table Default Values Updated")
+
+    except Exception as e:
+
+        # Log Message
+        Log.LOG_Error_Message(f"An error occurred while adding Module_Model Table : {e}")
+
+
+
+
 # Call Functions
-MNC_Initial_Values()
-MCC_Initial_Values()
-Module_Type_Initial_Values()
-GSM_Manufacturer_Initial_Values()
-GSM_Model_Initial_Values()
+def Value_Update():
+
+    MNC_Initial_Values()
+    MCC_Initial_Values()
+    Module_Type_Initial_Values()
+    GSM_Manufacturer_Initial_Values()
+    GSM_Model_Initial_Values()
+    Measurement_Type_Initial_Values()
