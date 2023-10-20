@@ -244,7 +244,7 @@ def Kafka_Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
     print(f"Failed to send message to {topic} after {max_retries} attempts.")
 
 # Add Measurement
-def Add_Measurement(DB_Module, Models, Data_Stream_ID, Headers, variable_name, variable_value):
+def Add_Measurement(DB_Module, Models, Data_Stream_ID, Device_ID, Device_Time, variable_name, variable_value):
 
     # Query Measurement Type
     Query_Measurement_Type = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like(variable_name)).first()
@@ -266,11 +266,11 @@ def Add_Measurement(DB_Module, Models, Data_Stream_ID, Headers, variable_name, v
         # Query Measurement
         New_Measurement = Models.Measurement(
             Data_Stream_ID = Data_Stream_ID,
-            Device_ID = Headers.Device_ID,
+            Device_ID = Device_ID,
             Measurement_Type_ID = Measurement_Type_ID,
             Measurement_Data_Count = 1,
             Measurement_Value = variable_value,
-            Measurement_Create_Date = Headers.Device_Time
+            Measurement_Create_Date = Device_Time
         )
 
         # Add Record to DataBase
