@@ -27,7 +27,30 @@ def Power_Handler():
             Headers = Functions.Handle_Full_Headers(Message)
 
             # Decode Message
-            Kafka_Power_Message = Functions.Decode_IoT_Message(Message, Kafka_Consumer, Schema)
+            try:
+
+                # Decode Message
+                Decoded_Value = Message.value.decode()
+                
+                # Parse JSON
+                Parsed_JSON = json.loads(Decoded_Value)
+
+                # Check if JSON is a string
+                if isinstance(Parsed_JSON, str):
+                    Parsed_JSON = json.loads(Parsed_JSON)
+                
+                # Get RAW Data
+                Kafka_Power_Message = Schema.Pack_Power(**Parsed_JSON)
+
+            except json.JSONDecodeError:
+
+                # Log Message
+                Log.LOG_Error_Message(f"JSON Decode Error")
+
+            except Exception as e:
+
+                # Log Message
+                Log.LOG_Error_Message(f"An error occurred: {e}")
 
             # Add IV Measurement Record
             if Kafka_Power_Message.Battery.IV is not None:
