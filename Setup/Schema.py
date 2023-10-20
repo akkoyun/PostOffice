@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, validator
 from typing import Optional
-import re
+import re, ipaddress
 from datetime import datetime
 
 # Define Status Check Base Model
@@ -116,7 +116,7 @@ class Pack_IoT_Module(BaseModel):
 	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(default="", description="GSM modem serial ID.", example="0000020273")
+	Serial: Optional[str] = Field(default="", description="GSM modem serial ID.", example="0000020273")
 
 	# GSM Firmware Validator
 	@validator('Firmware')
@@ -332,16 +332,18 @@ class Pack_IoT_Operator(BaseModel):
 	@validator('IP')
 	def IP_Validator(cls, IP_Value):
 
-		# Define Regex Pattern
-		pattern = r'^[0-9A-F]{4}$'
+		try:
+
+			# Control for IP
+			ipaddress.ip_address(IP_Value)
 		
-		# Check IP
-		if not re.match(pattern, IP_Value, re.IGNORECASE):
-			
-			raise ValueError(f"Invalid IP format. Expected 'XXXX', got {IP_Value}")
+		except ipaddress.AddressValueError:
+
+			# Raise Error			
+			raise ValueError(f"Invalid IP format. Expected IPv4, got {IP_Value}")
 
 		# Return IP
-		return IP_Value.upper()
+		return IP_Value
 	
 	# ConnTime Validator
 	@validator('ConnTime')
