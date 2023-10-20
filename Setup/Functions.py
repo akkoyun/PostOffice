@@ -2,7 +2,7 @@
 from kafka import KafkaConsumer, KafkaProducer
 from Setup.Config import APP_Settings
 from datetime import datetime
-import Log
+from Setup import Log
 import json
 import time
 
