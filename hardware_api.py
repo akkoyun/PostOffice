@@ -7,9 +7,17 @@ from Routers import WeatherStat, PowerStat
 from kafka import KafkaProducer
 import json
 from datetime import datetime
+import Default_Value_Update as Default_Value_Update
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
+
+# Database Default Values
+Default_Value_Update.MNC_Initial_Values()
+Default_Value_Update.MCC_Initial_Values()
+Default_Value_Update.Module_Type_Initial_Values()
+Default_Value_Update.GSM_Manufacturer_Initial_Values()
+Default_Value_Update.GSM_Model_Initial_Values()
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.00.00", title="PostOffice")
