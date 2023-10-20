@@ -116,7 +116,7 @@ class Pack_IoT_Module(BaseModel):
 	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[str] = Field(default="", description="GSM modem serial ID.", example="0000020273")
+	Serial: Optional[int] = Field(default="", description="GSM modem serial ID.", example="0000020273")
 
 	# GSM Firmware Validator
 	@validator('Firmware')
@@ -185,7 +185,7 @@ class Pack_IoT_Module(BaseModel):
 			raise ValueError(f"Invalid Serial format. Expected 'XXXXXXXXXX', got {Serial_Value}")
 
 		# Return Serial
-		return Serial_Value.upper()
+		return Serial_Value
 
 # Define IoT Operator
 class Pack_IoT_Operator(BaseModel):
