@@ -52,6 +52,8 @@ def Power_Handler():
                 # Log Message
                 Log.LOG_Error_Message(f"An error occurred: {e}")
 
+            print(Kafka_Power_Message)
+
             # Add IV Measurement Record
             if Kafka_Power_Message.Battery.IV is not None:
 
