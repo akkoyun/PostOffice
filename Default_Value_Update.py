@@ -51,7 +51,15 @@ def MCC_Initial_Values():
 
         # Add Record to DataBase
         for record in MCC_Records:
-            DB_Module.add(record)
+
+            # Check for Existing Record
+            Query_Record = DB_Module.query(Models.GSM_MCC).filter(Models.GSM_MCC.MCC_ID==(record.MCC_ID)).first()
+
+            # Record Not Found
+            if not Query_Record:
+
+                # Add Record to DataBase
+                DB_Module.add(record)
 
         # Commit DataBase
         DB_Module.commit()
@@ -79,7 +87,15 @@ def Module_Type_Initial_Values():
 
         # Add Record to DataBase
         for record in Module_Type_Records:
-            DB_Module.add(record)
+
+            # Check for Existing Record
+            Query_Record = DB_Module.query(Models.Module_Type).filter(Models.Module_Type.Module_Type_ID==(record.Module_Type_ID)).first()
+
+            # Record Not Found
+            if not Query_Record:
+
+                # Add Record to DataBase
+                DB_Module.add(record)
 
         # Commit DataBase
         DB_Module.commit()
@@ -105,7 +121,15 @@ def GSM_Manufacturer_Initial_Values():
 
         # Add Record to DataBase
         for record in Manufacturer_Records:
-            DB_Module.add(record)
+
+            # Check for Existing Record
+            Query_Record = DB_Module.query(Models.Module_Manufacturer).filter(Models.Module_Manufacturer.Module_Manufacturer_ID==(record.Module_Manufacturer_ID)).first()
+
+            # Record Not Found
+            if not Query_Record:
+
+                # Add Record to DataBase
+                DB_Module.add(record)
         
         # Commit DataBase
         DB_Module.commit()
@@ -137,7 +161,15 @@ def GSM_Model_Initial_Values():
 
         # Add Record to DataBase
         for record in Model_Records:
-            DB_Module.add(record)
+
+            # Check for Existing Record
+            Query_Record = DB_Module.query(Models.Module_Model).filter(Models.Module_Model.Module_Model_ID==(record.Module_Model_ID)).first()
+
+            # Record Not Found
+            if not Query_Record:
+
+                # Add Record to DataBase
+                DB_Module.add(record)
         
         # Commit DataBase
         DB_Module.commit()
