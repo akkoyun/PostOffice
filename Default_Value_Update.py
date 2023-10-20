@@ -20,7 +20,7 @@ def MNC_Initial_Values():
         for record in MNC_Records:
 
             # Check for Existing Record
-            Query_Record = DB_Module.query(Models.GSM_MNC).filter(Models.GSM_MNC.MNC_ID.like(record.MNC_ID)).first()
+            Query_Record = DB_Module.query(Models.GSM_MNC).filter(Models.GSM_MNC.MNC_ID==(record.MNC_ID)).first()
 
             # Record Not Found
             if not Query_Record:
