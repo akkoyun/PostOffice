@@ -158,7 +158,7 @@ class Pack_IoT_Module(BaseModel):
 			raise ValueError(f"Invalid Manufacturer ID. Expected 0-100, got {Manufacturer_Value}")
 
 		# Return Manufacturer
-		return Manufacturer_Value.upper()
+		return Manufacturer_Value
 	
 	# Model Validator
 	@validator('Model')
@@ -170,7 +170,7 @@ class Pack_IoT_Module(BaseModel):
 			raise ValueError(f"Invalid Model ID. Expected 0-100, got {Model_Value}")
 
 		# Return Model
-		return Model_Value.upper()
+		return Model_Value
 	
 	# Serial Validator
 	@validator('Serial')
@@ -230,7 +230,7 @@ class Pack_IoT_Operator(BaseModel):
 			raise ValueError(f"Invalid SIM Type ID. Expected 0-100, got {SIM_Type_Value}")
 
 		# Return SIM Type
-		return SIM_Type_Value.upper()
+		return SIM_Type_Value
 	
 	# ICCID Validator
 	@validator('ICCID')
@@ -257,7 +257,7 @@ class Pack_IoT_Operator(BaseModel):
 			raise ValueError(f"Invalid MCC ID. Expected 0-1000, got {MCC_Value}")
 
 		# Return MCC
-		return MCC_Value.upper()
+		return MCC_Value
 	
 	# MNC Validator
 	@validator('MNC')
@@ -269,7 +269,7 @@ class Pack_IoT_Operator(BaseModel):
 			raise ValueError(f"Invalid MNC ID. Expected 0-1000, got {MNC_Value}")
 
 		# Return MNC
-		return MNC_Value.upper()
+		return MNC_Value
 	
 	# RSSI Validator
 	@validator('RSSI')
@@ -281,7 +281,7 @@ class Pack_IoT_Operator(BaseModel):
 			raise ValueError(f"Invalid RSSI ID. Expected 0-100, got {RSSI_Value}")
 
 		# Return RSSI
-		return RSSI_Value.upper()
+		return RSSI_Value
 
 	# TAC Validator
 	@validator('TAC')
@@ -353,7 +353,7 @@ class Pack_IoT_Operator(BaseModel):
 			raise ValueError(f"Invalid ConnTime ID. Expected 0-1000, got {ConnTime_Value}")
 
 		# Return ConnTime
-		return ConnTime_Value.upper()
+		return ConnTime_Value
 
 # Define GSM
 class Pack_GSM(BaseModel):
