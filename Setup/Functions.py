@@ -13,7 +13,7 @@ Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('
 def Kafka_Send_Success(record_metadata):
 
 	# Log Message
-	Log.LOG_Message(f"Send to Kafka Queue: {datetime.now()} - {record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}")
+	Log.LOG_Message(f"Send to Kafka Queue: [{record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}]")
 
 # Kafka Callbacks
 def Kafka_Send_Error(excp):
