@@ -197,6 +197,21 @@ class Data_Pack_Model(BaseModel):
 	# Define Command
 	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online")
 
+	# Command Validator
+	@validator('Command')
+	def Command_Validator(cls, Command_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[a-zA-Z]+:[a-zA-Z]+\.[a-zA-Z]+$'
+        
+		# Check Command
+		if not re.match(pattern, Command_Value, re.IGNORECASE):
+			
+			raise ValueError(f"Invalid command format. Expected 'xxx:yyy.zzz', got {Command_Value}")
+
+		# Return Command
+		return Command_Value.upper()
+
 	# Device
 	Device: Optional[Pack_Device]
 
