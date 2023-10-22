@@ -310,7 +310,7 @@ class Pack_IoT_Operator(BaseModel):
 	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1")
 		
 	# Connection Time
-	ConnTime: Optional[int] = Field(..., alias="conntime", default=0, description="IoT connection time.", example=12)
+	ConnTime: Optional[int] = Field(alias="conntime", default=0, description="IoT connection time.", example=12)
 
 	# SIM Type Validator
 	@validator('SIM_Type')
