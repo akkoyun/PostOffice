@@ -477,7 +477,7 @@ class Data_Pack_Model(BaseModel):
 	_Schema: Optional[str] = Field(alias="$schema")
 
 	# Define Command
-	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online")
+	Command: str = Field(description="Pack command.", example="Demo:PowerStat.Online")
 
 	# Command Validator
 	@validator('Command')
@@ -495,7 +495,7 @@ class Data_Pack_Model(BaseModel):
 		return Command_Value.upper()
 
 	# Device
-	Device: Optional[Pack_Device] = Field(default=None, alias="device", description="Device information.")
+	Device: Optional[Pack_Device] = Field(default=None, description="Device information.")
 
 	# Payload
 	Payload: Payload = Field(default=None, description="Payload.")
