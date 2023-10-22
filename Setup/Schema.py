@@ -283,7 +283,7 @@ class Pack_IoT_Module(BaseModel):
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(..., alias="sim_type", default=None, description="SIM card type.", example=1)
+	SIM_Type: Optional[int] = Field(alias="sim_type", default=None, description="SIM card type.", example=1)
 
 	# SIM ICCID
 	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
