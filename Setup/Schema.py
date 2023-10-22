@@ -388,36 +388,10 @@ class Pack_Device(BaseModel):
 class Payload_WeatherStat_Location(BaseModel):
 	
 	# Latitude Value of Device
-	Latitude: float = Field(alias="lat", default=None, description="GNSS lattitude value.", example=1.243242342)
+	Latitude: Optional[float] = Field(alias="lat", default=None, description="GNSS lattitude value.", example=1.243242342)
 
 	# Longtitude Value of Device
-	Longtitude: float = Field(alias="lon", default=None, description="GNSS longtitude value.", example=23.3213232)
-
-	# Latitude Validator
-	@validator("Latitude")
-	def validate_latitude(cls, value):
-		
-		# Check Latitude
-		if value is not None and (value < -90.0 or value > 90.0):
-			
-			# Raise Error
-			raise ValueError(f"Invalid latitude value. Must be between -90.0 and 90.0, got {value}")
-		
-		# Return value
-		return value
-	
-	# Longtitude Validator
-	@validator("Longitude")
-	def validate_longitude(cls, value):
-		
-		# Check Longitude
-		if value is not None and (value < -180.0 or value > 180.0):
-			
-			# Raise Error
-			raise ValueError(f"Invalid longitude value. Must be between -180.0 and 180.0, got {value}")
-		
-		# Return value
-		return value
+	Longtitude: Optional[float] = Field(alias="lon", default=None, description="GNSS longtitude value.", example=23.3213232)
 
 # Environment Measurement Definition
 class Payload_WeatherStat_Environment(BaseModel):
@@ -451,132 +425,6 @@ class Payload_WeatherStat_Environment(BaseModel):
 
 	# Last Measured Wind Speed Value
 	WS: Optional[float] = Field(alias="ws", default=None, description="Wind speed.", example=25)
-
-	# AT Validator
-	@validator("AT")
-	def validate_at(cls, value):
-		
-		# Check AT
-		if value is not None and (value < -50.0 or value > 100.0):
-			
-			# Set AT
-			value = -999
-
-		return value
-
-	# AH Validator
-	@validator("AH")
-	def validate_ah(cls, value):
-		
-		# Check AH
-		if value is not None and (value < 0.0 or value > 100.0):
-
-			# Set AH
-			value = -999
-
-		return value
-    
-	# AP Validator
-	@validator("AP")
-	def validate_ap(cls, value):
-	
-		# Check AP
-		if value is not None and (value < 500.0 or value > 2000.0):
-
-			# Set AP
-			value = -999
-
-		return value
-
-	# VL Validator
-	@validator("VL")
-	def validate_vl(cls, value):
-
-		# Check VL
-		if value is not None and (value < 0 or value > 100000):
-
-			# Set VL
-			value = -999
-
-		return value
-
-	# IR Validator
-	@validator("IR")
-	def validate_ir(cls, value):
-		
-		# Check IR
-		if value is not None and (value < 0 or value > 100000):
-
-			# Set IR
-			value = -999
-
-		return value
-
-	# UV Validator
-	@validator("UV")
-	def validate_uv(cls, value):
-		
-		# Check UV
-		if value is not None and (value < 0.0 or value > 20.0):
-
-			# Set UV
-			value = -999
-
-		return value
-
-	# ST Validator
-	@validator("ST")
-	def validate_st(cls, value):
-
-		# Check ST
-		if value is not None:
-
-			# Check ST
-			for st in value:
-
-				# Check ST
-				if st < -50.0 or st > 100.0:
-
-					# Set ST
-					value = [-999]
-
-		return value
-
-	# R Validator
-	@validator("R")
-	def validate_r(cls, value):
-
-		# Check R
-		if value is not None and (value < 0 or value > 100000):
-
-			# Set R
-			value = -999
-
-		return value
-
-	# WD Validator
-	@validator("WD")
-	def validate_wd(cls, value):
-
-		# Check WD
-		if value is not None and (value < 0 or value > 360):
-
-			# Set WD
-			value = -999
-
-		return value
-
-	# WS Validator
-	@validator("WS")
-	def validate_ws(cls, value):
-
-		# Check WS
-		if value is not None and (value < 0.0 or value > 100.0):
-
-			# Set WS
-			value = -999
-
-		return value
 
 # WeatherStat Model Definition
 class Payload_WeatherStat(BaseModel):
