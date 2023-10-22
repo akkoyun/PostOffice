@@ -76,7 +76,7 @@ class Pack_Battery(BaseModel):
 	SOC: float = Field(..., alias="soc", description="Battery state of charge.", example=97.30, min=0.0, max=150.0)
 
 	# Battery Temperature
-	T: Optional[float] = Field(None, alias="t", default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
+	T: Optional[float] = Field(alias="t", default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
 
 	# Battery Full Battery Cap
 	FB: Optional[int] = Field(..., alias="fb", default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
