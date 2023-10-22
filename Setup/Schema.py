@@ -91,7 +91,7 @@ class Pack_Battery(BaseModel):
 class Pack_Power(BaseModel):
 
 	# Device Battery
-	Battery: Pack_Battery = Field(..., alias="battery", description="Device battery.")
+	Battery: Pack_Battery = Field(alias="battery", description="Device battery.")
 
 # Define IoT Module
 class Pack_IoT_Module(BaseModel):
@@ -106,10 +106,10 @@ class Pack_IoT_Module(BaseModel):
 	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1)
 
 	# Module Model
-	Model: Optional[int] = Field(..., alias="model", default=0, description="GSM modem model ID.", example=1)
+	Model: Optional[int] = Field(alias="model", default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(..., alias="serial", default=0, description="GSM modem serial ID.", example=20273)
+	Serial: Optional[int] = Field(alias="serial", default=0, description="GSM modem serial ID.", example=20273)
 
 	# GSM Firmware Validator
 	@validator('Firmware')
@@ -186,19 +186,19 @@ class Pack_IoT_Module(BaseModel):
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(..., alias="sim_type", default=None, description="SIM card type.", example=1)
+	SIM_Type: Optional[int] = Field(alias="sim_type", default=None, description="SIM card type.", example=1)
 
 	# SIM ICCID
 	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
 
 	# Operator Country Code
-	MCC: Optional[int] = Field(..., alias="mcc", default=0, description="Operator country code.", example=286)
+	MCC: Optional[int] = Field(alias="mcc", default=0, description="Operator country code.", example=286)
 
 	# Operator Code
-	MNC: Optional[int] = Field(..., alias="mnc", default=0, description="Operator code.", example=1)
+	MNC: Optional[int] = Field(alias="mnc", default=0, description="Operator code.", example=1)
 
 	# RSSI
-	RSSI: Optional[int] = Field(..., alias="rssi", default=0, description="IoT RSSI signal level.", example=28)
+	RSSI: Optional[int] = Field(alias="rssi", default=0, description="IoT RSSI signal level.", example=28)
 
 	# TAC
 	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
@@ -213,7 +213,7 @@ class Pack_IoT_Operator(BaseModel):
 	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1")
 		
 	# Connection Time
-	ConnTime: Optional[int] = Field(..., alias="conntime", default=0, description="IoT connection time.", example=12)
+	ConnTime: Optional[int] = Field(alias="conntime", default=0, description="IoT connection time.", example=12)
 
 	# SIM Type Validator
 	@validator('SIM_Type')
