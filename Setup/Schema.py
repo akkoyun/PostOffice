@@ -67,25 +67,25 @@ class Pack_Info(BaseModel):
 class Pack_Battery(BaseModel):
 
 	# Instant Battery Voltage
-	IV: float = Field(..., alias="iv", description="Battery instant voltage.", example=3.8)
+	IV: float = Field(..., alias="iv", description="Battery instant voltage.", example=3.8, min=0.0, max=10.0)
 
 	# Average Battery Current
-	AC: float = Field(..., alias="ac", description="Battery average current.", example=0.2)
+	AC: float = Field(..., alias="ac", description="Battery average current.", example=0.2, min=-10000, max=10000)
 
 	# Battery State of Charge
-	SOC: float = Field(..., alias="soc", description="Battery state of charge.", example=97.30)
+	SOC: float = Field(..., alias="soc", description="Battery state of charge.", example=97.30, min=0.0, max=150.0)
 
 	# Battery Temperature
-	T: Optional[float] = Field(..., alias="t", description="Battery temperature.", example=32.1903)
+	T: Optional[float] = Field(..., alias="t", default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
 
 	# Battery Full Battery Cap
-	FB: Optional[int] = Field(..., alias="fb", description="Full battery capacity.", example=2000)
+	FB: Optional[int] = Field(..., alias="fb", default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
 
 	# Battery Instant Battery Cap
-	IB: Optional[int] = Field(..., alias="ib", description="Instant battery capacity.", example=1820)
+	IB: Optional[int] = Field(..., alias="ib", default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
 
 	# Battery Charge State
-	Charge: int = Field(..., alias="charge", description="Battery charge state.", example=1)
+	Charge: int = Field(..., alias="charge", description="Battery charge state.", example=1, min=0, max=10)
 
 	# IV Validator
 	@validator('IV', pre=True, always=True)
@@ -133,8 +133,8 @@ class Pack_Battery(BaseModel):
 		# Check T
 		if value < -50.0 or value > 100.0:
 			
-			# Set T
-			value = None
+			# Raise Error
+			raise ValueError(f"Invalid T value. Expected a float between -50.0 and 100.0, got {value}")
 		
 		# Return T
 		return value
@@ -194,19 +194,19 @@ class Pack_Power(BaseModel):
 class Pack_IoT_Module(BaseModel):
 	
 	# GSM Module Firmware
-	Firmware: Optional[str] = Field(description="GSM modem firmware version.", example="13.00.007")
+	Firmware: Optional[str] = Field(default="", description="GSM modem firmware version.", example="13.00.007")
 
 	# Module IMEI Number
-	IMEI: Optional[str] = Field(description="GSM modem IMEI number.", example="356156060000000")
+	IMEI: Optional[str] = Field(default="", description="GSM modem IMEI number.", example="356156060000000")
 
 	# Module Manufacturer
-	Manufacturer: Optional[int] = Field(description="GSM modem manufacturer ID.", example=1)
+	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1)
 
 	# Module Model
-	Model: Optional[int] = Field(..., alias="model", description="GSM modem model ID.", example=1)
+	Model: Optional[int] = Field(..., alias="model", default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(..., alias="serial", description="GSM modem serial ID.", example=20273)
+	Serial: Optional[int] = Field(..., alias="serial", default=0, description="GSM modem serial ID.", example=20273)
 
 	# GSM Firmware Validator
 	@validator('Firmware')
@@ -283,34 +283,34 @@ class Pack_IoT_Module(BaseModel):
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(..., alias="sim_type", description="SIM card type.", example=1)
+	SIM_Type: Optional[int] = Field(..., alias="sim_type", default=None, description="SIM card type.", example=1)
 
 	# SIM ICCID
-	ICCID: str = Field(description="SIM card ICCID number.", example="8990011916180280000")
+	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
 
 	# Operator Country Code
-	MCC: Optional[int] = Field(..., alias="mcc", description="Operator country code.", example=286)
+	MCC: Optional[int] = Field(..., alias="mcc", default=0, description="Operator country code.", example=286)
 
 	# Operator Code
-	MNC: Optional[int] = Field(..., alias="mnc", description="Operator code.", example=1)
+	MNC: Optional[int] = Field(..., alias="mnc", default=0, description="Operator code.", example=1)
 
 	# RSSI
-	RSSI: Optional[int] = Field(..., alias="rssi", description="IoT RSSI signal level.", example=28)
+	RSSI: Optional[int] = Field(..., alias="rssi", default=0, description="IoT RSSI signal level.", example=28)
 
 	# TAC
-	TAC: Optional[str] = Field(description="Operator type allocation code.", example="855E")
+	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
 
 	# LAC
-	LAC: Optional[str] = Field(description="Operator base station location.", example="855E")
+	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E")
 
 	# Cell ID
-	Cell_ID: Optional[str] = Field(description="Operator base station cell id.", example="E678")
+	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678")
 
 	# IP
-	IP: Optional[str] = Field(description="IoT IP address.", example="127.0.0.1")
+	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1")
 		
 	# Connection Time
-	ConnTime: Optional[int] = Field(..., alias="conntime", description="IoT connection time.", example=12)
+	ConnTime: Optional[int] = Field(..., alias="conntime", default=0, description="IoT connection time.", example=12)
 
 	# SIM Type Validator
 	@validator('SIM_Type')
@@ -458,10 +458,10 @@ class Pack_IoT_Operator(BaseModel):
 class Pack_GSM(BaseModel):
 
 	# Device IoT Module
-	Module: Optional[Pack_IoT_Module] = Field(alias="module", description="Device IoT module.")
+	Module: Optional[Pack_IoT_Module] = Field(default=None, alias="module", description="Device IoT module.")
 
 	# IoT Operator
-	Operator: Pack_IoT_Operator = Field(alias="operator", description="Device IoT operator.")
+	Operator: Pack_IoT_Operator = Field(default=None, alias="operator", description="Device IoT operator.")
 
 # Define IoT
 class Pack_IoT(BaseModel):
@@ -485,10 +485,10 @@ class Pack_Device(BaseModel):
 class Payload_WeatherStat_Location(BaseModel):
 	
 	# Latitude Value of Device
-	Latitude: Optional[float] = Field(..., alias="lat", description="GNSS lattitude value.", example=1.243242342)
+	Latitude: float = Field(..., alias="lat", default=None, description="GNSS lattitude value.", example=1.243242342)
 
 	# Longtitude Value of Device
-	Longtitude: Optional[float] = Field(..., alias="lon", description="GNSS longtitude value.", example=23.3213232)
+	Longtitude: float = Field(..., alias="lon", default=None, description="GNSS longtitude value.", example=23.3213232)
 
 	# Latitude Validator
 	@validator("Latitude")
@@ -497,9 +497,9 @@ class Payload_WeatherStat_Location(BaseModel):
 		# Check Latitude
 		if value is not None and (value < -90.0 or value > 90.0):
 			
-			# Set Latitude
-			value = -999
-
+			# Raise Error
+			raise ValueError(f"Invalid latitude value. Must be between -90.0 and 90.0, got {value}")
+		
 		# Return value
 		return value
 	
@@ -507,50 +507,47 @@ class Payload_WeatherStat_Location(BaseModel):
 	@validator("Longitude")
 	def validate_longitude(cls, value):
 		
-		# Set Longitude
-		value = -999
+		# Check Longitude
+		if value is not None and (value < -180.0 or value > 180.0):
+			
+			# Raise Error
+			raise ValueError(f"Invalid longitude value. Must be between -180.0 and 180.0, got {value}")
 		
 		# Return value
 		return value
-
-	# Define Config
-	class Config:
-
-		# Allow Population by Field Name
-		allow_population_by_field_name = True
 
 # Environment Measurement Definition
 class Payload_WeatherStat_Environment(BaseModel):
 	
 	# Last Measured Air Temperature Value
-	AT: Optional[float] = Field(..., alias="at", description="Air temperature.", example=28.3232)
+	AT: Optional[float] = Field(..., alias="at", default=None, description="Air temperature.", example=28.3232)
 
 	# Last Measured Relative Humidity Value
-	AH: Optional[float] = Field(..., alias="ah", description="Air humidity.", example=85.2332)
+	AH: Optional[float] = Field(..., alias="ah", default=None, description="Air humidity.", example=85.2332)
 
 	# Last Measured Air Pressure Value
-	AP: Optional[float] = Field(..., alias="ap", description="Air pressure.", example=985.55)
+	AP: Optional[float] = Field(..., alias="ap", default=None, description="Air pressure.", example=985.55)
 
 	# Last Measured Visual Light Value
-	VL: Optional[int] = Field(..., alias="vl", description="Visual light.")
+	VL: Optional[int] = Field(..., alias="vl", default=None, description="Visual light.")
 
 	# Last Measured Infrared Light Value
-	IR: Optional[int] = Field(..., alias="ir", description="Infrared light.")
+	IR: Optional[int] = Field(..., alias="ir", default=None, description="Infrared light.")
 
 	# Last Measured UV Value
-	UV: Optional[float] = Field(..., alias="uv", description="UV index.")
+	UV: Optional[float] = Field(..., alias="uv", default=None, description="UV index.")
 
 	# Last Measured Soil Temperature Value
-	ST: list[Optional[float]] = Field(..., alias="st", description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10)
+	ST: list[Optional[float]] = Field(..., alias="st", default=None, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10)
 
 	# Last Measured Rain Value
-	R: Optional[int] = Field(..., alias="r", description="Rain tip counter.", example=23)
+	R: Optional[int] = Field(..., alias="r", default=None, description="Rain tip counter.", example=23)
 
 	# Last Measured Wind Direction Value
-	WD: Optional[int] = Field(..., alias="wd", description="Wind direction.", example=275)
+	WD: Optional[int] = Field(..., alias="wd", default=None, description="Wind direction.", example=275)
 
 	# Last Measured Wind Speed Value
-	WS: Optional[float] = Field(..., alias="ws", description="Wind speed.", example=25)
+	WS: Optional[float] = Field(..., alias="ws", default=None, description="Wind speed.", example=25)
 
 	# AT Validator
 	@validator("AT")
@@ -682,10 +679,10 @@ class Payload_WeatherStat_Environment(BaseModel):
 class Payload_WeatherStat(BaseModel):
 
 	# Location
-	Location: Optional[Payload_WeatherStat_Location] = Field(alias="location", description="Location.")
+	Location: Optional[Payload_WeatherStat_Location] = Field(default=None, alias="location", description="Location.")
 
 	# Environment
-	Environment: Payload_WeatherStat_Environment = Field(alias="environment", description="Environment.")
+	Environment: Payload_WeatherStat_Environment = Field(default=None, alias="environment", description="Environment.")
 
 # Define payload
 class Payload(BaseModel):
