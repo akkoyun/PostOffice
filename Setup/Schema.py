@@ -178,17 +178,11 @@ class Pack_Battery(BaseModel):
 		# Return Charge
 		return value
 
-	# Define Config
-	class Config:
-
-		# Allow Population by Field Name
-		allow_population_by_field_name = True
-
 # Define Power
 class Pack_Power(BaseModel):
 
 	# Device Battery
-	Battery: Pack_Battery = Field(..., description="Device battery.")
+	Battery: Pack_Battery = Field(description="Device battery.")
 
 # Define IoT Module
 class Pack_IoT_Module(BaseModel):
