@@ -131,7 +131,7 @@ class Pack_Battery(BaseModel):
 	def validate_T(cls, value):
 		
 		# Check T
-		if value < -50.0 or value > 100.0:
+		if value <= -50.0 or value >= 100.0:
 			
 			# Raise Error
 			raise ValueError(f"Invalid T value. Expected a float between -50.0 and 100.0, got {value}")
