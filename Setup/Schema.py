@@ -99,6 +99,148 @@ class Pack_IoT_Operator(BaseModel):
 	# Connection Time
 	ConnTime: Optional[int] = Field(alias="conntime", default=0, description="IoT connection time.", example=12)
 
+	# SIM Type Validator
+	@validator('SIM_Type')
+	def SIM_Type_Validator(cls, SIM_Type_Value):
+
+		# Check SIM Type
+		if SIM_Type_Value < 0 or SIM_Type_Value > 100:
+
+			# Set SIM Type
+			SIM_Type_Value = 0
+
+		# Return SIM Type
+		return SIM_Type_Value
+
+	# ICCID Validator
+	@validator('ICCID')
+	def ICCID_Validator(cls, ICCID_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9]{19}$'
+
+		# Check ICCID
+		if not re.match(pattern, ICCID_Value, re.IGNORECASE):
+
+			raise ValueError(f"Invalid ICCID format. Expected 'XXXXXXXXXXXXXXXXXXX', got {ICCID_Value}")
+
+		# Return ICCID
+		return ICCID_Value.upper()
+
+	# MCC Validator
+	@validator('MCC')
+	def MCC_Validator(cls, MCC_Value):
+
+		# Check MCC
+		if MCC_Value < 0 or MCC_Value > 1000:
+
+			# Set MCC
+			MCC_Value = 0
+
+		# Return MCC
+		return MCC_Value
+
+	# MNC Validator
+	@validator('MNC')
+	def MNC_Validator(cls, MNC_Value):
+
+		# Check MNC
+		if MNC_Value < 0 or MNC_Value > 1000:
+
+			# Set MNC
+			MNC_Value = 0
+
+		# Return MNC
+		return MNC_Value
+
+	# RSSI Validator
+	@validator('RSSI')
+	def RSSI_Validator(cls, RSSI_Value):
+
+		# Check RSSI
+		if RSSI_Value < -100 or RSSI_Value > 100:
+
+			# Set RSSI
+			RSSI_Value = 0
+
+		# Return RSSI
+		return RSSI_Value
+
+	# TAC Validator
+	@validator('TAC')
+	def TAC_Validator(cls, TAC_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9A-F]{4}$'
+
+		# Check TAC
+		if not re.match(pattern, TAC_Value, re.IGNORECASE):
+
+			raise ValueError(f"Invalid TAC format. Expected 'XXXX', got {TAC_Value}")
+
+		# Return TAC
+		return TAC_Value.upper()
+
+	# LAC Validator
+	@validator('LAC')
+	def LAC_Validator(cls, LAC_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9A-F]{4}$'
+
+		# Check LAC
+		if not re.match(pattern, LAC_Value, re.IGNORECASE):
+
+			raise ValueError(f"Invalid LAC format. Expected 'XXXX', got {LAC_Value}")
+
+		# Return LAC
+		return LAC_Value.upper()
+
+	# Cell ID Validator
+	@validator('Cell_ID')
+	def Cell_ID_Validator(cls, Cell_ID_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9A-F]{4}$'
+
+		# Check Cell ID
+		if not re.match(pattern, Cell_ID_Value, re.IGNORECASE):
+
+			raise ValueError(f"Invalid Cell ID format. Expected 'XXXX', got {Cell_ID_Value}")
+
+		# Return Cell ID
+		return Cell_ID_Value.upper()
+
+	# IP Validator
+	@validator('IP')
+	def IP_Validator(cls, IP_Value):
+
+		try:
+
+			# Control for IP
+			ipaddress.ip_address(IP_Value)
+
+		except ipaddress.AddressValueError:
+
+			# Raise Error			
+			raise ValueError(f"Invalid IP format. Expected IPv4, got {IP_Value}")
+
+		# Return IP
+		return IP_Value
+
+	# ConnTime Validator
+	@validator('ConnTime')
+	def ConnTime_Validator(cls, ConnTime_Value):
+
+		# Check ConnTime
+		if ConnTime_Value < 0 or ConnTime_Value > 1000:
+
+			# Set ConnTime
+			ConnTime_Value = 0
+
+		# Return ConnTime
+		return ConnTime_Value
+
 # Define GSM
 class Pack_GSM(BaseModel):
 
