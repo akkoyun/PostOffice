@@ -46,7 +46,7 @@ class Pack_Battery(BaseModel):
 class Pack_Power(BaseModel):
 
 	# Device Battery
-	Battery: Pack_Battery = Field(..., alias="battery", description="Device battery.")
+	Battery: Pack_Battery = Field(alias="battery", description="Device battery.")
 
 # Define IoT Module
 class Pack_IoT_Module(BaseModel):
@@ -112,19 +112,19 @@ class Pack_GSM(BaseModel):
 class Pack_IoT(BaseModel):
 	
 	# Device GSM
-	GSM: Pack_GSM = Field(..., alias="gsm", description="Device GSM.")
+	GSM: Pack_GSM = Field(alias="gsm", description="Device GSM.")
 
 # Define Device
 class Pack_Device(BaseModel):
 
 	# Device Info
-	Info: Pack_Info = Field(..., alias="info", description="Device information.")
+	Info: Pack_Info = Field(alias="info", description="Device information.")
 
 	# Device Power
-	Power: Pack_Power = Field(..., alias="power", description="Device power.")
+	Power: Pack_Power = Field(alias="power", description="Device power.")
 
 	# Device IoT
-	IoT: Pack_IoT = Field(..., alias="iot", description="Device IoT.")
+	IoT: Pack_IoT = Field(alias="iot", description="Device IoT.")
 
 # Location Definition
 class Payload_WeatherStat_Location(BaseModel):
