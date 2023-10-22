@@ -76,13 +76,13 @@ class Pack_Battery(BaseModel):
 	SOC: float = Field(..., alias="soc", description="Battery state of charge.", example=97.30, min=0.0, max=150.0)
 
 	# Battery Temperature
-	T: Optional[float] = Field(default=None, alias="t", description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
+	T: Optional[float] = Field(..., alias="t", default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
 
 	# Battery Full Battery Cap
-	FB: Optional[int] = Field(default=None, alias="fb", description="Full battery capacity.", example=2000, min=0, max=10000)
+	FB: Optional[int] = Field(..., alias="fb", default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
 
 	# Battery Instant Battery Cap
-	IB: Optional[int] = Field(default=None, alias="ib", description="Instant battery capacity.", example=1820, min=0, max=10000)
+	IB: Optional[int] = Field(..., alias="ib", default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
 
 	# Battery Charge State
 	Charge: int = Field(..., alias="charge", description="Battery charge state.", example=1, min=0, max=10)
@@ -203,10 +203,10 @@ class Pack_IoT_Module(BaseModel):
 	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1)
 
 	# Module Model
-	Model: Optional[int] = Field(alias="model", default=0, description="GSM modem model ID.", example=1)
+	Model: Optional[int] = Field(..., alias="model", default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(alias="serial", default=0, description="GSM modem serial ID.", example=20273)
+	Serial: Optional[int] = Field(..., alias="serial", default=0, description="GSM modem serial ID.", example=20273)
 
 	# GSM Firmware Validator
 	@validator('Firmware')
