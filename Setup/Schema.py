@@ -497,9 +497,9 @@ class Payload_WeatherStat_Location(BaseModel):
 		# Check Latitude
 		if value is not None and (value < -90.0 or value > 90.0):
 			
-			# Raise Error
-			raise ValueError(f"Invalid latitude value. Must be between -90.0 and 90.0, got {value}")
-		
+			# Set Latitude
+			value = -999
+
 		# Return value
 		return value
 	
@@ -507,11 +507,8 @@ class Payload_WeatherStat_Location(BaseModel):
 	@validator("Longitude")
 	def validate_longitude(cls, value):
 		
-		# Check Longitude
-		if value is not None and (value < -180.0 or value > 180.0):
-			
-			# Raise Error
-			raise ValueError(f"Invalid longitude value. Must be between -180.0 and 180.0, got {value}")
+		# Set Longitude
+		value = -999
 		
 		# Return value
 		return value
