@@ -66,6 +66,78 @@ class Pack_IoT_Module(BaseModel):
 	# Module Serial Number
 	Serial: Optional[int] = Field(alias="serial", default=0, description="GSM modem serial ID.", example=20273)
 
+
+	# GSM Firmware Validator
+	@validator('Firmware')
+	def Firmware_Validator(cls, Firmware_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{3}$'
+
+		# Check Firmware
+		if not re.match(pattern, Firmware_Value, re.IGNORECASE):
+
+			# Raise Error
+			raise ValueError(f"Invalid Firmware format. Expected 'XX.XX.XXX', got {Firmware_Value}")
+
+		# Return Firmware
+		return Firmware_Value.upper()
+
+	# IMEI Validator
+	@validator('IMEI')
+	def IMEI_Validator(cls, IMEI_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9]{15}$'
+
+		# Check IMEI
+		if not re.match(pattern, IMEI_Value, re.IGNORECASE):
+
+			# Raise Error
+			raise ValueError(f"Invalid IMEI format. Expected 'XXXXXXXXXXXXXXX', got {IMEI_Value}")
+
+		# Return IMEI
+		return IMEI_Value.upper()
+
+	# Manufacturer Validator
+	@validator('Manufacturer')
+	def Manufacturer_Validator(cls, Manufacturer_Value):
+
+		# Check Manufacturer
+		if Manufacturer_Value < 0 or Manufacturer_Value > 100:
+
+			# Set Manufacturer
+			Manufacturer_Value = 0
+
+		# Return Manufacturer
+		return Manufacturer_Value
+
+	# Model Validator
+	@validator('Model')
+	def Model_Validator(cls, Model_Value):
+
+		# Check Model
+		if Model_Value < 0 or Model_Value > 100:
+
+			# Set Model
+			Model_Value = 0
+
+		# Return Model
+		return Model_Value
+
+	# Serial Validator
+	@validator('Serial')
+	def Serial_Validator(cls, Serial_Value):
+
+		# Check Serial
+		if Serial_Value < 0:
+
+			# Set Serial
+			Serial_Value = 0
+
+		# Return Serial
+		return Serial_Value
+	
 # Define IoT Operator
 class Pack_IoT_Operator(BaseModel):
 
