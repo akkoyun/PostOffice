@@ -135,6 +135,33 @@ class Payload_WeatherStat_Location(BaseModel):
 	# Longtitude Value of Device
 	Longtitude: float = Field(alias="lon", default=None, description="GNSS longtitude value.", example=23.3213232)
 
+
+	# Latitude Validator
+	@validator("Latitude")
+	def validate_latitude(cls, value):
+
+		# Check Latitude
+		if value is not None and (value < -90.0 or value > 90.0):
+
+			# Raise Error
+			raise ValueError(f"Invalid latitude value. Must be between -90.0 and 90.0, got {value}")
+
+		# Return value
+		return value
+
+	# Longtitude Validator
+	@validator("Longitude")
+	def validate_longitude(cls, value):
+
+		# Check Longitude
+		if value is not None and (value < -180.0 or value > 180.0):
+
+			# Raise Error
+			raise ValueError(f"Invalid longitude value. Must be between -180.0 and 180.0, got {value}")
+
+		# Return value
+		return value
+
 # Environment Measurement Definition
 class Payload_WeatherStat_Environment(BaseModel):
 	
