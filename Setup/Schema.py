@@ -79,10 +79,10 @@ class Pack_Battery(BaseModel):
 	T: Optional[float] = Field(alias="t", default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
 
 	# Battery Full Battery Cap
-	FB: Optional[int] = Field(..., alias="fb", default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
+	FB: Optional[int] = Field(alias="fb", default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
 
 	# Battery Instant Battery Cap
-	IB: Optional[int] = Field(..., alias="ib", default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
+	IB: Optional[int] = Field(alias="ib", default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
 
 	# Battery Charge State
 	Charge: int = Field(..., alias="charge", description="Battery charge state.", example=1, min=0, max=10)
