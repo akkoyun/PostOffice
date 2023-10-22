@@ -130,10 +130,10 @@ class Pack_Device(BaseModel):
 class Payload_WeatherStat_Location(BaseModel):
 	
 	# Latitude Value of Device
-	Latitude: float = Field(alias="lat", default=None, description="GNSS lattitude value.", example=1.243242342)
+	Latitude: float = Field(alias="lat", description="GNSS lattitude value.", example=1.243242342)
 
 	# Longtitude Value of Device
-	Longtitude: float = Field(alias="lon", default=None, description="GNSS longtitude value.", example=23.3213232)
+	Longtitude: float = Field(alias="lon", description="GNSS longtitude value.", example=23.3213232)
 
 
 	# Latitude Validator
