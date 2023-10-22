@@ -14,9 +14,55 @@ class Pack_Info(BaseModel):
 
 	# Device Hardware Version
 	Hardware: Optional[str] = Field(default=None, description="Hardware version of device.", example="01.00.00", min_length=5, max_length=8)
-	
+
 	# Device Firmware Version
 	Firmware: Optional[str] = Field(default=None, description="Firmware version of device.", example="01.00.00", min_length=5, max_length=8)
+
+
+	# Device ID Validator
+	@validator('ID')
+	def ID_Validator(cls, ID_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9A-F]{16}$'
+
+		# Check ID
+		if not re.match(pattern, ID_Value, re.IGNORECASE):
+
+			raise ValueError(f"Invalid ID format. Expected 'XXXXXXXXXXXXXXXX', got {ID_Value}")
+
+		# Return ID
+		return ID_Value.upper()
+
+	# Hardware Version Validator
+	@validator('Hardware')
+	def Hardware_Validator(cls, Hardware_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$'
+
+		# Check Hardware
+		if not re.match(pattern, Hardware_Value, re.IGNORECASE):
+
+			raise ValueError(f"Invalid Hardware format. Expected 'XX.XX.XX', got {Hardware_Value}")
+
+		# Return Hardware
+		return Hardware_Value.upper()
+
+	# Firmware Version Validator
+	@validator('Firmware')
+	def Firmware_Validator(cls, Firmware_Value):
+
+		# Define Regex Pattern
+		pattern = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$'
+
+		# Check Firmware
+		if not re.match(pattern, Firmware_Value, re.IGNORECASE):
+
+			raise ValueError(f"Invalid Firmware format. Expected 'XX.XX.XX', got {Firmware_Value}")
+
+		# Return Firmware
+		return Firmware_Value.upper()
 
 # Define Battery
 class Pack_Battery(BaseModel):
