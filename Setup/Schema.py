@@ -495,7 +495,7 @@ class Data_Pack_Model(BaseModel):
 		return Command_Value.upper()
 
 	# Device
-	Device: Optional[Pack_Device] = Field(default=None, description="Device information.")
+	Device: Optional[Pack_Device] = Field(description="Device information.")
 
 	# Payload
-	Payload: Payload = Field(default=None, description="Payload.")
+	Payload: Payload = Field(description="Payload.")
