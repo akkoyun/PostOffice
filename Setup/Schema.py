@@ -46,7 +46,7 @@ class Pack_Battery(BaseModel):
 class Pack_Power(BaseModel):
 
 	# Device Battery
-	Battery: Pack_Battery = Field(description="Device battery.")
+	Battery: Pack_Battery
 
 # Define IoT Module
 class Pack_IoT_Module(BaseModel):
@@ -103,28 +103,28 @@ class Pack_IoT_Operator(BaseModel):
 class Pack_GSM(BaseModel):
 
 	# Device IoT Module
-	Module: Optional[Pack_IoT_Module] = Field(description="Device IoT module.")
+	Module: Optional[Pack_IoT_Module]
 
 	# IoT Operator
-	Operator: Pack_IoT_Operator = Field(description="Device IoT operator.")
+	Operator: Pack_IoT_Operator
 
 # Define IoT
 class Pack_IoT(BaseModel):
 	
 	# Device GSM
-	GSM: Pack_GSM = Field(description="Device GSM.")
+	GSM: Pack_GSM
 
 # Define Device
 class Pack_Device(BaseModel):
 
 	# Device Info
-	Info: Pack_Info = Field(description="Device information.")
+	Info: Pack_Info
 
 	# Device Power
-	Power: Pack_Power = Field(description="Device power.")
+	Power: Pack_Power
 
 	# Device IoT
-	IoT: Pack_IoT = Field(description="Device IoT.")
+	IoT: Pack_IoT
 
 # Location Definition
 class Payload_WeatherStat_Location(BaseModel):
@@ -172,10 +172,10 @@ class Payload_WeatherStat_Environment(BaseModel):
 class Payload_WeatherStat(BaseModel):
 
 	# Location
-	Location: Optional[Payload_WeatherStat_Location] = Field(description="Location.")
+	Location: Optional[Payload_WeatherStat_Location]
 
 	# Environment
-	Environment: Payload_WeatherStat_Environment = Field(description="Environment.")
+	Environment: Payload_WeatherStat_Environment
 
 # Define payload
 class Payload(BaseModel):
@@ -184,7 +184,7 @@ class Payload(BaseModel):
 	TimeStamp: str = Field(default="2022-07-19T08:28:32Z", description="Measurement time stamp.", example="2022-07-19T08:28:32Z")
 
 	# WeatherStat Payload
-	WeatherStat: Optional[Payload_WeatherStat] = Field(description="WeatherStat payload.")
+	WeatherStat: Optional[Payload_WeatherStat]
 
 # Define IoT RAW Data Base Model
 # PowerStat Model Version 01.03.00
@@ -198,7 +198,7 @@ class Data_Pack_Model(BaseModel):
 	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online")
 
 	# Device
-	Device: Optional[Pack_Device] = Field(description="Device information.")
+	Device: Optional[Pack_Device]
 
 	# Payload
-	Payload: Payload = Field(description="Payload.")
+	Payload: Payload
