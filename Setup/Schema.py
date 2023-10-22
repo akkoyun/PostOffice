@@ -513,6 +513,12 @@ class Payload_WeatherStat_Location(BaseModel):
 		# Return value
 		return value
 
+	# Define Config
+	class Config:
+
+		# Allow Population by Field Name
+		allow_population_by_field_name = True
+
 # Environment Measurement Definition
 class Payload_WeatherStat_Environment(BaseModel):
 	
