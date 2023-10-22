@@ -42,6 +42,104 @@ class Pack_Battery(BaseModel):
 	# Battery Charge State
 	Charge: int = Field(description="Battery charge state.", example=1, min=0, max=10)
 
+
+	# IV Validator
+	@validator('IV', pre=True, always=True)
+	def validate_IV(cls, value):
+
+		# Check IV
+		if value < 0.0 or value > 10.0:
+
+			# Raise Error
+			raise ValueError(f"Invalid IV value. Expected a float between 0.0 and 10.0, got {value}")
+
+		# Return IV
+		return value
+
+	# AC Validator
+	@validator('AC', pre=True, always=True)
+	def validate_AC(cls, value):
+
+		# Check AC
+		if value < -10000 or value > 10000:
+
+			# Raise Error
+			raise ValueError(f"Invalid AC value. Expected a float between -10000 and 10000, got {value}")
+
+		# Return AC
+		return value
+
+	# SOC Validator
+	@validator('SOC', pre=True, always=True)
+	def validate_SOC(cls, value):
+
+		# Check SOC
+		if value < 0.0 or value > 150.0:
+
+			# Raise Error
+			raise ValueError(f"Invalid SOC value. Expected a float between 0.0 and 150.0, got {value}")
+
+		# Return SOC
+		return value
+
+	# T Validator
+	@validator('T', pre=True, always=True)
+	def validate_T(cls, value):
+
+		# Check T
+		if value < -50.0 or value > 100.0:
+
+			# Raise Error
+			raise ValueError(f"Invalid T value. Expected a float between -50.0 and 100.0, got {value}")
+
+		# Return T
+		return value
+
+	# FB Validator
+	@validator('FB', pre=True, always=True)
+	def validate_FB(cls, value):
+
+		# Check FB
+		if value < 0 or value > 10000:
+
+			# Raise Error
+			raise ValueError(f"Invalid FB value. Expected an integer between 0 and 10000, got {value}")
+
+		# Return FB
+		return value
+
+	# IB Validator
+	@validator('IB', pre=True, always=True)
+	def validate_IB(cls, value):
+
+		# Check IB
+		if value < 0 or value > 10000:
+
+			# Raise Error
+			raise ValueError(f"Invalid IB value. Expected an integer between 0 and 10000, got {value}")
+
+		# Return IB
+		return value
+
+	# Charge Validator
+	@validator('Charge', pre=True, always=True)
+	def validate_charge(cls, value):
+
+		# Check Charge
+		if value < 0 or value > 10:
+
+			# Set Charge
+			return 5
+
+		# Return Charge
+		return value
+
+	# Define Config
+	class Config:
+
+		# Allow Population by Field Name
+		allow_population_by_field_name = True
+
 # Define Power
 class Pack_Power(BaseModel):
 
