@@ -67,25 +67,25 @@ class Pack_Info(BaseModel):
 class Pack_Battery(BaseModel):
 
 	# Instant Battery Voltage
-	IV: float = Field(..., alias="iv", description="Battery instant voltage.", example=3.8, min=0.0, max=10.0)
+	IV: float = Field(..., alias="iv", description="Battery instant voltage.", example=3.8)
 
 	# Average Battery Current
-	AC: float = Field(..., alias="ac", description="Battery average current.", example=0.2, min=-10000, max=10000)
+	AC: float = Field(..., alias="ac", description="Battery average current.", example=0.2)
 
 	# Battery State of Charge
-	SOC: float = Field(..., alias="soc", description="Battery state of charge.", example=97.30, min=0.0, max=150.0)
+	SOC: float = Field(..., alias="soc", description="Battery state of charge.", example=97.30)
 
 	# Battery Temperature
-	T: Optional[float] = Field(..., alias="t", default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
+	T: Optional[float] = Field(..., alias="t", default=None, description="Battery temperature.", example=32.1903)
 
 	# Battery Full Battery Cap
-	FB: Optional[int] = Field(..., alias="fb", default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
+	FB: Optional[int] = Field(..., alias="fb", default=None, description="Full battery capacity.", example=2000)
 
 	# Battery Instant Battery Cap
-	IB: Optional[int] = Field(..., alias="ib", default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
+	IB: Optional[int] = Field(..., alias="ib", default=None, description="Instant battery capacity.", example=1820)
 
 	# Battery Charge State
-	Charge: int = Field(..., alias="charge", description="Battery charge state.", example=1, min=0, max=10)
+	Charge: int = Field(..., alias="charge", description="Battery charge state.", example=1)
 
 	# IV Validator
 	@validator('IV', pre=True, always=True)
