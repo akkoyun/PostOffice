@@ -203,10 +203,10 @@ class Pack_IoT_Module(BaseModel):
 	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1)
 
 	# Module Model
-	Model: Optional[int] = Field(..., alias="model", default=0, description="GSM modem model ID.", example=1)
+	Model: Optional[int] = Field(alias="model", default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(..., alias="serial", default=0, description="GSM modem serial ID.", example=20273)
+	Serial: Optional[int] = Field(alias="serial", default=0, description="GSM modem serial ID.", example=20273)
 
 	# GSM Firmware Validator
 	@validator('Firmware')
