@@ -430,10 +430,10 @@ class Payload_WeatherStat_Environment(BaseModel):
 class Payload_WeatherStat(BaseModel):
 
 	# Location
-	Location: Optional[Payload_WeatherStat_Location] = Field(description="Location.")
+	Location: Optional[Payload_WeatherStat_Location] = Field(..., description="Location.")
 
 	# Environment
-	Environment: Payload_WeatherStat_Environment = Field(description="Environment.")
+	Environment: Payload_WeatherStat_Environment = Field(..., description="Environment.")
 
 # Define payload
 class Payload(BaseModel):
@@ -466,7 +466,7 @@ class Payload(BaseModel):
 		return TimeStamp_Value.upper()
 
 	# WeatherStat Payload
-	WeatherStat: Optional[Payload_WeatherStat] = Field(description="WeatherStat payload.")
+	WeatherStat: Optional[Payload_WeatherStat] = Field(..., description="WeatherStat payload.")
 
 # Define IoT RAW Data Base Model
 # PowerStat Model Version 01.03.00
