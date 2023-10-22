@@ -498,4 +498,4 @@ class Data_Pack_Model(BaseModel):
 	Device: Optional[Pack_Device] = Field(default=None, alias="device", description="Device information.")
 
 	# Payload
-	Payload: Payload = Field(default=None, alias="payload", description="Payload.")
+	Payload: Payload = Field(default=None, description="Payload.")
