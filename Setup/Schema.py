@@ -283,34 +283,34 @@ class Pack_IoT_Module(BaseModel):
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(..., alias="sim_type", default=None, description="SIM card type.", example=1)
+	SIM_Type: Optional[int] = Field(alias="sim_type", default=None, description="SIM card type.", example=1)
 
 	# SIM ICCID
-	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
+	ICCID: str = Field(alias="iccid", default=None, description="SIM card ICCID number.", example="8990011916180280000")
 
 	# Operator Country Code
-	MCC: Optional[int] = Field(..., alias="mcc", default=0, description="Operator country code.", example=286)
+	MCC: Optional[int] = Field(alias="mcc", default=0, description="Operator country code.", example=286)
 
 	# Operator Code
-	MNC: Optional[int] = Field(..., alias="mnc", default=0, description="Operator code.", example=1)
+	MNC: Optional[int] = Field(alias="mnc", default=0, description="Operator code.", example=1)
 
 	# RSSI
-	RSSI: Optional[int] = Field(..., alias="rssi", default=0, description="IoT RSSI signal level.", example=28)
+	RSSI: Optional[int] = Field(alias="rssi", default=0, description="IoT RSSI signal level.", example=28)
 
 	# TAC
-	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
+	TAC: Optional[str] = Field(alias="tac", default=None, description="Operator type allocation code.", example="855E")
 
 	# LAC
-	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E")
+	LAC: Optional[str] = Field(alias="lac", default=None, description="Operator base station location.", example="855E")
 
 	# Cell ID
-	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678")
+	Cell_ID: Optional[str] = Field(alias="cell_id", default=None, description="Operator base station cell id.", example="E678")
 
 	# IP
-	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1")
+	IP: Optional[str] = Field(alias="ip", default=None, description="IoT IP address.", example="127.0.0.1")
 		
 	# Connection Time
-	ConnTime: Optional[int] = Field(..., alias="conntime", default=0, description="IoT connection time.", example=12)
+	ConnTime: Optional[int] = Field(alias="conntime", default=0, description="IoT connection time.", example=12)
 
 	# SIM Type Validator
 	@validator('SIM_Type')
