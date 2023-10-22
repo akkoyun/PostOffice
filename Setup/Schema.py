@@ -183,6 +183,26 @@ class Payload(BaseModel):
 	# TimeStamp
 	TimeStamp: str = Field(default="2022-07-19T08:28:32Z", description="Measurement time stamp.", example="2022-07-19T08:28:32Z")
 
+    # TimeStamp Validator
+	@validator('TimeStamp')
+	def validate_timestamp(cls, TimeStamp_Value):
+
+		try:
+
+            # Remove 'Z' if it exists
+			TimeStamp_Value = TimeStamp_Value.rstrip('Z')
+	
+			# Convert to Datetime
+			datetime.fromisoformat(TimeStamp_Value)
+
+		except ValueError:
+
+			# Raise Error
+			raise ValueError(f"Invalid TimeStamp format. Expected ISO 8601 format, got {TimeStamp_Value}")
+
+		# Return TimeStamp
+		return TimeStamp_Value.upper()
+
 	# WeatherStat Payload
 	WeatherStat: Optional[Payload_WeatherStat]
 
