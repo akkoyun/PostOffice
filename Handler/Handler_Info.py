@@ -1,5 +1,5 @@
 # Library Includes
-from Setup import Database, Models, Log, Schema, Kafka
+from Setup import Database, Models, Log, Schema, Kafka, Functions
 import json
 from datetime import datetime
 from sqlalchemy import and_
@@ -7,50 +7,23 @@ from sqlalchemy import and_
 # Parser Function
 def Device_Handler():
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
     # Handle Messages
     try:
 
+        # Define DB
+        DB_Module = Database.SessionLocal()
+
+        # Parse Messages
         for Message in Kafka.Kafka_Info_Consumer:
 
             # Log Message
-            Log.LOG_Message(f"Message Received")
+            Log.Terminal_Log("INFO", f"New Message Received")
+
+            # Get Headers
+            Headers = Functions.Handle_Full_Headers(Message)
 
             # Decode Message
-            decoded_value = Message.value.decode()
-
-            # Parse JSON
-            parsed_json = json.loads(decoded_value)
-
-            # Check if JSON is a string
-            if isinstance(parsed_json, str):
-                parsed_json = json.loads(parsed_json)
-
-            # Get RAW Data
-            Kafka_Device_Message = Schema.Pack_Info(**parsed_json)
-
-            # Check if all required headers are present
-            if len(Message.headers) >= 6:
-
-                # Handle Headers
-                class Headers:
-                    Command = Message.headers[0][1].decode('ASCII')
-                    Device_ID = Message.headers[1][1].decode('ASCII')
-                    Device_Time = Message.headers[2][1].decode('ASCII')
-                    Device_IP = Message.headers[3][1].decode('ASCII')
-                    Size = Message.headers[4][1].decode('ASCII')
-                    Data_Stream_ID = Message.headers[5][1].decode('ASCII')
-
-            # If not, log the error and skip to the next iteration
-            else:
-                
-                # Log Message
-                print(f"Header Error")
-                
-                # Skip to the next iteration
-                continue
+            Kafka_Info_Message = Kafka.Decode_Info_Message(Message)
 
             # Database Device Table Query
             Query_Device_Table = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Headers.Device_ID)).first()
@@ -76,7 +49,7 @@ def Device_Handler():
                 DB_Module.refresh(New_Device)
 
                 # Log Message
-                Log.LOG_Message(f"New Device Added: {Headers.Device_ID}")
+                Log.Terminal_Log("INFO", f"New Device Added: {Headers.Device_ID}")
 
             # Device Found
             else:
@@ -91,11 +64,11 @@ def Device_Handler():
                 DB_Module.commit()
 
                 # Log Message
-                Log.LOG_Message(f"Device Updated: {Headers.Device_ID}")
+                Log.Terminal_Log("INFO", f"Device Updated: {Headers.Device_ID}")
 
             # Get Consumer Record
-            Firmware = Kafka_Device_Message.Firmware
-            Hardware = Kafka_Device_Message.Hardware
+            Firmware = Kafka_Info_Message.Firmware
+            Hardware = Kafka_Info_Message.Hardware
 
             # Database Version Table Query
             Query_Version_Table = DB_Module.query(Models.Version).filter(
@@ -126,7 +99,7 @@ def Device_Handler():
                 DB_Module.refresh(New_Version)
 
                 # Log Message
-                Log.LOG_Message(f"New Version Added: {Headers.Device_ID} - {Firmware} - {Hardware}")
+                Log.Terminal_Log("INFO", f"New Version Added: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
             # Version Found
             else:
@@ -144,7 +117,7 @@ def Device_Handler():
                 DB_Module.commit()
 
                 # Log Message
-                Log.LOG_Message(f"Version Updated: {Headers.Device_ID} - {Firmware} - {Hardware}")
+                Log.Terminal_Log("INFO", f"Version Updated: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
             # Commit Queue
             Kafka.Kafka_Info_Consumer.commit()
