@@ -1,13 +1,10 @@
 # Library Includes
-from Setup import Database, Models, Log, Schema
+from Setup import Database, Models, Log, Schema, Kafka
 from Setup.Config import APP_Settings
 from kafka import KafkaConsumer
 import json
 from datetime import datetime
 from sqlalchemy import and_
-
-# Kafka Consumer
-Kafka_Consumer = KafkaConsumer('Device.Info', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="Device_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
 # Parser Function
 def Device_Handler():
@@ -18,7 +15,7 @@ def Device_Handler():
     # Handle Messages
     try:
 
-        for Message in Kafka_Consumer:
+        for Message in Kafka.Kafka_Info_Consumer:
 
             # Log Message
             Log.LOG_Message(f"Message Received")
@@ -152,7 +149,7 @@ def Device_Handler():
                 Log.LOG_Message(f"Version Updated: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
             # Commit Queue
-            Kafka_Consumer.commit()
+            Message.commit()
 
     finally:
 
