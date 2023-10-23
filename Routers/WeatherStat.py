@@ -167,7 +167,7 @@ def Battery_IV(request: Request, ID: str):
 def WeatherStat_Get(request: Request):
 
 	# Log Message
-	Log.LOG_Message(f"New Get Request: {request.client.host} - {datetime.now()}")
+	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
 
 	# Send Success
 	return {"Service": "WeatherStat", "Version": "01.00.00"}

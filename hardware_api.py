@@ -98,7 +98,7 @@ PostOffice.include_router(PowerStat.PostOffice_PowerStat)
 def Root(request: Request):
 
 	# Log Message
-	Log.Terminal_Log("WARNING", f"New Get Request: {request.client.host}")
+	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
 
 	# Send Success
 	return {"Service": "PostOffice", "Version": "02.00.00"}
