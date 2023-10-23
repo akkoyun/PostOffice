@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field, validator
-from typing import Optional
+from pydantic import BaseModel, Field, validator, root_validator
+from typing import Optional, Dict
 import re, ipaddress
 from datetime import datetime
 
@@ -18,20 +18,91 @@ class Pack_Info(BaseModel):
 	# Device Firmware Version
 	Firmware: Optional[str] = Field(description="Firmware version of device.", example="01.00.00")
 
+	# Handle ID Field Name
+	@root_validator(pre=True)
+	def Normalize_ID_Field(cls, values: Dict) -> Dict:
+		
+		# Set Alias Alternatives
+		Alias_Alternatives_ID = ["ID", "id", "Id"]
+		Alias_Alternatives_Hardware = ["HARDWARE", "Hardware", "HardWare", "hardware", "HW", "hw", "Hw"]
+		Alias_Alternatives_Firmware = ["FIRMWARE", "Firmware", "FirmWare", "firmware", "FW", "fw", "Fw"]
+
+		# Normalize ID Field
+		for Alias in Alias_Alternatives_ID:
+
+			# Check ID Field
+			if Alias in values:
+				
+				# Set ID Field
+				values["ID"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Hardware Field
+		for Alias in Alias_Alternatives_Hardware:
+
+			# Check Hardware Field
+			if Alias in values:
+				
+				# Set Hardware Field
+				values["Hardware"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Firmware Field
+		for Alias in Alias_Alternatives_Firmware:
+
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["Firmware"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
 	# Device ID Validator
-	@validator('ID')
+	@validator('ID', pre=True, always=True)
 	def ID_Validator(cls, ID_Value):
 
 		# Define Regex Pattern
-		pattern = r'^[0-9A-F]{16}$'
+		Pattern = r'^[0-9A-F]{10,16}$'
 
 		# Check ID
-		if not re.match(pattern, ID_Value, re.IGNORECASE):
+		if not re.match(Pattern, ID_Value):
 
+			# Raise Error
 			raise ValueError(f"Invalid ID format. Expected 'XXXXXXXXXXXXXXXX', got {ID_Value}")
 
 		# Return ID
-		return ID_Value.upper()
+		return ID_Value
+
+	# Hardware and Firmware Validator
+	@validator('Hardware', 'Firmware', pre=True, always=True)
+	def Version_Validator(cls, Value):
+
+		# Define Regex Pattern
+		Pattern = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$'
+
+		# Check Value
+		if not re.match(Pattern, Value):
+
+			# Raise Error
+			raise ValueError(f"Invalid version format. Expected 'XX.XX.XX', got {Value}")
+
+		# Return Value
+		return Value
+
+
+
+
+
+
 
 # Define Battery
 class Pack_Battery(BaseModel):
@@ -447,7 +518,6 @@ class Payload(BaseModel):
 	WeatherStat: Optional[Payload_WeatherStat]
 
 # Define IoT RAW Data Base Model
-# PowerStat Model Version 01.03.00
 # WeatherStat Model Version 01.03.00
 class Data_Pack_Model(BaseModel):
 
