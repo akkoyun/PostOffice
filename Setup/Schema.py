@@ -286,12 +286,6 @@ class Pack_Power(BaseModel):
 		# Return values
 		return values
 
-
-
-
-
-
-
 # Define IoT Module
 class Pack_IoT_Module(BaseModel):
 	
@@ -299,16 +293,113 @@ class Pack_IoT_Module(BaseModel):
 	Firmware: Optional[str] = Field(default="", description="GSM modem firmware version.", example="13.00.007")
 
 	# Module IMEI Number
-	IMEI: Optional[str] = Field(default="", description="GSM modem IMEI number.", example="356156060000000")
+	IMEI: Optional[str] = Field(default="", description="GSM modem IMEI number.", example="356156060000000", min_length=10, max_length=15)
 
 	# Module Manufacturer
-	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1)
+	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1, min=0, max=100)
 
 	# Module Model
-	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1)
+	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1, min=0, max=100)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(default=0, description="GSM modem serial ID.", example=20273)
+	Serial: Optional[int] = Field(default=0, description="GSM modem serial ID.", example=20273, min=0)
+
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+		
+		# Set Alias Alternatives
+		Alias_Alternatives_Firmware = ["FIRMWARE", "Firmware", "firmware", "FW", "fw", "Fw"]
+		Alias_Alternatives_IMEI = ["IMEI", "Imei", "imei"]
+		Alias_Alternatives_Manufacturer = ["MANUFACTURER", "Manufacturer", "Man", "man", "MF"]
+		Alias_Alternatives_Model = ["MODEL", "Model", "model", "MD"]
+		Alias_Alternatives_Serial = ["SERIAL", "Serial", "serial", "SR"]
+
+		# Normalize Firmware Field
+		for Alias in Alias_Alternatives_Firmware:
+
+			# Check ID Field
+			if Alias in values:
+				
+				# Set ID Field
+				values["Firmware"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize IMEI Field
+		for Alias in Alias_Alternatives_IMEI:
+
+			# Check Hardware Field
+			if Alias in values:
+				
+				# Set Hardware Field
+				values["IMEI"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Manufacturer Field
+		for Alias in Alias_Alternatives_Manufacturer:
+
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["Manufacturer"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Model Field
+		for Alias in Alias_Alternatives_Model:
+
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["Model"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Serial Field
+		for Alias in Alias_Alternatives_Serial:
+
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["Serial"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
+	# Firmware Validator
+	@validator('Firmware', pre=True, always=True)
+	def Version_Validator(cls, Value):
+
+		# Define Regex Pattern
+		Pattern = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$'
+
+		# Check Value
+		if not re.match(Pattern, Value):
+
+			# Raise Error
+			raise ValueError(f"Invalid version format. Expected 'XX.XX.XX', got {Value}")
+
+		# Return Value
+		return Value
+
+
+
+
+
+
+
 
 # Define IoT Operator
 class Pack_IoT_Operator(BaseModel):
