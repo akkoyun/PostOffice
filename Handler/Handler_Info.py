@@ -71,9 +71,9 @@ def Device_Handler():
                 Log.Terminal_Log("INFO", f"Device Updated: {Headers.Device_ID}")
 
             # Get Consumer Record
-            Firmware = Kafka_Info_Message.Firmware
-            Hardware = Kafka_Info_Message.Hardware
-
+            Firmware = Message.value['Firmware']
+            Hardware = Message.value['Hardware']
+            
             # Database Version Table Query
             Query_Version_Table = DB_Module.query(Models.Version).filter(
                 and_(
