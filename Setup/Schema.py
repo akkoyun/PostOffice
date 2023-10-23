@@ -165,19 +165,19 @@ class Pack_Power(BaseModel):
 class Pack_IoT_Module(BaseModel):
 	
 	# GSM Module Firmware
-	Firmware: Optional[str] = Field(alias="firmware", default="", description="GSM modem firmware version.", example="13.00.007")
+	Firmware: Optional[str] = Field(default="", description="GSM modem firmware version.", example="13.00.007")
 
 	# Module IMEI Number
-	IMEI: Optional[str] = Field(alias="imei", default="", description="GSM modem IMEI number.", example="356156060000000")
+	IMEI: Optional[str] = Field(default="", description="GSM modem IMEI number.", example="356156060000000")
 
 	# Module Manufacturer
-	Manufacturer: Optional[int] = Field(alias="manufacturer", default=0, description="GSM modem manufacturer ID.", example=1)
+	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1)
 
 	# Module Model
-	Model: Optional[int] = Field(alias="model", default=0, description="GSM modem model ID.", example=1)
+	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(alias="serial", default=0, description="GSM modem serial ID.", example=20273)
+	Serial: Optional[int] = Field(default=0, description="GSM modem serial ID.", example=20273)
 
 
 # Define IoT Operator
