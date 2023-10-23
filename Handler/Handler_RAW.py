@@ -3,10 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models, Log, Schema, Kafka
-from Setup.Config import APP_Settings
-from kafka import KafkaConsumer, KafkaProducer
-import json
+from Setup import Database, Models, Log, Kafka
 from datetime import datetime
 from Setup import Functions as Functions
 
@@ -18,6 +15,9 @@ def Handler_RAW():
 
         # Define DB
         DB_Module = Database.SessionLocal()
+
+        # Log Message
+        Log.Terminal_Log("INFO", f"New Message")
 
         # Parse Topics
         for RAW_Message in Kafka.Kafka_RAW_Consumer:
