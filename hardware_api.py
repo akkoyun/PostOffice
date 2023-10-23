@@ -1,5 +1,5 @@
 # Library Includes
-from Setup import Database, Models, Log, Config, Functions
+from Setup import Database, Models, Log, Config, Functions, Kafka
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -77,11 +77,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		# Close Database
 		DB_Undefinied_RAW_Data.close()
 
-	# Defne Kafka Producers
-	Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{Config.APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{Config.APP_Settings.POSTOFFICE_KAFKA_PORT}')
-
 	# Send Message to Queue
-	Kafka_Producer.send(topic='UNDEFINED', value=exc.body).add_callback(Functions.Kafka_Send_Success).add_errback(Functions.Kafka_Send_Error)
+	Kafka.Kafka_Producer.send(topic='UNDEFINED', value=exc.body).add_callback(Kafka.Send_Success).add_errback(Kafka.Send_Error)
 
 	# Send Error
 	return JSONResponse(
