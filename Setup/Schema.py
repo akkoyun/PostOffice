@@ -401,7 +401,7 @@ class Pack_IoT_Operator(BaseModel):
 	SIM_Type: Optional[int] = Field(default=0, description="SIM card type.", example=1, min=0, max=10)
 
 	# SIM ICCID
-	ICCID: str = Field(alias="Iccid", default="", description="SIM card ICCID number.", example="8990011916180280000", min_length=10, max_length=20)
+	ICCID: str = Field(alias="Iccid", default="0000000000000000000", description="SIM card ICCID number.", example="8990011916180280000", min_length=10, max_length=20)
 
 	# Operator Country Code
 	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286, min=0, max=1000)
@@ -413,16 +413,16 @@ class Pack_IoT_Operator(BaseModel):
 	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28, min=-100, max=100)
 
 	# TAC
-	TAC: Optional[str] = Field(default="", description="Operator type allocation code.", example="855E", min_length=3, max_length=5)
+	TAC: Optional[str] = Field(default="0000", description="Operator type allocation code.", example="855E", min_length=3, max_length=5)
 
 	# LAC
-	LAC: Optional[str] = Field(default="", description="Operator base station location.", example="855E", min_length=3, max_length=5)
+	LAC: Optional[str] = Field(default="0000", description="Operator base station location.", example="855E", min_length=3, max_length=5)
 
 	# Cell ID
-	Cell_ID: Optional[str] = Field(default="", description="Operator base station cell id.", example="E678", min_length=3, max_length=5)
+	Cell_ID: Optional[str] = Field(default="0000", description="Operator base station cell id.", example="E678", min_length=3, max_length=5)
 
 	# IP
-	IP: Optional[str] = Field(default="", description="IoT IP address.", example="127.0.0.1", min_length=7, max_length=15)
+	IP: Optional[str] = Field(default="0.0.0.0", description="IoT IP address.", example="127.0.0.1", min_length=7, max_length=15)
 
 	# Connection Time
 	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12, min=0, max=100000)
