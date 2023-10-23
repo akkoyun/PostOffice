@@ -287,3 +287,6 @@ def Add_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name, varia
 
         # Log Message
         Log.Terminal_Log("ERROR", f"Measurement Type '{variable_name}' not found.")
+
+    # Close Database
+    DB_Module.close()
