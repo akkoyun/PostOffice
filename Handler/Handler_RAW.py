@@ -8,16 +8,13 @@ from datetime import datetime
 from Setup import Functions as Functions
 
 # Parse Topics
-def Handler_RAW():
+def Parse_Topics():
 
     # Try to Parse Topics
     try:
 
         # Define DB
         DB_Module = Database.SessionLocal()
-
-        # Log Message
-        Log.Terminal_Log("INFO", f"New Message")
 
         # Parse Topics
         for RAW_Message in Kafka.Kafka_RAW_Consumer:
@@ -70,8 +67,8 @@ def Handler_RAW():
 
     finally:
 
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Handle Error - {datetime.now()}")
+    	# Log Message
+	    Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
 
 # Handle Device
-Handler_RAW()
+Parse_Topics()
