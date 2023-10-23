@@ -74,6 +74,9 @@ def Device_Handler():
             Firmware = Kafka_Info_Message.Firmware
             Hardware = Kafka_Info_Message.Hardware
             
+            # Log Message
+            Log.Terminal_Log("INFO", f"Version: '{Firmware}' - '{Hardware}'")
+
             # Database Version Table Query
             Query_Version_Table = DB_Module.query(Models.Version).filter(
                 and_(

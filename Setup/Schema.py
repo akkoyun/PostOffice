@@ -13,11 +13,10 @@ class Pack_Info(BaseModel):
 	ID: str = Field(example="8B00000000000000", description="IoT device unique ID.")
 
 	# Device Hardware Version
-	Hardware: Optional[str] = Field(default=None, description="Hardware version of device.", example="01.00.00")
+	Hardware: Optional[str] = Field(description="Hardware version of device.", example="01.00.00")
 
 	# Device Firmware Version
-	Firmware: Optional[str] = Field(default=None, description="Firmware version of device.", example="01.00.00")
-
+	Firmware: Optional[str] = Field(description="Firmware version of device.", example="01.00.00")
 
 	# Device ID Validator
 	@validator('ID')
