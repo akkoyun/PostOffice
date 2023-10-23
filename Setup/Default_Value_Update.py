@@ -32,12 +32,12 @@ def MNC_Initial_Values():
         DB_Module.commit()
 
         # Log Message
-        Log.LOG_Message(f"GSM_MNC Table Default Values Updated")
+        Log.Terminal_Log("INFO", f"GSM_MNC Table Default Values Updated")
 
     except Exception as e:
 
         # Log Message
-        Log.LOG_Error_Message(f"An error occurred while adding GSM_MNC Table : {e}")
+        Log.Terminal_Log("ERROR", f"An error occurred while adding GSM_MNC Table : {e}")
 
 # MCC Table Add Record
 def MCC_Initial_Values():
@@ -65,12 +65,12 @@ def MCC_Initial_Values():
         DB_Module.commit()
 
         # Log Message
-        Log.LOG_Message(f"GSM_MCC Table Default Values Updated")
+        Log.Terminal_Log("INFO", f"GSM_MCC Table Default Values Updated")
 
     except Exception as e:
 
         # Log Message
-        Log.LOG_Error_Message(f"An error occurred while adding GSM_MCC Table : {e}")
+        Log.Terminal_Log("ERROR", f"An error occurred while adding GSM_MCC Table : {e}")
 
 # GSM Module Type Add Record
 def Module_Type_Initial_Values():
@@ -101,12 +101,12 @@ def Module_Type_Initial_Values():
         DB_Module.commit()
 
         # Log Message
-        Log.LOG_Message(f"Module_Type Table Default Values Updated")
+        Log.Terminal_Log("INFO", f"Module_Type Table Default Values Updated")
 
     except Exception as e:
 
         # Log Message
-        Log.LOG_Error_Message(f"An error occurred while adding Module_Type Table : {e}")
+        Log.Terminal_Log("ERROR", f"An error occurred while adding Module_Type Table : {e}")
 
 # GSM Module Manufacturer Add Record
 def GSM_Manufacturer_Initial_Values():
@@ -135,12 +135,12 @@ def GSM_Manufacturer_Initial_Values():
         DB_Module.commit()
 
         # Log Message
-        Log.LOG_Message(f"Module_Manufacturer Table Default Values Updated")
+        Log.Terminal_Log("INFO", f"Module_Manufacturer Table Default Values Updated")
 
     except Exception as e:
 
         # Log Message
-        Log.LOG_Error_Message(f"An error occurred while adding Module_Manufacturer Table : {e}")
+        Log.Terminal_Log("ERROR", f"An error occurred while adding Module_Manufacturer Table : {e}")
 
 # GSM Module Model Add Record
 def GSM_Model_Initial_Values():
@@ -175,12 +175,12 @@ def GSM_Model_Initial_Values():
         DB_Module.commit()
 
         # Log Message
-        Log.LOG_Message(f"Module_Model Table Default Values Updated")
+        Log.Terminal_Log("INFO", f"Module_Model Table Default Values Updated")
 
     except Exception as e:
 
         # Log Message
-        Log.LOG_Error_Message(f"An error occurred while adding Module_Model Table : {e}")
+        Log.Terminal_Log("ERROR", f"An error occurred while adding Module_Model Table : {e}")
 
 # Measurment Type Add Record
 def Measurement_Type_Initial_Values():
@@ -467,12 +467,12 @@ def Measurement_Type_Initial_Values():
         DB_Module.commit()
 
         # Log Message
-        Log.LOG_Message(f"Measurement_Type Table Default Values Updated")
+        Log.Terminal_Log("INFO", f"Measurement_Type Table Default Values Updated")
 
     except Exception as e:
 
         # Log Message
-        Log.LOG_Error_Message(f"An error occurred while adding Module_Model Table : {e}")
+        Log.Terminal_Log("ERROR", f"An error occurred while adding Module_Model Table : {e}")
 
 # Call Functions
 def Value_Update():
