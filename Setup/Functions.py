@@ -10,18 +10,6 @@ import time
 # Kafka Producers
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}')
 
-# Kafka Callbacks
-def Kafka_Send_Success(record_metadata):
-
-	# Log Message
-	Log.Terminal_Log("INFO", f"Send to Kafka Queue: {datetime.now()} - {record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}")
-
-# Kafka Callbacks
-def Kafka_Send_Error(excp):
-
-	# Log Message
-	Log.Terminal_Log("ERROR", f"Kafka Send Error: {excp} - {datetime.now()}")
-
 # Define RAW Topic Headers
 class RAW_Topic_Headers:
 
@@ -141,60 +129,6 @@ def Parse_Headers(Headers, Data_Stream_ID):
         # Return None
         return None
 
-# Decode and Parse Message
-def Decode_Message(RAW_Message, Kafka_Consumer, Schema):
-    
-    try:
-
-        # Decode Message
-        Decoded_Value = RAW_Message.value.decode()
-        
-        # Parse JSON
-        Parsed_JSON = json.loads(Decoded_Value)
-
-        # Check if JSON is a string
-        if isinstance(Parsed_JSON, str):
-            Parsed_JSON = json.loads(Parsed_JSON)
-        
-        # Get RAW Data
-        Kafka_RAW_Message = Schema.Data_Pack_Model(**Parsed_JSON)
-
-        return Kafka_RAW_Message
-
-    except json.JSONDecodeError:
-        print("JSON Decode Error")
-        return None
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
-
-# Decode and Parse Message IoT Hub
-def Decode_IoT_Message(RAW_Message, Kafka_Consumer, Schema):
-    
-    try:
-
-        # Decode Message
-        Decoded_Value = RAW_Message.value.decode()
-        
-        # Parse JSON
-        Parsed_JSON = json.loads(Decoded_Value)
-
-        # Check if JSON is a string
-        if isinstance(Parsed_JSON, str):
-            Parsed_JSON = json.loads(Parsed_JSON)
-        
-        # Get RAW Data
-        Kafka_RAW_Message = Schema.Pack_IoT(**Parsed_JSON)
-
-        return Kafka_RAW_Message
-
-    except json.JSONDecodeError:
-        print("JSON Decode Error")
-        return None
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
-
 # Add DataStream Record
 def DB_Datastream_Add_Record(Headers, DB_Module, Models):
 
@@ -225,38 +159,6 @@ def DB_Datastream_Add_Record(Headers, DB_Module, Models):
         
         # Return None
         return None
-
-# Send to Topic
-def Kafka_Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
-
-    # Define Retry Counter
-    Retries = 0
-
-    # Try to Send Message
-    while Retries < max_retries:
-
-        try:
-
-            # Send Message to Queue
-            Kafka_Producer.send(topic, value=value, headers=headers).add_callback(Kafka_Send_Success).add_errback(Kafka_Send_Error)
-
-            # Break Loop
-            return
-
-        except Exception as e:
-
-            # Log Message
-            print(f"Failed to send message to {topic}. Attempt {Retries+1} of {max_retries}. Error: {e}")
-
-            # Increment Retry Counter
-            Retries += 1
-
-            # Sleep
-            time.sleep(delay)
-
-    # Log Message
-    print(f"Failed to send message to {topic} after {max_retries} attempts.")
-
 
 # Handle Company
 def Handle_Company(Command_String):

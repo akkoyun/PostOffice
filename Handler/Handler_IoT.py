@@ -31,9 +31,6 @@ def IoT_Handler():
             # Define SIM ID
             SIM_ID = 0
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"ICCID on pack: {Kafka_IoT_Message.GSM.Operator.ICCID}")
-
             # Control for ICCID
             if Kafka_IoT_Message.GSM.Operator.ICCID is not None:
 
