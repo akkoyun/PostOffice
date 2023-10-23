@@ -401,7 +401,7 @@ class Pack_IoT_Operator(BaseModel):
 	SIM_Type: Optional[int] = Field(default=0, description="SIM card type.", example=1, min=0, max=10)
 
 	# SIM ICCID
-	ICCID: str = Field(alias="Iccid", default="0000000000000000000", description="SIM card ICCID number.", example="8990011916180280000", min_length=10, max_length=20)
+	ICCID: str = Field(default="0000000000000000000", description="SIM card ICCID number.", example="8990011916180280000", min_length=10, max_length=20)
 
 	# Operator Country Code
 	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286, min=0, max=1000)
