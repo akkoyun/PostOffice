@@ -3,8 +3,8 @@ Description=PostOffice Power Handler Service
 After=network.target
 
 [Service]
+WorkingDirectory=/root/PostOffice/
 ExecStart=/usr/bin/python3 /root/PostOffice/Handler/Handler_Power.py
-WorkingDirectory=/root/PostOffice
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
