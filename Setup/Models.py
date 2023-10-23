@@ -102,12 +102,12 @@ class IoT_Module(Base):
 	# Define Columns
 	Module_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String, nullable=False)
-	Module_Type_ID = Column(Integer, nullable=False)
+	Module_Type_ID = Column(Integer, nullable=True)
 	Module_Firmware = Column(String, nullable=True)
-	Module_IMEI = Column(String, nullable=True)
+	Module_IMEI = Column(String, nullable=False)
 	Module_Serial = Column(String, nullable=True)
-	Module_Manufacturer_ID = Column(Integer, nullable=False)
-	Module_Model_ID = Column(Integer, nullable=False)
+	Module_Manufacturer_ID = Column(Integer, nullable=True)
+	Module_Model_ID = Column(Integer, nullable=True)
 	Module_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Location Database Model
