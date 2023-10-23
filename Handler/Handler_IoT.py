@@ -31,6 +31,9 @@ def IoT_Handler():
             # Define SIM ID
             SIM_ID = 0
 
+            # Control SIM Record
+            # ------------------
+
             # Control for ICCID
             if Kafka_IoT_Message.GSM.Operator.ICCID is not None:
 
@@ -90,6 +93,9 @@ def IoT_Handler():
             # Log Message
             Log.Terminal_Log("INFO", f"SIM ID: {SIM_ID} - ICCID: {Kafka_IoT_Message.GSM.Operator.ICCID}")
 
+            # Add Connection Record
+            # ---------------------
+
             # Control for RSSI
             if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
                 _RSSI = Kafka_IoT_Message.GSM.Operator.RSSI
@@ -143,6 +149,59 @@ def IoT_Handler():
 
                 # Close Database
                 DB_Module.close()
+
+            # Add IoT Module Record
+            # ---------------------
+
+            # Control for IMEI
+            if Kafka_IoT_Message.GSM.Module.IMEI is not None:
+
+                # Query Module Table
+                Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(Models.IoT_Module.Module_IMEI.like(Kafka_IoT_Message.GSM.Module.IMEI)).first()
+
+                # Module Record Not Found
+                if not Query_Module_Table:
+
+                    # Create New Module Record
+                    New_Module = Models.IoT_Module(
+                        Device_ID = IoT_Headers.Device_ID,
+                        Module_Type_ID = 1,
+                        Module_Firmware = Kafka_IoT_Message.GSM.Module.Firmware,
+                        Module_IMEI = Kafka_IoT_Message.GSM.Module.IMEI,
+                        Module_Manufacturer_ID = Kafka_IoT_Message.GSM.Module.Manufacturer,
+                        Module_Model_ID = Kafka_IoT_Message.GSM.Module.Model,
+                        Module_Serial = Kafka_IoT_Message.GSM.Module.Serial
+                    )
+
+                    # Add Record to DataBase
+                    try:
+
+                        # Add Record to DataBase
+                        DB_Module.add(New_Module)
+
+                        # Database Flush
+                        DB_Module.flush()
+
+                        # Commit DataBase
+                        DB_Module.commit()
+
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"New Module Added: {New_Module.Module_ID}")
+
+                    # Except Error
+                    except Exception as e:
+
+                        # Log Message
+                        Log.Terminal_Log("ERROR", f"An error occurred while adding Module: {e}")
+
+                        # Rollback DataBase
+                        DB_Module.rollback()
+
+            # IMEI not found
+            else:
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"IMEI not found on pack.")
 
             # Log Message
             Log.LOG_Message("-----------------------------------------------------------")
