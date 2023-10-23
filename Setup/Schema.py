@@ -20,7 +20,7 @@ class Pack_Info(BaseModel):
 
 	# Handle ID Field Name
 	@root_validator(pre=True)
-	def Normalize_ID_Field(cls, values: Dict) -> Dict:
+	def Normalize_Fields(cls, values: Dict) -> Dict:
 		
 		# Set Alias Alternatives
 		Alias_Alternatives_ID = ["ID", "id", "Id"]
@@ -98,12 +98,6 @@ class Pack_Info(BaseModel):
 		# Return Value
 		return Value
 
-
-
-
-
-
-
 # Define Battery
 class Pack_Battery(BaseModel):
 
@@ -114,7 +108,7 @@ class Pack_Battery(BaseModel):
 	AC: float = Field(description="Battery average current.", example=0.2, min=-10000, max=10000)
 
 	# Battery State of Charge
-	SOC: float = Field(description="Battery state of charge.", example=97.30, min=0.0, max=150.0)
+	SOC: float = Field(description="Battery state of charge.", example=97.30, min=0.0, max=100.0)
 
 	# Battery Temperature
 	T: Optional[float] = Field(default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
@@ -126,105 +120,143 @@ class Pack_Battery(BaseModel):
 	IB: Optional[int] = Field(default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
 
 	# Battery Charge State
-	Charge: int = Field(description="Battery charge state.", example=1, min=0, max=10)
+	Charge: int = Field(description="Battery charge state.", example=1, min=0, max=5)
 
+	# Handle ID Field Name
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+		
+		# Set Alias Alternatives
+		Alias_Alternatives_IV = ["IV", "iv", "Iv"]
+		Alias_Alternatives_AC = ["AC", "ac", "Ac"]
+		Alias_Alternatives_SOC = ["SOC", "soc", "Soc"]
+		Alias_Alternatives_T = ["T", "t"]
+		Alias_Alternatives_FB = ["FB", "fb", "Fb"]
+		Alias_Alternatives_IB = ["IB", "ib", "Ib"]
+		Alias_Alternatives_Charge = ["CHARGE", "Charge", "charge"]
 
-	# IV Validator
-	@validator('IV', pre=True, always=True)
-	def validate_IV(cls, value):
+		# Normalize IV Field
+		for Alias in Alias_Alternatives_IV:
 
-		# Check IV
-		if value < 0.0 or value > 10.0:
+			# Check ID Field
+			if Alias in values:
+				
+				# Set ID Field
+				values["IV"] = values[Alias]
 
-			# Raise Error
-			raise ValueError(f"Invalid IV value. Expected a float between 0.0 and 10.0, got {value}")
+				# Break
+				break
 
-		# Return IV
-		return value
+		# Normalize AC Field
+		for Alias in Alias_Alternatives_AC:
 
-	# AC Validator
-	@validator('AC', pre=True, always=True)
-	def validate_AC(cls, value):
+			# Check Hardware Field
+			if Alias in values:
+				
+				# Set Hardware Field
+				values["AC"] = values[Alias]
 
-		# Check AC
-		if value < -10000 or value > 10000:
+				# Break
+				break
+		
+		# Normalize SOC Field
+		for Alias in Alias_Alternatives_SOC:
 
-			# Raise Error
-			raise ValueError(f"Invalid AC value. Expected a float between -10000 and 10000, got {value}")
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["SOC"] = values[Alias]
 
-		# Return AC
-		return value
+				# Break
+				break
 
-	# SOC Validator
-	@validator('SOC', pre=True, always=True)
-	def validate_SOC(cls, value):
+		# Normalize T Field
+		for Alias in Alias_Alternatives_T:
 
-		# Check SOC
-		if value < 0.0 or value > 150.0:
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["T"] = values[Alias]
 
-			# Raise Error
-			raise ValueError(f"Invalid SOC value. Expected a float between 0.0 and 150.0, got {value}")
+				# Break
+				break
 
-		# Return SOC
-		return value
+		# Normalize FB Field
+		for Alias in Alias_Alternatives_FB:
 
-	# T Validator
-	@validator('T', pre=True, always=True)
-	def validate_T(cls, value):
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["FB"] = values[Alias]
 
-		# Check T
-		if value < -50.0 or value > 100.0:
+				# Break
+				break
 
-			# Raise Error
-			raise ValueError(f"Invalid T value. Expected a float between -50.0 and 100.0, got {value}")
+		# Normalize IB Field
+		for Alias in Alias_Alternatives_IB:
 
-		# Return T
-		return value
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["IB"] = values[Alias]
 
-	# FB Validator
-	@validator('FB', pre=True, always=True)
-	def validate_FB(cls, value):
+				# Break
+				break
 
-		# Check FB
-		if value < 0 or value > 10000:
+		# Normalize Charge Field
+		for Alias in Alias_Alternatives_Charge:
 
-			# Raise Error
-			raise ValueError(f"Invalid FB value. Expected an integer between 0 and 10000, got {value}")
+			# Check Firmware Field
+			if Alias in values:
+				
+				# Set Firmware Field
+				values["Charge"] = values[Alias]
 
-		# Return FB
-		return value
+				# Break
+				break
 
-	# IB Validator
-	@validator('IB', pre=True, always=True)
-	def validate_IB(cls, value):
+		# Return values
+		return values
 
-		# Check IB
-		if value < 0 or value > 10000:
+	# Value Validator
+	@validator("IV", "AC", "SOC", "T", "FB", "IB", pre=True, always=True)
+	def Validate_Values(cls, value, field):
 
-			# Raise Error
-			raise ValueError(f"Invalid IB value. Expected an integer between 0 and 10000, got {value}")
+		# Get Min and Max Values
+		Min_Value = field.field_info.extra.get("min")
+		Max_Value = field.field_info.extra.get("max")
 
-		# Return IB
+		# Check Min Value
+		if Min_Value is not None and value < Min_Value:
+            
+			# Set Value
+			return -9999
+
+		# Check Max Value
+		if Max_Value is not None and value > Max_Value:
+        
+			# Set Value
+			return 9999
+
+		# Return Value
 		return value
 
 	# Charge Validator
-	@validator('Charge', pre=True, always=True)
-	def validate_charge(cls, value):
+	@validator("Charge", pre=True, always=True)
+	def Validate_Charge(cls, value):
 
 		# Check Charge
-		if value < 0 or value > 10:
-
-			# Set Charge
+		if value < 0 or value > 5:
+			
+			# Set Value
 			return 5
 
-		# Return Charge
+		# Return Value
 		return value
-
-	# Define Config
-	class Config:
-
-		# Allow Population by Field Name
-		allow_population_by_field_name = True
 
 # Define Power
 class Pack_Power(BaseModel):
