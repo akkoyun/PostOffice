@@ -179,7 +179,6 @@ def IoT_Handler():
                     # Create New Module Record
                     New_Module = Models.IoT_Module(
                         Device_ID = IoT_Headers.Device_ID,
-                        Module_Type_ID = 1,
                         Module_Firmware = Kafka_IoT_Message.GSM.Module.Firmware,
                         Module_IMEI = Kafka_IoT_Message.GSM.Module.IMEI
                     )
