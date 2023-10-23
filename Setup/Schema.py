@@ -956,7 +956,7 @@ class Payload_WeatherStat_Environment(BaseModel):
 		return values
 
 	# Value Validator
-	@validator("AT", "AH", "AP", "VL", "IR", "UV", "ST", "R", "WD", "WS", pre=True, always=True)
+	@validator("AT", "AH", "AP", "VL", "IR", "UV", "R", "WD", "WS", pre=True, always=True)
 	def Validate_Values(cls, value, field):
 
 		# Get Min and Max Values
