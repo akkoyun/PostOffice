@@ -27,7 +27,7 @@ def Power_Handler():
             Log.LOG_Message(f"Message Received : {Headers.Device_ID}")
 
             # Decode Message
-            Kafka_Power_Message = Functions.Decode_Message(Message)
+            Kafka_Power_Message = Functions.Decode_Power_Message(Message)
 
             # Add IV Measurement Record
             if Kafka_Power_Message.Battery.IV is not None:
