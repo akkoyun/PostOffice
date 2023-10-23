@@ -10,11 +10,11 @@ from Setup import Functions as Functions
 # Parse Topics
 def Parse_Topics():
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
     # Try to Parse Topics
     try:
+
+        # Define DB
+        DB_Module = Database.SessionLocal()
 
         # Parse Topics
         for RAW_Message in Kafka.Kafka_RAW_Consumer:

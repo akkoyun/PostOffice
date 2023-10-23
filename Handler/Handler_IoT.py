@@ -10,11 +10,11 @@ from Setup import Functions as Functions
 # IoT Handler Function
 def IoT_Handler():
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
     # Handle Messages
     try:
+
+        # Define DB
+        DB_Module = Database.SessionLocal()
 
         # Parse Messages
         for IoT_Message in Kafka.Kafka_IoT_Consumer:

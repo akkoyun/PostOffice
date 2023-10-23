@@ -11,11 +11,11 @@ from sqlalchemy import and_
 # Parser Function
 def Device_Handler():
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
     # Handle Messages
     try:
+
+        # Define DB
+        DB_Module = Database.SessionLocal()
 
         # Parse Messages
         for Message in Kafka.Kafka_Info_Consumer:
