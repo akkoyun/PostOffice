@@ -1,5 +1,6 @@
+# Setup Library
 import sys
-sys.path.append("../Setup")
+sys.path.append('./Setup')
 
 # Library Includes
 from Setup import Functions as Functions
