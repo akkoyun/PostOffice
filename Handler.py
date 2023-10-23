@@ -76,5 +76,3 @@ def Power_Handler():
         # Close Database
         DB_Module.close()            
 
-# Handle Device
-Power_Handler()

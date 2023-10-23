@@ -1,12 +1,9 @@
 # Library Includes
 import Setup.Functions as Functions
-from Setup import Database, Models, Schema, Log
+from Setup import Database, Models, Schema, Log, Kafka
 from Setup.Config import APP_Settings
 from kafka import KafkaConsumer
 from datetime import datetime
-
-# Kafka Consumer
-Kafka_Consumer = KafkaConsumer('Device.IoT', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="IoT_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
 # IoT Handler Function
 def IoT_Handler():
@@ -15,7 +12,7 @@ def IoT_Handler():
     try:
 
         # Parse Messages
-        for Message in Kafka_Consumer:
+        for Message in Kafka.Kafka_IoT_Consumer:
 
             # Log Message
             Log.LOG_Message(f"Message Received")
@@ -30,7 +27,7 @@ def IoT_Handler():
             Headers = Functions.Handle_Full_Headers(Message)
 
             # Decode Message
-            Kafka_IoT_Message = Functions.Decode_IoT_Message(Message, Kafka_Consumer, Schema)
+            Kafka_IoT_Message = Functions.Decode_IoT_Message(Message, Kafka.Kafka_IoT_Consumer, Schema)
 
             # Control for ICCID
             if Kafka_IoT_Message.GSM.Operator.ICCID is not None:
@@ -130,7 +127,7 @@ def IoT_Handler():
                 DB_Module.commit()
 
                 # Commit Queue
-                Kafka_Consumer.commit()
+                Kafka.Kafka_IoT_Consumer.commit()
 
                 # Log Message
                 Log.LOG_Message(f"New Connection Added: {New_Connection.Connection_ID}")

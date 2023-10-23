@@ -1,7 +1,5 @@
 # Library Includes
 from Setup import Database, Models, Log, Schema, Kafka
-from Setup.Config import APP_Settings
-from kafka import KafkaConsumer
 import json
 from datetime import datetime
 from sqlalchemy import and_
