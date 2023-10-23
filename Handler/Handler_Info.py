@@ -3,8 +3,9 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models, Log, Kafka, Functions
+from Setup import Database, Models, Log, Kafka
 from datetime import datetime
+from Setup import Functions as Functions
 from sqlalchemy import and_
 
 # Parser Function
