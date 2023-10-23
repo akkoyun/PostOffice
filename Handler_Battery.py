@@ -69,7 +69,7 @@ def Power_Handler():
             Log.LOG_Message("-----------------------------------------------------------")
 
             # Commit Queue
-            Message.commit()
+            Kafka.Kafka_Power_Consumer.commit()
 
     finally:
 

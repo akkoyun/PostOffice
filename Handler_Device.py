@@ -149,7 +149,7 @@ def Device_Handler():
                 Log.LOG_Message(f"Version Updated: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
             # Commit Queue
-            Message.commit()
+            Kafka.Kafka_Info_Consumer.commit()
 
     finally:
 
