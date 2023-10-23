@@ -173,13 +173,13 @@ def Decode_IoT_Message(RAW_Message):
 def Send_Success(record_metadata):
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"Send to Kafka Queue: {datetime.now()} - {record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}")
+	Log.Terminal_Log("INFO", f"Send to Kafka Queue: {record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}")
 
 # Kafka Callbacks
 def Send_Error(excp):
 
 	# Log Message
-	Log.Terminal_Log("ERROR", f"Kafka Send Error: {excp} - {datetime.now()}")
+	Log.Terminal_Log("ERROR", f"Kafka Send Error: {excp}")
 
 # Send to Topic
 def Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
