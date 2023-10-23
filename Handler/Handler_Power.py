@@ -1,6 +1,9 @@
+import sys
+sys.path.append("../Setup")
+
 # Library Includes
-import ..Setup.Functions as Functions
-from ..Setup import Database, Log, Kafka
+from Setup import Functions as Functions
+from Setup import Database, Log, Kafka
 
 # Power Measurement Handler Function
 def Power_Handler():
