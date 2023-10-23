@@ -90,7 +90,8 @@ def Device_Handler():
                 New_Version = Models.Version(
                         Device_ID=Headers.Device_ID,
                         Version_Firmware=Firmware,
-                        Version_Hardware=Hardware
+                        Version_Hardware=Hardware,
+                        Version_Update_Date=datetime.now()
                 )
 
                 # Add Record to DataBase
@@ -108,20 +109,8 @@ def Device_Handler():
             # Version Found
             else:
 
-                # Update Version
-                setattr(Query_Version_Table, 'Version_Firmware', Firmware)
-
-                # Update Version
-                setattr(Query_Version_Table, 'Version_Hardware', Hardware)
-
-                # Update Version
-                setattr(Query_Version_Table, 'Version_Update_Date', datetime.now())
-
-                # Commit DataBase
-                DB_Module.commit()
-
                 # Log Message
-                Log.Terminal_Log("INFO", f"Version Updated: {Headers.Device_ID} - {Firmware} - {Hardware}")
+                Log.Terminal_Log("INFO", f"Existing Version: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
             # Commit Queue
             Kafka.Kafka_Info_Consumer.commit()
