@@ -9,11 +9,11 @@ from Setup import Database, Log, Kafka
 # Power Measurement Handler Function
 def Power_Handler():
 
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
     # Handle Messages
     try:
-
-        # Define DB
-        DB_Module = Database.SessionLocal()
 
         # Parse Messages
         for Message in Kafka.Kafka_Power_Consumer:
