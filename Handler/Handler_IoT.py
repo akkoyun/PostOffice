@@ -6,6 +6,7 @@ sys.path.append('/root/PostOffice/')
 from Setup import Database, Models, Log, Kafka
 from datetime import datetime
 from Setup import Functions as Functions
+from sqlalchemy import and_
 
 # IoT Handler Function
 def IoT_Handler():
@@ -156,8 +157,21 @@ def IoT_Handler():
             # Control for IMEI
             if Kafka_IoT_Message.GSM.Module.IMEI is not None:
 
-                # Query Module Table
-                Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(Models.IoT_Module.Module_IMEI.like(Kafka_IoT_Message.GSM.Module.IMEI)).first()
+                # Control for Firmware
+                if Kafka_IoT_Message.GSM.Module.Firmware is not None:
+
+                    # Query Module Table
+                    Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(
+                        and_(
+                            Models.IoT_Module.Module_IMEI.like(Kafka_IoT_Message.GSM.Module.IMEI),
+                            Models.IoT_Module.Module_Firmware.like(Kafka_IoT_Message.GSM.Module.Firmware)),
+                        ).first()
+
+                # Firmware not found
+                else:
+
+                    # Query Module Table
+                    Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(Models.IoT_Module.Module_IMEI.like(Kafka_IoT_Message.GSM.Module.IMEI)).first()
 
                 # Module Record Not Found
                 if not Query_Module_Table:
@@ -167,10 +181,7 @@ def IoT_Handler():
                         Device_ID = IoT_Headers.Device_ID,
                         Module_Type_ID = 1,
                         Module_Firmware = Kafka_IoT_Message.GSM.Module.Firmware,
-                        Module_IMEI = Kafka_IoT_Message.GSM.Module.IMEI,
-                        Module_Manufacturer_ID = Kafka_IoT_Message.GSM.Module.Manufacturer,
-                        Module_Model_ID = Kafka_IoT_Message.GSM.Module.Model,
-                        Module_Serial = Kafka_IoT_Message.GSM.Module.Serial
+                        Module_IMEI = Kafka_IoT_Message.GSM.Module.IMEI
                     )
 
                     # Add Record to DataBase
@@ -196,6 +207,21 @@ def IoT_Handler():
 
                         # Rollback DataBase
                         DB_Module.rollback()
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Module Recorded '{Kafka_IoT_Message.GSM.Module.Firmware}' - '{Kafka_IoT_Message.GSM.Module.IMEI}'")
+
+                # Module Record Found
+                else:
+
+                    # Update Module Record
+                    setattr(Query_Module_Table, 'Module_Firmware', (Kafka_IoT_Message.GSM.Module.Firmware))
+
+                    # Commit DataBase
+                    DB_Module.commit()
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"Module Firmware Updated")
 
             # IMEI not found
             else:
