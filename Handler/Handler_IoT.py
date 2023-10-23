@@ -31,58 +31,61 @@ def IoT_Handler():
             # Define SIM ID
             SIM_ID = 0
 
+            # Log Message
+            Log.Terminal_Log("INFO", f"ICCID on pack: {Kafka_IoT_Message.GSM.Operator.ICCID}")
+
             # Control for ICCID
             if Kafka_IoT_Message.GSM.Operator.ICCID is not None:
 
-                    # Query SIM Table
-                    Query_SIM_Table = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(Kafka_IoT_Message.GSM.Operator.ICCID)).first()
-    
-                    # SIM Record Not Found
-                    if not Query_SIM_Table:
-    
-                        # Create New SIM Record
-                        New_SIM = Models.SIM(
-                            SIM_ICCID = Kafka_IoT_Message.GSM.Operator.ICCID,
-                            MCC_ID = Kafka_IoT_Message.GSM.Operator.MCC,
-                            MNC_ID = Kafka_IoT_Message.GSM.Operator.MNC,
-                            SIM_Create_Date = datetime.now()
-                        )
-    
+                # Query SIM Table
+                Query_SIM_Table = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(Kafka_IoT_Message.GSM.Operator.ICCID)).first()
+
+                # SIM Record Not Found
+                if not Query_SIM_Table:
+
+                    # Create New SIM Record
+                    New_SIM = Models.SIM(
+                        SIM_ICCID = Kafka_IoT_Message.GSM.Operator.ICCID,
+                        MCC_ID = Kafka_IoT_Message.GSM.Operator.MCC,
+                        MNC_ID = Kafka_IoT_Message.GSM.Operator.MNC,
+                        SIM_Create_Date = datetime.now()
+                    )
+
+                    # Add Record to DataBase
+                    try:
+
                         # Add Record to DataBase
-                        try:
+                        DB_Module.add(New_SIM)
 
-                            # Add Record to DataBase
-                            DB_Module.add(New_SIM)
-    
-                            # Database Flush
-                            DB_Module.flush()
+                        # Database Flush
+                        DB_Module.flush()
 
-                            # Commit DataBase
-                            DB_Module.commit()
-
-                            # Log Message
-                            Log.Terminal_Log("INFO", f"New SIM Added: {New_SIM.SIM_ID}")
-
-                        # Except Error
-                        except Exception as e:
-
-                            # Log Message
-                            Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
-
-                            # Rollback DataBase
-                            DB_Module.rollback()
-
-                        # Get SIM ID
-                        SIM_ID = New_SIM.SIM_ID
-
-                    # SIM Record Found
-                    else:
-
-                        # Get SIM ID
-                        SIM_ID = Query_SIM_Table.SIM_ID
+                        # Commit DataBase
+                        DB_Module.commit()
 
                         # Log Message
-                        Log.Terminal_Log("INFO", f"ICCID found. SIM ID: {SIM_ID}")
+                        Log.Terminal_Log("INFO", f"New SIM Added: {New_SIM.SIM_ID}")
+
+                    # Except Error
+                    except Exception as e:
+
+                        # Log Message
+                        Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
+
+                        # Rollback DataBase
+                        DB_Module.rollback()
+
+                    # Get SIM ID
+                    SIM_ID = New_SIM.SIM_ID
+
+                # SIM Record Found
+                else:
+
+                    # Get SIM ID
+                    SIM_ID = Query_SIM_Table.SIM_ID
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"ICCID found. SIM ID: {SIM_ID}")
 
             # ICCID not found
             else:
