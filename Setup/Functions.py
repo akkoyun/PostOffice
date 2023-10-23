@@ -1,8 +1,9 @@
 # Library Includes
-from kafka import KafkaConsumer, KafkaProducer
+from Setup import Database, Models, Log, Schema
+import Setup.Functions as Functions
 from Setup.Config import APP_Settings
+from kafka import KafkaConsumer, KafkaProducer
 from datetime import datetime
-from Setup import Log
 import json
 import time
 
@@ -13,13 +14,13 @@ Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('
 def Kafka_Send_Success(record_metadata):
 
 	# Log Message
-	Log.LOG_Message(f"Send to Kafka Queue: {datetime.now()} - {record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}")
+	Log.Terminal_Log("INFO", f"Send to Kafka Queue: {datetime.now()} - {record_metadata.topic} / {record_metadata.partition} / {record_metadata.offset}")
 
 # Kafka Callbacks
 def Kafka_Send_Error(excp):
 
 	# Log Message
-	Log.LOG_Error_Message(f"Kafka Send Error: {excp} - {datetime.now()}")
+	Log.Terminal_Log("ERROR", f"Kafka Send Error: {excp} - {datetime.now()}")
 
 # Define RAW Topic Headers
 class RAW_Topic_Headers:
@@ -257,7 +258,10 @@ def Kafka_Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
     print(f"Failed to send message to {topic} after {max_retries} attempts.")
 
 # Add Measurement
-def Add_Measurement(DB_Module, Models, Data_Stream_ID, Device_ID, Device_Time, variable_name, variable_value):
+def Add_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name, variable_value):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
 
     # Query Measurement Type
     Query_Measurement_Type = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like(variable_name)).first()
@@ -265,38 +269,44 @@ def Add_Measurement(DB_Module, Models, Data_Stream_ID, Device_ID, Device_Time, v
     # Measurement Type Found
     if Query_Measurement_Type is not None:
 
-        # Control for Measurement Type
-        if Query_Measurement_Type is None:
-
-            # Measurement Type ID
-            Measurement_Type_ID = 0
-
-        else:
-
-            # Measurement Type ID
-            Measurement_Type_ID = Query_Measurement_Type.Measurement_Type_ID
-
         # Query Measurement
         New_Measurement = Models.Measurement(
             Data_Stream_ID = Data_Stream_ID,
             Device_ID = Device_ID,
-            Measurement_Type_ID = Measurement_Type_ID,
+            Measurement_Type_ID = Query_Measurement_Type.Measurement_Type_ID,
             Measurement_Data_Count = 1,
             Measurement_Value = variable_value,
             Measurement_Create_Date = Device_Time
         )
 
-        # Add Record to DataBase
-        DB_Module.add(New_Measurement)
+        # Try to Add Record
+        try:
 
-        # Commit DataBase
-        DB_Module.commit()
+            # Add Record to DataBase
+            DB_Module.add(New_Measurement)
 
-        # Refresh DataBase
-        DB_Module.refresh(New_Measurement)
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Refresh DataBase
+            DB_Module.refresh(New_Measurement)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New '{variable_name}:{variable_value}' Measurement Record Added: {New_Measurement.Measurement_ID}")
+
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"An error occurred while adding Measurement: {e}")
+
+            # Rollback DataBase
+            DB_Module.rollback()
+
+    # Measurement Type Not Found
+    else:
 
         # Log Message
-        Log.LOG_Message(f"New '{variable_name}:{variable_value}' Measurement Record Added: {New_Measurement.Measurement_ID}")
+        Log.Terminal_Log("ERROR", f"Measurement Type '{variable_name}' not found.")
 
 # Handle Company
 def Handle_Company(Command_String):
