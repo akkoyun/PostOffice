@@ -19,11 +19,11 @@ def Parse_Topics():
         # Parse Topics
         for RAW_Message in Kafka.Kafka_RAW_Consumer:
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Message Received")
-
             # Get Headers
             RAW_Headers = Functions.Handle_Headers(RAW_Message)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Message Received")
 
             # Decode Message
             Kafka_RAW_Message = Kafka.Decode_RAW_Message(RAW_Message)

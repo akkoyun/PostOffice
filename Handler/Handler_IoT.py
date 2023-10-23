@@ -1,33 +1,31 @@
 # Library Includes
 import Setup.Functions as Functions
-from Setup import Database, Models, Schema, Log, Kafka
-from Setup.Config import APP_Settings
-from kafka import KafkaConsumer
+from Setup import Database, Models, Log, Kafka
 from datetime import datetime
 
 # IoT Handler Function
 def IoT_Handler():
 
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
     # Handle Messages
     try:
 
         # Parse Messages
-        for Message in Kafka.Kafka_IoT_Consumer:
+        for IoT_Message in Kafka.Kafka_IoT_Consumer:
+
+            # Get Headers
+            IoT_Headers = Functions.Handle_Headers(IoT_Message)
 
             # Log Message
-            Log.LOG_Message(f"Message Received")
+            Log.Terminal_Log("INFO", f"New Message Received")
+
+            # Decode Message
+            Kafka_IoT_Message = Kafka.Decode_IoT_Message(IoT_Message)
 
             # Define SIM ID
             SIM_ID = 0
-
-            # Define DB
-            DB_Module = Database.SessionLocal()
-
-            # Get Headers
-            Headers = Functions.Handle_Full_Headers(Message)
-
-            # Decode Message
-            Kafka_IoT_Message = Functions.Decode_IoT_Message(Message, Kafka.Kafka_IoT_Consumer, Schema)
 
             # Control for ICCID
             if Kafka_IoT_Message.GSM.Operator.ICCID is not None:
@@ -59,13 +57,13 @@ def IoT_Handler():
                             DB_Module.commit()
 
                             # Log Message
-                            Log.LOG_Message(f"New SIM Added: {New_SIM.SIM_ID}")
+                            Log.Terminal_Log("INFO", f"New SIM Added: {New_SIM.SIM_ID}")
 
                         # Except Error
                         except Exception as e:
 
                             # Log Message
-                            Log.LOG_Error_Message(f"An error occurred while adding SIM: {e}")
+                            Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
 
                             # Rollback DataBase
                             DB_Module.rollback()
@@ -80,16 +78,16 @@ def IoT_Handler():
                         SIM_ID = Query_SIM_Table.SIM_ID
 
                         # Log Message
-                        Log.LOG_Message(f"ICCID found. SIM ID: {SIM_ID}")
+                        Log.Terminal_Log("INFO", f"ICCID found. SIM ID: {SIM_ID}")
 
             # ICCID not found
             else:
 
                 # Log Message
-                Log.LOG_Message(f"ICCID not found")
-                
+                Log.Terminal_Log("INFO", f"ICCID not found on pack.")
+
             # Log Message
-            Log.LOG_Message(f"SIM ID: {SIM_ID} - ICCID: {Kafka_IoT_Message.GSM.Operator.ICCID}")
+            Log.Terminal_Log("INFO", f"SIM ID: {SIM_ID} - ICCID: {Kafka_IoT_Message.GSM.Operator.ICCID}")
 
             # Control for RSSI
             if Kafka_IoT_Message.GSM.Operator.RSSI is not None:
@@ -105,13 +103,13 @@ def IoT_Handler():
 
             # Create New Connection Record
             New_Connection = Models.Connection(
-                Device_ID = Headers.Device_ID,
+                Device_ID = IoT_Headers.Device_ID,
                 SIM_ID = SIM_ID,
                 Connection_RSSI = _RSSI,
-                Connection_IP = Headers.Device_IP,
+                Connection_IP = IoT_Headers.Device_IP,
                 Connection_Time = _ConnTime,
-                Connection_Data_Size = int(Headers.Size),
-                Connection_Create_Date = Headers.Device_Time
+                Connection_Data_Size = int(IoT_Headers.Size),
+                Connection_Create_Date = IoT_Headers.Device_Time
             )
 
             # Add Record to DataBase
@@ -130,12 +128,12 @@ def IoT_Handler():
                 Kafka.Kafka_IoT_Consumer.commit()
 
                 # Log Message
-                Log.LOG_Message(f"New Connection Added: {New_Connection.Connection_ID}")
+                Log.Terminal_Log("INFO", f"New Connection Added: {New_Connection.Connection_ID}")
 
             except Exception as e:
 
                 # Log Message
-                Log.LOG_Error_Message(f"An error occurred while adding SIM: {e}")
+                Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
 
                 # Rollback DataBase
                 DB_Module.rollback()
@@ -146,7 +144,7 @@ def IoT_Handler():
                 DB_Module.close()
 
             # Log Message
-            Log.LOG_Message("---------------------------------------")
+            Log.Terminal_Log("INFO", f"---------------------------------------")
 
     finally:
 
