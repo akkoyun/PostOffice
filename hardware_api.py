@@ -23,21 +23,21 @@ PostOffice = FastAPI(version="02.00.00", title="PostOffice")
 async def Startup_Event():
 
 	# Log Message
-	Log.LOG_Message(f"PostOffice API Started {datetime.now()}")
+	Log.Terminal_Log("DEBUG", f"PostOffice API Started {datetime.now()}")
 
 # API ShutDown Sequence
 @PostOffice.on_event("shutdown")
 async def Shutdown_event():
 
 	# Log Message
-	Log.LOG_Message(f"PostOffice API Shutdown {datetime.now()}")
+	Log.Terminal_Log("DEBUG", f"PostOffice API Shutdown {datetime.now()}")
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
 	# Log Message
-	Log.LOG_Error_Message(f"New Undefinied Data Recieved from: {request.client.host}")
+	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
 
 	# Create Add Record Command
 	Undefinied_RAW_Data = Models.RAW_Data(
@@ -62,12 +62,12 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		DB_Undefinied_RAW_Data.commit()
 
 		# Log Message
-		Log.LOG_Message(f"Data Recorded to RAW Table")
+		Log.Terminal_Log("INFO", "Data Recorded to RAW Table")
 
 	except Exception as e:
 
 		# Log Message
-		Log.LOG_Error_Message(f"An error occurred while adding RAW_Data: {e}")
+		Log.Terminal_Log("ERROR", f"An error occurred while adding RAW_Data: {e}")
 
 		# Rollback DataBase
 		DB_Undefinied_RAW_Data.rollback()

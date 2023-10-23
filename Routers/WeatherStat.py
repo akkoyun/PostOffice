@@ -43,8 +43,8 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
         # Refresh DataBase
 		DB_RAW_Data.refresh(RAW_Data)
 
-        # Log Message
-		Log.LOG_Message(f"New Valid WeatherStat RAW Data Record Added: ['{request.client.host}' - '{Data.Device.Info.ID}']")
+		# Log Message
+		Log.Terminal_Log("INFO", f"New Valid WeatherStat RAW Data Record Added: ['{request.client.host}' - '{Data.Device.Info.ID}']")
 
 		# Close Database
 		DB_RAW_Data.close()
@@ -61,7 +61,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		except Exception as e:
 
 			# Log Message
-			Log.LOG_Error_Message(f"Failed to send RAW data: {e}")
+			Log.Terminal_Log("ERROR", f"Failed to send RAW data: {e}")
 
 		# Send Success
 		return JSONResponse(
@@ -73,10 +73,8 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 	else:
 
 		# Log Message
-		Log.LOG_Message(f"New Undefinied Data Recieved. Device: {Functions.Handle_Device(Data.Command)}")
-
-		# Log Message
-		Log.LOG_Message("---------------------------------------")
+		Log.Terminal_Log("INFO", f"New Undefinied Data Recieved. Device: {Functions.Handle_Device(Data.Command)}")
+		Log.Terminal_Log("INFO", ("---------------------------------------"))
 
 		# Send Error
 		return JSONResponse(
