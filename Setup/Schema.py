@@ -607,16 +607,6 @@ class Pack_IoT_Operator(BaseModel):
 				# Set IP
 				value = "0.0.0.0"
 
-
-
-
-
-
-
-
-
-
-
 # Define GSM
 class Pack_GSM(BaseModel):
 
@@ -626,11 +616,68 @@ class Pack_GSM(BaseModel):
 	# IoT Operator
 	Operator: Pack_IoT_Operator
 
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+
+		# Set Alias Alternatives
+		Alias_Alternatives_Module = ["MODULE", "Module", "module", "MD", "md", "Md"]
+		Alias_Alternatives_Operator = ["OPERATOR", "Operator", "operator", "OP", "op", "Op"]
+
+		# Normalize Module Field
+		for Alias in Alias_Alternatives_Module:
+
+			# Check ID Field
+			if Alias in values:
+
+				# Set ID Field
+				values["Module"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Operator Field
+		for Alias in Alias_Alternatives_Operator:
+
+			# Check Hardware Field
+			if Alias in values:
+
+				# Set Hardware Field
+				values["Operator"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
 # Define IoT
 class Pack_IoT(BaseModel):
 	
 	# Device GSM
 	GSM: Pack_GSM
+
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+
+		# Set Alias Alternatives
+		Alias_Alternatives_GSM = ["GSM", "Gsm", "gsm"]
+
+		# Normalize GSM Field
+		for Alias in Alias_Alternatives_GSM:
+
+			# Check ID Field
+			if Alias in values:
+
+				# Set ID Field
+				values["GSM"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
 
 # Define Device
 class Pack_Device(BaseModel):
@@ -644,173 +691,291 @@ class Pack_Device(BaseModel):
 	# Device IoT
 	IoT: Pack_IoT
 
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+
+		# Set Alias Alternatives
+		Alias_Alternatives_Info = ["INFO", "Info", "info"]
+		Alias_Alternatives_Power = ["POWER", "Power", "power", "POW", "Pow", "pow"]
+		Alias_Alternatives_IoT = ["IOT", "Iot", "iot"]
+
+		# Normalize Info Field
+		for Alias in Alias_Alternatives_Info:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Info"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Power Field
+		for Alias in Alias_Alternatives_Power:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Power"] = values[Alias]
+
+				# Break
+				break
+		
+		# Normalize IoT Field
+		for Alias in Alias_Alternatives_IoT:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["IoT"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
 # Location Definition
 class Payload_WeatherStat_Location(BaseModel):
-	
+
 	# Latitude Value of Device
 	Latitude: float = Field(description="GNSS lattitude value.", example=1.243242342)
 
 	# Longtitude Value of Device
 	Longtitude: float = Field(description="GNSS longtitude value.", example=23.3213232)
 
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+
+		# Set Alias Alternatives
+		Alias_Alternatives_Latitude = ["LATITUDE", "Latitude", "latitude", "LAT", "Lat", "lat"]
+		Alias_Alternatives_Longtitude = ["LONGTITUDE", "Longtitude", "longtitude", "LONG", "Long", "long", "Longitude", "longitude", "LONGITUDE"]
+
+		# Normalize Latitude Field
+		for Alias in Alias_Alternatives_Latitude:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Latitude"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Longtitude Field
+		for Alias in Alias_Alternatives_Longtitude:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Longtitude"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
 # Environment Measurement Definition
 class Payload_WeatherStat_Environment(BaseModel):
 	
 	# Last Measured Air Temperature Value
-	AT: Optional[float] = Field(alias="at", default=None, description="Air temperature.", example=28.3232)
+	AT: Optional[float] = Field(default=0, description="Air temperature.", example=28.3232, min=-50.0, max=100.0)
 
 	# Last Measured Relative Humidity Value
-	AH: Optional[float] = Field(alias="ah", default=None, description="Air humidity.", example=85.2332)
+	AH: Optional[float] = Field(default=0, description="Air humidity.", example=85.2332, min=0.0, max=100.0)
 
 	# Last Measured Air Pressure Value
-	AP: Optional[float] = Field(alias="ap", default=None, description="Air pressure.", example=985.55)
+	AP: Optional[float] = Field(default=0, description="Air pressure.", example=985.55, min=500.0, max=2000.0)
 
 	# Last Measured Visual Light Value
-	VL: Optional[int] = Field(alias="vl", default=None, description="Visual light.")
+	VL: Optional[int] = Field(default=0, description="Visual light.", example=1234, min=0, max=100000)
 
 	# Last Measured Infrared Light Value
-	IR: Optional[int] = Field(alias="ir", default=None, description="Infrared light.")
+	IR: Optional[int] = Field(default=0, description="Infrared light.", example=1234, min=0, max=100000)
 
 	# Last Measured UV Value
-	UV: Optional[float] = Field(alias="uv", default=None, description="UV index.")
+	UV: Optional[float] = Field(default=0, description="UV index.", example=2.12, min=0.0, max=20.0)
 
 	# Last Measured Soil Temperature Value
-	ST: list[Optional[float]] = Field(alias="st", default=None, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10)
+	ST: list[Optional[float]] = Field(default=0, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10, min=-50.0, max=100.0)
 
 	# Last Measured Rain Value
-	R: Optional[int] = Field(alias="r", default=None, description="Rain tip counter.", example=23)
+	R: Optional[int] = Field(default=0, description="Rain tip counter.", example=23, min=0, max=100000)
 
 	# Last Measured Wind Direction Value
-	WD: Optional[int] = Field(alias="wd", default=None, description="Wind direction.", example=275)
+	WD: Optional[int] = Field(default=0, description="Wind direction.", example=275, min=0, max=360)
 
 	# Last Measured Wind Speed Value
-	WS: Optional[float] = Field(alias="ws", default=None, description="Wind speed.", example=25)
+	WS: Optional[float] = Field(default=0, description="Wind speed.", example=25, min=0.0, max=100.0)
 
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
 
-	# AT Validator
-	@validator("AT")
-	def validate_at(cls, value):
+		# Set Alias Alternatives
+		Alias_Alternatives_AT = ["AT", "at", "At"]
+		Alias_Alternatives_AH = ["AH", "ah", "Ah"]
+		Alias_Alternatives_AP = ["AP", "ap", "Ap"]
+		Alias_Alternatives_VL = ["VL", "vl", "Vl"]
+		Alias_Alternatives_IR = ["IR", "ir", "Ir"]
+		Alias_Alternatives_UV = ["UV", "uv", "Uv"]
+		Alias_Alternatives_ST = ["ST", "st", "St"]
+		Alias_Alternatives_R = ["R", "r", "Rain", "rain", "RAIN"]
+		Alias_Alternatives_WD = ["WD", "wd", "Wd", "Wind", "wind", "WIND"]
+		Alias_Alternatives_WS = ["WS", "ws", "Ws", "WindSpeed", "windspeed", "WINDSPEED"]
+
+		# Normalize AT Field
+		for Alias in Alias_Alternatives_AT:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["AT"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize AH Field
+		for Alias in Alias_Alternatives_AH:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["AH"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize AP Field
+		for Alias in Alias_Alternatives_AP:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["AP"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize VL Field
+		for Alias in Alias_Alternatives_VL:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["VL"] = values[Alias]
+
+				# Break
+				break
 		
-		# Check AT
-		if value is not None and (value < -50.0 or value > 100.0):
-			
-			# Set AT
-			value = -999
+		# Normalize IR Field
+		for Alias in Alias_Alternatives_IR:
 
-		return value
+			# Check Field
+			if Alias in values:
 
-	# AH Validator
-	@validator("AH")
-	def validate_ah(cls, value):
-		
-		# Check AH
-		if value is not None and (value < 0.0 or value > 100.0):
+				# Set Field
+				values["IR"] = values[Alias]
 
-			# Set AH
-			value = -999
+				# Break
+				break
 
-		return value
-    
-	# AP Validator
-	@validator("AP")
-	def validate_ap(cls, value):
-	
-		# Check AP
-		if value is not None and (value < 500.0 or value > 2000.0):
+		# Normalize UV Field
+		for Alias in Alias_Alternatives_UV:
 
-			# Set AP
-			value = -999
+			# Check Field
+			if Alias in values:
 
-		return value
+				# Set Field
+				values["UV"] = values[Alias]
 
-	# VL Validator
-	@validator("VL")
-	def validate_vl(cls, value):
+				# Break
+				break
 
-		# Check VL
-		if value is not None and (value < 0 or value > 100000):
+		# Normalize ST Field
+		for Alias in Alias_Alternatives_ST:
 
-			# Set VL
-			value = -999
+			# Check Field
+			if Alias in values:
 
-		return value
+				# Set Field
+				values["ST"] = values[Alias]
 
-	# IR Validator
-	@validator("IR")
-	def validate_ir(cls, value):
-		
-		# Check IR
-		if value is not None and (value < 0 or value > 100000):
+				# Break
+				break
 
-			# Set IR
-			value = -999
+		# Normalize R Field
+		for Alias in Alias_Alternatives_R:
 
-		return value
+			# Check Field
+			if Alias in values:
 
-	# UV Validator
-	@validator("UV")
-	def validate_uv(cls, value):
-		
-		# Check UV
-		if value is not None and (value < 0.0 or value > 20.0):
+				# Set Field
+				values["R"] = values[Alias]
 
-			# Set UV
-			value = -999
+				# Break
+				break
 
-		return value
+		# Normalize WD Field
+		for Alias in Alias_Alternatives_WD:
 
-	# ST Validator
-	@validator("ST")
-	def validate_st(cls, value):
+			# Check Field
+			if Alias in values:
 
-		# Check ST
-		if value is not None:
+				# Set Field
+				values["WD"] = values[Alias]
 
-			# Check ST
-			for st in value:
+				# Break
+				break
 
-				# Check ST
-				if st < -50.0 or st > 100.0:
+		# Normalize WS Field
+		for Alias in Alias_Alternatives_WS:
 
-					# Set ST
-					value = [-999]
+			# Check Field
+			if Alias in values:
 
-		return value
+				# Set Field
+				values["WS"] = values[Alias]
 
-	# R Validator
-	@validator("R")
-	def validate_r(cls, value):
+				# Break
+				break
 
-		# Check R
-		if value is not None and (value < 0 or value > 100000):
+		# Return values
+		return values
 
-			# Set R
-			value = -999
+	# Value Validator
+	@validator("AT", "AH", "AP", "VL", "IR", "UV", "ST", "R", "WD", "WS", pre=True, always=True)
+	def Validate_Values(cls, value, field):
 
-		return value
+		# Get Min and Max Values
+		Min_Value = field.field_info.extra.get("min")
+		Max_Value = field.field_info.extra.get("max")
 
-	# WD Validator
-	@validator("WD")
-	def validate_wd(cls, value):
+		# Check Min Value
+		if Min_Value is not None and value < Min_Value:
+            
+			# Set Value
+			return -9999
 
-		# Check WD
-		if value is not None and (value < 0 or value > 360):
+		# Check Max Value
+		if Max_Value is not None and value > Max_Value:
+        
+			# Set Value
+			return 9999
 
-			# Set WD
-			value = -999
-
-		return value
-
-	# WS Validator
-	@validator("WS")
-	def validate_ws(cls, value):
-
-		# Check WS
-		if value is not None and (value < 0.0 or value > 100.0):
-
-			# Set WS
-			value = -999
-
+		# Return Value
 		return value
 
 # WeatherStat Model Definition
@@ -822,11 +987,84 @@ class Payload_WeatherStat(BaseModel):
 	# Environment
 	Environment: Payload_WeatherStat_Environment
 
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+
+		# Set Alias Alternatives
+		Alias_Alternatives_Location = ["LOCATION", "Location", "location", "LOC", "Loc", "loc"]
+		Alias_Alternatives_Environment = ["ENVIRONMENT", "Environment", "environment", "ENV", "Env", "env"]
+
+		# Normalize Location Field
+		for Alias in Alias_Alternatives_Location:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Location"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Environment Field
+		for Alias in Alias_Alternatives_Environment:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Environment"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
 # Define payload
 class Payload(BaseModel):
 
 	# TimeStamp
 	TimeStamp: str = Field(default="2022-07-19T08:28:32Z", description="Measurement time stamp.", example="2022-07-19T08:28:32Z")
+
+	# WeatherStat Payload
+	WeatherStat: Optional[Payload_WeatherStat]
+
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+
+		# Set Alias Alternatives
+		Alias_Alternatives_TimeStamp = ["TIMESTAMP", "TimeStamp", "timestamp", "TIME", "Time", "time", "TS", "Ts", "ts"]
+		Alias_Alternatives_WeatherStat = ["WEATHERSTAT", "WeatherStat", "weatherstat", "WEATHER", "Weather", "weather", "WS", "Ws", "ws"]
+
+		# Normalize TimeStamp Field
+		for Alias in Alias_Alternatives_TimeStamp:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["TimeStamp"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize WeatherStat Field
+		for Alias in Alias_Alternatives_WeatherStat:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["WeatherStat"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
 
     # TimeStamp Validator
 	@validator('TimeStamp')
@@ -848,9 +1086,6 @@ class Payload(BaseModel):
 		# Return TimeStamp
 		return TimeStamp_Value.upper()
 
-	# WeatherStat Payload
-	WeatherStat: Optional[Payload_WeatherStat]
-
 # Define IoT RAW Data Base Model
 # WeatherStat Model Version 01.03.00
 class Data_Pack_Model(BaseModel):
@@ -861,6 +1096,60 @@ class Data_Pack_Model(BaseModel):
 	# Define Command
 	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online")
 
+	# Device
+	Device: Optional[Pack_Device]
+
+	# Payload
+	Payload: Payload
+
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+
+		# Set Alias Alternatives
+		Alias_Alternatives_Command = ["COMMAND", "Command", "command", "CMD", "Cmd", "cmd"]
+		Alias_Alternatives_Device = ["DEVICE", "Device", "device", "DEV", "Dev", "dev"]
+		Alias_Alternatives_Payload = ["PAYLOAD", "Payload", "payload", "PAY", "Pay", "pay"]
+
+		# Normalize Command Field
+		for Alias in Alias_Alternatives_Command:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Command"] = values[Alias]
+
+				# Break
+				break
+		
+		# Normalize Device Field
+		for Alias in Alias_Alternatives_Device:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Device"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize Payload Field
+		for Alias in Alias_Alternatives_Payload:
+
+			# Check Field
+			if Alias in values:
+
+				# Set Field
+				values["Payload"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
 	# Command Validator
 	@validator('Command')
 	def Command_Validator(cls, Command_Value):
@@ -870,14 +1159,9 @@ class Data_Pack_Model(BaseModel):
         
 		# Check Command
 		if not re.match(pattern, Command_Value, re.IGNORECASE):
-			
+
+			# Raise Error
 			raise ValueError(f"Invalid command format. Expected 'xxx:yyy.zzz', got {Command_Value}")
 
 		# Return Command
 		return Command_Value.upper()
-
-	# Device
-	Device: Optional[Pack_Device]
-
-	# Payload
-	Payload: Payload
