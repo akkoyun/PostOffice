@@ -179,7 +179,6 @@ class Pack_IoT_Module(BaseModel):
 	# Module Serial Number
 	Serial: Optional[int] = Field(default=0, description="GSM modem serial ID.", example=20273)
 
-
 # Define IoT Operator
 class Pack_IoT_Operator(BaseModel):
 
@@ -187,7 +186,7 @@ class Pack_IoT_Operator(BaseModel):
 	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1)
 
 	# SIM ICCID
-	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
+	ICCID: str = Field(alias="Iccid", default=None, description="SIM card ICCID number.", example="8990011916180280000")
 
 	# Operator Country Code
 	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286)
