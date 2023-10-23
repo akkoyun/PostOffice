@@ -1,5 +1,5 @@
 # Library Includes
-from Setup import Schema, Database, Models, Log, Functions
+from Setup import Schema, Database, Models, Log, Functions, Kafka
 from Setup.Config import APP_Settings
 from fastapi import Request, status, APIRouter
 from fastapi.responses import JSONResponse
@@ -56,7 +56,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		try:
 
 			# Send Message to Queue
-			Kafka_Producer.send(topic='RAW', value=Data.json(), headers=RAW_Header).add_callback(Functions.Kafka_Send_Success).add_errback(Functions.Kafka_Send_Error)
+			Kafka.Kafka_Producer.send(topic='RAW', value=Data.json(), headers=RAW_Header).add_callback(Kafka.Send_Success).add_errback(Kafka.Send_Error)
 
 		except Exception as e:
 

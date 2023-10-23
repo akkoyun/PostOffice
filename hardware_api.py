@@ -1,11 +1,9 @@
 # Library Includes
-from Setup import Database, Models, Log, Config, Functions, Kafka
+from Setup import Database, Models, Log, Kafka
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from Routers import WeatherStat, PowerStat
-from kafka import KafkaProducer
-import json
 from datetime import datetime
 from Setup.Default_Value_Update import Value_Update
 
