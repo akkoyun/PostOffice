@@ -20,11 +20,11 @@ def Device_Handler():
         # Parse Messages
         for Message in Kafka.Kafka_Info_Consumer:
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Message Received")
-
             # Get Headers
             Headers = Functions.Handle_Full_Headers(Message)
+
+            # Log Message
+            Log.LOG_Message(f"Message Received : {Headers.Device_ID}")
 
             # Decode Message
             Kafka_Info_Message = Kafka.Decode_Info_Message(Message)
@@ -68,8 +68,14 @@ def Device_Handler():
                 DB_Module.commit()
 
                 # Log Message
-                Log.Terminal_Log("INFO", f"Device Updated: {Headers.Device_ID}")
+                Log.Terminal_Log("INFO", f"Device Login Time Updated")
 
+            # Get Consumer Record
+            Firmware = Kafka_Info_Message.Firmware
+            Hardware = Kafka_Info_Message.Hardware
+            
+            # Log Message
+            Log.Terminal_Log("INFO", f"Version: '{Firmware}' - '{Hardware}'")
 
 
 
