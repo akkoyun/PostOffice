@@ -255,176 +255,34 @@ class Pack_IoT_Module(BaseModel):
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(alias="sim_type", default=None, description="SIM card type.", example=1)
+	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1)
 
 	# SIM ICCID
-	ICCID: str = Field(alias="iccid", default=None, description="SIM card ICCID number.", example="8990011916180280000")
+	ICCID: str = Field(default=None, description="SIM card ICCID number.", example="8990011916180280000")
 
 	# Operator Country Code
-	MCC: Optional[int] = Field(alias="mcc", default=0, description="Operator country code.", example=286)
+	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286)
 
 	# Operator Code
-	MNC: Optional[int] = Field(alias="mnc", default=0, description="Operator code.", example=1)
+	MNC: Optional[int] = Field(default=0, description="Operator code.", example=1)
 
 	# RSSI
-	RSSI: Optional[int] = Field(alias="rssi", default=0, description="IoT RSSI signal level.", example=28)
+	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28)
 
 	# TAC
-	TAC: Optional[str] = Field(alias="tac", default=None, description="Operator type allocation code.", example="855E")
+	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
 
 	# LAC
-	LAC: Optional[str] = Field(alias="lac", default=None, description="Operator base station location.", example="855E")
+	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E")
 
 	# Cell ID
-	Cell_ID: Optional[str] = Field(alias="cell_id", default=None, description="Operator base station cell id.", example="E678")
+	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678")
 
 	# IP
-	IP: Optional[str] = Field(alias="ip", default=None, description="IoT IP address.", example="127.0.0.1")
+	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1")
 		
 	# Connection Time
-	ConnTime: Optional[int] = Field(alias="conntime", default=0, description="IoT connection time.", example=12)
-
-	# SIM Type Validator
-	@validator('SIM_Type')
-	def SIM_Type_Validator(cls, SIM_Type_Value):
-
-		# Check SIM Type
-		if SIM_Type_Value < 0 or SIM_Type_Value > 100:
-
-			# Set SIM Type
-			SIM_Type_Value = 0
-
-		# Return SIM Type
-		return SIM_Type_Value
-
-	# ICCID Validator
-	@validator('ICCID')
-	def ICCID_Validator(cls, ICCID_Value):
-
-		# Define Regex Pattern
-		pattern = r'^[0-9]{19}$'
-
-		# Check ICCID
-		if not re.match(pattern, ICCID_Value, re.IGNORECASE):
-
-			raise ValueError(f"Invalid ICCID format. Expected 'XXXXXXXXXXXXXXXXXXX', got {ICCID_Value}")
-
-		# Return ICCID
-		return ICCID_Value.upper()
-
-	# MCC Validator
-	@validator('MCC')
-	def MCC_Validator(cls, MCC_Value):
-
-		# Check MCC
-		if MCC_Value < 0 or MCC_Value > 1000:
-
-			# Set MCC
-			MCC_Value = 0
-
-		# Return MCC
-		return MCC_Value
-
-	# MNC Validator
-	@validator('MNC')
-	def MNC_Validator(cls, MNC_Value):
-
-		# Check MNC
-		if MNC_Value < 0 or MNC_Value > 1000:
-
-			# Set MNC
-			MNC_Value = 0
-
-		# Return MNC
-		return MNC_Value
-
-	# RSSI Validator
-	@validator('RSSI')
-	def RSSI_Validator(cls, RSSI_Value):
-
-		# Check RSSI
-		if RSSI_Value < -100 or RSSI_Value > 100:
-
-			# Set RSSI
-			RSSI_Value = 0
-
-		# Return RSSI
-		return RSSI_Value
-
-	# TAC Validator
-	@validator('TAC')
-	def TAC_Validator(cls, TAC_Value):
-
-		# Define Regex Pattern
-		pattern = r'^[0-9A-F]{4}$'
-
-		# Check TAC
-		if not re.match(pattern, TAC_Value, re.IGNORECASE):
-
-			raise ValueError(f"Invalid TAC format. Expected 'XXXX', got {TAC_Value}")
-
-		# Return TAC
-		return TAC_Value.upper()
-
-	# LAC Validator
-	@validator('LAC')
-	def LAC_Validator(cls, LAC_Value):
-
-		# Define Regex Pattern
-		pattern = r'^[0-9A-F]{4}$'
-
-		# Check LAC
-		if not re.match(pattern, LAC_Value, re.IGNORECASE):
-
-			raise ValueError(f"Invalid LAC format. Expected 'XXXX', got {LAC_Value}")
-
-		# Return LAC
-		return LAC_Value.upper()
-
-	# Cell ID Validator
-	@validator('Cell_ID')
-	def Cell_ID_Validator(cls, Cell_ID_Value):
-
-		# Define Regex Pattern
-		pattern = r'^[0-9A-F]{4}$'
-
-		# Check Cell ID
-		if not re.match(pattern, Cell_ID_Value, re.IGNORECASE):
-
-			raise ValueError(f"Invalid Cell ID format. Expected 'XXXX', got {Cell_ID_Value}")
-
-		# Return Cell ID
-		return Cell_ID_Value.upper()
-
-	# IP Validator
-	@validator('IP')
-	def IP_Validator(cls, IP_Value):
-
-		try:
-
-			# Control for IP
-			ipaddress.ip_address(IP_Value)
-
-		except ipaddress.AddressValueError:
-
-			# Raise Error			
-			raise ValueError(f"Invalid IP format. Expected IPv4, got {IP_Value}")
-
-		# Return IP
-		return IP_Value
-
-	# ConnTime Validator
-	@validator('ConnTime')
-	def ConnTime_Validator(cls, ConnTime_Value):
-
-		# Check ConnTime
-		if ConnTime_Value < 0 or ConnTime_Value > 1000:
-
-			# Set ConnTime
-			ConnTime_Value = 0
-
-		# Return ConnTime
-		return ConnTime_Value
+	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12)
 
 # Define GSM
 class Pack_GSM(BaseModel):
