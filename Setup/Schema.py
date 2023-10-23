@@ -297,20 +297,6 @@ class Pack_IoT_Operator(BaseModel):
 		# Return SIM Type
 		return SIM_Type_Value
 
-	# ICCID Validator
-	@validator('ICCID')
-	def ICCID_Validator(cls, ICCID_Value):
-
-		# Define Regex Pattern
-		pattern = r'^[0-9]{19}$'
-
-		# Check ICCID
-		if not re.match(pattern, ICCID_Value, re.IGNORECASE):
-
-			raise ValueError(f"Invalid ICCID format. Expected 'XXXXXXXXXXXXXXXXXXX', got {ICCID_Value}")
-
-		# Return ICCID
-		return ICCID_Value.upper()
 
 	# MCC Validator
 	@validator('MCC')
