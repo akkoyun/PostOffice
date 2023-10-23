@@ -23,7 +23,7 @@ def IoT_Handler():
             IoT_Headers = Functions.Handle_Headers(IoT_Message)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New Message Received")
+            Log.Terminal_Log("INFO", f"Message Received : {IoT_Headers.Device_ID}")
 
             # Decode Message
             Kafka_IoT_Message = Kafka.Decode_IoT_Message(IoT_Message)
