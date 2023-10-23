@@ -122,7 +122,7 @@ class Pack_Battery(BaseModel):
 	# Battery Charge State
 	Charge: int = Field(description="Battery charge state.", example=1, min=0, max=5)
 
-	# Handle ID Field Name
+	# Handle Field Names
 	@root_validator(pre=True)
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 		
@@ -263,6 +263,34 @@ class Pack_Power(BaseModel):
 
 	# Device Battery
 	Battery: Pack_Battery
+
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+		
+		# Set Alias Alternatives
+		Alias_Alternatives_Battery = ["BATTERY", "Battery", "battery", "BAT", "Bat", "bat"]
+
+		# Normalize IV Field
+		for Alias in Alias_Alternatives_Battery:
+
+			# Check ID Field
+			if Alias in values:
+				
+				# Set ID Field
+				values["Battery"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
+
+
+
+
+
 
 # Define IoT Module
 class Pack_IoT_Module(BaseModel):
