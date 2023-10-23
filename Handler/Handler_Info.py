@@ -112,10 +112,16 @@ def Device_Handler():
                 # Log Message
                 Log.Terminal_Log("INFO", f"Existing Version: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
+            # Log Message
+            Log.LOG_Message("-----------------------------------------------------------")
+
             # Commit Queue
             Kafka.Kafka_Info_Consumer.commit()
 
     finally:
+
+        # Log Message
+        Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
 
         # Close Database
         DB_Module.close()

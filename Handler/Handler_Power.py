@@ -5,6 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Functions as Functions
 from Setup import Database, Log, Kafka
+from datetime import datetime
 
 # Power Measurement Handler Function
 def Power_Handler():
@@ -77,8 +78,11 @@ def Power_Handler():
 
     finally:
 
+        # Log Message
+        Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
+
         # Close Database
-        DB_Module.close()            
+        DB_Module.close()
 
 # Handle Device
 Power_Handler()

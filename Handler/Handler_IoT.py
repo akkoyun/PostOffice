@@ -148,9 +148,15 @@ def IoT_Handler():
                 DB_Module.close()
 
             # Log Message
-            Log.Terminal_Log("INFO", f"---------------------------------------")
+            Log.LOG_Message("-----------------------------------------------------------")
+
+            # Commit Queue
+            Kafka.Kafka_IoT_Consumer.commit()
 
     finally:
+
+        # Log Message
+        Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
 
         # Close Database
         DB_Module.close()

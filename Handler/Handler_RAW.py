@@ -65,10 +65,19 @@ def Parse_Topics():
                 # Send to Topic
                 Kafka.Send_To_Topic(Topic, Value, New_Headers)
 
+            # Log Message
+            Log.LOG_Message("-----------------------------------------------------------")
+
+            # Commit Queue
+            Kafka.Kafka_RAW_Consumer.commit()
+
     finally:
 
-    	# Log Message
-	    Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
+        # Log Message
+        Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
+
+        # Close Database
+        DB_Module.close()
 
 # Handle Device
 Parse_Topics()
