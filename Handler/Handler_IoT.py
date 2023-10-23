@@ -1,7 +1,11 @@
+# Setup Library
+import sys
+sys.path.append('/root/PostOffice/')
+
 # Library Includes
-import Setup.Functions as Functions
 from Setup import Database, Models, Log, Kafka
 from datetime import datetime
+from Setup import Functions as Functions
 
 # IoT Handler Function
 def IoT_Handler():

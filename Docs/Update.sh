@@ -27,5 +27,8 @@ systemctl restart Handler_Power.service
 # Restart Info Handler
 systemctl restart Handler_Info.service
 
+# Restart IoT Handler
+systemctl restart Handler_IoT.service
+
 # Change Directory to Root
 cd ~
