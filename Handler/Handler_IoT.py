@@ -81,9 +81,6 @@ def IoT_Handler():
                     # Get SIM ID
                     SIM_ID = Query_SIM_Table.SIM_ID
 
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"ICCID found. SIM ID: {SIM_ID}")
-
             # ICCID not found
             else:
 
