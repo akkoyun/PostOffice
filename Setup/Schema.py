@@ -383,7 +383,7 @@ class Pack_IoT_Module(BaseModel):
 	def Version_Validator(cls, Value):
 
 		# Define Regex Pattern
-		Pattern = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$'
+		Pattern = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{2,3}$'
 
 		# Check Value
 		if not re.match(Pattern, Value):
