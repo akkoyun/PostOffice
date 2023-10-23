@@ -129,37 +129,6 @@ def Parse_Headers(Headers, Data_Stream_ID):
         # Return None
         return None
 
-# Add DataStream Record
-def DB_Datastream_Add_Record(Headers, DB_Module, Models):
-
-    try:
-
-        # Create New DataStream
-        New_Data_Stream = Models.Data_Stream(
-            Device_ID=Headers.Device_ID,
-            Data_Stream_Create_Date=datetime.now()
-        )
-
-        # Add Record to DataBase
-        DB_Module.add(New_Data_Stream)
-
-        # Commit DataBase
-        DB_Module.commit()
-
-        # Get DataStream ID
-        New_Data_Stream_ID = str(New_Data_Stream.Data_Stream_ID)
-        
-        # Return DataStream ID
-        return New_Data_Stream_ID
-    
-    except Exception as e:
-        
-        # Log Message
-        print(f"An error occurred while adding DataStream: {e}")
-        
-        # Return None
-        return None
-
 # Handle Company
 def Handle_Company(Command_String):
 

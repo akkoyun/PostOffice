@@ -32,8 +32,28 @@ def Parse_Topics():
             if Kafka_RAW_Message is None:
                 continue
 
-            # Add DataStream Record
-            Data_Stream_ID = str(Functions.DB_Datastream_Add_Record(RAW_Headers, DB_Module, Models))
+            # Record DataStream
+            try:
+
+                # Create New DataStream
+                New_Data_Stream = Models.Data_Stream(
+                    Device_ID=RAW_Headers.Device_ID,
+                    Data_Stream_Create_Date=datetime.now()
+                )
+
+                # Add Record to DataBase
+                DB_Module.add(New_Data_Stream)
+
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Get DataStream ID
+                Data_Stream_ID = str(New_Data_Stream.Data_Stream_ID)
+                
+            except Exception as e:
+                
+                # Log Message
+                print(f"An error occurred while adding DataStream: {e}")
 
             # Control for DataStream ID
             if Data_Stream_ID is None:
