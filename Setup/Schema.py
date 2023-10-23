@@ -394,45 +394,228 @@ class Pack_IoT_Module(BaseModel):
 		# Return Value
 		return Value
 
-
-
-
-
-
-
-
 # Define IoT Operator
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1)
+	SIM_Type: Optional[int] = Field(default=None, description="SIM card type.", example=1, min=0, max=10)
 
 	# SIM ICCID
-	ICCID: str = Field(alias="Iccid", default=None, description="SIM card ICCID number.", example="8990011916180280000")
+	ICCID: str = Field(alias="Iccid", default=None, description="SIM card ICCID number.", example="8990011916180280000", min_length=10, max_length=20)
 
 	# Operator Country Code
-	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286)
+	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286, min=0, max=1000)
 
 	# Operator Code
-	MNC: Optional[int] = Field(default=0, description="Operator code.", example=1)
+	MNC: Optional[int] = Field(default=0, description="Operator code.", example=1, min=0, max=1000)
 
 	# RSSI
-	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28)
+	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28, min=-100, max=100)
 
 	# TAC
-	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E")
+	TAC: Optional[str] = Field(default=None, description="Operator type allocation code.", example="855E", min_length=3, max_length=5)
 
 	# LAC
-	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E")
+	LAC: Optional[str] = Field(default=None, description="Operator base station location.", example="855E", min_length=3, max_length=5)
 
 	# Cell ID
-	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678")
+	Cell_ID: Optional[str] = Field(default=None, description="Operator base station cell id.", example="E678", min_length=3, max_length=5)
 
 	# IP
-	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1")
-		
+	IP: Optional[str] = Field(default=None, description="IoT IP address.", example="127.0.0.1", min_length=7, max_length=15)
+
 	# Connection Time
-	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12)
+	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12, min=0, max=100000)
+
+	# Handle Field Names
+	@root_validator(pre=True)
+	def Normalize_Fields(cls, values: Dict) -> Dict:
+		
+		# Set Alias Alternatives
+		Alias_Alternatives_SIM_Type = ["SIM_TYPE", "Sim_Type", "sim_type", "SIMTYPE", "SimType", "simtype", "SIM", "Sim", "sim"]
+		Alias_Alternatives_ICCID = ["ICCID", "Iccid", "iccid"]
+		Alias_Alternatives_MCC = ["MCC", "Mcc", "mcc"]
+		Alias_Alternatives_MNC = ["MNC", "Mnc", "mnc"]
+		Alias_Alternatives_RSSI = ["RSSI", "Rssi", "rssi", "DBM", "dBm", "dbm"]
+		Alias_Alternatives_TAC = ["TAC", "Tac", "tac"]
+		Alias_Alternatives_LAC = ["LAC", "Lac", "lac"]
+		Alias_Alternatives_Cell_ID = ["CELL_ID", "Cell_Id", "cell_id", "CELLID", "CellId", "cellid"]
+		Alias_Alternatives_IP = ["IP", "Ip", "ip"]
+		Alias_Alternatives_ConnTime = ["CONNTIME", "ConnTime", "conntime", "CONNECTION_TIME", "Connection_Time", "connection_time", "CONNECTIONTIME", "ConnectionTime", "connectiontime"]
+
+		# Normalize Sim Type Field
+		for Alias in Alias_Alternatives_SIM_Type:
+
+			# Check ID Field
+			if Alias in values:
+
+				# Set ID Field
+				values["SIM_Type"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize ICCID Field
+		for Alias in Alias_Alternatives_ICCID:
+
+			# Check Hardware Field
+			if Alias in values:
+
+				# Set Hardware Field
+				values["ICCID"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize MCC Field
+		for Alias in Alias_Alternatives_MCC:
+
+			# Check Firmware Field
+			if Alias in values:
+
+				# Set Firmware Field
+				values["MCC"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize MNC Field
+		for Alias in Alias_Alternatives_MNC:
+
+			# Check Firmware Field
+			if Alias in values:
+
+				# Set Firmware Field
+				values["MNC"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize RSSI Field
+		for Alias in Alias_Alternatives_RSSI:
+
+			# Check Firmware Field
+			if Alias in values:
+
+				# Set Firmware Field
+				values["RSSI"] = values[Alias]
+
+				# Break
+				break
+		
+		# Normalize TAC Field
+		for Alias in Alias_Alternatives_TAC:
+
+			# Check Firmware Field
+			if Alias in values:
+
+				# Set Firmware Field
+				values["TAC"] = values[Alias]
+
+				# Break
+				break
+		
+		# Normalize LAC Field
+		for Alias in Alias_Alternatives_LAC:
+
+			# Check Firmware Field
+			if Alias in values:
+
+				# Set Firmware Field
+				values["LAC"] = values[Alias]
+
+				# Break
+				break
+		
+		# Normalize Cell ID Field
+		for Alias in Alias_Alternatives_Cell_ID:
+
+			# Check Firmware Field
+			if Alias in values:
+
+				# Set Firmware Field
+				values["Cell_ID"] = values[Alias]
+
+				# Break
+				break
+
+		# Normalize IP Field
+		for Alias in Alias_Alternatives_IP:
+
+			# Check Firmware Field
+			if Alias in values:
+
+				# Set Firmware Field
+				values["IP"] = values[Alias]
+
+				# Break
+				break
+		
+		# Normalize ConnTime Field
+		for Alias in Alias_Alternatives_ConnTime:
+
+			# Check Firmware Field
+			if Alias in values:
+
+				# Set Firmware Field
+				values["ConnTime"] = values[Alias]
+
+				# Break
+				break
+
+		# Return values
+		return values
+
+	# Value Validator
+	@validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime", pre=True, always=True)
+	def Validate_Values(cls, value, field):
+
+		# Get Min and Max Values
+		Min_Value = field.field_info.extra.get("min")
+		Max_Value = field.field_info.extra.get("max")
+
+		# Check Min Value
+		if Min_Value is not None and value < Min_Value:
+
+			# Set Value
+			return -9999
+
+		# Check Max Value
+		if Max_Value is not None and value > Max_Value:
+
+			# Set Value
+			return 9999
+
+		# Return Value
+		return value
+
+	# IP Validator
+	@validator("IP", pre=True, always=True)
+	def Validate_IP(cls, value):
+
+		# Check IP
+		if value is not None:
+
+			# Check IP
+			try:
+
+				# Convert to IP
+				ipaddress.ip_address(value)
+
+			except ValueError:
+
+				# Set IP
+				value = "0.0.0.0"
+
+
+
+
+
+
+
+
+
+
 
 # Define GSM
 class Pack_GSM(BaseModel):
