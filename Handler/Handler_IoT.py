@@ -214,14 +214,23 @@ def IoT_Handler():
                 # Module Record Found
                 else:
 
-                    # Update Module Record
-                    setattr(Query_Module_Table, 'Module_Firmware', (Kafka_IoT_Message.GSM.Module.Firmware))
+                    # Control for Firmware
+                    if Kafka_IoT_Message.GSM.Module.Firmware != Query_Module_Table.Module_Firmware:
 
-                    # Commit DataBase
-                    DB_Module.commit()
+                        # Update Module Record
+                        setattr(Query_Module_Table, 'Module_Firmware', (Kafka_IoT_Message.GSM.Module.Firmware))
 
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"Module Firmware Updated")
+                        # Commit DataBase
+                        DB_Module.commit()
+
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"Module Firmware Updated")
+
+                    # Firmware not Changed
+                    else:
+
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"Module Firmware Not Changed")
 
             # IMEI not found
             else:
