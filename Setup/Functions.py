@@ -5,10 +5,6 @@ from Setup.Config import APP_Settings
 from kafka import KafkaConsumer, KafkaProducer
 from datetime import datetime
 import json
-import time
-
-# Kafka Producers
-Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}')
 
 # Define RAW Topic Headers
 class RAW_Topic_Headers:
