@@ -70,61 +70,15 @@ def Device_Handler():
                 # Log Message
                 Log.Terminal_Log("INFO", f"Device Updated: {Headers.Device_ID}")
 
-            # Get Consumer Record
-            Firmware = Kafka_Info_Message.Firmware
-            Hardware = Kafka_Info_Message.Hardware
-            
-            # Log Message
-            Log.Terminal_Log("INFO", f"Version: '{Firmware}' - '{Hardware}'")
 
-            # Database Version Table Query
-            Query_Version_Table = DB_Module.query(Models.Version).filter(
-                and_(
-                    Models.Version.Device_ID.like(Headers.Device_ID),
-                    Models.Version.Version_Firmware.like(Firmware),
-                    Models.Version.Version_Hardware.like(Hardware)
-                )
-                ).first()
 
-            # Version Not Found
-            if not Query_Version_Table:
 
-                # Create New Version
-                New_Version = Models.Version(
-                        Device_ID=Headers.Device_ID,
-                        Version_Firmware=Firmware,
-                        Version_Hardware=Hardware
-                )
 
-                # Add Record to DataBase
-                DB_Module.add(New_Version)
 
-                # Commit DataBase
-                DB_Module.commit()
 
-                # Refresh DataBase
-                DB_Module.refresh(New_Version)
 
-                # Log Message
-                Log.Terminal_Log("INFO", f"New Version Added: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
-            # Version Found
-            else:
 
-                # Update Version
-                setattr(Query_Version_Table, 'Version_Firmware', Firmware)
-
-                # Update Version
-                setattr(Query_Version_Table, 'Version_Hardware', Hardware)
-
-                # Update Version
-                setattr(Query_Version_Table, 'Version_Update_Date', datetime.now())
-
-                # Commit DataBase
-                DB_Module.commit()
-
-                # Log Message
-                Log.Terminal_Log("INFO", f"Version Updated: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
             # Commit Queue
             Kafka.Kafka_Info_Consumer.commit()
