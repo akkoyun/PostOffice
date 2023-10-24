@@ -16,6 +16,9 @@ while True:
         all_processes = {p.info['name']: p.info['pid'] for p in psutil.process_iter(['pid', 'name'])}
 
         for Service in Services_To_Track:
+
+            Log.Terminal_Log("INFO", f"Status change detected for {Service}. New status: {Status}")
+
             Status = False
             try:
                 if Service in all_processes:
