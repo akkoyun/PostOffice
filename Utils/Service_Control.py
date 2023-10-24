@@ -1,83 +1,50 @@
-# Setup Library
 import sys
-sys.path.append('/root/PostOffice/')
+import time
+import psutil
+from sqlalchemy.exc import SQLAlchemyError  # Or your specific DB API's error
 
-# Library Includes
+sys.path.append('/root/PostOffice/')
 from Setup import Database, Models, Log, Kafka
 from Setup import Functions as Functions
-import psutil
-import time
 
-# Services to track
 Services_To_Track = ['PostOffice', 'Handler_RAW', 'Handler_Info', 'Handler_Power', 'Handler_IoT.service']
-
-# Current Statuses
 Current_Statuses = {}
 
-# Loop Forever
 while True:
+    try:
+        # Here, instead of getting processes for each service, we get them all at once.
+        all_processes = {p.info['name']: p.info['pid'] for p in psutil.process_iter(['pid', 'name'])}
 
-    # Control for Services
-    for Service in Services_To_Track:
-
-        try:
-
-            # Loop for Processes
-            for process in psutil.process_iter(['pid', 'name']):
-
-                # Control for Service
-                if process.info['name'] == Service:
-
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"Checking {process.info['name']} - {process.info['pid']}")
-
-                    # Set Status
+        for Service in Services_To_Track:
+            Status = False
+            try:
+                if Service in all_processes:
+                    Log.Terminal_Log("INFO", f"Checking {Service} - {all_processes[Service]}")
                     Status = True
+                
+                # Update database only if status has changed
+                if Service not in Current_Statuses or Current_Statuses[Service] != Status:
+                    Current_Statuses[Service] = Status
 
-                    # Break Loop
-                    break
+                    try:
+                        DB_Module = Database.SessionLocal()
+                        New_Service_Status = Models.Service_LOG(
+                            Service=Service,
+                            Service_Status=Status,
+                        )
+                        DB_Module.add(New_Service_Status)
+                        DB_Module.commit()
+                        Log.Terminal_Log("INFO", f"Status change detected for {Service}. New status: {Status}")
 
-            else:
+                    except SQLAlchemyError as db_err:
+                        Log.Terminal_Log("ERROR", f"Database Error: {db_err}")
+                    finally:
+                        DB_Module.close()
 
-                # Set Status
-                Status = False
+            except Exception as e:
+                Log.Terminal_Log("ERROR", f"An error occurred while processing service {Service}: {type(e).__name__} - {e}")
 
-            # Update Database
-            if Service not in Current_Statuses or Current_Statuses[Service] != Status:
+    except Exception as e:
+        Log.Terminal_Log("ERROR", f"An unexpected error occurred: {type(e).__name__} - {e}")
 
-                # Set Current Status
-                Current_Statuses[Service] = Status
-
-                # Define DB
-                DB_Module = Database.SessionLocal()
-
-                # Record DataStream
-                try:
-
-                    # Create New Service Status Record
-                    New_Service_Status = Models.Service_LOG(
-                        Service = Service,
-                        Service_Status = Status,
-                    )
-
-                    # Add Record to DataBase
-                    DB_Module.add(New_Service_Status)
-
-                    # Commit DataBase
-                    DB_Module.commit()
-
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"Status change detected for {Service}. New status: {Status}")
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding DataStream: {e}")
-
-        except Exception as e:
-
-            # Log Message
-            Log.Terminal_Log("ERROR", f"An error occurred while getting service status: {e}")
-
-    # Her 60 saniyede bir kontrol et
     time.sleep(60)
