@@ -1,3 +1,7 @@
+# Setup Library
+import sys
+sys.path.append('/root/PostOffice/')
+
 # Import Packages
 from sqlalchemy import create_engine, event
 from sqlalchemy.ext.declarative import declarative_base

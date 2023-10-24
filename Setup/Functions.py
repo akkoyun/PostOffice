@@ -1,3 +1,7 @@
+# Setup Library
+import sys
+sys.path.append('/root/PostOffice/')
+
 # Library Includes
 from Setup import Database, Models, Log, Schema
 import Setup.Functions as Functions

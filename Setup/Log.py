@@ -1,3 +1,7 @@
+# Setup Library
+import sys
+sys.path.append('/root/PostOffice/')
+
 # Library Includes
 from .Config import APP_Settings
 import logging, coloredlogs

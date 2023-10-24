@@ -1,5 +1,8 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON, event
-from sqlalchemy.orm import relationship
+# Setup Library
+import sys
+sys.path.append('/root/PostOffice/')
+
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from .Database import Base
