@@ -47,7 +47,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		Log.Terminal_Log("INFO", f"New Valid WeatherStat RAW Data Record Added: ['{request.client.host}' - '{Data.Device.Info.ID}']")
 
 		# Log to Queue
-		Kafka.Send_To_Log_Topic(Data.Device.Info.ID, f"New WeatherStat Pack : {request.client.host}")
+		Kafka.Send_To_Log_Topic(Data.Device.Info.ID, "New WeatherStat Pack Received")
 
 		# Close Database
 		DB_RAW_Data.close()
