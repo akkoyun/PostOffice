@@ -9,7 +9,7 @@ import psutil
 import time
 
 # Services to track
-Services_To_Track = ['PostOffice', 'Handler_RAW', 'Handler_Info', 'Handler_Power', 'Handler_IoT.service']
+Services_To_Track = ['PostOffice.', 'Handler_RAW.', 'Handler_Info.', 'Handler_Power.', 'Handler_IoT.service.']
 
 # Current Statuses
 Current_Statuses = {}
@@ -24,6 +24,9 @@ while True:
 
             # Loop for Processes
             for process in psutil.process_iter(['pid', 'name']):
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"Checking {process.info['name']} - {process.info['pid']}")
 
                 # Control for Service
                 if process.info['name'] == Service:
