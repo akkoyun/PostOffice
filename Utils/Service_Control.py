@@ -17,7 +17,7 @@ while True:
 
         for Service in Services_To_Track:
 
-            Log.Terminal_Log("INFO", f"Status change detected for {Service}. New status: {Status}")
+            Log.Terminal_Log("INFO", f"Status change detected for {Service}.")
 
             Status = False
             try:
