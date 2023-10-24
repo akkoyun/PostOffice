@@ -17,6 +17,9 @@ while True:
 
         for Service in Services_To_Track:
 
+            for process in psutil.process_iter(['pid', 'name']):
+                print(process.info)
+
             Log.Terminal_Log("INFO", f"Status change detected for {Service}.")
 
             Status = False
