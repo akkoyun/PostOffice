@@ -215,9 +215,15 @@ def Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
 # Send to Log Topic
 def Send_To_Log_Topic(Device_ID, Message):
 
-    # Set Headers
-    Headers = [
-        ("Device_ID", Device_ID),
-        ("TimeStamp", str(datetime.now()))
-    ]
+    # Set Message
+    Message = {
+        "Device_ID": Device_ID,
+        "Message": Message,
+        "TimeStamp": str(datetime.now())
+    }
 
+    # Send Message to Queue
+    Kafka_Producer.send("LOG", value=Message)
+
+    # Break Loop
+    return
