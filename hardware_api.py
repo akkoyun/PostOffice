@@ -119,10 +119,12 @@ def Root(request: Request):
 	return {
 		"Service": "PostOffice", 
 		"Version": "02.00.00", 
-		"PostOffice": PostOffice_Status, 
-		"RAW_Handler": RAW_Status, 
-		"Info_Handler": Info_Status, 
-		"Power_Handler": Power_Status, 
-		"IoT_Handler": IoT_Status
+		"Status": {
+			"PostOffice": PostOffice_Status, 
+			"RAW_Handler": RAW_Status, 
+			"Info_Handler": Info_Status, 
+			"Power_Handler": Power_Status, 
+			"IoT_Handler": IoT_Status
 		}
+	}
  
