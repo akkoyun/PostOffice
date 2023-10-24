@@ -238,7 +238,7 @@ def IoT_Handler():
                 Log.Terminal_Log("INFO", f"IMEI not found on pack.")
 
             # Log Message
-            Log.LOG_Message("-----------------------------------------------------------")
+            Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
             # Commit Queue
             Kafka.Kafka_IoT_Consumer.commit()

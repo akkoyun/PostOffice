@@ -201,7 +201,7 @@ def Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
         except Exception as e:
 
             # Log Message
-            print(f"Failed to send message to {topic}. Attempt {Retries+1} of {max_retries}. Error: {e}")
+            Log.Terminal_Log("INFO", f"Failed to send message to {topic}. Attempt {Retries+1} of {max_retries}. Error: {e}")
 
             # Increment Retry Counter
             Retries += 1
@@ -210,4 +210,4 @@ def Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
             time.sleep(delay)
 
     # Log Message
-    print(f"Failed to send message to {topic} after {max_retries} attempts.")
+    Log.Terminal_Log("INFO", f"Failed to send message to {topic} after {max_retries} attempts.")

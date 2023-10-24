@@ -23,7 +23,7 @@ def Power_Handler():
             Headers = Functions.Handle_Full_Headers(Message)
 
             # Log Message
-            Log.LOG_Message(f"Message Received : {Headers.Device_ID}")
+            Log.Terminal_Log("INFO", f"New Message Received")
 
             # Decode Message
             Kafka_Power_Message = Kafka.Decode_Power_Message(Message)
@@ -71,7 +71,7 @@ def Power_Handler():
                 Functions.Add_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'Charge', Kafka_Power_Message.Battery.Charge)
 
             # Log Message
-            Log.LOG_Message("-----------------------------------------------------------")
+            Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
             # Commit Queue
             Kafka.Kafka_Power_Consumer.commit()

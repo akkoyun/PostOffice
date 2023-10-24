@@ -24,7 +24,7 @@ def Device_Handler():
             Headers = Functions.Handle_Full_Headers(Message)
 
             # Log Message
-            Log.LOG_Message(f"Message Received : {Headers.Device_ID}")
+            Log.Terminal_Log("INFO", f"Message Received : {Headers.Device_ID}")
 
             # Decode Message
             Kafka_Info_Message = Kafka.Decode_Info_Message(Message)
@@ -113,7 +113,7 @@ def Device_Handler():
                 Log.Terminal_Log("INFO", f"Existing Version: {Headers.Device_ID} - {Firmware} - {Hardware}")
 
             # Log Message
-            Log.LOG_Message("-----------------------------------------------------------")
+            Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
             # Commit Queue
             Kafka.Kafka_Info_Consumer.commit()

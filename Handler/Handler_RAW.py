@@ -86,7 +86,7 @@ def Parse_Topics():
                 Kafka.Send_To_Topic(Topic, Value, New_Headers)
 
             # Log Message
-            Log.LOG_Message("-----------------------------------------------------------")
+            Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
             # Commit Queue
             Kafka.Kafka_RAW_Consumer.commit()
