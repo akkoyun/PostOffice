@@ -20,35 +20,7 @@ while True:
             for process in psutil.process_iter(['pid', 'name']):
                 print(process.info)
 
-            Log.Terminal_Log("INFO", f"Status change detected for {Service}.")
 
-            Status = False
-            try:
-                if Service in all_processes:
-                    Log.Terminal_Log("INFO", f"Checking {Service} - {all_processes[Service]}")
-                    Status = True
-                
-                # Update database only if status has changed
-                if Service not in Current_Statuses or Current_Statuses[Service] != Status:
-                    Current_Statuses[Service] = Status
-
-                    try:
-                        DB_Module = Database.SessionLocal()
-                        New_Service_Status = Models.Service_LOG(
-                            Service=Service,
-                            Service_Status=Status,
-                        )
-                        DB_Module.add(New_Service_Status)
-                        DB_Module.commit()
-                        Log.Terminal_Log("INFO", f"Status change detected for {Service}. New status: {Status}")
-
-                    except SQLAlchemyError as db_err:
-                        Log.Terminal_Log("ERROR", f"Database Error: {db_err}")
-                    finally:
-                        DB_Module.close()
-
-            except Exception as e:
-                Log.Terminal_Log("ERROR", f"An error occurred while processing service {Service}: {type(e).__name__} - {e}")
 
     except Exception as e:
         Log.Terminal_Log("ERROR", f"An unexpected error occurred: {type(e).__name__} - {e}")
