@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/root/PostOffice/
-ExecStart=/usr/bin/python3 /root/PostOffice/Handler/Handler_Power.py
+ExecStart=/usr/bin/python3 /root/PostOffice/Handler/Handler_Info.py
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
