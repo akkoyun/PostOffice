@@ -115,6 +115,9 @@ def Device_Handler():
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
+            # Log to Queue
+            Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Device Variables Saved : {Headers.Device_IP}")
+
             # Commit Queue
             Kafka.Kafka_Info_Consumer.commit()
 

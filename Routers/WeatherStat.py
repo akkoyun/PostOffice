@@ -46,6 +46,9 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		# Log Message
 		Log.Terminal_Log("INFO", f"New Valid WeatherStat RAW Data Record Added: ['{request.client.host}' - '{Data.Device.Info.ID}']")
 
+		# Log to Queue
+		Kafka.Send_To_Log_Topic(Data.Device.Info.ID, f"New WeatherStat Pack : {request.client.host}")
+
 		# Close Database
 		DB_RAW_Data.close()
 
@@ -56,7 +59,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 		try:
 
 			# Send Message to Queue
-			Kafka.Kafka_Producer.send(topic='RAW', value=Data.json(), headers=RAW_Header).add_callback(Kafka.Send_Success).add_errback(Kafka.Send_Error)
+			Kafka.Send_To_Topic("RAW", Data.json(), RAW_Header)
 
 		except Exception as e:
 

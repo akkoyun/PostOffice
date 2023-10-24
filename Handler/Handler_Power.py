@@ -73,6 +73,9 @@ def Power_Handler():
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
+            # Log to Queue
+            Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Power Measurements Saved : {Headers.Device_IP}")
+
             # Commit Queue
             Kafka.Kafka_Power_Consumer.commit()
 

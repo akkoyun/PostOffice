@@ -211,3 +211,22 @@ def Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
 
     # Log Message
     Log.Terminal_Log("INFO", f"Failed to send message to {topic} after {max_retries} attempts.")
+
+# Send to Log Topic
+def Send_To_Log_Topic(Device_ID, Message):
+
+    # Set Headers
+    Headers = [
+        ("Device_ID", Device_ID),
+        ("TimeStamp", str(datetime.now()))
+    ]
+
+    # Set Message
+    Message = {
+        "Device_ID": Device_ID,
+        "Message": Message,
+        "TimeStamp": str(datetime.now())
+    }
+
+    # Send to Topic
+    Send_To_Topic("LOG", Message, Headers)

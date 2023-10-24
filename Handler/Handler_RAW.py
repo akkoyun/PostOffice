@@ -88,6 +88,9 @@ def Parse_Topics():
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
+            # Log to Queue
+            Kafka.Send_To_Log_Topic(RAW_Headers.Device_ID, f"RAW Data Parsed : {RAW_Headers.Device_IP}")
+
             # Commit Queue
             Kafka.Kafka_RAW_Consumer.commit()
 

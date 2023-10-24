@@ -37,6 +37,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Log Message
 	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
 
+	# Log to Queue
+	Kafka.Send_To_Log_Topic("ERROR", f"New Get Request: {request.client.host}")
+
 	# Create Add Record Command
 	Undefinied_RAW_Data = Models.RAW_Data(
 		RAW_Data_IP = request.client.host,
@@ -94,6 +97,9 @@ def Root(request: Request):
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
+
+	# Log to Queue
+	Kafka.Send_To_Log_Topic("INFO", f"New Get Request: {request.client.host}")
 
 	# Define DB
 	DB_Module = Database.SessionLocal()

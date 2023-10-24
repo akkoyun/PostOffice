@@ -240,6 +240,9 @@ def IoT_Handler():
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
+            # Log to Queue
+            Kafka.Send_To_Log_Topic(IoT_Headers.Device_ID, f"IoT Variables Saved : {IoT_Headers.Device_IP}")
+
             # Commit Queue
             Kafka.Kafka_IoT_Consumer.commit()
 
