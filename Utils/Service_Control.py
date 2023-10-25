@@ -11,7 +11,7 @@ from Setup import Database, Models, Log, Kafka
 from Setup import Functions as Functions
 
 # Define Services to Track
-Services_To_Track = ['PostOffice', 'Handler_RAW', 'Handler_Info', 'Handler_Power', 'Handler_IoT']
+Services_To_Track = ['PostOffice', 'Handler_RAW', 'Handler_Info', 'Handler_Power', 'Handler_IoT', 'Handler_WeatherStat']
 
 # Define Current Statuses
 Current_Statuses = {}
