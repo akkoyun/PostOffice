@@ -330,7 +330,7 @@ def Device_Handler():
             Power_Update(Headers, Kafka_Device_Message)
 
             # SIM Update
-            SIM_ID = SIM_Update(DB_Module, Kafka_Device_Message.IoT.GSM.Operator.ICCID, Kafka_Device_Message.IoT.GSM.Operator.MCC, Kafka_Device_Message.IoT.GSM.Operator.MNC)
+            SIM_ID = SIM_Update(DB_Module, Kafka_Device_Message)
 
 
 
