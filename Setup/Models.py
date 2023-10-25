@@ -245,3 +245,14 @@ class RAW_Data(Base):
 	RAW_Data_Valid = Column(Boolean, nullable=True, server_default=text('true'))
 	RAW_Data_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
+# Service_LOG Database Model
+class Service_LOG(Base):
+
+	# Define Table Name
+	__tablename__ = "Service_LOG"
+
+	# Define Columns
+	Service_LOG_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Service = Column(String, nullable=False)
+	Service_Status = Column(Boolean, nullable=False)
+	Service_Update_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))

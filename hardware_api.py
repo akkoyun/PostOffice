@@ -8,7 +8,7 @@ from datetime import datetime
 from Setup.Default_Value_Update import Value_Update
 
 # Create DB Models
-Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
+#Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
 
 # Database Default Values
 Value_Update()
