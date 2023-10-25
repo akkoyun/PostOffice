@@ -188,23 +188,15 @@ def SIM_Update(DB_Module, Message: Schema.Pack_Device):
     return SIM_ID
 
 # Connection Update Function
-def Connection_Update(DB_Module, Headers, SIM_ID, RSSI, ConnTime):
-
-    # Control for RSSI
-    if RSSI is None:
-        RSSI = 0
-
-    # Control for ConnTime
-    if ConnTime is None:
-        ConnTime = 0
+def Connection_Update(DB_Module, Headers, SIM_ID, Message: Schema.Pack_Device):
 
     # Create New Connection Record
     New_Connection = Models.Connection(
         Device_ID = Headers.Device_ID,
         SIM_ID = SIM_ID,
-        Connection_RSSI = RSSI,
+        Connection_RSSI = Message.IoT.GSM.Operator.RSSI,
         Connection_IP = Headers.Device_IP,
-        Connection_Time = ConnTime,
+        Connection_Time = Message.IoT.GSM.Operator.ConnTime,
         Connection_Data_Size = int(Headers.Size),
         Connection_Create_Date = Headers.Device_Time
     )
@@ -222,7 +214,7 @@ def Connection_Update(DB_Module, Headers, SIM_ID, RSSI, ConnTime):
         DB_Module.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New Connection Recorded.")
+        Log.Terminal_Log("INFO", f"Connection Recorded.")
 
     except Exception as e:
 
@@ -332,14 +324,8 @@ def Device_Handler():
             # SIM Update
             SIM_ID = SIM_Update(DB_Module, Kafka_Device_Message)
 
-
-
-
             # Connection Update
-            Connection_Update(DB_Module, Headers, SIM_ID, Kafka_Device_Message.IoT.GSM.Operator.RSSI, Kafka_Device_Message.IoT.GSM.Operator.ConnTime)
-
-            # Log to Queue
-            Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Connection Info Saved : {Headers.Device_IP}")
+            Connection_Update(DB_Module, Headers, SIM_ID, Kafka_Device_Message)
 
 
 
