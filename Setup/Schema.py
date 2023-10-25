@@ -810,7 +810,7 @@ class Payload_WeatherStat_Environment(BaseModel):
 	IL: Optional[int] = Field(description="Infrared light.", example=1234, min=0, max=100000)
 
 	# Last Measured Soil Temperature Value
-	ST: list[Optional[float]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10, min=-50.0, max=100.0)
+	ST: list[Optional[float]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=0, max_items=10, min=-50.0, max=100.0)
 
 	# Last Measured Rain Value
 	R: Optional[int] = Field(description="Rain tip counter.", example=23, min=0, max=100000)
