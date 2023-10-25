@@ -30,5 +30,8 @@ systemctl restart Handler_Info.service
 # Restart IoT Handler
 systemctl restart Handler_IoT.service
 
+# Restart WeatherStat Handler
+systemctl restart Handler_WeatherStat.service
+
 # Change Directory to Root
 cd ~
