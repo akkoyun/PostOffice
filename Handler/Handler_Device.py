@@ -114,6 +114,9 @@ def SIM_Update(DB_Module, ICCID, MCC, MNC):
     # Initialize SIM ID
     SIM_ID = 0
 
+    # Initialize SIM Table
+    New_SIM = None
+
     # Query SIM Table
     Query_SIM_Table = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(ICCID)).first()
 
@@ -158,7 +161,7 @@ def SIM_Update(DB_Module, ICCID, MCC, MNC):
             DB_Module.rollback()
 
     # Get SIM ID
-    SIM_ID = New_SIM.SIM_ID
+    SIM_ID = Query_SIM_Table.SIM_ID
 
     # Return SIM ID
     return SIM_ID
