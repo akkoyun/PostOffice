@@ -792,34 +792,34 @@ class Payload_WeatherStat_Location(BaseModel):
 class Payload_WeatherStat_Environment(BaseModel):
 	
 	# Last Measured Air Temperature Value
-	AT: Optional[float] = Field(default=0, description="Air temperature.", example=28.3232, min=-50.0, max=100.0)
+	AT: Optional[float] = Field(description="Air temperature.", example=28.3232, min=-50.0, max=100.0)
 
 	# Last Measured Relative Humidity Value
-	AH: Optional[float] = Field(default=0, description="Air humidity.", example=85.2332, min=0.0, max=100.0)
+	AH: Optional[float] = Field(description="Air humidity.", example=85.2332, min=0.0, max=100.0)
 
 	# Last Measured Air Pressure Value
-	AP: Optional[float] = Field(default=0, description="Air pressure.", example=985.55, min=500.0, max=2000.0)
+	AP: Optional[float] = Field(description="Air pressure.", example=985.55, min=500.0, max=2000.0)
 
 	# Last Measured UV Value
-	UV: Optional[float] = Field(default=0, description="UV index.", example=2.12, min=0.0, max=20.0)
+	UV: Optional[float] = Field(description="UV index.", example=2.12, min=0.0, max=20.0)
 
 	# Last Measured Visual Light Value
-	VL: Optional[int] = Field(default=0, description="Visual light.", example=1234, min=0, max=100000)
+	VL: Optional[int] = Field(description="Visual light.", example=1234, min=0, max=100000)
 
 	# Last Measured Infrared Light Value
-	IL: Optional[int] = Field(default=0, description="Infrared light.", example=1234, min=0, max=100000)
+	IL: Optional[int] = Field(description="Infrared light.", example=1234, min=0, max=100000)
 
 	# Last Measured Soil Temperature Value
-	ST: list[Optional[float]] = Field(default=0, description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10, min=-50.0, max=100.0)
+	ST: list[Optional[float]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=1, max_items=10, min=-50.0, max=100.0)
 
 	# Last Measured Rain Value
-	R: Optional[int] = Field(default=0, description="Rain tip counter.", example=23, min=0, max=100000)
+	R: Optional[int] = Field(description="Rain tip counter.", example=23, min=0, max=100000)
 
 	# Last Measured Wind Speed Value
-	WS: Optional[float] = Field(default=0, description="Wind speed.", example=25, min=0.0, max=100.0)
+	WS: Optional[float] = Field(description="Wind speed.", example=25, min=0.0, max=100.0)
 
 	# Last Measured Wind Direction Value
-	WD: Optional[int] = Field(default=0, description="Wind direction.", example=275, min=0, max=360)
+	WD: Optional[int] = Field(description="Wind direction.", example=275, min=0, max=360)
 
 	# Handle Field Names
 	@root_validator(pre=True)
