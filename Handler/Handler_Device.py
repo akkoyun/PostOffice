@@ -121,7 +121,7 @@ def Power_Update(Headers, Message: Schema.Pack_Device):
     if Message.Power.Battery.Charge is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'Charge', Message.Power.Battery.Charge)
 
     # Log Message
-    Log.Terminal_Log("INFO", f"Power Measurements Updated.")
+    Log.Terminal_Log("INFO", f"Power Measurements Recorded.")
 
 # SIM Update Function
 def SIM_Update(DB_Module, Message: Schema.Pack_Device):
@@ -225,71 +225,74 @@ def Connection_Update(DB_Module, Headers, SIM_ID, Message: Schema.Pack_Device):
         DB_Module.rollback()
 
 # Module Update Function
-def Module_Update(DB_Module, Headers, SIM_ID, IMEI, Firmware):
+def Module_Update(DB_Module, Headers, Message: Schema.Pack_Device):
 
-    # Initialize Module Table
-    Query_Module_Table = None
+    # Module Update
+    if Message.IoT.GSM.Module.IMEI is not None:
 
-    # Control for Firmware
-    if Firmware is not None:
-
-        # Query Module Table
-        Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(and_(Models.IoT_Module.Module_IMEI.like(IMEI), Models.IoT_Module.Module_Firmware.like(Firmware))).first()
-    
-    # Firmware not found
-    else:
-
-        # Query Module Table
-        Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(Models.IoT_Module.Module_IMEI.like(IMEI)).first()
-
-    # Module Record Not Found
-    if not Query_Module_Table:
-
-        # Create New Module Record
-        New_Module = Models.IoT_Module(
-            Device_ID = Headers.Device_ID,
-            Module_Firmware = Firmware,
-            Module_IMEI = IMEI
-        )
-
-        # Add Record to DataBase
-        try:
-
-            # Add Record to DataBase
-            DB_Module.add(New_Module)
-
-            # Database Flush
-            DB_Module.flush()
-
-            # Commit DataBase
-            DB_Module.commit()
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Module Added: {New_Module.Module_ID}")
-
-        # Except Error
-        except Exception as e:
-
-            # Log Message
-            Log.Terminal_Log("ERROR", f"An error occurred while adding Module: {e}")
-
-            # Rollback DataBase
-            DB_Module.rollback()
-
-    # Module Record Found
-    else:
+        # Initialize Module Table
+        Query_Module_Table = None
 
         # Control for Firmware
-        if Firmware != Query_Module_Table.Module_Firmware:
+        if Message.IoT.GSM.Module.Firmware is not None:
 
-            # Update Module Record
-            setattr(Query_Module_Table, 'Module_Firmware', (Firmware))
+            # Query Module Table
+            Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(and_(Models.IoT_Module.Module_IMEI.like(Message.IoT.GSM.Module.IMEI), Models.IoT_Module.Module_Firmware.like(Message.IoT.GSM.Module.Firmware))).first()
 
-            # Commit DataBase
-            DB_Module.commit()
+        # Firmware not found
+        else:
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"Module Firmware Updated")
+            # Query Module Table
+            Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(Models.IoT_Module.Module_IMEI.like(Message.IoT.GSM.Module.IMEI)).first()
+
+        # Module Record Not Found
+        if not Query_Module_Table:
+
+            # Create New Module Record
+            New_Module = Models.IoT_Module(
+                Device_ID = Headers.Device_ID,
+                Module_Firmware = Message.IoT.GSM.Module.Firmware,
+                Module_IMEI = Message.IoT.GSM.Module.IMEI
+            )
+
+            # Add Record to DataBase
+            try:
+
+                # Add Record to DataBase
+                DB_Module.add(New_Module)
+
+                # Database Flush
+                DB_Module.flush()
+
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New IoT Module Recorded.")
+
+            # Except Error
+            except Exception as e:
+
+                # Log Message
+                Log.Terminal_Log("ERROR", f"An error occurred while adding Module: {e}")
+
+                # Rollback DataBase
+                DB_Module.rollback()
+    
+        # Module Record Found
+        else:
+
+            # Control for Firmware
+            if Message.IoT.GSM.Module.Firmware != Query_Module_Table.Module_Firmware:
+
+                # Update Module Record
+                setattr(Query_Module_Table, 'Module_Firmware', (Message.IoT.GSM.Module.Firmware))
+
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"IoT Module Firmware Updated")
 
 # Parser Function
 def Device_Handler():
@@ -327,14 +330,8 @@ def Device_Handler():
             # Connection Update
             Connection_Update(DB_Module, Headers, SIM_ID, Kafka_Device_Message)
 
-
-
-
-
-
-
-
-
+            # Module Update
+            Module_Update(DB_Module, Headers, Kafka_Device_Message)
 
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
