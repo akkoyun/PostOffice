@@ -12,22 +12,11 @@ Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('
 # Kafka RAW Consumer
 Kafka_RAW_Consumer = KafkaConsumer('RAW', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="RAW_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
-# Kafka Power Consumer
-Kafka_Power_Consumer = KafkaConsumer('Device.Power', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="Power_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
-
-# Kafka Info Consumer
-Kafka_Info_Consumer = KafkaConsumer('Device.Info', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="Device_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
-
-# Kafka IoT Consumer
-Kafka_IoT_Consumer = KafkaConsumer('Device.IoT', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="IoT_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
-
-
-
 # Kafka Device Consumer
 Kafka_Device_Consumer = KafkaConsumer('Pack.Device', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="Device_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
 # Kafka WeatherStat Consumer
-Kafka_WeatherStat_Consumer = KafkaConsumer('Device.WeatherStat', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="WeatherStat_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
+Kafka_WeatherStat_Consumer = KafkaConsumer('Pack.WeatherStat', bootstrap_servers=f"{APP_Settings.POSTOFFICE_KAFKA_HOSTNAME}:{APP_Settings.POSTOFFICE_KAFKA_PORT}", group_id="WeatherStat_Consumer", auto_offset_reset='latest', enable_auto_commit=False)
 
 # Decode and Parse Power Message
 def Decode_RAW_Message(RAW_Message):
