@@ -75,7 +75,7 @@ def Parse_Topics():
                 ("Device.Power", Kafka_RAW_Message.Device.Power.dict()),
                 
                 # Device IoT
-                ("Device.IoT", Kafka_RAW_Message.Device.IoT.dict())
+                ("Device.IoT", Kafka_RAW_Message.Device.IoT.dict()),
 
                 # Device Payload
                 ("Device.WeatherStat", Kafka_RAW_Message.Payload.WeatherStat.dict())
