@@ -296,42 +296,6 @@ def Device_Handler():
             # Device Update
             Device_Update(DB_Module, Headers.Device_ID)
 
-            # Version Update
-            if Kafka_Device_Message.Info.Firmware is not None and Kafka_Device_Message.Info.Hardware is not None:
-                
-                # Version Update
-                Version_Update(DB_Module, Headers.Device_ID, Kafka_Device_Message.Info.Firmware, Kafka_Device_Message.Info.Hardware)
-
-                # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Device Info Saved : {Headers.Device_IP}")
-
-            # Power Update
-            if Kafka_Device_Message.Power is not None:
-
-                # Power Update
-                Power_Update(Headers, Kafka_Device_Message)
-
-                # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Power Measurements Saved : {Headers.Device_IP}")
-
-            # SIM Update
-            if Kafka_Device_Message.IoT.GSM.Operator.ICCID is not None:
-
-                # SIM Update
-                SIM_Update(DB_Module, Kafka_Device_Message.SIM.ICCID, Kafka_Device_Message.SIM.MCC, Kafka_Device_Message.SIM.MNC)
-
-                # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"SIM Info Saved : {Headers.Device_IP}")
-
-            # Module Update
-            if Kafka_Device_Message.IoT.GSM.Module.IMEI is not None:
-
-                # Module Update
-                Module_Update(DB_Module, Headers, Kafka_Device_Message.IoT.GSM.Module.IMEI, Kafka_Device_Message.IoT.GSM.Module.Firmware)
-
-                # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Module Info Saved : {Headers.Device_IP}")
-
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
