@@ -77,6 +77,9 @@ def Parse_Topics():
                 # Device IoT
                 ("Device.IoT", Kafka_RAW_Message.Device.IoT.dict())
 
+                # Device Payload
+                ("Device.WeatherStat", Kafka_RAW_Message.Payload.WeatherStat.dict())
+
             ]
 
             # Send to Topic
