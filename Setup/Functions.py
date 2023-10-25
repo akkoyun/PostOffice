@@ -206,7 +206,7 @@ def Parse_RAW_Topic_Header(Command, Device_ID, Device_Time, Device_IP, Pack_Size
 
 
 
-# Add Measurement
+# Add Device Measurement
 def Add_Device_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name, variable_value):
 
     # Define DB
@@ -241,7 +241,61 @@ def Add_Device_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name
             DB_Module.refresh(New_Measurement)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New Measurement {variable_name}: {variable_value} - [{New_Measurement.Measurement_ID}]")
+            Log.Terminal_Log("INFO", f"New Device Measurement {variable_name}: {variable_value} - [{New_Measurement.Measurement_ID}]")
+
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"An error occurred while adding Measurement: {e}")
+
+            # Rollback DataBase
+            DB_Module.rollback()
+
+    # Measurement Type Not Found
+    else:
+
+        # Log Message
+        Log.Terminal_Log("ERROR", f"Measurement Type '{variable_name}' not found.")
+
+    # Close Database
+    DB_Module.close()
+
+# Add WeatherStat Measurement
+def Add_WeatherStat_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name, variable_value):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Query Measurement Type
+    Query_Measurement_Type = DB_Module.query(Models.Measurement_Type).filter(Models.Measurement_Type.Measurement_Type_Variable.like(variable_name)).first()
+
+    # Measurement Type Found
+    if Query_Measurement_Type is not None:
+
+        # Query Measurement
+        New_Measurement = Models.Measurement_WeatherStat(
+            Data_Stream_ID = Data_Stream_ID,
+            Device_ID = Device_ID,
+            Measurement_Type_ID = Query_Measurement_Type.Measurement_Type_ID,
+            Measurement_Data_Count = 1,
+            Measurement_Value = variable_value,
+            Measurement_Create_Date = Device_Time
+        )
+
+        # Try to Add Record
+        try:
+
+            # Add Record to DataBase
+            DB_Module.add(New_Measurement)
+
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Refresh DataBase
+            DB_Module.refresh(New_Measurement)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New WeatherStat Measurement {variable_name}: {variable_value} - [{New_Measurement.Measurement_ID}]")
 
         except Exception as e:
 
