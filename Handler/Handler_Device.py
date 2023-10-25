@@ -105,6 +105,9 @@ def Power_Update(Headers, Message):
     # Add Charge Measurement Record
     if Message.Power.Battery.Charge is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'Charge', Message.Power.Battery.Charge)
 
+    # Log Message
+    Log.Terminal_Log("INFO", f"Power Measurements Updated.")
+
 # SIM Update Function
 def SIM_Update(DB_Module, ICCID, MCC, MNC):
 

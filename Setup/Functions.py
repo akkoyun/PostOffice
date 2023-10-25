@@ -240,9 +240,6 @@ def Add_Device_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name
             # Refresh DataBase
             DB_Module.refresh(New_Measurement)
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Device Measurement {variable_name}: {variable_value} - [{New_Measurement.Measurement_ID}]")
-
         except Exception as e:
 
             # Log Message
