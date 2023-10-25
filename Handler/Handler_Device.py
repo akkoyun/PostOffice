@@ -317,6 +317,15 @@ def Device_Handler():
                 # Log to Queue
                 Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Power Measurements Saved : {Headers.Device_IP}")
 
+            # SIM Update
+            if Kafka_Device_Message.IoT.GSM.Operator.ICCID is not None:
+
+                # SIM Update
+                SIM_Update(DB_Module, Kafka_Device_Message.SIM.ICCID, Kafka_Device_Message.SIM.MCC, Kafka_Device_Message.SIM.MNC)
+
+                # Log to Queue
+                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"SIM Info Saved : {Headers.Device_IP}")
+
 
 
 
