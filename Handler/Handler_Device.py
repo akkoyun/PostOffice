@@ -160,8 +160,11 @@ def SIM_Update(DB_Module, ICCID, MCC, MNC):
             # Rollback DataBase
             DB_Module.rollback()
 
-    # Get SIM ID
-    SIM_ID = Query_SIM_Table.SIM_ID
+    # SIM Record Found
+    else:
+
+        # Get SIM ID
+        SIM_ID = Query_SIM_Table.SIM_ID
 
     # Return SIM ID
     return SIM_ID
