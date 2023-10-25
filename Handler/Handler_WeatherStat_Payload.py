@@ -65,7 +65,7 @@ def Power_Handler():
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'IL', Kafka_WeatherStat_Payload_Message.Environment.IL)
 
             # Add R Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.R is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.R is not None and Kafka_WeatherStat_Payload_Message.Environment.R != 0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'R', Kafka_WeatherStat_Payload_Message.Environment.R)
