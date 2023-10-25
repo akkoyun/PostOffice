@@ -321,7 +321,7 @@ def Device_Handler():
             if Kafka_Device_Message.IoT.GSM.Operator.ICCID is not None:
 
                 # SIM Update
-                SIM_Update(DB_Module, Kafka_Device_Message.SIM.ICCID, Kafka_Device_Message.SIM.MCC, Kafka_Device_Message.SIM.MNC)
+                SIM_Update(DB_Module, Kafka_Device_Message.IoT.GSM.Operator.ICCID, Kafka_Device_Message.IoT.GSM.Operator.MCC, Kafka_Device_Message.IoT.GSM.Operator.MNC)
 
                 # Log to Queue
                 Kafka.Send_To_Log_Topic(Headers.Device_ID, f"SIM Info Saved : {Headers.Device_IP}")
