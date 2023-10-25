@@ -28,6 +28,13 @@ def Power_Handler():
             # Decode Message
             Kafka_Power_Message = Kafka.Decode_Power_Message(Message)
 
+
+
+
+
+
+
+
             # Add IV Measurement Record
             if Kafka_Power_Message.Battery.IV is not None:
 

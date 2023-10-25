@@ -67,7 +67,12 @@ def Parse_Topics():
 
             # Set Topics and Values
             Topics_And_Values = [
-                
+
+                # Device Info
+                ("Pack.Device", Kafka_RAW_Message.Device.dict()),
+
+
+
                 # Device Info
                 ("Device.Info", Kafka_RAW_Message.Device.Info.dict()),
                 
