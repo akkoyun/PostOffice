@@ -830,7 +830,7 @@ class Payload_WeatherStat_Environment(BaseModel):
 		Alias_Alternatives_AH = ["AH", "ah", "Ah"]
 		Alias_Alternatives_AP = ["AP", "ap", "Ap"]
 		Alias_Alternatives_VL = ["VL", "vl", "Vl"]
-		Alias_Alternatives_IR = ["IR", "ir", "Ir"]
+		Alias_Alternatives_IL = ["IL", "il", "Il"]
 		Alias_Alternatives_UV = ["UV", "uv", "Uv"]
 		Alias_Alternatives_ST = ["ST", "st", "St"]
 		Alias_Alternatives_R = ["R", "r", "Rain", "rain", "RAIN"]
@@ -886,13 +886,13 @@ class Payload_WeatherStat_Environment(BaseModel):
 				break
 		
 		# Normalize IR Field
-		for Alias in Alias_Alternatives_IR:
+		for Alias in Alias_Alternatives_IL:
 
 			# Check Field
 			if Alias in values:
 
 				# Set Field
-				values["IR"] = values[Alias]
+				values["IL"] = values[Alias]
 
 				# Break
 				break
@@ -961,7 +961,7 @@ class Payload_WeatherStat_Environment(BaseModel):
 		return values
 
 	# Value Validator
-	@validator("AT", "AH", "AP", "VL", "IR", "UV", "R", "WD", "WS", pre=True, always=True)
+	@validator("AT", "AH", "AP", "VL", "IL", "UV", "R", "WD", "WS", pre=True, always=True)
 	def Validate_Values(cls, value, field):
 
 		# Get Min and Max Values
