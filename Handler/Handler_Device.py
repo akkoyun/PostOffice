@@ -85,25 +85,25 @@ def Version_Update(DB_Module, Device_ID, FW, HW):
 def Power_Update(Headers, Message):
 
     # Add IV Measurement Record
-    if Message.Power.Battery.IV is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'IV', Message.Battery.IV)
+    if Message.Power.Battery.IV is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'IV', Message.Power.Battery.IV)
 
     # Add AC Measurement Record
-    if Message.Power.Battery.AC is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'AC', Message.Battery.AC)
+    if Message.Power.Battery.AC is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'AC', Message.Power.Battery.AC)
 
     # Add FB Measurement Record
-    if Message.Power.Battery.FB is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'FB', Message.Battery.FB)
+    if Message.Power.Battery.FB is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'FB', Message.Power.Battery.FB)
 
     # Add IB Measurement Record
-    if Message.Power.Battery.IB is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'IB', Message.Battery.IB)
+    if Message.Power.Battery.IB is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'IB', Message.Power.Battery.IB)
 
     # Add SOC Measurement Record
-    if Message.Power.Battery.SOC is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'SOC', Message.Battery.SOC)
+    if Message.Power.Battery.SOC is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'SOC', Message.Power.Battery.SOC)
 
     # Add T Measurement Record
-    if Message.Power.Battery.T is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'T', Message.Battery.T)
+    if Message.Power.Battery.T is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'T', Message.Power.Battery.T)
 
     # Add Charge Measurement Record
-    if Message.Power.Battery.Charge is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'Charge', Message.Battery.Charge)
+    if Message.Power.Battery.Charge is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'Charge', Message.Power.Battery.Charge)
 
 # SIM Update Function
 def SIM_Update(DB_Module, ICCID, MCC, MNC):
