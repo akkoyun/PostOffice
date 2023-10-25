@@ -50,7 +50,7 @@ def Device_Update(DB_Module, Device_ID):
         DB_Module.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"Device Login Time Updated")
+        Log.Terminal_Log("INFO", f"Device Last Online Time Updated")
 
 # Version Update Function
 def Version_Update(DB_Module, Device_ID, FW, HW):
@@ -295,6 +295,22 @@ def Device_Handler():
 
             # Device Update
             Device_Update(DB_Module, Headers.Device_ID)
+
+            # Version Update
+            if Kafka_Device_Message.Info.Firmware is not None and Kafka_Device_Message.Info.Hardware is not None:
+                
+                # Version Update
+                Version_Update(DB_Module, Headers.Device_ID, Kafka_Device_Message.Info.Firmware, Kafka_Device_Message.Info.Hardware)
+
+                # Log to Queue
+                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Device Info Saved : {Headers.Device_IP}")
+
+
+
+
+
+
+
 
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
