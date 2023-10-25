@@ -207,7 +207,7 @@ def Parse_RAW_Topic_Header(Command, Device_ID, Device_Time, Device_IP, Pack_Size
 
 
 # Add Measurement
-def Add_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name, variable_value):
+def Add_Device_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name, variable_value):
 
     # Define DB
     DB_Module = Database.SessionLocal()
@@ -219,7 +219,7 @@ def Add_Measurement(Data_Stream_ID, Device_ID, Device_Time, variable_name, varia
     if Query_Measurement_Type is not None:
 
         # Query Measurement
-        New_Measurement = Models.Measurement(
+        New_Measurement = Models.Measurement_Device(
             Data_Stream_ID = Data_Stream_ID,
             Device_ID = Device_ID,
             Measurement_Type_ID = Query_Measurement_Type.Measurement_Type_ID,

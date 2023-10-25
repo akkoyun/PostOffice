@@ -206,10 +206,25 @@ class Measurement_Type(Base):
 	Measurement_Type_Segment = Column(String, nullable=False)
 
 # Measurement Database Model
-class Measurement(Base):
+class Measurement_Device(Base):
 
 	# Define Table Name
-	__tablename__ = "Measurement"
+	__tablename__ = "Measurement_Device"
+
+	# Define Columns
+	Measurement_ID = Column(Integer, primary_key=True, nullable=False)
+	Data_Stream_ID = Column(Integer, nullable=False)
+	Device_ID = Column(String, nullable=False)
+	Measurement_Type_ID = Column(Integer, nullable=False)
+	Measurement_Data_Count = Column(Integer, nullable=False)
+	Measurement_Value = Column(Float, nullable=True)
+	Measurement_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False)
+
+# Measurement Database Model
+class Measurement_WeatherStat(Base):
+
+	# Define Table Name
+	__tablename__ = "Measurement_WeatherStat"
 
 	# Define Columns
 	Measurement_ID = Column(Integer, primary_key=True, nullable=False)
