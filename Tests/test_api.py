@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from hardware_api import PostOffice
+from PostOffice import PostOffice
 
 # Define Test Client
 client = TestClient(PostOffice)
