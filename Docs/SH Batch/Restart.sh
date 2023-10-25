@@ -12,11 +12,8 @@ systemctl restart PostOffice.service
 # Restart RAW Handler
 systemctl restart Handler_RAW.service
 
-# Restart Power Handler
-systemctl restart Handler_Power.service
-
-# Restart Info Handler
-systemctl restart Handler_Info.service
+# Restart Device Handler
+systemctl restart Handler_Device.service
 
 # Restart WeatherStat Handler
 systemctl restart Handler_WeatherStat.service
