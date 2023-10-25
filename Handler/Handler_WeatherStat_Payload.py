@@ -29,55 +29,55 @@ def Power_Handler():
             Kafka_WeatherStat_Payload_Message = Kafka.Decode_WeatherStat_Payload_Message(Message)
 
             # Add AT Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.AT is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.AT is not None and Kafka_WeatherStat_Payload_Message.Environment.AT != -9999.0 and Kafka_WeatherStat_Payload_Message.Environment.AT != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'AT', Kafka_WeatherStat_Payload_Message.Environment.AT)
 
             # Add AH Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.AH is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.AH is not None and Kafka_WeatherStat_Payload_Message.Environment.AH != -9999.0 and Kafka_WeatherStat_Payload_Message.Environment.AH != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'AH', Kafka_WeatherStat_Payload_Message.Environment.AH)
 
             # Add AP Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.AP is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.AP is not None and Kafka_WeatherStat_Payload_Message.Environment.AP != -9999.0 and Kafka_WeatherStat_Payload_Message.Environment.AP != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'AP', Kafka_WeatherStat_Payload_Message.Environment.AP)
 
             # Add UV Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.UV is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.UV is not None and Kafka_WeatherStat_Payload_Message.Environment.UV != -9999.0 and Kafka_WeatherStat_Payload_Message.Environment.UV != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'UV', Kafka_WeatherStat_Payload_Message.Environment.UV)
 
             # Add VL Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.VL is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.VL is not None and Kafka_WeatherStat_Payload_Message.Environment.VL != -9999.0 and Kafka_WeatherStat_Payload_Message.Environment.VL != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'VL', Kafka_WeatherStat_Payload_Message.Environment.VL)
 
             # Add IL Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.IL is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.IL is not None and Kafka_WeatherStat_Payload_Message.Environment.IL != -9999.0 and Kafka_WeatherStat_Payload_Message.Environment.IL != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'IL', Kafka_WeatherStat_Payload_Message.Environment.IL)
 
             # Add R Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.R is not None and Kafka_WeatherStat_Payload_Message.Environment.R != 0:
+            if Kafka_WeatherStat_Payload_Message.Environment.R is not None and Kafka_WeatherStat_Payload_Message.Environment.R != 0 and Kafka_WeatherStat_Payload_Message.Environment.R != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'R', Kafka_WeatherStat_Payload_Message.Environment.R)
 
             # Add WS Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.WS is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.WS is not None and Kafka_WeatherStat_Payload_Message.Environment.WS != -9999.0 and Kafka_WeatherStat_Payload_Message.Environment.WS != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'WS', Kafka_WeatherStat_Payload_Message.Environment.WS)
 
             # Add WD Measurement Record
-            if Kafka_WeatherStat_Payload_Message.Environment.WD is not None:
+            if Kafka_WeatherStat_Payload_Message.Environment.WD is not None and Kafka_WeatherStat_Payload_Message.Environment.WD != -9999.0 and Kafka_WeatherStat_Payload_Message.Environment.WD != 9999.0:
 
                 # Add Measurement Record
                 Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'WD', Kafka_WeatherStat_Payload_Message.Environment.WD)
