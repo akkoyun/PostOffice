@@ -72,7 +72,7 @@ def Parse_Topics():
                 ("Pack.Device", Kafka_RAW_Message.Device.dict()),
 
                 # Device Payload
-                ("Device.WeatherStat", Kafka_RAW_Message.Payload.WeatherStat.dict())
+                ("Pack.WeatherStat", Kafka_RAW_Message.Payload.WeatherStat.dict())
 
             ]
 
