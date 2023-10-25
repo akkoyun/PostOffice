@@ -79,7 +79,7 @@ def Version_Update(DB_Module, Device_ID, FW, HW):
         DB_Module.refresh(New_Version)
 
         # Log Message
-        Log.Terminal_Log("INFO", f"Device Version Updated: {Device_ID} - {FW} - {HW}")
+        Log.Terminal_Log("INFO", f"Device Version Updated: [{FW} - {HW}]")
 
 # Power Measurement Update Function
 def Power_Update(Headers, Message):
@@ -305,6 +305,14 @@ def Device_Handler():
                 # Log to Queue
                 Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Device Info Saved : {Headers.Device_IP}")
 
+            # Power Update
+            if Kafka_Device_Message.Power is not None:
+
+                # Power Update
+                Power_Update(Headers, Kafka_Device_Message)
+
+                # Log to Queue
+                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Power Measurements Saved : {Headers.Device_IP}")
 
 
 
