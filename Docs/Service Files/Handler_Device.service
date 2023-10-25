@@ -1,10 +1,10 @@
 [Unit]
-Description=PostOffice Power Handler Service
+Description=PostOffice Device Handler Service
 After=network.target
 
 [Service]
 WorkingDirectory=/root/PostOffice/
-ExecStart=/usr/bin/python3 /root/PostOffice/Handler/Handler_Info.py
+ExecStart=/usr/bin/python3 /root/PostOffice/Handler/Handler_Device.py
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
