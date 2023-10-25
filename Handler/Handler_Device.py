@@ -97,7 +97,7 @@ def Version_Update(DB_Module, Device_ID, Message: Schema.Pack_Device):
         Log.Terminal_Log("WARNING", f"No Version Data on Pack.")
 
 # Power Measurement Update Function
-def Power_Update(Headers, Message):
+def Power_Update(Headers, Message: Schema.Pack_Device):
 
     # Add IV Measurement Record
     if Message.Power.Battery.IV is not None: Functions.Add_Device_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, 'IV', Message.Power.Battery.IV)
@@ -124,62 +124,65 @@ def Power_Update(Headers, Message):
     Log.Terminal_Log("INFO", f"Power Measurements Updated.")
 
 # SIM Update Function
-def SIM_Update(DB_Module, ICCID, MCC, MNC):
+def SIM_Update(DB_Module, Message: Schema.Pack_Device):
 
     # Initialize SIM ID
     SIM_ID = 0
 
-    # Initialize SIM Table
-    New_SIM = None
+    # SIM Update
+    if Message.IoT.GSM.Operator.ICCID is not None:
 
-    # Query SIM Table
-    Query_SIM_Table = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(ICCID)).first()
+        # Initialize SIM Table
+        New_SIM = None
 
-    # SIM Record Not Found
-    if not Query_SIM_Table:
+        # Query SIM Table
+        Query_SIM_Table = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(Message.IoT.GSM.Operator.ICCID)).first()
 
-        # Create New SIM Record
-        New_SIM = Models.SIM(
-            SIM_ICCID = ICCID,
-            MCC_ID = MCC,
-            MNC_ID = MNC,
-            SIM_Create_Date = datetime.now()
-        )
+        # SIM Record Not Found
+        if not Query_SIM_Table:
 
-        # Add Record to DataBase
-        try:
+            # Create New SIM Record
+            New_SIM = Models.SIM(
+                SIM_ICCID = Message.IoT.GSM.Operator.ICCID,
+                MCC_ID = Message.IoT.GSM.Operator.MCC,
+                MNC_ID = Message.IoT.GSM.Operator.MNC,
+                SIM_Create_Date = datetime.now()
+            )
 
             # Add Record to DataBase
-            DB_Module.add(New_SIM)
+            try:
 
-            # Database Flush
-            DB_Module.flush()
+                # Add Record to DataBase
+                DB_Module.add(New_SIM)
 
-            # Commit DataBase
-            DB_Module.commit()
+                # Database Flush
+                DB_Module.flush()
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New SIM Recorded.")
+                # Commit DataBase
+                DB_Module.commit()
 
-            # Refresh DataBase
-            DB_Module.refresh(New_SIM)
+                # Log Message
+                Log.Terminal_Log("INFO", f"New SIM Recorded.")
 
-            # Set SIM ID
-            SIM_ID = New_SIM.SIM_ID
+                # Refresh DataBase
+                DB_Module.refresh(New_SIM)
 
-        except Exception as e:
+                # Set SIM ID
+                SIM_ID = New_SIM.SIM_ID
 
-            # Log Message
-            Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
+            except Exception as e:
 
-            # Rollback DataBase
-            DB_Module.rollback()
+                # Log Message
+                Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
 
-    # SIM Record Found
-    else:
+                # Rollback DataBase
+                DB_Module.rollback()
 
-        # Get SIM ID
-        SIM_ID = Query_SIM_Table.SIM_ID
+        # SIM Record Found
+        else:
+
+            # Get SIM ID
+            SIM_ID = Query_SIM_Table.SIM_ID
 
     # Return SIM ID
     return SIM_ID
@@ -323,27 +326,14 @@ def Device_Handler():
             # Version Update
             Version_Update(DB_Module, Headers.Device_ID, Kafka_Device_Message)
 
-
-
-
-
             # Power Update
-            if Kafka_Device_Message.Power is not None:
-
-                # Power Update
-                Power_Update(Headers, Kafka_Device_Message)
-
-                # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Power Measurements Saved : {Headers.Device_IP}")
+            Power_Update(Headers, Kafka_Device_Message)
 
             # SIM Update
-            if Kafka_Device_Message.IoT.GSM.Operator.ICCID is not None:
+            SIM_ID = SIM_Update(DB_Module, Kafka_Device_Message.IoT.GSM.Operator.ICCID, Kafka_Device_Message.IoT.GSM.Operator.MCC, Kafka_Device_Message.IoT.GSM.Operator.MNC)
 
-                # SIM Update
-                SIM_ID = SIM_Update(DB_Module, Kafka_Device_Message.IoT.GSM.Operator.ICCID, Kafka_Device_Message.IoT.GSM.Operator.MCC, Kafka_Device_Message.IoT.GSM.Operator.MNC)
 
-                # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"SIM Info Saved : {Headers.Device_IP}")
+
 
             # Connection Update
             Connection_Update(DB_Module, Headers, SIM_ID, Kafka_Device_Message.IoT.GSM.Operator.RSSI, Kafka_Device_Message.IoT.GSM.Operator.ConnTime)
