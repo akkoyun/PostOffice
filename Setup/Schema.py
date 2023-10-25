@@ -969,13 +969,13 @@ class Payload_WeatherStat_Environment(BaseModel):
 		Max_Value = field.field_info.extra.get("max")
 
 		# Check Min Value
-		if Min_Value is not None and value < Min_Value:
+		if Min_Value is not None and value <= Min_Value:
             
 			# Set Value
 			return -9999
 
 		# Check Max Value
-		if Max_Value is not None and value > Max_Value:
+		if Max_Value is not None and value >= Max_Value:
         
 			# Set Value
 			return 9999
