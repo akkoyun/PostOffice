@@ -333,15 +333,19 @@ def Device_Handler():
                 Kafka.Send_To_Log_Topic(Headers.Device_ID, f"SIM Info Saved : {Headers.Device_IP}")
 
             # Connection Update
-            if Kafka_Device_Message.IoT.GSM.Operator.RSSI is not None:
+            Connection_Update(DB_Module, Headers, SIM_ID, Kafka_Device_Message.IoT.GSM.Operator.RSSI, Kafka_Device_Message.IoT.GSM.Operator.ConnTime)
 
-                # Connection Update
-                Connection_Update(DB_Module, Headers, SIM_ID, Kafka_Device_Message.IoT.GSM.Operator.RSSI, Kafka_Device_Message.IoT.GSM.Operator.ConnTime)
+            # Log to Queue
+            Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Connection Info Saved : {Headers.Device_IP}")
+
+            # Module Update
+            if Kafka_Device_Message.IoT.GSM.Module.IMEI is not None:
+
+                # Module Update
+                Module_Update(DB_Module, Headers, Kafka_Device_Message.IoT.GSM.Module.IMEI, Kafka_Device_Message.IoT.GSM.Module.Firmware)
 
                 # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Connection Info Saved : {Headers.Device_IP}")
-
-
+                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Module Info Saved : {Headers.Device_IP}")
 
 
 
