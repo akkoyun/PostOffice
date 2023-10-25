@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models, Log, Kafka
+from Setup import Database, Models, Log, Kafka, Schema
 from datetime import datetime
 from Setup import Functions as Functions
 from sqlalchemy import and_
@@ -53,33 +53,48 @@ def Device_Update(DB_Module, Device_ID):
         Log.Terminal_Log("INFO", f"Device Last Online Time Updated")
 
 # Version Update Function
-def Version_Update(DB_Module, Device_ID, FW, HW):
+def Version_Update(DB_Module, Device_ID, Message: Schema.Pack_Device):
 
-    # Database Version Table Query
-    Query_Version_Table = DB_Module.query(Models.Version).filter(and_(Models.Version.Device_ID.like(Device_ID), Models.Version.Version_Firmware.like(FW), Models.Version.Version_Hardware.like(HW))).first()
+    # Version Update
+    if Message.Info.Firmware is not None and Message.Info.Hardware is not None:
 
-    # Version Not Found
-    if not Query_Version_Table:
+        # Database Version Table Query
+        Query_Version_Table = DB_Module.query(Models.Version).filter(and_(Models.Version.Device_ID.like(Device_ID), Models.Version.Version_Firmware.like(Message.Info.Firmware), Models.Version.Version_Hardware.like(Message.Info.Hardware))).first()
 
-        # Create New Version
-        New_Version = Models.Version(
-                Device_ID=Device_ID,
-                Version_Firmware=FW,
-                Version_Hardware=HW,
-                Version_Update_Date=datetime.now()
-        )
+        # Version Not Found
+        if not Query_Version_Table:
 
-        # Add Record to DataBase
-        DB_Module.add(New_Version)
+            # Create New Version
+            New_Version = Models.Version(
+                    Device_ID=Device_ID,
+                    Version_Firmware=Message.Info.Firmware,
+                    Version_Hardware=Message.Info.Hardware,
+                    Version_Update_Date=datetime.now()
+            )
 
-        # Commit DataBase
-        DB_Module.commit()
+            # Add Record to DataBase
+            DB_Module.add(New_Version)
 
-        # Refresh DataBase
-        DB_Module.refresh(New_Version)
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Refresh DataBase
+            DB_Module.refresh(New_Version)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Device Version Updated: [{Message.Info.Firmware} - {Message.Info.Hardware}]")
+
+        # Version Found
+        else:
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Device Version Not Changed.")
+
+    # Version Found
+    else:
 
         # Log Message
-        Log.Terminal_Log("INFO", f"Device Version Updated: [{FW} - {HW}]")
+        Log.Terminal_Log("WARNING", f"No Version Data on Pack.")
 
 # Power Measurement Update Function
 def Power_Update(Headers, Message):
@@ -306,13 +321,11 @@ def Device_Handler():
             Device_Update(DB_Module, Headers.Device_ID)
 
             # Version Update
-            if Kafka_Device_Message.Info.Firmware is not None and Kafka_Device_Message.Info.Hardware is not None:
-                
-                # Version Update
-                Version_Update(DB_Module, Headers.Device_ID, Kafka_Device_Message.Info.Firmware, Kafka_Device_Message.Info.Hardware)
+            Version_Update(DB_Module, Headers.Device_ID, Kafka_Device_Message)
 
-                # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Device Info Saved : {Headers.Device_IP}")
+
+
+
 
             # Power Update
             if Kafka_Device_Message.Power is not None:
@@ -338,14 +351,6 @@ def Device_Handler():
             # Log to Queue
             Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Connection Info Saved : {Headers.Device_IP}")
 
-            # Module Update
-            if Kafka_Device_Message.IoT.GSM.Module.IMEI is not None:
-
-                # Module Update
-                Module_Update(DB_Module, Headers, Kafka_Device_Message.IoT.GSM.Module.IMEI, Kafka_Device_Message.IoT.GSM.Module.Firmware)
-
-                # Log to Queue
-                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Module Info Saved : {Headers.Device_IP}")
 
 
 
