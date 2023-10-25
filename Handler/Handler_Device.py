@@ -144,7 +144,7 @@ def SIM_Update(DB_Module, ICCID, MCC, MNC):
             DB_Module.commit()
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New SIM Added: {New_SIM.SIM_ID}")
+            Log.Terminal_Log("INFO", f"New SIM Recorded.")
 
             # Refresh DataBase
             DB_Module.refresh(New_SIM)
@@ -204,7 +204,7 @@ def Connection_Update(DB_Module, Headers, SIM_ID, RSSI, ConnTime):
         DB_Module.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New Connection Added: {New_Connection.Connection_ID}")
+        Log.Terminal_Log("INFO", f"New Connection Recorded.")
 
     except Exception as e:
 
@@ -327,10 +327,23 @@ def Device_Handler():
             if Kafka_Device_Message.IoT.GSM.Operator.ICCID is not None:
 
                 # SIM Update
-                SIM_Update(DB_Module, Kafka_Device_Message.IoT.GSM.Operator.ICCID, Kafka_Device_Message.IoT.GSM.Operator.MCC, Kafka_Device_Message.IoT.GSM.Operator.MNC)
+                SIM_ID = SIM_Update(DB_Module, Kafka_Device_Message.IoT.GSM.Operator.ICCID, Kafka_Device_Message.IoT.GSM.Operator.MCC, Kafka_Device_Message.IoT.GSM.Operator.MNC)
 
                 # Log to Queue
                 Kafka.Send_To_Log_Topic(Headers.Device_ID, f"SIM Info Saved : {Headers.Device_IP}")
+
+            # Connection Update
+            if Kafka_Device_Message.IoT.GSM.Operator.RSSI is not None:
+
+                # Connection Update
+                Connection_Update(DB_Module, Headers, SIM_ID, Kafka_Device_Message.IoT.GSM.Operator.RSSI, Kafka_Device_Message.IoT.GSM.Operator.ConnTime)
+
+                # Log to Queue
+                Kafka.Send_To_Log_Topic(Headers.Device_ID, f"Connection Info Saved : {Headers.Device_IP}")
+
+
+
+
 
 
 
