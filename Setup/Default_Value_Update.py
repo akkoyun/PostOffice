@@ -485,61 +485,44 @@ def Measurement_Type_Initial_Values():
         # Log Message
         Log.Terminal_Log("ERROR", f"An error occurred while adding Module_Model Table : {e}")
 
-# Include SIM Table
 def Import_SIM():
 
     try:
 
         # Read SIM File
         SIM_Data_File = pd.read_csv("Docs/Data/SIM_Record.cvs", sep=",")
-
+        
         # Add Record to DataBase
-        for New_SIM in SIM_Data_File:
-
+        for index, row in SIM_Data_File.iterrows():
+            
             # Check for Existing ICCID
-            Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like((New_SIM.SIM_ICCID))).first()
-
+            Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(row['SIM_ICCID'])).first()
+            
             # Record Not Found
             if not Query_SIM:
-
+                
                 # Create New Module Record
-                New_SIM = Models.SIM(
-                    SIM_ICCID = New_SIM.SIM_ICCID,
-                    MCC_ID = New_SIM.MCC_ID,
-                    MNC_ID = New_SIM.MNC_ID,
-                    SIM_Number = New_SIM.SIM_Number,
-                    SIM_Static_IP = New_SIM.SIM_Static_IP,
-                    SIM_Status = False,
+                New_SIM_Record = Models.SIM(
+                    SIM_ICCID=row['SIM_ICCID'],
+                    MCC_ID=row['MCC_ID'],
+                    MNC_ID=row['MNC_ID'],
+                    SIM_Number=row['SIM_Number'],
+                    SIM_Static_IP=row['SIM_Static_IP'],
+                    SIM_Status=False,
                 )
-
+                
                 # Add Record to DataBase
                 try:
-
-                    # Add Record to DataBase
-                    DB_Module.add(New_SIM)
-
-                    # Database Flush
+                    DB_Module.add(New_SIM_Record)
                     DB_Module.flush()
-
-                    # Commit DataBase
                     DB_Module.commit()
-
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"New SIM Recorded.")
-
-                # Except Error
+                    Log.Terminal_Log("INFO", "New SIM Recorded.")
+                    
                 except Exception as e:
-
-                    # Log Message
                     Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
-
-                    # Rollback DataBase
                     DB_Module.rollback()
-                
-    # Except Error
+                    
     except Exception as e:
-
-        # Log Message
         Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
 
 # Call Functions
