@@ -662,7 +662,7 @@ def Location_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
         LAC_Value = Message.IoT.GSM.Operator.LAC
 
     # Control for Cell ID
-    if Message.IoT.GSM.Operator.CellID is not None:
+    if Message.IoT.GSM.Operator.Cell_ID is not None:
 
         # Get Cell ID Value
         Cell_ID = Message.IoT.GSM.Operator.Cell_ID
