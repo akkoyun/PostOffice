@@ -6,12 +6,29 @@ sys.path.append('/root/PostOffice/')
 from .Config import APP_Settings
 import logging, coloredlogs
 
+# Define Log Colors
+coloredlogs.DEFAULT_LOG_LEVEL_COLORS = {
+    'INFO': 'white',
+    'DEBUG': 'cyan',
+    'WARNING': 'yellow',
+    'ERROR': 'red',
+    'CRITICAL': 'red,bg_white',
+}
+
 # Set Log Options
-Service_Logger = logging.getLogger(__name__)
+Service_Logger = logging.getLogger('Service_Logger')
+
+# Set Log
+coloredlogs.install(level='DEBUG', logger=Service_Logger)
+
+# Set Log File
 logging.basicConfig(filename=APP_Settings.POSTOFFICE_LOG_FILE, level=logging.INFO, format='%(message)s')
 
-# Set Log Colored
-coloredlogs.install(level='DEBUG', logger=Service_Logger)
+# Set Log Format
+Log_Format = "%(asctime)s PostOffice %(message)s"
+
+# Set Log
+coloredlogs.install(level='DEBUG', logger=Service_Logger, fmt=Log_Format)
 
 # Log Message
 def LOG_Message(Message):
