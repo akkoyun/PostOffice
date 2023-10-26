@@ -94,6 +94,18 @@ def Power_Handler():
                     # Add Measurement Record
                     Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, ST_Variable_Name, ST_Value)
 
+            # Add Latitude Measurement Record
+            if Kafka_WeatherStat_Payload_Message.Location.Latitude is not None and Kafka_WeatherStat_Payload_Message.Location.Latitude != -9999.0 and Kafka_WeatherStat_Payload_Message.Location.Latitude != 9999.0 and Kafka_WeatherStat_Payload_Message.Location.Latitude != 0.0:
+
+                # Add Measurement Record
+                Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, "Latitude", Kafka_WeatherStat_Payload_Message.Location.Latitude)
+
+            # Add Longitude Measurement Record
+            if Kafka_WeatherStat_Payload_Message.Location.Longtitude is not None and Kafka_WeatherStat_Payload_Message.Location.Longtitude != -9999.0 and Kafka_WeatherStat_Payload_Message.Location.Longtitude != 9999.0 and Kafka_WeatherStat_Payload_Message.Location.Longtitude != 0.0:
+
+                # Add Measurement Record
+                Functions.Add_WeatherStat_Measurement(Headers.Data_Stream_ID, Headers.Device_ID, Headers.Device_Time, "Longitude", Kafka_WeatherStat_Payload_Message.Location.Longtitude)
+
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 

@@ -460,6 +460,10 @@ def Measurement_Type_Initial_Values():
             Models.Measurement_Type(Measurement_Type_ID=902, Measurement_Type_Name="GSM LAC ID", Measurement_Type_Variable="LAC", Measurement_Type_Unit="-", Measurement_Type_Segment="GSM"),
             Models.Measurement_Type(Measurement_Type_ID=903, Measurement_Type_Name="GSM Cell ID", Measurement_Type_Variable="Cell_ID", Measurement_Type_Unit="-", Measurement_Type_Segment="GSM"),
 
+            # Location Parameters
+            Models.Measurement_Type(Measurement_Type_ID=1001, Measurement_Type_Name="Latitude", Measurement_Type_Variable="Latitude", Measurement_Type_Unit="°", Measurement_Type_Segment="Location"),
+            Models.Measurement_Type(Measurement_Type_ID=1002, Measurement_Type_Name="Longitude", Measurement_Type_Variable="Longitude", Measurement_Type_Unit="°", Measurement_Type_Segment="Location"),
+
         ]
 
         # Add Record to DataBase
@@ -485,6 +489,7 @@ def Measurement_Type_Initial_Values():
         # Log Message
         Log.Terminal_Log("ERROR", f"An error occurred while adding Module_Model Table : {e}")
 
+# Import SIM
 def Import_SIM():
 
     try:
