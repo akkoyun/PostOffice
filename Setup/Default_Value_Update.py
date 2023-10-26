@@ -546,5 +546,5 @@ def Value_Update():
     # Update Measurement_Type Table
     Measurement_Type_Initial_Values()
 
-# Import SIM
-Import_SIM()
+    # Import SIM
+    Import_SIM()
