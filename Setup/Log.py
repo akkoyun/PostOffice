@@ -5,11 +5,10 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from .Config import APP_Settings
 import logging, coloredlogs
-from . import Database, Models, Log
 
 # Set Log Options
 Service_Logger = logging.getLogger(__name__)
-logging.basicConfig(filename=APP_Settings.POSTOFFICE_LOG_FILE, level=logging.INFO, format='%(asctime)s - %(message)s')
+logging.basicConfig(filename=APP_Settings.POSTOFFICE_LOG_FILE, level=logging.INFO, format='%(message)s')
 
 # Set Log Colored
 coloredlogs.install(level='DEBUG', logger=Service_Logger)
