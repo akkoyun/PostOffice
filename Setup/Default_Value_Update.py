@@ -496,7 +496,7 @@ def Import_SIM():
         for index, row in SIM_Data_File.iterrows():
             
             # Check for Existing ICCID
-            Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(row['SIM_ICCID'])).first()
+            Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(str(row['SIM_ICCID']))).first()
             
             # Record Not Found
             if not Query_SIM:
