@@ -637,3 +637,158 @@ def Module_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
 
     # Close Database
     DB_Module.close()
+
+# Location Update Function
+def Location_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Declare Variables
+    TAC_Value = None
+    LAC_Value = None
+    Cell_ID = None
+
+    # Control for TAC
+    if Message.IoT.GSM.Operator.TAC is not None:
+         
+        # Get TAC Value
+        TAC_Value = Message.IoT.GSM.Operator.TAC
+
+    # Control for LAC
+    if Message.IoT.GSM.Operator.LAC is not None:
+
+        # Get LAC Value
+        LAC_Value = Message.IoT.GSM.Operator.LAC
+
+    # Control for Cell ID
+    if Message.IoT.GSM.Operator.CellID is not None:
+
+        # Get Cell ID Value
+        Cell_ID = Message.IoT.GSM.Operator.CellID
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # Initialize Module Table
+        Query_Module_Table = None
+
+        # Control for Firmware
+        if Message.IoT.GSM.Module.Firmware is not None:
+
+            # Query Module Table
+            Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(and_(Models.IoT_Module.Module_IMEI.like(Message.IoT.GSM.Module.IMEI), Models.IoT_Module.Module_Firmware.like(Message.IoT.GSM.Module.Firmware))).first()
+
+        # Firmware not found
+        else:
+
+            # Query Module Table
+            Query_Module_Table = DB_Module.query(Models.IoT_Module).filter(Models.IoT_Module.Module_IMEI.like(Message.IoT.GSM.Module.IMEI)).first()
+
+        # Module Record Not Found
+        if not Query_Module_Table:
+
+            # Create New Module Record
+            New_Module = Models.IoT_Module(
+                Device_ID = Headers.Device_ID,
+                Module_Firmware = Message.IoT.GSM.Module.Firmware,
+                Module_IMEI = Message.IoT.GSM.Module.IMEI
+            )
+
+            # Add Record to DataBase
+            try:
+
+                # Add Record to DataBase
+                DB_Module.add(New_Module)
+
+                # Database Flush
+                DB_Module.flush()
+
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New IoT Module Recorded.")
+
+            # Except Error
+            except Exception as e:
+
+                # Log Message
+                Log.Terminal_Log("ERROR", f"An error occurred while adding Module: {e}")
+
+                # Rollback DataBase
+                DB_Module.rollback()
+    
+        # Module Record Found
+        else:
+
+            # Control for Firmware
+            if Message.IoT.GSM.Module.Firmware != Query_Module_Table.Module_Firmware:
+
+                # Update Module Record
+                setattr(Query_Module_Table, 'Module_Firmware', (Message.IoT.GSM.Module.Firmware))
+
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"IoT Module Firmware Updated")
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Create New Connection Record
+    New_Location = Models.Location(
+        Device_ID = Headers.Device_ID,
+        Location_TAC = TAC_Value,
+        Location_LAC = LAC_Value,
+        Location_Cell_ID = Cell_ID,
+        Location_Date = Headers.Device_Time
+    )
+
+    # Add Record to DataBase
+    try:
+
+        # Add Record to DataBase
+        DB_Module.add(New_Location)
+
+        # Database Flush
+        DB_Module.flush()
+
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Log Message
+        Log.Terminal_Log("INFO", f"GSM Based Location Data Saved.")
+
+    except Exception as e:
+
+        # Log Message
+        Log.Terminal_Log("ERROR", f"An error occurred while adding GSM Location: {e}")
+
+        # Rollback DataBase
+        DB_Module.rollback()
+
+    # Close Database
+    DB_Module.close()

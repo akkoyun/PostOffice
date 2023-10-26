@@ -43,6 +43,9 @@ def Device_Handler():
             # Module Update
             Functions.Module_Update(Headers, Kafka_Device_Message)
 
+            # Location Update
+            Functions.Location_Update(Headers, Kafka_Device_Message)
+
             # Log Message
             Log.Terminal_Log("INFO", f"-----------------------------------------------------------")
 
