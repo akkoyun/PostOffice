@@ -1,5 +1,6 @@
 # Library Includes
 from Setup import Database, Models, Log
+import pandas as pd
 
 # Define DB
 DB_Module = Database.SessionLocal()
@@ -480,6 +481,63 @@ def Measurement_Type_Initial_Values():
         # Log Message
         Log.Terminal_Log("ERROR", f"An error occurred while adding Module_Model Table : {e}")
 
+# Include SIM Table
+def Import_SIM():
+
+    try:
+
+        # Read SIM File
+        SIM_Data_File = pd.read_csv("Docs/Data/SIM_Record.cvs", sep=",")
+
+        # Add Record to DataBase
+        for New_SIM in SIM_Data_File:
+
+            # Check for Existing ICCID
+            Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like((New_SIM.SIM_ICCID))).first()
+
+            # Record Not Found
+            if not Query_SIM:
+
+                # Create New Module Record
+                New_SIM = Models.SIM(
+                    SIM_ICCID = New_SIM.SIM_ICCID,
+                    MCC_ID = New_SIM.MCC_ID,
+                    MNC_ID = New_SIM.MNC_ID,
+                    SIM_Number = New_SIM.SIM_Number,
+                    SIM_Static_IP = New_SIM.SIM_Static_IP,
+                    SIM_Status = False,
+                )
+
+                # Add Record to DataBase
+                try:
+
+                    # Add Record to DataBase
+                    DB_Module.add(New_SIM)
+
+                    # Database Flush
+                    DB_Module.flush()
+
+                    # Commit DataBase
+                    DB_Module.commit()
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New SIM Recorded.")
+
+                # Except Error
+                except Exception as e:
+
+                    # Log Message
+                    Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
+
+                    # Rollback DataBase
+                    DB_Module.rollback()
+                
+    # Except Error
+    except Exception as e:
+
+        # Log Message
+        Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
+
 # Call Functions
 def Value_Update():
 
@@ -500,3 +558,6 @@ def Value_Update():
 
     # Update Measurement_Type Table
     Measurement_Type_Initial_Values()
+
+    # Import SIM
+    Import_SIM()
