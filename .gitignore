@@ -1,6 +1,0 @@
-.DS_Store
-/PostOffice_ENV/
-/Setup/.env
-__pycache__
-/.vscode/
-/Log/Service.LOG
