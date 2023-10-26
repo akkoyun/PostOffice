@@ -448,7 +448,13 @@ def Measurement_Type_Initial_Values():
             Models.Measurement_Type(Measurement_Type_ID=610, Measurement_Type_Name="Phase S Apparent Power", Measurement_Type_Variable="SS", Measurement_Type_Unit="VA", Measurement_Type_Segment="Energy"),
             Models.Measurement_Type(Measurement_Type_ID=611, Measurement_Type_Name="Phase T Apparent Power", Measurement_Type_Variable="ST", Measurement_Type_Unit="VA", Measurement_Type_Segment="Energy"),
             Models.Measurement_Type(Measurement_Type_ID=612, Measurement_Type_Name="Average Apparent Power", Measurement_Type_Variable="SA", Measurement_Type_Unit="VA", Measurement_Type_Segment="Energy"),
-        
+
+
+            # GSM Parameters
+            Models.Measurement_Type(Measurement_Type_ID=901, Measurement_Type_Name="GSM TAC ID", Measurement_Type_Variable="TAC", Measurement_Type_Unit="-", Measurement_Type_Segment="GSM"),
+            Models.Measurement_Type(Measurement_Type_ID=902, Measurement_Type_Name="GSM LAC ID", Measurement_Type_Variable="LAC", Measurement_Type_Unit="-", Measurement_Type_Segment="GSM"),
+            Models.Measurement_Type(Measurement_Type_ID=903, Measurement_Type_Name="GSM Cell ID", Measurement_Type_Variable="Cell_ID", Measurement_Type_Unit="-", Measurement_Type_Segment="GSM"),
+
         ]
 
         # Add Record to DataBase

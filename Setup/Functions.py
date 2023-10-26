@@ -641,66 +641,17 @@ def Module_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
 # Location Update Function
 def Location_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    # Declare Variables
-    TAC_Value = None
-    LAC_Value = None
-    Cell_ID = None
-
-    # Control for TAC
+    # Add TAC Measurement Record
     if Message.IoT.GSM.Operator.TAC is not None:
-         
-        # Get TAC Value
-        TAC_Value = Message.IoT.GSM.Operator.TAC
+         Add_Device_Measurement(Headers, 'TAC', Message.IoT.GSM.Operator.TAC)
 
-    # Control for LAC
+    # Add LAC Measurement Record
     if Message.IoT.GSM.Operator.LAC is not None:
+         Add_Device_Measurement(Headers, 'LAC', Message.IoT.GSM.Operator.LAC)
 
-        # Get LAC Value
-        LAC_Value = Message.IoT.GSM.Operator.LAC
-
-    # Control for Cell ID
+    # Add Cell_ID Measurement Record
     if Message.IoT.GSM.Operator.Cell_ID is not None:
+         Add_Device_Measurement(Headers, 'Cell_ID', Message.IoT.GSM.Operator.Cell_ID)
 
-        # Get Cell ID Value
-        Cell_ID = Message.IoT.GSM.Operator.Cell_ID
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    # Create New Connection Record
-    New_Location = Models.Location(
-        Device_ID = Headers.Device_ID,
-        Location_TAC = TAC_Value,
-        Location_LAC = LAC_Value,
-        Location_Cell_ID = Cell_ID,
-        Location_Date = Headers.Device_Time
-    )
-
-    # Add Record to DataBase
-    try:
-
-        # Add Record to DataBase
-        DB_Module.add(New_Location)
-
-        # Database Flush
-        DB_Module.flush()
-
-        # Commit DataBase
-        DB_Module.commit()
-
-        # Log Message
-        Log.Terminal_Log("INFO", f"GSM Based Location Data Saved.")
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding GSM Location: {e}")
-
-        # Rollback DataBase
-        DB_Module.rollback()
-
-    # Close Database
-    DB_Module.close()
+    # Log Message
+    Log.Terminal_Log("INFO", f"GSM Location Parameters Recorded.")
