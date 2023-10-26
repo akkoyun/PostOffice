@@ -642,16 +642,16 @@ def Module_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
 def Location_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
 
     # Add TAC Measurement Record
-    if Message.IoT.GSM.Operator.TAC is not None:
-         Add_Device_Measurement(Headers, 'TAC', Message.IoT.GSM.Operator.TAC)
+    if Message.IoT.GSM.Operator.TAC is not None: 
+        Add_Device_Measurement(Headers, 'TAC', int(Message.IoT.GSM.Operator.TAC))
 
     # Add LAC Measurement Record
     if Message.IoT.GSM.Operator.LAC is not None:
-         Add_Device_Measurement(Headers, 'LAC', Message.IoT.GSM.Operator.LAC)
+        Add_Device_Measurement(Headers, 'LAC', int(Message.IoT.GSM.Operator.LAC))
 
     # Add Cell_ID Measurement Record
     if Message.IoT.GSM.Operator.Cell_ID is not None:
-         Add_Device_Measurement(Headers, 'Cell_ID', Message.IoT.GSM.Operator.Cell_ID)
+        Add_Device_Measurement(Headers, 'Cell_ID', int(Message.IoT.GSM.Operator.Cell_ID))
 
     # Log Message
     Log.Terminal_Log("INFO", f"GSM Location Parameters Recorded.")
