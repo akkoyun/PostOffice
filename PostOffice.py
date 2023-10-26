@@ -113,17 +113,11 @@ def Root(request: Request):
 	# Service Query
 	Service_PostOffice_Status = DB_Module.query(Models.Service_LOG).filter(Models.Service_LOG.Service.like("PostOffice")).order_by(Models.Service_LOG.Service_Update_Time.desc()).first()
 	Service_RAW_Status = DB_Module.query(Models.Service_LOG).filter(Models.Service_LOG.Service.like("Handler_RAW")).order_by(Models.Service_LOG.Service_Update_Time.desc()).first()
-	Service_Info_Status = DB_Module.query(Models.Service_LOG).filter(Models.Service_LOG.Service.like("Handler_Info")).order_by(Models.Service_LOG.Service_Update_Time.desc()).first()
-	Service_Power_Status = DB_Module.query(Models.Service_LOG).filter(Models.Service_LOG.Service.like("Handler_Power")).order_by(Models.Service_LOG.Service_Update_Time.desc()).first()
-	Service_IoT_Status = DB_Module.query(Models.Service_LOG).filter(Models.Service_LOG.Service.like("Handler_IoT")).order_by(Models.Service_LOG.Service_Update_Time.desc()).first()
 	Service_WeatherStat_Status = DB_Module.query(Models.Service_LOG).filter(Models.Service_LOG.Service.like("Handler_WeatherStat")).order_by(Models.Service_LOG.Service_Update_Time.desc()).first()
 
 	# Get Service Status
 	PostOffice_Status = Service_PostOffice_Status.Service_Status
 	RAW_Status = Service_RAW_Status.Service_Status
-	Info_Status = Service_Info_Status.Service_Status
-	Power_Status = Service_Power_Status.Service_Status
-	IoT_Status = Service_IoT_Status.Service_Status
 	WeatherStat_Status = Service_WeatherStat_Status.Service_Status
 	
 	# Close Database
@@ -136,9 +130,6 @@ def Root(request: Request):
 		"Status": {
 			"PostOffice": PostOffice_Status, 
 			"RAW_Handler": RAW_Status, 
-			"Info_Handler": Info_Status, 
-			"Power_Handler": Power_Status, 
-			"IoT_Handler": IoT_Status,
 			"WeatherStat_Handler": WeatherStat_Status
 		}
 	}
