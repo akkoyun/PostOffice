@@ -39,9 +39,9 @@ def Import_GSM_Operator():
             if not Query_Operator:
                 
                 # Handle for Nan
-                if row['MCC_Country_Code'] == 'nan':
+                if row['MCC_Country_Code'] == 'NaN':
                     row['MCC_Country_Code'] = None
-                if row['MCC_Country_Flag_Image_URL'] == 'nan':
+                if row['MCC_Country_Flag_Image_URL'] == 'NaN':
                     row['MCC_Country_Flag_Image_URL'] = None
 
                 # Create New Operator Record
