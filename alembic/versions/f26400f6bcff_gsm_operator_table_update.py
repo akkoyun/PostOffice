@@ -18,10 +18,10 @@ depends_on = None
 def upgrade() -> None:
 
     # Drop MCC Table
-    op.drop_table('GSM_MCC')
+#    op.drop_table('GSM_MCC')
 
     # Drop MNC Table
-    op.drop_table('GSM_MNC')
+#    op.drop_table('GSM_MNC')
 
     # Create GSM_Operator Table
     op.create_table('GSM_Operator',
