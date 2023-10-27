@@ -12,8 +12,8 @@ from Docs.Data import Data_Update
 Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
 
 # Database Default Values
-Value_Update()
-Data_Update.Import_GSM_Operator()
+#Value_Update()
+#Data_Update.Import_GSM_Operator()
 #Data_Update.Import_SIM()
 
 # Define FastAPI Object
