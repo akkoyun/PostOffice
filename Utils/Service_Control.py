@@ -60,7 +60,7 @@ while True:
                     # Create New Service Status
                     New_Service_Status = Models.Service_LOG(
                         Service=Service,
-                        Service_Status=Status,
+                        Status=Status,
                     )
 
                     # Add Record to DataBase
