@@ -1108,9 +1108,6 @@ class Payload(BaseModel):
 # WeatherStat Model Version 01.03.00
 class Data_Pack_Model(BaseModel):
 
-	# Define Schema
-	_Schema: Optional[str] = Field(alias="$schema")
-
 	# Define Command
 	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online")
 
