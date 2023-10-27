@@ -81,22 +81,6 @@ def upgrade() -> None:
         sa.Column('Create_Time', sa.TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
     )
 
-    # Stream table
-    op.create_table('Stream',
-        sa.Column('Stream_ID', sa.Integer, primary_key=True, autoincrement=True, nullable=False),
-        sa.Column('Device_ID', sa.String(50), sa.ForeignKey('Device.Device_ID'), nullable=False, default=""),
-        sa.Column('IMEI', sa.String(20), sa.ForeignKey('Modem.IMEI'), nullable=False, default=""),
-        sa.Column('ICCID', sa.String(20), sa.ForeignKey('SIM.ICCID'), nullable=False, default=""),
-        sa.Column('RSSI', sa.Integer, nullable=True, default=None),
-        sa.Column('TAC', sa.Integer, nullable=True, default=None),
-        sa.Column('LAC', sa.Integer, nullable=True, default=None),
-        sa.Column('Cell_ID', sa.Integer, nullable=True, default=None),
-        sa.Column('Device_IP', sa.String, nullable=True, default=None),
-        sa.Column('Connection_Time', sa.Integer, nullable=True, default=None),
-        sa.Column('Size', sa.Integer, nullable=True, default=None),
-        sa.Column('Create_Time', sa.TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-    )
-
     # Version table
     op.create_table('Version',
         sa.Column('Version_ID', sa.Integer, primary_key=True, autoincrement=True, nullable=False),
@@ -113,6 +97,22 @@ def upgrade() -> None:
         sa.Column('Model_ID', sa.Integer, nullable=False, default=0),
         sa.Column('Status', sa.Boolean, nullable=False, default=False, server_default=text('false')),
         sa.Column('Create_Date', sa.TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+    )
+
+    # Stream table
+    op.create_table('Stream',
+        sa.Column('Stream_ID', sa.Integer, primary_key=True, autoincrement=True, nullable=False),
+        sa.Column('Device_ID', sa.String(50), sa.ForeignKey('Device.Device_ID'), nullable=False, default=""),
+        sa.Column('IMEI', sa.String(20), sa.ForeignKey('Modem.IMEI'), nullable=False, default=""),
+        sa.Column('ICCID', sa.String(20), sa.ForeignKey('SIM.ICCID'), nullable=False, default=""),
+        sa.Column('RSSI', sa.Integer, nullable=True, default=None),
+        sa.Column('TAC', sa.Integer, nullable=True, default=None),
+        sa.Column('LAC', sa.Integer, nullable=True, default=None),
+        sa.Column('Cell_ID', sa.Integer, nullable=True, default=None),
+        sa.Column('Device_IP', sa.String, nullable=True, default=None),
+        sa.Column('Connection_Time', sa.Integer, nullable=True, default=None),
+        sa.Column('Size', sa.Integer, nullable=True, default=None),
+        sa.Column('Create_Time', sa.TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
     )
 
     # Measurement_Type table
