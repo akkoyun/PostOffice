@@ -16,11 +16,13 @@ def Import_GSM_Operator():
 
         # Read Operator File
         Operator_Data_File = pd.read_csv("Docs/Data/GSM_Operator.csv", sep=",")
-        
+
+        # Rename Columns
+        Operator_Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name']
+
         # Add Record to DataBase
         for index, row in Operator_Data_File.iterrows():
 
-            print(row)  # Bu satırı ekleyin
             try:
                 MCC_ID = int(row['MCC_ID'])
                 # Diğer işlemler
