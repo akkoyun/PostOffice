@@ -24,7 +24,7 @@ def GSM_Manufacturer_Initial_Values():
         for record in Manufacturer_Records:
 
             # Check for Existing Record
-            Query_Record = DB_Module.query(Models.Module_Manufacturer).filter(Models.Module_Manufacturer.Module_Manufacturer_ID==(record.Module_Manufacturer_ID)).first()
+            Query_Record = DB_Module.query(Models.Manufacturer).filter(Models.Manufacturer.Manufacturer_ID==(record.Manufacturer_ID)).first()
 
             # Record Not Found
             if not Query_Record:
@@ -64,7 +64,7 @@ def GSM_Model_Initial_Values():
         for record in Model_Records:
 
             # Check for Existing Record
-            Query_Record = DB_Module.query(Models.Module_Model).filter(Models.Module_Model.Module_Model_ID==(record.Module_Model_ID)).first()
+            Query_Record = DB_Module.query(Models.Model).filter(Models.Model.Model_ID==(record.Model_ID)).first()
 
             # Record Not Found
             if not Query_Record:
