@@ -15,10 +15,10 @@ def Import_GSM_Operator():
     try:
 
         # Read Operator File
-        Operator_Data_File = pd.read_csv("Docs/Data/GSM_Operator.cvs", sep=",")
+        Operator_Data_File = pd.read_csv("Docs/Data/GSM_Operator.csv", sep=",")
         
         # Add Record to DataBase
-        for row in Operator_Data_File.iterrows():
+        for index, row in Operator_Data_File.iterrows():
 
             # Check for Existing MCC_ID and MNC_ID
             Query_Operator = DB_Module.query(Models.GSM_Operator).filter(Models.GSM_Operator.MCC_ID == int(row['MCC_ID'])).filter(Models.GSM_Operator.MNC_ID == int(row['MNC_ID'])).first()
