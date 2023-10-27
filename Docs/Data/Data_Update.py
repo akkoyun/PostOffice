@@ -21,6 +21,7 @@ def Import_GSM_Operator():
         Operator_Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'Extra_Column']
 
 
+
         print(Operator_Data_File.head())
 
         # Add Record to DataBase
@@ -37,6 +38,12 @@ def Import_GSM_Operator():
             # Record Not Found
             if not Query_Operator:
                 
+                # Handle for Nan
+                if row['MCC_Country_Code'] == 'nan':
+                    row['MCC_Country_Code'] = None
+                if row['MCC_Country_Flag_Image_URL'] == 'nan':
+                    row['MCC_Country_Flag_Image_URL'] = None
+
                 # Create New Operator Record
                 New_Operator_Record = Models.GSM_Operator(
                     MCC_ID=int(row['MCC_ID']),
