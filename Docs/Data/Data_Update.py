@@ -15,10 +15,10 @@ def Import_GSM_Operator():
     try:
 
         # Read Operator File
-        Operator_Data_File = pd.read_csv("Docs/Data/GSM_Operator.csv", sep=",", index_col=None)
+        Operator_Data_File = pd.read_csv("Docs/Data/GSM_Operator.csv", sep=",")
 
-        # Rename Columns
-        Operator_Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name']
+        # Reset Index
+        Operator_Data_File.reset_index(inplace=True)
 
         print(Operator_Data_File.head())
 
