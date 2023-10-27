@@ -455,14 +455,8 @@ def SIM_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
     # Define DB
     DB_Module = Database.SessionLocal()
 
-    # Initialize SIM ID
-    SIM_ID = 0
-
     # SIM Update
     if Message.IoT.GSM.Operator.ICCID is not None:
-
-        # Initialize SIM Table
-        New_SIM = None
 
         # Query SIM Table
         Query_SIM_Table = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(Message.IoT.GSM.Operator.ICCID)).first()
@@ -473,8 +467,7 @@ def SIM_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
             # Create New SIM Record
             New_SIM = Models.SIM(
                 SIM_ICCID = Message.IoT.GSM.Operator.ICCID,
-                MCC_ID = Message.IoT.GSM.Operator.MCC,
-                MNC_ID = Message.IoT.GSM.Operator.MNC,
+                Operator_ID = 0,
                 SIM_Create_Date = datetime.now()
             )
 
@@ -496,9 +489,6 @@ def SIM_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
                 # Refresh DataBase
                 DB_Module.refresh(New_SIM)
 
-                # Set SIM ID
-                SIM_ID = New_SIM.SIM_ID
-
             except Exception as e:
 
                 # Log Message
@@ -507,20 +497,11 @@ def SIM_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
                 # Rollback DataBase
                 DB_Module.rollback()
 
-        # SIM Record Found
-        else:
-
-            # Get SIM ID
-            SIM_ID = Query_SIM_Table.SIM_ID
-
     # Close Database
     DB_Module.close()
 
-    # Return SIM ID
-    return SIM_ID
-
 # Connection Update Function
-def Connection_Update(Headers: Full_Headers, SIM_ID: int, Message: Schema.Pack_Device):
+def Connection_Update(Headers: Full_Headers, Message: Schema.Pack_Device):
 
     # Define DB
     DB_Module = Database.SessionLocal()
@@ -528,7 +509,7 @@ def Connection_Update(Headers: Full_Headers, SIM_ID: int, Message: Schema.Pack_D
     # Create New Connection Record
     New_Connection = Models.Connection(
         Device_ID = Headers.Device_ID,
-        SIM_ID = SIM_ID,
+        SIM_ID = Message.IoT.GSM.Operator.ICCID,
         Connection_RSSI = Message.IoT.GSM.Operator.RSSI,
         Connection_IP = Headers.Device_IP,
         Connection_Time = Message.IoT.GSM.Operator.ConnTime,
