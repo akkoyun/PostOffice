@@ -37,17 +37,18 @@ def Import_GSM_Operator():
 
             # Record Not Found
             if not Query_Operator:
+
+                # Define Default Value
                 
-                # Handle for Nan
-                if row['MCC_Country_Code'] == 'NaN': row['MCC_Country_Code'] = 0
-                if row['MCC_Country_Flag_Image_URL'] == 'NaN': row['MCC_Country_Flag_Image_URL'] = ""
+
+
 
                 # Create New Operator Record
                 New_Operator_Record = Models.GSM_Operator(
                     MCC_ID=int(row['MCC_ID']),
                     MCC_ISO=str(row['MCC_ISO']),
                     MCC_Country_Name=str(row['MCC_Country_Name']),
-                    MCC_Country_Code=row['MCC_Country_Code'],
+                    MCC_Country_Code=int(row['MCC_Country_Code']) if not pd.isna(row['MCC_Country_Code']) else None,
                     MCC_Country_Flag_Image_URL=str(row['MCC_Country_Flag_Image_URL']),
                     MNC_ID=int(row['MNC_ID']),
                     MNC_Brand_Name=str(row['MNC_Brand_Name']),
