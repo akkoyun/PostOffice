@@ -63,9 +63,6 @@ def Import_GSM_Operator():
                     # Increase New Operator Count
                     New_Operator_Count += 1
                     
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"New GSM Operator Record Added : ['{row['MNC_Brand_Name']}']")
-                    
                 except Exception as e:
                     
                     # Log Message
