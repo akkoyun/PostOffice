@@ -30,13 +30,13 @@ def Import_GSM_Operator():
         for index, row in Operator_Data_File.iterrows():
 
             # Check for Existing MCC_ID and MNC_ID
-            Query_Operator = DB_Module.query(Models.GSM_Operator).filter(Models.GSM_Operator.MCC_ID == int(row['MCC_ID'])).filter(Models.GSM_Operator.MNC_ID == int(row['MNC_ID'])).first()
+            Query_Operator = DB_Module.query(Models.Operator).filter(Models.Operator.MCC_ID == int(row['MCC_ID'])).filter(Models.Operator.MNC_ID == int(row['MNC_ID'])).first()
 
             # Record Not Found
             if not Query_Operator:
 
                 # Create New Operator Record
-                New_Operator_Record = Models.GSM_Operator(
+                New_Operator_Record = Models.Operator(
                     MCC_ID=int(row['MCC_ID']),
                     MCC_ISO=str(row['MCC_ISO']),
                     MCC_Country_Name=str(row['MCC_Country_Name']),
@@ -108,15 +108,13 @@ def Import_SIM():
             
             # Record Not Found
             if not Query_SIM:
-                
+
                 # Create New Module Record
                 New_SIM_Record = Models.SIM(
-                    SIM_ICCID=row['SIM_ICCID'],
-                    MCC_ID=row['MCC_ID'],
-                    MNC_ID=row['MNC_ID'],
-                    SIM_Number=row['SIM_Number'],
-                    SIM_Static_IP=row['SIM_Static_IP'],
-                    SIM_Status=False,
+                    ICCID=row['SIM_ICCID'],
+                    Operator_ID=0,
+                    GSM_Number=row['SIM_Number'],
+                    Static_IP=row['SIM_Static_IP'],
                 )
                 
                 # Add Record to DataBase
