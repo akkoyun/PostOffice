@@ -4,11 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Models, Log, Schema
-import Setup.Functions as Functions
-from Setup.Config import APP_Settings
-from kafka import KafkaConsumer, KafkaProducer
 from datetime import datetime
-import json
 from sqlalchemy import and_
 
 # Define RAW Topic Headers

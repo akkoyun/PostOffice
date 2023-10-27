@@ -30,7 +30,7 @@ def Import_GSM_Operator():
         for index, row in Operator_Data_File.iterrows():
 
             # Check for Existing MCC_ID and MNC_ID
-            Query_Operator = DB_Module.query(Models.Operator).filter(Models.Operator.MCC_ID == int(row['MCC_ID'])).filter(Models.Operator.MNC_ID == int(row['MNC_ID'])).first()
+            Query_Operator = DB_Module.query(Models.Operator).filter(Models.Operator.MCC_ID==int(row['MCC_ID'])).filter(Models.Operator.MNC_ID==int(row['MNC_ID'])).first()
 
             # Record Not Found
             if not Query_Operator:
