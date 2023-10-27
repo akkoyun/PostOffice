@@ -229,11 +229,11 @@ class Pack_Battery(BaseModel):
 
 	# Value Validator
 	@validator("IV", "AC", "SOC", "T", "FB", "IB", pre=True, always=True)
-	def Validate_Values(cls, value, info, **kwargs):
+	def Validate_Values(cls, value, field: dict, **kwargs):
 
 		# Get Min and Max Values
-		Min_Value = info.extra.get("min")
-		Max_Value = info.extra.get("max")
+		Min_Value = field.get("min")
+		Max_Value = field.get("max")
 
 		# Check Min Value
 		if Min_Value is not None and value < Min_Value:
@@ -573,12 +573,12 @@ class Pack_IoT_Operator(BaseModel):
 
 	# Value Validator
 	@validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime", pre=True, always=True)
-	def Validate_Values(cls, value, info):
+	def Validate_Values(cls, value, field: dict, **kwargs):
 
 		# Get Min and Max Values
-		Min_Value = info.extra.get("min")
-		Max_Value = info.extra.get("max")
-
+		Min_Value = field.get("min")
+		Max_Value = field.get("max")
+		
 		# Check Min Value
 		if Min_Value is not None and value < Min_Value:
 
@@ -962,15 +962,15 @@ class Payload_WeatherStat_Environment(BaseModel):
 
 	# Value Validator
 	@validator("AT", "AH", "AP", "VL", "IL", "UV", "R", "WD", "WS", pre=True, always=True)
-	def Validate_Values(cls, value, info):
+	def Validate_Values(cls, value, field: dict, **kwargs):
 
 		# Check Value
 		if value is None:
 			return None
 
 		# Get Min and Max Values
-		Min_Value = info.extra.get("min")
-		Max_Value = info.extra.get("max")
+		Min_Value = field.get("min")
+		Max_Value = field.get("max")
 
 		# Check Min Value
 		if Min_Value is not None and value < Min_Value:
