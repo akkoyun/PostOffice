@@ -16,8 +16,8 @@ def GSM_Manufacturer_Initial_Values():
 
         # Define MNC Records
         Manufacturer_Records = [
-            Models.Module_Manufacturer(Module_Manufacturer_ID=0, Module_Manufacturer_Name="Unknown"),
-            Models.Module_Manufacturer(Module_Manufacturer_ID=1, Module_Manufacturer_Name="Telit"),
+            Models.Manufacturer(Manufacturer_ID=0, Manufacturer="Unknown"),
+            Models.Manufacturer(Manufacturer_ID=1, Manufacturer="Telit"),
         ]
 
         # Add Record to DataBase
@@ -50,14 +50,14 @@ def GSM_Model_Initial_Values():
 
         # Define MNC Records
         Model_Records = [
-            Models.Module_Model(Module_Model_ID=0, Module_Model_Name="Unknown"),
-            Models.Module_Model(Module_Model_ID=1, Module_Model_Name="GE910 QUAD"),
-            Models.Module_Model(Module_Model_ID=2, Module_Model_Name="GE910 QUAD V3"),
-            Models.Module_Model(Module_Model_ID=3, Module_Model_Name="GE910 GNSS"),
-            Models.Module_Model(Module_Model_ID=4, Module_Model_Name="LE910 S1 EA"),
-            Models.Module_Model(Module_Model_ID=5, Module_Model_Name="LE910 S1 EAG"),
-            Models.Module_Model(Module_Model_ID=6, Module_Model_Name="LE910 R1 EU"),
-            Models.Module_Model(Module_Model_ID=7, Module_Model_Name="LE910 C1 EUX"),
+            Models.Model(Model_ID=0, Model="Unknown"),
+            Models.Model(Model_ID=1, Model="GE910 QUAD"),
+            Models.Model(Model_ID=2, Model="GE910 QUAD V3"),
+            Models.Model(Model_ID=3, Model="GE910 GNSS"),
+            Models.Model(Model_ID=4, Model="LE910 S1 EA"),
+            Models.Model(Model_ID=5, Model="LE910 S1 EAG"),
+            Models.Model(Model_ID=6, Model="LE910 R1 EU"),
+            Models.Model(Model_ID=7, Model="LE910 C1 EUX"),
         ]
 
         # Add Record to DataBase
