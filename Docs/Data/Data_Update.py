@@ -47,7 +47,7 @@ def Import_GSM_Operator():
                     MCC_ID=int(row['MCC_ID']),
                     MCC_ISO=str(row['MCC_ISO']),
                     MCC_Country_Name=str(row['MCC_Country_Name']),
-                    MCC_Country_Code=int(row['MCC_Country_Code']),
+                    MCC_Country_Code=row['MCC_Country_Code'],
                     MCC_Country_Flag_Image_URL=str(row['MCC_Country_Flag_Image_URL']),
                     MNC_ID=int(row['MNC_ID']),
                     MNC_Brand_Name=str(row['MNC_Brand_Name']),
