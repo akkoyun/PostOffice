@@ -16,15 +16,15 @@ class Operator(Base):
 
 	# Define Columns
 	Operator_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	MCC_ID = Column(Integer, nullable=False, default=0)
-	MCC_ISO = Column(String(3), nullable=False, default="")
-	MCC_Country_Name = Column(String(50), nullable=False, default="")
-	MCC_Country_Code = Column(Integer, nullable=True, default=None)
-	MCC_Country_Flag_Image_URL = Column(String(255), nullable=True, default=None)
-	MNC_ID = Column(Integer, nullable=False, default=0)
-	MNC_Brand_Name = Column(String(50), nullable=False, default="")
-	MNC_Operator_Name = Column(String(50), nullable=False, default="")
-	MNC_Operator_Image_URL = Column(String(255), nullable=True, default=None)
+	MCC_ID = Column(Integer, nullable=False)
+	MCC_ISO = Column(String(3), nullable=False)
+	MCC_Country_Name = Column(String(50), nullable=False)
+	MCC_Country_Code = Column(Integer, nullable=True)
+	MCC_Country_Flag_Image_URL = Column(String(255), nullable=True)
+	MNC_ID = Column(Integer, nullable=False)
+	MNC_Brand_Name = Column(String(50), nullable=False)
+	MNC_Operator_Name = Column(String(50), nullable=False)
+	MNC_Operator_Image_URL = Column(String(255), nullable=True)
 
 	# Relationship Definition
 	Def_SIM = relationship("SIM", backref="Operator")
@@ -37,9 +37,9 @@ class SIM(Base):
 
 	# Define Columns
 	ICCID = Column(String(20), primary_key=True, nullable=False)
-	Operator_ID = Column(Integer, ForeignKey('Operator.Operator_ID'), nullable=False, default=0)
-	GSM_Number = Column(String(15), nullable=True, default=None)
-	Static_IP = Column(String(15), nullable=True, default=None)
+	Operator_ID = Column(Integer, ForeignKey('Operator.Operator_ID'), nullable=False)
+	GSM_Number = Column(String(15), nullable=True)
+	Static_IP = Column(String(15), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Manufacturer Database Model
@@ -50,7 +50,7 @@ class Manufacturer(Base):
 
 	# Define Columns
 	Manufacturer_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Manufacturer = Column(String(50), nullable=False, default="")
+	Manufacturer = Column(String(50), nullable=False)
 
 	# Relationship Definition
 	Def_Modem = relationship("Modem", backref="Manufacturer")
@@ -63,7 +63,7 @@ class Model(Base):
 
 	# Define Columns
 	Model_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Model = Column(String(50), nullable=False, default="")
+	Model = Column(String(50), nullable=False)
 
 	# Relationship Definition
 	Def_Modem = relationship("Modem", backref="Model")
@@ -76,9 +76,9 @@ class Modem(Base):
 
 	# Define Columns
 	IMEI = Column(String(20), primary_key=True, nullable=False)
-	Manufacturer_ID = Column(Integer, ForeignKey('Manufacturer.Manufacturer_ID'), nullable=False, default=0)
-	Model_ID = Column(Integer, ForeignKey('Model.Model_ID'), nullable=False, default=0)
-	Firmware = Column(String(10), nullable=True, default=None)
+	Manufacturer_ID = Column(Integer, ForeignKey('Manufacturer.Manufacturer_ID'), nullable=False)
+	Model_ID = Column(Integer, ForeignKey('Model.Model_ID'), nullable=False)
+	Firmware = Column(String(10), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Stream Database Model
@@ -89,16 +89,16 @@ class Stream(Base):
 
 	# Define Columns
 	Stream_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Device_ID = Column(String(50), ForeignKey('Device.Device_ID'), nullable=False, default="")
-	IMEI = Column(String(20), ForeignKey('Modem.IMEI'), nullable=False, default="")
-	ICCID = Column(String(20), ForeignKey('SIM.ICCID'), nullable=False, default="")
-	RSSI = Column(Integer, nullable=True, default=None)
-	TAC = Column(Integer, nullable=True, default=None)
-	LAC = Column(Integer, nullable=True, default=None)
-	Cell_ID = Column(Integer, nullable=True, default=None)
-	Device_IP = Column(String, nullable=True, default=None)
-	Connection_Time = Column(Integer, nullable=True, default=None)
-	Size = Column(Integer, nullable=True, default=None)
+	Device_ID = Column(String(50), ForeignKey('Device.Device_ID'), nullable=False)
+	IMEI = Column(String(20), ForeignKey('Modem.IMEI'), nullable=False)
+	ICCID = Column(String(20), ForeignKey('SIM.ICCID'), nullable=False)
+	RSSI = Column(Integer, nullable=True)
+	TAC = Column(Integer, nullable=True)
+	LAC = Column(Integer, nullable=True)
+	Cell_ID = Column(Integer, nullable=True)
+	Device_IP = Column(String, nullable=True)
+	Connection_Time = Column(Integer, nullable=True)
+	Size = Column(Integer, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Version Database Model
@@ -109,9 +109,9 @@ class Version(Base):
 
 	# Define Columns
 	Version_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Device_ID = Column(String(50), nullable=False, default="")
-	Firmware = Column(String(10), nullable=True, default=None)
-	Hardware = Column(String(10), nullable=True, default=None)
+	Device_ID = Column(String(50), nullable=False)
+	Firmware = Column(String(10), nullable=True)
+	Hardware = Column(String(10), nullable=True)
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 	# Relationship Definition
@@ -125,9 +125,9 @@ class Device(Base):
 
 	# Define Columns
 	Device_ID = Column(String(50), primary_key=True, nullable=False)
-	Version_ID = Column(Integer, ForeignKey('Version.Version_ID'), nullable=False, default=0)
-	Model_ID = Column(Integer, nullable=False, default=0)
-	Status = Column(Boolean, nullable=False, default=False, server_default=text('false'))
+	Version_ID = Column(Integer, ForeignKey('Version.Version_ID'), nullable=False)
+	Model_ID = Column(Integer, nullable=False)
+	Status = Column(Boolean, nullable=False)
 	Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Measurement_Type Database Model
@@ -138,10 +138,10 @@ class Measurement_Type(Base):
 
 	# Define Columns
 	Type_ID = Column(Integer, primary_key=True, nullable=False)
-	Description = Column(String(255), nullable=False, default="")
-	Variable = Column(String(10), nullable=True, default=None)
-	Unit = Column(String(10), nullable=True, default=None)
-	Segment = Column(Integer, nullable=False, default=0)
+	Description = Column(String(255), nullable=False)
+	Variable = Column(String(10), nullable=True)
+	Unit = Column(String(10), nullable=True)
+	Segment = Column(Integer, nullable=False)
 
 	# Relationship Definition
 	Def_Measurement_Device = relationship("Parameter", backref="Def_Measurement_Type")
@@ -155,9 +155,9 @@ class Parameter(Base):
 
 	# Define Columns
 	Parameter_ID = Column(Integer, primary_key=True, nullable=False)
-	Stream_ID = Column(Integer, ForeignKey('Stream.Stream_ID'), nullable=False, default=0)
-	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False, default=0)
-	Value = Column(Float, nullable=True, default=None)
+	Stream_ID = Column(Integer, ForeignKey('Stream.Stream_ID'), nullable=False)
+	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False)
+	Value = Column(Float, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 
 # Measurement_WeatherStat Database Model
@@ -168,16 +168,16 @@ class Measurement_WeatherStat(Base):
 
 	# Define Columns
 	Measurement_ID = Column(Integer, primary_key=True, nullable=False)
-	Stream_ID = Column(Integer, ForeignKey('Stream.Stream_ID'), nullable=False, default=0)
-	Device_ID = Column(String(50), ForeignKey('Device.Device_ID'), nullable=False, default="")
-	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False, default=0)
-	Data_Count = Column(Integer, nullable=False, default=0)
-	Value = Column(Float, nullable=True, default=None)
-	State = Column(Boolean, nullable=True, default=None)
-	Min = Column(Float, nullable=True, default=None)
-	Max = Column(Float, nullable=True, default=None)
-	Avg = Column(Float, nullable=True, default=None)
-	Deviation = Column(Float, nullable=True, default=None)
+	Stream_ID = Column(Integer, ForeignKey('Stream.Stream_ID'), nullable=False)
+	Device_ID = Column(String(50), ForeignKey('Device.Device_ID'), nullable=False)
+	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False)
+	Data_Count = Column(Integer, nullable=False)
+	Value = Column(Float, nullable=True)
+	State = Column(Boolean, nullable=True)
+	Min = Column(Float, nullable=True)
+	Max = Column(Float, nullable=True)
+	Avg = Column(Float, nullable=True)
+	Deviation = Column(Float, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 
 # Settings Database Model
@@ -188,9 +188,9 @@ class Settings(Base):
 
 	# Define Columns
 	Settings_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Device_ID = Column(String(50), ForeignKey('Device.Device_ID'), nullable=False, default="")
-	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False, default=0)
-	Value = Column(Integer, nullable=False, default=0)
+	Device_ID = Column(String(50), ForeignKey('Device.Device_ID'), nullable=False)
+	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False)
+	Value = Column(Integer, nullable=False)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 	# Relationship Definition
@@ -204,8 +204,8 @@ class RAW_Data(Base):
 
 	# Define Columns
 	RAW_Data_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Clent_IP = Column(String, nullable=True, default=None)
-	RAW_Data = Column(JSON, nullable=True, default=None)
+	Clent_IP = Column(String, nullable=True)
+	RAW_Data = Column(JSON, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Service_LOG Database Model
@@ -216,6 +216,6 @@ class Service_LOG(Base):
 
 	# Define Columns
 	Service_LOG_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Service = Column(String(100), nullable=False, default="")
-	Status = Column(Boolean, nullable=False, default=False, server_default=text('false'))
+	Service = Column(String(100), nullable=False)
+	Status = Column(Boolean, nullable=False, default=False)
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))

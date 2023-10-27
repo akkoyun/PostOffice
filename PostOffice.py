@@ -9,11 +9,11 @@ from Setup.Default_Value_Update import Value_Update
 from Docs.Data import Data_Update
 
 # Create DB Models
-#Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
+Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
 
 # Database Default Values
 #Value_Update()
-Data_Update.Import_GSM_Operator()
+#Data_Update.Import_GSM_Operator()
 #Data_Update.Import_SIM()
 
 # Define FastAPI Object
@@ -89,7 +89,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Send Error
 	return JSONResponse(
 		status_code=status.HTTP_400_BAD_REQUEST,
- 		content={"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"},
+		content={"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"},
 	)
 
 # Include Routers
