@@ -35,13 +35,16 @@ def Device_Handler():
             Functions.Power_Update(Headers, Kafka_Device_Message)
 
             # SIM Update
-            SIM_ID = Functions.SIM_Update(Headers, Kafka_Device_Message)
-
-            # Connection Update
-            Functions.Connection_Update(Headers, SIM_ID, Kafka_Device_Message)
+            Functions.SIM_Update(Headers, Kafka_Device_Message)
 
             # Module Update
             Functions.Module_Update(Headers, Kafka_Device_Message)
+
+
+
+
+            # Connection Update
+            Functions.Connection_Update(Headers, Kafka_Device_Message)
 
             # Location Update
             Functions.Location_Update(Headers, Kafka_Device_Message)
