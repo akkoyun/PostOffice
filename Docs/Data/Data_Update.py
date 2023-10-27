@@ -18,7 +18,7 @@ def Import_GSM_Operator():
         Operator_Data_File = pd.read_csv("Docs/Data/GSM_Operator.csv", skiprows=1, header=None)
         
         # Rename Columns
-        Operator_Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name']
+        Operator_Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'Extra_Column']
 
 
         print(Operator_Data_File.head())
