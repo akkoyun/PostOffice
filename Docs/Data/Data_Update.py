@@ -20,10 +20,11 @@ def Import_GSM_Operator():
         # Rename Columns
         Operator_Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name']
 
+        print(Operator_Data_File.head())
+
         # Add Record to DataBase
         for index, row in Operator_Data_File.iterrows():
 
-            print(Operator_Data_File.head())
 
 
 
