@@ -229,7 +229,7 @@ class Pack_Battery(BaseModel):
 
 	# Value Validator
 	@validator("IV", "AC", "SOC", "T", "FB", "IB", pre=True, always=True)
-	def Validate_Values(cls, value, field):
+	def Validate_Values(cls, value, field, **kwargs):
 
 		# Get Min and Max Values
 		Min_Value = field.field_info.extra.get("min")
@@ -573,7 +573,7 @@ class Pack_IoT_Operator(BaseModel):
 
 	# Value Validator
 	@validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime", pre=True, always=True)
-	def Validate_Values(cls, value, field):
+	def Validate_Values(cls, value, field, **kwargs):
 
 		# Get Min and Max Values
 		Min_Value = field.field_info.extra.get("min")
@@ -962,7 +962,7 @@ class Payload_WeatherStat_Environment(BaseModel):
 
 	# Value Validator
 	@validator("AT", "AH", "AP", "VL", "IL", "UV", "R", "WD", "WS", pre=True, always=True)
-	def Validate_Values(cls, value, field):
+	def Validate_Values(cls, value, field, **kwargs):
 
 		# Check Value
 		if value is None:
