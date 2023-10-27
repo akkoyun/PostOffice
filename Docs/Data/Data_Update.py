@@ -69,7 +69,7 @@ def Import_GSM_Operator():
                     DB_Module.commit()
                     
                     # Log Message
-                    Log.Terminal_Log("INFO", f"New GSM Operator Record Added : ['{row['MCC_ID']}' - '{row['MNC_ID']}']")
+                    Log.Terminal_Log("INFO", f"New GSM Operator Record Added : ['{row['MNC_Brand_Name']}']")
                     
                 except Exception as e:
                     
