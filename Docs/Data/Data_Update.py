@@ -20,15 +20,17 @@ def Import_GSM_Operator():
         # Add Record to DataBase
         for index, row in Operator_Data_File.iterrows():
 
+            print(row)  # Bu satırı ekleyin
             try:
                 MCC_ID = int(row['MCC_ID'])
-            except ValueError:
-                print(f"Invalid value for MCC_ID: {row['MCC_ID']}")
-                continue  # Skip this row and continue with the next one
+                # Diğer işlemler
+            except ValueError as e:
+                print(f"Invalid value for MCC_ID: {row['MCC_ID']}, Error: {e}")
+                continue
 
-            # Get MCC and MNC ID
-#            MCC_ID = int(row['MCC_ID'])
-#           MNC_ID = int(row['MNC_ID'])
+
+
+
 
             # Check for Existing MCC_ID and MNC_ID
             Query_Operator = DB_Module.query(Models.GSM_Operator).filter(Models.GSM_Operator.MCC_ID == int(row['MCC_ID'])).filter(Models.GSM_Operator.MNC_ID == int(row['MNC_ID'])).first()
