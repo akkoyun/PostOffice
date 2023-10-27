@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from pydantic import BaseModel, Field, validator, root_validator
+from pydantic import BaseModel, Field, field_validator, root_validator
 from typing import Optional, Dict
 import re, ipaddress
 from datetime import datetime
@@ -72,7 +72,7 @@ class Pack_Info(BaseModel):
 		return values
 
 	# Device ID Validator
-	@validator('ID', pre=True, always=True)
+	@field_validator('ID', pre=True, always=True)
 	def ID_Validator(cls, ID_Value):
 
 		# Define Regex Pattern
@@ -88,7 +88,7 @@ class Pack_Info(BaseModel):
 		return ID_Value
 
 	# Hardware and Firmware Validator
-	@validator('Hardware', 'Firmware', pre=True, always=True)
+	@field_validator('Hardware', 'Firmware', pre=True, always=True)
 	def Version_Validator(cls, Value):
 
 		# Define Regex Pattern
@@ -228,12 +228,12 @@ class Pack_Battery(BaseModel):
 		return values
 
 	# Value Validator
-	@validator("IV", "AC", "SOC", "T", "FB", "IB", pre=True, always=True)
-	def Validate_Values(cls, value, field: dict, **kwargs):
+	@field_validator("IV", "AC", "SOC", "T", "FB", "IB", pre=True, always=True)
+	def Validate_Values(cls, value):
 
 		# Get Min and Max Values
-		Min_Value = field.get("min")
-		Max_Value = field.get("max")
+		Min_Value = value.field_info.extra.get("min")
+		Max_Value = value.field_info.extra.get("max")
 
 		# Check Min Value
 		if Min_Value is not None and value < Min_Value:
@@ -251,7 +251,7 @@ class Pack_Battery(BaseModel):
 		return value
 
 	# Charge Validator
-	@validator("Charge", pre=True, always=True)
+	@field_validator("Charge", pre=True, always=True)
 	def Validate_Charge(cls, value):
 
 		# Check Charge
@@ -384,7 +384,7 @@ class Pack_IoT_Module(BaseModel):
 		return values
 
 	# Firmware Validator
-	@validator('Firmware', pre=True, always=True)
+	@field_validator('Firmware', pre=True, always=True)
 	def Version_Validator(cls, Value):
 
 		# Define Regex Pattern
@@ -572,12 +572,12 @@ class Pack_IoT_Operator(BaseModel):
 		return values
 
 	# Value Validator
-	@validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime", pre=True, always=True)
-	def Validate_Values(cls, value, field: dict, **kwargs):
+	@field_validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime", pre=True, always=True)
+	def Validate_Values(cls, value):
 
 		# Get Min and Max Values
-		Min_Value = field.get("min")
-		Max_Value = field.get("max")
+		Min_Value = value.field_info.extra.get("min")
+		Max_Value = value.field_info.extra.get("max")
 		
 		# Check Min Value
 		if Min_Value is not None and value < Min_Value:
@@ -595,7 +595,7 @@ class Pack_IoT_Operator(BaseModel):
 		return value
 
 	# IP Validator
-	@validator("IP", pre=True, always=True)
+	@field_validator("IP", pre=True, always=True)
 	def Validate_IP(cls, value):
 
 		# Check IP
@@ -961,16 +961,16 @@ class Payload_WeatherStat_Environment(BaseModel):
 		return values
 
 	# Value Validator
-	@validator("AT", "AH", "AP", "VL", "IL", "UV", "R", "WD", "WS", pre=True, always=True)
-	def Validate_Values(cls, value, field: dict, **kwargs):
+	@field_validator("AT", "AH", "AP", "VL", "IL", "UV", "R", "WD", "WS", pre=True, always=True)
+	def Validate_Values(cls, value):
 
 		# Check Value
 		if value is None:
 			return None
 
 		# Get Min and Max Values
-		Min_Value = field.get("min")
-		Max_Value = field.get("max")
+		Min_Value = value.field_info.extra.get("min")
+		Max_Value = value.field_info.extra.get("max")
 
 		# Check Min Value
 		if Min_Value is not None and value < Min_Value:
@@ -1076,7 +1076,7 @@ class Payload(BaseModel):
 		return values
 
     # TimeStamp Validator
-	@validator('TimeStamp')
+	@field_validator('TimeStamp')
 	def validate_timestamp(cls, TimeStamp_Value):
 
 		try:
@@ -1160,7 +1160,7 @@ class Data_Pack_Model(BaseModel):
 		return values
 
 	# Command Validator
-	@validator('Command')
+	@field_validator('Command')
 	def Command_Validator(cls, Command_Value):
 
 		# Define Regex Pattern
