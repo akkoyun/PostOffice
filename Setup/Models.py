@@ -193,9 +193,6 @@ class Settings(Base):
 	Value = Column(Integer, nullable=False)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-	# Relationship Definition
-	Def_Device = relationship("Device", back_populates="Def_Settings")
-
 # RAW_Data Database Model
 class RAW_Data(Base):
 
