@@ -23,11 +23,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
 		# Create Add Record Command
 		RAW_Data = Models.RAW_Data(
-			RAW_Data_Device_ID = Data.Device.Info.ID,
-			RAW_Data_IP = request.client.host,
-			RAW_Data_Company = Functions.Handle_Company(Data.Command),
-			RAW_Data_Device = Functions.Handle_Device(Data.Command),
-			RAW_Data_Command = Functions.Handle_Command(Data.Command),
+			Client_IP = request.client.host,
 			RAW_Data = await request.json()
 		)
 	
@@ -45,9 +41,6 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack_Model):
 
 		# Log Message
 		Log.Terminal_Log("INFO", f"New Valid WeatherStat RAW Data Record Added: ['{request.client.host}' - '{Data.Device.Info.ID}']")
-
-		# Log to Queue
-		Kafka.Send_To_Log_Topic(Data.Device.Info.ID, "New WeatherStat Pack Received")
 
 		# Close Database
 		DB_RAW_Data.close()

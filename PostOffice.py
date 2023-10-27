@@ -18,7 +18,7 @@ Data_Update.Import_SIM()
 
 
 # Define FastAPI Object
-PostOffice = FastAPI(version="02.00.00", title="PostOffice")
+PostOffice = FastAPI(version="03.00.00", title="PostOffice")
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
@@ -47,14 +47,10 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Log Message
 	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
 
-	# Log to Queue
-	Kafka.Send_To_Log_Topic("ERROR", f"Wrong Pack: {request.client.host}")
-
 	# Create Add Record Command
 	Undefinied_RAW_Data = Models.RAW_Data(
-		RAW_Data_IP = request.client.host,
+		Client_IP = request.client.host,
 		RAW_Data = exc.body,
-		RAW_Data_Valid = False
 	)
 
 	# Define DB
