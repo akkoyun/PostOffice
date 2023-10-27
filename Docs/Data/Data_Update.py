@@ -152,3 +152,4 @@ def Import_SIM():
         # Close DataBase
         DB_Module.close()
 
+Import_GSM_Operator()
