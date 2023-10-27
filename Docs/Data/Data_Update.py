@@ -9,6 +9,12 @@ import pandas as pd
 # Import Operator Data
 def Import_GSM_Operator():
 
+    # Log Message
+    Log.Terminal_Log("INFO", f"Control for New GSM Operator..")
+
+    # New Operator Count
+    New_Operator_Count = 0
+
     # Define DB
     DB_Module = Database.SessionLocal()
 
@@ -20,28 +26,14 @@ def Import_GSM_Operator():
         # Rename Columns
         Operator_Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'MNC_Operator_Image_URL']
 
-
-
-        print(Operator_Data_File.head())
-
         # Add Record to DataBase
         for index, row in Operator_Data_File.iterrows():
-
-
-
-
-
 
             # Check for Existing MCC_ID and MNC_ID
             Query_Operator = DB_Module.query(Models.GSM_Operator).filter(Models.GSM_Operator.MCC_ID == int(row['MCC_ID'])).filter(Models.GSM_Operator.MNC_ID == int(row['MNC_ID'])).first()
 
             # Record Not Found
             if not Query_Operator:
-
-                # Define Default Value
-                
-
-
 
                 # Create New Operator Record
                 New_Operator_Record = Models.GSM_Operator(
@@ -67,6 +59,9 @@ def Import_GSM_Operator():
                     
                     # Commit DataBase
                     DB_Module.commit()
+
+                    # Increase New Operator Count
+                    New_Operator_Count += 1
                     
                     # Log Message
                     Log.Terminal_Log("INFO", f"New GSM Operator Record Added : ['{row['MNC_Brand_Name']}']")
@@ -90,6 +85,12 @@ def Import_GSM_Operator():
 
         # Close DataBase
         DB_Module.close()
+
+    # Log Message
+    if New_Operator_Count > 0:
+        Log.Terminal_Log("INFO", f"[{New_Operator_Count}] New GSM Operator Recorded.")
+    else:
+        Log.Terminal_Log("INFO", f"GSM Operator is up to date")
 
 # Import SIM
 def Import_SIM():
