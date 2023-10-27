@@ -73,6 +73,7 @@ class Pack_Info(BaseModel):
 
 	# Device ID Validator
 	@field_validator('ID', pre=True, always=True)
+	@classmethod
 	def ID_Validator(cls, ID_Value):
 
 		# Define Regex Pattern
@@ -89,6 +90,7 @@ class Pack_Info(BaseModel):
 
 	# Hardware and Firmware Validator
 	@field_validator('Hardware', 'Firmware', pre=True, always=True)
+	@classmethod
 	def Version_Validator(cls, Value):
 
 		# Define Regex Pattern
@@ -229,6 +231,7 @@ class Pack_Battery(BaseModel):
 
 	# Value Validator
 	@field_validator("IV", "AC", "SOC", "T", "FB", "IB", pre=True, always=True)
+	@classmethod
 	def Validate_Values(cls, value):
 
 		# Get Min and Max Values
@@ -252,6 +255,7 @@ class Pack_Battery(BaseModel):
 
 	# Charge Validator
 	@field_validator("Charge", pre=True, always=True)
+	@classmethod
 	def Validate_Charge(cls, value):
 
 		# Check Charge
@@ -385,6 +389,7 @@ class Pack_IoT_Module(BaseModel):
 
 	# Firmware Validator
 	@field_validator('Firmware', pre=True, always=True)
+	@classmethod
 	def Version_Validator(cls, Value):
 
 		# Define Regex Pattern
@@ -573,6 +578,7 @@ class Pack_IoT_Operator(BaseModel):
 
 	# Value Validator
 	@field_validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime", pre=True, always=True)
+	@classmethod
 	def Validate_Values(cls, value):
 
 		# Get Min and Max Values
@@ -596,6 +602,7 @@ class Pack_IoT_Operator(BaseModel):
 
 	# IP Validator
 	@field_validator("IP", pre=True, always=True)
+	@classmethod
 	def Validate_IP(cls, value):
 
 		# Check IP
@@ -962,6 +969,7 @@ class Payload_WeatherStat_Environment(BaseModel):
 
 	# Value Validator
 	@field_validator("AT", "AH", "AP", "VL", "IL", "UV", "R", "WD", "WS", pre=True, always=True)
+	@classmethod
 	def Validate_Values(cls, value):
 
 		# Check Value
@@ -1077,6 +1085,7 @@ class Payload(BaseModel):
 
     # TimeStamp Validator
 	@field_validator('TimeStamp')
+	@classmethod
 	def validate_timestamp(cls, TimeStamp_Value):
 
 		try:
@@ -1161,6 +1170,7 @@ class Data_Pack_Model(BaseModel):
 
 	# Command Validator
 	@field_validator('Command')
+	@classmethod
 	def Command_Validator(cls, Command_Value):
 
 		# Define Regex Pattern
