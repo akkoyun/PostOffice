@@ -28,15 +28,15 @@ def Import_GSM_Operator():
                 
                 # Create New Operator Record
                 New_Operator_Record = Models.GSM_Operator(
-                    MCC_ID=row['MCC_ID'],
-                    MCC_ISO=row['MCC_ISO'],
-                    MCC_Country_Name=row['MCC_Country_Name'],
-                    MCC_Country_Code=row['MCC_Country_Code'],
-                    MCC_Country_Flag_Image_URL=row['MCC_Country_Flag_Image_URL'],
-                    MNC_ID=row['MNC_ID'],
-                    MNC_Brand_Name=row['MNC_Brand_Name'],
-                    MNC_Operator_Name=row['MNC_Operator_Name'],
-                    MNC_Operator_Image_URL=row['MNC_Operator_Image_URL'],
+                    MCC_ID=int(row['MCC_ID']),
+                    MCC_ISO=str(row['MCC_ISO']),
+                    MCC_Country_Name=str(row['MCC_Country_Name']),
+                    MCC_Country_Code=int(row['MCC_Country_Code']),
+                    MCC_Country_Flag_Image_URL=str(row['MCC_Country_Flag_Image_URL']),
+                    MNC_ID=int(row['MNC_ID']),
+                    MNC_Brand_Name=str(row['MNC_Brand_Name']),
+                    MNC_Operator_Name=str(row['MNC_Operator_Name']),
+                    MNC_Operator_Image_URL=str(row['MNC_Operator_Image_URL']),
                 )
 
                 # Add Record to DataBase
