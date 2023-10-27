@@ -7,32 +7,23 @@ from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from .Database import Base
 
-# GSM_MNC Database Model
-class GSM_MNC(Base):
+# GSM_Operator Database Model
+class GSM_Operator(Base):
 
 	# Define Table Name
-	__tablename__ = "GSM_MNC"
+	__tablename__ = "GSM_Operator"
 
 	# Define Columns
-	MNC_Record_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Operator_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	MCC_ID = Column(Integer, nullable=False)
+	MCC_ISO = Column(String, nullable=False)
+	MCC_Country_Name = Column(String, nullable=False)
+	MCC_Country_Code = Column(Integer, nullable=True)
+	MCC_Country_Flag_Image_URL = Column(String, nullable=True)
 	MNC_ID = Column(Integer, nullable=False)
 	MNC_Brand_Name = Column(String, nullable=False)
 	MNC_Operator_Name = Column(String, nullable=False)
 	MNC_Operator_Image_URL = Column(String, nullable=True)
-
-# GSM_MCC Database Model
-class GSM_MCC(Base):
-
-	# Define Table Name
-	__tablename__ = "GSM_MCC"
-
-	# Define Columns
-	MCC_ID = Column(Integer, primary_key=True, nullable=False)
-	MCC_ISO = Column(String, nullable=False)
-	MCC_Country_Name = Column(String, nullable=False)
-	MCC_Country_Code = Column(Integer, nullable=False)
-	MCC_Country_Flag_Image_URL = Column(String, nullable=True)
 
 # SIM Database Model
 class SIM(Base):
@@ -49,6 +40,12 @@ class SIM(Base):
 	SIM_Static_IP = Column(String, nullable=True)
 	SIM_Status = Column(Boolean, nullable=False, server_default=text('false'))
 	SIM_Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+
+
+
+
+
 
 # Connection Database Model
 class Connection(Base):

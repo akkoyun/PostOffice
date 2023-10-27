@@ -9,74 +9,6 @@ import pandas as pd
 # Define DB
 DB_Module = Database.SessionLocal()
 
-# MNC Table Add Record
-def MNC_Initial_Values():
-    
-    try:
-
-        # Define MNC Records
-        MNC_Records = [
-            Models.GSM_MNC(MCC_ID=286, MNC_ID=1, MNC_Brand_Name="Turkcell", MNC_Operator_Name="Turkcell"),
-            Models.GSM_MNC(MCC_ID=286, MNC_ID=2, MNC_Brand_Name="Vodafone", MNC_Operator_Name="Vodafone"),
-            Models.GSM_MNC(MCC_ID=286, MNC_ID=3, MNC_Brand_Name="Türk Telekom", MNC_Operator_Name="Türk Telekom")
-        ]
-
-        # Add Record to DataBase
-        for record in MNC_Records:
-
-            # Check for Existing Record
-            Query_Record = DB_Module.query(Models.GSM_MNC).filter(Models.GSM_MNC.MNC_ID==(record.MNC_ID)).first()
-
-            # Record Not Found
-            if not Query_Record:
-
-                # Add Record to DataBase
-                DB_Module.add(record)
-
-        # Commit DataBase
-        DB_Module.commit()
-
-        # Log Message
-        Log.Terminal_Log("INFO", f"GSM_MNC Table Default Values Updated")
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding GSM_MNC Table : {e}")
-
-# MCC Table Add Record
-def MCC_Initial_Values():
-    
-    try:
-
-        # Define MCC Records
-        MCC_Records = [
-            Models.GSM_MCC(MCC_ID=286, MCC_ISO="TR", MCC_Country_Name="Turkey", MCC_Country_Code=90),
-        ]
-
-        # Add Record to DataBase
-        for record in MCC_Records:
-
-            # Check for Existing Record
-            Query_Record = DB_Module.query(Models.GSM_MCC).filter(Models.GSM_MCC.MCC_ID==(record.MCC_ID)).first()
-
-            # Record Not Found
-            if not Query_Record:
-
-                # Add Record to DataBase
-                DB_Module.add(record)
-
-        # Commit DataBase
-        DB_Module.commit()
-
-        # Log Message
-        Log.Terminal_Log("INFO", f"GSM_MCC Table Default Values Updated")
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding GSM_MCC Table : {e}")
-
 # GSM Module Type Add Record
 def Module_Type_Initial_Values():
     
@@ -489,55 +421,8 @@ def Measurement_Type_Initial_Values():
         # Log Message
         Log.Terminal_Log("ERROR", f"An error occurred while adding Module_Model Table : {e}")
 
-# Import SIM
-def Import_SIM():
-
-    try:
-
-        # Read SIM File
-        SIM_Data_File = pd.read_csv("Docs/Data/SIM_Record.cvs", sep=",")
-        
-        # Add Record to DataBase
-        for index, row in SIM_Data_File.iterrows():
-            
-            # Check for Existing ICCID
-            Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(str(row['SIM_ICCID']))).first()
-            
-            # Record Not Found
-            if not Query_SIM:
-                
-                # Create New Module Record
-                New_SIM_Record = Models.SIM(
-                    SIM_ICCID=row['SIM_ICCID'],
-                    MCC_ID=row['MCC_ID'],
-                    MNC_ID=row['MNC_ID'],
-                    SIM_Number=row['SIM_Number'],
-                    SIM_Static_IP=row['SIM_Static_IP'],
-                    SIM_Status=False,
-                )
-                
-                # Add Record to DataBase
-                try:
-                    DB_Module.add(New_SIM_Record)
-                    DB_Module.flush()
-                    DB_Module.commit()
-                    Log.Terminal_Log("INFO", "New SIM Recorded.")
-                    
-                except Exception as e:
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
-                    DB_Module.rollback()
-                    
-    except Exception as e:
-        Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
-
 # Call Functions
 def Value_Update():
-
-    # Update MNC Table
-    MNC_Initial_Values()
-
-    # Update MCC Table
-    MCC_Initial_Values()
 
     # Update Module_Type Table
     Module_Type_Initial_Values()
@@ -550,6 +435,3 @@ def Value_Update():
 
     # Update Measurement_Type Table
     Measurement_Type_Initial_Values()
-
-    # Import SIM
-    Import_SIM()
