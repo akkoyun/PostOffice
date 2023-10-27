@@ -5,8 +5,6 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from Routers import WeatherStat, PowerStat
 from datetime import datetime
-from Setup.Default_Value_Update import Value_Update
-from Docs.Data import Data_Update
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
@@ -26,18 +24,12 @@ async def Startup_Event():
 	# Log Message
 	Log.Terminal_Log("DEBUG", f"PostOffice API Started {datetime.now()}")
 
-	# Log to Queue
-	Kafka.Send_To_Log_Topic("SYSTEM", f"PostOffice API Started {datetime.now()}")
-
 # API ShutDown Sequence
 @PostOffice.on_event("shutdown")
 async def Shutdown_event():
 
 	# Log Message
 	Log.Terminal_Log("DEBUG", f"PostOffice API Shutdown {datetime.now()}")
-
-	# Log to Queue
-	Kafka.Send_To_Log_Topic("SYSTEM", f"PostOffice API Stopped {datetime.now()}")
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
