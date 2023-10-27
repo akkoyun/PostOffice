@@ -9,12 +9,12 @@ from Setup.Default_Value_Update import Value_Update
 from Docs.Data import Data_Update
 
 # Create DB Models
-Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
+#Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
 
 # Database Default Values
 #Value_Update()
 Data_Update.Import_GSM_Operator()
-Data_Update.Import_SIM()
+#Data_Update.Import_SIM()
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="03.00.00", title="PostOffice")
