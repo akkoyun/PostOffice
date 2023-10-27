@@ -49,11 +49,11 @@ def Import_GSM_Operator():
                     MCC_ISO=str(row['MCC_ISO']),
                     MCC_Country_Name=str(row['MCC_Country_Name']),
                     MCC_Country_Code=int(row['MCC_Country_Code']) if not pd.isna(row['MCC_Country_Code']) else None,
-                    MCC_Country_Flag_Image_URL=str(row['MCC_Country_Flag_Image_URL']),
+                    MCC_Country_Flag_Image_URL=str(row['MCC_Country_Flag_Image_URL']) if not pd.isna(row['MCC_Country_Flag_Image_URL']) else None,
                     MNC_ID=int(row['MNC_ID']),
                     MNC_Brand_Name=str(row['MNC_Brand_Name']),
                     MNC_Operator_Name=str(row['MNC_Operator_Name']),
-                    MNC_Operator_Image_URL=str(row['MNC_Operator_Image_URL']),
+                    MNC_Operator_Image_URL=str(row['MNC_Operator_Image_URL']) if not pd.isna(row['MNC_Operator_Image_URL']) else None,
                 )
 
                 # Add Record to DataBase
