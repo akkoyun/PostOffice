@@ -146,10 +146,10 @@ def Import_SIM():
 
                     # Commit DataBase
                     DB_Module.commit()
-                    
-                    # Log Message
-                    Log.Terminal_Log("INFO", "New SIM Recorded.")
-                    
+
+                    # Increase New SIM Count
+                    New_SIM_Count += 1
+
                 except Exception as e:
                     
                     # Log Message
