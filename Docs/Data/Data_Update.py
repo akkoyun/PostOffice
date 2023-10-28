@@ -89,6 +89,12 @@ def Import_GSM_Operator():
 # Import SIM
 def Import_SIM():
 
+    # Log Message
+    Log.Terminal_Log("INFO", f"Control for New SIM Record..")
+
+    # New SIM Count
+    New_SIM_Count = 0
+
     # Define DB
     DB_Module = Database.SessionLocal()
 
@@ -101,17 +107,32 @@ def Import_SIM():
         for row in SIM_Data_File.iterrows():
             
             # Check for Existing ICCID
-            Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.SIM_ICCID.like(str(row['SIM_ICCID']))).first()
+            Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.ICCID.like(str(row['SIM_ICCID']))).first()
             
             # Record Not Found
             if not Query_SIM:
 
+                # Check for Existing Operator
+                Query_Operator = DB_Module.query(Models.Operator).filter(Models.Operator.MCC_ID==int(row['MCC_ID'])).filter(Models.Operator.MNC_ID==int(row['MNC_ID'])).first()
+
+                # Control for Record
+                if Query_Operator:
+
+                    # Get Operator ID
+                    Operator_ID = Query_Operator.Operator_ID
+
+                # Operator Not Found
+                else:
+
+                    # Set Operator ID
+                    Operator_ID = 0
+
                 # Create New Module Record
                 New_SIM_Record = Models.SIM(
-                    ICCID=row['SIM_ICCID'],
-                    Operator_ID=0,
-                    GSM_Number=row['SIM_Number'],
-                    Static_IP=row['SIM_Static_IP'],
+                    ICCID = row['SIM_ICCID'],
+                    Operator_ID = Operator_ID,
+                    GSM_Number = row['SIM_Number'],
+                    Static_IP = row['SIM_Static_IP'],
                 )
                 
                 # Add Record to DataBase
@@ -144,9 +165,18 @@ def Import_SIM():
         Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
 
     # Close DataBase
-    finally:
+    DB_Module.close()
 
-        # Close DataBase
-        DB_Module.close()
+    # Log Message
+    if New_SIM_Count > 0:
+        Log.Terminal_Log("INFO", f"[{New_SIM_Count}] New SIM Recorded.")
+    else:
+        Log.Terminal_Log("INFO", f"SIM table is up to date")
 
+
+
+
+
+# Test Function
 Import_GSM_Operator()
+Import_SIM()
