@@ -73,15 +73,12 @@ def Import_GSM_Operator():
 
     # Catch Errors
     except Exception as e:
-        
+
         # Log Message
         Log.Terminal_Log("ERROR", f"An error occurred while adding Operator: {e}")
 
     # Close DataBase
-    finally:
-
-        # Close DataBase
-        DB_Module.close()
+    DB_Module.close()
 
     # Log Message
     if New_Operator_Count > 0:
