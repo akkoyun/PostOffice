@@ -104,7 +104,7 @@ def Import_SIM():
         SIM_Data_File = pd.read_csv("Docs/Data/SIM_Record.csv", sep=",")
         
         # Add Record to DataBase
-        for row in SIM_Data_File.iterrows():
+        for index, row in SIM_Data_File.iterrows():
             
             # Check for Existing ICCID
             Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.ICCID.like(str(row['SIM_ICCID']))).first()
