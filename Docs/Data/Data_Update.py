@@ -101,7 +101,7 @@ def Import_SIM():
     try:
 
         # Read SIM File
-        SIM_Data_File = pd.read_csv("Docs/Data/SIM_Record.cvs", sep=",")
+        SIM_Data_File = pd.read_csv("Docs/Data/SIM_Record.csv", sep=",")
         
         # Add Record to DataBase
         for row in SIM_Data_File.iterrows():
