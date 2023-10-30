@@ -230,7 +230,7 @@ class Pack_Battery(BaseModel):
 		return values
 
 	# Value Validator
-	@field_validator("IV", "AC", "SOC", "T", "FB", "IB")
+	@field_validator("FB", "IB")
 	@classmethod
 	def Validate_Values(cls, value):
 
@@ -249,6 +249,30 @@ class Pack_Battery(BaseModel):
         
 			# Set Value
 			return 9999
+
+		# Return Value
+		return value
+
+	# Value Validator
+	@field_validator("IV", "AC", "SOC", "T")
+	@classmethod
+	def Validate_Values(cls, value):
+
+		# Get Min and Max Values
+		Min_Value = value.field_info.extra.get("min")
+		Max_Value = value.field_info.extra.get("max")
+
+		# Check Min Value
+		if Min_Value is not None and value < Min_Value:
+            
+			# Set Value
+			return -9999.9
+
+		# Check Max Value
+		if Max_Value is not None and value > Max_Value:
+        
+			# Set Value
+			return 9999.9
 
 		# Return Value
 		return value
