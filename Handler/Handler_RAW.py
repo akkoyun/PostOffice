@@ -66,6 +66,9 @@ def Parse_Topics():
             # Set Headers
             New_Headers = Functions.Parse_Headers(RAW_Headers, Data_Stream_ID)
 
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Valid RAW Data Record Added: ['{RAW_Headers.Device_ID}' - '{RAW_Headers.Device_IP}']")
+
             # Set Topics and Values
             Topics_And_Values = [
 
