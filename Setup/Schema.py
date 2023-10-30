@@ -10,13 +10,17 @@ import re, ipaddress
 from datetime import datetime
 
 # Define Field Validator
-def Field_Alias(Values: Dict, Field_Alias_List: str, Aliases: List[str]) -> Dict:
+def Field_Alias(Values: Dict, Field_Alias_List: str, Aliases: List[str], Optional: bool = False) -> Dict:
     
 	# Check if normalized_name is in values
 	for Alias in Aliases:
 
 		# Check if alias is in values
 		if Alias in Values:
+
+			# Control for Optional and None
+			if Optional(Values[Alias]) and Values[Alias] is None:
+				continue
 
 			# Set normalized_name
 			Values[Field_Alias_List] = Values[Alias]
@@ -48,8 +52,8 @@ class Pack_Info(BaseModel):
 
 		# Set Alias Alternatives
 		Field_Alias(values, "ID", ["ID", "id", "Id"])
-		Field_Alias(values, "Hardware", ["HARDWARE", "Hardware", "HardWare", "hardware", "HW", "hw", "Hw"])
-		Field_Alias(values, "Firmware", ["FIRMWARE", "Firmware", "FirmWare", "firmware", "FW", "fw", "Fw"])
+		Field_Alias(values, "Hardware", ["HARDWARE", "Hardware", "HardWare", "hardware", "HW", "hw", "Hw"], Optional=True)
+		Field_Alias(values, "Firmware", ["FIRMWARE", "Firmware", "FirmWare", "firmware", "FW", "fw", "Fw"], Optional=True)
 
 		# Return values
 		return values
@@ -120,9 +124,9 @@ class Pack_Battery(BaseModel):
 		Field_Alias(values, "IV", ["IV", "iv", "Iv"])
 		Field_Alias(values, "AC", ["AC", "ac", "Ac"])
 		Field_Alias(values, "SOC", ["SOC", "soc", "Soc"])
-		Field_Alias(values, "T", ["T", "t"])
-		Field_Alias(values, "FB", ["FB", "fb", "Fb"])
-		Field_Alias(values, "IB", ["IB", "ib", "Ib"])
+		Field_Alias(values, "T", ["T", "t"], Optional=True)
+		Field_Alias(values, "FB", ["FB", "fb", "Fb"], Optional=True)
+		Field_Alias(values, "IB", ["IB", "ib", "Ib"], Optional=True)
 		Field_Alias(values, "Charge", ["CHARGE", "Charge", "charge"])
 
 		# Return values
@@ -181,11 +185,11 @@ class Pack_IoT_Module(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Field_Alias(values, "Firmware", ["FIRMWARE", "Firmware", "firmware", "FW", "fw", "Fw"])
-		Field_Alias(values, "IMEI", ["IMEI", "Imei", "imei"])
-		Field_Alias(values, "Manufacturer", ["MANUFACTURER", "Manufacturer", "Man", "man", "MF"])
-		Field_Alias(values, "Model", ["MODEL", "Model", "model", "MD"])
-		Field_Alias(values, "Serial", ["SERIAL", "Serial", "serial", "SR"])
+		Field_Alias(values, "Firmware", ["FIRMWARE", "Firmware", "firmware", "FW", "fw", "Fw"], Optional=True)
+		Field_Alias(values, "IMEI", ["IMEI", "Imei", "imei"], Optional=True)
+		Field_Alias(values, "Manufacturer", ["MANUFACTURER", "Manufacturer", "Man", "man", "MF"], Optional=True)
+		Field_Alias(values, "Model", ["MODEL", "Model", "model", "MD"], Optional=True)
+		Field_Alias(values, "Serial", ["SERIAL", "Serial", "serial", "SR"], Optional=True)
 
 		# Return values
 		return values
@@ -245,16 +249,16 @@ class Pack_IoT_Operator(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 		
 		# Set Alias Alternatives
-		Field_Alias(values, "SIM_Type", ["SIM_TYPE", "Sim_Type", "sim_type", "SIMTYPE", "SimType", "simtype", "SIM", "Sim", "sim"])
+		Field_Alias(values, "SIM_Type", ["SIM_TYPE", "Sim_Type", "sim_type", "SIMTYPE", "SimType", "simtype", "SIM", "Sim", "sim"], Optional=True)
 		Field_Alias(values, "ICCID", ["ICCID", "Iccid", "iccid"])
-		Field_Alias(values, "MCC", ["MCC", "Mcc", "mcc"])
-		Field_Alias(values, "MNC", ["MNC", "Mnc", "mnc"])
-		Field_Alias(values, "RSSI", ["RSSI", "Rssi", "rssi", "DBM", "dBm", "dbm"])
-		Field_Alias(values, "TAC", ["TAC", "Tac", "tac"])
-		Field_Alias(values, "LAC", ["LAC", "Lac", "lac"])
-		Field_Alias(values, "Cell_ID", ["CELL_ID", "Cell_Id", "cell_id", "CELLID", "CellId", "cellid"])
-		Field_Alias(values, "IP", ["IP", "Ip", "ip"])
-		Field_Alias(values, "ConnTime", ["CONNTIME", "ConnTime", "conntime", "CONNECTION_TIME", "Connection_Time", "connection_time", "CONNECTIONTIME", "ConnectionTime", "connectiontime"])
+		Field_Alias(values, "MCC", ["MCC", "Mcc", "mcc"], Optional=True)
+		Field_Alias(values, "MNC", ["MNC", "Mnc", "mnc"], Optional=True)
+		Field_Alias(values, "RSSI", ["RSSI", "Rssi", "rssi", "DBM", "dBm", "dbm"], Optional=True)
+		Field_Alias(values, "TAC", ["TAC", "Tac", "tac"], Optional=True)
+		Field_Alias(values, "LAC", ["LAC", "Lac", "lac"], Optional=True)
+		Field_Alias(values, "Cell_ID", ["CELL_ID", "Cell_Id", "cell_id", "CELLID", "CellId", "cellid"], Optional=True)
+		Field_Alias(values, "IP", ["IP", "Ip", "ip"], Optional=True)
+		Field_Alias(values, "ConnTime", ["CONNTIME", "ConnTime", "conntime", "CONNECTION_TIME", "Connection_Time", "connection_time", "CONNECTIONTIME", "ConnectionTime", "connectiontime"], Optional=True)
 
 		# Return values
 		return values
@@ -292,7 +296,7 @@ class Pack_GSM(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Field_Alias(values, "Module", ["MODULE", "Module", "module", "MD", "md", "Md"])
+		Field_Alias(values, "Module", ["MODULE", "Module", "module", "MD", "md", "Md"], Optional=True)
 		Field_Alias(values, "Operator", ["OPERATOR", "Operator", "operator", "OP", "op", "Op"])
 
 		# Return values
@@ -396,16 +400,16 @@ class Payload_WeatherStat_Environment(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Field_Alias(values, "AT", ["AT", "at", "At"])
-		Field_Alias(values, "AH", ["AH", "ah", "Ah"])
-		Field_Alias(values, "AP", ["AP", "ap", "Ap"])
-		Field_Alias(values, "UV", ["UV", "uv", "Uv"])
-		Field_Alias(values, "VL", ["VL", "vl", "Vl"])
-		Field_Alias(values, "IL", ["IL", "il", "Il"])
-		Field_Alias(values, "ST", ["ST", "st", "St"])
-		Field_Alias(values, "R", ["R", "r", "Rain", "rain", "RAIN"])
-		Field_Alias(values, "WS", ["WS", "ws", "Ws", "WindSpeed", "windspeed", "WINDSPEED"])
-		Field_Alias(values, "WD", ["WD", "wd", "Wd", "WindDirection", "winddirection", "WINDDIRECTION"])
+		Field_Alias(values, "AT", ["AT", "at", "At"], Optional=True)
+		Field_Alias(values, "AH", ["AH", "ah", "Ah"], Optional=True)
+		Field_Alias(values, "AP", ["AP", "ap", "Ap"], Optional=True)
+		Field_Alias(values, "UV", ["UV", "uv", "Uv"], Optional=True)
+		Field_Alias(values, "VL", ["VL", "vl", "Vl"], Optional=True)
+		Field_Alias(values, "IL", ["IL", "il", "Il"], Optional=True)
+		Field_Alias(values, "ST", ["ST", "st", "St"], Optional=True)
+		Field_Alias(values, "R", ["R", "r", "Rain", "rain", "RAIN"], Optional=True)
+		Field_Alias(values, "WS", ["WS", "ws", "Ws", "WindSpeed", "windspeed", "WINDSPEED"], Optional=True)
+		Field_Alias(values, "WD", ["WD", "wd", "Wd", "WindDirection", "winddirection", "WINDDIRECTION"], Optional=True)
 
 		# Return values
 		return values
@@ -424,7 +428,7 @@ class Payload_WeatherStat(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Field_Alias(values, "Location", ["LOCATION", "Location", "location", "LOC", "Loc", "loc"])
+		Field_Alias(values, "Location", ["LOCATION", "Location", "location", "LOC", "Loc", "loc"], Optional=True)
 		Field_Alias(values, "Environment", ["ENVIRONMENT", "Environment", "environment", "ENV", "Env", "env"])
 
 		# Return values
@@ -445,7 +449,7 @@ class Payload(BaseModel):
 
 		# Set Alias Alternatives
 		Field_Alias(values, "TimeStamp", ["TIMESTAMP", "TimeStamp", "timestamp", "TIME", "Time", "time", "TS", "Ts", "ts"])
-		Field_Alias(values, "WeatherStat", ["WEATHERSTAT", "WeatherStat", "weatherstat", "WEATHER", "Weather", "weather", "WS", "Ws", "ws"])
+		Field_Alias(values, "WeatherStat", ["WEATHERSTAT", "WeatherStat", "weatherstat", "WEATHER", "Weather", "weather", "WS", "Ws", "ws"], Optional=True)
 
 		# Return values
 		return values
@@ -490,7 +494,7 @@ class Data_Pack_Model(BaseModel):
 
 		# Set Alias Alternatives
 		Field_Alias(values, "Command", ["COMMAND", "Command", "command", "CMD", "Cmd", "cmd"])
-		Field_Alias(values, "Device", ["DEVICE", "Device", "device", "DEV", "Dev", "dev"])
+		Field_Alias(values, "Device", ["DEVICE", "Device", "device", "DEV", "Dev", "dev"], Optional=True)
 		Field_Alias(values, "Payload", ["PAYLOAD", "Payload", "payload", "PAY", "Pay", "pay"])
 
 		# Return values
