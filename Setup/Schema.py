@@ -485,7 +485,7 @@ class Pack_IoT_Operator(BaseModel):
 		return values
 
 	# Value Validator
-	@field_validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime", pre=True, each_item=True)
+	@field_validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime", each_item=True)
 	@classmethod
 	def validate_values(cls, value, field):
 		
