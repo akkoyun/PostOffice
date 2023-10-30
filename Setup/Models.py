@@ -52,9 +52,6 @@ class Manufacturer(Base):
 	Manufacturer_ID = Column(Integer, primary_key=True, nullable=False)
 	Manufacturer = Column(String(), nullable=False)
 
-	# Relationship Definition
-	Def_Modem = relationship("Modem", backref="Manufacturer")
-
 # Model Database Model
 class Model(Base):
 
@@ -65,9 +62,6 @@ class Model(Base):
 	Model_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Model = Column(String(), nullable=False)
 
-	# Relationship Definition
-	Def_Modem = relationship("Modem", backref="Model")
-
 # Modem Database Model
 class Modem(Base):
 
@@ -76,8 +70,8 @@ class Modem(Base):
 
 	# Define Columns
 	IMEI = Column(String(), primary_key=True, nullable=False)
-	Manufacturer_ID = Column(Integer, ForeignKey('Manufacturer.Manufacturer_ID'), nullable=False)
-	Model_ID = Column(Integer, ForeignKey('Model.Model_ID'), nullable=False)
+	Manufacturer_ID = Column(Integer, ForeignKey("Manufacturer.Manufacturer_ID", ondelete="CASCADE"), primary_key=True, nullable=False)
+	Model_ID = Column(Integer, ForeignKey("Model.Model_ID", ondelete="CASCADE"), primary_key=True, nullable=False)
 	Firmware = Column(String(), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
