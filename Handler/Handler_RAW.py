@@ -54,7 +54,7 @@ def Parse_Topics():
                 DB_Module.commit()
 
                 # Get DataStream ID
-                Data_Stream_ID = str(New_Data_Stream.Data_Stream_ID)
+                Data_Stream_ID = str(New_Data_Stream.Stream_ID)
                 
             except Exception as e:
                 
