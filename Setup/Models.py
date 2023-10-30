@@ -33,7 +33,7 @@ class SIM(Base):
 	__tablename__ = "SIM"
 
 	# Define Columns
-	ICCID = Column(String(), primary_key=True, nullable=False)
+	ICCID = Column(String(), primary_key=True, unique=True, nullable=False)
 	Operator_ID = Column(Integer, ForeignKey("Operator.Operator_ID", ondelete="CASCADE"), nullable=False)
 	GSM_Number = Column(String(), nullable=True)
 	Static_IP = Column(String(), nullable=True)
@@ -66,7 +66,7 @@ class Modem(Base):
 	__tablename__ = "Modem"
 
 	# Define Columns
-	IMEI = Column(String(), primary_key=True, nullable=False)
+	IMEI = Column(String(), primary_key=True, unique=True, nullable=False)
 	Manufacturer_ID = Column(Integer, ForeignKey("Manufacturer.Manufacturer_ID", ondelete="CASCADE"), primary_key=True, nullable=False)
 	Model_ID = Column(Integer, ForeignKey("Model.Model_ID", ondelete="CASCADE"), primary_key=True, nullable=False)
 	Firmware = Column(String(), nullable=True)
@@ -81,12 +81,9 @@ class Stream(Base):
 	# Define Columns
 	Stream_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String(), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
-	IMEI = Column(String(), ForeignKey("Modem.IMEI", ondelete="CASCADE"), nullable=False)
-	ICCID = Column(String(), ForeignKey("SIM.ICCID", ondelete="CASCADE"), nullable=False)
+	IMEI = Column(String(), ForeignKey("Modem.IMEI"), nullable=False)
+	ICCID = Column(String(), ForeignKey("SIM.ICCID"), nullable=False)
 	RSSI = Column(Integer, nullable=True)
-	TAC = Column(Integer, nullable=True)
-	LAC = Column(Integer, nullable=True)
-	Cell_ID = Column(Integer, nullable=True)
 	Device_IP = Column(String, nullable=True)
 	Connection_Time = Column(Integer, nullable=True)
 	Size = Column(Integer, nullable=True)
