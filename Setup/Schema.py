@@ -112,7 +112,7 @@ class Pack_Battery(BaseModel):
 	IV: float = Field(description="Battery instant voltage.", example=3.8, min=0.0, max=10.0)
 
 	# Average Battery Current
-	AC: float = Field(description="Battery average current.", example=0.2, min=-10000, max=10000)
+	AC: float = Field(description="Battery average current.", example=0.2, min=-10000.0, max=10000.0)
 
 	# Battery State of Charge
 	SOC: float = Field(description="Battery state of charge.", example=97.30, min=0.0, max=100.0)
