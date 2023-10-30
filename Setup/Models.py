@@ -201,7 +201,7 @@ class RAW_Data(Base):
 
 	# Define Columns
 	RAW_Data_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Clent_IP = Column(String, nullable=True)
+	Client_IP = Column(String, nullable=True)
 	RAW_Data = Column(JSON, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
