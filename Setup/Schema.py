@@ -4,6 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from pydantic import BaseModel, Field, field_validator, root_validator
+from pydantic_core.core_schema import FieldValidationInfo
 from typing import Optional, Dict, List
 import re, ipaddress
 from datetime import datetime
@@ -41,50 +42,14 @@ class Pack_Info(BaseModel):
 	# Device Firmware Version
 	Firmware: Optional[str] = Field(description="Firmware version of device.", example="01.00.00")
 
-	# Handle ID Field Name
+	# Handle Field Names
 	@root_validator(pre=True)
 	def Normalize_Fields(cls, values: Dict) -> Dict:
-		
+
 		# Set Alias Alternatives
-		Alias_Alternatives_ID = ["ID", "id", "Id"]
-		Alias_Alternatives_Hardware = ["HARDWARE", "Hardware", "HardWare", "hardware", "HW", "hw", "Hw"]
-		Alias_Alternatives_Firmware = ["FIRMWARE", "Firmware", "FirmWare", "firmware", "FW", "fw", "Fw"]
-
-		# Normalize ID Field
-		for Alias in Alias_Alternatives_ID:
-
-			# Check ID Field
-			if Alias in values:
-				
-				# Set ID Field
-				values["ID"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Hardware Field
-		for Alias in Alias_Alternatives_Hardware:
-
-			# Check Hardware Field
-			if Alias in values:
-				
-				# Set Hardware Field
-				values["Hardware"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Firmware Field
-		for Alias in Alias_Alternatives_Firmware:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["Firmware"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "ID", ["ID", "id", "Id"])
+		Field_Alias(values, "Hardware", ["HARDWARE", "Hardware", "HardWare", "hardware", "HW", "hw", "Hw"])
+		Field_Alias(values, "Firmware", ["FIRMWARE", "Firmware", "FirmWare", "firmware", "FW", "fw", "Fw"])
 
 		# Return values
 		return values
@@ -150,136 +115,18 @@ class Pack_Battery(BaseModel):
 	# Handle Field Names
 	@root_validator(pre=True)
 	def Normalize_Fields(cls, values: Dict) -> Dict:
-		
+
 		# Set Alias Alternatives
-		Alias_Alternatives_IV = ["IV", "iv", "Iv"]
-		Alias_Alternatives_AC = ["AC", "ac", "Ac"]
-		Alias_Alternatives_SOC = ["SOC", "soc", "Soc"]
-		Alias_Alternatives_T = ["T", "t"]
-		Alias_Alternatives_FB = ["FB", "fb", "Fb"]
-		Alias_Alternatives_IB = ["IB", "ib", "Ib"]
-		Alias_Alternatives_Charge = ["CHARGE", "Charge", "charge"]
-
-		# Normalize IV Field
-		for Alias in Alias_Alternatives_IV:
-
-			# Check ID Field
-			if Alias in values:
-				
-				# Set ID Field
-				values["IV"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize AC Field
-		for Alias in Alias_Alternatives_AC:
-
-			# Check Hardware Field
-			if Alias in values:
-				
-				# Set Hardware Field
-				values["AC"] = values[Alias]
-
-				# Break
-				break
-		
-		# Normalize SOC Field
-		for Alias in Alias_Alternatives_SOC:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["SOC"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize T Field
-		for Alias in Alias_Alternatives_T:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["T"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize FB Field
-		for Alias in Alias_Alternatives_FB:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["FB"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize IB Field
-		for Alias in Alias_Alternatives_IB:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["IB"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Charge Field
-		for Alias in Alias_Alternatives_Charge:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["Charge"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "IV", ["IV", "iv", "Iv"])
+		Field_Alias(values, "AC", ["AC", "ac", "Ac"])
+		Field_Alias(values, "SOC", ["SOC", "soc", "Soc"])
+		Field_Alias(values, "T", ["T", "t"])
+		Field_Alias(values, "FB", ["FB", "fb", "Fb"])
+		Field_Alias(values, "IB", ["IB", "ib", "Ib"])
+		Field_Alias(values, "Charge", ["CHARGE", "Charge", "charge"])
 
 		# Return values
 		return values
-
-	# Value Validator
-	@field_validator("IV", "AC", "SOC", "T", "FB", "IB")
-	@classmethod
-	def Validate_Values(cls, value):
-
-		# Check if value has field_info attribute
-		if hasattr(value, 'field_info'):
-
-			# Get Min and Max Values
-			Min_Value = value.field_info.extra.get("min")
-			Max_Value = value.field_info.extra.get("max")
-
-			# Check Min Value
-			if Min_Value is not None and value < Min_Value:
-				
-				# Set Value
-				return -9999
-
-			# Check Max Value
-			if Max_Value is not None and value > Max_Value:
-			
-				# Set Value
-				return 9999
-
-			# Return Value
-			return value
-		else:
-			
-			# Handle the case when value does not have a field_info attribute
-			print(f"Unexpected type for value: {type(value)}")
-			
-			# Return Value
-			return value
 
 	# Charge Validator
 	@field_validator("Charge")
@@ -304,21 +151,9 @@ class Pack_Power(BaseModel):
 	# Handle Field Names
 	@root_validator(pre=True)
 	def Normalize_Fields(cls, values: Dict) -> Dict:
-		
+
 		# Set Alias Alternatives
-		Alias_Alternatives_Battery = ["BATTERY", "Battery", "battery", "BAT", "Bat", "bat"]
-
-		# Normalize IV Field
-		for Alias in Alias_Alternatives_Battery:
-
-			# Check ID Field
-			if Alias in values:
-				
-				# Set ID Field
-				values["Battery"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "Battery", ["BATTERY", "Battery", "battery", "BAT", "Bat", "bat"])
 
 		# Return values
 		return values
@@ -344,73 +179,13 @@ class Pack_IoT_Module(BaseModel):
 	# Handle Field Names
 	@root_validator(pre=True)
 	def Normalize_Fields(cls, values: Dict) -> Dict:
-		
+
 		# Set Alias Alternatives
-		Alias_Alternatives_Firmware = ["FIRMWARE", "Firmware", "firmware", "FW", "fw", "Fw"]
-		Alias_Alternatives_IMEI = ["IMEI", "Imei", "imei"]
-		Alias_Alternatives_Manufacturer = ["MANUFACTURER", "Manufacturer", "Man", "man", "MF"]
-		Alias_Alternatives_Model = ["MODEL", "Model", "model", "MD"]
-		Alias_Alternatives_Serial = ["SERIAL", "Serial", "serial", "SR"]
-
-		# Normalize Firmware Field
-		for Alias in Alias_Alternatives_Firmware:
-
-			# Check ID Field
-			if Alias in values:
-				
-				# Set ID Field
-				values["Firmware"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize IMEI Field
-		for Alias in Alias_Alternatives_IMEI:
-
-			# Check Hardware Field
-			if Alias in values:
-				
-				# Set Hardware Field
-				values["IMEI"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Manufacturer Field
-		for Alias in Alias_Alternatives_Manufacturer:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["Manufacturer"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Model Field
-		for Alias in Alias_Alternatives_Model:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["Model"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Serial Field
-		for Alias in Alias_Alternatives_Serial:
-
-			# Check Firmware Field
-			if Alias in values:
-				
-				# Set Firmware Field
-				values["Serial"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "Firmware", ["FIRMWARE", "Firmware", "firmware", "FW", "fw", "Fw"])
+		Field_Alias(values, "IMEI", ["IMEI", "Imei", "imei"])
+		Field_Alias(values, "Manufacturer", ["MANUFACTURER", "Manufacturer", "Man", "man", "MF"])
+		Field_Alias(values, "Model", ["MODEL", "Model", "model", "MD"])
+		Field_Alias(values, "Serial", ["SERIAL", "Serial", "serial", "SR"])
 
 		# Return values
 		return values
@@ -484,24 +259,6 @@ class Pack_IoT_Operator(BaseModel):
 		# Return values
 		return values
 
-	# Value Validator
-	@field_validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime")
-	@classmethod
-	def validate_values(cls, value, field):
-		
-		# Get Min and Max Values
-		min_value = field.field_info.extra.get("ge")
-		max_value = field.field_info.extra.get("le")
-
-		# Check Min Value
-		if min_value is not None and value < min_value:
-			raise ValueError(f"{field.alias} should be greater than or equal to {min_value}")
-
-		if max_value is not None and value > max_value:
-			raise ValueError(f"{field.alias} should be less than or equal to {max_value}")
-
-		return value
-
 	# IP Validator
 	@field_validator("IP")
 	@classmethod
@@ -535,32 +292,8 @@ class Pack_GSM(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Alias_Alternatives_Module = ["MODULE", "Module", "module", "MD", "md", "Md"]
-		Alias_Alternatives_Operator = ["OPERATOR", "Operator", "operator", "OP", "op", "Op"]
-
-		# Normalize Module Field
-		for Alias in Alias_Alternatives_Module:
-
-			# Check ID Field
-			if Alias in values:
-
-				# Set ID Field
-				values["Module"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Operator Field
-		for Alias in Alias_Alternatives_Operator:
-
-			# Check Hardware Field
-			if Alias in values:
-
-				# Set Hardware Field
-				values["Operator"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "Module", ["MODULE", "Module", "module", "MD", "md", "Md"])
+		Field_Alias(values, "Operator", ["OPERATOR", "Operator", "operator", "OP", "op", "Op"])
 
 		# Return values
 		return values
@@ -576,19 +309,7 @@ class Pack_IoT(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Alias_Alternatives_GSM = ["GSM", "Gsm", "gsm"]
-
-		# Normalize GSM Field
-		for Alias in Alias_Alternatives_GSM:
-
-			# Check ID Field
-			if Alias in values:
-
-				# Set ID Field
-				values["GSM"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "GSM", ["GSM", "Gsm", "gsm"])
 
 		# Return values
 		return values
@@ -610,45 +331,9 @@ class Pack_Device(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Alias_Alternatives_Info = ["INFO", "Info", "info"]
-		Alias_Alternatives_Power = ["POWER", "Power", "power", "POW", "Pow", "pow"]
-		Alias_Alternatives_IoT = ["IOT", "Iot", "iot"]
-
-		# Normalize Info Field
-		for Alias in Alias_Alternatives_Info:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Info"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Power Field
-		for Alias in Alias_Alternatives_Power:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Power"] = values[Alias]
-
-				# Break
-				break
-		
-		# Normalize IoT Field
-		for Alias in Alias_Alternatives_IoT:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["IoT"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "Info", ["INFO", "Info", "info"])
+		Field_Alias(values, "Power", ["POWER", "Power", "power", "POW", "Pow", "pow"])
+		Field_Alias(values, "IoT", ["IOT", "Iot", "iot"])
 
 		# Return values
 		return values
@@ -667,32 +352,8 @@ class Payload_WeatherStat_Location(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Alias_Alternatives_Latitude = ["LATITUDE", "Latitude", "latitude", "LAT", "Lat", "lat"]
-		Alias_Alternatives_Longtitude = ["LONGTITUDE", "Longtitude", "longtitude", "LONG", "Long", "long", "Longitude", "longitude", "LONGITUDE"]
-
-		# Normalize Latitude Field
-		for Alias in Alias_Alternatives_Latitude:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Latitude"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Longtitude Field
-		for Alias in Alias_Alternatives_Longtitude:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Longtitude"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "Latitude", ["LATITUDE", "Latitude", "latitude", "LAT", "Lat", "lat"])
+		Field_Alias(values, "Longtitude", ["LONGTITUDE", "Longtitude", "longtitude", "LONG", "Long", "long", "Longitude", "longitude", "LONGITUDE"])
 
 		# Return values
 		return values
@@ -735,174 +396,19 @@ class Payload_WeatherStat_Environment(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Alias_Alternatives_AT = ["AT", "at", "At"]
-		Alias_Alternatives_AH = ["AH", "ah", "Ah"]
-		Alias_Alternatives_AP = ["AP", "ap", "Ap"]
-		Alias_Alternatives_VL = ["VL", "vl", "Vl"]
-		Alias_Alternatives_IL = ["IL", "il", "Il"]
-		Alias_Alternatives_UV = ["UV", "uv", "Uv"]
-		Alias_Alternatives_ST = ["ST", "st", "St"]
-		Alias_Alternatives_R = ["R", "r", "Rain", "rain", "RAIN"]
-		Alias_Alternatives_WD = ["WD", "wd", "Wd", "Wind", "wind", "WIND"]
-		Alias_Alternatives_WS = ["WS", "ws", "Ws", "WindSpeed", "windspeed", "WINDSPEED"]
-
-		# Normalize AT Field
-		for Alias in Alias_Alternatives_AT:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["AT"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize AH Field
-		for Alias in Alias_Alternatives_AH:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["AH"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize AP Field
-		for Alias in Alias_Alternatives_AP:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["AP"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize VL Field
-		for Alias in Alias_Alternatives_VL:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["VL"] = values[Alias]
-
-				# Break
-				break
-		
-		# Normalize IR Field
-		for Alias in Alias_Alternatives_IL:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["IL"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize UV Field
-		for Alias in Alias_Alternatives_UV:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["UV"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize ST Field
-		for Alias in Alias_Alternatives_ST:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["ST"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize R Field
-		for Alias in Alias_Alternatives_R:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["R"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize WD Field
-		for Alias in Alias_Alternatives_WD:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["WD"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize WS Field
-		for Alias in Alias_Alternatives_WS:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["WS"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "AT", ["AT", "at", "At"])
+		Field_Alias(values, "AH", ["AH", "ah", "Ah"])
+		Field_Alias(values, "AP", ["AP", "ap", "Ap"])
+		Field_Alias(values, "UV", ["UV", "uv", "Uv"])
+		Field_Alias(values, "VL", ["VL", "vl", "Vl"])
+		Field_Alias(values, "IL", ["IL", "il", "Il"])
+		Field_Alias(values, "ST", ["ST", "st", "St"])
+		Field_Alias(values, "R", ["R", "r", "Rain", "rain", "RAIN"])
+		Field_Alias(values, "WS", ["WS", "ws", "Ws", "WindSpeed", "windspeed", "WINDSPEED"])
+		Field_Alias(values, "WD", ["WD", "wd", "Wd", "WindDirection", "winddirection", "WINDDIRECTION"])
 
 		# Return values
 		return values
-
-	# Value Validator
-	@field_validator("AT", "AH", "AP", "VL", "IL", "UV", "R", "WD", "WS")
-	@classmethod
-	def Validate_Values(cls, value):
-
-		# Check Value
-		if value is None:
-			return None
-		
-		# Check if value has field_info attribute
-		if hasattr(value, 'field_info'):
-		
-			# Get Min and Max Values
-			Min_Value = value.field_info.extra.get("min")
-			Max_Value = value.field_info.extra.get("max")
-
-			# Check Min Value
-			if Min_Value is not None and value < Min_Value:
-
-				# Set Value
-				return -9999
-
-			# Check Max Value
-			if Max_Value is not None and value > Max_Value:
-
-				# Set Value
-				return 9999
-		
-		else:
-			# Handle the case when value doesn't have a field_info attribute
-			print(f"Unexpected type for value: {type(value)}")
-
-		# Return value as-is if no conditions are met
-		return value
 
 # WeatherStat Model Definition
 class Payload_WeatherStat(BaseModel):
@@ -918,32 +424,8 @@ class Payload_WeatherStat(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Alias_Alternatives_Location = ["LOCATION", "Location", "location", "LOC", "Loc", "loc"]
-		Alias_Alternatives_Environment = ["ENVIRONMENT", "Environment", "environment", "ENV", "Env", "env"]
-
-		# Normalize Location Field
-		for Alias in Alias_Alternatives_Location:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Location"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Environment Field
-		for Alias in Alias_Alternatives_Environment:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Environment"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "Location", ["LOCATION", "Location", "location", "LOC", "Loc", "loc"])
+		Field_Alias(values, "Environment", ["ENVIRONMENT", "Environment", "environment", "ENV", "Env", "env"])
 
 		# Return values
 		return values
@@ -962,32 +444,8 @@ class Payload(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Alias_Alternatives_TimeStamp = ["TIMESTAMP", "TimeStamp", "timestamp", "TIME", "Time", "time", "TS", "Ts", "ts"]
-		Alias_Alternatives_WeatherStat = ["WEATHERSTAT", "WeatherStat", "weatherstat", "WEATHER", "Weather", "weather", "WS", "Ws", "ws"]
-
-		# Normalize TimeStamp Field
-		for Alias in Alias_Alternatives_TimeStamp:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["TimeStamp"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize WeatherStat Field
-		for Alias in Alias_Alternatives_WeatherStat:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["WeatherStat"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "TimeStamp", ["TIMESTAMP", "TimeStamp", "timestamp", "TIME", "Time", "time", "TS", "Ts", "ts"])
+		Field_Alias(values, "WeatherStat", ["WEATHERSTAT", "WeatherStat", "weatherstat", "WEATHER", "Weather", "weather", "WS", "Ws", "ws"])
 
 		# Return values
 		return values
@@ -1031,45 +489,9 @@ class Data_Pack_Model(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 
 		# Set Alias Alternatives
-		Alias_Alternatives_Command = ["COMMAND", "Command", "command", "CMD", "Cmd", "cmd"]
-		Alias_Alternatives_Device = ["DEVICE", "Device", "device", "DEV", "Dev", "dev"]
-		Alias_Alternatives_Payload = ["PAYLOAD", "Payload", "payload", "PAY", "Pay", "pay"]
-
-		# Normalize Command Field
-		for Alias in Alias_Alternatives_Command:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Command"] = values[Alias]
-
-				# Break
-				break
-		
-		# Normalize Device Field
-		for Alias in Alias_Alternatives_Device:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Device"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize Payload Field
-		for Alias in Alias_Alternatives_Payload:
-
-			# Check Field
-			if Alias in values:
-
-				# Set Field
-				values["Payload"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "Command", ["COMMAND", "Command", "command", "CMD", "Cmd", "cmd"])
+		Field_Alias(values, "Device", ["DEVICE", "Device", "device", "DEV", "Dev", "dev"])
+		Field_Alias(values, "Payload", ["PAYLOAD", "Payload", "payload", "PAY", "Pay", "pay"])
 
 		# Return values
 		return values
