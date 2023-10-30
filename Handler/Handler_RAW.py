@@ -28,27 +28,38 @@ def Parse_Topics():
             # Decode Message
             Kafka_RAW_Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-            # Create New DataStream
-            New_Data_Stream = Models.Stream(
-                Device_ID=RAW_Headers.Device_ID,
-                IMEI=Kafka_RAW_Message.Device.IoT.GSM.Module.IMEI,
-                ICCID=Kafka_RAW_Message.Device.IoT.GSM.Operator.ICCID,
-                RSSI=Kafka_RAW_Message.Device.IoT.GSM.Operator.RSSI,
-                Device_IP=RAW_Headers.Device_IP,
-                Connection_Time=Kafka_RAW_Message.Device.IoT.GSM.Operator.ConnTime,
-                Size=RAW_Headers.Size,
-                Create_Date=datetime.now()
-            )
+            # Define DataStream ID
+            Data_Stream_ID = None
 
-            # Add Record to DataBase
-            DB_Module.add(New_Data_Stream)
+            # Record DataStream
+            try:
 
-            # Commit DataBase
-            DB_Module.commit()
+                # Create New DataStream
+                New_Data_Stream = Models.Stream(
+                    Device_ID=RAW_Headers.Device_ID,
+                    IMEI=Kafka_RAW_Message.Device.IoT.GSM.Module.IMEI,
+                    ICCID=Kafka_RAW_Message.Device.IoT.GSM.Operator.ICCID,
+                    RSSI=Kafka_RAW_Message.Device.IoT.GSM.Operator.RSSI,
+                    Device_IP=RAW_Headers.Device_IP,
+                    Connection_Time=Kafka_RAW_Message.Device.IoT.GSM.Operator.ConnTime,
+                    Size=RAW_Headers.Size,
+                    Create_Time=datetime.now()
+                )
 
-            # Get DataStream ID
-            Data_Stream_ID = New_Data_Stream.Stream_ID
+                # Add Record to DataBase
+                DB_Module.add(New_Data_Stream)
 
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Get DataStream ID
+                Data_Stream_ID = New_Data_Stream.Stream_ID
+
+            except Exception as e:
+                
+                # Log Message
+                print(f"An error occurred while adding DataStream: {e}")
+    
             # Commit Kafka Consumer
             Kafka.Kafka_RAW_Consumer.commit()
 
