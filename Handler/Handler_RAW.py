@@ -36,9 +36,15 @@ def Parse_Topics():
             try:
 
                 # Create New DataStream
-                New_Data_Stream = Models.Data_Stream(
+                New_Data_Stream = Models.Stream(
                     Device_ID=RAW_Headers.Device_ID,
-                    Data_Stream_Create_Date=datetime.now()
+                    IMEI=Kafka_RAW_Message.Device.IoT.GSM.Module.IMEI,
+                    ICCID=Kafka_RAW_Message.Device.IoT.GSM.Operator.ICCID,
+                    RSSI=Kafka_RAW_Message.Device.IoT.GSM.Operator.RSSI,
+                    Device_ID=RAW_Headers.Device_ID,
+                    Connection_Time=Kafka_RAW_Message.Device.IoT.GSM.Operator.ConnTime,
+                    Size=RAW_Headers.Size,
+                    Create_Date=datetime.now()
                 )
 
                 # Add Record to DataBase
