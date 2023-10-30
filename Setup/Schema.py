@@ -590,24 +590,32 @@ class Pack_IoT_Operator(BaseModel):
 	@field_validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime")
 	@classmethod
 	def Validate_Values(cls, value):
-
-		# Get Min and Max Values
-		Min_Value = value.field_info.extra.get("min")
-		Max_Value = value.field_info.extra.get("max")
 		
-		# Check Min Value
-		if Min_Value is not None and value < Min_Value:
+		# Check if value has field_info attribute
+		if hasattr(value, 'field_info'):
+		
+			# Get Min and Max Values
+			Min_Value = value.field_info.extra.get("min")
+			Max_Value = value.field_info.extra.get("max")
+			
+			# Check Min Value
+			if Min_Value is not None and value < Min_Value:
 
-			# Set Value
-			return -9999
+				# Set Value
+				return -9999
 
-		# Check Max Value
-		if Max_Value is not None and value > Max_Value:
+			# Check Max Value
+			if Max_Value is not None and value > Max_Value:
 
-			# Set Value
-			return 9999
+				# Set Value
+				return 9999
 
-		# Return Value
+		else:
+
+			# Handle the case when value doesn't have a field_info attribute
+			print(f"Unexpected type for value: {type(value)}")
+
+		# Return value as-is if no conditions are met
 		return value
 
 	# IP Validator
