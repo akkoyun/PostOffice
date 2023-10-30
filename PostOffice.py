@@ -104,9 +104,9 @@ def Root(request: Request):
 	Service_WeatherStat_Status = DB_Module.query(Models.Service_LOG).filter(Models.Service_LOG.Service.like("Handler_WeatherStat")).order_by(Models.Service_LOG.Update_Time.desc()).first()
 
 	# Get Service Status
-	PostOffice_Status = Service_PostOffice_Status.Service_Status
-	RAW_Status = Service_RAW_Status.Service_Status
-	WeatherStat_Status = Service_WeatherStat_Status.Service_Status
+	PostOffice_Status = Service_PostOffice_Status.Status
+	RAW_Status = Service_RAW_Status.Status
+	WeatherStat_Status = Service_WeatherStat_Status.Status
 
 	# Close Database
 	DB_Module.close()
