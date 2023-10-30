@@ -23,8 +23,8 @@ def Field_Alias(Values: Dict, Field_Alias_List: str, Aliases: List[str], Optiona
 				continue
 
 			# Set normalized_name
-			Values[Field_Alias_List] = Values[Alias]
-            
+			Values[Field_Alias_List] = Values.pop(Alias)
+			            
 			# Break
 			break
 	
