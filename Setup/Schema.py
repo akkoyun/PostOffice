@@ -118,13 +118,13 @@ class Pack_Battery(BaseModel):
 	SOC: float = Field(description="Battery state of charge.", example=97.30, min=0.0, max=100.0)
 
 	# Battery Temperature
-	T: Optional[float] = Field(default=None, description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
+	T: Optional[float] = Field(description="Battery temperature.", example=32.1903, min=-50.0, max=100.0)
 
 	# Battery Full Battery Cap
-	FB: Optional[int] = Field(default=None, description="Full battery capacity.", example=2000, min=0, max=10000)
+	FB: Optional[int] = Field(description="Full battery capacity.", example=2000, min=0, max=10000)
 
 	# Battery Instant Battery Cap
-	IB: Optional[int] = Field(default=None, description="Instant battery capacity.", example=1820, min=0, max=10000)
+	IB: Optional[int] = Field(description="Instant battery capacity.", example=1820, min=0, max=10000)
 
 	# Battery Charge State
 	Charge: int = Field(description="Battery charge state.", example=1, min=0, max=5)
@@ -299,19 +299,19 @@ class Pack_Power(BaseModel):
 class Pack_IoT_Module(BaseModel):
 	
 	# GSM Module Firmware
-	Firmware: Optional[str] = Field(default="", description="GSM modem firmware version.", example="13.00.007")
+	Firmware: Optional[str] = Field(description="GSM modem firmware version.", example="13.00.007")
 
 	# Module IMEI Number
-	IMEI: Optional[str] = Field(default="", description="GSM modem IMEI number.", example="356156060000000", min_length=10, max_length=15)
+	IMEI: Optional[str] = Field(description="GSM modem IMEI number.", example="356156060000000", min_length=10, max_length=15)
 
 	# Module Manufacturer
-	Manufacturer: Optional[int] = Field(default=0, description="GSM modem manufacturer ID.", example=1, min=0, max=100)
+	Manufacturer: Optional[int] = Field(description="GSM modem manufacturer ID.", example=1, min=0, max=100)
 
 	# Module Model
-	Model: Optional[int] = Field(default=0, description="GSM modem model ID.", example=1, min=0, max=100)
+	Model: Optional[int] = Field(description="GSM modem model ID.", example=1, min=0, max=100)
 
 	# Module Serial Number
-	Serial: Optional[int] = Field(default=0, description="GSM modem serial ID.", example=20273, min=0)
+	Serial: Optional[int] = Field(description="GSM modem serial ID.", example=20273, min=0)
 
 	# Handle Field Names
 	@root_validator(pre=True)
@@ -408,34 +408,34 @@ class Pack_IoT_Module(BaseModel):
 class Pack_IoT_Operator(BaseModel):
 
 	# SIM Type
-	SIM_Type: Optional[int] = Field(default=0, description="SIM card type.", example=1, min=0, max=10)
+	SIM_Type: Optional[int] = Field(description="SIM card type.", example=1, min=0, max=10)
 
 	# SIM ICCID
-	ICCID: str = Field(default="0000000000000000000", description="SIM card ICCID number.", example="8990011916180280000", min_length=10, max_length=20)
+	ICCID: str = Field(description="SIM card ICCID number.", example="8990011916180280000", min_length=10, max_length=20)
 
 	# Operator Country Code
-	MCC: Optional[int] = Field(default=0, description="Operator country code.", example=286, min=0, max=1000)
+	MCC: Optional[int] = Field(description="Operator country code.", example=286, min=0, max=1000)
 
 	# Operator Code
-	MNC: Optional[int] = Field(default=0, description="Operator code.", example=1, min=0, max=1000)
+	MNC: Optional[int] = Field(description="Operator code.", example=1, min=0, max=1000)
 
 	# RSSI
-	RSSI: Optional[int] = Field(default=0, description="IoT RSSI signal level.", example=28, min=-100, max=100)
+	RSSI: Optional[int] = Field(description="IoT RSSI signal level.", example=28, min=-100, max=100)
 
 	# TAC
-	TAC: Optional[str] = Field(default="0000", description="Operator type allocation code.", example="855E", min_length=3, max_length=5)
+	TAC: Optional[str] = Field(description="Operator type allocation code.", example="855E", min_length=3, max_length=5)
 
 	# LAC
-	LAC: Optional[str] = Field(default="0000", description="Operator base station location.", example="855E", min_length=3, max_length=5)
+	LAC: Optional[str] = Field(description="Operator base station location.", example="855E", min_length=3, max_length=5)
 
 	# Cell ID
-	Cell_ID: Optional[str] = Field(default="0000", description="Operator base station cell id.", example="E678", min_length=3, max_length=5)
+	Cell_ID: Optional[str] = Field(description="Operator base station cell id.", example="E678", min_length=3, max_length=5)
 
 	# IP
-	IP: Optional[str] = Field(default="0.0.0.0", description="IoT IP address.", example="127.0.0.1", min_length=7, max_length=15)
+	IP: Optional[str] = Field(description="IoT IP address.", example="127.0.0.1", min_length=7, max_length=15)
 
 	# Connection Time
-	ConnTime: Optional[int] = Field(default=0, description="IoT connection time.", example=12, min=0, max=100000)
+	ConnTime: Optional[int] = Field(description="IoT connection time.", example=12, min=0, max=100000)
 
 	# Handle Field Names
 	@root_validator(pre=True)
@@ -1043,7 +1043,7 @@ class Payload_WeatherStat(BaseModel):
 class Payload(BaseModel):
 
 	# TimeStamp
-	TimeStamp: str = Field(default="2022-07-19T08:28:32Z", description="Measurement time stamp.", example="2022-07-19T08:28:32Z")
+	TimeStamp: str = Field(description="Measurement time stamp.", example="2022-07-19T08:28:32Z")
 
 	# WeatherStat Payload
 	WeatherStat: Optional[Payload_WeatherStat]

@@ -27,5 +27,8 @@ systemctl restart Handler_Device.service
 # Restart WeatherStat Handler
 systemctl restart Handler_WeatherStat.service
 
+# Update Default Values
+python3 Docs/Data/Data_Update.py
+
 # Change Directory to Root
 cd ~
