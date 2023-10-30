@@ -15,7 +15,7 @@ class Operator(Base):
 	__tablename__ = "Operator"
 
 	# Define Columns
-	Operator_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Operator_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	MCC_ID = Column(Integer, nullable=False)
 	MCC_ISO = Column(String(), nullable=False)
 	MCC_Country_Name = Column(String(), nullable=False)
@@ -46,7 +46,7 @@ class Manufacturer(Base):
 	__tablename__ = "Manufacturer"
 
 	# Define Columns
-	Manufacturer_ID = Column(Integer, primary_key=True, nullable=False)
+	Manufacturer_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Manufacturer = Column(String(), nullable=False)
 
 # Model Database Model
@@ -56,7 +56,7 @@ class Model(Base):
 	__tablename__ = "Model"
 
 	# Define Columns
-	Model_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Model_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Model = Column(String(), nullable=False)
 
 # Modem Database Model
@@ -79,7 +79,7 @@ class Stream(Base):
 	__tablename__ = "Stream"
 
 	# Define Columns
-	Stream_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Stream_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String(), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
 	IMEI = Column(String(), ForeignKey("Modem.IMEI"), nullable=False)
 	ICCID = Column(String(), ForeignKey("SIM.ICCID"), nullable=False)
@@ -96,7 +96,7 @@ class Version(Base):
 	__tablename__ = "Version"
 
 	# Define Columns
-	Version_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Version_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String(), nullable=False)
 	Firmware = Column(String(), nullable=True)
 	Hardware = Column(String(), nullable=True)
@@ -109,7 +109,7 @@ class Device(Base):
 	__tablename__ = "Device"
 
 	# Define Columns
-	Device_ID = Column(String(), primary_key=True, nullable=False)
+	Device_ID = Column(String(), primary_key=True, unique=True, nullable=False)
 	Version_ID = Column(Integer, ForeignKey("Version.Version_ID"), nullable=False)
 	Model_ID = Column(Integer, nullable=False)
 	Status = Column(Boolean, nullable=False)
@@ -122,7 +122,7 @@ class Measurement_Type(Base):
 	__tablename__ = "Measurement_Type"
 
 	# Define Columns
-	Type_ID = Column(Integer, primary_key=True, nullable=False)
+	Type_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
 	Description = Column(String(), nullable=False)
 	Variable = Column(String(), nullable=True)
 	Unit = Column(String(), nullable=True)
@@ -135,7 +135,7 @@ class Parameter(Base):
 	__tablename__ = "Parameter"
 
 	# Define Columns
-	Parameter_ID = Column(Integer, primary_key=True, nullable=False)
+	Parameter_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
 	Stream_ID = Column(Integer, ForeignKey("Stream.Stream_ID", ondelete="CASCADE"), nullable=False)
 	Type_ID = Column(Integer, ForeignKey("Measurement_Type.Type_ID", ondelete="CASCADE"), nullable=False)
 	Value = Column(Float, nullable=True)
@@ -148,7 +148,7 @@ class Measurement_WeatherStat(Base):
 	__tablename__ = "Measurement_WeatherStat"
 
 	# Define Columns
-	Measurement_ID = Column(Integer, primary_key=True, nullable=False)
+	Measurement_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
 	Stream_ID = Column(Integer, ForeignKey("Stream.Stream_ID", ondelete="CASCADE"), nullable=False)
 	Device_ID = Column(String(), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
 	Type_ID = Column(Integer, ForeignKey("Measurement_Type.Type_ID", ondelete="CASCADE"), nullable=False)
@@ -168,7 +168,7 @@ class Settings(Base):
 	__tablename__ = "Settings"
 
 	# Define Columns
-	Settings_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Settings_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String(), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
 	Type_ID = Column(Integer, ForeignKey("Measurement_Type.Type_ID", ondelete="CASCADE"), nullable=False)
 	Value = Column(Integer, nullable=False)
@@ -181,7 +181,7 @@ class RAW_Data(Base):
 	__tablename__ = "RAW_Data"
 
 	# Define Columns
-	RAW_Data_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	RAW_Data_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Client_IP = Column(String, nullable=True)
 	RAW_Data = Column(JSON, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
@@ -193,7 +193,7 @@ class Service_LOG(Base):
 	__tablename__ = "Service_LOG"
 
 	# Define Columns
-	Service_LOG_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Service_LOG_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Service = Column(String(), nullable=False)
 	Status = Column(Boolean, nullable=False, default=False)
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
