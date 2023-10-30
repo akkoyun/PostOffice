@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from pydantic import BaseModel, Field, field_validator, root_validator
+from pydantic import BaseModel, Field, field_validator, root_validator, validator
 from typing import Optional, Dict, List
 import re, ipaddress
 from datetime import datetime
@@ -485,8 +485,7 @@ class Pack_IoT_Operator(BaseModel):
 		return values
 
 	# Value Validator
-	@field_validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime")
-	@classmethod
+	@validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime")
 	def validate_values(cls, value, field):
 		
 		# Get Min and Max Values
@@ -503,8 +502,7 @@ class Pack_IoT_Operator(BaseModel):
 		return value
 
 	# IP Validator
-	@field_validator("IP")
-	@classmethod
+	@validator("IP")
 	def Validate_IP(cls, value):
 
 		# Check IP
