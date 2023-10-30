@@ -49,7 +49,7 @@ class Manufacturer(Base):
 	__tablename__ = "Manufacturer"
 
 	# Define Columns
-	Manufacturer_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+	Manufacturer_ID = Column(Integer, primary_key=True, nullable=False)
 	Manufacturer = Column(String(), nullable=False)
 
 	# Relationship Definition
