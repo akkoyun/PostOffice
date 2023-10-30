@@ -610,13 +610,16 @@ class Pack_IoT_Operator(BaseModel):
 				# Set Value
 				return 9999
 
+			# Return Value
+			return value
+
 		else:
 
-			# Handle the case when value doesn't have a field_info attribute
+			# Handle the case when value does not have a field_info attribute
 			print(f"Unexpected type for value: {type(value)}")
 
-		# Return value as-is if no conditions are met
-		return value
+			# Return Value
+			return None
 
 	# IP Validator
 	@field_validator("IP")

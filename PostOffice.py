@@ -95,9 +95,6 @@ def Root(request: Request):
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
 
-	# Log to Queue
-	Kafka.Send_To_Log_Topic("INFO", f"New Get Request: {request.client.host}")
-
 	# Define DB
 	DB_Module = Database.SessionLocal()
 
