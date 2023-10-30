@@ -41,7 +41,7 @@ def Parse_Topics():
                     IMEI=Kafka_RAW_Message.Device.IoT.GSM.Module.IMEI,
                     ICCID=Kafka_RAW_Message.Device.IoT.GSM.Operator.ICCID,
                     RSSI=Kafka_RAW_Message.Device.IoT.GSM.Operator.RSSI,
-                    Device_ID=RAW_Headers.Device_ID,
+                    Device_IP=RAW_Headers.Device_IP,
                     Connection_Time=Kafka_RAW_Message.Device.IoT.GSM.Operator.ConnTime,
                     Size=RAW_Headers.Size,
                     Create_Date=datetime.now()
