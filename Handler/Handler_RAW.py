@@ -32,6 +32,9 @@ def Parse_Topics():
             if Kafka_RAW_Message is None:
                 continue
 
+            # Set DataStream ID
+            Data_Stream_ID = None
+
             # Record DataStream
             try:
 
