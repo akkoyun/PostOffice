@@ -19,7 +19,7 @@ def Field_Alias(Values: Dict, Field_Alias_List: str, Aliases: List[str], Optiona
 		if Alias in Values:
 
 			# Control for Optional and None
-			if Optional(Values[Alias]) and Values[Alias] is None:
+			if Optional and Values[Alias] is None:
 				continue
 
 			# Set normalized_name
