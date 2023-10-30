@@ -993,24 +993,31 @@ class Payload_WeatherStat_Environment(BaseModel):
 		# Check Value
 		if value is None:
 			return None
+		
+		# Check if value has field_info attribute
+		if hasattr(value, 'field_info'):
+		
+			# Get Min and Max Values
+			Min_Value = value.field_info.extra.get("min")
+			Max_Value = value.field_info.extra.get("max")
 
-		# Get Min and Max Values
-		Min_Value = value.field_info.extra.get("min")
-		Max_Value = value.field_info.extra.get("max")
+			# Check Min Value
+			if Min_Value is not None and value < Min_Value:
 
-		# Check Min Value
-		if Min_Value is not None and value < Min_Value:
-            
-			# Set Value
-			return -9999
+				# Set Value
+				return -9999
 
-		# Check Max Value
-		if Max_Value is not None and value > Max_Value:
-        
-			# Set Value
-			return 9999
+			# Check Max Value
+			if Max_Value is not None and value > Max_Value:
 
-		# Return Value
+				# Set Value
+				return 9999
+		
+		else:
+			# Handle the case when value doesn't have a field_info attribute
+			print(f"Unexpected type for value: {type(value)}")
+
+		# Return value as-is if no conditions are met
 		return value
 
 # WeatherStat Model Definition
