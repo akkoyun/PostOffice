@@ -28,6 +28,9 @@ def Parse_Topics():
             # Decode Message
             Kafka_RAW_Message = Kafka.Decode_RAW_Message(RAW_Message)
 
+            # Define DataStream ID
+            Data_Stream_ID = 0
+
             # Record DataStream
             try:
 
@@ -50,7 +53,7 @@ def Parse_Topics():
                 DB_Module.commit()
 
                 # Get DataStream ID
-                Data_Stream_ID = str(New_Data_Stream.Stream_ID)
+                Data_Stream_ID = New_Data_Stream.Stream_ID
 
             except Exception as e:
                 
