@@ -26,9 +26,6 @@ class Operator(Base):
 	MNC_Operator_Name = Column(String(), nullable=False)
 	MNC_Operator_Image_URL = Column(String(), nullable=True)
 
-	# Relationship Definition
-	Def_SIM = relationship("SIM", backref="Operator")
-
 # SIM Database Model
 class SIM(Base):
 
@@ -37,7 +34,7 @@ class SIM(Base):
 
 	# Define Columns
 	ICCID = Column(String(), primary_key=True, nullable=False)
-	Operator_ID = Column(Integer, ForeignKey('Operator.Operator_ID'), nullable=False)
+	Operator_ID = Column(Integer, ForeignKey("Operator.Operator_ID", ondelete="CASCADE"), nullable=False)
 	GSM_Number = Column(String(), nullable=True)
 	Static_IP = Column(String(), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
@@ -83,9 +80,9 @@ class Stream(Base):
 
 	# Define Columns
 	Stream_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Device_ID = Column(String(), ForeignKey('Device.Device_ID'), nullable=False)
-	IMEI = Column(String(), ForeignKey('Modem.IMEI'), nullable=False)
-	ICCID = Column(String(), ForeignKey('SIM.ICCID'), nullable=False)
+	Device_ID = Column(String(), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
+	IMEI = Column(String(), ForeignKey("Modem.IMEI", ondelete="CASCADE"), nullable=False)
+	ICCID = Column(String(), ForeignKey("SIM.ICCID", ondelete="CASCADE"), nullable=False)
 	RSSI = Column(Integer, nullable=True)
 	TAC = Column(Integer, nullable=True)
 	LAC = Column(Integer, nullable=True)
@@ -108,9 +105,6 @@ class Version(Base):
 	Hardware = Column(String(), nullable=True)
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-	# Relationship Definition
-	Def_Device = relationship("Device", backref="Def_Version")
-
 # Device Database Model
 class Device(Base):
 
@@ -119,7 +113,7 @@ class Device(Base):
 
 	# Define Columns
 	Device_ID = Column(String(), primary_key=True, nullable=False)
-	Version_ID = Column(Integer, ForeignKey('Version.Version_ID'), nullable=False)
+	Version_ID = Column(Integer, ForeignKey("Version.Version_ID"), nullable=False)
 	Model_ID = Column(Integer, nullable=False)
 	Status = Column(Boolean, nullable=False)
 	Create_Date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
@@ -137,10 +131,6 @@ class Measurement_Type(Base):
 	Unit = Column(String(), nullable=True)
 	Segment = Column(Integer, nullable=False)
 
-	# Relationship Definition
-	Def_Measurement_Device = relationship("Parameter", backref="Def_Measurement_Type")
-	Def_Measurement_WeatherStat = relationship("Measurement_WeatherStat", backref="Def_Measurement_Type")
-
 # Parameter Database Model
 class Parameter(Base):
 
@@ -149,8 +139,8 @@ class Parameter(Base):
 
 	# Define Columns
 	Parameter_ID = Column(Integer, primary_key=True, nullable=False)
-	Stream_ID = Column(Integer, ForeignKey('Stream.Stream_ID'), nullable=False)
-	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False)
+	Stream_ID = Column(Integer, ForeignKey("Stream.Stream_ID", ondelete="CASCADE"), nullable=False)
+	Type_ID = Column(Integer, ForeignKey("Measurement_Type.Type_ID", ondelete="CASCADE"), nullable=False)
 	Value = Column(Float, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 
@@ -162,9 +152,9 @@ class Measurement_WeatherStat(Base):
 
 	# Define Columns
 	Measurement_ID = Column(Integer, primary_key=True, nullable=False)
-	Stream_ID = Column(Integer, ForeignKey('Stream.Stream_ID'), nullable=False)
-	Device_ID = Column(String(), ForeignKey('Device.Device_ID'), nullable=False)
-	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False)
+	Stream_ID = Column(Integer, ForeignKey("Stream.Stream_ID", ondelete="CASCADE"), nullable=False)
+	Device_ID = Column(String(), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
+	Type_ID = Column(Integer, ForeignKey("Measurement_Type.Type_ID", ondelete="CASCADE"), nullable=False)
 	Data_Count = Column(Integer, nullable=False)
 	Value = Column(Float, nullable=True)
 	State = Column(Boolean, nullable=True)
@@ -182,8 +172,8 @@ class Settings(Base):
 
 	# Define Columns
 	Settings_ID = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-	Device_ID = Column(String(), ForeignKey('Device.Device_ID'), nullable=False)
-	Type_ID = Column(Integer, ForeignKey('Measurement_Type.Type_ID'), nullable=False)
+	Device_ID = Column(String(), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
+	Type_ID = Column(Integer, ForeignKey("Measurement_Type.Type_ID", ondelete="CASCADE"), nullable=False)
 	Value = Column(Integer, nullable=False)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
