@@ -4,9 +4,27 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from pydantic import BaseModel, Field, field_validator, root_validator
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 import re, ipaddress
 from datetime import datetime
+
+# Define Field Validator
+def Field_Alias(Values: Dict, Field_Alias_List: str, Aliases: List[str]) -> Dict:
+    
+	# Check if normalized_name is in values
+	for Alias in Aliases:
+
+		# Check if alias is in values
+		if Alias in Values:
+
+			# Set normalized_name
+			Values[Field_Alias_List] = Values[Alias]
+            
+			# Break
+			break
+	
+	# Return Values
+	return Values
 
 # Define Status Check Base Model
 # Version 01.00.00
@@ -452,136 +470,16 @@ class Pack_IoT_Operator(BaseModel):
 	def Normalize_Fields(cls, values: Dict) -> Dict:
 		
 		# Set Alias Alternatives
-		Alias_Alternatives_SIM_Type = ["SIM_TYPE", "Sim_Type", "sim_type", "SIMTYPE", "SimType", "simtype", "SIM", "Sim", "sim"]
-		Alias_Alternatives_ICCID = ["ICCID", "Iccid", "iccid"]
-		Alias_Alternatives_MCC = ["MCC", "Mcc", "mcc"]
-		Alias_Alternatives_MNC = ["MNC", "Mnc", "mnc"]
-		Alias_Alternatives_RSSI = ["RSSI", "Rssi", "rssi", "DBM", "dBm", "dbm"]
-		Alias_Alternatives_TAC = ["TAC", "Tac", "tac"]
-		Alias_Alternatives_LAC = ["LAC", "Lac", "lac"]
-		Alias_Alternatives_Cell_ID = ["CELL_ID", "Cell_Id", "cell_id", "CELLID", "CellId", "cellid"]
-		Alias_Alternatives_IP = ["IP", "Ip", "ip"]
-		Alias_Alternatives_ConnTime = ["CONNTIME", "ConnTime", "conntime", "CONNECTION_TIME", "Connection_Time", "connection_time", "CONNECTIONTIME", "ConnectionTime", "connectiontime"]
-
-		# Normalize Sim Type Field
-		for Alias in Alias_Alternatives_SIM_Type:
-
-			# Check ID Field
-			if Alias in values:
-
-				# Set ID Field
-				values["SIM_Type"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize ICCID Field
-		for Alias in Alias_Alternatives_ICCID:
-
-			# Check Hardware Field
-			if Alias in values:
-
-				# Set Hardware Field
-				values["ICCID"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize MCC Field
-		for Alias in Alias_Alternatives_MCC:
-
-			# Check Firmware Field
-			if Alias in values:
-
-				# Set Firmware Field
-				values["MCC"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize MNC Field
-		for Alias in Alias_Alternatives_MNC:
-
-			# Check Firmware Field
-			if Alias in values:
-
-				# Set Firmware Field
-				values["MNC"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize RSSI Field
-		for Alias in Alias_Alternatives_RSSI:
-
-			# Check Firmware Field
-			if Alias in values:
-
-				# Set Firmware Field
-				values["RSSI"] = values[Alias]
-
-				# Break
-				break
-		
-		# Normalize TAC Field
-		for Alias in Alias_Alternatives_TAC:
-
-			# Check Firmware Field
-			if Alias in values:
-
-				# Set Firmware Field
-				values["TAC"] = values[Alias]
-
-				# Break
-				break
-		
-		# Normalize LAC Field
-		for Alias in Alias_Alternatives_LAC:
-
-			# Check Firmware Field
-			if Alias in values:
-
-				# Set Firmware Field
-				values["LAC"] = values[Alias]
-
-				# Break
-				break
-		
-		# Normalize Cell ID Field
-		for Alias in Alias_Alternatives_Cell_ID:
-
-			# Check Firmware Field
-			if Alias in values:
-
-				# Set Firmware Field
-				values["Cell_ID"] = values[Alias]
-
-				# Break
-				break
-
-		# Normalize IP Field
-		for Alias in Alias_Alternatives_IP:
-
-			# Check Firmware Field
-			if Alias in values:
-
-				# Set Firmware Field
-				values["IP"] = values[Alias]
-
-				# Break
-				break
-		
-		# Normalize ConnTime Field
-		for Alias in Alias_Alternatives_ConnTime:
-
-			# Check Firmware Field
-			if Alias in values:
-
-				# Set Firmware Field
-				values["ConnTime"] = values[Alias]
-
-				# Break
-				break
+		Field_Alias(values, "SIM_Type", ["SIM_TYPE", "Sim_Type", "sim_type", "SIMTYPE", "SimType", "simtype", "SIM", "Sim", "sim"])
+		Field_Alias(values, "ICCID", ["ICCID", "Iccid", "iccid"])
+		Field_Alias(values, "MCC", ["MCC", "Mcc", "mcc"])
+		Field_Alias(values, "MNC", ["MNC", "Mnc", "mnc"])
+		Field_Alias(values, "RSSI", ["RSSI", "Rssi", "rssi", "DBM", "dBm", "dbm"])
+		Field_Alias(values, "TAC", ["TAC", "Tac", "tac"])
+		Field_Alias(values, "LAC", ["LAC", "Lac", "lac"])
+		Field_Alias(values, "Cell_ID", ["CELL_ID", "Cell_Id", "cell_id", "CELLID", "CellId", "cellid"])
+		Field_Alias(values, "IP", ["IP", "Ip", "ip"])
+		Field_Alias(values, "ConnTime", ["CONNTIME", "ConnTime", "conntime", "CONNECTION_TIME", "Connection_Time", "connection_time", "CONNECTIONTIME", "ConnectionTime", "connectiontime"])
 
 		# Return values
 		return values
@@ -589,37 +487,20 @@ class Pack_IoT_Operator(BaseModel):
 	# Value Validator
 	@field_validator("SIM_Type", "MCC", "MNC", "RSSI", "ConnTime")
 	@classmethod
-	def Validate_Values(cls, value):
+	def validate_values(cls, value, field):
 		
-		# Check if value has field_info attribute
-		if hasattr(value, 'field_info'):
-		
-			# Get Min and Max Values
-			Min_Value = value.field_info.extra.get("min")
-			Max_Value = value.field_info.extra.get("max")
-			
-			# Check Min Value
-			if Min_Value is not None and value < Min_Value:
+		# Get Min and Max Values
+		min_value = field.field_info.extra.get("min")
+		max_value = field.field_info.extra.get("max")
 
-				# Set Value
-				return -9999
+		# Check Min Value
+		if min_value is not None and value < min_value:
+			raise ValueError(f"{field.alias} should be greater than or equal to {min_value}")
 
-			# Check Max Value
-			if Max_Value is not None and value > Max_Value:
+		if max_value is not None and value > max_value:
+			raise ValueError(f"{field.alias} should be less than or equal to {max_value}")
 
-				# Set Value
-				return 9999
-
-			# Return Value
-			return value
-
-		else:
-
-			# Handle the case when value does not have a field_info attribute
-			print(f"Unexpected type for value: {type(value)}")
-
-			# Return Value
-			return None
+		return value
 
 	# IP Validator
 	@field_validator("IP")
