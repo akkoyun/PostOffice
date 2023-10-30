@@ -28,9 +28,6 @@ def Parse_Topics():
             # Decode Message
             Kafka_RAW_Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-            # Set DataStream ID
-            Data_Stream_ID = None
-
             # Record DataStream
             try:
 
