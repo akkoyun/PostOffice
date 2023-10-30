@@ -28,10 +28,6 @@ def Parse_Topics():
             # Decode Message
             Kafka_RAW_Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-            # Control for Decoded Message
-            if Kafka_RAW_Message is None:
-                continue
-
             # Set DataStream ID
             Data_Stream_ID = None
 
@@ -58,16 +54,12 @@ def Parse_Topics():
 
                 # Get DataStream ID
                 Data_Stream_ID = str(New_Data_Stream.Stream_ID)
-                
+
             except Exception as e:
                 
                 # Log Message
                 print(f"An error occurred while adding DataStream: {e}")
-
-            # Control for DataStream ID
-            if Data_Stream_ID is None:
-                continue
-            
+    
             # Commit Kafka Consumer
             Kafka.Kafka_RAW_Consumer.commit()
 
