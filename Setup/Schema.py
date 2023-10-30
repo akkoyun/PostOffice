@@ -480,7 +480,7 @@ class Payload(BaseModel):
 class Data_Pack_Model(BaseModel):
 
 	# Define Command
-	Command: str = Field(default="", description="Pack command.", example="Demo:PowerStat.Online")
+	Command: str = Field(description="Pack command.", example="Demo:PowerStat.Online")
 
 	# Device
 	Device: Optional[Pack_Device]
