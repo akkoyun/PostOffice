@@ -21,8 +21,8 @@ async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
 
 	# Set Headers
 	Headers = {
-		"Client_IP": request.client.host,
-		"RAW_Data": await request.json()
+		"Client_IP": "22",
+		"RAW_Data": "11"
 	}
 
 	# Send to Kafka Topic
