@@ -1,12 +1,12 @@
 # Library Includes
-from Functions import Kafka, Log
-from Setup import Database, Models
+from Functions import Log
+from Setup import Database
 from sqlalchemy import event
 
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from Routers import WeatherStat, PowerStat
+from Routers import WeatherStat
 from datetime import datetime
 
 # After Table Create Event
