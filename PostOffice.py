@@ -11,9 +11,18 @@ from datetime import datetime
 
 # After Table Create Event
 def After_Create_Table(Target, Connection, **kw):
-	
-	# Log Message
-	Log.Terminal_Log("INFO", f"Table Created: {Target.__tablename__}")
+
+	# Get Tables
+	tables = kw.get('tables', None)
+
+	# Control Tables
+	if tables:
+        
+		# Get Table Names
+		table_names = [table.name for table in tables]
+        
+		# Log Message
+		Log.Terminal_Log("INFO", f"Tables Created: {', '.join(table_names)}")
 
 # Listeners
 event.listen(Database.Base.metadata, 'after_create', After_Create_Table)
