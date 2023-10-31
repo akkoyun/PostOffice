@@ -22,7 +22,7 @@ def Send_Error(excp):
 	Log.Terminal_Log("ERROR", f"Kafka Send Error: {excp}")
 
 # Send to Topic
-def Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
+def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
 
     # Define Retry Counter
     Retries = 0
@@ -33,7 +33,7 @@ def Send_To_Topic(topic, value, headers, max_retries=3, delay=5):
         try:
 
             # Send Message to Queue
-            Kafka_Producer.send(topic, value=value, headers=headers).add_callback(Send_Success).add_errback(Send_Error)
+            Kafka_Producer.send(topic, value=value).add_callback(Send_Success).add_errback(Send_Error)
 
             # Break Loop
             return
