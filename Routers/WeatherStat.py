@@ -28,8 +28,10 @@ async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
 		request.headers['content-length']
 	)
 
+	Value = {"Test":1}
+
 	# Send to Kafka Topic
-	Kafka.Send_To_Topic("RAW", Headers, Headers)
+	Kafka.Send_To_Topic("RAW", Value, Headers)
 
 	# Send Success
 	return JSONResponse(
