@@ -22,7 +22,7 @@ Service_Logger = logging.getLogger('Service_Logger')
 coloredlogs.install(level='DEBUG', logger=Service_Logger)
 
 # Set Log File
-logging.basicConfig(filename=APP_Settings.POSTOFFICE_LOG_FILE, level=logging.INFO, format='%(message)s')
+logging.basicConfig(filename=APP_Settings.LOG_FILE, level=logging.INFO, format='%(message)s')
 
 # Set Log Format
 Log_Format = "%(asctime)s PostOffice %(message)s"
