@@ -21,9 +21,9 @@ async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
 
 	# Set Headers
 	Headers = Kafka.Parse_Topic_Header(
-		str(Data.Info.Command),
-		str(Data.Info.ID),
-		str(Data.Info.TimeStamp),
+		Data.Info.Command,
+		Data.Info.ID,
+		Data.Info.TimeStamp,
 		request.client.host,
 		request.headers['content-length']
 	)
@@ -33,7 +33,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
 
 
 	# Send to Kafka Topic
-	Kafka.Send_To_Topic("RAW", Headers, Headers)
+#	Kafka.Send_To_Topic("RAW", Headers, Headers)
 
 	# Send Success
 	return JSONResponse(
