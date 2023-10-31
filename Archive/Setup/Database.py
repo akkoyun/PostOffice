@@ -1,15 +1,15 @@
-# Setup Root Path
+# Setup Library
 import sys
 sys.path.append('/root/PostOffice/')
 
 # Import Packages
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from Setup.Config import APP_Settings
 
 # Define Database Connection
-SQLALCHEMY_DATABASE_URL = f'postgresql://{APP_Settings.DB_USERNAME}:{APP_Settings.DB_PASSWORD}@{APP_Settings.DB_HOSTNAME}:{APP_Settings.DB_PORT}/{APP_Settings.DB_NAME}?sslmode=require'
+SQLALCHEMY_DATABASE_URL = f'postgresql://{APP_Settings.POSTOFFICE_DB_USERNAME}:{APP_Settings.POSTOFFICE_DB_PASSWORD}@{APP_Settings.POSTOFFICE_DB_HOSTNAME}:{APP_Settings.POSTOFFICE_DB_PORT}/{APP_Settings.POSTOFFICE_DB_NAME}?sslmode=require'
 
 # Create Database Engine
 DB_Engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_size=20, max_overflow=0)

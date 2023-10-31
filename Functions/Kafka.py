@@ -1,6 +1,7 @@
 # Library Includes
+from Functions import Log
 from Setup.Config import APP_Settings
-from Setup import Schema, Log
+from Setup import Schema
 from kafka import KafkaConsumer, KafkaProducer
 import json
 from datetime import datetime

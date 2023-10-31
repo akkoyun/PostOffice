@@ -1,5 +1,6 @@
 # Library Includes
-from Setup import Database, Models, Log, Schema
+from Functions import Log
+from Setup import Database, Models, Schema
 from fastapi import status, APIRouter, WebSocket, WebSocketDisconnect
 from starlette.websockets import WebSocket
 import json

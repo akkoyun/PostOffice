@@ -1,26 +1,41 @@
-# Setup Library
+# Setup Root Path
 import sys
 sys.path.append('/root/PostOffice/')
 
-# Import Libraries
+# Import Packages
 from pydantic import BaseSettings
 
 # Define Setting
 class Settings(BaseSettings):
 
 	# Logging Settings
-	POSTOFFICE_LOG_FILE: str
+	LOG_FILE: str
 
 	# Database Settings
-	POSTOFFICE_DB_HOSTNAME: str
-	POSTOFFICE_DB_PORT: str
-	POSTOFFICE_DB_PASSWORD: str
-	POSTOFFICE_DB_NAME: str
-	POSTOFFICE_DB_USERNAME: str
+	DB_HOSTNAME: str
+	DB_PORT: str
+	DB_PASSWORD: str
+	DB_NAME: str
+	DB_USERNAME: str
 
 	# Kafka Settings
-	POSTOFFICE_KAFKA_HOSTNAME: str
-	POSTOFFICE_KAFKA_PORT: int
+	KAFKA_HOSTNAME: str
+	KAFKA_PORT: int
+
+	# Kafka Topics
+	KAFKA_TOPIC_RAW: str
+
+	# File Settings
+	FILE_MANUFACTURER: str
+	FILE_MODEL: str
+	FILE_GSM_OPERATOR: str
+	FILE_SIM: str
+	FILE_MODEM: str
+	FILE_DATA_SEGMENT: str
+	FILE_MEASUREMENT_TYPE: str
+	FILE_VERSION: str
+	FILE_STATUS: str
+	FILE_DEVICE: str
 
 	# Load env File
 	class Config:

@@ -1,9 +1,10 @@
 # Setup Library
 import sys
+from Functions import Log
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models, Log, Schema
+from Setup import Database, Models, Schema
 from datetime import datetime
 from sqlalchemy import and_
 
@@ -46,6 +47,105 @@ class Full_Headers:
         self.Device_IP = device_ip
         self.Size = size
         self.Data_Stream_ID = data_stream_id
+
+
+
+
+# Device Control Function
+def Device_Control(Device_ID: str, Hardware_Version: str, Firmware_Version: str):
+    
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Database Device Table Query
+    Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+    # Device Not Found
+    if not Query_Device:
+
+        # Database Version Table Query
+        Query_Version_Table = DB_Module.query(Models.Version).filter(and_(Models.Version.Device_ID.like(Device_ID), Models.Version.Version_Firmware.like(Firmware_Version), Models.Version.Version_Hardware.like(Hardware_Version))).first()
+
+        # Declare Version ID
+        Version_ID = None
+
+        # Version Not Found
+        if not Query_Version_Table:
+
+            # Create New Version
+            New_Version = Models.Version(
+                    Device_ID = Device_ID,
+                    Firmware = Firmware_Version,
+                    Hardware = Hardware_Version
+            )
+
+            # Add Record to DataBase
+            DB_Module.add(New_Version)
+
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Refresh DataBase
+            DB_Module.refresh(New_Version)
+
+            # Get Version ID
+            Version_ID = New_Version.Version_ID
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Device Version Added: [{Firmware_Version} - {Hardware_Version}]")
+
+        # Version Found
+        else:
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Device Version Not Changed.")
+
+        # Get Version ID
+        Version_ID = Query_Version_Table.Version_ID
+
+        # Create New Device
+        New_Device = Models.Device(
+                Device_ID = Device_ID,
+                Version_ID = Version_ID,
+                Model_ID = 0,
+                Status = False,
+        )
+
+        # Add Record to DataBase
+        DB_Module.add(New_Device)
+
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Refresh DataBase
+        DB_Module.refresh(New_Device)
+
+        # Log Message
+        Log.Terminal_Log("INFO", f"New Device Added: {Device_ID}")
+
+    # Close Database
+    DB_Module.close()
+
+# Model Control Function
+def Model_Control(IMEI: str, Modem_Firmware: str):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Database Device Table Query
+    Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Handle Incomming Headers
 def Handle_Headers(message):
