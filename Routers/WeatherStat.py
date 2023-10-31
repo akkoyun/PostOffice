@@ -19,8 +19,14 @@ async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")
 
+	# Set Headers
+	Headers = {
+		"Client_IP": request.client.host,
+		"RAW_Data": await request.json()
+	}
+
 	# Send to Kafka Topic
-	Kafka.Send_To_Topic(f"{APP_Settings.KAFKA_TOPIC_RAW}", Data.json())
+	Kafka.Send_To_Topic(f"{APP_Settings.KAFKA_TOPIC_RAW}", Data.json(), Headers)
 
 	# Send Success
 	return JSONResponse(
