@@ -33,7 +33,7 @@ def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
         try:
 
             # Send Message to Queue
-            Kafka_Producer.send(topic, value=value).add_callback(Send_Success).add_errback(Send_Error)
+            Kafka_Producer.send(topic, value=value, headers=headers).add_callback(Send_Success).add_errback(Send_Error)
 
             # Break Loop
             return
@@ -51,4 +51,29 @@ def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
 
     # Log Message
     Log.Terminal_Log("INFO", f"Failed to send message to {topic} after {max_retries} attempts.")
+
+# Parse Headers
+def Parse_Topic_Header(Command, Device_ID, Device_Time, Device_IP, Pack_Size):
+
+    try:
+
+        # Set headers
+        RAW_Header = [
+            ('Command', bytes(Command, 'utf-8')), 
+            ('Device_ID', bytes(Device_ID, 'utf-8')),
+            ('Device_Time', bytes(Device_Time, 'utf-8')), 
+            ('Device_IP', bytes(Device_IP, 'utf-8')),
+            ('Size', bytes(Pack_Size, 'utf-8')),
+        ]
+
+        # Return Kafka Header
+        return RAW_Header
+
+    except Exception as e:
+
+        # Log Message
+        print(f"An error occurred while setting RAW topic headers: {e}")
+        
+        # Return None
+        return None
 

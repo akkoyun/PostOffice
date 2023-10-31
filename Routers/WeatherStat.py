@@ -20,10 +20,17 @@ async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")
 
 	# Set Headers
-	Headers = {
-		"Client_IP": "22",
-		"RAW_Data": "11"
-	}
+	Headers = Kafka.Parse_Topic_Header(
+		str(Data.Info.Command),
+		str(Data.Info.ID),
+		str(Data.Info.TimeStamp),
+		request.client.host,
+		request.headers['content-length']
+	)
+
+	print(Headers)
+
+
 
 	# Send to Kafka Topic
 	Kafka.Send_To_Topic("RAW", Headers, Headers)
