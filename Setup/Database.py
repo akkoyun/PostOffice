@@ -29,9 +29,6 @@ def Create_Database():
 	# Create Tables
 	try:
 
-		# Create Tables
-		Base.metadata.create_all(bind=DB_Engine)
-
 		# Commit Database
 		yield db
 

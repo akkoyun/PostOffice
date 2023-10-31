@@ -2,7 +2,7 @@
 from Functions import Kafka, Log
 from Setup import Database, Models
 from sqlalchemy import event
-from Docs.Data import Data_Update
+from Setup import Data_Update
 
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError

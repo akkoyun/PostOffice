@@ -1,66 +1,46 @@
 {
-    "Command": "STF:WeatherStat.Timed",
+    "Info": {
+        "Command": "Timed",
+        "TimeStamp": "2023-10-16T08:21:12Z",
+        "ID": "A10000011D02E000",
+        "Firmware": "03.00.01"
+    },
     "Device": {
-        "Info": {
-            "ID": "A10000011D02E970",
-            "Hardware": "03.00.00",
-            "Firmware": "03.00.00"
-        },
         "Power": {
-            "Battery": {
-                "AC": -178.9063,
-                "FB": 2000,
-                "IB": 500,
-                "IV": 3.828906,
-                "SOC": 37.59766,
-                "T": 22,
-                "Charge": 19
-            }
+            "B_IV": 3.844063,
+            "B_AC": -183.5938,
+            "B_FC": 2000,
+            "B_IC": 500,
+            "B_SOC": 38.08594,
+            "B_T": 22.2,
+            "B_CS": 2
         },
         "IoT": {
-            "GSM": {
-                "Module": {
-                    "Firmware": "13.00.007",
-                    "IMEI": "353613080390704",
-                    "Manufacturer": 1,
-                    "Model": 1,
-                    "Serial": "0001842706"
-                },
-                "Operator": {
-                    "Iccid": "8990011936290169354",
-                    "IP": "5.26.157.148",
-                    "Code": 28601,
-                    "RSSI": 4,
-                    "ConnTime": 51,
-                    "LAC": "855E",
-                    "Cell_ID": "CCF3"
-                }
-            }
+            "Firmware": "13.00.009",
+            "IMEI": "353613080390704",
+            "ICCID": "899001193629016926",
+            "RSSI": 7,
+            "ConnTime": 15,
+            "TAC": 34142,
+            "LAC": 34142,
+            "Cell_ID": 52467
         }
     },
     "Payload": {
-        "TimeStamp": "2023-10-16 09:22:17",
-        "WeatherStat": {
-            "Event": 111,
-            "Location": {
-                "Latitude": 37.96423,
-                "Longitude": 32.60021
-            },
-            "Environment": {
-                "AT": -40,
-                "AH": 0,
-                "AP": -102,
-                "UV": 0,
-                "ST": [
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                "R": 0,
-                "WD": 267,
-                "WS": 0.176582
-            }
-        }
+        "Latitude": 37.96423,
+        "Longitude": 32.60021,
+        "AT": -40,
+        "AH": 0,
+        "AP": -102,
+        "UV": 0,
+        "ST": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "R": 0,
+        "WD": 280,
+        "WS": 0.196432
     }
 }

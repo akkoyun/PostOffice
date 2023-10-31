@@ -6,7 +6,7 @@ sys.path.append('/root/PostOffice/')
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-from .Database import Base
+from Setup.Database import Base
 
 # [A] Model Database Model
 class Model(Base):
@@ -41,8 +41,8 @@ class Modem(Base):
 	Firmware = Column(String(), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-# [D] Operator Database Model
-class Operator(Base):
+# [D] GSM_Operator Database Model
+class GSM_Operator(Base):
 
 	# Define Table Name
 	__tablename__ = "GSM_Operator"
@@ -67,7 +67,7 @@ class SIM(Base):
 
 	# Define Columns
 	ICCID = Column(String(), primary_key=True, unique=True, nullable=False)
-	Operator_ID = Column(Integer, ForeignKey("Operator.Operator_ID", ondelete="CASCADE"), nullable=False)
+	Operator_ID = Column(Integer, ForeignKey("GSM_Operator.Operator_ID", ondelete="CASCADE"), nullable=False)
 	GSM_Number = Column(String(), nullable=True)
 	Static_IP = Column(String(), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
