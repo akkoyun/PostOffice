@@ -26,7 +26,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
 	}
 
 	# Send to Kafka Topic
-	Kafka.Send_To_Topic(f"{APP_Settings.KAFKA_TOPIC_RAW}", Headers, Headers)
+	Kafka.Send_To_Topic("RAW", Headers, Headers)
 
 	# Send Success
 	return JSONResponse(
