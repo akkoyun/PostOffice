@@ -1,31 +1,11 @@
 # Library Includes
 from Functions import Log
 from Setup import Database
-from sqlalchemy import event
-
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from Routers import WeatherStat
 from datetime import datetime
-
-# After Table Create Event
-def After_Create_Table(Target, Connection, **kw):
-
-	# Get Tables
-	tables = kw.get('tables', None)
-
-	# Control Tables
-	if tables:
-        
-		# Get Table Names
-		table_names = [table.name for table in tables]
-        
-		# Log Message
-		Log.Terminal_Log("INFO", f"Tables Created: {', '.join(table_names)}")
-
-# Listeners
-event.listen(Database.Base.metadata, 'after_create', After_Create_Table)
 
 # Create DB Models
 Database.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True) 
