@@ -29,7 +29,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
 	)
 
 	# Send to Kafka Topic
-	await Kafka.Send_To_Topic("RAW", Data.json(), Headers)
+	Kafka.Send_To_Topic("RAW", Data.json(), Headers)
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"****************************************")
