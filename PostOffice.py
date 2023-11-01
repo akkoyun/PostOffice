@@ -8,6 +8,7 @@ from Routers import WeatherStat
 from datetime import datetime
 from sqlalchemy import MetaData, inspect
 from Setup import Data_Update
+import os
 
 # Update Database Inspector
 DB_Inspector = inspect(Database.DB_Engine)
@@ -25,9 +26,14 @@ PostOffice = FastAPI(version="02.00.00", title="PostOffice")
 @PostOffice.on_event("startup")
 async def Startup_Event():
 
+	# Get Worker ID
+	Worker_Index = int(os.getpid())
+
 	# Log Message
-	Log.Terminal_Log("DEBUG", f"PostOffice API Started {datetime.now()}")
+	Log.Terminal_Log("DEBUG", f"PostOffice API Started {datetime.now()} - Worker ID: {Worker_Index}")
 	Log.Terminal_Log("DEBUG", f"*************************************************")
+
+	
 
 	# Update Database Inspector
 	DB_Inspector = inspect(Database.DB_Engine)

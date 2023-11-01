@@ -4,7 +4,6 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Models
-from Functions import Log
 from datetime import datetime
 
 # Control for Device in Database
