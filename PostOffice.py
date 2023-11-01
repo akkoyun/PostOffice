@@ -33,7 +33,7 @@ async def Startup_Event():
 	global DB_Worker
 
 	# Log Message
-	Log.Terminal_Log("DEBUG", f"PostOffice API Started {datetime.now()} - {os.environ['DB_WORKER']}")
+	Log.Terminal_Log("DEBUG", f"PostOffice API Started {datetime.now()} - {DB_Worker}")
 	Log.Terminal_Log("DEBUG", f"*************************************************")
 
 	# Control for DB_Worker
