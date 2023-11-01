@@ -185,4 +185,50 @@ def Control_Modem(IMEI: str):
     # Return Modem Status
     return Modem_Status
 
+# Control for SIM in Database
+def Control_SIM(ICCID: str):
+
+    # Define SIM Status
+    SIM_Status = False
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control SIM in Database
+    Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.ICCID.like(ICCID)).first()
+
+    # Version not in Database
+    if not Query_SIM:
+
+        # Create New SIM
+        New_SIM = Models.SIM(
+            ICCID = ICCID,
+            Operator_ID = 0,
+            GSM_Number = None,
+            Static_IP = None
+        )
+
+        # Add Record to DataBase
+        DB_Module.add(New_SIM)
+
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Refresh DataBase
+        DB_Module.refresh(New_SIM)
+
+        # Set SIM Status
+        SIM_Status = True
+
+    # Version in Database
+    else:
+
+        # Set Modem Status
+        SIM_Status = False
+
+    # Close Database
+    DB_Module.close()
+
+    # Return SIM Status
+    return SIM_Status
 

@@ -40,6 +40,9 @@ try:
         # Control for Modem
         Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI)
 
+        # Control for SIM
+        SIM_Existance = Handler.Control_SIM(Message.Device.IoT.ICCID)
+
         # Device Found
         if Device_Existance:
 
@@ -80,6 +83,7 @@ try:
         # Log Message
         Log.Terminal_Log("INFO", f"Version Detail: [{Version_ID} - {Message.Info.Firmware}]")
         Log.Terminal_Log("INFO", f"New Modem : {Modem_Existance}")
+        Log.Terminal_Log("INFO", f"New SIM : {SIM_Existance}")
 
 
 
