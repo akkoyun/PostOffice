@@ -209,8 +209,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 	# Create New Stream
 	New_Stream = Models.Stream(
-		Device_ID = "Bad Request",
-		ICCID = "Bad Request",
+		Device_ID = "0",
+		ICCID = "0",
 		Client_IP = request.client.host,
 		Size = request.headers['content-length'],
 		RAW_Data = request.body,
