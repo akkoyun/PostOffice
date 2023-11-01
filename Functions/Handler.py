@@ -90,21 +90,10 @@ def Update_Version(Device_ID: str, Version_ID: int):
     Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
     # Device not in Database
-    if not Query_Device:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Device Not in Database : {Device_ID}")
-
-    # Device in Database
-    else:
+    if Query_Device:
 
         # Control for Version
-        if Query_Device.Version_ID == Version_ID:
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"Device Version is Up to Date : {Device_ID}")
-
-        else:
+        if Query_Device.Version_ID != Version_ID:
 
             # Update Device Version
             Query_Device.Version_ID = Version_ID
@@ -114,9 +103,6 @@ def Update_Version(Device_ID: str, Version_ID: int):
 
     # Close Database
     DB_Module.close()
-
-    # Return Version_ID
-    return Version_ID
 
 # Control for Modem in Database
 def Control_Modem(IMEI: str):
