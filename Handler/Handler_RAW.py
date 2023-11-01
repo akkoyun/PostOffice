@@ -38,7 +38,7 @@ try:
         Version_ID = Handler.Control_Version(RAW_Headers.Device_ID, Message.Info.Firmware)
 
         # Control for Modem
-        Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI)
+        Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
         # Control for SIM
         SIM_Existance = Handler.Control_SIM(Message.Device.IoT.ICCID)
