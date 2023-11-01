@@ -338,8 +338,8 @@ class WeatherStat_Payload(BaseModel):
 	# Latitude Value of Device
 	Latitude: Optional[float] = Field(description="GNSS lattitude value.", example=1.243242342, min=-360, max=360)
 
-	# Longtitude Value of Device
-	Longtitude: Optional[float] = Field(description="GNSS longtitude value.", example=23.3213232, min=-360, max=360)
+	# Longitude Value of Device
+	Longitude: Optional[float] = Field(description="GNSS longitude value.", example=23.3213232, min=-360, max=360)
     
 	# Last Measured Air Temperature Value
 	AT: Optional[float] = Field(description="Air temperature.", example=28.3232, min=-50.0, max=100.0)
