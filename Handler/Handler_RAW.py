@@ -89,18 +89,21 @@ try:
         Topics_And_Values = [
 
             # Device Parameter Info
-            ("Pack.Parameter", Message.dict()),
+            ("Pack.Parameter", Message.json()),
 
             # Device Payload
-            ("Pack.WeatherStat", Message.Payload.dict())
+            ("Pack.WeatherStat", Message.Payload.json())
 
         ]
 
         # Send to Topic
         for Topic, Value in Topics_And_Values:
-            
+
+            # Send to Kafka Topic
+            Kafka.Send_To_Topic(str(Topic), Value, RAW_Headers)
+
             # Send to Topic
-            Kafka.Send_To_Topic(Topic, Value, RAW_Headers)
+#            Kafka.Send_To_Topic(Topic, Value, RAW_Headers)
 
         # Log Message
         Log.Terminal_Log("INFO", f"***********************************************************************************")
