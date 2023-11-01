@@ -36,27 +36,6 @@ class Info(BaseModel):
 		# Return Command
 		return command if command in Allowed_Commands else "Unknown"
 
-	# Timestamp Validator
-	@validator("TimeStamp", pre=True, always=True)
-	def Validate_Timestamp(cls, timestamp):
-
-		# Check Timestamp
-		try:
-
-			# Convert Timestamp
-			datetime.fromisoformat(timestamp)
-
-			# Return Timestamp
-			return timestamp
-		
-		except ValueError:
-
-			# Return Default Timestamp
-			Default_Timestamp = datetime.utcnow().isoformat() + "Z"
-
-			# Return Default Timestamp
-			return Default_Timestamp
-
 	# Device ID Validator
 	@validator('ID', pre=True, always=True)
 	def ID_Validator(cls, ID_Value):
