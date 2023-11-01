@@ -43,12 +43,19 @@ try:
         # Control for Version at Device
         Handler.Update_Version(RAW_Headers.Device_ID, Version_ID)
 
+        # Control for Modem
+        Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI)
+
+
+
+
 
 
 
         # Log Message
         Log.Terminal_Log("INFO", f"Device Existance : {Device_Existance}")
-        Log.Terminal_Log("INFO", f"Device Version Added: [{Version_ID} - {Message.Info.Firmware}]")
+        Log.Terminal_Log("INFO", f"Version Detail: [{Version_ID} - {Message.Info.Firmware}]")
+        Log.Terminal_Log("INFO", f"New Modem : {Modem_Existance}")
 
 
 

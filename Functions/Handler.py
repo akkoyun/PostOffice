@@ -120,3 +120,52 @@ def Update_Version(Device_ID: str, Version_ID: int):
 
     # Return Version_ID
     return Version_ID
+
+# Control for Modem in Database
+def Control_Modem(IMEI: str):
+
+    # Define Modem Status
+    Modem_Status = False
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control Modem in Database
+    Query_Modem = DB_Module.query(Models.Modem).filter(Models.Modem.IMEI.like(IMEI)).first()
+
+    # Version not in Database
+    if not Query_Modem:
+
+        # Create New Modem
+        New_Modem = Models.Modem(
+            IMEI = IMEI,
+            Model_ID = 0,
+            Manufacturer_ID = 0,
+            Firmware = None,
+        )
+
+        # Add Record to DataBase
+        DB_Module.add(New_Modem)
+
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Refresh DataBase
+        DB_Module.refresh(New_Modem)
+
+        # Set Modem Status
+        Modem_Status = True
+
+    # Version in Database
+    else:
+
+        # Set Modem Status
+        Modem_Status = False
+
+    # Close Database
+    DB_Module.close()
+
+    # Return Modem Status
+    return Modem_Status
+
+
