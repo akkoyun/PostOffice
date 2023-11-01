@@ -37,8 +37,15 @@ try:
         # Control For Device ID
         Device_Existance = Handler.Control_Device_Table(RAW_Headers.Device_ID)
 
+        # Control for Version
+        Version_ID = Handler.Control_Version_Table(Message.Info.Firmware)
+
+
+
+
         # Log Message
         Log.Terminal_Log("INFO", f"Device Existance : {Device_Existance}")
+        Log.Terminal_Log("INFO", f"Device Version Added: [{Version_ID} - {Message.Info.Firmware}]")
 
 
 
