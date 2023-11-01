@@ -71,7 +71,7 @@ try:
             ICCID = Message.Device.IoT.ICCID,
             Client_IP = RAW_Headers.Device_IP,
             Size = RAW_Headers.Size,
-            RAW_Data = str(Message.json()),
+            RAW_Data = Message.json(),
             Device_Time = RAW_Headers.Device_Time,
             Stream_Time = datetime.now()
         )
