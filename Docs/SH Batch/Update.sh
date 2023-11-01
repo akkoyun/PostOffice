@@ -19,16 +19,13 @@ systemctl daemon-reload
 systemctl restart PostOffice.service
 
 # Restart RAW Handler
-systemctl restart Handler_RAW.service
+#systemctl restart Handler_RAW.service
 
 # Restart Device Handler
-systemctl restart Handler_Device.service
+#systemctl restart Handler_Device.service
 
 # Restart WeatherStat Handler
-systemctl restart Handler_WeatherStat.service
-
-# Update Default Values
-python3 Docs/Data/Data_Update.py
+#systemctl restart Handler_WeatherStat.service
 
 # Change Directory to Root
 cd ~

@@ -394,7 +394,7 @@ class WeatherStat_Payload(BaseModel):
 
 # Define IoT RAW Data Base Model
 # WeatherStat Model Version 01.03.00
-class WeatherStat(BaseModel):
+class Data_Pack(BaseModel):
 
 	# Info
 	Info: Info

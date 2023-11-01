@@ -7,14 +7,13 @@ from fastapi import Request, status, APIRouter
 from fastapi.responses import JSONResponse
 from Setup import Schema
 from Functions import Log, Kafka
-from Setup.Config import APP_Settings
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
 
 # IoT Post Method
 @PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
-async def WeatherStat_POST(request: Request, Data: Schema.WeatherStat):
+async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")

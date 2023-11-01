@@ -25,6 +25,9 @@ class Settings(BaseSettings):
 	# Kafka Topics
 	KAFKA_TOPIC_RAW: str
 
+	# Kafka Consumer Group
+	KAFKA_CONSUMER_GROUP: str
+
 	# File Settings
 	FILE_MANUFACTURER: str
 	FILE_MODEL: str
