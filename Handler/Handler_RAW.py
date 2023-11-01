@@ -101,6 +101,9 @@ try:
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()
 
+        # Log Message
+        Log.Terminal_Log("INFO", f"***********************************************************************************")
+
 finally:
 
     # Log Message
@@ -108,7 +111,3 @@ finally:
 
     # Close Database
     DB_Module.close()
-
-# Log Message
-Log.Terminal_Log("INFO", f"***********************************************************************************")
-
