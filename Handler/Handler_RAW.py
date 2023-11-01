@@ -72,8 +72,7 @@ try:
             Client_IP = RAW_Headers.Device_IP,
             Size = RAW_Headers.Size,
             RAW_Data = Message.json(),
-            Device_Time = RAW_Headers.Device_Time,
-            Stream_Time = datetime.now()
+            Device_Time = Message.Info.TimeStamp
         )
 
         # Add Stream to DataBase
