@@ -31,17 +31,47 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
+        # Control for Device
+        Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)
+
         # Control for Version
         Version_ID = Handler.Control_Version(RAW_Headers.Device_ID, Message.Info.Firmware)
-
-        # Control for Version at Device
-        Handler.Update_Version(RAW_Headers.Device_ID, Version_ID)
 
         # Control for Modem
         Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI)
 
-        # Add Device
-        Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
+        # Device Found
+        if Device_Existance:
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Device Found")
+
+            # Control for Version at Device
+            Handler.Update_Version(RAW_Headers.Device_ID, Version_ID)
+
+        # Device Not Found
+        else:
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Device Not Found")
+
+            # Add Device
+            Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -53,7 +83,8 @@ try:
 
 
 
-
+        # Log Message
+        Log.Terminal_Log("INFO", f"****************************************")
 
 
 
