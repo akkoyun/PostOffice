@@ -85,12 +85,28 @@ try:
         # Refresh DataBase
         DB_Module.refresh(New_Stream)
 
+        # Set Topics and Values
+        Topics_And_Values = [
+
+            # Device Parameter Info
+            ("Pack.Parameter", Message.dict()),
+
+            # Device Payload
+            ("Pack.WeatherStat", Message.Payload.dict())
+
+        ]
+
+        # Send to Topic
+        for Topic, Value in Topics_And_Values:
+            
+            # Send to Topic
+            Kafka.Send_To_Topic(Topic, Value, RAW_Headers)
+
         # Log Message
         Log.Terminal_Log("INFO", f"***********************************************************************************")
 
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()
-
 
 finally:
 
