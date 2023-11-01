@@ -37,7 +37,7 @@ def Control_Device(Device_ID: str):
     return Device_Status
 
 # Control for Version in Database
-def Control_Version(Version: str):
+def Control_Version(Device_ID: str, Version: str):
 
     # Define Version_ID
     Version_ID = 0
@@ -46,7 +46,7 @@ def Control_Version(Version: str):
     DB_Module = Database.SessionLocal()
 
     # Control Version in Database
-    Query_Version = DB_Module.query(Models.Version).filter(Models.Version.Firmware.like(Version)).first()
+    Query_Version = DB_Module.query(Models.Version).filter(Models.Version.Firmware.like(Version)).filter(Models.Version.Device_ID.like(Device_ID)).first()
 
     # Version not in Database
     if not Query_Version:
@@ -54,6 +54,7 @@ def Control_Version(Version: str):
         # Create New Version
         New_Version = Models.Version(
             Firmware = Version,
+            Device_ID = Device_ID
         )
 
         # Add Record to DataBase
