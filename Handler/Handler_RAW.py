@@ -16,9 +16,6 @@ try:
     # Parse Topics
     for RAW_Message in Kafka.RAW_Consumer:
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"New Stream Received...")
-
         # Handle Headers
         RAW_Headers = Kafka.Headers(
             RAW_Message.headers[0][1].decode('ASCII'),
@@ -28,9 +25,9 @@ try:
             RAW_Message.headers[4][1].decode('ASCII')
         )
 
+        # Log Message
+        Log.Terminal_Log("INFO", f"New Stream Received: {RAW_Headers.Device_ID}")
 
-
-        
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
@@ -38,10 +35,10 @@ try:
         Log.Terminal_Log("INFO", f"RAW Headers : {RAW_Headers.Device_ID}")
 
         # Control For Device ID
-#        Device_Existance = Handler.Control_Device_Table(RAW_Headers.Device_ID)
+        Device_Existance = Handler.Control_Device_Table(RAW_Headers.Device_ID)
 
         # Log Message
-#        Log.Terminal_Log("INFO", f"Device Existance : {Device_Existance}")
+        Log.Terminal_Log("INFO", f"Device Existance : {Device_Existance}")
 
 
 
