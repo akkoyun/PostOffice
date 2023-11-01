@@ -65,8 +65,8 @@ try:
             # Add Device
             Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
 
-            # Update Device Last Connection
-            Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
+        # Update Device Last Connection
+        Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
 
         # Create New Stream
         New_Stream = Models.Stream(
