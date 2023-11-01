@@ -32,7 +32,7 @@ try:
 #        Device_Existance = Handler.Control_Device_Table(RAW_Headers.Device_ID)
 
         # Log Message
-        Log.Terminal_Log("INFO", f"Device Existance : {Device_Existance}")
+#        Log.Terminal_Log("INFO", f"Device Existance : {Device_Existance}")
 
 
 
