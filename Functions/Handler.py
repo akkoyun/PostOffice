@@ -234,7 +234,7 @@ def Control_SIM(ICCID: str):
         # Create New SIM
         New_SIM = Models.SIM(
             ICCID = ICCID,
-            Operator_ID = 0,
+            Operator_ID = 1,
             GSM_Number = None,
             Static_IP = None
         )
