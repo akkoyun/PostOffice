@@ -19,9 +19,18 @@ try:
         # Log Message
         Log.Terminal_Log("INFO", f"New Stream Received...")
 
-        # Get Headers
-        RAW_Headers = Kafka.Handle_Headers(RAW_Message)
+        # Handle Headers
+        RAW_Headers = Kafka.Headers(
+            RAW_Message.headers[0][1].decode('ASCII'),
+            RAW_Message.headers[1][1].decode('ASCII'),
+            RAW_Message.headers[2][1].decode('ASCII'),
+            RAW_Message.headers[3][1].decode('ASCII'),
+            RAW_Message.headers[4][1].decode('ASCII')
+        )
 
+
+
+        
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 

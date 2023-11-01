@@ -68,32 +68,6 @@ def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
     # Log Message
     Log.Terminal_Log("INFO", f"Failed to send message to {topic} after {max_retries} attempts.")
 
-# Handle Incomming Headers
-def Handle_Headers(message):
-
-    # Check if all required headers are present    
-    if len(message.headers) >= 5:
-    
-        # Handle Headers
-        headers = Headers(
-            message.headers[0][1].decode('ASCII'),
-            message.headers[1][1].decode('ASCII'),
-            message.headers[2][1].decode('ASCII'),
-            message.headers[3][1].decode('ASCII'),
-            message.headers[4][1].decode('ASCII')
-        )
-
-        # Return Headers
-        return headers
-    
-    else:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Missing Headers: {message.headers}")
-
-        # Skip to the next iteration
-        return None
-
 # Decode and Parse Power Message
 def Decode_RAW_Message(RAW_Message):
     
