@@ -68,31 +68,6 @@ def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
     # Log Message
     Log.Terminal_Log("INFO", f"Failed to send message to {topic} after {max_retries} attempts.")
 
-# Parse Headers
-def Parse_Topic_Header(Command, Device_ID, Device_Time, Device_IP, Pack_Size):
-
-    try:
-
-        # Set headers
-        RAW_Header = [
-            ('Command', bytes(Command, 'utf-8')), 
-            ('Device_ID', bytes(Device_ID, 'utf-8')),
-            ('Device_Time', bytes(Device_Time, 'utf-8')), 
-            ('Device_IP', bytes(Device_IP, 'utf-8')),
-            ('Size', bytes(Pack_Size, 'utf-8')),
-        ]
-
-        # Return Kafka Header
-        return RAW_Header
-
-    except Exception as e:
-
-        # Log Message
-        print(f"An error occurred while setting RAW topic headers: {e}")
-        
-        # Return None
-        return None
-
 # Handle Incomming Headers
 def Handle_Headers(message):
 
