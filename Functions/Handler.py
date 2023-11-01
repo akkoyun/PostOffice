@@ -36,6 +36,39 @@ def Control_Device(Device_ID: str):
     # Return Device Status
     return Device_Status
 
+# Add Device to Database
+def Add_Device(Device_ID: str, Version_ID: int, IMEI: str):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control Device From Table
+    Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+    # Device not in Database
+    if not Query_Device:
+
+        # Create New Device
+        New_Device = Models.Device(
+            Device_ID = Device_ID,
+            Status_ID = 0,
+            Version_ID = Version_ID,
+            Model_ID = 0,
+            IMEI = IMEI
+        )
+
+        # Add Record to DataBase
+        DB_Module.add(New_Device)
+
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Refresh DataBase
+        DB_Module.refresh(New_Device)
+
+    # Close Database
+    DB_Module.close()
+
 # Control for Version in Database
 def Control_Version(Device_ID: str, Version: str):
 

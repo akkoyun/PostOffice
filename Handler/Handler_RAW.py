@@ -31,9 +31,6 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-        # Control For Device ID
-        Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)
-
         # Control for Version
         Version_ID = Handler.Control_Version(RAW_Headers.Device_ID, Message.Info.Firmware)
 
@@ -43,14 +40,14 @@ try:
         # Control for Modem
         Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI)
 
-
+        # Add Device
+        Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
 
 
 
 
 
         # Log Message
-        Log.Terminal_Log("INFO", f"Device Existance : {Device_Existance}")
         Log.Terminal_Log("INFO", f"Version Detail: [{Version_ID} - {Message.Info.Firmware}]")
         Log.Terminal_Log("INFO", f"New Modem : {Modem_Existance}")
 
