@@ -213,7 +213,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		ICCID = "1",
 		Client_IP = request.client.host,
 		Size = request.headers['content-length'],
-		RAW_Data = request.body,
+		RAW_Data = exc.body,
 		Device_Time = datetime.now(),
 		Stream_Time = datetime.now()
 	)
