@@ -41,7 +41,7 @@ try:
         Version_ID = Handler.Control_Version(Message.Info.Firmware)
 
         # Control for Version at Device
-        Handler.Control_Device_Version(RAW_Headers.Device_ID, Version_ID)
+        Handler.Update_Version(RAW_Headers.Device_ID, Version_ID)
 
 
 
