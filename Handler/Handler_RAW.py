@@ -95,7 +95,7 @@ try:
         ]
     
         # Send to Topic
-        Kafka.Send_To_Topic("Pack.Parameter", Message.dict(), New_Header)
+        Kafka.Send_To_Topic("Pack.Parameter", Message.Device.dict(), New_Header)
         Kafka.Send_To_Topic("Pack.WeatherStat", Message.Payload.dict(), New_Header)
 
         # Commit Kafka Consumer
