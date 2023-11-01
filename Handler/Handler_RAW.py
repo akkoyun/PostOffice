@@ -85,25 +85,9 @@ try:
         # Refresh DataBase
         DB_Module.refresh(New_Stream)
 
-        # Set Topics and Values
-        Topics_And_Values = [
-
-            # Device Parameter Info
-            ("Pack.Parameter", Message.json()),
-
-            # Device Payload
-            ("Pack.WeatherStat", Message.Payload.json())
-
-        ]
-
         # Send to Topic
-        for Topic, Value in Topics_And_Values:
-
-            # Send to Kafka Topic
-            Kafka.Send_To_Topic(str(Topic), Value, RAW_Headers)
-
-            # Send to Topic
-#            Kafka.Send_To_Topic(Topic, Value, RAW_Headers)
+        Kafka.Send_To_Topic("Pack.Parameter", Message.dict(), RAW_Headers)
+        Kafka.Send_To_Topic("Pack.WeatherStat", Message.Payload.dict(), RAW_Headers)
 
         # Log Message
         Log.Terminal_Log("INFO", f"***********************************************************************************")
