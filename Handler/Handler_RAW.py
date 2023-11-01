@@ -25,8 +25,11 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
+        # Log Message
+        Log.Terminal_Log("INFO", f"RAW Headers : {RAW_Headers}")
+
         # Control For Device ID
-        Device_Existance = Handler.Control_Device_Table(RAW_Headers.Device_ID)
+#        Device_Existance = Handler.Control_Device_Table(RAW_Headers.Device_ID)
 
         # Log Message
         Log.Terminal_Log("INFO", f"Device Existance : {Device_Existance}")
