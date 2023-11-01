@@ -139,7 +139,7 @@ def Update_Version(Device_ID: str, Version_ID: int):
     DB_Module.close()
 
 # Control for Modem in Database
-def Control_Modem(IMEI: str):
+def Control_Modem(IMEI: str, Firmware: str = None):
 
     # Define Modem Status
     Modem_Status = False
@@ -158,7 +158,7 @@ def Control_Modem(IMEI: str):
             IMEI = IMEI,
             Model_ID = 0,
             Manufacturer_ID = 0,
-            Firmware = None,
+            Firmware = Firmware,
         )
 
         # Add Record to DataBase
@@ -175,6 +175,21 @@ def Control_Modem(IMEI: str):
 
     # Version in Database
     else:
+
+        # Control Modem Version in Database
+        Query_Modem_Version = DB_Module.query(Models.Modem).filter(Models.Modem.IMEI.like(IMEI)).filter(Models.Modem.Firmware.like(Firmware)).first()
+
+        # Control Version
+        if Query_Modem_Version:
+
+            # Control Existing Version With New Version
+            if Query_Modem_Version.Firmware != Firmware:
+
+                # Update Modem Version
+                Query_Modem_Version.Firmware = Firmware
+
+                # Commit DataBase
+                DB_Module.commit()
 
         # Set Modem Status
         Modem_Status = False
