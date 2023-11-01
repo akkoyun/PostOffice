@@ -114,7 +114,7 @@ def Handle_Headers(message):
     else:
 
         # Log Message
-        Log.Device_Header_Handler_Error()
+        Log.Terminal_Log("ERROR", f"Missing Headers: {message.headers}")
 
         # Skip to the next iteration
         return None
