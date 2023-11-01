@@ -47,7 +47,7 @@ try:
         if Device_Existance:
 
             # Log Message
-            Log.Terminal_Log("INFO", f"Device Found")
+            Log.Terminal_Log("INFO", f"Device Found: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Existance}] / {Message.Device.IoT.ICCID} [{SIM_Existance}]")
 
             # Control for Version at Device
             Handler.Update_Version(RAW_Headers.Device_ID, Version_ID)
@@ -56,7 +56,7 @@ try:
         else:
 
             # Log Message
-            Log.Terminal_Log("INFO", f"Device Not Found")
+            Log.Terminal_Log("INFO", f"New Device: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Existance}] / {Message.Device.IoT.ICCID} [{SIM_Existance}]")
 
             # Add Device
             Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
@@ -79,11 +79,6 @@ try:
 
 
 
-
-        # Log Message
-        Log.Terminal_Log("INFO", f"Version Detail: [{Version_ID} - {Message.Info.Firmware}]")
-        Log.Terminal_Log("INFO", f"New Modem : {Modem_Existance}")
-        Log.Terminal_Log("INFO", f"New SIM : {SIM_Existance}")
 
 
 
