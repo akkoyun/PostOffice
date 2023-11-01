@@ -7,7 +7,7 @@ from Setup import Database, Models
 from Functions import Log
 
 # Control for Device in Database
-def Control_Device_Table(Device_ID: str):
+def Control_Device(Device_ID: str):
 
     # Define Device Status
     Device_Status = False
@@ -37,7 +37,7 @@ def Control_Device_Table(Device_ID: str):
     return Device_Status
 
 # Control for Version in Database
-def Control_Version_Table(Version: str):
+def Control_Version(Version: str):
 
     # Define Version_ID
     Version_ID = 0
@@ -80,3 +80,43 @@ def Control_Version_Table(Version: str):
     # Return Version_ID
     return Version_ID
 
+# Update Device Version in Database
+def Update_Version(Device_ID: str, Version_ID: int):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control Version at Device Table
+    Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+    # Device not in Database
+    if not Query_Device:
+
+        # Log Message
+        Log.Terminal_Log("ERROR", f"Device Not in Database : {Device_ID}")
+
+    # Device in Database
+    else:
+
+        # Control for Version
+        if Query_Device.Version_ID == Version_ID:
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Device Version is Up to Date : {Device_ID}")
+
+        else:
+
+            # Update Device Version
+            Query_Device.Version_ID = Version_ID
+
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Device Version Updated : {Device_ID}")
+
+    # Close Database
+    DB_Module.close()
+
+    # Return Version_ID
+    return Version_ID

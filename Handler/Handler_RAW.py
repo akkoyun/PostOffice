@@ -35,10 +35,13 @@ try:
         Log.Terminal_Log("INFO", f"RAW Headers : {RAW_Headers.Device_ID}")
 
         # Control For Device ID
-        Device_Existance = Handler.Control_Device_Table(RAW_Headers.Device_ID)
+        Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)
 
         # Control for Version
-        Version_ID = Handler.Control_Version_Table(Message.Info.Firmware)
+        Version_ID = Handler.Control_Version(Message.Info.Firmware)
+
+        # Control for Version at Device
+        Handler.Control_Device_Version(RAW_Headers.Device_ID, Version_ID)
 
 
 
