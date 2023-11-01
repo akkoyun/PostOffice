@@ -204,6 +204,32 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Log Message
 	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
 
+    # Define DB
+	DB_Module = Database.SessionLocal()
+
+	# Create New Stream
+	New_Stream = Models.Stream(
+		Device_ID = "Bad Request",
+		ICCID = "Bad Request",
+		Client_IP = request.client.host,
+		Size = request.headers['content-length'],
+		RAW_Data = request.body,
+		Device_Time = datetime.now(),
+		Stream_Time = datetime.now()
+	)
+
+	# Add Stream to DataBase
+	DB_Module.add(New_Stream)
+
+	# Commit DataBase
+	DB_Module.commit()
+
+	# Refresh DataBase
+	DB_Module.refresh(New_Stream)
+
+    # Close Database
+	DB_Module.close()
+
 	# Send Error
 	return JSONResponse(
 		status_code=status.HTTP_400_BAD_REQUEST,
