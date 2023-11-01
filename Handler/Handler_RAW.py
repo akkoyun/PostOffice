@@ -85,9 +85,18 @@ try:
         # Refresh DataBase
         DB_Module.refresh(New_Stream)
 
+        # Set headers
+        New_Header = [
+            ("Command", bytes(RAW_Headers.Command, 'utf-8')), 
+            ("Device_ID", bytes(RAW_Headers.Device_ID, 'utf-8')),
+            ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
+            ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
+            ("Size", bytes(RAW_Headers.Size, 'utf-8')),
+        ]
+    
         # Send to Topic
-        Kafka.Send_To_Topic("Pack.Parameter", Message.dict(), RAW_Headers)
-        Kafka.Send_To_Topic("Pack.WeatherStat", Message.Payload.dict(), RAW_Headers)
+        Kafka.Send_To_Topic("Pack.Parameter", Message.dict(), New_Header)
+        Kafka.Send_To_Topic("Pack.WeatherStat", Message.Payload.dict(), New_Header)
 
         # Log Message
         Log.Terminal_Log("INFO", f"***********************************************************************************")
