@@ -112,9 +112,6 @@ def Update_Version(Device_ID: str, Version_ID: int):
             # Commit DataBase
             DB_Module.commit()
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"Device Version Updated : {Device_ID}")
-
     # Close Database
     DB_Module.close()
 
