@@ -65,42 +65,28 @@ try:
             # Add Device
             Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
 
+        # Create New Stream
+        New_Stream = Models.Stream(
+            Device_ID = RAW_Headers.Device_ID,
+            ICCID = Message.Device.IoT.ICCID,
+            Client_IP = RAW_Headers.Device_IP,
+            Size = RAW_Headers.Size,
+            RAW_Data = RAW_Message.value,
+            Device_Time = RAW_Headers.Device_Time,
+            Stream_Time = datetime.now()
+        )
 
+        # Add Stream to DataBase
+        DB_Module.add(New_Stream)
 
+        # Commit DataBase
+        DB_Module.commit()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        # Refresh DataBase
+        DB_Module.refresh(New_Stream)
 
         # Log Message
         Log.Terminal_Log("INFO", f"***********************************************************************************")
-
-
-
-        # Cihazı device tablosundan kontrol et
-            # yok ise cihazı varsayılan değerler ile ekle
-            # var ise versyonu düzenle
-        # ICCID tablosundan simi kontrol et
-            # yok ise simi varsayılan değerler ile ekle
-
-
-
-
-
 
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()
