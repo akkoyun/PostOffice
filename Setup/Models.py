@@ -106,6 +106,7 @@ class Device(Base):
 	Version_ID = Column(Integer, ForeignKey("Version.Version_ID"), nullable=False)
 	Model_ID = Column(Integer, ForeignKey("Model.Model_ID"), nullable=False)
 	IMEI = Column(String(), ForeignKey("Modem.IMEI"), nullable=False)
+	Last_Connection = Column(TIMESTAMP(timezone=True), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # [O] Data_Segment Database Model

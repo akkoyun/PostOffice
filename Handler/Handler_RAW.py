@@ -34,6 +34,9 @@ try:
         # Control for Device
         Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)
 
+        # Update Device Last Connection
+        Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
+
         # Control for Version
         Version_ID = Handler.Control_Version(RAW_Headers.Device_ID, Message.Info.Firmware)
 

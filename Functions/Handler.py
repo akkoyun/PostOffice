@@ -5,6 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Database, Models
 from Functions import Log
+from datetime import datetime
 
 # Control for Device in Database
 def Control_Device(Device_ID: str):
@@ -35,6 +36,27 @@ def Control_Device(Device_ID: str):
 
     # Return Device Status
     return Device_Status
+
+# Update Device Last_Connection in Database
+def Update_Device_Last_Connection(Device_ID: str):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control Device in Database
+    Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+    # Update Device Last_Connection
+    Query_Device.Last_Connection = datetime.now()
+
+    # Commit DataBase
+    DB_Module.commit()
+
+    # Close Database
+    DB_Module.close()
+
+    # Return
+    return
 
 # Add Device to Database
 def Add_Device(Device_ID: str, Version_ID: int, IMEI: str):
