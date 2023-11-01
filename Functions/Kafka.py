@@ -10,7 +10,7 @@ import time
 Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}')
 
 # Kafka RAW Consumer
-RAW_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_RAW), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
+RAW_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_RAW), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_RAW_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
 
 # Define Headers
 class Headers:
