@@ -27,7 +27,8 @@ PostOffice = FastAPI(version="02.00.00", title="PostOffice")
 async def Startup_Event():
 
 	# Get Worker ID
-	Worker_Index = int(os.getpid())
+	Worker_Index = int(os.environ.get("GUNICORN_WORKER_ID",0))
+	
 
 	# Log Message
 	Log.Terminal_Log("DEBUG", f"PostOffice API Started {datetime.now()} - Worker ID: {Worker_Index}")
