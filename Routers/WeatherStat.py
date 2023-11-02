@@ -5,7 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Import Packages
 from fastapi import Request, status, APIRouter
 from fastapi.responses import JSONResponse
-from Setup import Schema
+from Setup import Schema, Database, App_Schema
 from Functions import Log, Kafka
 from Setup.Config import APP_Settings
 
@@ -45,5 +45,34 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Send Response
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
+
+# IoT Get Method
+@PostOffice_WeatherStat.get("/WeatherStat/{ID}")
+def Root(request: Request, ID: str):
+
+	# Define DB
+	DB_Module = Database.SessionLocal()
+
+
+
+
+
+
+	# Message Status Code
+	Message_Status_Code = status.HTTP_200_OK
+
+	# Headers
+	Message_Headers = {"server": APP_Settings.SERVER_NAME}
+
+	# Message Content
+	Message_Content = App_Schema.Model
+	
+	
+	
+	
+
+	# Send Response
+	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
+
 
 
