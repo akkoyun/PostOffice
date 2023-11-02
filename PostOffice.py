@@ -20,7 +20,7 @@ PostOffice.add_middleware(
     allow_origins=["http://api.stf.digital"],
     allow_credentials=True,
     allow_methods=["GET", "POST"],
-    allow_headers=["*"]
+    allow_headers=["date", "content-type", "content-length"]
 )
 
 # API Boot Sequence
