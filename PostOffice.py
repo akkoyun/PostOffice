@@ -1,14 +1,34 @@
 # Library Includes
 from Functions import Log
 from Setup import Database, Models
-from fastapi import FastAPI, Request, status, Response
+from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from Routers import WeatherStat
 from datetime import datetime
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.00.00", title="PostOffice")
+
+# Declare Middleware Class
+class RemoveServerHeaderMiddleware(BaseHTTPMiddleware):
+    
+	# Define Dispatch Method
+	async def dispatch(self, request: Request, call_next):
+
+		# Call Next
+		response = await call_next(request)
+
+		# Remove Server Header
+		del response.headers["server"]
+
+		# Return Response
+		return response
+
+# Add Middleware
+PostOffice.add_middleware(RemoveServerHeaderMiddleware)
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
@@ -27,7 +47,7 @@ async def Shutdown_event():
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError, response: Response):
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
 	# Log Message
 	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
@@ -63,9 +83,6 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 	# Message Content
 	Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
-
-	# Delete Headers
-	response.headers.pop("server", None)
 
 	# Headers
 	Message_Headers = {"Server": "PostOffice"}
