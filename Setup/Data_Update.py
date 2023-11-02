@@ -1,11 +1,12 @@
-# Setup Library
+# Setup Root Path
 import sys
-from Functions import Log
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup.Config import APP_Settings
 from Setup import Models, Database
+import sys
+from Functions import Log
 import pandas as pd
 
 # Import Data_Segment Data
