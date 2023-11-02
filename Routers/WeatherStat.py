@@ -7,6 +7,7 @@ from fastapi import Request, status, APIRouter
 from fastapi.responses import JSONResponse
 from Setup import Schema
 from Functions import Log, Kafka
+from Setup.Config import APP_Settings
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -33,8 +34,16 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 	# Log Message
 	Log.Terminal_Log("INFO", f"****************************************")
 
-	# Send Success
-	return JSONResponse(
-		status_code=status.HTTP_200_OK,
-		content={"Event": status.HTTP_200_OK},
-	)
+	# Message Status Code
+	Message_Status_Code = status.HTTP_200_OK
+
+	# Message Content
+	Message_Content = {"Event": status.HTTP_200_OK}
+
+	# Headers
+	Message_Headers = {"Server": {APP_Settings.SERVER_NAME}, "Device_ID": {Data.Info.ID}}
+
+	# Send Response
+	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
+
+

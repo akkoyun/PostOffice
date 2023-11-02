@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from Routers import WeatherStat
 from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
-
+from Setup.Config import APP_Settings
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
@@ -15,15 +15,7 @@ from starlette.responses import Response
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.00.00", title="PostOffice")
 
-class RemoveServerHeaderMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        response: Response = await call_next(request)
-        if "server" in response.headers:
-            del response.headers["server"]
-        return response
-
 # CORS Middleware
-PostOffice.add_middleware(RemoveServerHeaderMiddleware)
 PostOffice.add_middleware(
 
 	# CORS Middleware
@@ -89,7 +81,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
 
 	# Headers
-	Message_Headers = {"Root": "PostOffice"}
+	Message_Headers = {"Server": {APP_Settings.SERVER_NAME}}
 
 	# Send Response
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)

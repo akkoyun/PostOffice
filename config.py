@@ -20,3 +20,18 @@ workers = multiprocessing.cpu_count() * 2 + 1
 
 # Worker Class
 worker_class = 'config.CustomUvicornWorker'
+
+# Worker Timeout
+worker_timeout = 60
+
+# Worker Max Requests
+max_requests = 1000
+
+# Worker Max Requests Jitter
+max_requests_jitter = 100
+
+# Error Log
+errorlog = '/root/PostOffice/Logs/Unicorn_Error.log'
+
+# Access Log
+accesslog = '/root/PostOffice/Logs/Unicorn_Access.log'

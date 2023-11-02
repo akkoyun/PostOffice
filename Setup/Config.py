@@ -8,6 +8,9 @@ from pydantic import BaseSettings
 # Define Setting
 class Settings(BaseSettings):
 
+	# Server Settings
+	SERVER_NAME: str
+
 	# Logging Settings
 	LOG_FILE: str
 
