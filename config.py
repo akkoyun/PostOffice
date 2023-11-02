@@ -9,7 +9,8 @@ class CustomUvicornWorker(UvicornWorker):
         "loop": "uvloop",
         "http": "httptools",
         "lifespan": "on",
-#        "server_header": False
+        "server_header": False,
+        "date_header": False
     }
 
 # Server Socket
