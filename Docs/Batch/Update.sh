@@ -21,7 +21,7 @@ echo "${red}${bold}PostOffice System Update...${reset}"
 Stop_Service() {
 
     # Print Message
-    echo "${YELLOW}Stopping: $1${RESET}"
+    echo "${yellow}Stopping: $1${reset}"
     
     # Stop Service
     systemctl stop "$1"
@@ -32,7 +32,7 @@ Stop_Service() {
 Start_Service() {
 
     # Print Message
-    echo "${YELLOW}Starting: $1${RESET}"
+    echo "${yellow}Starting: $1${reset}"
     
     # Start Service
     systemctl start "$1"
@@ -43,17 +43,17 @@ Start_Service() {
 Perform_Git_Pull() {
     
     # Print Message
-    echo "${YELLOW}Git repository updating...${RESET}"
+    echo "${yellow}Git repository updating...${reset}"
     
     git_pull_output=$(git pull 2>&1)
     exit_code=$?
 
     if [ $exit_code -eq 0 ]; then
-        echo "${GREEN}Update Succesful:${RESET}"
-        echo "${BLUE}$git_pull_output${RESET}"
+        echo "${green}Update Succesful:${reset}"
+        echo "${BLUE}$git_pull_output${reset}"
     else
-        echo "${RED}Update Fail:${RESET}"
-        echo "${BLUE}$git_pull_output${RESET}"
+        echo "${red}Update Fail:${reset}"
+        echo "${BLUE}$git_pull_output${reset}"
     fi
 }
 
@@ -66,7 +66,7 @@ Copy_File() {
 
     # Control source file
     if [ ! -f "$source" ]; then
-        echo "${RED}Kaynak dosya bulunamadı: $source${RESET}"
+        echo "${red}Kaynak dosya bulunamadı: $source${reset}"
         return 1
     fi
 
@@ -75,9 +75,9 @@ Copy_File() {
     
     # Control copy status
     if [ $? -eq 0 ]; then
-        echo "${GREEN}$source, $destination konumuna kopyalandı.${RESET}"
+        echo "${green}$source, $destination konumuna kopyalandı.${reset}"
     else
-        echo "${RED}$source kopyalanamadı.${RESET}"
+        echo "${red}$source kopyalanamadı.${reset}"
     fi
 }
 
@@ -92,13 +92,13 @@ Stop_Service Handler_RAW.service
 Perform_Git_Pull
 
 # Copy Service Files
-Copy_File "~/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
-Copy_File "~/PostOffice/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"
+Copy_File "/root/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
+Copy_File "/root/PostOffice/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"
 
 # Copy SH Batch Files
-Copy_File "~/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
-Copy_File "~/PostOffice/Docs/Batch/Restart.sh" "/root/Restart.sh"
-Copy_File "~/PostOffice/Docs/Batch/Service.sh" "/root/Service.sh"
+Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
+Copy_File "/root/PostOffice/Docs/Batch/Restart.sh" "/root/Restart.sh"
+Copy_File "/root/PostOffice/Docs/Batch/Service.sh" "/root/Service.sh"
 
 # Message
 echo "${green}${bold}PostOffice System Service Restarting...${reset}"
