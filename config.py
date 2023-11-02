@@ -11,7 +11,6 @@ class CustomUvicornWorker(UvicornWorker):
         "lifespan": "on",
         "server_header": False,
         "date_header": False,
-        "api_header": "PostOffice",
     }
 
 # Server Socket
