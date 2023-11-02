@@ -31,7 +31,7 @@ max_requests = 1000
 max_requests_jitter = 100
 
 # Error Log
-errorlog = '/root/PostOffice/Logs/Unicorn_Error.LOG'
+errorlog = '/root/PostOffice/Log/Unicorn_Error.LOG'
 
 # Access Log
-accesslog = '/root/PostOffice/Logs/Unicorn_Access.LOG'
+accesslog = '/root/PostOffice/Log/Unicorn_Access.LOG'
