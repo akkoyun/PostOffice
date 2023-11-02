@@ -263,7 +263,7 @@ def Control_SIM(ICCID: str):
     return SIM_Status
 
 # Parameter Recorder
-def Parameter_Recorder(Stream_ID: int, Parameter: str, Value):
+def Parameter_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Value):
 
     # Declare Type_ID
     Type_ID = 0
@@ -284,7 +284,8 @@ def Parameter_Recorder(Stream_ID: int, Parameter: str, Value):
     New_Parameter = Models.Parameter(
         Stream_ID = Stream_ID,
         Type_ID = Type_ID,
-        Value = Value
+        Value = Value,
+        Create_Time = Device_Time
     )
         
     # Add Record to DataBase
@@ -296,5 +297,7 @@ def Parameter_Recorder(Stream_ID: int, Parameter: str, Value):
     # Refresh DataBase
     DB_Module.refresh(New_Parameter)
 
+    # Close Database
+    DB_Module.close()
 
 

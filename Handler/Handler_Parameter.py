@@ -37,31 +37,31 @@ try:
 
         # Control for B_IV
         if Message.Power.B_IV is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_IV", Message.Power.B_IV)
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "B_IV", Message.Power.B_IV)
 
         # Control for B_AC
         if Message.Power.B_AC is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_AC", Message.Power.B_AC)
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "B_AC", Message.Power.B_AC)
 
         # Control for B_FC
         if Message.Power.B_FC is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_FC", Message.Power.B_FC)
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "B_FC", Message.Power.B_FC)
 
         # Control for B_IC
         if Message.Power.B_IC is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_IC", Message.Power.B_IC)
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "B_IC", Message.Power.B_IC)
 
         # Control for B_SOC
         if Message.Power.B_SOC is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_SOC", Message.Power.B_SOC)
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "B_SOC", Message.Power.B_SOC)
 
         # Control for B_T
         if Message.Power.B_T is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_T", Message.Power.B_T)
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "B_T", Message.Power.B_T)
 
         # Control for B_CS
         if Message.Power.B_CS is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_CS", Message.Power.B_CS)
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "B_CS", Message.Power.B_CS)
 
 
 
