@@ -6,6 +6,9 @@ from uvicorn.workers import UvicornWorker
 class CustomUvicornWorker(UvicornWorker):
 
     CONFIG_KWARGS = {
+        "loop": "uvloop",
+        "http": "httptools",
+        "lifespan": "on",
         "server_header": False
     }
 
@@ -16,4 +19,4 @@ bind = '0.0.0.0:80'
 workers = multiprocessing.cpu_count() * 2 + 1
 
 # Worker Class
-worker_class = CustomUvicornWorker()
+worker_class = 'config.CustomUvicornWorker'
