@@ -58,16 +58,17 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     # Close Database
 	DB_Module.close()
 
-	content = {"message": "Hello World"}
-	headers = {"X-Cat-Dog": "alone in the world", "Content-Language": "en-US"}
-	return JSONResponse(content=content, headers=headers)
+	# Message Status Code
+	Message_Status_Code = status.HTTP_400_BAD_REQUEST
 
-	# Send Error
-	return JSONResponse(
-		status_code=status.HTTP_400_BAD_REQUEST,
-		headers={"Server": "PostOffice"},
-		content={"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"},
-	)
+	# Message Content
+	Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
+
+	# Headers
+	Message_Headers = {"Server": "PostOffice"}
+
+	# Send Response
+	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 # Include Routers
 PostOffice.include_router(WeatherStat.PostOffice_WeatherStat)
