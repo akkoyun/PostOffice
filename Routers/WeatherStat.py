@@ -41,8 +41,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 	Message_Content = {"Event": status.HTTP_200_OK}
 
 	# Headers
-	Server_Name = APP_Settings.SERVER_NAME
-	Message_Headers = {"server": Server_Name}
+	Message_Headers = {"server": APP_Settings.SERVER_NAME, "device_id": Data.Info.ID}
 
 	# Send Response
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
