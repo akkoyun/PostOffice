@@ -15,6 +15,9 @@ RAW_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_RAW), bootstrap_server
 # Kafka Parameter Consumer
 Parameter_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_PARAMETER), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_PARAMETER_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
 
+# Kafka WeatherStat Consumer
+WeatherStat_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_WEATHERSTAT), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_WEATHERSTAT_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
+
 # Define Headers
 class Headers:
 
@@ -137,6 +140,43 @@ def Decode_Device_Message(RAW_Message):
         
         # Get RAW Data
         Kafka_Message = Schema.Device(**Parsed_JSON)
+
+        # Return Kafka_Message
+        return Kafka_Message
+
+    except json.JSONDecodeError:
+        
+        # Log Message
+        Log.Terminal_Log("ERROR", f"JSON Decode Error: {e}")
+
+        # Return None
+        return None
+    
+    except Exception as e:
+    
+        # Log Message
+        Log.Terminal_Log("ERROR", f"An error occurred: {e}")
+
+        # Return None
+        return None
+
+# Decode and Parse WeatherStat Message
+def Decode_WeatherStat_Message(RAW_Message):
+    
+    try:
+
+        # Decode Message
+        Decoded_Value = RAW_Message.value.decode()
+        
+        # Parse JSON
+        Parsed_JSON = json.loads(Decoded_Value)
+
+        # Check if JSON is a string
+        if isinstance(Parsed_JSON, str):
+            Parsed_JSON = json.loads(Parsed_JSON)
+        
+        # Get RAW Data
+        Kafka_Message = Schema.WeatherStat_Payload(**Parsed_JSON)
 
         # Return Kafka_Message
         return Kafka_Message

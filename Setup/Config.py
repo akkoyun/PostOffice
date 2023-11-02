@@ -28,10 +28,12 @@ class Settings(BaseSettings):
 	# Kafka Topics
 	KAFKA_TOPIC_RAW: str
 	KAFKA_TOPIC_PARAMETER: str
+	KAFKA_TOPIC_WEATHERSTAT: str
 
 	# Kafka Consumer Group
 	KAFKA_CONSUMER_RAW_GROUP: str
 	KAFKA_CONSUMER_PARAMETER_GROUP: str
+	KAFKA_CONSUMER_WEATHERSTAT_GROUP: str
 
 	# File Settings
 	FILE_MANUFACTURER: str

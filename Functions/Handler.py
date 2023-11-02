@@ -300,4 +300,41 @@ def Parameter_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Va
     # Close Database
     DB_Module.close()
 
+# WeatherStat Recorder
+def WeatherStat_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Value):
+
+    # Declare Type_ID
+    Type_ID = 0
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control for Type_ID
+    Query_Type_ID = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Parameter)).first()
+
+    # Type_ID not in Database
+    if Query_Type_ID:
+
+        # Read Type_ID
+        Type_ID = Query_Type_ID.Type_ID
+
+    # Create New WeatherStat Measurement
+    New_Measurement = Models.WeatherStat(
+        Stream_ID = Stream_ID,
+        Type_ID = Type_ID,
+        Value = Value,
+        Create_Time = Device_Time
+    )
+        
+    # Add Record to DataBase
+    DB_Module.add(New_Measurement)
+
+    # Commit DataBase
+    DB_Module.commit()
+
+    # Refresh DataBase
+    DB_Module.refresh(New_Measurement)
+
+    # Close Database
+    DB_Module.close()
 
