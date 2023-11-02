@@ -1,12 +1,12 @@
 Type_ID,Description,Variable,Unit,Segment
 0,Unknown,-,-,0
-1010,Battery Instant Voltage,BIV,V,1
-1020,Battery Average Current,BAC,mA,1
-1030,Battery State of Charge,BSOC,%,1
-1040,Battery Temperature,BT,C,1
-1050,Battery Full Capacity,BFC,mAh,1
-1060,Battery Instant Capacity,BIC,mAh,1
-1070,Battery Charge State,BCS,-,1
+1010,Battery Instant Voltage,B_IV,V,1
+1020,Battery Average Current,B_AC,mA,1
+1030,Battery State of Charge,B_SOC,%,1
+1040,Battery Temperature,B_T,C,1
+1050,Battery Full Capacity,B_FC,mAh,1
+1060,Battery Instant Capacity,B_IC,mAh,1
+1070,Battery Charge State,B_CS,-,1
 4010,Air Temperature,AT,C,4
 4020,Air Humidity,AH,%,4
 4030,Air Pressure,AP,hPa,4
