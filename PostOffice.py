@@ -58,10 +58,14 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     # Close Database
 	DB_Module.close()
 
+	content = {"message": "Hello World"}
+	headers = {"X-Cat-Dog": "alone in the world", "Content-Language": "en-US"}
+	return JSONResponse(content=content, headers=headers)
+
 	# Send Error
 	return JSONResponse(
 		status_code=status.HTTP_400_BAD_REQUEST,
-		headers=["Server": "PostOffice"],
+		headers={"Server": "PostOffice"},
 		content={"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"},
 	)
 
