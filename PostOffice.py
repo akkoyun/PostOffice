@@ -60,15 +60,10 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 	# Set Response Headers
 	response.headers = {"Server": "PostOffice"}
-
-	# Set Response Content
-	Response_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
+	response.status_code = status.HTTP_400_BAD_REQUEST
 
 	# Send Error
-	return JSONResponse(
-		status_code=status.HTTP_400_BAD_REQUEST,
-		content=Response_Content,
-	)
+	return {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
 
 # Include Routers
 PostOffice.include_router(WeatherStat.PostOffice_WeatherStat)
