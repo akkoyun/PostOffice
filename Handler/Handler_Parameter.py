@@ -91,9 +91,9 @@ try:
             Log.Terminal_Log("INFO", f"New Parameter Received: LAC - {Message.IoT.LAC}")
 
         # Control for CellID
-        if Message.IoT.CellID is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "CellID", Message.IoT.CellID)
-            Log.Terminal_Log("INFO", f"New Parameter Received: CellID - {Message.IoT.CellID}")
+        if Message.IoT.Cell_ID is not None: 
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "CellID", Message.IoT.Cell_ID)
+            Log.Terminal_Log("INFO", f"New Parameter Received: CellID - {Message.IoT.Cell_ID}")
 
         # Commit Kafka Consumer
         Kafka.Parameter_Consumer.commit()
