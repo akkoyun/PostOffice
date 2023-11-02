@@ -262,3 +262,39 @@ def Control_SIM(ICCID: str):
     # Return SIM Status
     return SIM_Status
 
+# Parameter Recorder
+def Parameter_Recorder(Stream_ID: int, Parameter: str, Value):
+
+    # Declare Type_ID
+    Type_ID = 0
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control for Type_ID
+    Query_Type_ID = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Parameter)).first()
+
+    # Type_ID not in Database
+    if Query_Type_ID:
+
+        # Read Type_ID
+        Type_ID = Query_Type_ID.Type_ID
+
+    # Create New Parameter
+    New_Parameter = Models.Parameter(
+        Stream_ID = Stream_ID,
+        Type_ID = Type_ID,
+        Value = Value
+    )
+        
+    # Add Record to DataBase
+    DB_Module.add(New_Parameter)
+
+    # Commit DataBase
+    DB_Module.commit()
+
+    # Refresh DataBase
+    DB_Module.refresh(New_Parameter)
+
+
+

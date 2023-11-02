@@ -12,6 +12,9 @@ Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('
 # Kafka RAW Consumer
 RAW_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_RAW), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_RAW_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
 
+# Kafka Parameter Consumer
+Parameter_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_PARAMETER), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_PARAMETER_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
+
 # Define Headers
 class Headers:
 
@@ -24,6 +27,18 @@ class Headers:
         self.Device_Time = device_time
         self.Device_IP = device_ip
         self.Size = size
+class Handler_Headers:
+
+    # Define Incomming Headers
+    def __init__(self, command, device_id, device_time, device_ip, size, stream_id):
+        
+        # Get Incomming Headers
+        self.Command = command
+        self.Device_ID = device_id
+        self.Device_Time = device_time
+        self.Device_IP = device_ip
+        self.Size = size
+        self.Stream_ID = stream_id
 
 # Kafka Callbacks
 def Send_Success(record_metadata):
