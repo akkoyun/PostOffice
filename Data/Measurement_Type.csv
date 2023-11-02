@@ -50,5 +50,7 @@ Type_ID,Description,Variable,Unit,Segment
 3001,GSM TAC ID,TAC,-,3
 3002,GSM LAC ID,LAC,-,3
 3003,GSM Cell ID,Cell_ID,-,3
-3004,Latitude,Latitude,Degree,3
-3005,Longitude,Longitude,Degree,3
+3004,RSSI,RSSI,dBm,3
+3005,Connection Time,ConnTime,Sec,3
+3006,Latitude,Latitude,Degree,3
+3007,Longitude,Longitude,Degree,3
