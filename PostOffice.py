@@ -78,7 +78,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
 
 	# Headers
-	Message_Headers = {"Server": "PostOffice"}
+	Message_Headers = {"Root": "PostOffice"}
 
 	# Send Response
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
