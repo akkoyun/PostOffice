@@ -47,7 +47,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 # IoT Get Method
-@PostOffice_WeatherStat.get("/WeatherStat/{ID}")
+@PostOffice_WeatherStat.get("/WeatherStat/{ID}", response_model=App_Schema.Model)
 def Root(request: Request, ID: str):
 
 	# Define DB
