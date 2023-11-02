@@ -59,7 +59,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	DB_Module.close()
 
 	# Set Response Headers
-	Response_Header = {"Server": "PostOffice"}
+	response.headers = {"Server": "PostOffice"}
 
 	# Set Response Content
 	Response_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
@@ -67,7 +67,6 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Send Error
 	return JSONResponse(
 		status_code=status.HTTP_400_BAD_REQUEST,
-		headers=Response_Header,
 		content=Response_Content,
 	)
 
