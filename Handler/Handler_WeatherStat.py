@@ -91,7 +91,17 @@ try:
             Log.Terminal_Log("INFO", f"New WeatherStat Received: WS - {Message.WS}")
 
         # Control for ST
+        if Message.ST is not None:
 
+            # Loop Through Measurements
+            for index, ST_Value in enumerate(Message.ST):
+
+                # Set Dynamic Variable Name
+                ST_Variable_Name = f"ST{index}"
+
+                # Add Measurement Record
+                Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, ST_Variable_Name, ST_Value)
+                Log.Terminal_Log("INFO", f"New WeatherStat Received: {ST_Variable_Name} - {ST_Value}")
 
         # Commit Kafka Consumer
         Kafka.WeatherStat_Consumer.commit()
