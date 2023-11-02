@@ -1,9 +1,7 @@
-# gunicorn_conf.py
-from uvicorn.workers import UvicornWorker
+# config.py
+import multiprocessing
 
-class CustomUvicornWorker(UvicornWorker):
-
-    CONFIG_KWARGS = {
-        "server_header": False
-    }
-
+host = "0.0.0.0"
+port = 80
+workers = 2 * multiprocessing.cpu_count() + 1
+log_level = "debug"
