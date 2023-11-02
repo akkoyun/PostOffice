@@ -7,6 +7,9 @@ from Setup import Database, Models
 from datetime import datetime
 from Functions import Kafka, Log, Handler
 
+# Log Message
+Log.Terminal_Log("INFO", f"***********************************************************************************")
+
 # Try to Parse Topics
 try:
 
