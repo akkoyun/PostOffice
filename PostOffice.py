@@ -66,7 +66,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
 
 	# Headers
-	Message_Headers = {"Server": {APP_Settings.SERVER_NAME}}
+	Message_Headers = {"API": {APP_Settings.SERVER_NAME}}
 
 	# Send Response
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
