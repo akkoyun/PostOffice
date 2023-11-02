@@ -92,8 +92,8 @@ try:
 
         # Control for CellID
         if Message.IoT.Cell_ID is not None: 
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "CellID", Message.IoT.Cell_ID)
-            Log.Terminal_Log("INFO", f"New Parameter Received: CellID - {Message.IoT.Cell_ID}")
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Cell_ID", Message.IoT.Cell_ID)
+            Log.Terminal_Log("INFO", f"New Parameter Received: Cell_ID - {Message.IoT.Cell_ID}")
 
         # Commit Kafka Consumer
         Kafka.Parameter_Consumer.commit()
