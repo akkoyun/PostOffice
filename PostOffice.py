@@ -6,8 +6,6 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from Routers import WeatherStat
 from datetime import datetime
-from sqlalchemy import MetaData, inspect
-from Setup import Data_Update
 
 # Create DB Models
 Models.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True)
