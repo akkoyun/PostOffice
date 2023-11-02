@@ -15,13 +15,14 @@ underline=$(tput smul)
 clear
 
 # Version: 1.0
-echo "${red}${bold}PostOffice System Update...${reset}"
+echo "${blue}${underline}PostOffice System Update...${reset}"
+echo "----------------------------------------------"
 
 # Stop Service
 Stop_Service() {
 
     # Print Message
-    echo "${yellow}Stopping: $1${reset}"
+    echo "${red}Stopping: $1${reset}"
     
     # Stop Service
     systemctl stop "$1"
@@ -32,7 +33,7 @@ Stop_Service() {
 Start_Service() {
 
     # Print Message
-    echo "${yellow}Starting: $1${reset}"
+    echo "${green}Starting: $1${reset}"
     
     # Start Service
     systemctl start "$1"
@@ -88,8 +89,14 @@ cd /root/PostOffice
 Stop_Service PostOffice.service
 Stop_Service Handler_RAW.service
 
+# Message
+echo "----------------------------------------------"
+
 # Git Pull
 Perform_Git_Pull
+
+# Message
+echo "----------------------------------------------"
 
 # Copy Service Files
 Copy_File "/root/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
@@ -101,6 +108,9 @@ Copy_File "/root/PostOffice/Docs/Batch/Restart.sh" "/root/Restart.sh"
 Copy_File "/root/PostOffice/Docs/Batch/Service.sh" "/root/Service.sh"
 
 # Message
+echo "----------------------------------------------"
+
+# Message
 echo "${green}${bold}PostOffice System Service Restarting...${reset}"
 
 # Restart Deamon
@@ -109,6 +119,9 @@ systemctl daemon-reload
 # Start Services
 Start_Service PostOffice.service
 Start_Service Handler_RAW.service
+
+# Message
+echo "----------------------------------------------"
 
 # Change Directory to Root
 cd ~
