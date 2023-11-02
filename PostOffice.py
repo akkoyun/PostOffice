@@ -27,7 +27,7 @@ async def Shutdown_event():
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError, response: Response):
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
 	# Log Message
 	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
@@ -58,12 +58,12 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     # Close Database
 	DB_Module.close()
 
-	# Set Response Headers
-	response.headers = {"Server": "PostOffice"}
-	response.status_code = status.HTTP_400_BAD_REQUEST
-
 	# Send Error
-	return {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
+	return JSONResponse(
+		status_code=status.HTTP_400_BAD_REQUEST,
+		headers=[{"Server": "PostOffice"}],
+		content={"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"},
+	)
 
 # Include Routers
 PostOffice.include_router(WeatherStat.PostOffice_WeatherStat)
