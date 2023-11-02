@@ -7,9 +7,6 @@ from fastapi.responses import JSONResponse
 from Routers import WeatherStat
 from datetime import datetime
 
-# Create DB Models
-Models.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True)
-
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.00.00", title="PostOffice")
 

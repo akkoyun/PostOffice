@@ -748,6 +748,9 @@ def Import_SIM(DB_Module):
 # Define DB
 DB_Module = Database.SessionLocal()
 
+# Create DB Models
+Models.Base.metadata.create_all(bind=Database.DB_Engine, checkfirst=True)
+
 # Update DataBase
 Import_Data_Segment(DB_Module)
 Import_GSM_Operator(DB_Module)
