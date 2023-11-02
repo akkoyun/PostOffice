@@ -33,28 +33,35 @@ try:
         Log.Terminal_Log("INFO", f"New Parameter Received: {RAW_Headers.Device_ID}")
 
         # Decode Message
-        Message = Kafka.Decode_RAW_Message(RAW_Message)
+        Message = Kafka.Decode_Device_Message(RAW_Message)
 
         # Control for B_IV
-        if Message.Device.Power.B_IV is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_IV", Message.Device.Power.B_IV)
+        if Message.Power.B_IV is not None: 
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_IV", Message.Power.B_IV)
 
         # Control for B_AC
-        if Message.Device.Power.B_AC is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_AC", Message.Device.Power.B_AC)
+        if Message.Power.B_AC is not None: 
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_AC", Message.Power.B_AC)
 
         # Control for B_FC
-        if Message.Device.Power.B_FC is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_FC", Message.Device.Power.B_FC)
+        if Message.Power.B_FC is not None: 
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_FC", Message.Power.B_FC)
 
         # Control for B_IC
-        if Message.Device.Power.B_IC is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_IC", Message.Device.Power.B_IC)
+        if Message.Power.B_IC is not None: 
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_IC", Message.Power.B_IC)
 
         # Control for B_SOC
-        if Message.Device.Power.B_SOC is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_SOC", Message.Device.Power.B_SOC)
+        if Message.Power.B_SOC is not None: 
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_SOC", Message.Power.B_SOC)
 
         # Control for B_T
-        if Message.Device.Power.B_T is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_T", Message.Device.Power.B_T)
+        if Message.Power.B_T is not None: 
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_T", Message.Power.B_T)
 
         # Control for B_CS
-        if Message.Device.Power.B_CS is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_CS", Message.Device.Power.B_CS)
+        if Message.Power.B_CS is not None: 
+            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, "B_CS", Message.Power.B_CS)
 
 
 
