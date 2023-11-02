@@ -15,17 +15,6 @@ from starlette.responses import Response
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.00.00", title="PostOffice")
 
-# CORS Middleware
-PostOffice.add_middleware(
-
-	# CORS Middleware
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["GET", "POST"],
-    allow_headers=["date", "content-type", "content-length"]
-)
-
 # API Boot Sequence
 @PostOffice.on_event("startup")
 async def Startup_Event():
