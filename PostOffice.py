@@ -17,7 +17,7 @@ PostOffice.add_middleware(
 
 	# CORS Middleware
     CORSMiddleware,
-    allow_origins=["http://api.stf.digital"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["date", "content-type", "content-length"]
