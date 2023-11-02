@@ -23,6 +23,7 @@ class RemoveServerHeaderMiddleware(BaseHTTPMiddleware):
         return response
 
 # CORS Middleware
+PostOffice.add_middleware(RemoveServerHeaderMiddleware)
 PostOffice.add_middleware(
 
 	# CORS Middleware
@@ -32,7 +33,6 @@ PostOffice.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["date", "content-type", "content-length"]
 )
-PostOffice.add_middleware(RemoveServerHeaderMiddleware)
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
