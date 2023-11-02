@@ -1,7 +1,7 @@
 # Library Includes
 from Functions import Log
 from Setup import Database, Models
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, status, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from Routers import WeatherStat
@@ -27,7 +27,7 @@ async def Shutdown_event():
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(request: Request, exc: RequestValidationError, response: Response):
 
 	# Log Message
 	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
@@ -57,6 +57,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
     # Close Database
 	DB_Module.close()
+
+	# Set Response Headers
+	response.headers["Server"] = "PostOffice"
 
 	# Send Error
 	return JSONResponse(
