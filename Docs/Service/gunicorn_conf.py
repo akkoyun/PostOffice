@@ -1,7 +1,5 @@
 # config.py
 import multiprocessing
 
-bind = "0.0.0.0"
-port = 80
-workers = 4
-log_level = "debug"
+bind = '0.0.0.0:80'
+workers = multiprocessing.cpu_count() * 2 + 1
