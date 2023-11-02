@@ -27,7 +27,7 @@ async def Shutdown_event():
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(request: Request, exc: RequestValidationError, response: Response):
 
 	# Log Message
 	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
@@ -63,6 +63,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 	# Message Content
 	Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
+
+	# Delete Headers
+	response.headers.pop("server", None)
 
 	# Headers
 	Message_Headers = {"Server": "PostOffice"}
