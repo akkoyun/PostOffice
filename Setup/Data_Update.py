@@ -5,7 +5,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup.Config import APP_Settings
-from Setup import Models
+from Setup import Models, Database
 import pandas as pd
 
 # Import Data_Segment Data
@@ -743,3 +743,21 @@ def Import_SIM(DB_Module):
 
         # Log Message
         Log.Terminal_Log("DEBUG", f"SIM is up to date")
+
+# Define DB
+DB_Module = Database.SessionLocal()
+
+# Update DataBase
+Import_Data_Segment(DB_Module)
+Import_GSM_Operator(DB_Module)
+Import_Status(DB_Module)
+Import_Version(DB_Module)
+Import_Model(DB_Module)
+Import_Manufacturer(DB_Module)
+Import_Modem(DB_Module)
+Import_Device(DB_Module)
+Import_Data_Type(DB_Module)
+Import_SIM(DB_Module)
+
+# Close Database
+DB_Module.close()

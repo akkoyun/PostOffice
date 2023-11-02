@@ -98,6 +98,13 @@ Perform_Git_Pull
 # Message
 echo "----------------------------------------------"
 
+# Table Update
+echo "${yellow}Table updating...${reset}"
+python3 /root/PostOffice/Setup/Data_Update.py
+
+# Message
+echo "----------------------------------------------"
+
 # Copy Service Files
 Copy_File "/root/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
 Copy_File "/root/PostOffice/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"

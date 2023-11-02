@@ -1,19 +1,40 @@
 #!/bin/bash
 
+# Reset Color and Style
+reset=$(tput sgr0)
+
+# Set Color and Style
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+bold=$(tput bold)
+underline=$(tput smul)
+
+# Clear Screen
+clear
+
 # Version: 1.0
-echo "PostOffice System Service Restarting..."
+echo "${blue}${underline}PostOffice System Restart...${reset}"
+echo "----------------------------------------------"
 
-# Restart Deamon
-systemctl daemon-reload
+# Restart Service
+Restart_Service() {
 
-# Restart PostOffice System Service
-systemctl restart PostOffice.service
+    # Print Message
+    echo "${green}Restarting: $1${reset}"
+    
+    # Start Service
+    systemctl restart "$1"
 
-# Restart RAW Handler
-systemctl restart Handler_RAW.service
+}
 
-# Restart Device Handler
-systemctl restart Handler_Device.service
+# Message
+echo "${green}${bold}PostOffice System Service Restarting...${reset}"
 
-# Restart WeatherStat Handler
-systemctl restart Handler_WeatherStat.service
+# Restart Services
+Restart_Service PostOffice.service
+Restart_Service Handler_RAW.service
+
+# Message
+echo "----------------------------------------------"
