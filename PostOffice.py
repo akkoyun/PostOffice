@@ -6,29 +6,22 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from Routers import WeatherStat
 from datetime import datetime
-from starlette.middleware.base import BaseHTTPMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.00.00", title="PostOffice")
 
-# Declare Middleware Class
-class RemoveServerHeaderMiddleware(BaseHTTPMiddleware):
-    
-	# Define Dispatch Method
-	async def dispatch(self, request: Request, call_next):
+# CORS Middleware
+PostOffice.add_middleware(
 
-		# Call Next
-		response = await call_next(request)
-
-		# Remove Server Header
-		del response.headers["server"]
-
-		# Return Response
-		return response
-
-# Add Middleware
-PostOffice.add_middleware(RemoveServerHeaderMiddleware)
+	# CORS Middleware
+    CORSMiddleware,
+    allow_origins=["http://api.stf.digital"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"]
+)
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
