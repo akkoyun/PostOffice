@@ -55,7 +55,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Device_Last_Connection = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S")
 
 	# Set Device
-	Device = App_Schema.Device(LastUpdate=Device_Last_Connection)
+	Device = App_Schema.Device(Device_ID=ID,LastUpdate=Device_Last_Connection)
 
 
 

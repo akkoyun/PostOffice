@@ -13,6 +13,9 @@ from datetime import datetime
 # Device Info
 class Device(BaseModel):
 
+	# Device ID
+	Device_ID: str = Field(description="Device ID.", example="1234567890")
+
 	# Timestamp
 	LastUpdate: datetime = Field(description="Last Measurement time stamp.", example="2022-07-19T08:28:32Z")
 
