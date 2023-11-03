@@ -58,8 +58,13 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Device = App_Schema.Device(Device_ID=ID,LastUpdate=Device_Last_Connection)
 
 	# Read Data
+	AT_Data = Handler.Read_Measurement(ID, "AT")
 	AH_Data = Handler.Read_Measurement(ID, "AH")
 	AP_Data = Handler.Read_Measurement(ID, "AP")
+
+	# Parse AT Data
+	if AT_Data is not None:
+		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change)
 
 	# Parse AH Data
 	if AH_Data is not None:
@@ -73,7 +78,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 
 	# Set Model
-	Response_Message = App_Schema.Model(Device=Device, AH=AH, AP=AP)
+	Response_Message = App_Schema.Model(Device=Device, AT=AT, AH=AH, AP=AP)
 
 	# Set Response
 	return Response_Message
