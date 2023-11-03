@@ -62,6 +62,11 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	AH_Data = Handler.Read_Measurement(ID, "AH")
 #	AP_Data = Handler.Read_Measurement(ID, "AP")
 
+    # Initialize AT and AH with default values
+	AT = App_Schema.AT(Value=0, Change=0)
+	AH = App_Schema.AH(Value=0, Change=0)
+	# AP = App_Schema.AP(Value=0, Change=0)
+
 	# Parse AT Data
 	if AT_Data is not None:
 		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change)
