@@ -176,26 +176,26 @@ class Model(BaseModel):
 	Device: Device
 	
 	# Air Temperature
-	AT: Optional[AT]
+	AT: Optional[AT] = Field(default=None, exclude_unset=True)
 
 	# Air Humidity
-	AH: Optional[AH]
+	AH: Optional[AH] = Field(default=None, exclude_unset=True)
 
 	# Air Pressure
-	AP: Optional[AP]
+	AP: Optional[AP] = Field(default=None, exclude_unset=True)
 
 	# Rain
-	R: Optional[R]
+	R: Optional[R] = Field(default=None, exclude_unset=True)
 
 	# Wind
-	W: Optional[W]
+	W: Optional[W] = Field(default=None, exclude_unset=True)
 
 	# UV
-	UV: Optional[UV]
+	UV: Optional[UV] = Field(default=None, exclude_unset=True)
 	
 	# Soil Temperature
-	ST: Optional[ST]
+	ST: Optional[ST] = Field(default=None, exclude_unset=True)
 
 	# Sun
-	Sun: Optional[Sun]
+	Sun: Optional[Sun] = Field(default=None, exclude_unset=True)
 
