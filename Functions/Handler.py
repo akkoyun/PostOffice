@@ -436,14 +436,14 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
     # SQL Query
     Latest_Stream_Subquery = (
         DB_Module.query(Models.Stream.Stream_ID)
-        .filter(Models.Stream.Device_ID == Device_ID)
+        .filter(Models.Stream.Device_ID.like(Device_ID))
         .order_by(Models.Stream.Stream_Time.desc())
         .limit(2)
         .subquery()
     )
     Target_Data_Type_Subquery = (
         DB_Module.query(Models.Data_Type.Type_ID)
-        .filter(Models.Data_Type.Variable == Variable_Name)
+        .filter(Models.Data_Type.Variable.like(Variable_Name))
         .subquery()
     )
     Value_Query = (
