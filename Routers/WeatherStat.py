@@ -63,7 +63,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Response_Message = App_Schema.Model(Device=Device)
 
 	# Remove Null Values
-	Response_Message = Response_Message.dict(exclude_none=True)
+	Response_Message = Handler.Remove_None_Values(Response_Message)
 
 	# Set Response
 	return Response_Message
