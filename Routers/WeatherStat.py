@@ -47,14 +47,23 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 # IoT Get Method
-@PostOffice_WeatherStat.get("/WeatherStat/{ID}", response_model=App_Schema.Device)
-def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Device:
+@PostOffice_WeatherStat.get("/WeatherStat/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
+def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
-	# Set Response
-	Response_Message = App_Schema.Device()
+	# Set Device
+	Device = App_Schema.Device(LastUpdate="2022-07-19T08:28:32Z")
 
-	# Set Update Time
-	Response_Message.LastUpdate = "2022-07-19T08:28:32Z"
+	# Set Max AT
+	Max_AT = App_Schema.MaxAT(Value=28.3232, Time="2022-07-19T08:28:32Z")
+
+	# Set Min AT
+	Min_AT = App_Schema.MinAT(Value=28.3232, Time="2022-07-19T08:28:32Z")
+
+	# Set AT
+	AT = App_Schema.AT(Value=28.3232, Change=0, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
+
+	# Set Model
+	Response_Message = App_Schema.Model(Device=Device, AT=AT)
 
 	# Set Response
 	return Response_Message
