@@ -47,32 +47,15 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 # IoT Get Method
-@PostOffice_WeatherStat.get("/WeatherStat/{ID}", response_model=App_Schema.Model)
-def Root(request: Request, ID: str):
+@PostOffice_WeatherStat.get("/WeatherStat/{ID}", response_model=App_Schema.Device)
+def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Device:
 
-	# Define DB
-	DB_Module = Database.SessionLocal()
+	# Set Response
+	Response_Message = App_Schema.Device(LastUpdate="2022-07-19T08:28:32Z")
 
-
-
-
-
-
-	# Message Status Code
-	Message_Status_Code = status.HTTP_200_OK
-
-	# Headers
-	Message_Headers = {"server": APP_Settings.SERVER_NAME}
-
-	# Message Content
-	Message_Content = App_Schema.Model
+	# Set Response
+	return Response_Message
 	
-	
-	
-	
-
-	# Send Response
-	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 
 
