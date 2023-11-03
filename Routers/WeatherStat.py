@@ -59,7 +59,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Read Data
 	AT_Data = Handler.Read_Measurement(ID, "AT")
-#	AH_Data = Handler.Read_Measurement(ID, "AH")
+	AH_Data = Handler.Read_Measurement(ID, "AH")
 #	AP_Data = Handler.Read_Measurement(ID, "AP")
 
 	# Parse AT Data
@@ -67,8 +67,8 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change)
 
 	# Parse AH Data
-#	if AH_Data is not None:
-#		AH = App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Change)
+	if AH_Data is not None:
+		AH = App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Change)
 
 	# Parse AP Data
 #	if AP_Data is not None:
@@ -79,7 +79,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Set Model
 #	Response_Message = App_Schema.Model(Device=Device, AT=AT, AH=AH, AP=AP)
-	Response_Message = App_Schema.Model(Device=Device, AT=AT)
+	Response_Message = App_Schema.Model(Device=Device, AT=AT, AH=AH)
 
 	# Set Response
 	return Response_Message
