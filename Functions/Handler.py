@@ -425,6 +425,7 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
 
 
 # Get Measurement
+@staticmethod
 def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
 
     # Define DB
