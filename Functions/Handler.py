@@ -460,15 +460,18 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
     # Get Measurement
     Measurement_Query = DB_Module.query(Models.Parameter).filter(Models.Parameter.Stream_ID == Stream_ID).filter(Models.Parameter.Type_ID == Type_ID).order_by(Models.Parameter.Create_Time.desc()).limit(2)
 
-    # Device in Stream Table
+    # Control for Query
+    if len(Measurement_Query) < 2: Measurement_Query = None
+
+    # Control for Query
     if Measurement_Query:
 
         # Read Stream_ID
-        Measurement.Last_Value = Measurement_Query.first().Value
+        Measurement.Last_Value = Measurement_Query[0].value
 
         # Control for Change
-        if Measurement_Query.first() > Measurement_Query[1]: Measurement.Change = 1
-        elif Measurement_Query.first() < Measurement_Query[1]: Measurement.Change = -1
+        if Measurement_Query[0] > Measurement_Query[1]: Measurement.Change = 1
+        elif Measurement_Query[0] < Measurement_Query[1]: Measurement.Change = -1
         else: Measurement.Change = 0
 
         # Set Variable Name
