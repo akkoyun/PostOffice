@@ -425,7 +425,7 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
 
 
 # Get Measurement
-def Read_Measurement(Device_ID: str, Variable_Name: str = None):
+def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
 
     # Define Value
     Value = None
@@ -458,10 +458,11 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
     if Value_Query:
 
         # Read Stream_ID
-        Value = Value_Query.Value
+        Measurement.Last_Value = Value_Query.first().Value
+
 
     # Close Database
     DB_Module.close()
 
     # Return Stream_ID
-    return Value
+    return Measurement
