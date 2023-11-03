@@ -64,6 +64,13 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Last_AH = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4020)
 	Last_AP = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4030)
 	Last_UV = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4040)
+	Last_ST10 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4070)
+	Last_ST30 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4072)
+	Last_ST60 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4075)
+	Last_ST90 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4078)
+	Last_WS = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4090)
+	Last_WD = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4100)
+
 
 
 
@@ -90,17 +97,17 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Set R
 	R = App_Schema.R(R_1=28.3232, R_24=28.3232, R_48=2, R_168=28.3232)
 
-	# Set W
-	W = App_Schema.W(WS=28.3232, WD=28.3232, Change=0)
+	# Set Ws
+	W = App_Schema.W(WS=Last_WS, WD=Last_WD, Change=0)
 
 	# Set UV
 	UV = App_Schema.UV(Value=Last_UV, Change=0)
 
 	# Set ST
-	ST_10 = App_Schema.ST_10(Value=28.3232, Change=0)
-	ST_30 = App_Schema.ST_30(Value=28.3232, Change=0)
-	ST_60 = App_Schema.ST_60(Value=28.3232, Change=0)
-	ST_90 = App_Schema.ST_90(Value=28.3232, Change=0)
+	ST_10 = App_Schema.ST_10(Value=Last_ST10, Change=0)
+	ST_30 = App_Schema.ST_30(Value=Last_ST30, Change=0)
+	ST_60 = App_Schema.ST_60(Value=Last_ST60, Change=0)
+	ST_90 = App_Schema.ST_90(Value=Last_ST90, Change=0)
 	ST = App_Schema.ST(ST_10=ST_10, ST_30=ST_30, ST_60=ST_60, ST_90=ST_90)
 
 	# Set Sun
