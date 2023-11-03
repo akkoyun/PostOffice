@@ -64,7 +64,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 
 	# Set Model
-	Response_Message = App_Schema.Model(Device=Device)
+	Response_Message = App_Schema.Model(Device=Device).json()
 
 	# Set Response
 	JSONResponse(status_code=status.HTTP_200_OK, content=Response_Message)
