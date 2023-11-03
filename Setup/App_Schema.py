@@ -176,26 +176,31 @@ class Model(BaseModel):
 	Device: Device
 	
 	# Air Temperature
-	AT: Optional[AT] = Field(default=None, exclude_unset=True)
+	AT: Optional[AT]
 
 	# Air Humidity
-	AH: Optional[AH] = Field(default=None, exclude_unset=True)
+	AH: Optional[AH]
 
 	# Air Pressure
-	AP: Optional[AP] = Field(default=None, exclude_unset=True)
+	AP: Optional[AP]
 
 	# Rain
-	R: Optional[R] = Field(default=None, exclude_unset=True)
+	R: Optional[R]
 
 	# Wind
-	W: Optional[W] = Field(default=None, exclude_unset=True)
+	W: Optional[W]
 
 	# UV
-	UV: Optional[UV] = Field(default=None, exclude_unset=True)
+	UV: Optional[UV]
 	
 	# Soil Temperature
-	ST: Optional[ST] = Field(default=None, exclude_unset=True)
+	ST: Optional[ST]
 
 	# Sun
-	Sun: Optional[Sun] = Field(default=None, exclude_unset=True)
+	Sun: Optional[Sun]
 
+	class Config:
+		json_encoders = {
+			type(None): lambda v: None
+		}
+		exclude_none = True
