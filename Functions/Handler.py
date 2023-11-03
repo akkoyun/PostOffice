@@ -366,7 +366,7 @@ def Get_Last_Stream_ID(Device_ID: str):
 def Get_Device_Last_Connection(Device_ID: str):
 
     # Define Last_Connection
-    Last_Connection = None
+    Last_Connection = 0
 
     # Define DB
     DB_Module = Database.SessionLocal()
