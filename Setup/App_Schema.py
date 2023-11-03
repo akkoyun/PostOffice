@@ -14,7 +14,7 @@ from datetime import datetime
 class Device(BaseModel):
 
 	# Timestamp
-	LastUpdate: str = Field(description="Last Measurement time stamp.", example="2022-07-19T08:28:32Z")
+	LastUpdate: datetime = Field(description="Last Measurement time stamp.", example="2022-07-19T08:28:32Z")
 
 # Max AT Model
 class MaxAT(BaseModel):
