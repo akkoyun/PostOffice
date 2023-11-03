@@ -459,6 +459,8 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
 
         # Read Stream_ID
         Measurement.Last_Value = Value_Query.first().Value
+        Measurement.Change = 0
+        Measurement.Variable = Variable_Name
 
 
     # Close Database
