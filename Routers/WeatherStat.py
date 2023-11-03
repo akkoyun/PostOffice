@@ -13,6 +13,7 @@ from Setup.Config import APP_Settings
 PostOffice_WeatherStat = APIRouter()
 
 # IoT Post Method
+@PostOffice_WeatherStat.post("", status_code=status.HTTP_201_CREATED, include_in_schema=False)
 @PostOffice_WeatherStat.post("/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 
