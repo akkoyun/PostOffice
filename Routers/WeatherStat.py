@@ -62,8 +62,33 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Set AT
 	AT = App_Schema.AT(Value=28.3232, Change=0, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
 
+	# Set AH
+	AH = App_Schema.AH(Value=28.3232, Change=0)
+
+	# Set AP
+	AP = App_Schema.AP(Value=28.3232, Change=0)
+
+	# Set R
+	R = App_Schema.R(R_1=28.3232, R_24=28.3232, R_48=2, R_168=28.3232)
+
+	# Set W
+	W = App_Schema.W(WS=28.3232, WD=28.3232, Change=0)
+
+	# Set UV
+	UV = App_Schema.UV(Value=28.3232, Change=0)
+
+	# Set ST
+	ST10 = App_Schema.ST10(Value=28.3232, Change=0)
+	ST30 = App_Schema.ST30(Value=28.3232, Change=0)
+	ST60 = App_Schema.ST60(Value=28.3232, Change=0)
+	ST90 = App_Schema.ST90(Value=28.3232, Change=0)
+	ST = App_Schema.ST(ST10=ST10, ST30=ST30, ST60=ST60, ST90=ST90)
+
+	# Set Sun
+	Sun = App_Schema.Sun(Sunrise="2022-07-19T08:28:32Z", Sunset="2022-07-19T08:28:32Z")
+
 	# Set Model
-	Response_Message = App_Schema.Model(Device=Device, AT=AT)
+	Response_Message = App_Schema.Model(Device=Device, AT=AT, AH=AH, AP=AP, R=R, W=W, UV=UV, ST=ST, Sun=Sun)
 
 	# Set Response
 	return Response_Message
