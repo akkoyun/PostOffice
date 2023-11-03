@@ -86,29 +86,35 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Min_AT = App_Schema.MinAT(Value=28.3232, Time="2022-07-19T08:28:32Z")
 
 	# Set AT
-	AT = App_Schema.AT(Value=Last_AT, Change=0, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
+	if Last_AT is not None:
+		AT = App_Schema.AT(Value=Last_AT, Change=0, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
 
 	# Set AH
-	AH = App_Schema.AH(Value=Last_AH, Change=0)
+	if Last_AH is not None:
+		AH = App_Schema.AH(Value=Last_AH, Change=0)
 
 	# Set AP
-	AP = App_Schema.AP(Value=Last_AP, Change=0)
+	if Last_AP is not None:
+		AP = App_Schema.AP(Value=Last_AP, Change=0)
 
 	# Set R
 	R = App_Schema.R(R_1=28.3232, R_24=28.3232, R_48=2, R_168=28.3232)
 
 	# Set Ws
-	W = App_Schema.W(WS=Last_WS, WD=Last_WD, Change=0)
+	if Last_WS is not None and Last_WD is not None:
+		W = App_Schema.W(WS=Last_WS, WD=Last_WD, Change=0)
 
 	# Set UV
-	UV = App_Schema.UV(Value=Last_UV, Change=0)
+	if Last_UV is not None:
+		UV = App_Schema.UV(Value=Last_UV, Change=0)
 
 	# Set ST
-	ST_10 = App_Schema.ST_10(Value=Last_ST10, Change=0)
-	ST_30 = App_Schema.ST_30(Value=Last_ST30, Change=0)
-	ST_60 = App_Schema.ST_60(Value=Last_ST60, Change=0)
-	ST_90 = App_Schema.ST_90(Value=Last_ST90, Change=0)
-	ST = App_Schema.ST(ST_10=ST_10, ST_30=ST_30, ST_60=ST_60, ST_90=ST_90)
+	if Last_ST10 is not None and Last_ST30 is not None and Last_ST60 is not None and Last_ST90 is not None:
+		ST_10 = App_Schema.ST_10(Value=Last_ST10, Change=0)
+		ST_30 = App_Schema.ST_30(Value=Last_ST30, Change=0)
+		ST_60 = App_Schema.ST_60(Value=Last_ST60, Change=0)
+		ST_90 = App_Schema.ST_90(Value=Last_ST90, Change=0)
+		ST = App_Schema.ST(ST_10=ST_10, ST_30=ST_30, ST_60=ST_60, ST_90=ST_90)
 
 	# Set Sun
 	Sun = App_Schema.Sun(Sunrise="2022-07-19T08:28:32Z", Sunset="2022-07-19T08:28:32Z")
