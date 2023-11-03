@@ -5,15 +5,17 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Database, Models
 from datetime import datetime
-from typing import Tuple, Optional
 
 # Define Measurement Type
 class Measurement:
-    
-    def __init__(self, value=None, change=None, variable=None):
-        self.Last_Value = value
-        self.Change = change
+
+    # Define Measurement
+    def __init__(self, variable, last, change):
+        
+        # Get Variables
         self.Variable = variable
+        self.Last_Value = last
+        self.Change = change
 
 # Control for Device in Database
 def Control_Device(Device_ID: str):
@@ -423,49 +425,49 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
 
 
 # Get Measurement
-def Read_Measurement(self, Device_ID: str, Variable_Name: str = None) -> Optional[Measurement]:
+def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
 
     # Define DB
     DB_Module = Database.SessionLocal()
 
-    try:
+    # SQL Query
+    Latest_Stream_Subquery = (
+        DB_Module.query(Models.Stream.Stream_ID)
+        .filter(Models.Stream.Device_ID == Device_ID)
+        .order_by(Models.Stream.Stream_Time.desc())
+        .limit(2)
+        .subquery()
+    )
+    Target_Data_Type_Subquery = (
+        DB_Module.query(Models.Data_Type.Type_ID)
+        .filter(Models.Data_Type.Variable == Variable_Name)
+        .subquery()
+    )
+    Value_Query = (
+        DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
+        .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
+        .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
+        .order_by(Models.WeatherStat.Create_Time.desc())
+        .limit(2)
+    )
 
-        # SQL Query
-        Latest_Stream_Subquery = (
-            DB_Module.query(Models.Stream.Stream_ID)
-            .filter(Models.Stream.Device_ID == Device_ID)
-            .order_by(Models.Stream.Stream_Time.desc())
-            .limit(2)
-            .subquery()
-        )
-        Target_Data_Type_Subquery = (
-            DB_Module.query(Models.Data_Type.Type_ID)
-            .filter(Models.Data_Type.Variable == Variable_Name)
-            .subquery()
-        )
-        Value_Query = (
-            DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
-            .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
-            .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
-            .order_by(Models.WeatherStat.Create_Time.desc())
-            .limit(2)
-        )
+    # Device in Stream Table
+    if Value_Query:
 
-        Count = Value_Query.count()
+        # Read Stream_ID
+        Measurement.Last_Value = Value_Query.first().Value
 
-        # Check if there are at least two measurements to compare
-        if Count >= 2:
-            value_change = 1 if Value_Query[0].Value > Value_Query[1].Value else -1 if Value_Query[0].Value < Value_Query[1].Value else 0
-            measurement = Measurement(value=Value_Query[0].Value, change=value_change, variable=Variable_Name)
-        elif Count == 1:
-            measurement = Measurement(value=Value_Query[0].Value, change=0, variable=Variable_Name)
-        else:
-            measurement = None
+        # Control for Change
+        if Value_Query.first() > Value_Query[1]: Measurement.Change = 1
+        elif Value_Query.first() < Value_Query[1]: Measurement.Change = -1
+        else: Measurement.Change = 0
 
-    finally:
-        # Close Database
-        DB_Module.close()
+        # Set Variable Name
+        Measurement.Variable = Variable_Name
+
+    # Close Database
+    DB_Module.close()
 
     # Return Stream_ID
-    return measurement
+    return Measurement
 
