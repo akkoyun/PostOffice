@@ -52,18 +52,19 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Get Device Last Connection Time
-	Device_Last_Connection = Handler.Get_Device_Last_Connection(ID)
+	Device_Last_Connection = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S")
 
 	# Set Device
 	Device = App_Schema.Device(LastUpdate=Device_Last_Connection)
 
 
 
+
+
+
+
 	# Set Model
 	Response_Message = App_Schema.Model(Device=Device)
-
-	# Clean Model
-
 
 	# Set Response
 	return Response_Message
