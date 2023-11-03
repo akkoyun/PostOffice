@@ -10,7 +10,7 @@ from Functions import Log, Kafka, Handler
 from Setup.Config import APP_Settings
 
 # Define FastAPI Object
-PostOffice_WeatherStat = APIRouter(default_redirect_slash=True)
+PostOffice_WeatherStat = APIRouter()
 
 # IoT Post Method
 @PostOffice_WeatherStat.post("/", status_code=status.HTTP_201_CREATED)
