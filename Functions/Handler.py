@@ -422,7 +422,7 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
     return Value
 
 # Get Measurement
-def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
+def Read_Measurement(Device_ID: str, Variable_Name: str = None):
 
     # Define DB
     DB_Module = Database.SessionLocal()
@@ -452,19 +452,19 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
     if Value_Query:
 
         # Read Stream_ID
-        Measurement.Last_Value = Value_Query.first().Value
+        Last_Value = Value_Query.first().Value
 
         # Control for Change
-        if Value_Query.first() > Value_Query[1]: Measurement.Change = 1
-        elif Value_Query.first() < Value_Query[1]: Measurement.Change = -1
-        else: Measurement.Change = 0
+        if Value_Query.first() > Value_Query[1]: Change = 1
+        elif Value_Query.first() < Value_Query[1]: Change = -1
+        else: Change = 0
 
         # Set Variable Name
-        Measurement.Variable = Variable_Name
+        Variable = Variable_Name
 
     # Close Database
     DB_Module.close()
 
     # Return Stream_ID
-    return Measurement
+    return Last_Value, Change, Variable
 
