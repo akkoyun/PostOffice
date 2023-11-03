@@ -176,7 +176,7 @@ class Model(BaseModel):
 	Device: Device
 	
 	# Air Temperature
-	AT: Optional[AT]
+	AT: Optional[AT] = Field(default=None)
 
 	# Air Humidity
 	AH: Optional[AH]
