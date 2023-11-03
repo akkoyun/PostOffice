@@ -423,7 +423,7 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
 
 
 # Get Measurement
-def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Optional[Measurement]:
+def Read_Measurement(self, Device_ID: str, Variable_Name: str = None) -> Optional[Measurement]:
 
     # Define DB
     DB_Module = Database.SessionLocal()
@@ -451,11 +451,13 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Optional[Meas
             .limit(2)
         )
 
+        Count = Value_Query.count()
+
         # Check if there are at least two measurements to compare
-        if len(Value_Query) >= 2:
+        if Count >= 2:
             value_change = 1 if Value_Query[0].Value > Value_Query[1].Value else -1 if Value_Query[0].Value < Value_Query[1].Value else 0
             measurement = Measurement(value=Value_Query[0].Value, change=value_change, variable=Variable_Name)
-        elif len(Value_Query) == 1:
+        elif Count == 1:
             measurement = Measurement(value=Value_Query[0].Value, change=0, variable=Variable_Name)
         else:
             measurement = None
