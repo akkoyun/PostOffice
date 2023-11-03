@@ -51,7 +51,10 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Device:
 
 	# Set Response
-	Response_Message = App_Schema.Device(LastUpdate="2022-07-19T08:28:32Z")
+	Response_Message = App_Schema.Device()
+
+	# Set Update Time
+	Response_Message.LastUpdate = "2022-07-19T08:28:32Z"
 
 	# Set Response
 	return Response_Message
