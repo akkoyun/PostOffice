@@ -61,7 +61,6 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Last_Stream_ID = Handler.Get_Last_Stream_ID(ID)
 
 	# Get Last Variables
-	Last_AT = Handler.Read_Measurement(ID, "AT").Last_Value
 	Last_AH = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4020)
 	Last_AP = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4030)
 	Last_UV = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4040)
@@ -87,8 +86,8 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Min_AT = App_Schema.MinAT(Value=28.3232, Time="2022-07-19T08:28:32Z")
 
 	# Set AT
-	if Last_AT is not None:
-		AT = App_Schema.AT(Value=Last_AT, Change=0, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
+	if Handler.Read_Measurement(ID, "AT") is not None:
+		AT = App_Schema.AT(Value=Handler.Read_Measurement(ID, "AT").Last_Value, Change=Handler.Read_Measurement(ID, "AT").Change, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
 
 	# Set AH
 	if Last_AH is not None:
