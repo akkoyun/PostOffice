@@ -66,6 +66,9 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Set Model
 	Response_Message = App_Schema.Model(Device=Device)
 
+	# Clear None Values
+	Response_Message = Response_Message.dict(exclude_none=True)
+
 	# Set Response
 	return Response_Message
 	
