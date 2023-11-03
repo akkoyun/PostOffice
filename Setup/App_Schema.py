@@ -47,10 +47,10 @@ class AT(BaseModel):
 	Change: int = Field(description="Air temperature change status.", example=0, min=-1, max=1)
 
 	# AT Feel Like
-	AT_FL: float = Field(description="Air temperature feel like.", example=28.3232, min=-50.0, max=100.0)
+	AT_FL: Optional[float] = Field(description="Air temperature feel like.", example=28.3232, min=-50.0, max=100.0)
 
 	# AT Dew Point
-	AT_Dew: float = Field(description="Air temperature dew point.", example=28.3232, min=-50.0, max=100.0)
+	AT_Dew: Optional[float] = Field(description="Air temperature dew point.", example=28.3232, min=-50.0, max=100.0)
 
 	# Max AT
 	Max_AT: Optional[MaxAT]
