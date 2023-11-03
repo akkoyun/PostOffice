@@ -425,7 +425,7 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
 
 
 # Get Measurement
-def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
+def Read_Measurement(Device_ID: str, Variable_Name: str = None):
 
     # Define Value
     Value = None
