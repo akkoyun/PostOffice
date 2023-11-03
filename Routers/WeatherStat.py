@@ -78,11 +78,11 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	UV = App_Schema.UV(Value=28.3232, Change=0)
 
 	# Set ST
-	ST10 = App_Schema.ST10(Value=28.3232, Change=0)
-	ST30 = App_Schema.ST30(Value=28.3232, Change=0)
-	ST60 = App_Schema.ST60(Value=28.3232, Change=0)
-	ST90 = App_Schema.ST90(Value=28.3232, Change=0)
-	ST = App_Schema.ST(ST10=ST10, ST30=ST30, ST60=ST60, ST90=ST90)
+	ST_10 = App_Schema.ST_10(Value=28.3232, Change=0)
+	ST_30 = App_Schema.ST_30(Value=28.3232, Change=0)
+	ST_60 = App_Schema.ST_60(Value=28.3232, Change=0)
+	ST_90 = App_Schema.ST_90(Value=28.3232, Change=0)
+	ST = App_Schema.ST(ST_10=ST_10, ST_30=ST_30, ST_60=ST_60, ST_90=ST_90)
 
 	# Set Sun
 	Sun = App_Schema.Sun(Sunrise="2022-07-19T08:28:32Z", Sunset="2022-07-19T08:28:32Z")

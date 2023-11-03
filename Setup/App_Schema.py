@@ -110,7 +110,7 @@ class UV(BaseModel):
 	Change: int = Field(description="UV change status.", example=0, min=-1, max=1)
 
 # 10 cm ST Model
-class ST10(BaseModel):
+class ST_10(BaseModel):
 	
 	# Last Measured 10 cm Soil Temperature Value
 	Value: float = Field(description="10 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -119,7 +119,7 @@ class ST10(BaseModel):
 	Change: int = Field(description="10 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 30 cm ST Model
-class ST30(BaseModel):
+class ST_30(BaseModel):
 	
 	# Last Measured 30 cm Soil Temperature Value
 	Value: float = Field(description="30 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -128,7 +128,7 @@ class ST30(BaseModel):
 	Change: int = Field(description="30 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 60 cm ST Model
-class ST60(BaseModel):
+class ST_60(BaseModel):
 	
 	# Last Measured 60 cm Soil Temperature Value
 	Value: float = Field(description="60 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -137,7 +137,7 @@ class ST60(BaseModel):
 	Change: int = Field(description="60 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 90 cm ST Model
-class ST90(BaseModel):
+class ST_90(BaseModel):
 	
 	# Last Measured 90 cm Soil Temperature Value
 	Value: float = Field(description="90 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -149,16 +149,16 @@ class ST90(BaseModel):
 class ST(BaseModel):
 	
 	# 10 cm ST
-	ST_10: Optional[ST10]
+	ST_10: Optional[ST_10]
 	
 	# 30 cm ST
-	ST_30: Optional[ST30]
+	ST_30: Optional[ST_30]
 	
 	# 60 cm ST
-	ST_60: Optional[ST60]
+	ST_60: Optional[ST_60]
 	
 	# 90 cm ST
-	ST_90: Optional[ST90]
+	ST_90: Optional[ST_90]
 
 # Sun Model
 class Sun(BaseModel):
