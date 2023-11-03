@@ -109,11 +109,22 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		UV = App_Schema.UV(Value=Last_UV, Change=0)
 
 	# Set ST
-	if Last_ST10 is not None and Last_ST30 is not None and Last_ST60 is not None and Last_ST90 is not None:
+	if Last_ST10 is not None:
 		ST_10 = App_Schema.ST_10(Value=Last_ST10, Change=0)
+	else:
+		ST_10 = App_Schema.ST_10(Value=0, Change=0)
+	if Last_ST30 is not None:
 		ST_30 = App_Schema.ST_30(Value=Last_ST30, Change=0)
+	else:
+		ST_30 = App_Schema.ST_30(Value=0, Change=0)
+	if Last_ST60 is not None:
 		ST_60 = App_Schema.ST_60(Value=Last_ST60, Change=0)
+	else:
+		ST_60 = App_Schema.ST_60(Value=0, Change=0)
+	if Last_ST90 is not None:
 		ST_90 = App_Schema.ST_90(Value=Last_ST90, Change=0)
+	else:
+		ST_90 = App_Schema.ST_90(Value=0, Change=0)
 	ST = App_Schema.ST(ST_10=ST_10, ST_30=ST_30, ST_60=ST_60, ST_90=ST_90)
 
 	# Set Sun
