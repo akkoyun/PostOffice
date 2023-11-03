@@ -56,6 +56,15 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Set Device
 	Device = App_Schema.Device(LastUpdate=Device_Last_Connection)
 
+	# Get Last Stream ID
+	Last_Stream_ID = Handler.Get_Last_Stream_ID(ID)
+
+	# Get Last Variables
+	Last_AT = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4010)
+	Last_AH = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4020)
+	Last_AP = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4030)
+	Last_UV = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4040)
+
 
 
 
@@ -70,13 +79,13 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Min_AT = App_Schema.MinAT(Value=28.3232, Time="2022-07-19T08:28:32Z")
 
 	# Set AT
-	AT = App_Schema.AT(Value=28.3232, Change=0, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
+	AT = App_Schema.AT(Value=Last_AT, Change=0, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
 
 	# Set AH
-	AH = App_Schema.AH(Value=28.3232, Change=0)
+	AH = App_Schema.AH(Value=Last_AH, Change=0)
 
 	# Set AP
-	AP = App_Schema.AP(Value=28.3232, Change=0)
+	AP = App_Schema.AP(Value=Last_AP, Change=0)
 
 	# Set R
 	R = App_Schema.R(R_1=28.3232, R_24=28.3232, R_48=2, R_168=28.3232)
@@ -85,7 +94,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	W = App_Schema.W(WS=28.3232, WD=28.3232, Change=0)
 
 	# Set UV
-	UV = App_Schema.UV(Value=28.3232, Change=0)
+	UV = App_Schema.UV(Value=Last_UV, Change=0)
 
 	# Set ST
 	ST_10 = App_Schema.ST_10(Value=28.3232, Change=0)

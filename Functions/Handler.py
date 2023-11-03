@@ -385,3 +385,28 @@ def Get_Device_Last_Connection(Device_ID: str):
 
     # Return Stream_ID
     return Last_Connection
+
+# Get Last Data on WeatherStat
+def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
+
+    # Define Value
+    Value = None
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control Device in Stream Table
+    Query_Data = DB_Module.query(Models.WeatherStat).filter(Models.WeatherStat.Stream_ID == Stream_ID).filter(Models.WeatherStat.Type_ID == Variable_ID).order_by(Models.WeatherStat.Create_Time.desc()).first()
+
+    # Device in Stream Table
+    if Query_Data:
+
+        # Read Stream_ID
+        Value = Query_Data.Value
+
+    # Close Database
+    DB_Module.close()
+
+    # Return Stream_ID
+    return Value
+
