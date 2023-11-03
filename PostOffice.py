@@ -72,7 +72,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 # Include Routers
-PostOffice.include_router(WeatherStat.PostOffice_WeatherStat)
+PostOffice.include_router(WeatherStat.PostOffice_WeatherStat, prefix="/WeatherStat", tags=["WeatherStat"], responses={404: {"description": "Not found"}})
 
 # IoT Get Method
 @PostOffice.get("/", status_code=status.HTTP_200_OK)

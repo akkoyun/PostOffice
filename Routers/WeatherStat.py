@@ -10,10 +10,10 @@ from Functions import Log, Kafka, Handler
 from Setup.Config import APP_Settings
 
 # Define FastAPI Object
-PostOffice_WeatherStat = APIRouter(default_redirect_slash=True)
+PostOffice_WeatherStat = APIRouter()
 
 # IoT Post Method
-@PostOffice_WeatherStat.post("/WeatherStat/", status_code=status.HTTP_201_CREATED)
+@PostOffice_WeatherStat.post("/", status_code=status.HTTP_201_CREATED)
 async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
@@ -47,7 +47,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 # IoT Get Method
-@PostOffice_WeatherStat.get("/WeatherStat/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
+@PostOffice_WeatherStat.get("/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
 def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Get Device Last Connection Time
