@@ -6,7 +6,7 @@ sys.path.append('/root/PostOffice/')
 from fastapi import Request, status, APIRouter
 from fastapi.responses import JSONResponse
 from Setup import Schema, Database, App_Schema
-from Functions import Log, Kafka
+from Functions import Log, Kafka, Handler
 from Setup.Config import APP_Settings
 
 # Define FastAPI Object
@@ -50,8 +50,18 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 @PostOffice_WeatherStat.get("/WeatherStat/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
 def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
+	# Get Device Last Connection Time
+	Device_Last_Connection = Handler.Get_Device_Last_Connection(ID)
+
 	# Set Device
-	Device = App_Schema.Device(LastUpdate="2022-07-19T08:28:32Z")
+	Device = App_Schema.Device(LastUpdate=Device_Last_Connection)
+
+
+
+
+
+
+
 
 	# Set Max AT
 	Max_AT = App_Schema.MaxAT(Value=28.3232, Time="2022-07-19T08:28:32Z")

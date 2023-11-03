@@ -338,3 +338,50 @@ def WeatherStat_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, 
     # Close Database
     DB_Module.close()
 
+# Get Last Stream ID
+def Get_Last_Stream_ID(Device_ID: str):
+
+    # Define Stream_ID
+    Stream_ID = None
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control Device in Stream Table
+    Query_Stream = DB_Module.query(Models.Stream).filter(Models.Stream.Device_ID.like(Device_ID)).order_by(Models.Stream.Stream_ID.desc()).first()
+
+    # Device in Stream Table
+    if Query_Stream:
+
+        # Read Stream_ID
+        Stream_ID = Query_Stream.Stream_ID
+
+    # Close Database
+    DB_Module.close()
+
+    # Return Stream_ID
+    return Stream_ID
+
+# Get Device Last Connection Time
+def Get_Device_Last_Connection(Device_ID: str):
+
+    # Define Last_Connection
+    Last_Connection = None
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control Device in Stream Table
+    Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+    # Device in Stream Table
+    if Query_Device:
+
+        # Read Stream_ID
+        Last_Connection = Query_Device.Last_Connection
+
+    # Close Database
+    DB_Module.close()
+
+    # Return Stream_ID
+    return Last_Connection
