@@ -61,12 +61,12 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Last_Stream_ID = Handler.Get_Last_Stream_ID(ID)
 
 	# Get Last Variables
-	AT_Measurement = Handler.Measurement(Handler.Measurement(ID, "AT"))
-	AH_Measurement = Handler.Measurement(ID, "AH")
-	AP_Measurement = Handler.Measurement(ID, "AP")
-	UV_Measurement = Handler.Measurement(ID, "UV")
-	WS_Measurement = Handler.Measurement(ID, "WS")
-	WD_Measurement = Handler.Measurement(ID, "WD")
+	AT_Measurement = Handler.Read_Measurement(ID, "AT")
+	AH_Measurement = Handler.Read_Measurement(ID, "AH")
+	AP_Measurement = Handler.Read_Measurement(ID, "AP")
+	UV_Measurement = Handler.Read_Measurement(ID, "UV")
+	WS_Measurement = Handler.Read_Measurement(ID, "WS")
+	WD_Measurement = Handler.Read_Measurement(ID, "WD")
 
 	# Set Max AT
 	Max_AT = App_Schema.MaxAT(Value=0, Time="2022-07-19T00:00:00Z")
