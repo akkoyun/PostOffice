@@ -452,19 +452,19 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
     if Value_Query:
 
         # Read Stream_ID
-        Last_Value = Value_Query.first().Value
+        Measurement.Last_Value = Value_Query.first().Value
 
         # Control for Change
-        if Value_Query.first() > Value_Query[1]: Change = 1
-        elif Value_Query.first() < Value_Query[1]: Change = -1
-        else: Change = 0
+        if Value_Query.first() > Value_Query[1]: Measurement.Change = 1
+        elif Value_Query.first() < Value_Query[1]: Measurement.Change = -1
+        else: Measurement.Change = 0
 
         # Set Variable Name
-        Variable = Variable_Name
+        Measurement.Variable = Variable_Name
 
     # Close Database
     DB_Module.close()
 
     # Return Stream_ID
-    return Last_Value, Change, Variable
+    return Measurement
 
