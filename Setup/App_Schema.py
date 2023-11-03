@@ -176,7 +176,7 @@ class Model(BaseModel):
 	Device: Device
 	
 	# Air Temperature
-	AT: Optional[AT] = Field(default=None)
+	AT: Optional[AT]
 
 	# Air Humidity
 	AH: Optional[AH]
@@ -198,9 +198,3 @@ class Model(BaseModel):
 
 	# Sun
 	Sun: Optional[Sun]
-
-	class Config:
-		json_encoders = {
-			type(None): lambda v: None
-		}
-		exclude_none = True
