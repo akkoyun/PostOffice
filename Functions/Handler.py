@@ -421,57 +421,48 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
     # Return Stream_ID
     return Value
 
-# Get Variable ID
-def Get_Variable_Type_ID(Variable: str):
 
-    # Define Type_ID
-    Type_ID = None
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    # Control Device in Stream Table
-    Query_Type_ID = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Variable)).first()
-
-    # Device in Stream Table
-    if Query_Type_ID:
-
-        # Read Type_ID
-        Type_ID = Query_Type_ID.Type_ID
-
-    # Close Database
-    DB_Module.close()
-
-    # Return Type_ID
-    return Type_ID
 
 # Get Measurement
 def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
 
-    # Get Last Stream ID
-    Stream_ID = Get_Last_Stream_ID(Device_ID)
-
-    # Get Type ID
-    Type_ID = Get_Variable_Type_ID(Variable_Name)
+    # Define Value
+    Value = None
 
     # Define DB
     DB_Module = Database.SessionLocal()
 
-    # Get Measurement
-    Measurement_Query = DB_Module.query(Models.Parameter).filter(Models.Parameter.Stream_ID == Stream_ID).filter(Models.Parameter.Type_ID == Type_ID).order_by(Models.Parameter.Create_Time.desc()).limit(2)
+    # SQL Query
+    Latest_Stream_Subquery = (
+        DB_Module.query(Models.Stream.Stream_ID)
+        .filter(Models.Stream.Device_ID == Device_ID)
+        .order_by(Models.Stream.Stream_Time.desc())
+        .limit(2)
+        .subquery()
+    )
+    Target_Data_Type_Subquery = (
+        DB_Module.query(Models.Data_Type.Type_ID)
+        .filter(Models.Data_Type.Variable == Variable_Name)
+        .subquery()
+    )
+    Value_Query = (
+        DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
+        .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
+        .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
+        .order_by(Models.WeatherStat.Create_Time.desc())
+        .limit(2)
+    )
 
-    # Control for Query
-    if len(Measurement_Query) < 2: Measurement_Query = None
-
-    # Control for Query
-    if Measurement_Query:
+    # Device in Stream Table
+    if Value_Query:
 
         # Read Stream_ID
-        Measurement.Last_Value = Measurement_Query[0].value
+        Measurement.Last_Value = Value_Query.first().Value
 
         # Control for Change
-        if Measurement_Query[0] > Measurement_Query[1]: Measurement.Change = 1
-        elif Measurement_Query[0] < Measurement_Query[1]: Measurement.Change = -1
+        if Value_Query.first() > Value_Query[1]: Measurement.Change = 1
+        elif Value_Query.first() < Value_Query[1]: Measurement.Change = -1
         else: Measurement.Change = 0
 
         # Set Variable Name
