@@ -61,63 +61,77 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Last_Stream_ID = Handler.Get_Last_Stream_ID(ID)
 
 	# Get Last Variables
-	Last_AH = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4020)
-	Last_AP = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4030)
-	Last_UV = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4040)
-	Last_ST10 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4070)
-	Last_ST30 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4072)
-	Last_ST60 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4075)
-	Last_ST90 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4078)
-	Last_WS = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4090)
-	Last_WD = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4100)
-
-
-
-
-
-
-
-
+	AT_Measurement = Handler.Measurement(ID, "AT")
+	AH_Measurement = Handler.Measurement(ID, "AH")
+	AP_Measurement = Handler.Measurement(ID, "AP")
+	UV_Measurement = Handler.Measurement(ID, "UV")
+	WS_Measurement = Handler.Measurement(ID, "WS")
+	WD_Measurement = Handler.Measurement(ID, "WD")
 
 	# Set Max AT
-	Max_AT = App_Schema.MaxAT(Value=28.3232, Time="2022-07-19T08:28:32Z")
+	Max_AT = App_Schema.MaxAT(Value=0, Time="2022-07-19T00:00:00Z")
 
 	# Set Min AT
-	Min_AT = App_Schema.MinAT(Value=28.3232, Time="2022-07-19T08:28:32Z")
+	Min_AT = App_Schema.MinAT(Value=0, Time="2022-07-19T00:00:00Z")
 
 	# Set AT
-	if Handler.Read_Measurement(ID, "AT") is not None:
+	if AT_Measurement is not None:
 		AT = App_Schema.AT(
-			Value=Handler.Read_Measurement(ID, "AT").Last_Value, 
-			Change=Handler.Read_Measurement(ID, "AT").Change, 
-			AT_FL=28.3232, 
-			AT_Dew=28.3232, 
+			Value = AT_Measurement.Last_Value,
+			Change = AT_Measurement.Change,
+			AT_FL=0, 
+			AT_Dew=0, 
 			Max_AT=Max_AT, 
 			Min_AT=Min_AT
 		)
 
 	# Set AH
-	if Handler.Read_Measurement(ID, "AH") is not None:
-		AH = App_Schema.AH(Value=Handler.Read_Measurement(ID, "AH").Last_Value, Change=Handler.Read_Measurement(ID, "AH").Change)
+	if AH_Measurement is not None:
+		AH = App_Schema.AH(
+			Value = AH_Measurement.Last_Value, 
+			Change=AH_Measurement.Change
+		)
 
 	# Set AP
-	if Handler.Read_Measurement(ID, "AP") is not None:
-		AP = App_Schema.AP(Value=Handler.Read_Measurement(ID, "AP").Last_Value, Change=Handler.Read_Measurement(ID, "AP").Change)
+	if AP_Measurement is not None:
+		AP = App_Schema.AP(
+			Value = AP_Measurement.Last_Value, 
+			Change=AP_Measurement.Change
+		)
+
+	# Set UV
+	if UV_Measurement is not None:
+		UV = App_Schema.UV(
+			Value = UV_Measurement.Last_Value, 
+			Change = UV_Measurement.Change
+		)
+
+	# Set Wind
+	if WS_Measurement is not None and WD_Measurement is not None:
+		W = App_Schema.W(
+			WS = WS_Measurement.Last_Value, 
+			WD = WD_Measurement.Last_Value, 
+			Change = WS_Measurement.Change
+		)
 
 
 
 
+
+
+
+
+
+
+
+	# Get Last Variables
+	Last_ST10 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4070)
+	Last_ST30 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4072)
+	Last_ST60 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4075)
+	Last_ST90 = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4078)
 
 	# Set R
 	R = App_Schema.R(R_1=28.3232, R_24=28.3232, R_48=2, R_168=28.3232)
-
-	# Set Ws
-	if Last_WS is not None and Last_WD is not None:
-		W = App_Schema.W(WS=Last_WS, WD=Last_WD, Change=0)
-
-	# Set UV
-	if Last_UV is not None:
-		UV = App_Schema.UV(Value=Last_UV, Change=0)
 
 	# Set ST
 	if Last_ST10 is not None:
