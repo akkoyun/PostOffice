@@ -6,6 +6,17 @@ sys.path.append('/root/PostOffice/')
 from Setup import Database, Models
 from datetime import datetime
 
+# Define Measurement Type
+class Measurement:
+
+    # Define Measurement
+    def __init__(self, variable, last, change):
+        
+        # Get Variables
+        self.Variable = variable
+        self.Last_Value = last
+        self.Change = change
+
 # Control for Device in Database
 def Control_Device(Device_ID: str):
 
@@ -410,3 +421,47 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
     # Return Stream_ID
     return Value
 
+
+
+
+# Get Measurement
+def Read_Measurement(Device_ID: str, Variable_Name: str = None):
+
+    # Define Value
+    Value = None
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # SQL Query
+    Latest_Stream_Subquery = (
+        DB_Module.query(Models.Stream.Stream_ID)
+        .filter(Models.Stream.Device_ID == Device_ID)
+        .order_by(Models.Stream.Stream_Time.desc())
+        .limit(2)
+        .subquery()
+    )
+    Target_Data_Type_Subquery = (
+        DB_Module.query(Models.Data_Type.Type_ID)
+        .filter(Models.Data_Type.Variable == Variable_Name)
+        .subquery()
+    )
+    Value_Query = (
+        DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
+        .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
+        .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
+        .order_by(Models.WeatherStat.Create_Time.desc())
+        .limit(2)
+    )
+
+    # Device in Stream Table
+    if Value_Query:
+
+        # Read Stream_ID
+        Value = Value_Query.Value
+
+    # Close Database
+    DB_Module.close()
+
+    # Return Stream_ID
+    return Value
