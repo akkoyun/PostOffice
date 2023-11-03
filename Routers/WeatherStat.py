@@ -87,15 +87,26 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Set AT
 	if Handler.Read_Measurement(ID, "AT") is not None:
-		AT = App_Schema.AT(Value=Handler.Read_Measurement(ID, "AT").Last_Value, Change=Handler.Read_Measurement(ID, "AT").Change, AT_FL=28.3232, AT_Dew=28.3232, Max_AT=Max_AT, Min_AT=Min_AT)
+		AT = App_Schema.AT(
+			Value=Handler.Read_Measurement(ID, "AT").Last_Value, 
+			Change=Handler.Read_Measurement(ID, "AT").Change, 
+			AT_FL=28.3232, 
+			AT_Dew=28.3232, 
+			Max_AT=Max_AT, 
+			Min_AT=Min_AT
+		)
 
 	# Set AH
-	if Last_AH is not None:
-		AH = App_Schema.AH(Value=Last_AH, Change=0)
+	if Handler.Read_Measurement(ID, "AH") is not None:
+		AH = App_Schema.AH(Value=Handler.Read_Measurement(ID, "AH").Last_Value, Change=Handler.Read_Measurement(ID, "AH").Change)
 
 	# Set AP
-	if Last_AP is not None:
-		AP = App_Schema.AP(Value=Last_AP, Change=0)
+	if Handler.Read_Measurement(ID, "AP") is not None:
+		AP = App_Schema.AP(Value=Handler.Read_Measurement(ID, "AP").Last_Value, Change=Handler.Read_Measurement(ID, "AP").Change)
+
+
+
+
 
 	# Set R
 	R = App_Schema.R(R_1=28.3232, R_24=28.3232, R_48=2, R_168=28.3232)
