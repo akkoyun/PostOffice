@@ -61,7 +61,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Last_Stream_ID = Handler.Get_Last_Stream_ID(ID)
 
 	# Get Last Variables
-	Last_AT = Handler.Measurement(Handler.Read_Measurement(ID, "AT")).Last_Value
+	Last_AT = Handler.Read_Measurement(ID, "AT").Last_Value
 	Last_AH = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4020)
 	Last_AP = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4030)
 	Last_UV = Handler.Get_WeatherStat_Data(Last_Stream_ID, 4040)
