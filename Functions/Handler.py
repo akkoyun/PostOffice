@@ -474,6 +474,3 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None) -> Measurement:
     # Return Stream_ID
     return Measurement
 
-# Remove None Values
-def Remove_None_Values(data):
-    return {k: v for k, v in data.items() if v is not None}
