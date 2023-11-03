@@ -5,7 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Import Packages
 from fastapi import Request, status, APIRouter
 from fastapi.responses import JSONResponse
-from Setup import Schema, Database, App_Schema
+from Setup import Schema, App_Schema
 from Functions import Log, Kafka, Handler
 from Setup.Config import APP_Settings
 
@@ -137,6 +137,3 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Set Response
 	return Response_Message
 	
-
-
-
