@@ -58,7 +58,7 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	Device = App_Schema.Device(Device_ID=ID,LastUpdate=Device_Last_Connection)
 
 	# Read Data
-	AT_Data = Handler.Read_Measurement(ID, "AT")
+	AT_Data = Handler.Measurement(Handler.Read_Measurement(ID, "AT"))
 #	AH_Data = Handler.Read_Measurement(ID, "AH")
 #	AP_Data = Handler.Read_Measurement(ID, "AP")
 
