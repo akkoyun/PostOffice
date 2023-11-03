@@ -62,14 +62,14 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Parse AH Data
 	if AH_Data is not None:
-		App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Change)
+		AH = App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Change)
 
 
 
 
 
 	# Set Model
-	Response_Message = App_Schema.Model(Device=Device)
+	Response_Message = App_Schema.Model(Device=Device, AH=AH)
 
 	# Set Response
 	return Response_Message
