@@ -57,7 +57,12 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Set Device
 	Device = App_Schema.Device(Device_ID=ID,LastUpdate=Device_Last_Connection)
 
+	# Read AH Data
+	AH_Data = Handler.Read_Measurement(ID, "AH")
 
+	# Parse AH Data
+	if AH_Data is not None:
+		App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Change)
 
 
 
