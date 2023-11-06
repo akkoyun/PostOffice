@@ -82,6 +82,8 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Set Default Values
 	AT = None
+	MAX_AT = None
+	MIN_AT = None
 	AH = None
 	AP = None
 	UV = None
@@ -99,7 +101,9 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Parse AT Data
 	if AT_Data is not None:
-		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value)
+		MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max_Value, Time=AT_Data.Max_Time)
+		MIN_AT = App_Schema.MinAT(Value=AT_Data.Min_Value, Time=AT_Data.Min_Time)
+		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value, Max_AT=MAX_AT, Min_AT=MIN_AT)
 
 	# Parse AH Data
 	if AH_Data is not None:
