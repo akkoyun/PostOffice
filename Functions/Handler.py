@@ -428,46 +428,61 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
     # Define DB
     DB_Module = Database.SessionLocal()
 
-    # SQL Query
-    Latest_Stream_Subquery = (
-        DB_Module.query(Models.Stream.Stream_ID)
-        .filter(Models.Stream.Device_ID == Device_ID)
-        .order_by(Models.Stream.Stream_Time.desc())
-        .limit(2)
-        .subquery()
-    )
-    Target_Data_Type_Subquery = (
-        DB_Module.query(Models.Data_Type.Type_ID)
-        .filter(Models.Data_Type.Variable == Variable_Name)
-        .subquery()
-    )
-    Value_Query = (
-        DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
-        .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
-        .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
-        .order_by(Models.WeatherStat.Create_Time.desc())
-        .limit(2)
-    )
+    try:
 
-    # Define Measurement
-    New_Measurement = Measurement()
+        # SQL Query
+        Latest_Stream_Subquery = (
+            DB_Module.query(Models.Stream.Stream_ID)
+            .filter(Models.Stream.Device_ID == Device_ID)
+            .order_by(Models.Stream.Stream_Time.desc())
+            .limit(2)
+            .subquery()
+        )
+        Target_Data_Type_Subquery = (
+            DB_Module.query(Models.Data_Type.Type_ID)
+            .filter(Models.Data_Type.Variable == Variable_Name)
+            .subquery()
+        )
+        Value_Query = (
+            DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
+            .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
+            .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
+            .order_by(Models.WeatherStat.Create_Time.desc())
+            .limit(2)
+        )
 
-    # Measurement in Database
-    if Value_Query:
+        # Define Measurement
+        New_Measurement = Measurement()
+
+        # Measurement in Database
+        if Value_Query:
+
+            # Set Variable Name
+            New_Measurement.Variable = Variable_Name
+
+            # Read Measurement
+            New_Measurement.Last_Value = Value_Query[0].Value
+
+            # Control for Change
+            if Value_Query[0] > Value_Query[1]: New_Measurement.Change = 1
+            elif Value_Query[0] < Value_Query[1]: New_Measurement.Change = -1
+            else: New_Measurement.Change = 0
+
+    except:
 
         # Set Variable Name
         New_Measurement.Variable = Variable_Name
 
         # Read Measurement
-        New_Measurement.Last_Value = Value_Query[0].Value
+        New_Measurement.Last_Value = None
 
         # Control for Change
-        if Value_Query[0] > Value_Query[1]: New_Measurement.Change = 1
-        elif Value_Query[0] < Value_Query[1]: New_Measurement.Change = -1
-        else: New_Measurement.Change = 0
+        New_Measurement.Change = None
+    
+    finally:
 
-    # Close Database
-    DB_Module.close()
+        # Close Database
+        DB_Module.close()
 
     # Return Stream_ID
     return New_Measurement
