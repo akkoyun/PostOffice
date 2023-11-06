@@ -545,9 +545,9 @@ def Clean_Null(d):
         return {
             k: Clean_Null(v)
             for k, v in d.items()
-            if v is not None and Clean_Null(v) is not None
+            if v != 'null' and Clean_Null(v) != 'null'
         }
     elif isinstance(d, list):
-        return [Clean_Null(v) for v in d if v is not None and Clean_Null(v) is not None]
+        return [Clean_Null(v) for v in d if v != 'null' and Clean_Null(v) != 'null']
     else:
         return d
