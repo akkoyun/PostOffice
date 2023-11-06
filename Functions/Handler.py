@@ -431,22 +431,23 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
 
     try:
 
-        # Get Current Time
-        Current_Time = datetime.now()
-
-        # Get Type_ID
-        Type_ID_subquery = (DB_Module.query(Models.Data_Type.Type_ID).filter(Models.Data_Type.Variable == Variable_Name).subquery())
-
         # Get Max Value
         Max_Value_Query = (
-            DB_Module.query(func.max(Models.WeatherStat.Value).label("max_value"))
-            .join(Type_ID_subquery, Models.WeatherStat.Type_ID == Type_ID_subquery.c.Type_ID)
-            .filter(Models.WeatherStat.Create_Time > Current_Time - timedelta(hours=24))
-            .scalar()
+            DB_Module.query(
+                Models.WeatherStat.Value, 
+                Models.WeatherStat.Create_Time
+            )
+            .join(Models.Data_Type, Models.WeatherStat.Type_ID == Models.Data_Type.Type_ID)
+            .join(Models.Stream, Models.WeatherStat.Stream_ID == Models.Stream.Stream_ID)
+            .filter(Models.Data_Type.Variable.like(Device_ID))
+            .filter(Models.Stream.Device_ID.like(Variable_Name))
+            .filter(Models.WeatherStat.Create_Time >= func.now() - func.interval('1 day'))
+            .order_by(Models.WeatherStat.Value.desc())
+            .limit(1)
         )
 
-        # Max değeri Measurement nesnesine ata
-        Max_Value = Max_Value_Query
+        # Execute the query
+        Max_Value = Max_Value_Query.one_or_none()
   
     finally:
 
