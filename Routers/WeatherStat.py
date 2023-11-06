@@ -57,9 +57,11 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Set Device
 	Device = App_Schema.Device(Device_ID = ID, LastUpdate = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S"))
 
+	# Get Stream_ID
+	Stream_ID = Handler.Get_Last_Stream_ID(ID)
+
 	# Read Data
 	AT_Data = Handler.Read_Measurement(ID, "AT")
-	AT_Max = Handler.Get_WeatherStat_Data_Max(ID, "AT")
 	AT_FL_Data = Handler.Read_Measurement(ID, "AT_FL")
 	AT_Dew_Data = Handler.Read_Measurement(ID, "AT_Dew")
 	AH_Data = Handler.Read_Measurement(ID, "AH")
@@ -71,15 +73,6 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	ST8_Data = Handler.Read_Measurement(ID, "ST8")
 	WS_Data = Handler.Read_Measurement(ID, "WS")
 	WD_Data = Handler.Read_Measurement(ID, "WD")
-
-	# Set Default Location
-	City_Name = "Konya"
-	City_Region = "Turkey"
-	Latitude = 37.8716
-	Longitude = 32.4846
-
-	# Set Location
-	City = LocationInfo(City_Name, City_Region, 'Europe/Istanbul', Latitude, Longitude)
 
 	# Set Default Values
 	AT = None
@@ -133,6 +126,15 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	
 	# Parse ST Model
 	ST = App_Schema.ST(ST_10=ST0, ST_30=ST2, ST_60=ST5, ST_90=ST8)
+
+	# Set Default Location
+	City_Name = "Konya"
+	City_Region = "Turkey"
+	Latitude = 37.8716
+	Longitude = 32.4846
+
+	# Set Location
+	City = LocationInfo(City_Name, City_Region, 'Europe/Istanbul', Latitude, Longitude)
 
 	# Set Sun
 	S = sun(City.observer, date.today())
