@@ -4,7 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Models
-from sqlalchemy import func, and_
+from sqlalchemy import func, and_, text
 from datetime import datetime, timedelta
 import math
 
@@ -441,7 +441,7 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
             .join(Models.Stream, Models.WeatherStat.Stream_ID == Models.Stream.Stream_ID)
             .filter(Models.Data_Type.Variable==(Device_ID))
             .filter(Models.Stream.Device_ID==(Variable_Name))
-            .filter(Models.WeatherStat.Create_Time >= func.now() - func.interval('24 HOURS'))
+            .filter(Models.WeatherStat.Create_Time >= func.now() - text("interval '24 hours'"))
             .order_by(Models.WeatherStat.Value.desc())
             .limit(1)
         )
