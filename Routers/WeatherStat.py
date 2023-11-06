@@ -138,7 +138,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Set Sun
 	S = sun(City.observer, date.today())
-	Sun = App_Schema.Sun(Sunrise=S["sunrise"], Sunset=S["sunset"])
+	Sun = App_Schema.Sun(Sunrise=S["sunrise"].strftime("%Y-%m-%d %H:%M:%S"), Sunset=S["sunset"].strftime("%Y-%m-%d %H:%M:%S"))
 
 
 
@@ -162,5 +162,5 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	)
 
 	# Set Response
-	return Response_Message
+	return Handler.Clean_Null(Response_Message)
 	
