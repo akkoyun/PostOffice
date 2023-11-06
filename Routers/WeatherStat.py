@@ -62,6 +62,11 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	AP_Data = Handler.Read_Measurement(ID, "AP")
 	UV_Data = Handler.Read_Measurement(ID, "UV")
 
+	# Set Default Values
+	AT = None
+	AH = None
+	AP = None
+	UV = None
 
 	# Parse AT Data
 	if AT_Data is not None:
