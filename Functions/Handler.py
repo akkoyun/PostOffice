@@ -450,7 +450,7 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
     )
 
     # Define Measurement
-    New_Measurement = Measurement(Variable_Name = Variable_Name)
+    New_Measurement = Measurement(Variable = Variable_Name)
 
     # Measurement in Database
     if Value_Query:
