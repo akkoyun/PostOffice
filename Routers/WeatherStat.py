@@ -85,8 +85,6 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	ST2 = None
 	ST5 = None
 	ST8 = None
-	W = None
-	Wind = None
 
 	# Parse AT Data
 	if AT_Data is not None:
@@ -158,7 +156,6 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		AT = AT,
 		AH = AH,
 		AP = AP,
-		W = Wind,
 		UV = UV,
 		ST = ST,
 		Sun = Sun,
