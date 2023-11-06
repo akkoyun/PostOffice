@@ -1,18 +1,24 @@
 {
     "Device": {
-        "Device_ID": "A10000011D02E970",
-        "LastUpdate": "2023-11-03T14:14:35"
+        "Device_ID": "A000000000000001",
+        "LastUpdate": "2023-11-06T08:13:33"
     },
     "AT": {
-        "Value": -40.0,
-        "Change": -1,
-        "AT_FL": null,
-        "AT_Dew": null,
+        "Value": 32.0,
+        "Change": 1,
+        "AT_FL": 29.757771279111125,
+        "AT_Dew": -0.975572658200582,
         "Max_AT": null,
         "Min_AT": null
     },
-    "AH": null,
-    "AP": null,
+    "AH": {
+        "Value": 12.0,
+        "Change": 0
+    },
+    "AP": {
+        "Value": 902.0,
+        "Change": 0
+    },
     "R": null,
     "W": null,
     "UV": null,
