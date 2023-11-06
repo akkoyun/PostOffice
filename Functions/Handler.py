@@ -13,12 +13,16 @@ import math
 class Measurement:
 
     # Define Measurement
-    def __init__(self, variable = None, last = None, change = None):
+    def __init__(self, variable = None, last = None, change = None, Min = None, Max = None, Min_Time = None, Max_Time = None):
         
         # Get Variables
         self.Variable = variable
         self.Last_Value = last
         self.Change = change
+        self.Min = Min
+        self.Max = Max
+        self.Min_Time = Min_Time
+        self.Max_Time = Max_Time
 
 # Control for Device in Database
 def Control_Device(Device_ID: str):
@@ -514,6 +518,7 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
             .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
             .order_by(desc(Models.WeatherStat.Create_Time))
         )
+        Max_Min_SubQuery = Value_Query.subquery()
 
         # Define Measurement
         New_Measurement = Measurement()
@@ -521,11 +526,33 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
         # Measurement in Database
         if Value_Query:
 
+            # Get Min Value Query
+            Min_Value_Query = DB_Module(
+                func.min(Max_Min_SubQuery.c.Value).label('Min'),
+                Max_Min_SubQuery.c.Create_Time.label('Min_Time')
+            ).group_by(Max_Min_SubQuery.c.Create_Time).order_by(func.min(Max_Min_SubQuery.c.Value).desc()).limit(1)
+
+            # Get Max Value Query
+            Max_Value_Query = DB_Module(
+                func.max(Max_Min_SubQuery.c.Value).label('Max'),
+                Max_Min_SubQuery.c.Create_Time.label('Max_Time')
+            ).group_by(Max_Min_SubQuery.c.Create_Time).order_by(func.max(Max_Min_SubQuery.c.Value).desc()).limit(1)
+
+            # Get Value Query
+            MIN_Value = Min_Value_Query.one()
+            MAX_Value = Max_Value_Query.one()
+
             # Set Variable Name
             New_Measurement.Variable = Variable_Name
 
             # Read Measurement
             New_Measurement.Last_Value = Value_Query[0].Value
+
+            # Read Min Max
+            New_Measurement.Min = MIN_Value.Min
+            New_Measurement.Max = MAX_Value.Max
+            New_Measurement.Min_Time = MIN_Value.Min_Time
+            New_Measurement.Max_Time = MAX_Value.Max_Time
 
             # Control for Change
             if Value_Query[0] > Value_Query[1]: New_Measurement.Change = 1
