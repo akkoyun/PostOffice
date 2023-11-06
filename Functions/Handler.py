@@ -447,7 +447,7 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
         )
 
         # Execute the query
-        Max_Value = Max_Value_Query.one_or_none()
+        Max_Value = Max_Value_Query.Value
   
     finally:
 
