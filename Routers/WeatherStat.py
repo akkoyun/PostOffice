@@ -110,44 +110,20 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	if ST0_Data is not None:
 		ST0 = App_Schema.ST_10(Value=ST0_Data.Last_Value, Change=ST0_Data.Change)
 	
-	# Parse ST1 Data
-	if ST1_Data is not None:
-		ST1 = App_Schema.ST_20(Value=ST1_Data.Last_Value, Change=ST1_Data.Change)
-
 	# Parse ST2 Data
 	if ST2_Data is not None:
 		ST2 = App_Schema.ST_30(Value=ST2_Data.Last_Value, Change=ST2_Data.Change)
-	
-	# Parse ST3 Data
-	if ST3_Data is not None:
-		ST3 = App_Schema.ST_40(Value=ST3_Data.Last_Value, Change=ST3_Data.Change)
-
-	# Parse ST4 Data
-	if ST4_Data is not None:
-		ST4 = App_Schema.ST_50(Value=ST4_Data.Last_Value, Change=ST4_Data.Change)
 	
 	# Parse ST5 Data
 	if ST5_Data is not None:
 		ST5 = App_Schema.ST_60(Value=ST5_Data.Last_Value, Change=ST5_Data.Change)
 	
-	# Parse ST6 Data
-	if ST6_Data is not None:
-		ST6 = App_Schema.ST_70(Value=ST6_Data.Last_Value, Change=ST6_Data.Change)
-	
-	# Parse ST7 Data
-	if ST7_Data is not None:
-		ST7 = App_Schema.ST_80(Value=ST7_Data.Last_Value, Change=ST7_Data.Change)
-	
 	# Parse ST8 Data
 	if ST8_Data is not None:
 		ST8 = App_Schema.ST_90(Value=ST8_Data.Last_Value, Change=ST8_Data.Change)
 	
-	# Parse ST9 Data
-	if ST9_Data is not None:
-		ST9 = App_Schema.ST_100(Value=ST9_Data.Last_Value, Change=ST9_Data.Change)
-
 	# Parse ST Model
-	ST = App_Schema.ST(ST_10=ST0, ST_20=ST1, ST_30=ST2, ST_40=ST3, ST_50=ST4, ST_60=ST5, ST_70=ST6, ST_80=ST7, ST_90=ST8, ST_100=ST9)
+	ST = App_Schema.ST(ST_10=ST0, ST_30=ST2, ST_60=ST5, ST_90=ST8)
 
 
 
