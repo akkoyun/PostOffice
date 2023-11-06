@@ -526,28 +526,11 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
         # Measurement in Database
         if Value_Query:
 
-            # Get Min Value Query
-            Min_Value_Query = DB_Module(
-                func.min(Max_Min_SubQuery.c.Value).label('Min'),
-                Max_Min_SubQuery.c.Create_Time.label('Min_Time')
-            ).group_by(Max_Min_SubQuery.c.Create_Time).order_by(func.min(Max_Min_SubQuery.c.Value).desc()).limit(1)
-
-            # Get Max Value Query
-            Max_Value_Query = DB_Module(
-                func.max(Max_Min_SubQuery.c.Value).label('Max'),
-                Max_Min_SubQuery.c.Create_Time.label('Max_Time')
-            ).group_by(Max_Min_SubQuery.c.Create_Time).order_by(func.max(Max_Min_SubQuery.c.Value).desc()).limit(1)
-
-            # Get Value Query
-            MIN_Value = Min_Value_Query.one()
-            MAX_Value = Max_Value_Query.one()
-
             # Set Variable Name
             New_Measurement.Variable = Variable_Name
 
             # Read Measurement
             New_Measurement.Last_Value = Value_Query[0].Value
-
 
             # Control for Change
             if Value_Query[0] > Value_Query[1]: New_Measurement.Change = 1
