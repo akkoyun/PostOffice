@@ -462,14 +462,11 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
         # Get Type_ID
         Type_ID = Get_Type_ID(Variable_Name)
 
-        # SQL Query
-        if Stream_ID and Type_ID:
+        # Define Time
+        Time_Interval = datetime.now() - timedelta(days=1)
 
-            # Define Time
-            Time_Interval = datetime.now() - timedelta(days=1)
-
-            # Query WeatherStat Table
-            Max_Value = DB_Module.query(func.max(Models.WeatherStat.Value)).filter(Models.WeatherStat.Stream_ID == Stream_ID, Models.WeatherStat.Type_ID == Type_ID, Models.WeatherStat.Create_Time >= Time_Interval).scalar()
+        # Query WeatherStat Table
+        Max_Value = DB_Module.query(func.max(Models.WeatherStat.Value)).filter(Models.WeatherStat.Stream_ID == Stream_ID, Models.WeatherStat.Type_ID == Type_ID, Models.WeatherStat.Create_Time >= Time_Interval).scalar()
 
     except:
 
