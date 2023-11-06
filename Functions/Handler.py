@@ -510,7 +510,6 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
             .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
             .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
             .order_by(Models.WeatherStat.Create_Time.desc())
-            .limit(2)
         )
 
         # Define Measurement
