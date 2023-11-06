@@ -522,9 +522,6 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
             New_Measurement.Last_Value = Query_Interval[0][0]
 
             # Control for Change
-            if Query_Interval[0][0] > Query_Interval[0][1]: New_Measurement.Change = 1
-            elif Query_Interval[0][0] < Query_Interval[0][1]: New_Measurement.Change = -1
-            else: New_Measurement.Change = 0
 
     except:
 
