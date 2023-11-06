@@ -450,10 +450,13 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
     )
 
     # Define Measurement
-    New_Measurement = Measurement(Variable = Variable_Name)
+    New_Measurement = Measurement()
 
     # Measurement in Database
     if Value_Query:
+
+        # Set Variable Name
+        New_Measurement.Variable = Variable_Name
 
         # Read Measurement
         New_Measurement.Last_Value = Value_Query[0].Value
