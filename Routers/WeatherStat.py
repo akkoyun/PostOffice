@@ -65,15 +65,11 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	AP_Data = Handler.Read_Measurement(ID, "AP")
 	UV_Data = Handler.Read_Measurement(ID, "UV")
 	ST0_Data = Handler.Read_Measurement(ID, "ST0")
-	ST1_Data = Handler.Read_Measurement(ID, "ST1")
 	ST2_Data = Handler.Read_Measurement(ID, "ST2")
-	ST3_Data = Handler.Read_Measurement(ID, "ST3")
-	ST4_Data = Handler.Read_Measurement(ID, "ST4")
 	ST5_Data = Handler.Read_Measurement(ID, "ST5")
-	ST6_Data = Handler.Read_Measurement(ID, "ST6")
-	ST7_Data = Handler.Read_Measurement(ID, "ST7")
 	ST8_Data = Handler.Read_Measurement(ID, "ST8")
-	ST9_Data = Handler.Read_Measurement(ID, "ST9")
+	WS_Data = Handler.Read_Measurement(ID, "WS")
+	WD_Data = Handler.Read_Measurement(ID, "WD")
 
 	# Set Default Location
 	City_Name = "Konya"
@@ -112,6 +108,10 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Parse AP Data
 	if AP_Data is not None:
 		AP = App_Schema.AP(Value=AP_Data.Last_Value, Change=AP_Data.Change)
+
+	# Parse Wind Data
+	if WS_Data is not None and WD_Data is not None:
+		Wind = App_Schema.W(WS=WS_Data.Last_Value, WD=WD_Data.Last_Value, Change=WS_Data.Change)
 
 	# Parse UV Data
 	if UV_Data is not None:
@@ -156,11 +156,12 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		AT = AT,
 		AH = AH,
 		AP = AP,
+		W = Wind,
 		UV = UV,
 		ST = ST,
 		Sun = Sun,
 	)
 
 	# Set Response
-	return Handler.Clean_Null(Response_Message)
+	return Response_Message
 	

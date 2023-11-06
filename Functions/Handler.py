@@ -538,16 +538,3 @@ def Dew_Calculator(Temperature: float, Humidity: float):
 
         # Return None
         return None
-
-# Clean Null Values
-def Clean_Null(d):
-    if isinstance(d, dict):
-        return {
-            k: Clean_Null(v)
-            for k, v in d.items()
-            if v != 'null' and Clean_Null(v) != 'null'
-        }
-    elif isinstance(d, list):
-        return [Clean_Null(v) for v in d if v != 'null' and Clean_Null(v) != 'null']
-    else:
-        return d
