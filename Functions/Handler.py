@@ -441,11 +441,12 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
         Max_Value_Query = (
             DB_Module.query(func.max(Models.WeatherStat.Value).label("max_value"))
             .join(Type_ID_subquery, Models.WeatherStat.Type_ID == Type_ID_subquery.c.Type_ID)
+            .filter(Models.WeatherStat.Device_ID == Device_ID)
             .filter(Models.WeatherStat.Create_Time > Current_Time - timedelta(hours=24))
             .scalar()
         )
 
-        # Max değeri Measurement nesnesine ata
+        # Get Max Value
         Max_Value = Max_Value_Query if Max_Value_Query is not None else None
   
     except Exception as e:
