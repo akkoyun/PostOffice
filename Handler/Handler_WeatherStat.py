@@ -63,11 +63,17 @@ try:
             # Calculate AT_Dew
             AT_Dew = Handler.Dew_Calculator(Message.AT, Message.AH)
 
-            # Set AT_FL
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT_FL", AT_FL)
+            # Control for AT_FL
+            if AT_FL is not None and AT_FL >= Limits.AT_MIN and AT_FL <= Limits.AT_MAX:
+                
+                # Set AT_FL
+                Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT_FL", AT_FL)
 
-            # Set AT_Dew
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT_Dew", AT_Dew)
+            # Control for AT_Dew
+            if AT_Dew is not None and AT_Dew >= Limits.AT_MIN and AT_Dew <= Limits.AT_MAX:
+
+                # Set AT_Dew
+                Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT_Dew", AT_Dew)
             
             # Log Message
             Log.Terminal_Log("INFO", f"New WeatherStat Received: AT_FL - {AT_FL}")

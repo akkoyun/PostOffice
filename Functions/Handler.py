@@ -472,43 +472,55 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
 # AT_FL Calculator
 def FL_Calculator(Temperature: float, Humidity: float):
 
-    # Control for Temperature
-    Temperature_F = (Temperature * 9/5) + 32
+    try:
 
-    # Constants
-    c1 = -42.379
-    c2 = 2.04901523
-    c3 = 10.14333127
-    c4 = -0.22475541
-    c5 = -6.83783e-3
-    c6 = -5.481717e-2
-    c7 = 1.22874e-3
-    c8 = 8.5282e-4
-    c9 = -1.99e-6
+        # Control for Temperature
+        Temperature_F = (Temperature * 9/5) + 32
 
-    # AT Feel Like Calculation
-    HI_fahrenheit = (c1 + (c2 * Temperature_F) + (c3 * Humidity) + (c4 * Temperature_F * Humidity) + (c5 * Temperature_F**2) + (c6 * Humidity**2) + (c7 * Temperature_F**2 * Humidity) + (c8 * Temperature_F * Humidity**2) + (c9 * Temperature_F**2 * Humidity**2))
+        # Constants
+        c1 = -42.379
+        c2 = 2.04901523
+        c3 = 10.14333127
+        c4 = -0.22475541
+        c5 = -6.83783e-3
+        c6 = -5.481717e-2
+        c7 = 1.22874e-3
+        c8 = 8.5282e-4
+        c9 = -1.99e-6
 
-    # Isı indeksini Fahrenheit'ten Celsius'a çevirme
-    HI_celsius = (HI_fahrenheit - 32) * 5/9
+        # AT Feel Like Calculation
+        HI_fahrenheit = (c1 + (c2 * Temperature_F) + (c3 * Humidity) + (c4 * Temperature_F * Humidity) + (c5 * Temperature_F**2) + (c6 * Humidity**2) + (c7 * Temperature_F**2 * Humidity) + (c8 * Temperature_F * Humidity**2) + (c9 * Temperature_F**2 * Humidity**2))
 
-    return HI_celsius
+        # Isı indeksini Fahrenheit'ten Celsius'a çevirme
+        HI_celsius = (HI_fahrenheit - 32) * 5/9
+
+        return HI_celsius
+
+    except:
+
+        # Return None
+        return None
 
 # Dew Point Calculator
 def Dew_Calculator(Temperature: float, Humidity: float):
 
-    # Constants
-    a = 17.27
-    b = 237.7
+    try:
 
-    # Alpha Calculation
-    alpha = ((a * Temperature) / (b + Temperature)) + math.log(Humidity/100.0)
-    
-    # Dew Point Calculation
-    dew_point = (b * alpha) / (a - alpha)
+        # Constants
+        a = 17.27
+        b = 237.7
 
-    # Return Dew Point
-    return dew_point
+        # Alpha Calculation
+        alpha = ((a * Temperature) / (b + Temperature)) + math.log(Humidity/100.0)
+        
+        # Dew Point Calculation
+        dew_point = (b * alpha) / (a - alpha)
 
+        # Return Dew Point
+        return dew_point
 
+    except:
+
+        # Return None
+        return None
 
