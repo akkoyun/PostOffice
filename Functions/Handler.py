@@ -5,6 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Database, Models
 from sqlalchemy import func, and_, text
+from sqlalchemy.orm import aliased
 from datetime import datetime, timedelta
 import math
 
@@ -432,29 +433,26 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
     try:
 
         # Assuming you have aliased your tables as such:
-        WeatherStat = Models.WeatherStat.alias("ws")
-        Data_Type = Models.Data_Type.alias("dt")
-        Stream = Models.Stream.alias("s")
+        WeatherStatAlias = aliased(Models.WeatherStat, name="ws")
+        Data_TypeAlias = aliased(Models.Data_Type, name="dt")
+        StreamAlias = aliased(Models.Stream, name="s")
 
         # Get Max Value
         Max_Value_Query =  (
             DB_Module.query(
-                WeatherStat.c.Value,
-                WeatherStat.c.Create_Time
+                WeatherStatAlias.Value,
+                WeatherStatAlias.Create_Time
             )
-            .select_from(
-                WeatherStat.join(
-                    Data_Type,
-                    WeatherStat.c.Type_ID == Data_Type.c.Type_ID
-                ).join(
-                    Stream,
-                    WeatherStat.c.Stream_ID == Stream.c.Stream_ID
-                )
+            .join(
+                Data_TypeAlias, WeatherStatAlias.Type_ID == Data_TypeAlias.Type_ID
             )
-            .filter(Data_Type.c.Variable.ilike('AT'))
-            .filter(Stream.c.Device_ID.ilike('A10000011D02E970'))
-            .filter(WeatherStat.c.Create_Time >= func.now() - text("interval '24 hours'"))
-            .order_by(WeatherStat.c.Value.desc())
+            .join(
+                StreamAlias, WeatherStatAlias.Stream_ID == StreamAlias.Stream_ID
+            )
+            .filter(Data_TypeAlias.Variable.ilike('AT'))
+            .filter(StreamAlias.Device_ID.ilike('A10000011D02E970'))
+            .filter(WeatherStatAlias.Create_Time >= func.now() - text("interval '24 hours'"))
+            .order_by(WeatherStatAlias.Value.desc())
             .limit(1)
         )
 
