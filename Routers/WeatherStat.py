@@ -98,6 +98,8 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		Device = Device, 
 		AT = AT,
 		AH = AH,
+		AP = AP,
+		UV = UV,
 	)
 
 	# Set Response
