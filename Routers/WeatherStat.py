@@ -8,6 +8,9 @@ from fastapi.responses import JSONResponse
 from Setup import Schema, App_Schema
 from Functions import Log, Kafka, Handler
 from Setup.Config import APP_Settings
+from astral import LocationInfo
+from astral.sun import sun
+from datetime import date
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -72,6 +75,14 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	ST8_Data = Handler.Read_Measurement(ID, "ST8")
 	ST9_Data = Handler.Read_Measurement(ID, "ST9")
 
+	# Set Default Location
+	City_Name = "Konya"
+	City_Region = "Turkey"
+	Latitude = 37.8716
+	Longitude = 32.4846
+
+	# Set Location
+	City = LocationInfo(City_Name, City_Region, 'Europe/Istanbul', Latitude, Longitude)
 
 	# Set Default Values
 	AT = None
@@ -125,7 +136,9 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Parse ST Model
 	ST = App_Schema.ST(ST_10=ST0, ST_30=ST2, ST_60=ST5, ST_90=ST8)
 
-
+	# Set Sun
+	S = sun(City.observer, date.today())
+	Sun = App_Schema.Sun(Sunrise=S["sunrise"], Sunset=S["sunset"])
 
 
 
@@ -145,6 +158,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		AP = AP,
 		UV = UV,
 		ST = ST,
+		Sun = Sun,
 	)
 
 	# Set Response
