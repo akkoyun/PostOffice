@@ -12,16 +12,12 @@ import math
 class Measurement:
 
     # Define Measurement
-    def __init__(self, variable = None, last = None, change = None, max = None, min = None, max_time = None, min_time = None):
+    def __init__(self, variable = None, last = None, change = None):
         
         # Get Variables
         self.Variable = variable
         self.Last_Value = last
         self.Change = change
-        self.Max_Value = max
-        self.Min_Value = min
-        self.Max_Time = max_time
-        self.Min_Time = min_time
 
 # Control for Device in Database
 def Control_Device(Device_ID: str):
@@ -427,6 +423,47 @@ def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
     # Return Stream_ID
     return Value
 
+# Get Device Last Connection Time
+def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    try:
+
+        # Get Current Time
+        Current_Time = datetime.now()
+
+        # Get Type_ID
+        Type_ID_subquery = (DB_Module.query(Models.Data_Type.Type_ID).filter(Models.Data_Type.Variable == Variable_Name).subquery())
+
+        # Get Max Value
+        Max_Value_Query = (
+            DB_Module.query(func.max(Models.WeatherStat.Value).label("max_value"))
+            .join(Type_ID_subquery, Models.WeatherStat.Type_ID == Type_ID_subquery.c.Type_ID)
+            .filter(Models.WeatherStat.Create_Time > Current_Time - timedelta(hours=24))
+            .scalar()
+        )
+
+        # Max değeri Measurement nesnesine ata
+        Max_Value = Max_Value_Query if Max_Value_Query is not None else None
+  
+    except Exception as e:
+        
+        # Close Database
+        DB_Module.close()
+
+        # End Function
+        return None
+    
+    finally:
+
+        # Close Database
+        DB_Module.close()
+
+    # Return Value
+    return Max_Value
+
 # Get Measurement
 def Read_Measurement(Device_ID: str, Variable_Name: str = None):
 
@@ -436,42 +473,22 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
     try:
 
         # SQL Query
-        latest_stream_subquery = (
+        Latest_Stream_Subquery = (
             DB_Module.query(Models.Stream.Stream_ID)
             .filter(Models.Stream.Device_ID == Device_ID)
             .order_by(Models.Stream.Stream_Time.desc())
             .limit(2)
             .subquery()
         )
-        target_data_type_subquery = (
+        Target_Data_Type_Subquery = (
             DB_Module.query(Models.Data_Type.Type_ID)
             .filter(Models.Data_Type.Variable == Variable_Name)
             .subquery()
         )
-        twenty_four_hours_ago = datetime.now() - timedelta(hours=24)
-        max_min_values_subquery = (
-            DB_Module.query(
-                func.max(Models.WeatherStat.Value).label('MaxValue'),
-                func.min(Models.WeatherStat.Value).label('MinValue')
-            )
-            .join(latest_stream_subquery, Models.WeatherStat.Stream_ID == latest_stream_subquery.c.Stream_ID)
-            .join(target_data_type_subquery, Models.WeatherStat.Type_ID == target_data_type_subquery.c.Type_ID)
-            .filter(Models.WeatherStat.Create_Time >= twenty_four_hours_ago)
-            .subquery()
-        )
         Value_Query = (
-            DB_Module.query(
-                Models.WeatherStat.Value,
-                Models.WeatherStat.Create_Time,
-                max_min_values_subquery.c.MaxValue,
-                max_min_values_subquery.c.MinValue
-            )
-            .join(latest_stream_subquery, Models.WeatherStat.Stream_ID == latest_stream_subquery.c.Stream_ID)
-            .join(target_data_type_subquery, Models.WeatherStat.Type_ID == target_data_type_subquery.c.Type_ID)
-            .join(max_min_values_subquery, and_(
-                Models.WeatherStat.Stream_ID == latest_stream_subquery.c.Stream_ID,
-                Models.WeatherStat.Type_ID == target_data_type_subquery.c.Type_ID
-            ))
+            DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
+            .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
+            .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
             .order_by(Models.WeatherStat.Create_Time.desc())
             .limit(2)
         )
@@ -487,12 +504,6 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
 
             # Read Measurement
             New_Measurement.Last_Value = Value_Query[0].Value
-
-            # Read Max Value
-            New_Measurement.Max_Value = Value_Query[0].MaxValue
-
-            # Read Min Value
-            New_Measurement.Min_Value = Value_Query[0].MinValue
 
             # Control for Change
             if Value_Query[0] > Value_Query[1]: New_Measurement.Change = 1
