@@ -49,13 +49,10 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 
 # IoT Get Method
 @PostOffice_WeatherStat.get("/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
-def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
-
-	# Get Device Last Connection Time
-	Device_Last_Connection = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S")
+async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Set Device
-	Device = App_Schema.Device(Device_ID=ID,LastUpdate=Device_Last_Connection)
+	Device = App_Schema.Device(Device_ID = ID, LastUpdate = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S"))
 
 	# Read Data
 	AT_Data = Handler.Read_Measurement(ID, "AT")
@@ -64,12 +61,6 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	if AT_Data is not None:
 		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change)
 
-	# Read Data
-	AH_Data = Handler.Read_Measurement(ID, "AH")
-
-	# Parse AH Data
-	if AH_Data is not None:
-		AH = App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Change)
 
 
 
@@ -79,21 +70,19 @@ def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 
 
-#	AP_Data = Handler.Read_Measurement(ID, "AP")
 
 
 
 
-	# Parse AP Data
-#	if AP_Data is not None:
-#		AP = App_Schema.AP(Value=AP_Data.Last_Value, Change=AP_Data.Change)
 
 
 
 
 	# Set Model
-#	Response_Message = App_Schema.Model(Device=Device, AT=AT, AH=AH, AP=AP)
-	Response_Message = App_Schema.Model(Device=Device, AT=AT, AH=AH)
+	Response_Message = App_Schema.Model(
+		Device = Device, 
+		AT = AT
+	)
 
 	# Set Response
 	return Response_Message
