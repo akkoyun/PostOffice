@@ -11,7 +11,7 @@ import math
 class Measurement:
 
     # Define Measurement
-    def __init__(self, variable, last, change):
+    def __init__(self, variable = None, last = None, change = None):
         
         # Get Variables
         self.Variable = variable
@@ -449,25 +449,25 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
         .limit(2)
     )
 
-    # Device in Stream Table
+    # Define Measurement
+    New_Measurement = Measurement(Variable_Name = Variable_Name)
+
+    # Measurement in Database
     if Value_Query:
 
-        # Read Stream_ID
-        Measurement.Last_Value = Value_Query.first().Value
+        # Read Measurement
+        New_Measurement.Last_Value = Value_Query[0].Value
 
         # Control for Change
-        if Value_Query.first() > Value_Query[1]: Measurement.Change = 1
-        elif Value_Query.first() < Value_Query[1]: Measurement.Change = -1
-        else: Measurement.Change = 0
-
-        # Set Variable Name
-        Measurement.Variable = Variable_Name
+        if Value_Query[0] > Value_Query[1]: New_Measurement.Change = 1
+        elif Value_Query[0] < Value_Query[1]: New_Measurement.Change = -1
+        else: New_Measurement.Change = 0
 
     # Close Database
     DB_Module.close()
 
     # Return Stream_ID
-    return Measurement
+    return New_Measurement
 
 # AT_FL Calculator
 def FL_Calculator(Temperature: float, Humidity: float):
