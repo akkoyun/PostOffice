@@ -548,11 +548,6 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
             # Read Measurement
             New_Measurement.Last_Value = Value_Query[0].Value
 
-            # Read Min Max
-            New_Measurement.Min = MIN_Value.Min
-            New_Measurement.Max = MAX_Value.Max
-            New_Measurement.Min_Time = MIN_Value.Min_Time
-            New_Measurement.Max_Time = MAX_Value.Max_Time
 
             # Control for Change
             if Value_Query[0] > Value_Query[1]: New_Measurement.Change = 1
