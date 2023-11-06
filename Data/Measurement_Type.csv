@@ -8,6 +8,8 @@ Type_ID,Description,Variable,Unit,Segment
 1060,Battery Instant Capacity,B_IC,mAh,1
 1070,Battery Charge State,B_CS,-,1
 4010,Air Temperature,AT,C,4
+4011,Feel Temperature,AT_FL,C,4
+4012,Dew Point,AT_Dew,C,4
 4020,Air Humidity,AH,%,4
 4030,Air Pressure,AP,hPa,4
 4040,UV Index,UV,-,4
@@ -23,7 +25,7 @@ Type_ID,Description,Variable,Unit,Segment
 4077,Soil Temperature 7,ST7,C,4
 4078,Soil Temperature 8,ST8,C,4
 4079,Soil Temperature 9,ST9,C,4
-4080,Rain,R,m/Sn,4
+4080,Rain,R,mm,4
 4090,Wind Speed,WS,m/Sn,4
 4100,Wind Direction,WD,Degree,4
 5010,Water Pressure IN,WPIN,Bar,5

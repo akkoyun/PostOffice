@@ -5,6 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Database, Models
 from datetime import datetime
+import math
 
 # Define Measurement Type
 class Measurement:
@@ -329,22 +330,22 @@ def WeatherStat_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, 
         # Read Type_ID
         Type_ID = Query_Type_ID.Type_ID
 
-    # Create New WeatherStat Measurement
-    New_Measurement = Models.WeatherStat(
-        Stream_ID = Stream_ID,
-        Type_ID = Type_ID,
-        Value = Value,
-        Create_Time = Device_Time
-    )
-        
-    # Add Record to DataBase
-    DB_Module.add(New_Measurement)
+        # Create New WeatherStat Measurement
+        New_Measurement = Models.WeatherStat(
+            Stream_ID = Stream_ID,
+            Type_ID = Type_ID,
+            Value = Value,
+            Create_Time = Device_Time
+        )
+            
+        # Add Record to DataBase
+        DB_Module.add(New_Measurement)
 
-    # Commit DataBase
-    DB_Module.commit()
+        # Commit DataBase
+        DB_Module.commit()
 
-    # Refresh DataBase
-    DB_Module.refresh(New_Measurement)
+        # Refresh DataBase
+        DB_Module.refresh(New_Measurement)
 
     # Close Database
     DB_Module.close()
@@ -467,4 +468,47 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
 
     # Return Stream_ID
     return Measurement
+
+# AT_FL Calculator
+def FL_Calculator(Temperature: float, Humidity: float):
+
+    # Control for Temperature
+    Temperature_F = (Temperature * 9/5) + 32
+
+    # Constants
+    c1 = -42.379
+    c2 = 2.04901523
+    c3 = 10.14333127
+    c4 = -0.22475541
+    c5 = -6.83783e-3
+    c6 = -5.481717e-2
+    c7 = 1.22874e-3
+    c8 = 8.5282e-4
+    c9 = -1.99e-6
+
+    # AT Feel Like Calculation
+    HI_fahrenheit = (c1 + (c2 * Temperature_F) + (c3 * Humidity) + (c4 * Temperature_F * Humidity) + (c5 * Temperature_F**2) + (c6 * Humidity**2) + (c7 * Temperature_F**2 * Humidity) + (c8 * Temperature_F * Humidity**2) + (c9 * Temperature_F**2 * Humidity**2))
+
+    # Isı indeksini Fahrenheit'ten Celsius'a çevirme
+    HI_celsius = (HI_fahrenheit - 32) * 5/9
+
+    return HI_celsius
+
+# Dew Point Calculator
+def Dew_Calculator(Temperature: float, Humidity: float):
+
+    # Constants
+    a = 17.27
+    b = 237.7
+
+    # Alpha Calculation
+    alpha = ((a * Temperature) / (b + Temperature)) + math.log(Humidity/100.0)
+    
+    # Dew Point Calculation
+    dew_point = (b * alpha) / (a - alpha)
+
+    # Return Dew Point
+    return dew_point
+
+
 

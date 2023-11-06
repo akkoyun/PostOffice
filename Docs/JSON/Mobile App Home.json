@@ -1,0 +1,21 @@
+{
+    "Device": {
+        "Device_ID": "A10000011D02E970",
+        "LastUpdate": "2023-11-03T14:14:35"
+    },
+    "AT": {
+        "Value": -40.0,
+        "Change": -1,
+        "AT_FL": null,
+        "AT_Dew": null,
+        "Max_AT": null,
+        "Min_AT": null
+    },
+    "AH": null,
+    "AP": null,
+    "R": null,
+    "W": null,
+    "UV": null,
+    "ST": null,
+    "Sun": null
+}

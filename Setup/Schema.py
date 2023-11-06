@@ -7,8 +7,9 @@ from pydantic import BaseModel, Field, validator
 from typing import Optional
 import re
 from datetime import datetime
+from Setup.Config import WeatherStat_Limits as Limits
 
-# Define Status Check Base Model
+# Define IoT Data Base Model
 # Version 01.00.00
 
 # Define Info
@@ -342,34 +343,34 @@ class WeatherStat_Payload(BaseModel):
 	Longitude: Optional[float] = Field(description="GNSS longitude value.", example=23.3213232, min=-360, max=360)
     
 	# Last Measured Air Temperature Value
-	AT: Optional[float] = Field(description="Air temperature.", example=28.3232, min=-50.0, max=100.0)
+	AT: Optional[float] = Field(description="Air temperature.", example=28.3232, min=Limits.AT_MIN, max=Limits.AT_MAX)
 
 	# Last Measured Relative Humidity Value
-	AH: Optional[float] = Field(description="Air humidity.", example=85.2332, min=0.0, max=100.0)
+	AH: Optional[float] = Field(description="Air humidity.", example=85.2332, min=Limits.AH_MIN, max=Limits.AH_MAX)
 
 	# Last Measured Air Pressure Value
-	AP: Optional[float] = Field(description="Air pressure.", example=985.55, min=500.0, max=2000.0)
+	AP: Optional[float] = Field(description="Air pressure.", example=985.55, min=Limits.AP_MIN, max=Limits.AP_MAX)
 
 	# Last Measured Visual Light Value
-	VL: Optional[int] = Field(description="Visual light.", example=1234, min=0, max=100000)
+	VL: Optional[int] = Field(description="Visual light.", example=1234, min=Limits.VL_MIN, max=Limits.VL_MAX)
 
 	# Last Measured Infrared Light Value
-	IR: Optional[int] = Field(description="Infrared light.", example=1234, min=0, max=100000)
+	IR: Optional[int] = Field(description="Infrared light.", example=1234, min=Limits.IR_MIN, max=Limits.IR_MAX)
 
 	# Last Measured UV Value
-	UV: Optional[float] = Field(description="UV index.", example=2.12, min=0.0, max=20.0)
+	UV: Optional[float] = Field(description="UV index.", example=2.12, min=Limits.UV_MIN, max=Limits.UV_MAX)
 
 	# Last Measured Soil Temperature Value
-	ST: list[Optional[float]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=0, max_items=10, min=-50.0, max=100.0)
+	ST: list[Optional[float]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=0, max_items=10, min=Limits.ST_MIN, max=Limits.ST_MAX)
 
 	# Last Measured Rain Value
-	R: Optional[int] = Field(description="Rain tip counter.", example=23, min=0, max=100000)
+	R: Optional[int] = Field(description="Rain tip counter.", example=23, min=Limits.R_MIN, max=Limits.R_MAX)
 
 	# Last Measured Wind Direction Value
-	WD: Optional[int] = Field(description="Wind direction.", example=275, min=0, max=360)
+	WD: Optional[int] = Field(description="Wind direction.", example=275, min=Limits.WD_MIN, max=Limits.WD_MAX)
 
 	# Last Measured Wind Speed Value
-	WS: Optional[float] = Field(description="Wind speed.", example=25, min=0.0, max=100.0)
+	WS: Optional[float] = Field(description="Wind speed.", example=25, min=Limits.WS_MIN, max=Limits.WS_MAX)
 
 # Define IoT RAW Data Base Model
 # WeatherStat Model Version 01.03.00

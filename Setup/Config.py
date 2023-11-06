@@ -53,3 +53,55 @@ class Settings(BaseSettings):
 
 # Set Setting
 APP_Settings = Settings()
+
+# Limit Settings
+class WeatherStat_Limits():
+
+	# AT Limits
+	AT_MIN: float = -50.0
+	AT_MAX: float = 100.0
+	
+	# AH Limits
+	AH_MIN: float = 0.0
+	AH_MAX: float = 100.0
+
+	# AP Limits
+	AP_MIN: float = 500.0
+	AP_MAX: float = 2000.0
+
+	# VL Limits
+	VL_MIN: float = 0.0
+	VL_MAX: float = 100000.0
+
+	# IR Limits
+	IR_MIN: float = 0.0
+	IR_MAX: float = 100000.0
+
+	# UV Limits
+	UV_MIN: float = 0.0
+	UV_MAX: float = 12.0
+
+	# ST Limits
+	ST_MIN: float = -50.0
+	ST_MAX: float = 100.0
+
+	# R Limits
+	R_MIN: float = 0.0
+	R_MAX: float = 1024.0
+
+	# WD Limits
+	WD_MIN: float = 0.0
+	WD_MAX: float = 360.0
+
+	# WS Limits
+	WS_MIN: float = 0.0
+	WS_MAX: float = 255.0
+
+	# Latitude Limits
+	LATITUDE_MIN: float = -90.0
+	LATITUDE_MAX: float = 90.0
+
+	# Longitude Limits
+	LONGITUDE_MIN: float = -180.0
+	LONGITUDE_MAX: float = 180.0
+
