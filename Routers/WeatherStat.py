@@ -59,7 +59,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Read Data
 	AT_Data = Handler.Read_Measurement(ID, "AT")
-#	AT_Max = Handler.Get_WeatherStat_Data_Max(ID, "AT")
+	AT_Max = Handler.Get_WeatherStat_Data_Max(ID, "AT")
 	AT_FL_Data = Handler.Read_Measurement(ID, "AT_FL")
 	AT_Dew_Data = Handler.Read_Measurement(ID, "AT_Dew")
 	AH_Data = Handler.Read_Measurement(ID, "AH")
@@ -89,20 +89,13 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	AP = None
 	UV = None
 	ST0 = None
-	ST1 = None
 	ST2 = None
-	ST3 = None
-	ST4 = None
 	ST5 = None
-	ST6 = None
-	ST7 = None
 	ST8 = None
-	ST9 = None
-
 
 	# Parse AT Data
 	if AT_Data is not None:
-		MAX_AT = App_Schema.MaxAT(Value=0, Time=0)
+		MAX_AT = App_Schema.MaxAT(Value=AT_Max, Time=0)
 		MIN_AT = App_Schema.MinAT(Value=0, Time=0)
 		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value, Max_AT=MAX_AT, Min_AT=MIN_AT)
 

@@ -376,6 +376,30 @@ def Get_Last_Stream_ID(Device_ID: str):
     # Return Stream_ID
     return Stream_ID
 
+# Get Type_ID
+def Get_Type_ID(Variable_Name: str):
+
+    # Define Type_ID
+    Type_ID = None
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    # Control Device in Stream Table
+    Query_Type = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Variable_Name)).first()
+
+    # Device in Stream Table
+    if Query_Type:
+
+        # Read Stream_ID
+        Type_ID = Query_Type.Type_ID
+
+    # Close Database
+    DB_Module.close()
+
+    # Return Stream_ID
+    return Type_ID
+
 # Get Device Last Connection Time
 def Get_Device_Last_Connection(Device_ID: str):
 
@@ -432,33 +456,29 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
 
     try:
 
-        # Assuming you have aliased your tables as such:
-        WeatherStatAlias = aliased(Models.WeatherStat, name="ws")
-        Data_TypeAlias = aliased(Models.Data_Type, name="dt")
-        StreamAlias = aliased(Models.Stream, name="s")
+        # Get Stream_ID
+        Stream_ID = Get_Last_Stream_ID(Device_ID)
 
-        # Get Max Value
-        Max_Value_Query =  (
-            DB_Module.query(
-                WeatherStatAlias.Value,
-                WeatherStatAlias.Create_Time
-            )
-            .join(
-                Data_TypeAlias, WeatherStatAlias.Type_ID == Data_TypeAlias.Type_ID
-            )
-            .join(
-                StreamAlias, WeatherStatAlias.Stream_ID == StreamAlias.Stream_ID
-            )
-            .filter(Data_TypeAlias.Variable.ilike('AT'))
-            .filter(StreamAlias.Device_ID.ilike('A10000011D02E970'))
-            .filter(WeatherStatAlias.Create_Time >= func.now() - text("interval '24 hours'"))
-            .order_by(WeatherStatAlias.Value.desc())
-            .limit(1)
-        )
+        # Get Type_ID
+        Type_ID = Get_Type_ID(Variable_Name)
 
-        # Execute the query
-        Max_Value = Max_Value_Query.one_or_none()
-  
+        # SQL Query
+        if Stream_ID and Type_ID:
+
+            # Define Time
+            Time_Interval = datetime.now() - timedelta(days=1)
+
+            # Query WeatherStat Table
+            Max_Value = DB_Module.query(func.max(Models.WeatherStat.Value)).filter(Models.WeatherStat.Stream_ID == Stream_ID, Models.WeatherStat.Type_ID == Type_ID, Models.WeatherStat.Create_Time >= Time_Interval).scalar()
+
+    except:
+
+        # Close Database
+        DB_Module.close()
+
+        # End Function
+        return None
+    
     finally:
 
         # Close Database
