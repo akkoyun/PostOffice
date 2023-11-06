@@ -4,7 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Models
-from sqlalchemy import func, and_, text
+from sqlalchemy import func, and_, text, desc
 from sqlalchemy.orm import aliased
 from datetime import datetime, timedelta
 import math
@@ -492,6 +492,9 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
 
     try:
 
+        # Set Time Interval
+        Interval = datetime.now() - timedelta(days=1)
+
         # SQL Query
         Latest_Stream_Subquery = (
             DB_Module.query(Models.Stream.Stream_ID)
@@ -509,7 +512,7 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
             DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
             .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
             .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
-            .order_by(Models.WeatherStat.Create_Time.desc())
+            .order_by(desc(Models.WeatherStat.Create_Time))
         )
 
         # Define Measurement
