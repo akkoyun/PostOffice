@@ -431,25 +431,30 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
 
     try:
 
+        # Assuming you have aliased your tables as such:
+        WeatherStat = Models.WeatherStat.alias("ws")
+        Data_Type = Models.Data_Type.alias("dt")
+        Stream = Models.Stream.alias("s")
+
         # Get Max Value
-        Max_Value_Query = (
+        Max_Value_Query =  (
             DB_Module.query(
-                Models.WeatherStat.c.Value,
-                Models.WeatherStat.c.Create_Time
+                WeatherStat.c.Value,
+                WeatherStat.c.Create_Time
             )
             .select_from(
-                Models.WeatherStat.join(
-                    Models.Data_Type,
-                    Models.WeatherStat.c.Type_ID == Models.Data_Type.c.Type_ID
+                WeatherStat.join(
+                    Data_Type,
+                    WeatherStat.c.Type_ID == Data_Type.c.Type_ID
                 ).join(
-                    Models.Stream,
-                    Models.WeatherStat.c.Stream_ID == Models.Stream.c.Stream_ID
+                    Stream,
+                    WeatherStat.c.Stream_ID == Stream.c.Stream_ID
                 )
             )
-            .filter(Models.Data_Type.c.Variable.ilike('AT'))
-            .filter(Models.Stream.c.Device_ID.ilike('A10000011D02E970'))
-            .filter(Models.WeatherStat.c.Create_Time >= func.now() - text("interval '24 hours'"))
-            .order_by(Models.WeatherStat.c.Value.desc())
+            .filter(Data_Type.c.Variable.ilike('AT'))
+            .filter(Stream.c.Device_ID.ilike('A10000011D02E970'))
+            .filter(WeatherStat.c.Create_Time >= func.now() - text("interval '24 hours'"))
+            .order_by(WeatherStat.c.Value.desc())
             .limit(1)
         )
 
