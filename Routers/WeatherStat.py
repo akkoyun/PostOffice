@@ -56,10 +56,12 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Read Data
 	AT_Data = Handler.Read_Measurement(ID, "AT")
+	AT_FL_Data = Handler.Read_Measurement(ID, "AT_FL")
+	AT_Dew_Data = Handler.Read_Measurement(ID, "AT_Dew")
 
 	# Parse AT Data
 	if AT_Data is not None:
-		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change)
+		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Change, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value)
 
 
 
