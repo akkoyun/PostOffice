@@ -470,15 +470,12 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
 
     except:
 
-        # Set Variable Name
-        New_Measurement.Variable = Variable_Name
+        # Close Database
+        DB_Module.close()
 
-        # Read Measurement
-        New_Measurement.Last_Value = None
+        # End Function
+        return None
 
-        # Control for Change
-        New_Measurement.Change = None
-    
     finally:
 
         # Close Database
