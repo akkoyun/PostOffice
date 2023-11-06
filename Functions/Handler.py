@@ -441,7 +441,7 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
             .join(Models.Stream, Models.WeatherStat.Stream_ID == Models.Stream.Stream_ID)
             .filter(Models.Data_Type.Variable.like(Device_ID))
             .filter(Models.Stream.Device_ID.like(Variable_Name))
-            .filter(Models.WeatherStat.Create_Time >= func.now() - func.interval('1 day'))
+            .filter(Models.WeatherStat.Create_Time >= func.now() - func.interval('24 HOURS'))
             .order_by(Models.WeatherStat.Value.desc())
             .limit(1)
         )
