@@ -58,8 +58,8 @@ APP_Settings = Settings()
 class WeatherStat_Limits():
 
 	# AT Limits
-	AT_MIN: float = -50.0
-	AT_MAX: float = 100.0
+	AT_MIN: float = -40.0
+	AT_MAX: float = 85.0
 	
 	# AH Limits
 	AH_MIN: float = 0.0
