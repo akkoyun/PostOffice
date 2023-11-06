@@ -434,15 +434,22 @@ def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
         # Get Max Value
         Max_Value_Query = (
             DB_Module.query(
-                Models.WeatherStat.Value, 
-                Models.WeatherStat.Create_Time
+                Models.WeatherStat.c.Value,
+                Models.WeatherStat.c.Create_Time
             )
-            .join(Models.Data_Type, Models.WeatherStat.Type_ID == Models.Data_Type.Type_ID)
-            .join(Models.Stream, Models.WeatherStat.Stream_ID == Models.Stream.Stream_ID)
-            .filter(Models.Data_Type.Variable.like(Device_ID))
-            .filter(Models.Stream.Device_ID.like(Variable_Name))
-#            .filter(Models.WeatherStat.Create_Time >= func.now() - text("interval '24 hours'"))
-            .order_by(Models.WeatherStat.Value.desc())
+            .select_from(
+                Models.WeatherStat.join(
+                    Models.Data_Type,
+                    Models.WeatherStat.c.Type_ID == Models.Data_Type.c.Type_ID
+                ).join(
+                    Models.Stream,
+                    Models.WeatherStat.c.Stream_ID == Models.Stream.c.Stream_ID
+                )
+            )
+            .filter(Models.Data_Type.c.Variable.ilike('AT'))
+            .filter(Models.Stream.c.Device_ID.ilike('A10000011D02E970'))
+            .filter(Models.WeatherStat.c.Create_Time >= func.now() - text("interval '24 hours'"))
+            .order_by(Models.WeatherStat.c.Value.desc())
             .limit(1)
         )
 
