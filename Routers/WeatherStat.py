@@ -203,7 +203,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 						CoS=int(hourly.chances_of_snow)
 					)
 
-
+			App_Schema.Full_Forecast(ForecastList=Single_Forecast)
 
 
 		# Set Model
