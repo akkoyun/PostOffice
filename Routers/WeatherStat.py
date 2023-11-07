@@ -197,12 +197,12 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 					Single_Forecast = App_Schema.Forecast(
 						Date=str(forecast.date), 
 						Time=str(hourly.time), 
-						AT=hourly.temperature, 
-						CC=hourly.cloud_cover, 
-						WS=hourly.wind_speed, 
+						AT=int(hourly.temperature), 
+						CC=int(hourly.cloud_cover), 
+						WS=int(hourly.wind_speed), 
 						WD=str(hourly.wind_direction), 
-						CoR=hourly.chances_of_rain, 
-						CoS=hourly.chances_of_snow
+						CoR=int(hourly.chances_of_rain), 
+						CoS=int(hourly.chances_of_snow)
 					)
 
 					full_forecast.ForecastList.append(Single_Forecast)
