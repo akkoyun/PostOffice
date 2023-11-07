@@ -19,6 +19,9 @@ class Device(BaseModel):
 	# Timestamp
 	LastUpdate: datetime = Field(description="Last Measurement time stamp.", example="2022-07-19T08:28:32Z")
 
+	# Time to Update
+	TTU: int = Field(description="Time to update.", example=5)
+
 # Max AT Model
 class MaxAT(BaseModel):
 
