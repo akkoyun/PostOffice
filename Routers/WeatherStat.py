@@ -187,14 +187,23 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			# Get Forecast
 			weather = await client.get('Konya')
 
-			full_forecast = App_Schema.Full_Forecast(ForecastList=[])
+			full_forecast = App_Schema.Forecast(ForecastList=[])
 
 			# get the weather forecast for a few days
 			for forecast in weather.forecasts:
 				for hourly in forecast.hourly:
 					
 					# Set Forecast Model
-					Single_Forecast = App_Schema.Forecast(Date=str(forecast.date), Time=str(hourly.time), AT=hourly.temperature, CC=hourly.cloud_cover, WS=hourly.wind_speed, WD=str(hourly.wind_direction), CoR=hourly.chances_of_rain, CoS=hourly.chances_of_snow)
+					Single_Forecast = App_Schema.Forecast(
+						Date=str(forecast.date), 
+						Time=str(hourly.time), 
+						AT=hourly.temperature, 
+						CC=hourly.cloud_cover, 
+						WS=hourly.wind_speed, 
+						WD=str(hourly.wind_direction), 
+						CoR=hourly.chances_of_rain, 
+						CoS=hourly.chances_of_snow
+					)
 
 					full_forecast.ForecastList.append(Single_Forecast)
 
