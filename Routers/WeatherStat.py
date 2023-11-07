@@ -61,7 +61,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	if Last_Update is not None:
 
 		# Set Device
-		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Last_Update.strftime("%Y-%m-%d %H:%M:%S"))
+		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S"))
 
 		# Set Default Values
 		AT = None
