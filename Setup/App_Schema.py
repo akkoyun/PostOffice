@@ -251,7 +251,7 @@ class Forecast(BaseModel):
 	AT: float = Field(description="Forecast air temperature.", example=28.3232, min=-50.0, max=100.0)
 
 	# Forecast Cloud Cover
-	CC: float = Field(description="Forecast cloud cover.", example=28.3232, min=0.0, max=100.0)
+	CC: int = Field(description="Forecast cloud cover.", example=28.3232, min=0.0, max=100.0)
 
 	# Forecast Wind Speed
 	WS: float = Field(description="Forecast wind speed.", example=28.3232, min=0.0, max=100.0)
@@ -260,10 +260,10 @@ class Forecast(BaseModel):
 	WD: str = Field(description="Forecast wind direction.", example="N")
 
 	# Forecast Rain
-	CoR: float = Field(description="Forecast rain.", example=28.3232, min=0.0, max=100.0)
+	CoR: int = Field(description="Forecast rain.", example=28.3232, min=0.0, max=100.0)
 
 	# Forecast Snow
-	CoS: float = Field(description="Forecast snow.", example=28.3232, min=0.0, max=100.0)
+	CoS: int = Field(description="Forecast snow.", example=28.3232, min=0.0, max=100.0)
 
 # Full Forecast Model
 #class Full_Forecast(BaseModel):
