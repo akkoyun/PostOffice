@@ -8,9 +8,9 @@ from fastapi.responses import JSONResponse
 from Setup import Schema, App_Schema
 from Functions import Log, Kafka, Handler
 from Setup.Config import APP_Settings
-from astral import LocationInfo
+from astral import LocationInfo, moon
 from astral.sun import sun
-from astral.moon import moonrise, moonset, moon
+from astral.moon import moonrise, moonset
 from datetime import date
 
 # Define FastAPI Object
