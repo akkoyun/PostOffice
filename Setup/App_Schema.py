@@ -266,10 +266,10 @@ class Forecast(BaseModel):
 	CoS: int = Field(description="Forecast snow.", example=28.3232, min=0.0, max=100.0)
 
 # Full Forecast Model
-#class Full_Forecast(BaseModel):
+class Full_Forecast(BaseModel):
 
-	# 24 Hour Forecast
-
+	# Forecast Date
+	Forecast: list[Forecast]
 
 # Sun Model
 class Sun(BaseModel):
@@ -320,7 +320,7 @@ class Model(BaseModel):
 	ST: Optional[ST]
 
 	# Forecast
-	Forecast: Optional[Forecast]
+	Forecast: Optional[Full_Forecast]
 
 	# Sun
 	Sun: Optional[Sun]
