@@ -13,15 +13,16 @@ import math
 class Measurement:
 
     # Define Measurement
-    def __init__(self, variable = None, last = None, change = None, Min = None, Max = None, Min_Time = None, Max_Time = None):
+    def __init__(self, Last = None, Last_Time = None, Previous_Value = None, Trend = None, Min = None, Max = None, Min_Time = None, Max_Time = None):
         
         # Get Variables
-        self.Variable = variable
-        self.Last_Value = last
-        self.Change = change
+        self.Last_Value = Last
+        self.Last_Time = Last_Time
+        self.Previous_Value = Previous_Value
+        self.Trend = Trend
         self.Min = Min
-        self.Max = Max
         self.Min_Time = Min_Time
+        self.Max = Max
         self.Max_Time = Max_Time
 
 # Control for Device in Database
@@ -551,6 +552,62 @@ def Read_Measurement(Device_ID: str, Variable_Name: str = None):
         DB_Module.close()
 
     # Return Stream_ID
+    return New_Measurement
+
+
+
+
+
+
+
+
+# Read WeatherStat_Measurement
+def Get_WeatherStat_Measurement(Device_ID: str, Variable: str):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    try:
+
+        # Query Measurement at WeatherStat_Measurement View
+        Query_Measurement = DB_Module.query(Models.WeatherStat_Measurement).filter(Models.WeatherStat_Measurement.Device_ID == Device_ID).filter(Models.WeatherStat_Measurement.Variable == Variable).first()
+
+        # Define Measurement
+        New_Measurement = Measurement()
+
+        # Measurement in Database
+        if Query_Measurement:
+
+            # Get Last Value
+            New_Measurement.Last_Value = Query_Measurement.Value
+
+            # Get Last Time
+            New_Measurement.Last_Time = Query_Measurement.Create_Time.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Get Previous Value
+            New_Measurement.Previous_Value = Query_Measurement.PreviousValue
+
+            # Get Trend
+            New_Measurement.Trend = Query_Measurement.Trend
+
+            # Get Min Value
+            New_Measurement.Min = Query_Measurement.Min
+
+            # Get Min Time
+            New_Measurement.Min_Time = Query_Measurement.Min_Time.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Get Max Value
+            New_Measurement.Max = Query_Measurement.Max
+
+            # Get Max Time
+            New_Measurement.Max_Time = Query_Measurement.Max_Time.strftime("%Y-%m-%d %H:%M:%S")
+
+    finally:
+
+        # Close Database
+        DB_Module.close()
+
+    # Return Measurement
     return New_Measurement
 
 # AT_FL Calculator
