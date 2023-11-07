@@ -62,10 +62,10 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	if Last_Update is not None:
 
 		# Calculate Time Difference
-		TTU = datetime.now().strftime("%Y-%m-%d %H:%M:%S") - Last_Update.strtime("%Y-%m-%d %H:%M:%S")
+		TTU = datetime.now() - Last_Update
 
 		# Set Device
-		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU.Minutes)
+		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU)
 
 		# Set Default Values
 		AT = None
