@@ -23,28 +23,28 @@ class Device(BaseModel):
 class MaxAT(BaseModel):
 
 	# Last Measured Air Temperature Value
-	Value: float = Field(description="Max Air temperature.", example=28.3232, min=-50.0, max=100.0)
+	Value: Optional[float] = Field(description="Max Air temperature.", example=28.3232, min=-50.0, max=100.0)
 
 	# Timestamp
-	Time: datetime = Field(description="Max Air temperature measurement time stamp.", example="2022-07-19T08:28:32Z")
+	Time: Optional[datetime] = Field(description="Max Air temperature measurement time stamp.", example="2022-07-19T08:28:32Z")
 
 # Min AT Model
 class MinAT(BaseModel):
 
 	# Last Measured Air Temperature Value
-	Value: float = Field(description="Min Air temperature.", example=28.3232, min=-50.0, max=100.0)
+	Value: Optional[float] = Field(description="Min Air temperature.", example=28.3232, min=-50.0, max=100.0)
 
 	# Timestamp
-	Time: datetime = Field(description="Min Air temperature measurement time stamp.", example="2022-07-19T08:28:32Z")
+	Time: Optional[datetime] = Field(description="Min Air temperature measurement time stamp.", example="2022-07-19T08:28:32Z")
 
 # AT Model
 class AT(BaseModel):
     
 	# Last Measured Air Temperature Value
-	Value: float = Field(description="Max Air temperature.", example=28.3232, min=-50.0, max=100.0)
+	Value: Optional[float] = Field(description="Max Air temperature.", example=28.3232, min=-50.0, max=100.0)
 	
 	# AT Change Status
-	Change: int = Field(description="Air temperature change status.", example=0, min=-1, max=1)
+	Change: Optional[int] = Field(description="Air temperature change status.", example=0, min=-1, max=1)
 
 	# AT Feel Like
 	AT_FL: Optional[float] = Field(description="Air temperature feel like.", example=28.3232, min=-50.0, max=100.0)
@@ -62,55 +62,55 @@ class AT(BaseModel):
 class AH(BaseModel):
 
 	# Last Measured Air Humidity Value
-    Value: float = Field(description="Air humidity.", example=28.3232, min=0.0, max=100.0)
+    Value: Optional[float] = Field(description="Air humidity.", example=28.3232, min=0.0, max=100.0)
 
 	# AH Change Status
-    Change: int = Field(description="Air humidity change status.", example=0, min=-1, max=1)
+    Change: Optional[int] = Field(description="Air humidity change status.", example=0, min=-1, max=1)
 
 # AP Model
 class AP(BaseModel):
     
 	# Last Measured Air Pressure Value
-	Value: float = Field(description="Air pressure.", example=28.3232, min=0.0, max=100.0)
+	Value: Optional[float] = Field(description="Air pressure.", example=28.3232, min=0.0, max=100.0)
 
 	# AP Change Status
-	Change: int = Field(description="Air pressure change status.", example=0, min=-1, max=1)
+	Change: Optional[int] = Field(description="Air pressure change status.", example=0, min=-1, max=1)
 
 # R Model
 class R(BaseModel):
     
 	# Last 1 Hour Rain Value
-	R_1: int = Field(description="1 hour rain.", example=28, min=0, max=100)
+	R_1: Optional[int] = Field(description="1 hour rain.", example=28, min=0, max=100)
 
 	# Last 24 Hour Rain Value
-	R_24: int = Field(description="24 hour rain.", example=28, min=0, max=100)
+	R_24: Optional[int] = Field(description="24 hour rain.", example=28, min=0, max=100)
 
 	# Last 48 Hour Rain Value
-	R_48: int = Field(description="48 hour rain.", example=28, min=0, max=100)
+	R_48: Optional[int] = Field(description="48 hour rain.", example=28, min=0, max=100)
 
 	# Last 168 Hour Rain Value
-	R_168: int = Field(description="168 hour rain.", example=28, min=0, max=100)
+	R_168: Optional[int] = Field(description="168 hour rain.", example=28, min=0, max=100)
 
 # W Model
 class W(BaseModel):
 	
 	# Last Measured Wind Speed Value
-	WS: float = Field(description="Wind speed.", example=28.3232, min=0.0, max=100.0)
+	WS: Optional[float] = Field(description="Wind speed.", example=28.3232, min=0.0, max=100.0)
 
 	# Last Measured Wind Direction Value
-	WD: float = Field(description="Wind direction.", example=28.3232, min=0.0, max=360.0)
+	WD: Optional[float] = Field(description="Wind direction.", example=28.3232, min=0.0, max=360.0)
 
 	# Wind Change Status
-	Change: int = Field(description="Wind change status.", example=0, min=-1, max=1)
+	Change: Optional[int] = Field(description="Wind change status.", example=0, min=-1, max=1)
 
 # UV Model
 class UV(BaseModel):
 	
 	# Last Measured UV Value
-	Value: float = Field(description="UV.", example=28.3232, min=0.0, max=100.0)
+	Value: Optional[float] = Field(description="UV.", example=28.3232, min=0.0, max=100.0)
 	
 	# UV Change Status
-	Change: int = Field(description="UV change status.", example=0, min=-1, max=1)
+	Change: Optional[int] = Field(description="UV change status.", example=0, min=-1, max=1)
 
 # 10 cm ST Model
 class ST_10(BaseModel):
