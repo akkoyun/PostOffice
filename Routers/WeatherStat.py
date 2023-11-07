@@ -11,7 +11,7 @@ from Setup.Config import APP_Settings
 from astral import LocationInfo, moon
 from astral.sun import sun
 from astral.moon import moonrise, moonset
-from datetime import date
+from datetime import date, datetime
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -62,7 +62,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	if Last_Update is not None:
 
 		# Calculate Time Difference
-		TTU = date.now() - Last_Update
+		TTU = datetime.now() - Last_Update
 
 		# Set Device
 		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU.Minutes)
