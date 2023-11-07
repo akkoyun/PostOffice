@@ -192,7 +192,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 				for hourly in forecast.hourly:
 					
 					# Set Forecast Model
-					Single_Forecast = App_Schema.Forecast(Date=datetime.strptime(forecast.date, '%Y-%m-%d'), Time=datetime.strptime(hourly.time, '%H:%M:%S'), AT=hourly.temperature, CC=hourly.cloud_cover, WS=hourly.wind_speed, WD=hourly.wind_direction, CR=hourly.chances_of_rain, CS=hourly.chances_of_snow)
+					Single_Forecast = App_Schema.Forecast(Date=forecast.date, Time=hourly.time, AT=hourly.temperature, CC=hourly.cloud_cover, WS=hourly.wind_speed, WD=hourly.wind_direction, CR=hourly.chances_of_rain, CS=hourly.chances_of_snow)
 
 
 
