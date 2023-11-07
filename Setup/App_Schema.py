@@ -242,10 +242,10 @@ class ST(BaseModel):
 class Forecast(BaseModel):
 
 	# Forecast Date
-	Date: datetime = Field(description="Forecast date.", example="2022-07-19T08:28:32Z")
+	Date: str = Field(description="Forecast date.", example="2022-07-19T08:28:32Z")
 
 	# Forecast Time
-	Time: datetime = Field(description="Forecast time.", example="2022-07-19T08:28:32Z")
+	Time: str = Field(description="Forecast time.", example="2022-07-19T08:28:32Z")
 
 	# Forecast Air Temperature
 	AT: float = Field(description="Forecast air temperature.", example=28.3232, min=-50.0, max=100.0)
