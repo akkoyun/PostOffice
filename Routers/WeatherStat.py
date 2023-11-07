@@ -62,7 +62,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	if Last_Update is not None:
 
 		# Calculate Time Difference
-		Now = datetime.now()
+		Now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 		TTU = Now - Last_Update
 		TTU_Minutes = (TTU.seconds // 60) % 60
 
