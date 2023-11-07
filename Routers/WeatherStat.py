@@ -10,6 +10,7 @@ from Functions import Log, Kafka, Handler
 from Setup.Config import APP_Settings
 from astral import LocationInfo
 from astral.sun import sun
+from astral.moon import moonrise, moonset, moon
 from datetime import date
 
 # Define FastAPI Object
@@ -162,8 +163,16 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		City = LocationInfo(City_Name, City_Region, 'Europe/Istanbul', Latitude, Longitude)
 
 		# Set Sun
-		S = sun(City.observer, date.today())
-		Sun = App_Schema.Sun(Sunrise=S["sunrise"].strftime("%Y-%m-%d %H:%M:%S"), Sunset=S["sunset"].strftime("%Y-%m-%d %H:%M:%S"))
+		Sun_State = sun(City.observer, date.today())
+
+		# Set Moon
+#		Current_Location = Location(City)
+		
+		# Parse Sun Model
+		Sun = App_Schema.Sun(Sunrise=Sun_State["sunrise"].strftime("%Y-%m-%d %H:%M:%S"), Sunset=Sun_State["sunset"].strftime("%Y-%m-%d %H:%M:%S"))
+
+		# Parse Moon Model
+		Moon = App_Schema.Moon(Moonrise=moonrise(City, date.today()).strftime("%Y-%m-%d %H:%M:%S"), Moonset=moonset(City, date.today()).strftime("%Y-%m-%d %H:%M:%S"), Phase=moon.phase(date.today()))
 
 		# Set Model
 		Response_Message = App_Schema.Model(
@@ -175,6 +184,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			UV = UV,
 			ST = ST,
 			Sun = Sun,
+			Moon = Moon
 		)
 
 		# Set Response

@@ -244,6 +244,18 @@ class Sun(BaseModel):
 	# Sunset
 	Sunset: datetime = Field(description="Sunset time.", example="2022-07-19T08:28:32Z")
 
+# Moon Model
+class Moon(BaseModel):
+	
+	# Moonrise
+	Moonrise: Optional[datetime] = Field(description="Moonrise time.", example="2022-07-19T08:28:32Z")
+
+	# Moonset
+	Moonset: Optional[datetime] = Field(description="Moonset time.", example="2022-07-19T08:28:32Z")
+
+	# Moon Phase
+	Phase: Optional[float] = Field(description="Moon phase.", example=20.6)
+
 # Model
 class Model(BaseModel):
     
@@ -273,3 +285,6 @@ class Model(BaseModel):
 
 	# Sun
 	Sun: Optional[Sun]
+
+	# Moon
+	Moon: Optional[Moon]
