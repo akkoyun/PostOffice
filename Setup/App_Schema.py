@@ -269,7 +269,7 @@ class Forecast(BaseModel):
 class Full_Forecast(BaseModel):
 
 	# Forecast Date
-	Forecast: list[Forecast]
+	ForecastList: list[Forecast]
 
 # Sun Model
 class Sun(BaseModel):
