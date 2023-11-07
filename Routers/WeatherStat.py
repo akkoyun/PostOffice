@@ -187,7 +187,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			# Get Forecast
 			weather = await client.get('Konya')
 
-			full_forecast = App_Schema.Full_Forecast(Forecast=[])
+			full_forecast = []
 
 			# get the weather forecast for a few days
 			for forecast in weather.forecasts:
@@ -206,7 +206,8 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 					)
 
 					full_forecast.ForecastList.append(Single_Forecast)
-
+		
+		App_Schema.Full_Forecast(ForecastList=full_forecast)
 
 		# Set Model
 		Response_Message = App_Schema.Model(
