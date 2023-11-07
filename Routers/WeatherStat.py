@@ -54,123 +54,143 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 @PostOffice_WeatherStat.get("/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
 async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
-	# Set Default Values
-	AT = None
-	MAX_AT = None
-	MIN_AT = None
-	AH = None
-	AP = None
-	UV = None
-	ST0 = None
-	ST2 = None
-	ST5 = None
-	ST8 = None
+	# Get Last Update Time
+	Last_Update = Handler.Get_Device_Last_Connection(ID)
 
-	# Set Device
-	Device = App_Schema.Device(Device_ID = ID, LastUpdate = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S"))
+	# Control for Device
+	if Last_Update is not None:
 
-	# Get Last Data
-	AT_Data = Handler.Get_WeatherStat_Measurement(ID, "AT")
-	AT_FL_Data = Handler.Get_WeatherStat_Measurement(ID, "AT_FL")
-	AT_Dew_Data = Handler.Get_WeatherStat_Measurement(ID, "AT_Dew")
-	AH_Data = Handler.Get_WeatherStat_Measurement(ID, "AH")
-	AP_Data = Handler.Get_WeatherStat_Measurement(ID, "AP")
-	WS_Data = Handler.Get_WeatherStat_Measurement(ID, "WS")
-	WD_Data = Handler.Get_WeatherStat_Measurement(ID, "WD")
-	UV_Data = Handler.Get_WeatherStat_Measurement(ID, "UV")
-	ST0_Data = Handler.Get_WeatherStat_Measurement(ID, "ST0")
-	ST2_Data = Handler.Get_WeatherStat_Measurement(ID, "ST2")
-	ST5_Data = Handler.Get_WeatherStat_Measurement(ID, "ST5")
-	ST8_Data = Handler.Get_WeatherStat_Measurement(ID, "ST8")
+		# Set Device
+		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Last_Update.strftime("%Y-%m-%d %H:%M:%S"))
 
-	# Parse AT Data
-	if AT_Data is not None:
-		
-		# Parse Max AT Data
-		MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max, Time=AT_Data.Max_Time)
-		
-		# Parse Min AT Data
-		MIN_AT = App_Schema.MinAT(Value=AT_Data.Min, Time=AT_Data.Min_Time)
-		
+		# Set Default Values
+		AT = None
+		MAX_AT = None
+		MIN_AT = None
+		AH = None
+		AP = None
+		UV = None
+		ST0 = None
+		ST2 = None
+		ST5 = None
+		ST8 = None
+
+		# Get Last Data
+		AT_Data = Handler.Get_WeatherStat_Measurement(ID, "AT")
+		AT_FL_Data = Handler.Get_WeatherStat_Measurement(ID, "AT_FL")
+		AT_Dew_Data = Handler.Get_WeatherStat_Measurement(ID, "AT_Dew")
+		AH_Data = Handler.Get_WeatherStat_Measurement(ID, "AH")
+		AP_Data = Handler.Get_WeatherStat_Measurement(ID, "AP")
+		WS_Data = Handler.Get_WeatherStat_Measurement(ID, "WS")
+		WD_Data = Handler.Get_WeatherStat_Measurement(ID, "WD")
+		UV_Data = Handler.Get_WeatherStat_Measurement(ID, "UV")
+		ST0_Data = Handler.Get_WeatherStat_Measurement(ID, "ST0")
+		ST2_Data = Handler.Get_WeatherStat_Measurement(ID, "ST2")
+		ST5_Data = Handler.Get_WeatherStat_Measurement(ID, "ST5")
+		ST8_Data = Handler.Get_WeatherStat_Measurement(ID, "ST8")
+
 		# Parse AT Data
-		AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Trend, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value, Max_AT = MAX_AT, Min_AT = MIN_AT)
-
-	# Parse AH Data
-	if AH_Data is not None:
+		if AT_Data is not None:
+			
+			# Parse Max AT Data
+			MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max, Time=AT_Data.Max_Time)
+			
+			# Parse Min AT Data
+			MIN_AT = App_Schema.MinAT(Value=AT_Data.Min, Time=AT_Data.Min_Time)
+			
+			# Parse AT Data
+			AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Trend, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value, Max_AT = MAX_AT, Min_AT = MIN_AT)
 
 		# Parse AH Data
-		AH = App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Trend)
+		if AH_Data is not None:
 
-	# Parse AP Data
-	if AP_Data is not None:
-		
+			# Parse AH Data
+			AH = App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Trend)
+
 		# Parse AP Data
-		AP = App_Schema.AP(Value=AP_Data.Last_Value, Change=AP_Data.Trend)
+		if AP_Data is not None:
+			
+			# Parse AP Data
+			AP = App_Schema.AP(Value=AP_Data.Last_Value, Change=AP_Data.Trend)
 
-	# Parse Wind Data
-	if WS_Data is not None and WD_Data is not None:
-		
 		# Parse Wind Data
-		Wind = App_Schema.W(WS=WS_Data.Last_Value, WD=WD_Data.Last_Value, Change=WS_Data.Trend)
-
-	# Parse UV Data
-	if UV_Data is not None:
+		if WS_Data is not None and WD_Data is not None:
+			
+			# Parse Wind Data
+			Wind = App_Schema.W(WS=WS_Data.Last_Value, WD=WD_Data.Last_Value, Change=WS_Data.Trend)
 
 		# Parse UV Data
-		UV = App_Schema.UV(Value=UV_Data.Last_Value, Change=UV_Data.Trend)
+		if UV_Data is not None:
 
-	# Parse ST0 Data
-	if ST0_Data is not None:
-		
+			# Parse UV Data
+			UV = App_Schema.UV(Value=UV_Data.Last_Value, Change=UV_Data.Trend)
+
 		# Parse ST0 Data
-		ST0 = App_Schema.ST_10(Value=ST0_Data.Last_Value, Change=ST0_Data.Trend)
-	
-	# Parse ST2 Data
-	if ST2_Data is not None:
-
+		if ST0_Data is not None:
+			
+			# Parse ST0 Data
+			ST0 = App_Schema.ST_10(Value=ST0_Data.Last_Value, Change=ST0_Data.Trend)
+		
 		# Parse ST2 Data
-		ST2 = App_Schema.ST_30(Value=ST2_Data.Last_Value, Change=ST2_Data.Trend)
-	
-	# Parse ST5 Data
-	if ST5_Data is not None:
+		if ST2_Data is not None:
+
+			# Parse ST2 Data
+			ST2 = App_Schema.ST_30(Value=ST2_Data.Last_Value, Change=ST2_Data.Trend)
 		
 		# Parse ST5 Data
-		ST5 = App_Schema.ST_60(Value=ST5_Data.Last_Value, Change=ST5_Data.Trend)
-	
-	# Parse ST8 Data
-	if ST8_Data is not None:
-
+		if ST5_Data is not None:
+			
+			# Parse ST5 Data
+			ST5 = App_Schema.ST_60(Value=ST5_Data.Last_Value, Change=ST5_Data.Trend)
+		
 		# Parse ST8 Data
-		ST8 = App_Schema.ST_90(Value=ST8_Data.Last_Value, Change=ST8_Data.Trend)
+		if ST8_Data is not None:
+
+			# Parse ST8 Data
+			ST8 = App_Schema.ST_90(Value=ST8_Data.Last_Value, Change=ST8_Data.Trend)
+		
+		# Parse ST Model
+		ST = App_Schema.ST(ST_10=ST0, ST_30=ST2, ST_60=ST5, ST_90=ST8)
+
+		# Set Default Location
+		City_Name = "Konya"
+		City_Region = "Turkey"
+		Latitude = 37.8716
+		Longitude = 32.4846
+
+		# Set Location
+		City = LocationInfo(City_Name, City_Region, 'Europe/Istanbul', Latitude, Longitude)
+
+		# Set Sun
+		S = sun(City.observer, date.today())
+		Sun = App_Schema.Sun(Sunrise=S["sunrise"].strftime("%Y-%m-%d %H:%M:%S"), Sunset=S["sunset"].strftime("%Y-%m-%d %H:%M:%S"))
+
+		# Set Model
+		Response_Message = App_Schema.Model(
+			Device = Device, 
+			AT = AT,
+			AH = AH,
+			AP = AP,
+			W = Wind,
+			UV = UV,
+			ST = ST,
+			Sun = Sun,
+		)
+
+		# Set Response
+		return Response_Message
 	
-	# Parse ST Model
-	ST = App_Schema.ST(ST_10=ST0, ST_30=ST2, ST_60=ST5, ST_90=ST8)
+	# Device Not Found
+	else:
 
-	# Set Default Location
-	City_Name = "Konya"
-	City_Region = "Turkey"
-	Latitude = 37.8716
-	Longitude = 32.4846
+		# Message Status Code
+		Message_Status_Code = status.HTTP_404_NOT_FOUND
 
-	# Set Location
-	City = LocationInfo(City_Name, City_Region, 'Europe/Istanbul', Latitude, Longitude)
+		# Message Content
+		Message_Content = {"Event": status.HTTP_404_NOT_FOUND}
 
-	# Set Sun
-	S = sun(City.observer, date.today())
-	Sun = App_Schema.Sun(Sunrise=S["sunrise"].strftime("%Y-%m-%d %H:%M:%S"), Sunset=S["sunset"].strftime("%Y-%m-%d %H:%M:%S"))
+		# Headers
+		Message_Headers = {"server": APP_Settings.SERVER_NAME}
 
-	# Set Model
-	Response_Message = App_Schema.Model(
-		Device = Device, 
-		AT = AT,
-		AH = AH,
-		AP = AP,
-		W = Wind,
-		UV = UV,
-		ST = ST,
-		Sun = Sun,
-	)
-
-	# Set Response
-	return Response_Message
-	
+		# Send Response
+		return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
