@@ -164,10 +164,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 		# Set Sun
 		Sun_State = sun(City.observer, date.today())
-
-		# Set Moon
-#		Current_Location = Location(City)
-		
+	
 		# Parse Sun Model
 		Sun = App_Schema.Sun(Sunrise=Sun_State["sunrise"].strftime("%Y-%m-%d %H:%M:%S"), Sunset=Sun_State["sunset"].strftime("%Y-%m-%d %H:%M:%S"))
 
