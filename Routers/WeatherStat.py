@@ -219,7 +219,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			W = Wind,
 			UV = UV,
 			ST = ST,
-			Full_Forecast = full_forecast,
+			Forecast = full_forecast,
 			Sun = Sun,
 			Moon = Moon
 		)
