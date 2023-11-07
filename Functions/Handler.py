@@ -409,22 +409,26 @@ def Get_Type_ID(Variable_Name: str):
 def Get_Device_Last_Connection(Device_ID: str):
 
     # Define Last_Connection
-    Last_Connection = 0
+    Last_Connection = None
 
     # Define DB
     DB_Module = Database.SessionLocal()
 
-    # Control Device in Stream Table
-    Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+    try:
 
-    # Device in Stream Table
-    if Query_Device:
+        # Control Device in Stream Table
+        Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
-        # Read Stream_ID
-        Last_Connection = Query_Device.Last_Connection
+        # Device in Stream Table
+        if Query_Device:
 
-    # Close Database
-    DB_Module.close()
+            # Read Stream_ID
+            Last_Connection = Query_Device.Last_Connection
+    
+    finally:
+        
+        # Close Database
+        DB_Module.close()
 
     # Return Stream_ID
     return Last_Connection
