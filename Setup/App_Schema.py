@@ -248,13 +248,13 @@ class Forecast(BaseModel):
 	Time: str = Field(description="Forecast time.", example="2022-07-19T08:28:32Z")
 
 	# Forecast Air Temperature
-	AT: float = Field(description="Forecast air temperature.", example=28.3232, min=-50.0, max=100.0)
+	AT: int = Field(description="Forecast air temperature.", example=28.3232, min=-50.0, max=100.0)
 
 	# Forecast Cloud Cover
 	CC: int = Field(description="Forecast cloud cover.", example=28.3232, min=0.0, max=100.0)
 
 	# Forecast Wind Speed
-	WS: float = Field(description="Forecast wind speed.", example=28.3232, min=0.0, max=100.0)
+	WS: int = Field(description="Forecast wind speed.", example=28.3232, min=0.0, max=100.0)
 
 	# Forecast Wind Direction
 	WD: str = Field(description="Forecast wind direction.", example="N")
