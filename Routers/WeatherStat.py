@@ -84,6 +84,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		ST5 = None
 		ST8 = None
 		Forecast = None
+		Full_Forecast = None
 
 		# Get Last Data
 		AT_Data = Handler.Get_WeatherStat_Measurement(ID, "AT")
@@ -187,6 +188,8 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			# Get Forecast
 			weather = await client.get('Konya')
 
+			full_forecast = []
+
 			# get the weather forecast for a few days
 			for forecast in weather.forecasts:
 				for hourly in forecast.hourly:
@@ -203,8 +206,9 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 						CoS=int(hourly.chances_of_snow)
 					)
 
-			App_Schema.Full_Forecast(ForecastList=Single_Forecast)
-
+					full_forecast.append(Single_Forecast)
+		
+		App_Schema.Full_Forecast(ForecastList=full_forecast)
 
 		# Set Model
 		Response_Message = App_Schema.Model(
@@ -215,7 +219,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			W = Wind,
 			UV = UV,
 			ST = ST,
-			Forecast = Single_Forecast,
+			Forecast = Full_Forecast,
 			Sun = Sun,
 			Moon = Moon
 		)
