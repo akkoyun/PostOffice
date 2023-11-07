@@ -53,7 +53,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 	# Send Response
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
-# IoT Get Method
+# App Get Method
 @PostOffice_WeatherStat.get("/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
 async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
@@ -83,8 +83,6 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		ST2 = None
 		ST5 = None
 		ST8 = None
-		Forecast = None
-		Full_Forecast = None
 
 		# Get Last Data
 		AT_Data = Handler.Get_WeatherStat_Measurement(ID, "AT")
@@ -181,35 +179,6 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		# Parse Moon Model
 		Moon = App_Schema.Moon(Moonrise=moonrise(City, date.today()).strftime("%Y-%m-%d %H:%M:%S"), Moonset=moonset(City, date.today()).strftime("%Y-%m-%d %H:%M:%S"), Phase=moon.phase(date.today()))
 
-
-		# Declare Forecast Data
-		async with python_weather.Client(unit=python_weather.METRIC) as client:
-
-			# Get Forecast
-			weather = await client.get('Konya')
-
-			full_forecast = App_Schema.Full_Forecast(ForecastList=[])
-
-			# get the weather forecast for a few days
-			for forecast in weather.forecasts:
-				for hourly in forecast.hourly:
-					
-					# Set Forecast Model
-					Single_Forecast = App_Schema.Forecast(
-						Date=str(forecast.date), 
-						Time=str(hourly.time), 
-						AT=int(hourly.temperature), 
-						CC=int(hourly.cloud_cover), 
-						WS=int(hourly.wind_speed), 
-						WD=str(hourly.wind_direction), 
-						CoR=int(hourly.chances_of_rain), 
-						CoS=int(hourly.chances_of_snow)
-					)
-
-					# Append Forecast
-					full_forecast.ForecastList.append(Single_Forecast)
-
-
 		# Set Model
 		Response_Message = App_Schema.Model(
 			Device = Device, 
@@ -219,7 +188,6 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			W = Wind,
 			UV = UV,
 			ST = ST,
-			Forecast = full_forecast,
 			Sun = Sun,
 			Moon = Moon
 		)
@@ -241,3 +209,40 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 		# Send Response
 		return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
+
+# Forecast Get Method
+@PostOffice_WeatherStat.get("/{ID}/Forecast", response_model=App_Schema.Full_Forecast, status_code=status.HTTP_200_OK)
+@PostOffice_WeatherStat.get("/{ID}/Forecast/", response_model=App_Schema.Full_Forecast, status_code=status.HTTP_200_OK)
+async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Full_Forecast:
+
+	# Declare Forecast Data
+	async with python_weather.Client(unit=python_weather.METRIC) as client:
+
+		# Set Forecast Location
+		weather = await client.get('Konya')
+
+		# Set Forecast Model
+		Full_Forecast_Model = App_Schema.Full_Forecast(ForecastList=[])
+
+		# Get Forecast Data
+		for forecast in weather.forecasts:
+			for hourly in forecast.hourly:
+					
+				# Set Forecast Model
+				Single_Forecast = App_Schema.Forecast(
+					Date=str(forecast.date), 
+					Time=str(hourly.time), 
+					AT=int(hourly.temperature), 
+					CC=int(hourly.cloud_cover), 
+					WS=int(hourly.wind_speed), 
+					WD=str(hourly.wind_direction), 
+					CoR=int(hourly.chances_of_rain), 
+					CoS=int(hourly.chances_of_snow)
+				)
+
+				# Append Forecast
+				Full_Forecast_Model.ForecastList.append(Single_Forecast)
+
+	# Set Response
+	return Full_Forecast_Model
+	

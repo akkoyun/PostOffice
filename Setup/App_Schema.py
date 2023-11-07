@@ -319,9 +319,6 @@ class Model(BaseModel):
 	# Soil Temperature
 	ST: Optional[ST]
 
-	# Forecast
-	Forecast: Optional[Full_Forecast]
-
 	# Sun
 	Sun: Optional[Sun]
 
