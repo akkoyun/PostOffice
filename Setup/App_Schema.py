@@ -238,6 +238,39 @@ class ST(BaseModel):
 	# 100 cm ST
 	ST_100: Optional[ST_100]
 
+# Forecast Model
+class Forecast(BaseModel):
+
+	# Forecast Date
+	Date: datetime = Field(description="Forecast date.", example="2022-07-19T08:28:32Z")
+
+	# Forecast Time
+	Time: datetime = Field(description="Forecast time.", example="2022-07-19T08:28:32Z")
+
+	# Forecast Air Temperature
+	AT: float = Field(description="Forecast air temperature.", example=28.3232, min=-50.0, max=100.0)
+
+	# Forecast Cloud Cover
+	CC: float = Field(description="Forecast cloud cover.", example=28.3232, min=0.0, max=100.0)
+
+	# Forecast Wind Speed
+	WS: float = Field(description="Forecast wind speed.", example=28.3232, min=0.0, max=100.0)
+
+	# Forecast Wind Direction
+	WD: str = Field(description="Forecast wind direction.", example="N")
+
+	# Forecast Rain
+	CoR: float = Field(description="Forecast rain.", example=28.3232, min=0.0, max=100.0)
+
+	# Forecast Snow
+	CoS: float = Field(description="Forecast snow.", example=28.3232, min=0.0, max=100.0)
+
+# Full Forecast Model
+#class Full_Forecast(BaseModel):
+
+	# 24 Hour Forecast
+
+
 # Sun Model
 class Sun(BaseModel):
 	
@@ -285,6 +318,9 @@ class Model(BaseModel):
 	
 	# Soil Temperature
 	ST: Optional[ST]
+
+	# Forecast
+	Forecast: Optional[Forecast]
 
 	# Sun
 	Sun: Optional[Sun]

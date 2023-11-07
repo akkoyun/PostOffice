@@ -12,6 +12,8 @@ from astral import LocationInfo, moon
 from astral.sun import sun
 from astral.moon import moonrise, moonset
 from datetime import date, datetime, timezone
+import python_weather
+import asyncio
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -81,6 +83,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		ST2 = None
 		ST5 = None
 		ST8 = None
+		Forecast = None
 
 		# Get Last Data
 		AT_Data = Handler.Get_WeatherStat_Measurement(ID, "AT")
@@ -177,6 +180,23 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		# Parse Moon Model
 		Moon = App_Schema.Moon(Moonrise=moonrise(City, date.today()).strftime("%Y-%m-%d %H:%M:%S"), Moonset=moonset(City, date.today()).strftime("%Y-%m-%d %H:%M:%S"), Phase=moon.phase(date.today()))
 
+
+		# Declare Forecast Data
+		async with python_weather.Client(unit=python_weather.METRIC) as client:
+
+			# Get Forecast
+			weather = await client.get('Konya')
+
+			# get the weather forecast for a few days
+			for forecast in weather.forecasts:
+				for hourly in forecast.hourly:
+					
+					# Set Forecast Model
+					Single_Forecast = App_Schema.Forecast(Date=forecast.date, Time=hourly.time, AT=hourly.temperature, CC=hourly.cloud_cover, WS=hourly.wind_speed, WD=hourly.wind_direction, CR=hourly.chances_of_rain, CS=hourly.chances_of_snow)
+
+
+
+
 		# Set Model
 		Response_Message = App_Schema.Model(
 			Device = Device, 
@@ -186,6 +206,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			W = Wind,
 			UV = UV,
 			ST = ST,
+			Forecast = Single_Forecast,
 			Sun = Sun,
 			Moon = Moon
 		)
