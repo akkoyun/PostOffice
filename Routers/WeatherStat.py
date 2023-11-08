@@ -234,7 +234,10 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		Response_Message = App_Schema.Model(Device = Device, AT = AT, AH = AH, AP = AP, W = Wind, UV = UV, ST = ST, Sun = Sun, Moon = Moon)
 
 		# Set Response
-		return Response_Message
+		Response_Dict = Response_Message.dict(exclude_none=True)
+
+		# Set Response
+		return Response_Dict
 	
 	# Device Not Found
 	else:
