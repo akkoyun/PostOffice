@@ -67,20 +67,18 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Control for Device
 	if Last_Update is not None:
 
-		# Update Last Update Time to Local Time
-		Last_Update_Time = datetime.strptime(Last_Update, "%Y-%m-%d %H:%M:%S")
-		Last_Update_Time_Local = Last_Update_Time.astimezone(Local_Timezone)
-
 		# Get Now Time
-		Now = datetime.now().astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
+		Now = datetime.now(timezone.utc)
 
 		# Calculate Minute Difference with Now
-		TTU = 30 - int((Now - Last_Update_Time_Local).total_seconds() / 60)
+		TTU = 30 - int((Now - Last_Update).total_seconds() / 60)
 
 		# Get Device Time
 		# ---------------
 
 		# Set Device
+		Last_Update_Time = Last_Update.astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
+		Last_Update_Time_Local = Last_Update_Time.astimezone(Local_Timezone)
 		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Last_Update_Time_Local.strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU)
 
 		# Get Last Data
