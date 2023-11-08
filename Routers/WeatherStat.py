@@ -68,7 +68,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	if Last_Update is not None:
 
 		# Update Last Update Time to Local Time
-		Last_Update_Time = Last_Update.astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
+		Last_Update_Time = datetime.strptime(Last_Update, "%Y-%m-%d %H:%M:%S")
 		Last_Update_Time_Local = Last_Update_Time.astimezone(Local_Timezone)
 
 		# Get Now Time
