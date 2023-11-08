@@ -6,7 +6,6 @@ sys.path.append('/root/PostOffice/')
 from pydantic import BaseModel, Field, validator
 from typing import Optional
 import re
-from datetime import datetime
 from Setup.Config import WeatherStat_Limits as Limits
 
 # Define IoT Data Base Model

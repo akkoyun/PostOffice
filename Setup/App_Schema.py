@@ -10,6 +10,7 @@ from datetime import datetime
 # Define App Base Model
 # Version 01.00.00
 
+# Custom Base Model
 class CustomBaseModel(BaseModel):
     def dict(self, **kwargs):
         kwargs['exclude_none'] = True

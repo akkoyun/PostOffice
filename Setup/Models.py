@@ -202,8 +202,3 @@ class Service_LOG(Base):
 	Service = Column(String(), nullable=False)
 	Status = Column(Boolean, nullable=False, default=False)
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-
-
-
-
-

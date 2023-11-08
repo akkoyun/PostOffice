@@ -260,7 +260,7 @@ async def Mobile_Forcast_Root(request: Request, ID: str) -> App_Schema.Full_Fore
 	async with python_weather.Client(unit=python_weather.METRIC) as client:
 
 		# Set Forecast Location
-		weather = await client.get('Konya')
+		weather = await client.get('Sarayonu')
 
 		# Set Forecast Model
 		Full_Forecast_Model = App_Schema.Full_Forecast(ForecastList=[])
@@ -286,4 +286,3 @@ async def Mobile_Forcast_Root(request: Request, ID: str) -> App_Schema.Full_Fore
 
 	# Set Response
 	return Full_Forecast_Model
-	

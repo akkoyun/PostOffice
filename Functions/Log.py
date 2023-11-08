@@ -30,12 +30,6 @@ Log_Format = "%(asctime)s PostOffice %(message)s"
 # Set Log
 coloredlogs.install(level='DEBUG', logger=Service_Logger, fmt=Log_Format)
 
-# Log Message
-def LOG_Message(Message):
-    
-	# Log Message
-	Service_Logger.info(f"--> {Message}")
-
 # Log Error Message
 def LOG_Error_Message(Message):
     

@@ -4,9 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Models, View_Models
-from sqlalchemy import func, and_, text, desc
-from sqlalchemy.orm import aliased
-from datetime import datetime, timedelta
+from datetime import datetime
 import math
 
 # Define Measurement Type
@@ -357,54 +355,6 @@ def WeatherStat_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, 
     # Close Database
     DB_Module.close()
 
-# Get Last Stream ID
-def Get_Last_Stream_ID(Device_ID: str):
-
-    # Define Stream_ID
-    Stream_ID = None
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    # Control Device in Stream Table
-    Query_Stream = DB_Module.query(Models.Stream).filter(Models.Stream.Device_ID.like(Device_ID)).order_by(Models.Stream.Stream_ID.desc()).first()
-
-    # Device in Stream Table
-    if Query_Stream:
-
-        # Read Stream_ID
-        Stream_ID = Query_Stream.Stream_ID
-
-    # Close Database
-    DB_Module.close()
-
-    # Return Stream_ID
-    return Stream_ID
-
-# Get Type_ID
-def Get_Type_ID(Variable_Name: str):
-
-    # Define Type_ID
-    Type_ID = None
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    # Control Device in Stream Table
-    Query_Type = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Variable_Name)).first()
-
-    # Device in Stream Table
-    if Query_Type:
-
-        # Read Stream_ID
-        Type_ID = Query_Type.Type_ID
-
-    # Close Database
-    DB_Module.close()
-
-    # Return Stream_ID
-    return Type_ID
-
 # Get Device Last Connection Time
 def Get_Device_Last_Connection(Device_ID: str):
 
@@ -432,138 +382,6 @@ def Get_Device_Last_Connection(Device_ID: str):
 
     # Return Stream_ID
     return Last_Connection
-
-# Get Last Data on WeatherStat
-def Get_WeatherStat_Data(Stream_ID: int, Variable_ID: int):
-
-    # Define Value
-    Value = None
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    # Control Device in Stream Table
-    Query_Data = DB_Module.query(Models.WeatherStat).filter(Models.WeatherStat.Stream_ID == Stream_ID).filter(Models.WeatherStat.Type_ID == Variable_ID).order_by(Models.WeatherStat.Create_Time.desc()).first()
-
-    # Device in Stream Table
-    if Query_Data:
-
-        # Read Stream_ID
-        Value = Query_Data.Value
-
-    # Close Database
-    DB_Module.close()
-
-    # Return Stream_ID
-    return Value
-
-# Get Device Last Connection Time
-def Get_WeatherStat_Data_Max(Device_ID: str, Variable_Name: str = None):
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    try:
-
-        # Get Stream_ID
-        Stream_ID = Get_Last_Stream_ID(Device_ID)
-
-        # Get Type_ID
-        Type_ID = Get_Type_ID(Variable_Name)
-
-        # Define Time
-        Time_Interval = datetime.now() - timedelta(days=1)
-
-        # Query WeatherStat Table
-        Max_Value = DB_Module.query(func.max(Models.WeatherStat.Value)).filter(Models.WeatherStat.Stream_ID == Stream_ID, Models.WeatherStat.Type_ID == Type_ID, Models.WeatherStat.Create_Time >= Time_Interval).scalar()
-
-    except:
-
-        # Close Database
-        DB_Module.close()
-
-        # End Function
-        return None
-    
-    finally:
-
-        # Close Database
-        DB_Module.close()
-
-    # Return Value
-    return Max_Value
-
-# Get Measurement
-def Read_Measurement(Device_ID: str, Variable_Name: str = None):
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    try:
-
-        # Set Time Interval
-        Interval = datetime.now() - timedelta(days=1)
-
-        # SQL Query
-        Latest_Stream_Subquery = (
-            DB_Module.query(Models.Stream.Stream_ID)
-            .filter(Models.Stream.Device_ID == Device_ID)
-            .order_by(Models.Stream.Stream_Time.desc())
-            .limit(2)
-            .subquery()
-        )
-        Target_Data_Type_Subquery = (
-            DB_Module.query(Models.Data_Type.Type_ID)
-            .filter(Models.Data_Type.Variable == Variable_Name)
-            .subquery()
-        )
-        Value_Query = (
-            DB_Module.query(Models.WeatherStat.Value, Models.WeatherStat.Create_Time)
-            .join(Latest_Stream_Subquery, Models.WeatherStat.Stream_ID == Latest_Stream_Subquery.c.Stream_ID)
-            .join(Target_Data_Type_Subquery, Models.WeatherStat.Type_ID == Target_Data_Type_Subquery.c.Type_ID)
-            .order_by(desc(Models.WeatherStat.Create_Time))
-        )
-        Max_Min_SubQuery = Value_Query.subquery()
-
-        # Define Measurement
-        New_Measurement = Measurement()
-
-        # Measurement in Database
-        if Value_Query:
-
-            # Set Variable Name
-            New_Measurement.Variable = Variable_Name
-
-            # Read Measurement
-            New_Measurement.Last_Value = Value_Query[0].Value
-
-            # Control for Change
-            if Value_Query[0] > Value_Query[1]: New_Measurement.Change = 1
-            elif Value_Query[0] < Value_Query[1]: New_Measurement.Change = -1
-            else: New_Measurement.Change = 0
-
-    except:
-
-        # Close Database
-        DB_Module.close()
-
-        # End Function
-        return None
-
-    finally:
-
-        # Close Database
-        DB_Module.close()
-
-    # Return Stream_ID
-    return New_Measurement
-
-
-
-
-
-
-
 
 # Read WeatherStat_Measurement
 def Get_WeatherStat_Measurement(Device_ID: str, Variable: str):

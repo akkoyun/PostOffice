@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models
+from Setup import Database
 from datetime import datetime
 from Functions import Kafka, Log, Handler
 
