@@ -72,13 +72,15 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 		# Get Now Time
 		Now = datetime.now(timezone.utc)
-		Log.Terminal_Log("INFO", f"Last Update: {Last_Update} - Now: {Now}")
 
 		# Calculate Minute Difference with Now
 		TTU = 30 - int((Now - Last_Update).total_seconds() / 60)
 
 		# Get Device Time
 		# ---------------
+
+		# Change Last Update Time to Local Time
+		Last_Update = Last_Update.astimezone(Local_Timezone)
 
 		# Set Device
 		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Last_Update.strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU)
@@ -108,14 +110,10 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		if AT_Data is not None:
 			
 			# Parse Max AT Data
-			Max_Time = datetime.strptime(AT_Data.Max_Time, "%Y-%m-%d %H:%M:%S")
-			Max_Time_Local = Max_Time.astimezone(Local_Timezone)
-			MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max, Time=Max_Time_Local.strftime("%Y-%m-%d %H:%M:%S"))
+			MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max, Time=AT_Data.Max_Time_Local.strftime("%Y-%m-%d %H:%M:%S"))
 			
 			# Parse Min AT Data
-			Min_Time = datetime.strptime(AT_Data.Min_Time, "%Y-%m-%d %H:%M:%S")
-			Min_Time_Local = Min_Time.astimezone(Local_Timezone)
-			MIN_AT = App_Schema.MinAT(Value=AT_Data.Min, Time=Min_Time_Local.strftime("%Y-%m-%d %H:%M:%S"))
+			MIN_AT = App_Schema.MinAT(Value=AT_Data.Min, Time=AT_Data.Min_Time_Local.strftime("%Y-%m-%d %H:%M:%S"))
 			
 			# Parse AT Data
 			AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Trend, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value, Max_AT = MAX_AT, Min_AT = MIN_AT)
