@@ -252,15 +252,15 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 # Forecast Get Method
-@PostOffice_WeatherStat.get("/{ID}/Forecast", response_model=App_Schema.Full_Forecast, status_code=status.HTTP_200_OK)
-@PostOffice_WeatherStat.get("/{ID}/Forecast/", response_model=App_Schema.Full_Forecast, status_code=status.HTTP_200_OK)
-async def Mobile_Forcast_Root(request: Request, ID: str) -> App_Schema.Full_Forecast:
+@PostOffice_WeatherStat.get("/Forecast/{City}", response_model=App_Schema.Full_Forecast, status_code=status.HTTP_200_OK)
+@PostOffice_WeatherStat.get("/Forecast/{City}/", response_model=App_Schema.Full_Forecast, status_code=status.HTTP_200_OK)
+async def Mobile_Forcast_Root(request: Request, City: str) -> App_Schema.Full_Forecast:
 
 	# Declare Forecast Data
-	async with python_weather.Client(unit=python_weather.METRIC) as client:
+	async with python_weather.Client(unit=python_weather.METRIC, locale=City) as client:
 
 		# Set Forecast Location
-		weather = await client.get('Konya')
+		weather = await client.get(City)
 
 		# Set Forecast Model
 		Full_Forecast_Model = App_Schema.Full_Forecast(ForecastList=[])
