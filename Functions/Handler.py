@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models
+from Setup import Database, Models, View_Models
 from sqlalchemy import func, and_, text, desc
 from sqlalchemy.orm import aliased
 from datetime import datetime, timedelta
@@ -574,7 +574,7 @@ def Get_WeatherStat_Measurement(Device_ID: str, Variable: str):
     try:
 
         # Query Measurement at WeatherStat_Measurement View
-        Query_Measurement = DB_Module.query(Models.WeatherStat_Measurement).filter(Models.WeatherStat_Measurement.Device_ID == Device_ID).filter(Models.WeatherStat_Measurement.Variable == Variable).first()
+        Query_Measurement = DB_Module.query(View_Models.WeatherStat_Measurement).filter(View_Models.WeatherStat_Measurement.Device_ID == Device_ID).filter(View_Models.WeatherStat_Measurement.Variable == Variable).first()
 
         # Define Measurement
         New_Measurement = Measurement()

@@ -6,7 +6,7 @@ sys.path.append('/root/PostOffice/')
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
-from Setup.Database import Base, DB_Engine
+from Setup.Database import Base
 
 # [A] Model Database Model
 class Model(Base):

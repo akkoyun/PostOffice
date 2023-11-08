@@ -13,7 +13,6 @@ from astral.sun import sun
 from astral.moon import moonrise, moonset
 from datetime import date, datetime, timezone
 import python_weather
-import asyncio
 import pytz
 
 # Set Timezone
