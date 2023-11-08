@@ -112,12 +112,12 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			# Parse Max AT Data
 			Max_Time = datetime.strptime(AT_Data.Max_Time, "%Y-%m-%d %H:%M:%S")
 			Max_Time_Local = Max_Time.astimezone(Local_Timezone)
-			MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max, Time=Max_Time_Local)
+			MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max, Time=Max_Time_Local.strftime("%Y-%m-%d %H:%M:%S"))
 			
 			# Parse Min AT Data
 			Min_Time = datetime.strptime(AT_Data.Min_Time, "%Y-%m-%d %H:%M:%S")
 			Min_Time_Local = Min_Time.astimezone(Local_Timezone)
-			MIN_AT = App_Schema.MinAT(Value=AT_Data.Min, Time=Min_Time_Local)
+			MIN_AT = App_Schema.MinAT(Value=AT_Data.Min, Time=Min_Time_Local.strftime("%Y-%m-%d %H:%M:%S"))
 			
 			# Parse AT Data
 			AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Trend, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value, Max_AT = MAX_AT, Min_AT = MIN_AT)
