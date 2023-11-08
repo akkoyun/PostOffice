@@ -72,7 +72,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		Last_Update_Time_Local = Last_Update_Time.astimezone(Local_Timezone)
 
 		# Get Now Time
-		Now = datetime.now(timezone.utc)
+		Now = datetime.now().astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
 
 		# Calculate Minute Difference with Now
 		TTU = 30 - int((Now - Last_Update_Time_Local).total_seconds() / 60)
