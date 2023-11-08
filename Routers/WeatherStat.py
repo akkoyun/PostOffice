@@ -19,10 +19,6 @@ import pytz
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
 
-
-
-
-
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
 
@@ -71,26 +67,24 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 	# Control for Device
 	if Last_Update is not None:
 
+		# Update Last Update Time to Local Time
+		Last_Update_Time = Last_Update.astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
+		Last_Update_Time_Local = Last_Update_Time.astimezone(Local_Timezone)
+
 		# Get Now Time
 		Now = datetime.now(timezone.utc)
 
 		# Calculate Minute Difference with Now
-		TTU = 30 - int((Now - Last_Update).total_seconds() / 60)
+		TTU = 30 - int((Now - Last_Update_Time_Local).total_seconds() / 60)
+
+		# Get Device Time
+		# ---------------
 
 		# Set Device
-		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Handler.Get_Device_Last_Connection(ID).strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU)
+		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Last_Update_Time_Local.strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU)
 
-		# Set Default Values
-		AT = None
-		MAX_AT = None
-		MIN_AT = None
-		AH = None
-		AP = None
-		UV = None
-		ST0 = None
-		ST2 = None
-		ST5 = None
-		ST8 = None
+		# Get Last Data
+		# --------------
 
 		# Get Last Data
 		AT_Data = Handler.Get_WeatherStat_Measurement(ID, "AT")
@@ -106,7 +100,11 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		ST5_Data = Handler.Get_WeatherStat_Measurement(ID, "ST5")
 		ST8_Data = Handler.Get_WeatherStat_Measurement(ID, "ST8")
 
+		# Parse Measurement
+		# -----------------
+
 		# Parse AT Data
+		AT = None
 		if AT_Data is not None:
 			
 			# Parse Max AT Data
@@ -123,61 +121,67 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Trend, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value, Max_AT = MAX_AT, Min_AT = MIN_AT)
 
 		# Parse AH Data
+		AH = None
 		if AH_Data is not None:
 
 			# Parse AH Data
 			AH = App_Schema.AH(Value=AH_Data.Last_Value, Change=AH_Data.Trend)
 
 		# Parse AP Data
+		AP = None
 		if AP_Data is not None:
 			
 			# Parse AP Data
 			AP = App_Schema.AP(Value=AP_Data.Last_Value, Change=AP_Data.Trend)
 
 		# Parse Wind Data
+		W = None
 		if WS_Data is not None and WD_Data is not None:
 			
 			# Parse Wind Data
 			Wind = App_Schema.W(WS=WS_Data.Last_Value, WD=WD_Data.Last_Value, Change=WS_Data.Trend)
 
 		# Parse UV Data
+		UV = None
 		if UV_Data is not None:
 
 			# Parse UV Data
 			UV = App_Schema.UV(Value=UV_Data.Last_Value, Change=UV_Data.Trend)
 
 		# Parse ST0 Data
+		ST0 = None
 		if ST0_Data is not None:
 			
 			# Parse ST0 Data
 			ST0 = App_Schema.ST_10(Value=ST0_Data.Last_Value, Change=ST0_Data.Trend)
 		
 		# Parse ST2 Data
+		ST2 = None
 		if ST2_Data is not None:
 
 			# Parse ST2 Data
 			ST2 = App_Schema.ST_30(Value=ST2_Data.Last_Value, Change=ST2_Data.Trend)
 		
 		# Parse ST5 Data
+		ST5 = None
 		if ST5_Data is not None:
 			
 			# Parse ST5 Data
 			ST5 = App_Schema.ST_60(Value=ST5_Data.Last_Value, Change=ST5_Data.Trend)
 		
 		# Parse ST8 Data
+		ST8 = None
 		if ST8_Data is not None:
 
 			# Parse ST8 Data
 			ST8 = App_Schema.ST_90(Value=ST8_Data.Last_Value, Change=ST8_Data.Trend)
 		
 		# Parse ST Model
+		ST = None
 		ST = App_Schema.ST(ST_10=ST0, ST_30=ST2, ST_60=ST5, ST_90=ST8)
 
-
-
-
-
-
+		# Set Sun and Moon
+		# -----------------
 
 		# Set Object
 		Sun = None
@@ -225,24 +229,11 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		# Parse Moon Model
 		Moon = App_Schema.Moon(Moonrise=Moon_Rise_Time, Moonset=Moon_Set_Time, Phase=Moon_Phase)
 		
-
-
-
-
-
+		# Parse Device Model
+		# ------------------
 
 		# Set Model
-		Response_Message = App_Schema.Model(
-			Device = Device, 
-			AT = AT,
-			AH = AH,
-			AP = AP,
-			W = Wind,
-			UV = UV,
-			ST = ST,
-			Sun = Sun,
-			Moon = Moon
-		)
+		Response_Message = App_Schema.Model(Device = Device, AT = AT, AH = AH, AP = AP, W = Wind, UV = UV, ST = ST, Sun = Sun, Moon = Moon)
 
 		# Set Response
 		return Response_Message
