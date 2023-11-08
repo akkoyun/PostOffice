@@ -110,10 +110,10 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		if AT_Data is not None:
 			
 			# Parse Max AT Data
-			MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max, Time=AT_Data.Max_Time_Local.strftime("%Y-%m-%d %H:%M:%S"))
+			MAX_AT = App_Schema.MaxAT(Value=AT_Data.Max, Time=AT_Data.Max_Time.strftime("%Y-%m-%d %H:%M:%S"))
 			
 			# Parse Min AT Data
-			MIN_AT = App_Schema.MinAT(Value=AT_Data.Min, Time=AT_Data.Min_Time_Local.strftime("%Y-%m-%d %H:%M:%S"))
+			MIN_AT = App_Schema.MinAT(Value=AT_Data.Min, Time=AT_Data.Min_Time.strftime("%Y-%m-%d %H:%M:%S"))
 			
 			# Parse AT Data
 			AT = App_Schema.AT(Value=AT_Data.Last_Value, Change=AT_Data.Trend, AT_FL=AT_FL_Data.Last_Value, AT_Dew=AT_Dew_Data.Last_Value, Max_AT = MAX_AT, Min_AT = MIN_AT)
