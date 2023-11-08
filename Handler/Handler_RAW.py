@@ -30,7 +30,10 @@ try:
 
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
-        print(Message)
+
+        # Log Message
+        Log.Terminal_Log(Message)
+
         # Control for Device
         Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)
 
