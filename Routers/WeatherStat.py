@@ -19,6 +19,7 @@ import pytz
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
 
+
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
 
@@ -77,7 +78,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		# ---------------
 
 		# Set Device
-		Last_Update_Time = Last_Update.astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
+		Last_Update_Time = datetime(Last_Update).astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
 		Last_Update_Time_Local = Last_Update_Time.astimezone(Local_Timezone)
 		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Last_Update_Time_Local.strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU)
 
