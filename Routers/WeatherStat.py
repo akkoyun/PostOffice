@@ -161,23 +161,63 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		# Parse ST Model
 		ST = App_Schema.ST(ST_10=ST0, ST_30=ST2, ST_60=ST5, ST_90=ST8)
 
-		# Set Default Location
-		City_Name = "Konya"
-		City_Region = "Turkey"
-		Latitude = 37.8716
-		Longitude = 32.4846
+
+
+
+
+
+
+
 
 		# Set Location
-		City = LocationInfo(City_Name, City_Region, 'Europe/Istanbul', Latitude, Longitude)
+		City = LocationInfo("Konya", "Turkey", 'Europe/Istanbul', 37.8716, 32.4846)
 
 		# Set Sun
 		Sun_State = sun(City.observer, date.today())
-	
+
+		# Get Sun Rise Time
+		try:
+			Sun_Rise_Time = Sun_State["sunrise"].strftime("%Y-%m-%d %H:%M:%S")
+		except ValueError as e:
+			Sun_Rise_Time = None
+
+		# Get Sun Set Time
+		try:
+			Sun_Set_Time = Sun_State["sunset"].strftime("%Y-%m-%d %H:%M:%S")
+		except ValueError as e:
+			Sun_Set_Time = None
+
 		# Parse Sun Model
-		Sun = App_Schema.Sun(Sunrise=Sun_State["sunrise"].strftime("%Y-%m-%d %H:%M:%S"), Sunset=Sun_State["sunset"].strftime("%Y-%m-%d %H:%M:%S"))
+		if Sun_Rise_Time is not None and Sun_Set_Time is not None:
+			Sun = App_Schema.Sun(Sunrise=Sun_Rise_Time, Sunset=Sun_Set_Time)
+
+		# Get Moon Rise Time
+		try:
+			Moon_Rise_Time = moonrise(City, date.today()).strftime("%Y-%m-%d %H:%M:%S")
+		except ValueError as e:
+			Moon_Rise_Time = None
+
+		# Get Moon Set Time
+		try:
+			Moon_Set_Time = moonset(City, date.today()).strftime("%Y-%m-%d %H:%M:%S")
+		except ValueError as e:
+			Moon_Set_Time = None
+
+		# Get Moon Phase
+		try:
+			Moon_Phase = moon.phase(date.today())
+		except ValueError as e:
+			Moon_Phase = None
 
 		# Parse Moon Model
-		Moon = App_Schema.Moon(Moonrise=moonrise(City, date.today()).strftime("%Y-%m-%d %H:%M:%S"), Moonset=moonset(City, date.today()).strftime("%Y-%m-%d %H:%M:%S"), Phase=moon.phase(date.today()))
+		if Moon_Rise_Time is not None and Moon_Set_Time is not None:
+			Moon = App_Schema.Moon(Moonrise=Moon_Rise_Time, Moonset=Moon_Set_Time, Phase=Moon_Phase)
+		
+
+
+
+
+
 
 		# Set Model
 		Response_Message = App_Schema.Model(
