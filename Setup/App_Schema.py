@@ -11,8 +11,9 @@ from datetime import datetime
 # Version 01.00.00
 
 class CustomBaseModel(BaseModel):
-	def dict(self, **kwargs):
-		return super().dict(**kwargs, exclude_none=True)
+    def dict(self, **kwargs):
+        kwargs['exclude_none'] = True
+        return super().dict(**kwargs)
 
 # Device Info
 class Device(CustomBaseModel):
