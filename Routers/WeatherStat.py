@@ -257,12 +257,10 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 async def Mobile_Forcast_Root(request: Request, City: str) -> App_Schema.Full_Forecast:
 
 	# Declare Forecast Data
-	async with python_weather.Client(unit=python_weather.METRIC, locale='tr') as client:
+	async with python_weather.Client(unit=python_weather.METRIC) as client:
 
 		# Set Forecast Location
 		weather = await client.get(City)
-
-		
 
 		# Set Forecast Model
 		Full_Forecast_Model = App_Schema.Full_Forecast(ForecastList=[])
@@ -270,7 +268,7 @@ async def Mobile_Forcast_Root(request: Request, City: str) -> App_Schema.Full_Fo
 		# Get Forecast Data
 		for forecast in weather.forecasts:
 			for hourly in forecast.hourly:
-					
+
 				# Set Forecast Model
 				Single_Forecast = App_Schema.Forecast(
 					Date=str(forecast.date), 
