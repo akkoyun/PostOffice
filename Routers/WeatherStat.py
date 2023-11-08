@@ -59,6 +59,7 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 
 # App Get Method
 @PostOffice_WeatherStat.get("/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
+@PostOffice_WeatherStat.get("/{ID}/", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
 async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 	# Log Message
