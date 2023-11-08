@@ -14,6 +14,14 @@ from astral.moon import moonrise, moonset
 from datetime import date, datetime, timezone
 import python_weather
 import asyncio
+import pytz
+
+# Set Timezone
+Local_Timezone = pytz.timezone("Europe/Istanbul")
+
+
+
+
 
 # Define FastAPI Object
 PostOffice_WeatherStat = APIRouter()
@@ -172,20 +180,20 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		Moon = None
 
 		# Set Location
-		City = LocationInfo("Konya", "Turkey", 'Europe/Istanbul', 37.8716, 32.4846)
+		City = LocationInfo(name='Konya', region='Turkey', timezone='Europe/Istanbul', latitude=37.8716, longitude=32.4846)
 
 		# Set Sun
 		Sun_State = sun(City.observer, date.today())
 
 		# Get Sun Rise Time
 		try:
-			Sun_Rise_Time = Sun_State["sunrise"].strftime("%Y-%m-%d %H:%M:%S")
+			Sun_Rise_Time = Sun_State["sunrise"].astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
 		except ValueError as e:
 			Sun_Rise_Time = None
 
 		# Get Sun Set Time
 		try:
-			Sun_Set_Time = Sun_State["sunset"].strftime("%Y-%m-%d %H:%M:%S")
+			Sun_Set_Time = Sun_State["sunset"].astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
 		except ValueError as e:
 			Sun_Set_Time = None
 
@@ -194,13 +202,13 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 		# Get Moon Rise Time
 		try:
-			Moon_Rise_Time = moonrise(City, date.today()).strftime("%Y-%m-%d %H:%M:%S")
+			Moon_Rise_Time = moonrise(City, date.today()).astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
 		except ValueError as e:
 			Moon_Rise_Time = None
 
 		# Get Moon Set Time
 		try:
-			Moon_Set_Time = moonset(City, date.today()).strftime("%Y-%m-%d %H:%M:%S")
+			Moon_Set_Time = moonset(City, date.today()).astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
 		except ValueError as e:
 			Moon_Set_Time = None
 
