@@ -256,7 +256,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 # Forecast Get Method
 @PostOffice_WeatherStat.get("/{ID}/Forecast", response_model=App_Schema.Full_Forecast, status_code=status.HTTP_200_OK)
 @PostOffice_WeatherStat.get("/{ID}/Forecast/", response_model=App_Schema.Full_Forecast, status_code=status.HTTP_200_OK)
-async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Full_Forecast:
+async def Mobile_Forcast_Root(request: Request, ID: str) -> App_Schema.Full_Forecast:
 
 	# Declare Forecast Data
 	async with python_weather.Client(unit=python_weather.METRIC) as client:
