@@ -10,8 +10,12 @@ from datetime import datetime
 # Define App Base Model
 # Version 01.00.00
 
+class CustomBaseModel(BaseModel):
+	def dict(self, **kwargs):
+		return super().dict(**kwargs, exclude_none=True)
+
 # Device Info
-class Device(BaseModel):
+class Device(CustomBaseModel):
 
 	# Device ID
 	Device_ID: str = Field(description="Device ID.", example="1234567890")
@@ -23,7 +27,7 @@ class Device(BaseModel):
 	TTU: int = Field(description="Time to update.", example=5)
 
 # Max AT Model
-class MaxAT(BaseModel):
+class MaxAT(CustomBaseModel):
 
 	# Last Measured Air Temperature Value
 	Value: Optional[float] = Field(description="Max Air temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -32,7 +36,7 @@ class MaxAT(BaseModel):
 	Time: Optional[datetime] = Field(description="Max Air temperature measurement time stamp.", example="2022-07-19T08:28:32Z")
 
 # Min AT Model
-class MinAT(BaseModel):
+class MinAT(CustomBaseModel):
 
 	# Last Measured Air Temperature Value
 	Value: Optional[float] = Field(description="Min Air temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -41,7 +45,7 @@ class MinAT(BaseModel):
 	Time: Optional[datetime] = Field(description="Min Air temperature measurement time stamp.", example="2022-07-19T08:28:32Z")
 
 # AT Model
-class AT(BaseModel):
+class AT(CustomBaseModel):
     
 	# Last Measured Air Temperature Value
 	Value: Optional[float] = Field(description="Max Air temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -62,7 +66,7 @@ class AT(BaseModel):
 	Min_AT: Optional[MinAT]
 
 # AH Model
-class AH(BaseModel):
+class AH(CustomBaseModel):
 
 	# Last Measured Air Humidity Value
     Value: Optional[float] = Field(description="Air humidity.", example=28.3232, min=0.0, max=100.0)
@@ -71,7 +75,7 @@ class AH(BaseModel):
     Change: Optional[int] = Field(description="Air humidity change status.", example=0, min=-1, max=1)
 
 # AP Model
-class AP(BaseModel):
+class AP(CustomBaseModel):
     
 	# Last Measured Air Pressure Value
 	Value: Optional[float] = Field(description="Air pressure.", example=28.3232, min=0.0, max=100.0)
@@ -80,7 +84,7 @@ class AP(BaseModel):
 	Change: Optional[int] = Field(description="Air pressure change status.", example=0, min=-1, max=1)
 
 # R Model
-class R(BaseModel):
+class R(CustomBaseModel):
     
 	# Last 1 Hour Rain Value
 	R_1: Optional[int] = Field(description="1 hour rain.", example=28, min=0, max=100)
@@ -95,7 +99,7 @@ class R(BaseModel):
 	R_168: Optional[int] = Field(description="168 hour rain.", example=28, min=0, max=100)
 
 # W Model
-class W(BaseModel):
+class W(CustomBaseModel):
 	
 	# Last Measured Wind Speed Value
 	WS: Optional[float] = Field(description="Wind speed.", example=28.3232, min=0.0, max=100.0)
@@ -107,7 +111,7 @@ class W(BaseModel):
 	Change: Optional[int] = Field(description="Wind change status.", example=0, min=-1, max=1)
 
 # UV Model
-class UV(BaseModel):
+class UV(CustomBaseModel):
 	
 	# Last Measured UV Value
 	Value: Optional[float] = Field(description="UV.", example=28.3232, min=0.0, max=100.0)
@@ -116,7 +120,7 @@ class UV(BaseModel):
 	Change: Optional[int] = Field(description="UV change status.", example=0, min=-1, max=1)
 
 # 10 cm ST Model
-class ST_10(BaseModel):
+class ST_10(CustomBaseModel):
 	
 	# Last Measured 10 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="10 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -125,7 +129,7 @@ class ST_10(BaseModel):
 	Change: Optional[int] = Field(description="10 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 20 cm ST Model
-class ST_20(BaseModel):
+class ST_20(CustomBaseModel):
 	
 	# Last Measured 20 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="20 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -134,7 +138,7 @@ class ST_20(BaseModel):
 	Change: Optional[int] = Field(description="20 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 30 cm ST Model
-class ST_30(BaseModel):
+class ST_30(CustomBaseModel):
 	
 	# Last Measured 30 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="30 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -143,7 +147,7 @@ class ST_30(BaseModel):
 	Change: Optional[int] = Field(description="30 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 40 cm ST Model
-class ST_40(BaseModel):
+class ST_40(CustomBaseModel):
 	
 	# Last Measured 40 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="40 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -152,7 +156,7 @@ class ST_40(BaseModel):
 	Change: Optional[int] = Field(description="40 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 50 cm ST Model
-class ST_50(BaseModel):
+class ST_50(CustomBaseModel):
 	
 	# Last Measured 50 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="50 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -161,7 +165,7 @@ class ST_50(BaseModel):
 	Change: Optional[int] = Field(description="50 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 60 cm ST Model
-class ST_60(BaseModel):
+class ST_60(CustomBaseModel):
 	
 	# Last Measured 60 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="60 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -170,7 +174,7 @@ class ST_60(BaseModel):
 	Change: Optional[int] = Field(description="60 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 70 cm ST Model
-class ST_70(BaseModel):
+class ST_70(CustomBaseModel):
 	
 	# Last Measured 70 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="70 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -179,7 +183,7 @@ class ST_70(BaseModel):
 	Change: Optional[int] = Field(description="70 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 80 cm ST Model
-class ST_80(BaseModel):
+class ST_80(CustomBaseModel):
 	
 	# Last Measured 80 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="80 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -188,7 +192,7 @@ class ST_80(BaseModel):
 	Change: Optional[int] = Field(description="80 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 90 cm ST Model
-class ST_90(BaseModel):
+class ST_90(CustomBaseModel):
 	
 	# Last Measured 90 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="90 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -197,7 +201,7 @@ class ST_90(BaseModel):
 	Change: Optional[int] = Field(description="90 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # 100 cm ST Model
-class ST_100(BaseModel):
+class ST_100(CustomBaseModel):
 	
 	# Last Measured 100 cm Soil Temperature Value
 	Value: Optional[float] = Field(description="100 cm soil temperature.", example=28.3232, min=-50.0, max=100.0)
@@ -206,7 +210,7 @@ class ST_100(BaseModel):
 	Change: Optional[int] = Field(description="100 cm soil temperature change status.", example=0, min=-1, max=1)
 
 # ST Model
-class ST(BaseModel):
+class ST(CustomBaseModel):
 	
 	# 10 cm ST
 	ST_10: Optional[ST_10]
@@ -239,7 +243,7 @@ class ST(BaseModel):
 	ST_100: Optional[ST_100]
 
 # Forecast Model
-class Forecast(BaseModel):
+class Forecast(CustomBaseModel):
 
 	# Forecast Date
 	Date: str = Field(description="Forecast date.", example="2022-07-19T08:28:32Z")
@@ -266,13 +270,13 @@ class Forecast(BaseModel):
 	CoS: int = Field(description="Forecast snow.", example=28)
 
 # Full Forecast Model
-class Full_Forecast(BaseModel):
+class Full_Forecast(CustomBaseModel):
 
 	# Forecast Date
 	ForecastList: list[Forecast]
 
 # Sun Model
-class Sun(BaseModel):
+class Sun(CustomBaseModel):
 	
 	# Sunrise
 	Sunrise: datetime = Field(description="Sunrise time.", example="2022-07-19T08:28:32Z")
@@ -281,7 +285,7 @@ class Sun(BaseModel):
 	Sunset: datetime = Field(description="Sunset time.", example="2022-07-19T08:28:32Z")
 
 # Moon Model
-class Moon(BaseModel):
+class Moon(CustomBaseModel):
 	
 	# Moonrise
 	Moonrise: Optional[datetime] = Field(description="Moonrise time.", example="2022-07-19T08:28:32Z")
@@ -293,7 +297,7 @@ class Moon(BaseModel):
 	Phase: Optional[float] = Field(description="Moon phase.", example=20.6)
 
 # Model
-class Model(BaseModel):
+class Model(CustomBaseModel):
     
 	# Device Info
 	Device: Device
