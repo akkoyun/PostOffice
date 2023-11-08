@@ -190,8 +190,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			Sun_Set_Time = None
 
 		# Parse Sun Model
-		if Sun_Rise_Time is not None and Sun_Set_Time is not None:
-			Sun = App_Schema.Sun(Sunrise=Sun_Rise_Time, Sunset=Sun_Set_Time)
+		Sun = App_Schema.Sun(Sunrise=Sun_Rise_Time, Sunset=Sun_Set_Time)
 
 		# Get Moon Rise Time
 		try:
@@ -212,8 +211,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 			Moon_Phase = None
 
 		# Parse Moon Model
-		if Moon_Rise_Time is not None and Moon_Set_Time is not None:
-			Moon = App_Schema.Moon(Moonrise=Moon_Rise_Time, Moonset=Moon_Set_Time, Phase=Moon_Phase)
+		Moon = App_Schema.Moon(Moonrise=Moon_Rise_Time, Moonset=Moon_Set_Time, Phase=Moon_Phase)
 		
 
 
