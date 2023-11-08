@@ -257,7 +257,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 async def Mobile_Forcast_Root(request: Request, City: str) -> App_Schema.Full_Forecast:
 
 	# Declare Forecast Data
-	async with python_weather.Client(unit=python_weather.METRIC, locale='TURKISH') as client:
+	async with python_weather.Client(unit=python_weather.METRIC, locale='tr') as client:
 
 		# Set Forecast Location
 		weather = await client.get(City)
