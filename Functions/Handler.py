@@ -606,6 +606,12 @@ def Get_WeatherStat_Measurement(Device_ID: str, Variable: str):
             # Get Max Time
             New_Measurement.Max_Time = Query_Measurement.Max_Time.strftime("%Y-%m-%d %H:%M:%S")
 
+        # Measurement not in Database
+        else:
+
+            # Set None
+            New_Measurement = None
+
     finally:
 
         # Close Database
