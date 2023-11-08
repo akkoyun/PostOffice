@@ -69,6 +69,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 		# Get Now Time
 		Now = datetime.now(timezone.utc)
+		Log.Terminal_Log("INFO", f"Last Update: {Last_Update} - Now: {Now}")
 
 		# Calculate Minute Difference with Now
 		TTU = 30 - int((Now - Last_Update).total_seconds() / 60)
@@ -77,8 +78,7 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		# ---------------
 
 		# Set Device
-		Last_Update_Time_Local = datetime(Last_Update).astimezone(Local_Timezone)
-		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Last_Update_Time_Local.strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU)
+		Device = App_Schema.Device(Device_ID = ID, LastUpdate = Last_Update.strftime("%Y-%m-%d %H:%M:%S"), TTU = TTU)
 
 		# Get Last Data
 		# --------------
