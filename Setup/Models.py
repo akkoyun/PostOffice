@@ -189,7 +189,7 @@ class Stream(Base):
 	Size = Column(Integer, nullable=True)
 	RAW_Data = Column(JSON, nullable=True)
 	Device_Time = Column(TIMESTAMP(timezone=True), nullable=False)
-	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 
 # Service_LOG Database Model
 class Service_LOG(Base):
