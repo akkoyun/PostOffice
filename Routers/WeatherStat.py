@@ -167,7 +167,9 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
 
 
-
+		# Set Object
+		Sun = None
+		Moon = None
 
 		# Set Location
 		City = LocationInfo("Konya", "Turkey", 'Europe/Istanbul', 37.8716, 32.4846)
