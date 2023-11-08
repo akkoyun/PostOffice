@@ -61,6 +61,9 @@ async def WeatherStat_POST(request: Request, Data: Schema.Data_Pack):
 @PostOffice_WeatherStat.get("/{ID}", response_model=App_Schema.Model, status_code=status.HTTP_200_OK)
 async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 
+	# Log Message
+	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")
+
 	# Get Last Update Time
 	Last_Update = Handler.Get_Device_Last_Connection(ID)
 
