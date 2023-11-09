@@ -332,7 +332,7 @@ class Device(BaseModel):
 	# Device IoT
 	IoT: IoT
 
-# Define payload
+# Define WeatherStat payload
 class WeatherStat_Payload(BaseModel):
 
 	# Latitude Value of Device
@@ -370,6 +370,17 @@ class WeatherStat_Payload(BaseModel):
 
 	# Last Measured Wind Speed Value
 	WS: Optional[float] = Field(description="Wind speed.", example=25, min=Limits.WS_MIN, max=Limits.WS_MAX)
+
+# Define PowerStat payload
+class PowerStat_Payload(BaseModel):
+
+	# Latitude Value of Device
+	Latitude: Optional[float] = Field(description="GNSS lattitude value.", example=1.243242342, min=-360, max=360)
+
+
+
+
+
 
 # Define IoT RAW Data Base Model
 # WeatherStat Model Version 01.03.00

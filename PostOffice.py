@@ -4,12 +4,12 @@ from Setup import Database, Models
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from Routers import WeatherStat
+from Routers import WeatherStat, PowerStat
 from datetime import datetime
 from Setup.Config import APP_Settings
 
 # Define FastAPI Object
-PostOffice = FastAPI(version="02.00.00", title="PostOffice")
+PostOffice = FastAPI(version="02.01.00", title="PostOffice")
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
@@ -72,7 +72,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
 
 # Include Routers
-PostOffice.include_router(WeatherStat.PostOffice_WeatherStat, prefix="/WeatherStat", tags=["WeatherStat"], responses={404: {"description": "Not found"}})
+PostOffice.include_router(WeatherStat.PostOffice_WeatherStat, prefix="/WeatherStat", tags=["WeatherStat"], responses={404: {"Description": "Not found"}})
+PostOffice.include_router(PowerStat.PostOffice_PowerStat, prefix="/PowerStat", tags=["PowerStat"], responses={404: {"Description": "Not found"}})
 
 # IoT Get Method
 @PostOffice.get("/", status_code=status.HTTP_200_OK)
