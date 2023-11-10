@@ -15,8 +15,8 @@ RAW_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_RAW), bootstrap_server
 # Kafka Parameter Consumer
 Parameter_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_PARAMETER), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_PARAMETER_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
 
-# Kafka WeatherStat Consumer
-WeatherStat_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_WEATHERSTAT), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_WEATHERSTAT_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
+# Kafka Payload Consumer
+Payload_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_PAYLOAD_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
 
 # Define Headers
 class Headers:
@@ -160,8 +160,8 @@ def Decode_Device_Message(RAW_Message):
         # Return None
         return None
 
-# Decode and Parse WeatherStat Message
-def Decode_WeatherStat_Message(RAW_Message):
+# Decode and Parse Payload Message
+def Decode_Payload_Message(RAW_Message):
     
     try:
 

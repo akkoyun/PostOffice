@@ -8,7 +8,7 @@ WITH valueranks AS (
         rank() OVER (PARTITION BY s."Device_ID", dt."Variable" ORDER BY ws."Value" DESC) AS "MaxRank",
         rank() OVER (PARTITION BY s."Device_ID", dt."Variable" ORDER BY ws."Value") AS "MinRank",
         lag(ws."Value") OVER (PARTITION BY s."Device_ID", dt."Variable" ORDER BY ws."Create_Time") AS "PreviousValue"
-       FROM "WeatherStat" ws
+       FROM "Payload" ws
          JOIN "Stream" s ON ws."Stream_ID" = s."Stream_ID"
          JOIN "Data_Type" dt ON ws."Type_ID" = dt."Type_ID"
       WHERE ws."Create_Time" > (CURRENT_TIMESTAMP - interval '24 hours')

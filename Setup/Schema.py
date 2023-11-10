@@ -6,7 +6,7 @@ sys.path.append('/root/PostOffice/')
 from pydantic import BaseModel, Field, validator
 from typing import Optional
 import re
-from Setup.Config import WeatherStat_Limits as Limits
+from Setup.Config import Payload_Limits_Limits as Limits
 
 # Define IoT Data Base Model
 # Version 01.00.00
@@ -332,7 +332,7 @@ class Device(BaseModel):
 	# Device IoT
 	IoT: IoT
 
-# Define WeatherStat payload
+# Define Payload payload
 class Payload(BaseModel):
 
 	# Latitude Value of Device
@@ -699,7 +699,7 @@ class Payload(BaseModel):
 	Max78630_T: Optional[float] = Field(description="Max78630 chip temperature measurement", example=20.12)
 
 # Define IoT RAW Data Base Model
-# WeatherStat Model Version 01.03.00
+# Model Version 01.03.00
 class Data_Pack(BaseModel):
 
 	# Info
@@ -708,5 +708,5 @@ class Data_Pack(BaseModel):
 	# Device
 	Device: Device
 
-	# WeatherStat Payload
+	# Payload
 	Payload: Payload

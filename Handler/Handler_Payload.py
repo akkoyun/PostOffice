@@ -4,7 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database
-from Setup.Config import WeatherStat_Limits as Limits
+from Setup.Config import Payload_Limits as Limits
 from datetime import datetime
 from Functions import Kafka, Log, Handler
 
@@ -18,7 +18,7 @@ try:
     DB_Module = Database.SessionLocal()
 
     # Parse Topics
-    for RAW_Message in Kafka.WeatherStat_Consumer:
+    for RAW_Message in Kafka.Payload_Consumer:
 
         # Handle Headers
         RAW_Headers = Kafka.Handler_Headers(
@@ -31,28 +31,28 @@ try:
         )
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New WeatherStat Received: {RAW_Headers.Device_ID}")
+        Log.Terminal_Log("INFO", f"New Data Received: {RAW_Headers.Device_ID}")
 
         # Decode Message
-        Message = Kafka.Decode_WeatherStat_Message(RAW_Message)
+        Message = Kafka.Decode_Payload_Message(RAW_Message)
 
         # Control for AT
         if Message.AT is not None and Message.AT > Limits.AT_MIN and Message.AT < Limits.AT_MAX:
 
             # Set AT
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT", Message.AT)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT", Message.AT)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: AT - {Message.AT}")
+            Log.Terminal_Log("INFO", f"New Data -> AT : {Message.AT}")
 
         # Control for AH
         if Message.AH is not None and Message.AH > Limits.AH_MIN and Message.AH < Limits.AH_MAX:
 
             # Set AH
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AH", Message.AH)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AH", Message.AH)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: AH - {Message.AH}")
+            Log.Terminal_Log("INFO", f"New Data -> AH : {Message.AH}")
 
         # Control for AT_FL
         if Message.AT is not None and Message.AT > Limits.AT_MIN and Message.AT < Limits.AT_MAX and Message.AH is not None and Message.AH > Limits.AH_MIN and Message.AH < Limits.AH_MAX:
@@ -67,55 +67,55 @@ try:
             if AT_FL is not None and AT_FL >= Limits.AT_MIN and AT_FL <= Limits.AT_MAX:
                 
                 # Set AT_FL
-                Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT_FL", AT_FL)
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT_FL", AT_FL)
 
                 # Log Message
-                Log.Terminal_Log("INFO", f"New WeatherStat Received: AT_FL - {AT_FL}")
+                Log.Terminal_Log("INFO", f"New Data -> AT_FL : {AT_FL}")
 
             # Control for AT_Dew
             if AT_Dew is not None and AT_Dew >= Limits.AT_MIN and AT_Dew <= Limits.AT_MAX:
 
                 # Set AT_Dew
-                Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT_Dew", AT_Dew)
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT_Dew", AT_Dew)
 
                 # Log Message
-                Log.Terminal_Log("INFO", f"New WeatherStat Received: AT_Dew - {AT_Dew}")
+                Log.Terminal_Log("INFO", f"New Data -> AT_Dew : {AT_Dew}")
 
         # Control for AP
         if Message.AP is not None and Message.AP > Limits.AP_MIN and Message.AP < Limits.AP_MAX:
 
             # Set AP
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AP", Message.AP)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AP", Message.AP)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: AP - {Message.AP}")
+            Log.Terminal_Log("INFO", f"New Data -> AP : {Message.AP}")
 
         # Control for VL
         if Message.VL is not None and Message.VL > Limits.VL_MIN and Message.VL < Limits.VL_MAX:
 
             # Set VL
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "VL", Message.VL)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "VL", Message.VL)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: VL - {Message.VL}")
+            Log.Terminal_Log("INFO", f"New Data -> VL : {Message.VL}")
 
         # Control for IR
         if Message.IR is not None and Message.IR > Limits.IR_MIN and Message.IR < Limits.IR_MAX:
 
             # Set IR
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "IR", Message.IR)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "IR", Message.IR)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: IR - {Message.IR}")
+            Log.Terminal_Log("INFO", f"New Data -> IR : {Message.IR}")
 
         # Control for UV
         if Message.UV is not None and Message.UV > Limits.UV_MIN and Message.UV < Limits.UV_MAX:
 
             # Set UV
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "UV", Message.UV)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "UV", Message.UV)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: UV - {Message.UV}")
+            Log.Terminal_Log("INFO", f"New Data -> UV : {Message.UV}")
 
         # Control for R
         if Message.R is not None and Message.R > Limits.R_MIN and Message.R < Limits.R_MAX:
@@ -124,28 +124,28 @@ try:
             R = Message.R / 200 # 1 tip is 5 ml
 
             # Set R
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "R", R)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "R", R)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: R - {R}")
+            Log.Terminal_Log("INFO", f"New Data -> R : {R}")
 
         # Control for WD
         if Message.WD is not None and Message.WD > Limits.WD_MIN and Message.WD < Limits.WD_MAX:
 
             # Set WD
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "WD", Message.WD)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "WD", Message.WD)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: WD - {Message.WD}")
+            Log.Terminal_Log("INFO", f"New Data -> WD : {Message.WD}")
         
         # Control for WS
         if Message.WS is not None and Message.WS > Limits.WS_MIN and Message.WS < Limits.WS_MAX:
 
             # Set WS
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "WS", Message.WS)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "WS", Message.WS)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: WS - {Message.WS}")
+            Log.Terminal_Log("INFO", f"New Data -> WS : {Message.WS}")
 
         # Control for ST
         if Message.ST is not None:
@@ -163,31 +163,31 @@ try:
                 if ST_Value > Limits.ST_MIN and ST_Value < Limits.ST_MAX:
 
                     # Set ST
-                    Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, ST_Variable_Name, ST_Value)
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, ST_Variable_Name, ST_Value)
 
                     # Log Message
-                    Log.Terminal_Log("INFO", f"New WeatherStat Received: {ST_Variable_Name} - {ST_Value}")
+                    Log.Terminal_Log("INFO", f"New Data -> {ST_Variable_Name} : {ST_Value}")
 
         # Control for Latitude
         if Message.Latitude is not None and Message.Latitude > Limits.LATITUDE_MIN and Message.Latitude < Limits.LATITUDE_MAX:
 
             # Set Latitude
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Latitude", Message.Latitude)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Latitude", Message.Latitude)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: Latitude - {Message.Latitude}")
+            Log.Terminal_Log("INFO", f"New Data -> Latitude : {Message.Latitude}")
 
         # Control for Longitude
         if Message.Longitude is not None and Message.Longitude > Limits.LONGITUDE_MIN and Message.Longitude < Limits.LONGITUDE_MAX:
 
             # Set Longitude
-            Handler.WeatherStat_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Longitude", Message.Longitude)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Longitude", Message.Longitude)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New WeatherStat Received: Longitude - {Message.Longitude}")
+            Log.Terminal_Log("INFO", f"New Data -> Longitude : {Message.Longitude}")
 
         # Commit Kafka Consumer
-        Kafka.WeatherStat_Consumer.commit()
+        Kafka.Payload_Consumer.commit()
 
         # Log Message
         Log.Terminal_Log("INFO", f"***********************************************************************************")

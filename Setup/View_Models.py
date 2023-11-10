@@ -8,11 +8,11 @@ from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from Setup.Database import Base, DB_Engine
 
-# WeatherStat_Measurement Database Model
-class WeatherStat_Measurement(Base):
+# Payload_Measurement Database Model
+class Payload_Measurement(Base):
 
 	# Define Table Name
-	__tablename__ = 'WeatherStat_Measurement' 
+	__tablename__ = 'Payload_Measurement' 
 	__table_args__ = {'autoload': True, 'autoload_with': DB_Engine}
 
 	# Define Columns

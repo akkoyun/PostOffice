@@ -1,10 +1,10 @@
 [Unit]
-Description=PostOffice WeatherStat Data Handler Service
+Description=PostOffice Payload Data Handler Service
 After=network.target
 
 [Service]
 WorkingDirectory=/root/PostOffice
-ExecStart=/usr/bin/python3 /root/PostOffice/Handler/Handler_WeatherStat.py
+ExecStart=/usr/bin/python3 /root/PostOffice/Handler/Handler_Payload.py
 StandardOutput=inherit
 StandardError=inherit
 Restart=always

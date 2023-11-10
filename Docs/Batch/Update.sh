@@ -89,7 +89,7 @@ cd /root/PostOffice
 Stop_Service PostOffice.service
 Stop_Service Handler_RAW.service
 Stop_Service Handler_Parameter.service
-Stop_Service Handler_WeatherStat.service
+Stop_Service Handler_Payload.service
 
 # Message
 echo "----------------------------------------------"
@@ -111,7 +111,7 @@ echo "----------------------------------------------"
 Copy_File "/root/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
 Copy_File "/root/PostOffice/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"
 Copy_File "/root/PostOffice/Docs/Service/Handler_Parameter.service" "/etc/systemd/system/Handler_Parameter.service"
-Copy_File "/root/PostOffice/Docs/Service/Handler_WeatherStat.service" "/etc/systemd/system/Handler_WeatherStat.service"
+Copy_File "/root/PostOffice/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
 
 # Copy SH Batch Files
 Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
@@ -131,7 +131,7 @@ systemctl daemon-reload
 Start_Service PostOffice.service
 Start_Service Handler_RAW.service
 Start_Service Handler_Parameter.service
-Start_Service Handler_WeatherStat.service
+Start_Service Handler_Payload.service
 
 # Message
 echo "----------------------------------------------"

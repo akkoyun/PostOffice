@@ -36,7 +36,7 @@ echo "${green}${bold}PostOffice System Service Restarting...${reset}"
 Restart_Service PostOffice.service
 Restart_Service Handler_RAW.service
 Restart_Service Handler_Parameter.service
-Restart_Service Handler_WeatherStat.service
+Restart_Service Handler_Payload.service
 
 # Message
 echo "----------------------------------------------"

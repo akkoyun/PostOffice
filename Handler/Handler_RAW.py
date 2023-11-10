@@ -4,6 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Models
+from Setup.Config import APP_Settings
 from datetime import datetime
 from Functions import Kafka, Log, Handler
 
@@ -102,8 +103,8 @@ try:
         ]
     
         # Send to Topic
-        Kafka.Send_To_Topic("Pack.Parameter", Message.Device.dict(), New_Header)
-        Kafka.Send_To_Topic("Pack.WeatherStat", Message.Payload.dict(), New_Header)
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
 
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()

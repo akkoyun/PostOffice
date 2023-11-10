@@ -8,7 +8,7 @@ NC='\033[0m'
 while true; do
     clear
     # İzlemek istediğiniz servislerin listesi
-    services=("PostOffice.service" "Handler_RAW.service" "Handler_Parameter.service" "Handler_WeatherStat.service")
+    services=("PostOffice.service" "Handler_RAW.service" "Handler_Parameter.service" "Handler_Payload.service")
 
     # Her bir servisi kontrol et
     for service in "${services[@]}"; do

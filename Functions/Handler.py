@@ -317,8 +317,8 @@ def Parameter_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Va
     # Close Database
     DB_Module.close()
 
-# WeatherStat Recorder
-def WeatherStat_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Value):
+# Payload Recorder
+def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Value):
 
     # Declare Type_ID
     Type_ID = 0
@@ -335,8 +335,8 @@ def WeatherStat_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, 
         # Read Type_ID
         Type_ID = Query_Type_ID.Type_ID
 
-        # Create New WeatherStat Measurement
-        New_Measurement = Models.WeatherStat(
+        # Create New Payload Measurement
+        New_Measurement = Models.Payload(
             Stream_ID = Stream_ID,
             Type_ID = Type_ID,
             Value = Value,
@@ -383,16 +383,16 @@ def Get_Device_Last_Connection(Device_ID: str):
     # Return Stream_ID
     return Last_Connection
 
-# Read WeatherStat_Measurement
-def Get_WeatherStat_Measurement(Device_ID: str, Variable: str):
+# Read Payload_Measurement
+def Get_Payload_Measurement(Device_ID: str, Variable: str):
 
     # Define DB
     DB_Module = Database.SessionLocal()
 
     try:
 
-        # Query Measurement at WeatherStat_Measurement View
-        Query_Measurement = DB_Module.query(View_Models.WeatherStat_Measurement).filter(View_Models.WeatherStat_Measurement.Device_ID == Device_ID).filter(View_Models.WeatherStat_Measurement.Variable == Variable).first()
+        # Query Measurement at Payload_Measurement View
+        Query_Measurement = DB_Module.query(View_Models.Payload_Measurement).filter(View_Models.Payload_Measurement.Device_ID == Device_ID).filter(View_Models.Payload_Measurement.Variable == Variable).first()
 
         # Define Measurement
         New_Measurement = Measurement()

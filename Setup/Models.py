@@ -145,11 +145,11 @@ class Parameter(Base):
 	Value = Column(Float, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 
-# [L] WeatherStat Database Model
-class WeatherStat(Base):
+# [L] Payload Database Model
+class Payload(Base):
 
 	# Define Table Name
-	__tablename__ = "WeatherStat"
+	__tablename__ = "Payload"
 
 	# Define Columns
 	Measurement_ID = Column(Integer, primary_key=True, unique=True, nullable=False)

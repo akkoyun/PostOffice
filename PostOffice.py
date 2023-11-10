@@ -92,7 +92,7 @@ def Root(request: Request):
 		"Status": {
 			"PostOffice": 0, 
 			"RAW_Handler": 0, 
-			"WeatherStat_Handler": 0
+			"Payload_Handler": 0
 		}
 	}
 
@@ -163,18 +163,18 @@ async def Mobile_App_Root(request: Request, ID: str) -> App_Schema.Model:
 		# --------------
 
 		# Get Last Data
-		AT_Data = Handler.Get_WeatherStat_Measurement(ID, "AT")
-		AT_FL_Data = Handler.Get_WeatherStat_Measurement(ID, "AT_FL")
-		AT_Dew_Data = Handler.Get_WeatherStat_Measurement(ID, "AT_Dew")
-		AH_Data = Handler.Get_WeatherStat_Measurement(ID, "AH")
-		AP_Data = Handler.Get_WeatherStat_Measurement(ID, "AP")
-		WS_Data = Handler.Get_WeatherStat_Measurement(ID, "WS")
-		WD_Data = Handler.Get_WeatherStat_Measurement(ID, "WD")
-		UV_Data = Handler.Get_WeatherStat_Measurement(ID, "UV")
-		ST0_Data = Handler.Get_WeatherStat_Measurement(ID, "ST0")
-		ST2_Data = Handler.Get_WeatherStat_Measurement(ID, "ST2")
-		ST5_Data = Handler.Get_WeatherStat_Measurement(ID, "ST5")
-		ST8_Data = Handler.Get_WeatherStat_Measurement(ID, "ST8")
+		AT_Data = Handler.Get_Payload_Measurement(ID, "AT")
+		AT_FL_Data = Handler.Get_Payload_Measurement(ID, "AT_FL")
+		AT_Dew_Data = Handler.Get_Payload_Measurement(ID, "AT_Dew")
+		AH_Data = Handler.Get_Payload_Measurement(ID, "AH")
+		AP_Data = Handler.Get_Payload_Measurement(ID, "AP")
+		WS_Data = Handler.Get_Payload_Measurement(ID, "WS")
+		WD_Data = Handler.Get_Payload_Measurement(ID, "WD")
+		UV_Data = Handler.Get_Payload_Measurement(ID, "UV")
+		ST0_Data = Handler.Get_Payload_Measurement(ID, "ST0")
+		ST2_Data = Handler.Get_Payload_Measurement(ID, "ST2")
+		ST5_Data = Handler.Get_Payload_Measurement(ID, "ST5")
+		ST8_Data = Handler.Get_Payload_Measurement(ID, "ST8")
 
 		# Parse Measurement
 		# -----------------

@@ -28,12 +28,12 @@ class Settings(BaseSettings):
 	# Kafka Topics
 	KAFKA_TOPIC_RAW: str
 	KAFKA_TOPIC_PARAMETER: str
-	KAFKA_TOPIC_WEATHERSTAT: str
+	KAFKA_TOPIC_PAYLOAD: str
 
 	# Kafka Consumer Group
 	KAFKA_CONSUMER_RAW_GROUP: str
 	KAFKA_CONSUMER_PARAMETER_GROUP: str
-	KAFKA_CONSUMER_WEATHERSTAT_GROUP: str
+	KAFKA_CONSUMER_PAYLOAD_GROUP: str
 
 	# File Settings
 	FILE_MANUFACTURER: str
@@ -55,7 +55,7 @@ class Settings(BaseSettings):
 APP_Settings = Settings()
 
 # Limit Settings
-class WeatherStat_Limits():
+class Payload_Limits():
 
 	# AT Limits
 	AT_MIN: float = -40.0
