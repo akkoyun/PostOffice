@@ -11,8 +11,14 @@ from Setup.Config import Payload_Limits as Limits
 # Define IoT Data Base Model
 # Version 01.00.00
 
+# Custom Base Model
+class CustomBaseModel(BaseModel):
+    def dict(self, **kwargs):
+        kwargs['exclude_none'] = True
+        return super().dict(**kwargs)
+
 # Define Info
-class Info(BaseModel):
+class Info(CustomBaseModel):
 
 	# Define Command
 	Command: str = Field(description="Pack command.", example="Online")
@@ -69,7 +75,7 @@ class Info(BaseModel):
 		return Value
 
 # Define Power
-class Power(BaseModel):
+class Power(CustomBaseModel):
 	
 	# Instant Battery Voltage
 	B_IV: float = Field(description="Battery instant voltage.", example=3.8, min=0.0, max=6.0)
@@ -184,7 +190,7 @@ class Power(BaseModel):
 		return Value
 
 # Define IoT 
-class IoT(BaseModel):
+class IoT(CustomBaseModel):
 
 	# GSM Module Firmware
 	Firmware: Optional[str] = Field(description="Modem firmware version.", example="13.00.007")
@@ -324,7 +330,7 @@ class IoT(BaseModel):
 		return Value
 
 # Define Device
-class Device(BaseModel):
+class Device(CustomBaseModel):
     
 	# Device Power
 	Power: Power
@@ -333,7 +339,7 @@ class Device(BaseModel):
 	IoT: IoT
 
 # Define Payload payload
-class Payload(BaseModel):
+class Payload(CustomBaseModel):
 
 	# Latitude Value of Device
 	Latitude: Optional[float] = Field(description="GNSS lattitude value.", example=1.243242342, min=-360, max=360)
@@ -700,7 +706,7 @@ class Payload(BaseModel):
 
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00
-class Data_Pack(BaseModel):
+class Data_Pack(CustomBaseModel):
 
 	# Info
 	Info: Info
