@@ -174,7 +174,7 @@ Type_ID,Description,Variable,Unit,Segment
 6014,Instant Voltage Average,V_A,V,6
 6020,RMS Voltage,VRMS,V,6
 6021,Phase R RMS Voltage,VRMS_R,V,6
-6021,Phase S RMS Voltage,VRMS_S,V,6
+6022,Phase S RMS Voltage,VRMS_S,V,6
 6023,Phase T RMS Voltage,VRMS_T,V,6
 6024,RMS Voltage Average,VRMS_A,V,6
 6030,Fundamental Voltage,VF,V,6
