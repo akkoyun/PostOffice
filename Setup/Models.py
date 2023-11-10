@@ -158,23 +158,6 @@ class Payload(Base):
 	Value = Column(Float, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
-# [M] PowerStat Database Model
-class PowerStat(Base):
-
-	# Define Table Name
-	__tablename__ = "PowerStat"
-
-	# Define Columns
-	Measurement_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
-	Stream_ID = Column(Integer, ForeignKey("Stream.Stream_ID", ondelete="CASCADE"), nullable=False)
-	Type_ID = Column(Integer, ForeignKey("Data_Type.Type_ID", ondelete="CASCADE"), nullable=False)
-	Value = Column(Float, nullable=True)
-	Min = Column(Float, nullable=True)
-	Max = Column(Float, nullable=True)
-	Average = Column(Float, nullable=True)
-	Deviation = Column(Float, nullable=True)
-	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-
 # [J] Stream Database Model
 class Stream(Base):
 
