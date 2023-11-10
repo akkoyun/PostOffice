@@ -372,7 +372,7 @@ class Payload(BaseModel):
 	WS: Optional[float] = Field(description="Wind speed.", example=25, min=Limits.WS_MIN, max=Limits.WS_MAX)
 
 	# Instant Voltage Value
-	V: list[Optional[float]] = Field(description="Instant voltage measurement", example=[220.12, 222.12, 235.12, 225.12], min_items=3, max_items=4)
+	V: list[Optional[float]] = Field(description="Instant voltage measurement", example=[220.12, 222.12, 235.12, 225.12], min_items=0, max_items=4)
 
 	# Phase R Instant Voltage Value
 	V_R: Optional[float] = Field(description="Phase R instant voltage measurement", example=220.12)
@@ -387,7 +387,7 @@ class Payload(BaseModel):
 	V_A: Optional[float] = Field(description="Instant voltage average measurement", example=220.12)
 
 	# RMS Voltage Value
-	VRMS: list[Optional[float]] = Field(description="RMS voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	VRMS: list[Optional[float]] = Field(description="RMS voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R RMS Voltage Value
 	VRMS_R: Optional[float] = Field(description="Phase R RMS voltage measurement", example=220.12)
@@ -402,7 +402,7 @@ class Payload(BaseModel):
 	VRMS_A: Optional[float] = Field(description="RMS voltage average measurement", example=220.12)
 
 	# Fundamental Voltage Value
-	VF: list[Optional[float]] = Field(description="Fundamental voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	VF: list[Optional[float]] = Field(description="Fundamental voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Fundamental Voltage Value
 	VF_R: Optional[float] = Field(description="Phase R fundamental voltage measurement", example=220.12)
@@ -417,7 +417,7 @@ class Payload(BaseModel):
 	VF_A: Optional[float] = Field(description="Fundamental voltage average measurement", example=220.12)
 
 	# Harmonic Voltage Value
-	VH: list[Optional[float]] = Field(description="Harmonic voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	VH: list[Optional[float]] = Field(description="Harmonic voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Harmonic Voltage Value
 	VH_R: Optional[float] = Field(description="Phase R harmonic voltage measurement", example=220.12)
@@ -432,7 +432,7 @@ class Payload(BaseModel):
 	VH_A: Optional[float] = Field(description="Harmonic voltage average measurement", example=220.12)
 
 	# Instant Current Value
-	I: list[Optional[float]] = Field(description="Instant current measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	I: list[Optional[float]] = Field(description="Instant current measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Instant Current Value
 	I_R: Optional[float] = Field(description="Phase R instant current measurement", example=20.12)
@@ -447,7 +447,7 @@ class Payload(BaseModel):
 	I_A: Optional[float] = Field(description="Instant current average measurement", example=20.12)
 
 	# Peak Current Value
-	IP: list[Optional[float]] = Field(description="Peak current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=3, max_items=4)
+	IP: list[Optional[float]] = Field(description="Peak current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4)
 
 	# Phase R Peak Current Value
 	IP_R: Optional[float] = Field(description="Phase R peak current measurement", example=20.12)
@@ -462,7 +462,7 @@ class Payload(BaseModel):
 	IP_A: Optional[float] = Field(description="Peak current average measurement", example=20.12)
 
 	# RMS Current Value
-	IRMS: list[Optional[float]] = Field(description="RMS current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=3, max_items=4)
+	IRMS: list[Optional[float]] = Field(description="RMS current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4)
 
 	# Phase R RMS Current Value
 	IRMS_R: Optional[float] = Field(description="Phase R RMS current measurement", example=20.12)
@@ -477,7 +477,7 @@ class Payload(BaseModel):
 	IRMS_A: Optional[float] = Field(description="RMS current average measurement", example=20.12)
 
 	# Fundamental Current Value
-	IF: list[Optional[float]] = Field(description="Fundamental current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=3, max_items=4)
+	IF: list[Optional[float]] = Field(description="Fundamental current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4)
 
 	# Phase R Fundamental Current Value
 	IF_R: Optional[float] = Field(description="Phase R fundamental current measurement", example=20.12)
@@ -492,7 +492,7 @@ class Payload(BaseModel):
 	IF_A: Optional[float] = Field(description="Fundamental current average measurement", example=20.12)
 
 	# Harmonic Current Value
-	IH: list[Optional[float]] = Field(description="Harmonic current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=3, max_items=4)
+	IH: list[Optional[float]] = Field(description="Harmonic current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4)
 
 	# Phase R Harmonic Current Value
 	IH_R: Optional[float] = Field(description="Phase R harmonic current measurement", example=20.12)
@@ -507,7 +507,7 @@ class Payload(BaseModel):
 	IH_A: Optional[float] = Field(description="Harmonic current average measurement", example=20.12)
 
 	# Active Power Value
-	P: list[Optional[float]] = Field(description="Active power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	P: list[Optional[float]] = Field(description="Active power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Active Power Value
 	P_R: Optional[float] = Field(description="Phase R active power measurement", example=220.12)
@@ -522,7 +522,7 @@ class Payload(BaseModel):
 	P_A: Optional[float] = Field(description="Active power average measurement", example=220.12)
 
 	# Reactive Power Value
-	Q: list[Optional[float]] = Field(description="Reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	Q: list[Optional[float]] = Field(description="Reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Reactive Power Value
 	Q_R: Optional[float] = Field(description="Phase R reactive power measurement", example=220.12)
@@ -537,7 +537,7 @@ class Payload(BaseModel):
 	Q_A: Optional[float] = Field(description="Reactive power average measurement", example=220.12)
 
 	# Apparent Power Value
-	S: list[Optional[float]] = Field(description="Apparent power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	S: list[Optional[float]] = Field(description="Apparent power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Apparent Power Value
 	S_R: Optional[float] = Field(description="Phase R apparent power measurement", example=220.12)
@@ -552,7 +552,7 @@ class Payload(BaseModel):
 	S_A: Optional[float] = Field(description="Apparent power average measurement", example=220.12)
 
 	# Fundamental Reactive Power Value
-	QFun: list[Optional[float]] = Field(description="Fundamental reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	QFun: list[Optional[float]] = Field(description="Fundamental reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Fundamental Reactive Power Value
 	QFun_R: Optional[float] = Field(description="Phase R fundamental reactive power measurement", example=220.12)
@@ -567,7 +567,7 @@ class Payload(BaseModel):
 	QFun_A: Optional[float] = Field(description="Fundamental reactive power average measurement", example=220.12)
 
 	# Harmonic Reactive Power Value
-	QHarm: list[Optional[float]] = Field(description="Harmonic reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	QHarm: list[Optional[float]] = Field(description="Harmonic reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Harmonic Reactive Power Value
 	QHarm_R: Optional[float] = Field(description="Phase R harmonic reactive power measurement", example=220.12)
@@ -582,7 +582,7 @@ class Payload(BaseModel):
 	QHarm_A: Optional[float] = Field(description="Harmonic reactive power average measurement", example=220.12)
 
 	# Fundamental Power Value
-	PFun: list[Optional[float]] = Field(description="Fundamental power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	PFun: list[Optional[float]] = Field(description="Fundamental power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Fundamental Power Value
 	PFun_R: Optional[float] = Field(description="Phase R fundamental power measurement", example=220.12)
@@ -597,7 +597,7 @@ class Payload(BaseModel):
 	PFun_A: Optional[float] = Field(description="Fundamental power average measurement", example=220.12)
 
 	# Harmonic Power Value
-	PHar: list[Optional[float]] = Field(description="Harmonic power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	PHar: list[Optional[float]] = Field(description="Harmonic power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Harmonic Power Value
 	PHar_R: Optional[float] = Field(description="Phase R harmonic power measurement", example=220.12)
@@ -612,7 +612,7 @@ class Payload(BaseModel):
 	PHar_A: Optional[float] = Field(description="Harmonic power average measurement", example=220.12)
 
 	# Fundamental Volt Amper 
-	FunVA: list[Optional[float]] = Field(description="Fundamental volt ampere measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	FunVA: list[Optional[float]] = Field(description="Fundamental volt ampere measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Fundamental Volt Amper
 	FunVA_R: Optional[float] = Field(description="Phase R fundamental volt ampere measurement", example=220.12)
@@ -627,7 +627,7 @@ class Payload(BaseModel):
 	FunVA_A: Optional[float] = Field(description="Fundamental volt ampere average measurement", example=220.12)
 
 	# Power Factor Value
-	PF: list[Optional[float]] = Field(description="Power factor measurement", example=[0.812, 0.812, 0.812, 0.812], min_items=3, max_items=4)
+	PF: list[Optional[float]] = Field(description="Power factor measurement", example=[0.812, 0.812, 0.812, 0.812], min_items=0, max_items=4)
 
 	# Phase R Power Factor Value
 	PF_R: Optional[float] = Field(description="Phase R power factor measurement", example=0.81)
@@ -645,7 +645,7 @@ class Payload(BaseModel):
 	FQ: Optional[float] = Field(description="Frequency measurement", example=50.12)
 
 	# Active Energy Value
-	AE: list[Optional[float]] = Field(description="Active energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	AE: list[Optional[float]] = Field(description="Active energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Active Energy Value
 	AE_R: Optional[float] = Field(description="Phase R active energy measurement", example=220.12)
@@ -660,7 +660,7 @@ class Payload(BaseModel):
 	AE_A: Optional[float] = Field(description="Active energy average measurement", example=220.12)
 
 	# Reactive Energy Leading Value
-	RE_L: list[Optional[float]] = Field(description="Reactive leading energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	RE_L: list[Optional[float]] = Field(description="Reactive leading energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Reactive Energy Value
 	RE_L_R: Optional[float] = Field(description="Phase R leading reactive energy measurement", example=220.12)
@@ -678,7 +678,7 @@ class Payload(BaseModel):
 	RE_L_TOT: Optional[float] = Field(description="Total leading reactive energy measurement", example=220.12)
 
 	# Reactive Energy Lagging Value
-	RE_G: list[Optional[float]] = Field(description="Reactive lagging energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+	RE_G: list[Optional[float]] = Field(description="Reactive lagging energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 
 	# Phase R Reactive Energy Value
 	RE_G_R: Optional[float] = Field(description="Phase R lagging reactive energy measurement", example=220.12)
