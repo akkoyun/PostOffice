@@ -6,7 +6,7 @@ sys.path.append('/root/PostOffice/')
 from pydantic import BaseModel, Field, validator
 from typing import Optional
 import re
-from Setup.Config import Payload_Limits_Limits as Limits
+from Setup.Config import Payload_Limits as Limits
 
 # Define IoT Data Base Model
 # Version 01.00.00
