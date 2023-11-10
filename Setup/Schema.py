@@ -333,7 +333,7 @@ class Device(BaseModel):
 	IoT: IoT
 
 # Define WeatherStat payload
-class WeatherStat_Payload(BaseModel):
+class Payload(BaseModel):
 
 	# Latitude Value of Device
 	Latitude: Optional[float] = Field(description="GNSS lattitude value.", example=1.243242342, min=-360, max=360)
@@ -371,16 +371,332 @@ class WeatherStat_Payload(BaseModel):
 	# Last Measured Wind Speed Value
 	WS: Optional[float] = Field(description="Wind speed.", example=25, min=Limits.WS_MIN, max=Limits.WS_MAX)
 
-# Define PowerStat payload
-class PowerStat_Payload(BaseModel):
+	# Instant Voltage Value
+	V: list[Optional[float]] = Field(description="Instant voltage measurement", example=[220.12, 222.12, 235.12, 225.12], min_items=3, max_items=4)
 
-	# Latitude Value of Device
-	Latitude: Optional[float] = Field(description="GNSS lattitude value.", example=1.243242342, min=-360, max=360)
+	# Phase R Instant Voltage Value
+	V_R: Optional[float] = Field(description="Phase R instant voltage measurement", example=220.12)
 
+	# Phase S Instant Voltage Value
+	V_S: Optional[float] = Field(description="Phase S instant voltage measurement", example=220.12)
 
+	# Phase T Instant Voltage Value
+	V_T: Optional[float] = Field(description="Phase T instant voltage measurement", example=220.12)
 
+	# Instant Voltage Average Value
+	V_A: Optional[float] = Field(description="Instant voltage average measurement", example=220.12)
 
+	# RMS Voltage Value
+	VRMS: list[Optional[float]] = Field(description="RMS voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
 
+	# Phase R RMS Voltage Value
+	VRMS_R: Optional[float] = Field(description="Phase R RMS voltage measurement", example=220.12)
+
+	# Phase S RMS Voltage Value
+	VRMS_S: Optional[float] = Field(description="Phase S RMS voltage measurement", example=220.12)
+
+	# Phase T RMS Voltage Value
+	VRMS_T: Optional[float] = Field(description="Phase T RMS voltage measurement", example=220.12)
+
+	# RMS Voltage Average Value
+	VRMS_A: Optional[float] = Field(description="RMS voltage average measurement", example=220.12)
+
+	# Fundamental Voltage Value
+	VF: list[Optional[float]] = Field(description="Fundamental voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Fundamental Voltage Value
+	VF_R: Optional[float] = Field(description="Phase R fundamental voltage measurement", example=220.12)
+
+	# Phase S Fundamental Voltage Value
+	VF_S: Optional[float] = Field(description="Phase S fundamental voltage measurement", example=220.12)
+
+	# Phase T Fundamental Voltage Value
+	VF_T: Optional[float] = Field(description="Phase T fundamental voltage measurement", example=220.12)
+
+	# Fundamental Voltage Average Value
+	VF_A: Optional[float] = Field(description="Fundamental voltage average measurement", example=220.12)
+
+	# Harmonic Voltage Value
+	VH: list[Optional[float]] = Field(description="Harmonic voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Harmonic Voltage Value
+	VH_R: Optional[float] = Field(description="Phase R harmonic voltage measurement", example=220.12)
+
+	# Phase S Harmonic Voltage Value
+	VH_S: Optional[float] = Field(description="Phase S harmonic voltage measurement", example=220.12)
+
+	# Phase T Harmonic Voltage Value
+	VH_T: Optional[float] = Field(description="Phase T harmonic voltage measurement", example=220.12)
+
+	# Harmonic Voltage Average Value
+	VH_A: Optional[float] = Field(description="Harmonic voltage average measurement", example=220.12)
+
+	# Instant Current Value
+	I: list[Optional[float]] = Field(description="Instant current measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Instant Current Value
+	I_R: Optional[float] = Field(description="Phase R instant current measurement", example=20.12)
+
+	# Phase S Instant Current Value
+	I_S: Optional[float] = Field(description="Phase S instant current measurement", example=20.12)
+
+	# Phase T Instant Current Value
+	I_T: Optional[float] = Field(description="Phase T instant current measurement", example=20.12)
+
+	# Instant Current Average Value
+	I_A: Optional[float] = Field(description="Instant current average measurement", example=20.12)
+
+	# Peak Current Value
+	IP: list[Optional[float]] = Field(description="Peak current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=3, max_items=4)
+
+	# Phase R Peak Current Value
+	IP_R: Optional[float] = Field(description="Phase R peak current measurement", example=20.12)
+
+	# Phase S Peak Current Value
+	IP_S: Optional[float] = Field(description="Phase S peak current measurement", example=20.12)
+
+	# Phase T Peak Current Value
+	IP_T: Optional[float] = Field(description="Phase T peak current measurement", example=20.12)
+
+	# Peak Current Average Value
+	IP_A: Optional[float] = Field(description="Peak current average measurement", example=20.12)
+
+	# RMS Current Value
+	IRMS: list[Optional[float]] = Field(description="RMS current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=3, max_items=4)
+
+	# Phase R RMS Current Value
+	IRMS_R: Optional[float] = Field(description="Phase R RMS current measurement", example=20.12)
+
+	# Phase S RMS Current Value
+	IRMS_S: Optional[float] = Field(description="Phase S RMS current measurement", example=20.12)
+
+	# Phase T RMS Current Value
+	IRMS_T: Optional[float] = Field(description="Phase T RMS current measurement", example=20.12)
+
+	# RMS Current Average Value
+	IRMS_A: Optional[float] = Field(description="RMS current average measurement", example=20.12)
+
+	# Fundamental Current Value
+	IF: list[Optional[float]] = Field(description="Fundamental current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=3, max_items=4)
+
+	# Phase R Fundamental Current Value
+	IF_R: Optional[float] = Field(description="Phase R fundamental current measurement", example=20.12)
+
+	# Phase S Fundamental Current Value
+	IF_S: Optional[float] = Field(description="Phase S fundamental current measurement", example=20.12)
+
+	# Phase T Fundamental Current Value
+	IF_T: Optional[float] = Field(description="Phase T fundamental current measurement", example=20.12)
+
+	# Fundamental Current Average Value
+	IF_A: Optional[float] = Field(description="Fundamental current average measurement", example=20.12)
+
+	# Harmonic Current Value
+	IH: list[Optional[float]] = Field(description="Harmonic current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=3, max_items=4)
+
+	# Phase R Harmonic Current Value
+	IH_R: Optional[float] = Field(description="Phase R harmonic current measurement", example=20.12)
+
+	# Phase S Harmonic Current Value
+	IH_S: Optional[float] = Field(description="Phase S harmonic current measurement", example=20.12)
+
+	# Phase T Harmonic Current Value
+	IH_T: Optional[float] = Field(description="Phase T harmonic current measurement", example=20.12)
+
+	# Harmonic Current Average Value
+	IH_A: Optional[float] = Field(description="Harmonic current average measurement", example=20.12)
+
+	# Active Power Value
+	P: list[Optional[float]] = Field(description="Active power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Active Power Value
+	P_R: Optional[float] = Field(description="Phase R active power measurement", example=220.12)
+
+	# Phase S Active Power Value
+	P_S: Optional[float] = Field(description="Phase S active power measurement", example=220.12)
+
+	# Phase T Active Power Value
+	P_T: Optional[float] = Field(description="Phase T active power measurement", example=220.12)
+
+	# Active Power Average Value
+	P_A: Optional[float] = Field(description="Active power average measurement", example=220.12)
+
+	# Reactive Power Value
+	Q: list[Optional[float]] = Field(description="Reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Reactive Power Value
+	Q_R: Optional[float] = Field(description="Phase R reactive power measurement", example=220.12)
+
+	# Phase S Reactive Power Value
+	Q_S: Optional[float] = Field(description="Phase S reactive power measurement", example=220.12)
+
+	# Phase T Reactive Power Value
+	Q_T: Optional[float] = Field(description="Phase T reactive power measurement", example=220.12)
+
+	# Reactive Power Average Value
+	Q_A: Optional[float] = Field(description="Reactive power average measurement", example=220.12)
+
+	# Apparent Power Value
+	S: list[Optional[float]] = Field(description="Apparent power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Apparent Power Value
+	S_R: Optional[float] = Field(description="Phase R apparent power measurement", example=220.12)
+
+	# Phase S Apparent Power Value
+	S_S: Optional[float] = Field(description="Phase S apparent power measurement", example=220.12)
+
+	# Phase T Apparent Power Value
+	S_T: Optional[float] = Field(description="Phase T apparent power measurement", example=220.12)
+
+	# Apparent Power Average Value
+	S_A: Optional[float] = Field(description="Apparent power average measurement", example=220.12)
+
+	# Fundamental Reactive Power Value
+	QFun: list[Optional[float]] = Field(description="Fundamental reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Fundamental Reactive Power Value
+	QFun_R: Optional[float] = Field(description="Phase R fundamental reactive power measurement", example=220.12)
+
+	# Phase S Fundamental Reactive Power Value
+	QFun_S: Optional[float] = Field(description="Phase S fundamental reactive power measurement", example=220.12)
+
+	# Phase T Fundamental Reactive Power Value
+	QFun_T: Optional[float] = Field(description="Phase T fundamental reactive power measurement", example=220.12)
+
+	# Fundamental Reactive Power Average Value
+	QFun_A: Optional[float] = Field(description="Fundamental reactive power average measurement", example=220.12)
+
+	# Harmonic Reactive Power Value
+	QHarm: list[Optional[float]] = Field(description="Harmonic reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Harmonic Reactive Power Value
+	QHarm_R: Optional[float] = Field(description="Phase R harmonic reactive power measurement", example=220.12)
+
+	# Phase S Harmonic Reactive Power Value
+	QHarm_S: Optional[float] = Field(description="Phase S harmonic reactive power measurement", example=220.12)
+
+	# Phase T Harmonic Reactive Power Value
+	QHarm_T: Optional[float] = Field(description="Phase T harmonic reactive power measurement", example=220.12)
+
+	# Harmonic Reactive Power Average Value
+	QHarm_A: Optional[float] = Field(description="Harmonic reactive power average measurement", example=220.12)
+
+	# Fundamental Power Value
+	PFun: list[Optional[float]] = Field(description="Fundamental power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Fundamental Power Value
+	PFun_R: Optional[float] = Field(description="Phase R fundamental power measurement", example=220.12)
+
+	# Phase S Fundamental Power Value
+	PFun_S: Optional[float] = Field(description="Phase S fundamental power measurement", example=220.12)
+
+	# Phase T Fundamental Power Value
+	PFun_T: Optional[float] = Field(description="Phase T fundamental power measurement", example=220.12)
+
+	# Fundamental Power Average Value
+	PFun_A: Optional[float] = Field(description="Fundamental power average measurement", example=220.12)
+
+	# Harmonic Power Value
+	PHar: list[Optional[float]] = Field(description="Harmonic power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Harmonic Power Value
+	PHar_R: Optional[float] = Field(description="Phase R harmonic power measurement", example=220.12)
+
+	# Phase S Harmonic Power Value
+	PHar_S: Optional[float] = Field(description="Phase S harmonic power measurement", example=220.12)
+
+	# Phase T Harmonic Power Value
+	PHar_T: Optional[float] = Field(description="Phase T harmonic power measurement", example=220.12)
+
+	# Harmonic Power Average Value
+	PHar_A: Optional[float] = Field(description="Harmonic power average measurement", example=220.12)
+
+	# Fundamental Volt Amper 
+	FunVA: list[Optional[float]] = Field(description="Fundamental volt ampere measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Fundamental Volt Amper
+	FunVA_R: Optional[float] = Field(description="Phase R fundamental volt ampere measurement", example=220.12)
+
+	# Phase S Fundamental Volt Amper
+	FunVA_S: Optional[float] = Field(description="Phase S fundamental volt ampere measurement", example=220.12)
+
+	# Phase T Fundamental Volt Amper
+	FunVA_T: Optional[float] = Field(description="Phase T fundamental volt ampere measurement", example=220.12)
+
+	# Fundamental Volt Amper Average
+	FunVA_A: Optional[float] = Field(description="Fundamental volt ampere average measurement", example=220.12)
+
+	# Power Factor Value
+	PF: list[Optional[float]] = Field(description="Power factor measurement", example=[0.812, 0.812, 0.812, 0.812], min_items=3, max_items=4)
+
+	# Phase R Power Factor Value
+	PF_R: Optional[float] = Field(description="Phase R power factor measurement", example=0.81)
+
+	# Phase S Power Factor Value
+	PF_S: Optional[float] = Field(description="Phase S power factor measurement", example=0.81)
+
+	# Phase T Power Factor Value
+	PF_T: Optional[float] = Field(description="Phase T power factor measurement", example=0.81)
+
+	# Power Factor Average Value
+	PF_A: Optional[float] = Field(description="Power factor average measurement", example=0.81)
+
+	# Frequency Value
+	FQ: Optional[float] = Field(description="Frequency measurement", example=50.12)
+
+	# Active Energy Value
+	AE: list[Optional[float]] = Field(description="Active energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Active Energy Value
+	AE_R: Optional[float] = Field(description="Phase R active energy measurement", example=220.12)
+
+	# Phase S Active Energy Value
+	AE_S: Optional[float] = Field(description="Phase S active energy measurement", example=220.12)
+
+	# Phase T Active Energy Value
+	AE_T: Optional[float] = Field(description="Phase T active energy measurement", example=220.12)
+
+	# Active Energy Average Value
+	AE_A: Optional[float] = Field(description="Active energy average measurement", example=220.12)
+
+	# Reactive Energy Leading Value
+	RE_L: list[Optional[float]] = Field(description="Reactive leading energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Reactive Energy Value
+	RE_L_R: Optional[float] = Field(description="Phase R leading reactive energy measurement", example=220.12)
+
+	# Phase S Reactive Energy Value
+	RE_L_S: Optional[float] = Field(description="Phase S leading reactive energy measurement", example=220.12)
+
+	# Phase T Reactive Energy Value
+	RE_L_T: Optional[float] = Field(description="Phase T leading reactive energy measurement", example=220.12)
+
+	# Reactive Energy Average Value
+	RE_L_A: Optional[float] = Field(description="Reactive leading energy average measurement", example=220.12)
+
+	# Total Leading Reactive Energy Value
+	RE_L_TOT: Optional[float] = Field(description="Total leading reactive energy measurement", example=220.12)
+
+	# Reactive Energy Lagging Value
+	RE_G: list[Optional[float]] = Field(description="Reactive lagging energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=3, max_items=4)
+
+	# Phase R Reactive Energy Value
+	RE_G_R: Optional[float] = Field(description="Phase R lagging reactive energy measurement", example=220.12)
+
+	# Phase S Reactive Energy Value
+	RE_G_S: Optional[float] = Field(description="Phase S lagging reactive energy measurement", example=220.12)
+
+	# Phase T Reactive Energy Value
+	RE_G_T: Optional[float] = Field(description="Phase T lagging reactive energy measurement", example=220.12)
+
+	# Reactive Energy Average Value
+	RE_G_A: Optional[float] = Field(description="Reactive lagging energy average measurement", example=220.12)
+
+	# Total Lagging Reactive Energy Value
+	RE_G_TOT: Optional[float] = Field(description="Total lagging reactive energy measurement", example=220.12)
+
+	# Max78630 Chip Temperature Value
+	Max78630_T: Optional[float] = Field(description="Max78630 chip temperature measurement", example=20.12)
 
 # Define IoT RAW Data Base Model
 # WeatherStat Model Version 01.03.00
@@ -392,5 +708,5 @@ class Data_Pack(BaseModel):
 	# Device
 	Device: Device
 
-	# Payload
-	Payload: WeatherStat_Payload
+	# WeatherStat Payload
+	Payload: Payload

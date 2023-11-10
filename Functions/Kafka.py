@@ -176,7 +176,7 @@ def Decode_WeatherStat_Message(RAW_Message):
             Parsed_JSON = json.loads(Parsed_JSON)
         
         # Get RAW Data
-        Kafka_Message = Schema.WeatherStat_Payload(**Parsed_JSON)
+        Kafka_Message = Schema.Payload(**Parsed_JSON)
 
         # Return Kafka_Message
         return Kafka_Message
