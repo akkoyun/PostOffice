@@ -184,8 +184,8 @@ class Payload_Limits():
 	FUNDAMENTAL_VOLT_AMPER_MAX: float = 700.0
 
 	# Power Factor Limits
-	POWER_FACTOR_MIN: float = 0.0
-	POWER_FACTOR_MAX: float = 700.0
+	POWER_FACTOR_MIN: float = -1.0
+	POWER_FACTOR_MAX: float = 1.0
 
 	# Frequency Limits
 	FREQUENCY_MIN: float = 0.0
