@@ -172,8 +172,8 @@ class Payload_Limits():
 	HARMONIC_POWER_MAX: float = 700.0
 
 	# Fundamental Volt Ampere Limits
-	FUNDAMENTAL_VOLT_AMPERE_MIN: float = 0.0
-	FUNDAMENTAL_VOLT_AMPERE_MAX: float = 700.0
+	FUNDAMENTAL_VOLT_AMPER_MIN: float = 0.0
+	FUNDAMENTAL_VOLT_AMPER_MAX: float = 700.0
 
 	# Power Factor Limits
 	POWER_FACTOR_MIN: float = 0.0
