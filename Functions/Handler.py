@@ -356,8 +356,11 @@ def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Valu
     # Close Database
     DB_Module.close()
 
+    # Set Log Message
+    Message = f"--> [\33[36m{Parameter:^10}\33[0m] - [\33[36m{Value}\33[0m]"
+
     # Log Message
-    Log.Terminal_Log("INFO", f"New Data -> {Parameter} : {Value}")
+    Log.Terminal_Log("INFO", Message=Message)
 
 
 # Get Device Last Connection Time
