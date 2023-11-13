@@ -40,40 +40,55 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Log Message
 	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
 
-    # Define DB
-	DB_Module = Database.SessionLocal()
+	# Control for Null Body
+	if exc.body is not None:
 
-	# Create New Stream
-	New_Stream = Models.Stream(
-		Device_ID = "0",
-		ICCID = "1",
-		Client_IP = request.client.host,
-		Size = request.headers['content-length'],
-		RAW_Data = exc.body,
-		Device_Time = datetime.now(),
-		Stream_Time = datetime.now()
-	)
+		# Define DB
+		DB_Module = Database.SessionLocal()
 
-	# Add Stream to DataBase
-	DB_Module.add(New_Stream)
+		# Create New Stream
+		New_Stream = Models.Stream(
+			Device_ID = "0",
+			ICCID = "1",
+			Client_IP = request.client.host,
+			Size = request.headers['content-length'],
+			RAW_Data = exc.body,
+			Device_Time = datetime.now(),
+			Stream_Time = datetime.now()
+		)
 
-	# Commit DataBase
-	DB_Module.commit()
+		# Add Stream to DataBase
+		DB_Module.add(New_Stream)
 
-	# Refresh DataBase
-	DB_Module.refresh(New_Stream)
+		# Commit DataBase
+		DB_Module.commit()
 
-    # Close Database
-	DB_Module.close()
+		# Refresh DataBase
+		DB_Module.refresh(New_Stream)
 
-	# Message Status Code
-	Message_Status_Code = status.HTTP_400_BAD_REQUEST
+		# Close Database
+		DB_Module.close()
 
-	# Message Content
-	Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
+		# Message Status Code
+		Message_Status_Code = status.HTTP_400_BAD_REQUEST
 
-	# Headers
-	Message_Headers = {"server": APP_Settings.SERVER_NAME}
+		# Message Content
+		Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
+
+		# Headers
+		Message_Headers = {"server": APP_Settings.SERVER_NAME}
+
+	# Null Body
+	else:
+
+		# Message Status Code
+		Message_Status_Code = status.HTTP_406_NOT_ACCEPTABLE
+
+		# Message Content
+		Message_Content = {"Event": status.HTTP_406_NOT_ACCEPTABLE, "Message": "Null Body"}
+
+		# Headers
+		Message_Headers = {"server": APP_Settings.SERVER_NAME}
 
 	# Send Response
 	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)

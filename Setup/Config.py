@@ -105,3 +105,92 @@ class Payload_Limits():
 	LONGITUDE_MIN: float = -180.0
 	LONGITUDE_MAX: float = 180.0
 
+	# TODO: Check Limits
+
+	# Instant Voltage Limits
+	INSTANT_VOLTAGE_MIN: float = -700.0
+	INSTANT_VOLTAGE_MAX: float = 700.0
+
+	# RMS Voltage Limits
+	RMS_VOLTAGE_MIN: float = 0.0
+	RMS_VOLTAGE_MAX: float = 700.0
+
+	# Fundamental Voltage Limits
+	FUNDAMENTAL_VOLTAGE_MIN: float = 0.0
+	FUNDAMENTAL_VOLTAGE_MAX: float = 700.0
+
+	# Harmonic Voltage Limits
+	HARMONIC_VOLTAGE_MIN: float = 0.0
+	HARMONIC_VOLTAGE_MAX: float = 700.0
+
+	# Instant Current Limits
+	INSTANT_CURRENT_MIN: float = -700.0
+	INSTANT_CURRENT_MAX: float = 700.0
+
+	# Peak Current Limits
+	PEAK_CURRENT_MIN: float = 0.0
+	PEAK_CURRENT_MAX: float = 700.0
+
+	# RMS Current Limits
+	RMS_CURRENT_MIN: float = 0.0
+	RMS_CURRENT_MAX: float = 700.0
+
+	# Fundamental Current Limits
+	FUNDAMENTAL_CURRENT_MIN: float = 0.0
+	FUNDAMENTAL_CURRENT_MAX: float = 700.0
+
+	# Harmonic Current Limits
+	HARMONIC_CURRENT_MIN: float = 0.0
+	HARMONIC_CURRENT_MAX: float = 700.0
+
+	# Active Power Limits
+	ACTIVE_POWER_MIN: float = 0.0
+	ACTIVE_POWER_MAX: float = 700.0
+
+	# Reactive Power Limits
+	REACTIVE_POWER_MIN: float = 0.0
+	REACTIVE_POWER_MAX: float = 700.0
+
+	# Apparent Power Limits
+	APPARENT_POWER_MIN: float = 0.0
+	APPARENT_POWER_MAX: float = 700.0
+
+	# Fundamental Reactive Power Limits
+	FUNDAMENTAL_REACTIVE_POWER_MIN: float = 0.0
+	FUNDAMENTAL_REACTIVE_POWER_MAX: float = 700.0
+
+	# Harmonic Reactive Power Limits
+	HARMONIC_REACTIVE_POWER_MIN: float = 0.0
+	HARMONIC_REACTIVE_POWER_MAX: float = 700.0
+
+	# Fundamental Power Limits
+	FUNDAMENTAL_POWER_MIN: float = 0.0
+	FUNDAMENTAL_POWER_MAX: float = 700.0
+
+	# Harmonic Power Limits
+	HARMONIC_POWER_MIN: float = 0.0
+	HARMONIC_POWER_MAX: float = 700.0
+
+	# Fundamental Volt Ampere Limits
+	FUNDAMENTAL_VOLT_AMPERE_MIN: float = 0.0
+	FUNDAMENTAL_VOLT_AMPERE_MAX: float = 700.0
+
+	# Power Factor Limits
+	POWER_FACTOR_MIN: float = 0.0
+	POWER_FACTOR_MAX: float = 700.0
+
+	# Frequency Limits
+	FREQUENCY_MIN: float = 0.0
+	FREQUENCY_MAX: float = 700.0
+
+	# Active Energy Limits
+	ACTIVE_ENERGY_MIN: float = 0.0
+	ACTIVE_ENERGY_MAX: float = 700.0
+
+	# Reactive Energy Limits
+	REACTIVE_ENERGY_MIN: float = 0.0
+	REACTIVE_ENERGY_MAX: float = 700.0
+
+	# Temperature Limits
+	TEMPERATURE_MIN: float = 0.0
+	TEMPERATURE_MAX: float = 700.0
