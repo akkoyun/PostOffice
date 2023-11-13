@@ -54,6 +54,24 @@ try:
             # Log Message
             Log.Terminal_Log("INFO", f"New Data -> Longitude : {Message.Longitude}")
 
+        # Control for PCB Temperature
+        if Message.PCB_T is not None and Message.PCB_T > Limits.PCB_TEMPERATURE_MIN and Message.PCB_T < Limits.PCB_TEMPERATURE_MAX:
+
+            # Set PCB_T
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PCB_T", Message.PCB_T)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Data -> PCB_T : {Message.PCB_T}")
+
+        # Control for PCB Humidity
+        if Message.PCB_H is not None and Message.PCB_H > Limits.PCB_HUMIDITY_MIN and Message.PCB_H < Limits.PCB_HUMIDITY_MAX:
+
+            # Set PCB_H
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PCB_H", Message.PCB_H)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Data -> PCB_H : {Message.PCB_H}")
+
         # WeatherStat Payloads
 
         # Control for AT

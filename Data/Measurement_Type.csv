@@ -1,5 +1,7 @@
 Type_ID,Description,Variable,Unit,Segment
 0,Unknown,-,-,0
+1,PCB Temperature,PCB_T,C,1
+2,PCB Humidity,PCB_H,%,1
 1010,Battery Instant Voltage,B_IV,V,1
 1020,Battery Average Current,B_AC,mA,1
 1030,Battery State of Charge,B_SOC,%,1

@@ -346,7 +346,13 @@ class Payload(CustomBaseModel):
 
 	# Longitude Value of Device
 	Longitude: Optional[float] = Field(description="GNSS longitude value.", example=23.3213232, min=Limits.LONGITUDE_MIN, max=Limits.LONGITUDE_MAX)
-    
+
+	# Last Measured PCB Temperature Value
+	PCB_T: Optional[float] = Field(description="PCB temperature.", example=28.3232, min=Limits.PCB_TEMPERATURE_MIN, max=Limits.PCB_TEMPERATURE_MAX)
+
+	# Last Measured PCB Humidity Value
+	PCB_H: Optional[float] = Field(description="PCB humidity.", example=85.2332, min=Limits.PCB_HUMIDITY_MIN, max=Limits.PCB_HUMIDITY_MAX)
+
 	# Last Measured Air Temperature Value
 	AT: Optional[float] = Field(description="Air temperature.", example=28.3232, min=Limits.AT_MIN, max=Limits.AT_MAX)
 

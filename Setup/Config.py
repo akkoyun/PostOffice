@@ -57,6 +57,14 @@ APP_Settings = Settings()
 # Limit Settings
 class Payload_Limits():
 
+	# PCB Temperature Limits
+	PCB_TEMPERATURE_MIN: float = -40.0
+	PCB_TEMPERATURE_MAX: float = 85.0
+
+	# PCB Humidity Limits
+	PCB_HUMIDITY_MIN: float = 0.0
+	PCB_HUMIDITY_MAX: float = 100.0
+
 	# AT Limits
 	AT_MIN: float = -40.0
 	AT_MAX: float = 85.0
