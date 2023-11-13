@@ -357,7 +357,7 @@ def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Valu
     DB_Module.close()
 
     # Log Message
-    Log.Terminal_Log("INFO", f"New Data -> AT : {Value}")
+    Log.Terminal_Log("INFO", f"New Data -> {Parameter} : {Value}")
 
 
 # Get Device Last Connection Time
