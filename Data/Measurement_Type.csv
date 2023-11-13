@@ -178,15 +178,15 @@ Type_ID,Description,Variable,Unit,Segment
 6023,Phase T RMS Voltage,VRMS_T,V,6
 6024,RMS Voltage Average,VRMS_A,V,6
 6030,Fundamental Voltage,VF,V,6
-6031,Phase R Fundamental Voltage,VF_R,V,6
-6032,Phase S Fundamental Voltage,VF_S,V,6
-6033,Phase T Fundamental Voltage,VF_T,V,6
-6034,Fundamental Voltage Average,VF_A,V,6
-6040,Harmonic Voltage,VH,V,6
-6041,Phase R Harmonic Voltage,VH_R,V,6
-6042,Phase S Harmonic Voltage,VH_S,V,6
-6043,Phase T Harmonic Voltage,VH_T,V,6
-6044,Harmonic Voltage Average,VH_A,V,6
+6031,Phase R Fundamental Voltage,VFun_R,V,6
+6032,Phase S Fundamental Voltage,VFun_S,V,6
+6033,Phase T Fundamental Voltage,VFun_T,V,6
+6034,Fundamental Voltage Average,VFun_A,V,6
+6040,Harmonic Voltage,VHarm,V,6
+6041,Phase R Harmonic Voltage,VHarm_R,V,6
+6042,Phase S Harmonic Voltage,VHarm_S,V,6
+6043,Phase T Harmonic Voltage,VHarm_T,V,6
+6044,Harmonic Voltage Average,VHarm_A,V,6
 6050,Instant Current,I,A,6
 6051,Phase R Instant Current,I_R,A,6
 6052,Phase S Instant Current,I_S,A,6
@@ -203,15 +203,15 @@ Type_ID,Description,Variable,Unit,Segment
 6073,Phase T RMS Current,IRMS_T,A,6
 6074,RMS Current Average,IRMS_A,A,6
 6080,Fundamental Current,IF,A,6
-6081,Phase R Fundamental Current,IF_R,A,6
-6082,Phase S Fundamental Current,IF_S,A,6
-6083,Phase T Fundamental Current,IF_T,A,6
-6084,Fundamental Current Average,IF_A,A,6
-6090,Harmonic Current,IH,A,6
-6091,Phase R Harmonic Current,IH_R,A,6
-6092,Phase S Harmonic Current,IH_S,A,6
-6093,Phase T Harmonic Current,IH_T,A,6
-6094,Harmonic Current Average,IH_A,A,6
+6081,Phase R Fundamental Current,IFun_R,A,6
+6082,Phase S Fundamental Current,IFun_S,A,6
+6083,Phase T Fundamental Current,IFun_T,A,6
+6084,Fundamental Current Average,IFun_A,A,6
+6090,Harmonic Current,IHarm,A,6
+6091,Phase R Harmonic Current,IHarm_R,A,6
+6092,Phase S Harmonic Current,IHarm_S,A,6
+6093,Phase T Harmonic Current,IHarm_T,A,6
+6094,Harmonic Current Average,IHarm_A,A,6
 6100,Active Power,P,W,6
 6101,Phase R Active Power,P_R,W,6
 6102,Phase S Active Power,P_S,W,6
@@ -242,11 +242,11 @@ Type_ID,Description,Variable,Unit,Segment
 6152,Phase S Fundamental Power,PFun_S,-,6
 6153,Phase T Fundamental Power,PFun_T,-,6
 6154,Fundamental Power Average,PFun_A,-,6
-6160,Harmonic Power,PHar,-,6
-6161,Phase R Harmonic Power,PHar_R,-,6
-6162,Phase S Harmonic Power,PHar_S,-,6
-6163,Phase T Harmonic Power,PHar_T,-,6
-6164,Harmonic Power Average,PHar_A,-,6
+6160,Harmonic Power,PHarm,-,6
+6161,Phase R Harmonic Power,PHarm_R,-,6
+6162,Phase S Harmonic Power,PHarm_S,-,6
+6163,Phase T Harmonic Power,PHarm_T,-,6
+6164,Harmonic Power Average,PHarm_A,-,6
 6170,Fundamental Volt Ampere,FunVA,VA,6
 6171,Phase R Fundamental Volt Ampere,FunVA_R,VA,6
 6172,Phase S Fundamental Volt Ampere,FunVA_S,VA,6

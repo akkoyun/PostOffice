@@ -103,8 +103,5 @@ try:
 
 finally:
 
-    # Log Message
-    Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
-
     # Close Database
     DB_Module.close()

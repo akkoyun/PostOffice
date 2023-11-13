@@ -32,9 +32,6 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"Message Decoded: {Message}")
-
         # Control for Device
         Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)
 
@@ -115,7 +112,7 @@ try:
 finally:
 
     # Log Message
-    Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
+    Log.Terminal_Log("ERROR", f"Handle Error - {datetime.now()}")
 
     # Close Database
     DB_Module.close()

@@ -36,6 +36,26 @@ try:
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)
 
+        # Control for Latitude
+        if Message.Latitude is not None and Message.Latitude > Limits.LATITUDE_MIN and Message.Latitude < Limits.LATITUDE_MAX:
+
+            # Set Latitude
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Latitude", Message.Latitude)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Data -> Latitude : {Message.Latitude}")
+
+        # Control for Longitude
+        if Message.Longitude is not None and Message.Longitude > Limits.LONGITUDE_MIN and Message.Longitude < Limits.LONGITUDE_MAX:
+
+            # Set Longitude
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Longitude", Message.Longitude)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Data -> Longitude : {Message.Longitude}")
+
+        # WeatherStat Payloads
+
         # Control for AT
         if Message.AT is not None and Message.AT > Limits.AT_MIN and Message.AT < Limits.AT_MAX:
 
@@ -168,23 +188,83 @@ try:
                     # Log Message
                     Log.Terminal_Log("INFO", f"New Data -> {ST_Variable_Name} : {ST_Value}")
 
-        # Control for Latitude
-        if Message.Latitude is not None and Message.Latitude > Limits.LATITUDE_MIN and Message.Latitude < Limits.LATITUDE_MAX:
+        # PowerStat Payloads
 
-            # Set Latitude
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Latitude", Message.Latitude)
+        # Control for Instant Voltage
+        if Message.V is not None:
+
+            # Loop Through Measurements
+            for index, V_Value in enumerate(Message.V):
+
+                # Set Dynamic Variable Name
+                if index == 0: V_Variable_Name = f"V_R"
+                if index == 1: V_Variable_Name = f"V_S"
+                if index == 2: V_Variable_Name = f"V_T"
+                if index == 3: V_Variable_Name = f"V_A"
+
+                # Control for Limits
+                if V_Variable_Name is not None and V_Value > Limits.INSTANT_VOLTAGE_MIN and V_Value < Limits.INSTANT_VOLTAGE_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, V_Variable_Name, V_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {V_Variable_Name} : {V_Value}")
+
+        # Control for Phase R Instant Voltage
+        if Message.V_R is not None and Message.V_R > Limits.INSTANT_VOLTAGE_MIN and Message.V_R < Limits.INSTANT_VOLTAGE_MAX:
+
+            # Set ST
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_R", Message.V_R)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New Data -> Latitude : {Message.Latitude}")
+            Log.Terminal_Log("INFO", f"New Data -> V_R : {Message.V_R}")
 
-        # Control for Longitude
-        if Message.Longitude is not None and Message.Longitude > Limits.LONGITUDE_MIN and Message.Longitude < Limits.LONGITUDE_MAX:
+        # Control for Phase S Instant Voltage
+        if Message.V_S is not None and Message.V_S > Limits.INSTANT_VOLTAGE_MIN and Message.V_S < Limits.INSTANT_VOLTAGE_MAX:
 
-            # Set Longitude
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Longitude", Message.Longitude)
+            # Set ST
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_S", Message.V_S)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New Data -> Longitude : {Message.Longitude}")
+            Log.Terminal_Log("INFO", f"New Data -> V_S : {Message.V_S}")
+
+        # Control for Phase T Instant Voltage
+        if Message.V_T is not None and Message.V_T > Limits.INSTANT_VOLTAGE_MIN and Message.V_T < Limits.INSTANT_VOLTAGE_MAX:
+
+            # Set ST
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_T", Message.V_T)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Data -> V_T : {Message.V_T}")
+
+        # Control for Instant Voltage Average
+        if Message.V_A is not None and Message.V_A > Limits.INSTANT_VOLTAGE_MIN and Message.V_A < Limits.INSTANT_VOLTAGE_MAX:
+
+            # Set ST
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_A", Message.V_A)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Data -> V_A : {Message.V_A}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
@@ -193,9 +273,6 @@ try:
         Log.Terminal_Log("INFO", f"***********************************************************************************")
 
 finally:
-
-    # Log Message
-    Log.LOG_Error_Message(f"Handle Error - {datetime.now()}")
 
     # Close Database
     DB_Module.close()

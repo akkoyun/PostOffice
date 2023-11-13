@@ -408,34 +408,34 @@ class Payload(CustomBaseModel):
 	VRMS_A: Optional[float] = Field(description="RMS voltage average measurement", example=220.12, min=Limits.RMS_VOLTAGE_MIN, max=Limits.RMS_VOLTAGE_MAX)
 
 	# Fundamental Voltage Value
-	VF: Optional[list[Optional[float]]] = Field(description="Fundamental voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
+	VFun: Optional[list[Optional[float]]] = Field(description="Fundamental voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
 
 	# Phase R Fundamental Voltage Value
-	VF_R: Optional[float] = Field(description="Phase R fundamental voltage measurement", example=220.12, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
+	VFun_R: Optional[float] = Field(description="Phase R fundamental voltage measurement", example=220.12, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
 
 	# Phase S Fundamental Voltage Value
-	VF_S: Optional[float] = Field(description="Phase S fundamental voltage measurement", example=220.12, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
+	VFun_S: Optional[float] = Field(description="Phase S fundamental voltage measurement", example=220.12, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
 
 	# Phase T Fundamental Voltage Value
-	VF_T: Optional[float] = Field(description="Phase T fundamental voltage measurement", example=220.12, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
+	VFun_T: Optional[float] = Field(description="Phase T fundamental voltage measurement", example=220.12, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
 
 	# Fundamental Voltage Average Value
-	VF_A: Optional[float] = Field(description="Fundamental voltage average measurement", example=220.12, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
+	VFun_A: Optional[float] = Field(description="Fundamental voltage average measurement", example=220.12, min=Limits.FUNDAMENTAL_VOLTAGE_MIN, max=Limits.FUNDAMENTAL_VOLTAGE_MAX)
 
 	# Harmonic Voltage Value
-	VH: Optional[list[Optional[float]]] = Field(description="Harmonic voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
+	VHarm: Optional[list[Optional[float]]] = Field(description="Harmonic voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
 
 	# Phase R Harmonic Voltage Value
-	VH_R: Optional[float] = Field(description="Phase R harmonic voltage measurement", example=220.12, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
+	VHarm_R: Optional[float] = Field(description="Phase R harmonic voltage measurement", example=220.12, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
 
 	# Phase S Harmonic Voltage Value
-	VH_S: Optional[float] = Field(description="Phase S harmonic voltage measurement", example=220.12, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
+	VHarm_S: Optional[float] = Field(description="Phase S harmonic voltage measurement", example=220.12, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
 
 	# Phase T Harmonic Voltage Value
-	VH_T: Optional[float] = Field(description="Phase T harmonic voltage measurement", example=220.12, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
+	VHarm_T: Optional[float] = Field(description="Phase T harmonic voltage measurement", example=220.12, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
 
 	# Harmonic Voltage Average Value
-	VH_A: Optional[float] = Field(description="Harmonic voltage average measurement", example=220.12, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
+	VHarm_A: Optional[float] = Field(description="Harmonic voltage average measurement", example=220.12, min=Limits.HARMONIC_VOLTAGE_MIN, max=Limits.HARMONIC_VOLTAGE_MAX)
 
 	# Instant Current Value
 	I: Optional[list[Optional[float]]] = Field(description="Instant current measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.INSTANT_CURRENT_MIN, max=Limits.INSTANT_CURRENT_MAX)
@@ -483,34 +483,34 @@ class Payload(CustomBaseModel):
 	IRMS_A: Optional[float] = Field(description="RMS current average measurement", example=20.12, min=Limits.RMS_CURRENT_MIN, max=Limits.RMS_CURRENT_MAX)
 
 	# Fundamental Current Value
-	IF: Optional[list[Optional[float]]] = Field(description="Fundamental current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
+	IFun: Optional[list[Optional[float]]] = Field(description="Fundamental current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
 
 	# Phase R Fundamental Current Value
-	IF_R: Optional[float] = Field(description="Phase R fundamental current measurement", example=20.12, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
+	IFun_R: Optional[float] = Field(description="Phase R fundamental current measurement", example=20.12, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
 
 	# Phase S Fundamental Current Value
-	IF_S: Optional[float] = Field(description="Phase S fundamental current measurement", example=20.12, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
+	IFun_S: Optional[float] = Field(description="Phase S fundamental current measurement", example=20.12, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
 
 	# Phase T Fundamental Current Value
-	IF_T: Optional[float] = Field(description="Phase T fundamental current measurement", example=20.12, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
+	IFun_T: Optional[float] = Field(description="Phase T fundamental current measurement", example=20.12, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
 
 	# Fundamental Current Average Value
-	IF_A: Optional[float] = Field(description="Fundamental current average measurement", example=20.12, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
+	IFun_A: Optional[float] = Field(description="Fundamental current average measurement", example=20.12, min=Limits.FUNDAMENTAL_CURRENT_MIN, max=Limits.FUNDAMENTAL_CURRENT_MAX)
 
 	# Harmonic Current Value
-	IH: Optional[list[Optional[float]]] = Field(description="Harmonic current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
+	IHarm: Optional[list[Optional[float]]] = Field(description="Harmonic current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
 
 	# Phase R Harmonic Current Value
-	IH_R: Optional[float] = Field(description="Phase R harmonic current measurement", example=20.12, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
+	IHarm_R: Optional[float] = Field(description="Phase R harmonic current measurement", example=20.12, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
 
 	# Phase S Harmonic Current Value
-	IH_S: Optional[float] = Field(description="Phase S harmonic current measurement", example=20.12, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
+	IHarm_S: Optional[float] = Field(description="Phase S harmonic current measurement", example=20.12, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
 
 	# Phase T Harmonic Current Value
-	IH_T: Optional[float] = Field(description="Phase T harmonic current measurement", example=20.12, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
+	IHarm_T: Optional[float] = Field(description="Phase T harmonic current measurement", example=20.12, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
 
 	# Harmonic Current Average Value
-	IH_A: Optional[float] = Field(description="Harmonic current average measurement", example=20.12, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
+	IHarm_A: Optional[float] = Field(description="Harmonic current average measurement", example=20.12, min=Limits.HARMONIC_CURRENT_MIN, max=Limits.HARMONIC_CURRENT_MAX)
 
 	# Active Power Value
 	P: Optional[list[Optional[float]]] = Field(description="Active power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.ACTIVE_POWER_MIN, max=Limits.ACTIVE_POWER_MAX)
@@ -603,19 +603,19 @@ class Payload(CustomBaseModel):
 	PFun_A: Optional[float] = Field(description="Fundamental power average measurement", example=220.12, min=Limits.FUNDAMENTAL_POWER_MIN, max=Limits.FUNDAMENTAL_POWER_MAX)
 
 	# Harmonic Power Value
-	PHar: Optional[list[Optional[float]]] = Field(description="Harmonic power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
+	PHarm: Optional[list[Optional[float]]] = Field(description="Harmonic power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
 
 	# Phase R Harmonic Power Value
-	PHar_R: Optional[float] = Field(description="Phase R harmonic power measurement", example=220.12, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
+	PHarm_R: Optional[float] = Field(description="Phase R harmonic power measurement", example=220.12, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
 
 	# Phase S Harmonic Power Value
-	PHar_S: Optional[float] = Field(description="Phase S harmonic power measurement", example=220.12, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
+	PHarm_S: Optional[float] = Field(description="Phase S harmonic power measurement", example=220.12, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
 
 	# Phase T Harmonic Power Value
-	PHar_T: Optional[float] = Field(description="Phase T harmonic power measurement", example=220.12, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
+	PHarm_T: Optional[float] = Field(description="Phase T harmonic power measurement", example=220.12, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
 
 	# Harmonic Power Average Value
-	PHar_A: Optional[float] = Field(description="Harmonic power average measurement", example=220.12, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
+	PHarm_A: Optional[float] = Field(description="Harmonic power average measurement", example=220.12, min=Limits.HARMONIC_POWER_MIN, max=Limits.HARMONIC_POWER_MAX)
 
 	# Fundamental Volt Amper 
 	FunVA: Optional[list[Optional[float]]] = Field(description="Fundamental volt ampere measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.FUNDAMENTAL_VOLT_AMPER_MIN, max=Limits.FUNDAMENTAL_VOLT_AMPER_MAX)
