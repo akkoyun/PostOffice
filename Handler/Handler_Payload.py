@@ -210,42 +210,43 @@ try:
 
                     # Log Message
                     Log.Terminal_Log("INFO", f"New Data -> {V_Variable_Name} : {V_Value}")
+        else :
 
-        # Control for Phase R Instant Voltage
-        if Message.V_R is not None and Message.V_R > Limits.INSTANT_VOLTAGE_MIN and Message.V_R < Limits.INSTANT_VOLTAGE_MAX:
+            # Control for Phase R Instant Voltage
+            if Message.V_R is not None and Message.V_R > Limits.INSTANT_VOLTAGE_MIN and Message.V_R < Limits.INSTANT_VOLTAGE_MAX:
 
-            # Set ST
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_R", Message.V_R)
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_R", Message.V_R)
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Data -> V_R : {Message.V_R}")
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> V_R : {Message.V_R}")
 
-        # Control for Phase S Instant Voltage
-        if Message.V_S is not None and Message.V_S > Limits.INSTANT_VOLTAGE_MIN and Message.V_S < Limits.INSTANT_VOLTAGE_MAX:
+            # Control for Phase S Instant Voltage
+            if Message.V_S is not None and Message.V_S > Limits.INSTANT_VOLTAGE_MIN and Message.V_S < Limits.INSTANT_VOLTAGE_MAX:
 
-            # Set ST
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_S", Message.V_S)
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_S", Message.V_S)
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Data -> V_S : {Message.V_S}")
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> V_S : {Message.V_S}")
 
-        # Control for Phase T Instant Voltage
-        if Message.V_T is not None and Message.V_T > Limits.INSTANT_VOLTAGE_MIN and Message.V_T < Limits.INSTANT_VOLTAGE_MAX:
+            # Control for Phase T Instant Voltage
+            if Message.V_T is not None and Message.V_T > Limits.INSTANT_VOLTAGE_MIN and Message.V_T < Limits.INSTANT_VOLTAGE_MAX:
 
-            # Set ST
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_T", Message.V_T)
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_T", Message.V_T)
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Data -> V_T : {Message.V_T}")
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> V_T : {Message.V_T}")
 
-        # Control for Instant Voltage Average
-        if Message.V_A is not None and Message.V_A > Limits.INSTANT_VOLTAGE_MIN and Message.V_A < Limits.INSTANT_VOLTAGE_MAX:
+            # Control for Instant Voltage Average
+            if Message.V_A is not None and Message.V_A > Limits.INSTANT_VOLTAGE_MIN and Message.V_A < Limits.INSTANT_VOLTAGE_MAX:
 
-            # Set ST
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_A", Message.V_A)
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "V_A", Message.V_A)
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Data -> V_A : {Message.V_A}")
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> V_A : {Message.V_A}")
 
 
 
