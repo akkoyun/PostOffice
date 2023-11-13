@@ -4,6 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Models, View_Models
+from Functions import Log
 from datetime import datetime
 import math
 
@@ -354,6 +355,10 @@ def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Valu
 
     # Close Database
     DB_Module.close()
+
+    # Log Message
+    Log.Terminal_Log("INFO", f"New Data -> AT : {Value}")
+
 
 # Get Device Last Connection Time
 def Get_Device_Last_Connection(Device_ID: str):
