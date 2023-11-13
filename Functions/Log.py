@@ -4,70 +4,73 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup.Config import APP_Settings
-import logging, coloredlogs
+import logging
 
-# Define Log Colors
-coloredlogs.DEFAULT_LOG_LEVEL_COLORS = {
-    'INFO': 'white',
-    'DEBUG': 'cyan',
-    'WARNING': 'yellow',
-    'ERROR': 'red',
-    'CRITICAL': 'red,bg_white',
+# Define Formats
+Log_Format = "{asctime} [{levelname:^9}] --> {message}"
+Log_Formats = {
+    logging.DEBUG: Log_Format,
+    logging.INFO: f"\33[36m{Log_Format}\33[0m",
+    logging.WARNING: f"\33[33m{Log_Format}\33[0m",
+    logging.ERROR: f"\33[31m{Log_Format}\33[0m",
+    logging.CRITICAL: f"\33[1m\33[31m{Log_Format}\33[0m"
 }
 
-# Set Log Options
-Service_Logger = logging.getLogger('Service_Logger')
+# Simple Formatter
+class SimpleFormatter(logging.Formatter):
+    def __init__(self):
+        super().__init__(fmt="%(asctime)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 
-# Set Log
-coloredlogs.install(level='DEBUG', logger=Service_Logger)
+# Custom Formatter 
+class CustomFormatter(logging.Formatter):
+    def format(self, record):
+        log_fmt = Log_Formats[record.levelno]
+        formatter = logging.Formatter(log_fmt, style='{')
+        return formatter.format(record)
 
-# Set Log File
-logging.basicConfig(filename=APP_Settings.LOG_FILE, level=logging.INFO, format='%(message)s')
+# Set Handler
+Handler = logging.StreamHandler()
+Handler.setFormatter(CustomFormatter())
+logging.basicConfig(
+    level = logging.DEBUG,
+    handlers = [Handler],
+)
 
-# Set Log Format
-Log_Format = "%(asctime)s PostOffice %(message)s"
+# Set File Handler
+File_Handler = logging.FileHandler(APP_Settings.LOG_FILE)
+File_Handler.setFormatter(SimpleFormatter())
 
-# Set Log
-coloredlogs.install(level='DEBUG', logger=Service_Logger, fmt=Log_Format)
+# Set Logger
+Logger = logging.getLogger('PostOffice')
 
-# Log Error Message
-def LOG_Error_Message(Message):
-    
-	# Log Message
-	Service_Logger.error(f"--> {Message}")
+# Add File Handler
+Logger.addHandler(File_Handler)
 
-# Log Message
-def Terminal_Log(Type, Message):
-
-	# Control for no type
-	if Type == None:
-
-		# Log Message
-		Service_Logger.info(f"--> {Message}")
+# Terminal Log Message
+def Terminal_Log(Type: str, Message: str):
 
 	# Control Type
-	if Type == "INFO":
+    if Type == "DEBUG":
+
+        # Log DEBUG Message
+        Logger.debug(Message)
+
+    elif Type == "INFO":
 		
 		# Log INFO Message
-		Service_Logger.info(f"--> {Message}")
+        Logger.info(Message)
 
-	elif Type == "ERROR":
+    elif Type == "ERROR":
 
 		# Log ERROR Message
-		Service_Logger.error(f"--> {Message}")
+        Logger.error(Message)
 
-	elif Type == "DEBUG":
-
-		# Log DEBUG Message
-		Service_Logger.debug(f"--> {Message}")
-
-	elif Type == "WARNING":
+    elif Type == "WARNING":
 
 		# Log WARNING Message
-		Service_Logger.warning(f"--> {Message}")
+        Logger.warning(Message)
 
-	elif Type == "CRITICAL":
+    elif Type == "CRITICAL":
 
 		# Log CRITICAL Message
-		Service_Logger.critical(f"--> {Message}")
-
+        Logger.critical(Message)

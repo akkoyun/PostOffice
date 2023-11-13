@@ -23,15 +23,15 @@ PostOffice = FastAPI(version="02.01.00", title="PostOffice")
 async def Startup_Event():
 
 	# Log Message
-	Log.Terminal_Log("DEBUG", f"PostOffice API Started {datetime.now()}")
-	Log.Terminal_Log("DEBUG", f"*************************************************")
+	Log.Terminal_Log("INFO", f"PostOffice API Started {datetime.now()}")
+	Log.Terminal_Log("INFO", f"*************************************************")
 
 # API ShutDown Sequence
 @PostOffice.on_event("shutdown")
 async def Shutdown_event():
 
 	# Log Message
-	Log.Terminal_Log("DEBUG", f"PostOffice API Shutdown {datetime.now()}")
+	Log.Terminal_Log("INFO", f"PostOffice API Shutdown {datetime.now()}")
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
