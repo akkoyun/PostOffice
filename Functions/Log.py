@@ -32,7 +32,7 @@ class CustomFormatter(logging.Formatter):
 Handler = logging.StreamHandler()
 Handler.setFormatter(CustomFormatter())
 logging.basicConfig(
-    level = logging.DEBUG,
+    level = logging.INFO,
     handlers = [Handler],
 )
 
