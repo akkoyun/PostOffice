@@ -665,6 +665,9 @@ class Payload(CustomBaseModel):
 	# Active Energy Average Value
 	AE_A: Optional[float] = Field(description="Active energy average measurement", example=220.12, min=Limits.ACTIVE_ENERGY_MIN, max=Limits.ACTIVE_ENERGY_MAX)
 
+	# Active Energy Total Value
+	AE_TOT: Optional[float] = Field(description="Active energy total measurement", example=220.12, min=Limits.ACTIVE_ENERGY_MIN, max=Limits.ACTIVE_ENERGY_MAX)
+
 	# Reactive Energy Leading Value
 	RE_L: Optional[list[Optional[float]]] = Field(description="Reactive leading energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4, min=Limits.REACTIVE_ENERGY_MIN, max=Limits.REACTIVE_ENERGY_MAX)
 

@@ -730,28 +730,773 @@ try:
                 # Log Message
                 Log.Terminal_Log("INFO", f"New Data -> IHarm_A : {Message.IHarm_A}")
                                          
-                
+        # Control for Active Power (Array)
+        if Message.P is not None:
 
+            # Loop Through Measurements
+            for index, P_Value in enumerate(Message.P):
 
+                # Set Dynamic Variable Name
+                if index == 0: P_Variable_Name = f"P_R"
+                if index == 1: P_Variable_Name = f"P_S"
+                if index == 2: P_Variable_Name = f"P_T"
+                if index == 3: P_Variable_Name = f"P_A"
 
+                # Control for Limits
+                if P_Variable_Name is not None and P_Value > Limits.ACTIVE_POWER_MIN and P_Value < Limits.ACTIVE_POWER_MAX:
 
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, P_Variable_Name, P_Value)
 
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {P_Variable_Name} : {P_Value}")
 
+        # Control for Active Power (Single)
+        else :
 
+            # Control for Phase R Active Power
+            if Message.P_R is not None and Message.P_R > Limits.ACTIVE_POWER_MIN and Message.P_R < Limits.ACTIVE_POWER_MAX:
 
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "P_R", Message.P_R)
 
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> P_R : {Message.P_R}")
 
+            # Control for Phase S Active Power
+            if Message.P_S is not None and Message.P_S > Limits.ACTIVE_POWER_MIN and Message.P_S < Limits.ACTIVE_POWER_MAX:
 
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "P_S", Message.P_S)
 
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> P_S : {Message.P_S}")
 
+            # Control for Phase T Active Power
+            if Message.P_T is not None and Message.P_T > Limits.ACTIVE_POWER_MIN and Message.P_T < Limits.ACTIVE_POWER_MAX:
 
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "P_T", Message.P_T)
 
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> P_T : {Message.P_T}")
 
+            # Control for Active Power Average
+            if Message.P_A is not None and Message.P_A > Limits.ACTIVE_POWER_MIN and Message.P_A < Limits.ACTIVE_POWER_MAX:
 
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "P_A", Message.P_A)
 
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> P_A : {Message.P_A}")
 
+        # Control for Reactive Power (Array)
+        if Message.Q is not None:
 
+            # Loop Through Measurements
+            for index, Q_Value in enumerate(Message.Q):
 
+                # Set Dynamic Variable Name
+                if index == 0: Q_Variable_Name = f"Q_R"
+                if index == 1: Q_Variable_Name = f"Q_S"
+                if index == 2: Q_Variable_Name = f"Q_T"
+                if index == 3: Q_Variable_Name = f"Q_A"
+
+                # Control for Limits
+                if Q_Variable_Name is not None and Q_Value > Limits.REACTIVE_POWER_MIN and Q_Value < Limits.REACTIVE_POWER_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, Q_Variable_Name, Q_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {Q_Variable_Name} : {Q_Value}")
+
+        # Control for Reactive Power (Single)
+        else :
+
+            # Control for Phase R Reactive Power
+            if Message.Q_R is not None and Message.Q_R > Limits.REACTIVE_POWER_MIN and Message.Q_R < Limits.REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Q_R", Message.Q_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> Q_R : {Message.Q_R}")
+
+            # Control for Phase S Reactive Power
+            if Message.Q_S is not None and Message.Q_S > Limits.REACTIVE_POWER_MIN and Message.Q_S < Limits.REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Q_S", Message.Q_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> Q_S : {Message.Q_S}")
+
+            # Control for Phase T Reactive Power
+            if Message.Q_T is not None and Message.Q_T > Limits.REACTIVE_POWER_MIN and Message.Q_T < Limits.REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Q_T", Message.Q_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> Q_T : {Message.Q_T}")
+
+            # Control for Reactive Power Average
+            if Message.Q_A is not None and Message.Q_A > Limits.REACTIVE_POWER_MIN and Message.Q_A < Limits.REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Q_A", Message.Q_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> Q_A : {Message.Q_A}")
+
+        # Control for Apparent Power (Array)
+        if Message.S is not None:
+
+            # Loop Through Measurements
+            for index, S_Value in enumerate(Message.S):
+
+                # Set Dynamic Variable Name
+                if index == 0: S_Variable_Name = f"S_R"
+                if index == 1: S_Variable_Name = f"S_S"
+                if index == 2: S_Variable_Name = f"S_T"
+                if index == 3: S_Variable_Name = f"S_A"
+
+                # Control for Limits
+                if S_Variable_Name is not None and S_Value > Limits.APPARENT_POWER_MIN and S_Value < Limits.APPARENT_POWER_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, S_Variable_Name, S_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {S_Variable_Name} : {S_Value}")
+
+        # Control for Apparent Power (Single)
+        else :
+
+            # Control for Phase R Apparent Power
+            if Message.S_R is not None and Message.S_R > Limits.APPARENT_POWER_MIN and Message.S_R < Limits.APPARENT_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "S_R", Message.S_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> S_R : {Message.S_R}")
+
+            # Control for Phase S Apparent Power
+            if Message.S_S is not None and Message.S_S > Limits.APPARENT_POWER_MIN and Message.S_S < Limits.APPARENT_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "S_S", Message.S_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> S_S : {Message.S_S}")
+
+            # Control for Phase T Apparent Power
+            if Message.S_T is not None and Message.S_T > Limits.APPARENT_POWER_MIN and Message.S_T < Limits.APPARENT_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "S_T", Message.S_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> S_T : {Message.S_T}")
+
+            # Control for Apparent Power Average
+            if Message.S_A is not None and Message.S_A > Limits.APPARENT_POWER_MIN and Message.S_A < Limits.APPARENT_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "S_A", Message.S_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> S_A : {Message.S_A}")
+
+        # Control for Fundamental Reactive Power (Array)
+        if Message.QFun is not None:
+
+            # Loop Through Measurements
+            for index, QFun_Value in enumerate(Message.QFun):
+
+                # Set Dynamic Variable Name
+                if index == 0: QFun_Variable_Name = f"QFun_R"
+                if index == 1: QFun_Variable_Name = f"QFun_S"
+                if index == 2: QFun_Variable_Name = f"QFun_T"
+                if index == 3: QFun_Variable_Name = f"QFun_A"
+
+                # Control for Limits
+                if QFun_Variable_Name is not None and QFun_Value > Limits.FUNDAMENTAL_REACTIVE_POWER_MIN and QFun_Value < Limits.FUNDAMENTAL_REACTIVE_POWER_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, QFun_Variable_Name, QFun_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {QFun_Variable_Name} : {QFun_Value}")
+
+        # Control for Fundamental Reactive Power (Single)
+        else :
+
+            # Control for Phase R Fundamental Reactive Power
+            if Message.QFun_R is not None and Message.QFun_R > Limits.FUNDAMENTAL_REACTIVE_POWER_MIN and Message.QFun_R < Limits.FUNDAMENTAL_REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "QFun_R", Message.QFun_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> QFun_R : {Message.QFun_R}")
+
+            # Control for Phase S Fundamental Reactive Power
+            if Message.QFun_S is not None and Message.QFun_S > Limits.FUNDAMENTAL_REACTIVE_POWER_MIN and Message.QFun_S < Limits.FUNDAMENTAL_REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "QFun_S", Message.QFun_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> QFun_S : {Message.QFun_S}")
+
+            # Control for Phase T Fundamental Reactive Power
+            if Message.QFun_T is not None and Message.QFun_T > Limits.FUNDAMENTAL_REACTIVE_POWER_MIN and Message.QFun_T < Limits.FUNDAMENTAL_REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "QFun_T", Message.QFun_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> QFun_T : {Message.QFun_T}")
+
+            # Control for Fundamental Reactive Power Average
+            if Message.QFun_A is not None and Message.QFun_A > Limits.FUNDAMENTAL_REACTIVE_POWER_MIN and Message.QFun_A < Limits.FUNDAMENTAL_REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "QFun_A", Message.QFun_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> QFun_A : {Message.QFun_A}")
+
+        # Control for Harmonic Reactive Power (Array)
+        if Message.QHarm is not None:
+
+            # Loop Through Measurements
+            for index, QHarm_Value in enumerate(Message.QHarm):
+
+                # Set Dynamic Variable Name
+                if index == 0: QHarm_Variable_Name = f"QHarm_R"
+                if index == 1: QHarm_Variable_Name = f"QHarm_S"
+                if index == 2: QHarm_Variable_Name = f"QHarm_T"
+                if index == 3: QHarm_Variable_Name = f"QHarm_A"
+
+                # Control for Limits
+                if QHarm_Variable_Name is not None and QHarm_Value > Limits.HARMONIC_REACTIVE_POWER_MIN and QHarm_Value < Limits.HARMONIC_REACTIVE_POWER_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, QHarm_Variable_Name, QHarm_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {QHarm_Variable_Name} : {QHarm_Value}")
+
+        # Control for Harmonic Reactive Power (Single)
+        else :
+
+            # Control for Phase R Harmonic Reactive Power
+            if Message.QHarm_R is not None and Message.QHarm_R > Limits.HARMONIC_REACTIVE_POWER_MIN and Message.QHarm_R < Limits.HARMONIC_REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "QHarm_R", Message.QHarm_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> QHarm_R : {Message.QHarm_R}")
+
+            # Control for Phase S Harmonic Reactive Power
+            if Message.QHarm_S is not None and Message.QHarm_S > Limits.HARMONIC_REACTIVE_POWER_MIN and Message.QHarm_S < Limits.HARMONIC_REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "QHarm_S", Message.QHarm_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> QHarm_S : {Message.QHarm_S}")
+
+            # Control for Phase T Harmonic Reactive Power
+            if Message.QHarm_T is not None and Message.QHarm_T > Limits.HARMONIC_REACTIVE_POWER_MIN and Message.QHarm_T < Limits.HARMONIC_REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "QHarm_T", Message.QHarm_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> QHarm_T : {Message.QHarm_T}")
+
+            # Control for Harmonic Reactive Power Average
+            if Message.QHarm_A is not None and Message.QHarm_A > Limits.HARMONIC_REACTIVE_POWER_MIN and Message.QHarm_A < Limits.HARMONIC_REACTIVE_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "QHarm_A", Message.QHarm_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> QHarm_A : {Message.QHarm_A}")
+
+        # Control for Fundamental Power (Array)
+        if Message.PFun is not None:
+
+            # Loop Through Measurements
+            for index, PFun_Value in enumerate(Message.PFun):
+
+                # Set Dynamic Variable Name
+                if index == 0: PFun_Variable_Name = f"PFun_R"
+                if index == 1: PFun_Variable_Name = f"PFun_S"
+                if index == 2: PFun_Variable_Name = f"PFun_T"
+                if index == 3: PFun_Variable_Name = f"PFun_A"
+
+                # Control for Limits
+                if PFun_Variable_Name is not None and PFun_Value > Limits.FUNDAMENTAL_POWER_MIN and PFun_Value < Limits.FUNDAMENTAL_POWER_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, PFun_Variable_Name, PFun_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {PFun_Variable_Name} : {PFun_Value}")
+
+        # Control for Fundamental Power (Single)
+        else :
+
+            # Control for Phase R Fundamental Power
+            if Message.PFun_R is not None and Message.PFun_R > Limits.FUNDAMENTAL_POWER_MIN and Message.PFun_R < Limits.FUNDAMENTAL_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PFun_R", Message.PFun_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PFun_R : {Message.PFun_R}")
+
+            # Control for Phase S Fundamental Power
+            if Message.PFun_S is not None and Message.PFun_S > Limits.FUNDAMENTAL_POWER_MIN and Message.PFun_S < Limits.FUNDAMENTAL_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PFun_S", Message.PFun_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PFun_S : {Message.PFun_S}")
+
+            # Control for Phase T Fundamental Power
+            if Message.PFun_T is not None and Message.PFun_T > Limits.FUNDAMENTAL_POWER_MIN and Message.PFun_T < Limits.FUNDAMENTAL_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PFun_T", Message.PFun_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PFun_T : {Message.PFun_T}")
+
+            # Control for Fundamental Power Average
+            if Message.PFun_A is not None and Message.PFun_A > Limits.FUNDAMENTAL_POWER_MIN and Message.PFun_A < Limits.FUNDAMENTAL_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PFun_A", Message.PFun_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PFun_A : {Message.PFun_A}")
+
+        # Control for Harmonic Power (Array)
+        if Message.PHarm is not None:
+
+            # Loop Through Measurements
+            for index, PHarm_Value in enumerate(Message.PHarm):
+
+                # Set Dynamic Variable Name
+                if index == 0: PHarm_Variable_Name = f"PHarm_R"
+                if index == 1: PHarm_Variable_Name = f"PHarm_S"
+                if index == 2: PHarm_Variable_Name = f"PHarm_T"
+                if index == 3: PHarm_Variable_Name = f"PHarm_A"
+
+                # Control for Limits
+                if PHarm_Variable_Name is not None and PHarm_Value > Limits.HARMONIC_POWER_MIN and PHarm_Value < Limits.HARMONIC_POWER_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, PHarm_Variable_Name, PHarm_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {PHarm_Variable_Name} : {PHarm_Value}")
+
+        # Control for Harmonic Power (Single)
+        else :
+
+            # Control for Phase R Harmonic Power
+            if Message.PHarm_R is not None and Message.PHarm_R > Limits.HARMONIC_POWER_MIN and Message.PHarm_R < Limits.HARMONIC_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PHarm_R", Message.PHarm_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PHarm_R : {Message.PHarm_R}")
+
+            # Control for Phase S Harmonic Power
+            if Message.PHarm_S is not None and Message.PHarm_S > Limits.HARMONIC_POWER_MIN and Message.PHarm_S < Limits.HARMONIC_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PHarm_S", Message.PHarm_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PHarm_S : {Message.PHarm_S}")
+
+            # Control for Phase T Harmonic Power
+            if Message.PHarm_T is not None and Message.PHarm_T > Limits.HARMONIC_POWER_MIN and Message.PHarm_T < Limits.HARMONIC_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PHarm_T", Message.PHarm_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PHarm_T : {Message.PHarm_T}")
+
+            # Control for Harmonic Power Average
+            if Message.PHarm_A is not None and Message.PHarm_A > Limits.HARMONIC_POWER_MIN and Message.PHarm_A < Limits.HARMONIC_POWER_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PHarm_A", Message.PHarm_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PHarm_A : {Message.PHarm_A}")
+
+        # Control for Fundamental Volt Ampere (Array)
+        if Message.FunVA is not None:
+
+            # Loop Through Measurements
+            for index, FunVA_Value in enumerate(Message.FunVA):
+
+                # Set Dynamic Variable Name
+                if index == 0: FunVA_Variable_Name = f"FunVA_R"
+                if index == 1: FunVA_Variable_Name = f"FunVA_S"
+                if index == 2: FunVA_Variable_Name = f"FunVA_T"
+                if index == 3: FunVA_Variable_Name = f"FunVA_A"
+
+                # Control for Limits
+                if FunVA_Variable_Name is not None and FunVA_Value > Limits.FUNDAMENTAL_VOLT_AMPERE_MIN and FunVA_Value < Limits.FUNDAMENTAL_VOLT_AMPERE_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, FunVA_Variable_Name, FunVA_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {FunVA_Variable_Name} : {FunVA_Value}")
+
+        # Control for Fundamental Volt Ampere (Single)
+        else :
+
+            # Control for Phase R Fundamental Volt Ampere
+            if Message.FunVA_R is not None and Message.FunVA_R > Limits.FUNDAMENTAL_VOLT_AMPERE_MIN and Message.FunVA_R < Limits.FUNDAMENTAL_VOLT_AMPERE_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "FunVA_R", Message.FunVA_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> FunVA_R : {Message.FunVA_R}")
+
+            # Control for Phase S Fundamental Volt Ampere
+            if Message.FunVA_S is not None and Message.FunVA_S > Limits.FUNDAMENTAL_VOLT_AMPERE_MIN and Message.FunVA_S < Limits.FUNDAMENTAL_VOLT_AMPERE_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "FunVA_S", Message.FunVA_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> FunVA_S : {Message.FunVA_S}")
+
+            # Control for Phase T Fundamental Volt Ampere
+            if Message.FunVA_T is not None and Message.FunVA_T > Limits.FUNDAMENTAL_VOLT_AMPERE_MIN and Message.FunVA_T < Limits.FUNDAMENTAL_VOLT_AMPERE_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "FunVA_T", Message.FunVA_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> FunVA_T : {Message.FunVA_T}")
+
+            # Control for Fundamental Volt Ampere Average
+            if Message.FunVA_A is not None and Message.FunVA_A > Limits.FUNDAMENTAL_VOLT_AMPERE_MIN and Message.FunVA_A < Limits.FUNDAMENTAL_VOLT_AMPERE_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "FunVA_A", Message.FunVA_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> FunVA_A : {Message.FunVA_A}")
+
+        # Control for Power Factor (Array)
+        if Message.PF is not None:
+
+            # Loop Through Measurements
+            for index, PF_Value in enumerate(Message.PF):
+
+                # Set Dynamic Variable Name
+                if index == 0: PF_Variable_Name = f"PF_R"
+                if index == 1: PF_Variable_Name = f"PF_S"
+                if index == 2: PF_Variable_Name = f"PF_T"
+                if index == 3: PF_Variable_Name = f"PF_A"
+
+                # Control for Limits
+                if PF_Variable_Name is not None and PF_Value > Limits.POWER_FACTOR_MIN and PF_Value < Limits.POWER_FACTOR_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, PF_Variable_Name, PF_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {PF_Variable_Name} : {PF_Value}")
+
+        # Control for Power Factor (Single)
+        else :
+
+            # Control for Phase R Power Factor
+            if Message.PF_R is not None and Message.PF_R > Limits.POWER_FACTOR_MIN and Message.PF_R < Limits.POWER_FACTOR_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PF_R", Message.PF_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PF_R : {Message.PF_R}")
+
+            # Control for Phase S Power Factor
+            if Message.PF_S is not None and Message.PF_S > Limits.POWER_FACTOR_MIN and Message.PF_S < Limits.POWER_FACTOR_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PF_S", Message.PF_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PF_S : {Message.PF_S}")
+
+            # Control for Phase T Power Factor
+            if Message.PF_T is not None and Message.PF_T > Limits.POWER_FACTOR_MIN and Message.PF_T < Limits.POWER_FACTOR_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PF_T", Message.PF_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PF_T : {Message.PF_T}")
+
+            # Control for Power Factor Average
+            if Message.PF_A is not None and Message.PF_A > Limits.POWER_FACTOR_MIN and Message.PF_A < Limits.POWER_FACTOR_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PF_A", Message.PF_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> PF_A : {Message.PF_A}")
+
+        # Control for Active Energy (Array)
+        if Message.AE is not None:
+
+            # Loop Through Measurements
+            for index, AE_Value in enumerate(Message.AE):
+
+                # Set Dynamic Variable Name
+                if index == 0: AE_Variable_Name = f"AE_R"
+                if index == 1: AE_Variable_Name = f"AE_S"
+                if index == 2: AE_Variable_Name = f"AE_T"
+                if index == 3: AE_Variable_Name = f"AE_A"
+                if index == 4: AE_Variable_Name = f"AE_TOT"
+
+                # Control for Limits
+                if AE_Variable_Name is not None and AE_Value > Limits.ACTIVE_ENERGY_MIN and AE_Value < Limits.ACTIVE_ENERGY_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, AE_Variable_Name, AE_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {AE_Variable_Name} : {AE_Value}")
+
+        # Control for Active Energy (Single)
+        else :
+
+            # Control for Phase R Active Energy
+            if Message.AE_R is not None and Message.AE_R > Limits.ACTIVE_ENERGY_MIN and Message.AE_R < Limits.ACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AE_R", Message.AE_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> AE_R : {Message.AE_R}")
+
+            # Control for Phase S Active Energy
+            if Message.AE_S is not None and Message.AE_S > Limits.ACTIVE_ENERGY_MIN and Message.AE_S < Limits.ACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AE_S", Message.AE_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> AE_S : {Message.AE_S}")
+
+            # Control for Phase T Active Energy
+            if Message.AE_T is not None and Message.AE_T > Limits.ACTIVE_ENERGY_MIN and Message.AE_T < Limits.ACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AE_T", Message.AE_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> AE_T : {Message.AE_T}")
+
+            # Control for Active Energy Average
+            if Message.AE_A is not None and Message.AE_A > Limits.ACTIVE_ENERGY_MIN and Message.AE_A < Limits.ACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AE_A", Message.AE_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> AE_A : {Message.AE_A}")
+
+            # Control for Total Active Energy
+            if Message.AE_TOT is not None and Message.AE_TOT > Limits.ACTIVE_ENERGY_MIN and Message.AE_TOT < Limits.ACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AE_TOT", Message.AE_TOT)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> AE_TOT : {Message.AE_TOT}")
+
+        # Control for Reactive Energy Leading (Array)
+        if Message.RE_L is not None:
+
+            # Loop Through Measurements
+            for index, RE_L_Value in enumerate(Message.RE_L):
+
+                # Set Dynamic Variable Name
+                if index == 0: RE_L_Variable_Name = f"RE_L_R"
+                if index == 1: RE_L_Variable_Name = f"RE_L_S"
+                if index == 2: RE_L_Variable_Name = f"RE_L_T"
+                if index == 3: RE_L_Variable_Name = f"RE_L_A"
+                if index == 4: RE_L_Variable_Name = f"RE_L_TOT"
+
+                # Control for Limits
+                if RE_L_Variable_Name is not None and RE_L_Value > Limits.REACTIVE_ENERGY_MIN and RE_L_Value < Limits.REACTIVE_ENERGY_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, RE_L_Variable_Name, RE_L_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {RE_L_Variable_Name} : {RE_L_Value}")
+
+        # Control for Reactive Energy Leading (Single)
+        else :
+
+            # Control for Phase R Reactive Energy Leading
+            if Message.RE_L_R is not None and Message.RE_L_R > Limits.REACTIVE_ENERGY_MIN and Message.RE_L_R < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_L_R", Message.RE_L_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_L_R : {Message.RE_L_R}")
+
+            # Control for Phase S Reactive Energy Leading
+            if Message.RE_L_S is not None and Message.RE_L_S > Limits.REACTIVE_ENERGY_MIN and Message.RE_L_S < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_L_S", Message.RE_L_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_L_S : {Message.RE_L_S}")
+
+            # Control for Phase T Reactive Energy Leading
+            if Message.RE_L_T is not None and Message.RE_L_T > Limits.REACTIVE_ENERGY_MIN and Message.RE_L_T < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_L_T", Message.RE_L_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_L_T : {Message.RE_L_T}")
+
+            # Control for Reactive Energy Leading Average
+            if Message.RE_L_A is not None and Message.RE_L_A > Limits.REACTIVE_ENERGY_MIN and Message.RE_L_A < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_L_A", Message.RE_L_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_L_A : {Message.RE_L_A}")
+
+            # Control for Total Reactive Energy Leading
+            if Message.RE_L_TOT is not None and Message.RE_L_TOT > Limits.REACTIVE_ENERGY_MIN and Message.RE_L_TOT < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_L_TOT", Message.RE_L_TOT)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_L_TOT : {Message.RE_L_TOT}")
+
+        # Control for Reactive Energy Lagging (Array)
+        if Message.RE_G is not None:
+
+            # Loop Through Measurements
+            for index, RE_G_Value in enumerate(Message.RE_G):
+
+                # Set Dynamic Variable Name
+                if index == 0: RE_G_Variable_Name = f"RE_G_R"
+                if index == 1: RE_G_Variable_Name = f"RE_G_S"
+                if index == 2: RE_G_Variable_Name = f"RE_G_T"
+                if index == 3: RE_G_Variable_Name = f"RE_G_A"
+                if index == 4: RE_G_Variable_Name = f"RE_G_TOT"
+
+                # Control for Limits
+                if RE_G_Variable_Name is not None and RE_G_Value > Limits.REACTIVE_ENERGY_MIN and RE_G_Value < Limits.REACTIVE_ENERGY_MAX:
+
+                    # Set ST
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, RE_G_Variable_Name, RE_G_Value)
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Data -> {RE_G_Variable_Name} : {RE_G_Value}")
+
+        # Control for Reactive Energy Lagging (Single)
+        else :
+
+            # Control for Phase R Reactive Energy Lagging
+            if Message.RE_G_R is not None and Message.RE_G_R > Limits.REACTIVE_ENERGY_MIN and Message.RE_G_R < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_G_R", Message.RE_G_R)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_G_R : {Message.RE_G_R}")
+
+            # Control for Phase S Reactive Energy Lagging
+            if Message.RE_G_S is not None and Message.RE_G_S > Limits.REACTIVE_ENERGY_MIN and Message.RE_G_S < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_G_S", Message.RE_G_S)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_G_S : {Message.RE_G_S}")
+
+            # Control for Phase T Reactive Energy Lagging
+            if Message.RE_G_T is not None and Message.RE_G_T > Limits.REACTIVE_ENERGY_MIN and Message.RE_G_T < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_G_T", Message.RE_G_T)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_G_T : {Message.RE_G_T}")
+
+            # Control for Reactive Energy Lagging Average
+            if Message.RE_G_A is not None and Message.RE_G_A > Limits.REACTIVE_ENERGY_MIN and Message.RE_G_A < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_G_A", Message.RE_G_A)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_G_A : {Message.RE_G_A}")
+
+            # Control for Total Reactive Energy Lagging
+            if Message.RE_G_TOT is not None and Message.RE_G_TOT > Limits.REACTIVE_ENERGY_MIN and Message.RE_G_TOT < Limits.REACTIVE_ENERGY_MAX:
+
+                # Set ST
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "RE_G_TOT", Message.RE_G_TOT)
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"New Data -> RE_G_TOT : {Message.RE_G_TOT}")
+
+        # Control for Frequency
+        if Message.FQ is not None and Message.FQ > Limits.FREQUENCY_MIN and Message.FQ < Limits.FREQUENCY_MAX:
+
+            # Set ST
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "FQ", Message.FQ)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Data -> FQ : {Message.FQ}")
+
+        # Control for MAX_TEMP Temperature
+        if Message.Max78630_T is not None and Message.Max78630_T > Limits.TEMPERATURE_MIN and Message.Max78630_T < Limits.TEMPERATURE_MAX:
+
+            # Set ST
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "Max78630_T", Message.Max78630_T)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Data -> Max78630_T : {Message.Max78630_T}")
 
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()

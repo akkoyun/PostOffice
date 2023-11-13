@@ -275,7 +275,7 @@ Type_ID,Description,Variable,Unit,Segment
 6223,Phase T Reactive Energy Lagging,RE_G_T,kVARh,6
 6224,Reactive Energy Lagging Average,RE_G_A,kVARh,6
 6225,Total Lagging Reactive Energy,RE_G_TOT,kVARh,6
-6230,Chip Temperature,MAX_TEMP,C,6
+6230,Chip Temperature,Max78630_T,C,6
 6900,Actual samples in previous accumulation interval,MAX_DIVISOR,-,6
 6901,High-rate sample counter,MAX_CYCLE,-,6
 6902,Low-rate sample counter,MAX_FRAME,-,6
