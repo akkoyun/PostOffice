@@ -336,6 +336,9 @@ def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Valu
         # Read Type_ID
         Type_ID = Query_Type_ID.Type_ID
 
+        # Read Type_Unit
+        Type_Unit = Query_Type_ID.Unit
+
         # Create New Payload Measurement
         New_Measurement = Models.Payload(
             Stream_ID = Stream_ID,
@@ -357,7 +360,7 @@ def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Valu
     DB_Module.close()
 
     # Set Log Message
-    Message = f"--> [\33[36m{Parameter:^10}\33[0m] - [\33[36m{Value}\33[0m]"
+    Message = f"[\33[36m{Parameter:^10}\33[0m] - \33[36m{Value}\33[0m {Type_Unit}"
 
     # Log Message
     Log.Terminal_Log("INFO", Message=Message)
