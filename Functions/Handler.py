@@ -368,7 +368,6 @@ def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Valu
     # Log Message
     Log.Terminal_Log("INFO", Message=Message)
 
-
 # Get Device Last Connection Time
 def Get_Device_Last_Connection(Device_ID: str):
 

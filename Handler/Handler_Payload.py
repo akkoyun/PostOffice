@@ -8,7 +8,7 @@ from Setup.Config import Payload_Limits as Limits
 from Functions import Kafka, Log, Handler
 
 # Log Message
-Log.Terminal_Log("INFO", f"***********************************************************************************")
+Log.Terminal_Log("INFO", f"*****************************")
 
 # Try to Parse Topics
 try:
@@ -31,6 +31,7 @@ try:
 
         # Log Message
         Log.Terminal_Log("INFO", f"New Data Received: {RAW_Headers.Device_ID}")
+        Log.Terminal_Log("INFO", f"************************************")
 
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)
@@ -46,6 +47,9 @@ try:
 
         # Control for PCB Humidity
         if Message.PCB_H is not None and Message.PCB_H > Limits.PCB_HUMIDITY_MIN and Message.PCB_H < Limits.PCB_HUMIDITY_MAX: Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PCB_H", Message.PCB_H)
+
+        # Log Message
+        Log.Terminal_Log("INFO", f"------------------------------------")
 
         # WeatherStat Payloads
 
@@ -114,6 +118,9 @@ try:
 
                 # Control for ST
                 if ST_Value > Limits.ST_MIN and ST_Value < Limits.ST_MAX: Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, ST_Variable_Name, ST_Value)
+
+        # Log Message
+        Log.Terminal_Log("INFO", f"------------------------------------")
 
         # PowerStat Payloads
 
@@ -637,7 +644,7 @@ try:
         Kafka.Payload_Consumer.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"***********************************************************************************")
+        Log.Terminal_Log("INFO", f"------------------------------------")
 
 finally:
 
