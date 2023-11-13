@@ -177,7 +177,7 @@ Type_ID,Description,Variable,Unit,Segment
 6022,Phase S RMS Voltage,VRMS_S,V,6
 6023,Phase T RMS Voltage,VRMS_T,V,6
 6024,RMS Voltage Average,VRMS_A,V,6
-6030,Fundamental Voltage,VF,V,6
+6030,Fundamental Voltage,VFun,V,6
 6031,Phase R Fundamental Voltage,VFun_R,V,6
 6032,Phase S Fundamental Voltage,VFun_S,V,6
 6033,Phase T Fundamental Voltage,VFun_T,V,6
@@ -202,7 +202,7 @@ Type_ID,Description,Variable,Unit,Segment
 6072,Phase S RMS Current,IRMS_S,A,6
 6073,Phase T RMS Current,IRMS_T,A,6
 6074,RMS Current Average,IRMS_A,A,6
-6080,Fundamental Current,IF,A,6
+6080,Fundamental Current,IFun,A,6
 6081,Phase R Fundamental Current,IFun_R,A,6
 6082,Phase S Fundamental Current,IFun_S,A,6
 6083,Phase T Fundamental Current,IFun_T,A,6
