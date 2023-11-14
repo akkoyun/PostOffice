@@ -9,39 +9,27 @@ import sys
 from Functions import Log
 import pandas as pd
 
-# Define Data Files URL
-Data_Segment_URL = "https://raw.githubusercontent.com/akkoyun/Standartlar/main/PostOffice/Data/Data_Segment.csv"
-
-
-
-
-
-
-
 # Import Data_Segment Data
 def Import_Data_Segment(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New Data_Segment Table..")
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_Segment_URL)
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error: {e}")
-
-        # Exit
-        exit()
 
     # New Count
     New_Count = 0
 
     try:
-        
+
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_DATA_SEGMENT)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
+
         # Rename Columns
         Data_File.columns = ['Segment_ID', 'Description']
 
@@ -84,47 +72,40 @@ def Import_Data_Segment(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Data_Segment: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New Data Segment Recorded.")
         print(f"[{New_Count}] New Data Segment Recorded.")
     else:
-        Log.Terminal_Log("DEBUG", f"Data_Segment is up to date")
         print(f"Data_Segment is up to date")
-
-
-
-
-
-
-
-
-
 
 # Import Operator Data
 def Import_GSM_Operator(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Control for New GSM Operator..")
 
     # New Operator Count
     New_Operator_Count = 0
 
     try:
 
-        # Read Operator File
-        Operator_Data_File = pd.read_csv(f"{APP_Settings.FILE_GSM_OPERATOR}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_GSM_OPERATOR)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
-        Operator_Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'MNC_Operator_Image_URL']
+        Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'MNC_Operator_Image_URL']
 
         # Add Record to DataBase
-        for index, row in Operator_Data_File.iterrows():
+        for index, row in Data_File.iterrows():
 
             # Check for Existing MCC_ID and MNC_ID
             Query_Operator = DB_Module.query(Models.GSM_Operator).filter(Models.GSM_Operator.MCC_ID==int(row['MCC_ID'])).filter(Models.GSM_Operator.MNC_ID==int(row['MNC_ID'])).first()
@@ -169,35 +150,34 @@ def Import_GSM_Operator(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Operator: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Operator_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Operator_Count}] New GSM Operator Recorded.")
-
+        print(f"[{New_Operator_Count}] New GSM Operator Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"GSM Operator is up to date")
+        print(f"GSM Operator is up to date")
 
 # Import Status Data
 def Import_Status(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New Status Table..")
 
     # New Count
     New_Count = 0
 
     try:
 
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_STATUS}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_STATUS)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
         Data_File.columns = ['Status_ID', 'Description']
@@ -241,35 +221,34 @@ def Import_Status(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Status: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New Status Recorded.")
-
+        print(f"[{New_Count}] New Status Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"Status is up to date")
+        print(f"Status is up to date")
 
 # Import Version Data
 def Import_Version(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New Version Table..")
 
     # New Count
     New_Count = 0
 
     try:
 
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_VERSION}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_VERSION)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
         Data_File.columns = ['Version_ID', 'Firmware']
@@ -313,35 +292,34 @@ def Import_Version(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Version: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New Version Recorded.")
-
+        print(f"[{New_Count}] New Version Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"Version is up to date")
+        print(f"Version is up to date")
 
 # Import Model Data
 def Import_Model(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New Model Table..")
 
     # New Count
     New_Count = 0
 
     try:
 
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_MODEL}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_MODEL)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
         Data_File.columns = ['Model_ID', 'Model']
@@ -385,35 +363,34 @@ def Import_Model(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Model: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New Model Recorded.")
-
+        print(f"[{New_Count}] New Model Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"Model is up to date")
+        print(f"Model is up to date")
 
 # Import Manufacturer Data
 def Import_Manufacturer(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New Manufacturer Table..")
 
     # New Count
     New_Count = 0
 
     try:
 
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_MANUFACTURER}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_MANUFACTURER)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
         Data_File.columns = ['Manufacturer_ID', 'Manufacturer']
@@ -457,35 +434,34 @@ def Import_Manufacturer(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Manufacturer: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New Manufacturer Recorded.")
-
+        print(f"[{New_Count}] New Manufacturer Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"Manufacturer is up to date")
+        print(f"Manufacturer is up to date")
 
 # Import Modem Data
 def Import_Modem(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New Modem Table..")
 
     # New Count
     New_Count = 0
 
     try:
 
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_MODEM}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_MODEM)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
         Data_File.columns = ['IMEI', 'Model_ID', 'Manufacturer_ID']
@@ -530,35 +506,34 @@ def Import_Modem(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Modem: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New Modem Recorded.")
-
+        print(f"[{New_Count}] New Modem Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"Modem is up to date")
+        print(f"Modem is up to date")
 
 # Import Device Data
 def Import_Device(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New Device Table..")
 
     # New Count
     New_Count = 0
 
     try:
 
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_DEVICE}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_DEVICE)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
         Data_File.columns = ['Device_ID', 'Status_ID', 'Version_ID', 'Model_ID', 'IMEI']
@@ -605,35 +580,34 @@ def Import_Device(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New Device Recorded.")
-
+        print(f"[{New_Count}] New Device Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"Device is up to date")
+        print(f"Device is up to date")
 
 # Import Data_Type Data
 def Import_Data_Type(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New Data_Type Table..")
 
     # New Count
     New_Count = 0
 
     try:
 
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_MEASUREMENT_TYPE}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_MEASUREMENT_TYPE)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
         Data_File.columns = ['Type_ID', 'Description', 'Variable', 'Unit', 'Segment']
@@ -680,35 +654,34 @@ def Import_Data_Type(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding Data_Type: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New Data_Type Recorded.")
-
+        print(f"[{New_Count}] New Data_Type Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"Data_Type is up to date")
+        print(f"Data_Type is up to date")
 
 # Import SIM Data
 def Import_SIM(DB_Module):
-
-    # Log Message
-    Log.Terminal_Log("DEBUG", f"Updating New SIM Table..")
 
     # New Count
     New_Count = 0
 
     try:
 
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_SIM}", skiprows=1, header=None)
+        # Download Data File
+        try:
+            
+            # Download Data File
+            Data_File = pd.read_csv(APP_Settings.FILE_SIM)
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+            # Exit
+            exit()
         
         # Rename Columns
         Data_File.columns = ['SIM_ICCID', 'MCC_ID', 'MNC_ID', 'SIM_Number', 'SIM_Static_IP']
@@ -754,21 +727,13 @@ def Import_SIM(DB_Module):
                     DB_Module.rollback()
 
     # Catch Errors
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"An error occurred while adding SIM: {e}")
+    except Exception as e: print(e)
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"[{New_Count}] New SIM Recorded.")
-
+        print(f"[{New_Count}] New SIM Recorded.")
     else:
-
-        # Log Message
-        Log.Terminal_Log("DEBUG", f"SIM is up to date")
+        print(f"SIM is up to date")
 
 # Define DB
 DB_Module = Database.SessionLocal()
