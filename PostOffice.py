@@ -108,7 +108,7 @@ def Root(request: Request):
 	# Send Success
 	return {
 		"Service": "PostOffice", 
-		"Version": "02.00.00", 
+		"Version": PostOffice.openapi()["info"]["version"],
 		"Status": {
 			"PostOffice": PostOffice_State, 
 			"RAW_Handler": RAW_Handler_State,
