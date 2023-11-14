@@ -9,19 +9,38 @@ import sys
 from Functions import Log
 import pandas as pd
 
+# Define Data Files URL
+Data_Segment_URL = "https://raw.githubusercontent.com/akkoyun/Standartlar/main/PostOffice/Data/Data_Segment.csv"
+
+
+
+
+
+
+
 # Import Data_Segment Data
 def Import_Data_Segment(DB_Module):
 
     # Log Message
     Log.Terminal_Log("DEBUG", f"Updating New Data_Segment Table..")
 
+    # Download Data File
+    try:
+        
+        # Download Data File
+        Data_File = pd.read_csv(Data_Segment_URL)
+    except Exception as e:
+
+        # Log Message
+        Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+        # Exit
+        exit()
+
     # New Count
     New_Count = 0
 
     try:
-
-        # Read File
-        Data_File = pd.read_csv(f"{APP_Settings.FILE_DATA_SEGMENT}", skiprows=1, header=None)
         
         # Rename Columns
         Data_File.columns = ['Segment_ID', 'Description']
@@ -72,14 +91,18 @@ def Import_Data_Segment(DB_Module):
 
     # Log Message
     if New_Count > 0:
-        
-        # Log Message
         Log.Terminal_Log("DEBUG", f"[{New_Count}] New Data Segment Recorded.")
-
     else:
-
-        # Log Message
         Log.Terminal_Log("DEBUG", f"Data_Segment is up to date")
+
+
+
+
+
+
+
+
+
 
 # Import Operator Data
 def Import_GSM_Operator(DB_Module):

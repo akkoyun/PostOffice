@@ -100,11 +100,6 @@ def Root(request: Request):
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
 
-	PostOffice_State = Functions.Get_Service_Status("PostOffice")
-	RAW_Handler_State = Functions.Get_Service_Status("Handler_RAW")
-	Parameter_Handler_State = Functions.Get_Service_Status("Handler_Parameter")
-	Payload_Handler_State = Functions.Get_Service_Status("Handler_Payload")
-
 	# Send Success
 	return {
 		"Service": PostOffice.openapi()["info"]["title"],
