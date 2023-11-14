@@ -1,14 +1,15 @@
+# Setup Library
+import sys
+sys.path.append('/root/PostOffice/')
+
 # Importing required modules
 import sys
 import time
 import psutil
 
-# Adding PostOffice to sys.path
-sys.path.append('/root/PostOffice/')
-
 # Importing required modules
 from Setup import Database, Models
-from Functions import Functions as Functions, Kafka, Log
+from Functions import Log
 
 # Define Services to Track
 Services_To_Track = ['PostOffice', 'Handler_RAW', 'Handler_Parameter', 'Handler_Payload']
