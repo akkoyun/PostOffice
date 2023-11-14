@@ -58,7 +58,7 @@ try:
         Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "UV", Message.UV)
         Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "WD", Message.WD)
         Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "WS", Message.WS)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "R", (Message.R / 200))
+        if Message.R is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "R", (Message.R / 200))
         if Message.ST is not None:
 
             # Loop Through Measurements
