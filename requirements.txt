@@ -103,7 +103,6 @@ tomli==2.0.1
 Twisted==22.1.0
 typing_extensions==4.8.0
 tzdata==2023.3
-ufw==0.36.1
 ujson==5.6.0
 unattended-upgrades==0.1
 urllib3==1.26.13
