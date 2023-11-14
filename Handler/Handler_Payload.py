@@ -72,16 +72,16 @@ try:
         else:
 
             # Control for ST
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_0", Message.ST_0)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_1", Message.ST_1)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_2", Message.ST_2)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_3", Message.ST_3)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_4", Message.ST_4)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_5", Message.ST_5)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_6", Message.ST_6)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_7", Message.ST_7)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_8", Message.ST_8)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST_9", Message.ST_9)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST0", Message.ST_0)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST1", Message.ST_1)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST2", Message.ST_2)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST3", Message.ST_3)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST4", Message.ST_4)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST5", Message.ST_5)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST6", Message.ST_6)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST7", Message.ST_7)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST8", Message.ST_8)
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST9", Message.ST_9)
 
         # Log Message
         Log.Terminal_Log("INFO", f"------------------------------------")
