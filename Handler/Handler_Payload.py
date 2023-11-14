@@ -4,7 +4,6 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database
-from Setup.Config import Payload_Limits as Limits
 from Functions import Kafka, Log, Handler
 
 # Log Message
