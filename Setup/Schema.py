@@ -306,8 +306,20 @@ class Payload(CustomBaseModel):
 	# Last Measured UV Value
 	UV: Optional[float] = Field(description="UV index.", example=2.12, min=Limits.UV_MIN, max=Limits.UV_MAX)
 
-	# Last Measured Soil Temperature Value
+	# Last Measured Soil Temperature Value (Array)
 	ST: Optional[list[Optional[float]]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=0, max_items=10, min=Limits.ST_MIN, max=Limits.ST_MAX)
+
+	# Last Measured Soil Temperature Value (Single)
+	ST_0: Optional[float] = Field(description="10 cm Soil temperature.", example=28.12)
+	ST_1: Optional[float] = Field(description="20 cm Soil temperature.", example=27.12)
+	ST_2: Optional[float] = Field(description="30 cm Soil temperature.", example=26.12)
+	ST_3: Optional[float] = Field(description="40 cm Soil temperature.", example=25.12)
+	ST_4: Optional[float] = Field(description="50 cm Soil temperature.", example=24.12)
+	ST_5: Optional[float] = Field(description="60 cm Soil temperature.", example=23.12)
+	ST_6: Optional[float] = Field(description="70 cm Soil temperature.", example=22.12)
+	ST_7: Optional[float] = Field(description="80 cm Soil temperature.", example=21.12)
+	ST_8: Optional[float] = Field(description="90 cm Soil temperature.", example=20.12)
+	ST_9: Optional[float] = Field(description="100 cm Soil temperature.", example=19.12)
 
 	# Last Measured Rain Value
 	R: Optional[int] = Field(description="Rain tip counter.", example=23, min=Limits.R_MIN, max=Limits.R_MAX)

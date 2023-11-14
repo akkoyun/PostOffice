@@ -321,52 +321,55 @@ def Parameter_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Va
 # Payload Recorder
 def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Value):
 
-    # Declare Type_ID
-    Type_ID = 0
+    # Control for Parameter
+    if Value is not None:
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
+        # Declare Type_ID
+        Type_ID = 0
 
-    # Control for Type_ID
-    Query_Type_ID = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Parameter)).first()
+        # Define DB
+        DB_Module = Database.SessionLocal()
 
-    # Type_ID not in Database
-    if Query_Type_ID:
+        # Control for Type_ID
+        Query_Type_ID = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Parameter)).first()
 
-        # Read Type_ID
-        Type_ID = Query_Type_ID.Type_ID
+        # Type_ID not in Database
+        if Query_Type_ID:
 
-        # Read Type_Unit
-        Type_Unit = Query_Type_ID.Unit
+            # Read Type_ID
+            Type_ID = Query_Type_ID.Type_ID
 
-        # Handle Unit
-        if Type_Unit == "-" : Type_Unit = ""
+            # Read Type_Unit
+            Type_Unit = Query_Type_ID.Unit
 
-        # Create New Payload Measurement
-        New_Measurement = Models.Payload(
-            Stream_ID = Stream_ID,
-            Type_ID = Type_ID,
-            Value = Value,
-            Create_Time = Device_Time
-        )
-            
-        # Add Record to DataBase
-        DB_Module.add(New_Measurement)
+            # Handle Unit
+            if Type_Unit == "-" : Type_Unit = ""
 
-        # Commit DataBase
-        DB_Module.commit()
+            # Create New Payload Measurement
+            New_Measurement = Models.Payload(
+                Stream_ID = Stream_ID,
+                Type_ID = Type_ID,
+                Value = Value,
+                Create_Time = Device_Time
+            )
+                
+            # Add Record to DataBase
+            DB_Module.add(New_Measurement)
 
-        # Refresh DataBase
-        DB_Module.refresh(New_Measurement)
+            # Commit DataBase
+            DB_Module.commit()
 
-    # Close Database
-    DB_Module.close()
+            # Refresh DataBase
+            DB_Module.refresh(New_Measurement)
 
-    # Set Log Message
-    Message = f"[{Parameter:^8}] - {Value:^7} {Type_Unit}"
+        # Close Database
+        DB_Module.close()
 
-    # Log Message
-    Log.Terminal_Log("INFO", Message=Message)
+        # Set Log Message
+        Message = f"[{Parameter:^8}] - {Value:^7} {Type_Unit}"
+
+        # Log Message
+        Log.Terminal_Log("INFO", Message=Message)
 
 # Get Device Last Connection Time
 def Get_Device_Last_Connection(Device_ID: str):
@@ -454,54 +457,60 @@ def Get_Payload_Measurement(Device_ID: str, Variable: str):
 # AT_FL Calculator
 def FL_Calculator(Temperature: float, Humidity: float):
 
-    try:
+    # Control for None
+    if Temperature is not None and Humidity is not None:
 
-        # Control for Temperature
-        Temperature_F = (Temperature * 9/5) + 32
+        try:
 
-        # Constants
-        c1 = -42.379
-        c2 = 2.04901523
-        c3 = 10.14333127
-        c4 = -0.22475541
-        c5 = -6.83783e-3
-        c6 = -5.481717e-2
-        c7 = 1.22874e-3
-        c8 = 8.5282e-4
-        c9 = -1.99e-6
+            # Control for Temperature
+            Temperature_F = (Temperature * 9/5) + 32
 
-        # AT Feel Like Calculation
-        HI_fahrenheit = (c1 + (c2 * Temperature_F) + (c3 * Humidity) + (c4 * Temperature_F * Humidity) + (c5 * Temperature_F**2) + (c6 * Humidity**2) + (c7 * Temperature_F**2 * Humidity) + (c8 * Temperature_F * Humidity**2) + (c9 * Temperature_F**2 * Humidity**2))
+            # Constants
+            c1 = -42.379
+            c2 = 2.04901523
+            c3 = 10.14333127
+            c4 = -0.22475541
+            c5 = -6.83783e-3
+            c6 = -5.481717e-2
+            c7 = 1.22874e-3
+            c8 = 8.5282e-4
+            c9 = -1.99e-6
 
-        # Isı indeksini Fahrenheit'ten Celsius'a çevirme
-        HI_celsius = (HI_fahrenheit - 32) * 5/9
+            # AT Feel Like Calculation
+            HI_fahrenheit = (c1 + (c2 * Temperature_F) + (c3 * Humidity) + (c4 * Temperature_F * Humidity) + (c5 * Temperature_F**2) + (c6 * Humidity**2) + (c7 * Temperature_F**2 * Humidity) + (c8 * Temperature_F * Humidity**2) + (c9 * Temperature_F**2 * Humidity**2))
 
-        return HI_celsius
+            # Isı indeksini Fahrenheit'ten Celsius'a çevirme
+            HI_celsius = (HI_fahrenheit - 32) * 5/9
 
-    except:
+            return HI_celsius
 
-        # Return None
-        return None
+        except:
+
+            # Return None
+            return None
 
 # Dew Point Calculator
 def Dew_Calculator(Temperature: float, Humidity: float):
 
-    try:
+    # Control for None
+    if Temperature is not None and Humidity is not None:
 
-        # Constants
-        a = 17.27
-        b = 237.7
+        try:
 
-        # Alpha Calculation
-        alpha = ((a * Temperature) / (b + Temperature)) + math.log(Humidity/100.0)
-        
-        # Dew Point Calculation
-        dew_point = (b * alpha) / (a - alpha)
+            # Constants
+            a = 17.27
+            b = 237.7
 
-        # Return Dew Point
-        return dew_point
+            # Alpha Calculation
+            alpha = ((a * Temperature) / (b + Temperature)) + math.log(Humidity/100.0)
+            
+            # Dew Point Calculation
+            dew_point = (b * alpha) / (a - alpha)
 
-    except:
+            # Return Dew Point
+            return dew_point
 
-        # Return None
-        return None
+        except:
+
+            # Return None
+            return None
