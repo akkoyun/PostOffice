@@ -366,6 +366,9 @@ def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Valu
         # Close Database
         DB_Module.close()
 
+        # Round Value
+        Value = round(Value, 5)
+
         # Set Log Message
         Message = f"[{Parameter:^8}] - {Value:^7} {Type_Unit}"
 
