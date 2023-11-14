@@ -68,7 +68,7 @@ try:
                 ST_Variable_Name = f"ST{index}"
 
                 # Control for ST
-                if ST_Value > Limits.ST_MIN and ST_Value < Limits.ST_MAX: Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, ST_Variable_Name, ST_Value)
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, ST_Variable_Name, ST_Value)
         else:
 
             # Control for ST

@@ -324,8 +324,9 @@ def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Valu
     # Control for Parameter
     if Value is not None:
 
-        # Declare Type_ID
+        # Declare Variables
         Type_ID = 0
+        Type_Unit = "-"
 
         # Define DB
         DB_Module = Database.SessionLocal()
