@@ -1,5 +1,5 @@
 # Library Includes
-from Functions import Log, Kafka, Handler
+from Functions import Log, Kafka, Handler, Functions
 from Setup import Database, Models, Schema, App_Schema
 from Setup.Config import APP_Settings
 from fastapi import FastAPI, Request, status
@@ -100,14 +100,20 @@ def Root(request: Request):
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
 
+	PostOffice_State = Functions.Get_Service_Status("PostOffice")
+	RAW_Handler_State = Functions.Get_Service_Status("Handler_RAW")
+	Parameter_Handler_State = Functions.Get_Service_Status("Handler_Parameter")
+	Payload_Handler_State = Functions.Get_Service_Status("Handler_Payload")
+
 	# Send Success
 	return {
 		"Service": "PostOffice", 
 		"Version": "02.00.00", 
 		"Status": {
-			"PostOffice": 0, 
-			"RAW_Handler": 0, 
-			"Payload_Handler": 0
+			"PostOffice": PostOffice_State, 
+			"RAW_Handler": RAW_Handler_State,
+			"Parameter_Handler": Parameter_Handler_State,
+			"Payload_Handler": Payload_Handler_State,
 		}
 	}
 
