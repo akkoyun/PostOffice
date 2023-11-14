@@ -116,8 +116,8 @@ Copy_File "/root/PostOffice/Docs/Service/Handler_Payload.service" "/etc/systemd/
 Copy_File "/root/PostOffice/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
 
 # Coppy Admin Files
-rm -r "/var/www/admin/*"
-cp -r "/root/PostOffice/Admin/*" "/var/www/admin/"
+rm -r /var/www/admin/*
+cp -r /root/PostOffice/Admin/* /var/www/admin/
 
 # Copy SH Batch Files
 Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
