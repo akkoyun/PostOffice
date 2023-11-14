@@ -107,13 +107,13 @@ def Root(request: Request):
 
 	# Send Success
 	return {
-		"Service": "PostOffice", 
+		"Service": PostOffice.openapi()["info"]["title"],
 		"Version": PostOffice.openapi()["info"]["version"],
 		"Status": {
-			"PostOffice": PostOffice_State, 
-			"RAW_Handler": RAW_Handler_State,
-			"Parameter_Handler": Parameter_Handler_State,
-			"Payload_Handler": Payload_Handler_State,
+			"Hardware_API": Functions.Get_Service_Status("PostOffice"), 
+			"RAW Service": Functions.Get_Service_Status("Handler_RAW"),
+			"Parameter Service": Functions.Get_Service_Status("Handler_Parameter"),
+			"Payload Service": Functions.Get_Service_Status("Handler_Payload")
 		}
 	}
 
