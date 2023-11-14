@@ -114,6 +114,7 @@ Copy_File "/root/PostOffice/Docs/Service/Handler_RAW.service" "/etc/systemd/syst
 Copy_File "/root/PostOffice/Docs/Service/Handler_Parameter.service" "/etc/systemd/system/Handler_Parameter.service"
 Copy_File "/root/PostOffice/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
 Copy_File "/root/PostOffice/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
+cp -r /root/PostOffice/Admin/* /var/www/html/
 
 # Copy SH Batch Files
 Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
