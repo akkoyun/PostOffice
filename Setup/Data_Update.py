@@ -92,8 +92,10 @@ def Import_Data_Segment(DB_Module):
     # Log Message
     if New_Count > 0:
         Log.Terminal_Log("DEBUG", f"[{New_Count}] New Data Segment Recorded.")
+        print(f"[{New_Count}] New Data Segment Recorded.")
     else:
         Log.Terminal_Log("DEBUG", f"Data_Segment is up to date")
+        print(f"Data_Segment is up to date")
 
 
 
