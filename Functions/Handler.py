@@ -25,13 +25,10 @@ class Measurement:
         self.Max_Time = Max_Time
 
 # Control for Device in Database
-def Control_Device(Device_ID: str):
+def Control_Device(DB_Module, Device_ID: str):
 
     # Define Device Status
     Device_Status = False
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
 
     # Control Device in Database
     Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
@@ -48,17 +45,11 @@ def Control_Device(Device_ID: str):
         # Set Device Status
         Device_Status = True
 
-    # Close Database
-    DB_Module.close()
-
     # Return Device Status
     return Device_Status
 
 # Update Device Last_Connection in Database
-def Update_Device_Last_Connection(Device_ID: str):
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
+def Update_Device_Last_Connection(DB_Module, Device_ID: str):
 
     # Control Device in Database
     Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
@@ -69,17 +60,11 @@ def Update_Device_Last_Connection(Device_ID: str):
     # Commit DataBase
     DB_Module.commit()
 
-    # Close Database
-    DB_Module.close()
-
     # Return
     return
 
 # Add Device to Database
-def Add_Device(Device_ID: str, Version_ID: int, IMEI: str):
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
+def Add_Device(DB_Module, Device_ID: str, Version_ID: int, IMEI: str):
 
     # Control Device From Table
     Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
@@ -105,17 +90,11 @@ def Add_Device(Device_ID: str, Version_ID: int, IMEI: str):
         # Refresh DataBase
         DB_Module.refresh(New_Device)
 
-    # Close Database
-    DB_Module.close()
-
 # Control for Version in Database
-def Control_Version(Device_ID: str, Version: str):
+def Control_Version(DB_Module, Device_ID: str, Version: str):
 
     # Define Version_ID
     Version_ID = 0
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
 
     # Control Version in Database
     Query_Version = DB_Module.query(Models.Version).filter(Models.Version.Firmware.like(Version)).filter(Models.Version.Device_ID.like(Device_ID)).first()
@@ -147,14 +126,11 @@ def Control_Version(Device_ID: str, Version: str):
         # Read Version_ID
         Version_ID = Query_Version.Version_ID
 
-    # Close Database
-    DB_Module.close()
-
     # Return Version_ID
     return Version_ID
 
 # Update Device Version in Database
-def Update_Version(Device_ID: str, Version_ID: int):
+def Update_Version(DB_Module, Device_ID: str, Version_ID: int):
 
     # Define DB
     DB_Module = Database.SessionLocal()
@@ -178,13 +154,10 @@ def Update_Version(Device_ID: str, Version_ID: int):
     DB_Module.close()
 
 # Control for Modem in Database
-def Control_Modem(IMEI: str, Firmware: str = None):
+def Control_Modem(DB_Module, IMEI: str, Firmware: str = None):
 
     # Define Modem Status
     Modem_Status = False
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
 
     # Control Modem in Database
     Query_Modem = DB_Module.query(Models.Modem).filter(Models.Modem.IMEI.like(IMEI)).first()
@@ -227,20 +200,14 @@ def Control_Modem(IMEI: str, Firmware: str = None):
         # Set Modem Status
         Modem_Status = False
 
-    # Close Database
-    DB_Module.close()
-
     # Return Modem Status
     return Modem_Status
 
 # Control for SIM in Database
-def Control_SIM(ICCID: str):
+def Control_SIM(DB_Module, ICCID: str):
 
     # Define SIM Status
     SIM_Status = False
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
 
     # Control SIM in Database
     Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.ICCID.like(ICCID)).first()
@@ -273,9 +240,6 @@ def Control_SIM(ICCID: str):
 
         # Set Modem Status
         SIM_Status = False
-
-    # Close Database
-    DB_Module.close()
 
     # Return SIM Status
     return SIM_Status

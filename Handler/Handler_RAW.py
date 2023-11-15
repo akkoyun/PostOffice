@@ -33,16 +33,16 @@ try:
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
         # Control for Device
-        Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)
+        Device_Existance = Handler.Control_Device(DB_Module, RAW_Headers.Device_ID)
 
         # Control for Version
-        Version_ID = Handler.Control_Version(RAW_Headers.Device_ID, Message.Info.Firmware)
+        Version_ID = Handler.Control_Version(DB_Module, RAW_Headers.Device_ID, Message.Info.Firmware)
 
         # Control for Modem
-        Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
+        Modem_Existance = Handler.Control_Modem(DB_Module, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
         # Control for SIM
-        SIM_Existance = Handler.Control_SIM(Message.Device.IoT.ICCID)
+        SIM_Existance = Handler.Control_SIM(DB_Module, Message.Device.IoT.ICCID)
 
         # Declare Log Messages
         Modem_Status = "New" if Modem_Existance else "Old"
@@ -55,7 +55,7 @@ try:
             Log.Terminal_Log("INFO", f"Device Found: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Status}] / {Message.Device.IoT.ICCID} [{SIM_Status}]")
 
             # Control for Version at Device
-            Handler.Update_Version(RAW_Headers.Device_ID, Version_ID)
+            Handler.Update_Version(DB_Module, RAW_Headers.Device_ID, Version_ID)
 
         # Device Not Found
         else:
@@ -64,10 +64,10 @@ try:
             Log.Terminal_Log("INFO", f"New Device: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Status}] / {Message.Device.IoT.ICCID} [{SIM_Status}]")
 
             # Add Device
-            Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
+            Handler.Add_Device(DB_Module, RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
 
         # Update Device Last Connection
-        Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
+        Handler.Update_Device_Last_Connection(DB_Module, RAW_Headers.Device_ID)
 
         # Create New Stream
         New_Stream = Models.Stream(
