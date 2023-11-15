@@ -28,13 +28,6 @@ class CustomFormatter(logging.Formatter):
         formatter = logging.Formatter(log_fmt, style='{')
         return formatter.format(record)
 
-# Kafka Filter
-class KafkaFilter(logging.Filter):
-    def filter(self, record):
-        if "kafka" in record.getMessage().lower():
-            return False
-        return True
-    
 # Set Handler
 Handler = logging.StreamHandler()
 Handler.setFormatter(CustomFormatter())
@@ -49,10 +42,6 @@ File_Handler.setFormatter(SimpleFormatter())
 
 # Set Logger
 Logger = logging.getLogger('PostOffice')
-
-# Add Kafka Filter
-kafka_filter = KafkaFilter()
-Logger.addFilter(kafka_filter)
 
 # Add File Handler
 Logger.addHandler(File_Handler)
