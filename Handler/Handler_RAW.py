@@ -109,10 +109,14 @@ try:
         # Log Message
         Log.Terminal_Log("INFO", f"***********************************************************************************")
 
-finally:
+# Exception
+except Exception as e:
 
     # Log Message
-    Log.Terminal_Log("ERROR", f"Handle Error - {datetime.now()}")
+    Log.Terminal_Log("ERROR", f"Handle Error - {e}")
+
+# Finally
+finally:
 
     # Close Database
     DB_Module.close()
