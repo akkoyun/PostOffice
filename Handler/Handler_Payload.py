@@ -29,7 +29,7 @@ try:
         Log.Terminal_Log("INFO", f"----------  Payloads  ----------")
 
         # Convert Device Time (str) to datetime
-        Device_Time = Device_Time.replace("T", " ").replace("Z", "")
+        Device_Time = RAW_Headers.Device_Time.replace("T", " ").replace("Z", "")
 
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)
