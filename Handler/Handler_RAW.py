@@ -89,11 +89,14 @@ try:
         # Refresh DataBase
         DB_Module.refresh(New_Stream)
 
+        # Set Device Time
+        Device_Time = datetime.strptime(RAW_Headers.Device_Time, "%Y-%m-%d %H:%M:%S")
+
         # Set headers
         New_Header = [
             ("Command", bytes(RAW_Headers.Command, 'utf-8')), 
             ("Device_ID", bytes(RAW_Headers.Device_ID, 'utf-8')),
-            ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
+            ("Device_Time", bytes(str(Device_Time), 'utf-8')), 
             ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
             ("Size", bytes(RAW_Headers.Size, 'utf-8')),
             ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
