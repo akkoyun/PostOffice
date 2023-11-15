@@ -70,7 +70,7 @@ try:
         Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
 
         # Convert Device Time (str) to datetime
-        Device_Time = Message.Info.TimeStamp.isoformat()
+        Device_Time = Message.Info.TimeStamp.replace("T", " ").replace("Z", "")
 
         # Create New Stream
         New_Stream = Models.Stream(
@@ -79,7 +79,7 @@ try:
             Client_IP = RAW_Headers.Device_IP,
             Size = RAW_Headers.Size,
             RAW_Data = Message.dict(),
-            Device_Time = Device_Time,
+            Device_Time = Device_Time.isoformat(),
             Stream_Time = datetime.now()
         )
 
