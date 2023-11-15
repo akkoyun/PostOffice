@@ -133,7 +133,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Kafka.Send_To_Topic("RAW", Data.json(), RAW_Header)
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"****************************************")
+	Log.Terminal_Log("INFO", f"-----------------------------------------------")
 
 	# Message Status Code
 	Message_Status_Code = status.HTTP_200_OK

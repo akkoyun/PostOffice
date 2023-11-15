@@ -6,9 +6,6 @@ sys.path.append('/root/PostOffice/')
 from Setup import Database
 from Functions import Kafka, Log, Handler
 
-# Log Message
-Log.Terminal_Log("INFO", f"*****************************")
-
 # Try to Parse Topics
 try:
 
@@ -29,8 +26,7 @@ try:
         )
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New Data Received: {RAW_Headers.Device_ID}")
-        Log.Terminal_Log("INFO", f"************************************")
+        Log.Terminal_Log("INFO", f"---------- Payloads ----------")
 
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)
@@ -42,9 +38,6 @@ try:
         # Control for PCB Initial Measurements
         Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PCB_T", Message.PCB_T)
         Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "PCB_H", Message.PCB_H)
-
-        # Log Message
-        Log.Terminal_Log("INFO", f"------------------------------------")
 
         # WeatherStat Payloads
         Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "AT", Message.AT)
@@ -81,9 +74,6 @@ try:
             Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST7", Message.ST_7)
             Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST8", Message.ST_8)
             Handler.Payload_Recorder(RAW_Headers.Stream_ID, RAW_Headers.Device_Time, "ST9", Message.ST_9)
-
-        # Log Message
-        Log.Terminal_Log("INFO", f"------------------------------------")
 
         # PowerStat Payloads
         if Message.V is not None:
@@ -565,7 +555,7 @@ try:
         Kafka.Payload_Consumer.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"------------------------------------")
+        Log.Terminal_Log("INFO", f"******************************")
 
 finally:
 

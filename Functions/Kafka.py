@@ -67,7 +67,8 @@ def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
         try:
 
             # Send Message to Queue
-            Kafka_Producer.send(topic, value=value, headers=headers).add_callback(Send_Success).add_errback(Send_Error)
+#            Kafka_Producer.send(topic, value=value, headers=headers).add_callback(Send_Success).add_errback(Send_Error)
+            Kafka_Producer.send(topic, value=value, headers=headers)
 
             # Break Loop
             return

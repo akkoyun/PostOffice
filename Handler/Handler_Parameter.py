@@ -7,9 +7,6 @@ from Setup import Database
 from datetime import datetime
 from Functions import Kafka, Log, Handler
 
-# Log Message
-Log.Terminal_Log("INFO", f"***********************************************************************************")
-
 # Try to Parse Topics
 try:
 
@@ -30,7 +27,7 @@ try:
         )
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New Parameter Received: {RAW_Headers.Device_ID}")
+        Log.Terminal_Log("INFO", f"---------- Parameters ----------")
 
         # Decode Message
         Message = Kafka.Decode_Device_Message(RAW_Message)
@@ -97,9 +94,6 @@ try:
 
         # Commit Kafka Consumer
         Kafka.Parameter_Consumer.commit()
-
-        # Log Message
-        Log.Terminal_Log("INFO", f"***********************************************************************************")
 
 finally:
 
