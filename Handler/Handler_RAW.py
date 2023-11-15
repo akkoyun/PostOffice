@@ -93,18 +93,11 @@ try:
         New_Header = [
             ("Command", bytes(RAW_Headers.Command, 'utf-8')), 
             ("Device_ID", bytes(RAW_Headers.Device_ID, 'utf-8')),
-            ("Device_Time", bytes(str(RAW_Headers.Device_Time), 'utf-8')), 
+            ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
             ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
             ("Size", bytes(RAW_Headers.Size, 'utf-8')),
             ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
         ]
-    
-        print(New_Header[0][1].decode('ASCII'))
-        print(New_Header[1][1].decode('ASCII'))
-        print(New_Header[2][1].decode('ASCII'))
-        print(New_Header[3][1].decode('ASCII'))
-        print(New_Header[4][1].decode('ASCII'))
-        print(New_Header[5][1].decode('ASCII'))
 
         # Send to Topic
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
