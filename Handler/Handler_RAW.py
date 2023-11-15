@@ -69,42 +69,38 @@ try:
         # Update Device Last Connection
         Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
 
-        # Create New Stream
-        New_Stream = Models.Stream(
-            Device_ID = RAW_Headers.Device_ID,
-            ICCID = Message.Device.IoT.ICCID,
-            Client_IP = RAW_Headers.Device_IP,
-            Size = RAW_Headers.Size,
-            RAW_Data = Message.dict(),
-            Device_Time = RAW_Headers.Device_Time,
-            Stream_Time = datetime.now()
-        )
+        # Update Device Last Update
+        try:
 
-        # Add Stream to DataBase
-        DB_Module.add(New_Stream)
+            # Create New Stream
+            New_Stream = Models.Stream(
+                Device_ID = RAW_Headers.Device_ID,
+                ICCID = Message.Device.IoT.ICCID,
+                Client_IP = RAW_Headers.Device_IP,
+                Size = RAW_Headers.Size,
+                RAW_Data = Message.dict(),
+                Device_Time = RAW_Headers.Device_Time,
+                Stream_Time = datetime.now()
+            )
 
-        # Commit DataBase
-        DB_Module.commit()
+            # Add Stream to DataBase
+            DB_Module.add(New_Stream)
 
-        # Refresh DataBase
-        DB_Module.refresh(New_Stream)
+            # Commit DataBase
+            DB_Module.commit()
 
-        # Set headers
-        New_Header = [
-            ("Command", bytes(RAW_Headers.Command, 'utf-8')), 
-            ("Device_ID", bytes(RAW_Headers.Device_ID, 'utf-8')),
-            ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
-            ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
-            ("Size", bytes(RAW_Headers.Size, 'utf-8')),
-            ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
-        ]
+            # Refresh DataBase
+            DB_Module.refresh(New_Stream)
+
+        # Exception
+        except Exception as e:
+
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Stream Error: {e}")
 
         # Send to Topic
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
-
-        # Commit Kafka Consumer
-        Kafka.RAW_Consumer.commit()
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), RAW_Headers)
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), RAW_Headers)
 
         # Log Message
         Log.Terminal_Log("INFO", f"------------------------------")
@@ -117,6 +113,9 @@ except Exception as e:
 
 # Finally
 finally:
+
+    # Commit Kafka Consumer
+    Kafka.RAW_Consumer.commit()
 
     # Close Database
     DB_Module.close()
