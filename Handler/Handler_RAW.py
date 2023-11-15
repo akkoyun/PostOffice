@@ -99,7 +99,12 @@ try:
             ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
         ]
     
-        print(New_Header)
+        print(New_Header[0][1].decode('ASCII'))
+        print(New_Header[1][1].decode('ASCII'))
+        print(New_Header[2][1].decode('ASCII'))
+        print(New_Header[3][1].decode('ASCII'))
+        print(New_Header[4][1].decode('ASCII'))
+        print(New_Header[5][1].decode('ASCII'))
 
         # Send to Topic
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
