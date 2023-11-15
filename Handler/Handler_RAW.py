@@ -72,6 +72,7 @@ try:
         # Convert Device Time (str) to datetime
 #        Device_Time = datetime.strptime(Message.Info.TimeStamp, '%Y-%m-%dT%H:%M:%SZ')
         Device_Time = "2023-11-08 10:57:12"
+        Log.Terminal_Log("INFO", f"Device Time: {Message.Info.TimeStamp}")
 
         # Create New Stream
         New_Stream = Models.Stream(
