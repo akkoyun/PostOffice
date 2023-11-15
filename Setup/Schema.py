@@ -25,7 +25,7 @@ class Info(CustomBaseModel):
 	Command: str = Field(description="Pack command.", example="Online")
     
 	# Timestamp
-	TimeStamp: str = Field(description="Measurement time stamp.", example="2022-07-19T08:28:32Z")
+	TimeStamp: str = Field(description="Measurement time stamp.", example="2022-07-19 08:28:32")
 	
 	# Device ID
 	ID: str = Field(description="IoT device unique ID.", example="8B00000000000000")
@@ -74,6 +74,24 @@ class Info(CustomBaseModel):
 
 		# Return Value
 		return Value
+
+	# Timestamp Validator
+	@validator('TimeStamp')
+	def validate_timestamp(cls, v):
+
+		# Check Timestamp
+		try:
+
+			# Convert to Datetime
+			datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
+
+			# Return Value
+			return v
+		
+		except ValueError:
+		
+			# Raise Error
+			raise ValueError('TimeStamp is not in the correct format')
 
 # Define Power
 class Power(CustomBaseModel):
