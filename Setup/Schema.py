@@ -87,6 +87,9 @@ class Info(CustomBaseModel):
 			if 'Z' in v:
 				v = v.replace('Z', '+00:00')
 
+			# Check for +
+			v = re.sub(r'\+\d{2}:\d{2}', '', v)
+
 			# Parse Date
 			Parsed_TimeStamp = datetime.fromisoformat(v)
 
