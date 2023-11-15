@@ -283,40 +283,59 @@ def Control_SIM(ICCID: str):
 # Parameter Recorder
 def Parameter_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Value):
 
-    # Declare Type_ID
-    Type_ID = 0
+    # Control for Parameter
+    if Value is not None:
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
+        # Declare Variables
+        Type_ID = 0
+        Type_Unit = "-"
 
-    # Control for Type_ID
-    Query_Type_ID = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Parameter)).first()
+        # Define DB
+        DB_Module = Database.SessionLocal()
 
-    # Type_ID not in Database
-    if Query_Type_ID:
+        # Control for Type_ID
+        Query_Type_ID = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Variable.like(Parameter)).first()
 
-        # Read Type_ID
-        Type_ID = Query_Type_ID.Type_ID
+        # Type_ID not in Database
+        if Query_Type_ID:
 
-    # Create New Parameter
-    New_Parameter = Models.Parameter(
-        Stream_ID = Stream_ID,
-        Type_ID = Type_ID,
-        Value = Value,
-        Create_Time = Device_Time
-    )
-        
-    # Add Record to DataBase
-    DB_Module.add(New_Parameter)
+            # Read Type_ID
+            Type_ID = Query_Type_ID.Type_ID
 
-    # Commit DataBase
-    DB_Module.commit()
+            # Read Type_Unit
+            Type_Unit = Query_Type_ID.Unit
 
-    # Refresh DataBase
-    DB_Module.refresh(New_Parameter)
+            # Handle Unit
+            if Type_Unit == "-" : Type_Unit = ""
 
-    # Close Database
-    DB_Module.close()
+        # Create New Parameter
+        New_Parameter = Models.Parameter(
+            Stream_ID = Stream_ID,
+            Type_ID = Type_ID,
+            Value = Value,
+            Create_Time = Device_Time
+        )
+            
+        # Add Record to DataBase
+        DB_Module.add(New_Parameter)
+
+        # Commit DataBase
+        DB_Module.commit()
+
+        # Refresh DataBase
+        DB_Module.refresh(New_Parameter)
+
+        # Close Database
+        DB_Module.close()
+
+        # Round Value
+        Value = round(Value, 5)
+
+        # Set Log Message
+        Message = f"[{Parameter:^8}] - {Value:^7} {Type_Unit}"
+
+        # Log Message
+        Log.Terminal_Log("INFO", Message=Message)
 
 # Payload Recorder
 def Payload_Recorder(Stream_ID: int, Device_Time: datetime, Parameter: str, Value):
