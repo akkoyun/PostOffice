@@ -29,13 +29,6 @@ try:
         # Get Device Time
         Device_Time = RAW_Headers.Device_Time
 
-        print(RAW_Headers.Device_Time)
-        print(RAW_Headers.Command)
-        print(RAW_Headers.Device_ID)
-        print(RAW_Headers.Device_IP)
-        print(RAW_Headers.Size)
-        print(RAW_Headers.Stream_ID)
-
         # Log Message
         Log.Terminal_Log("INFO", f"---------- Parameters ----------")
         Log.Terminal_Log("INFO", f"Device Time: {Device_Time}")
