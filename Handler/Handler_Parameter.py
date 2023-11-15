@@ -28,6 +28,7 @@ try:
 
         # Log Message
         Log.Terminal_Log("INFO", f"---------- Parameters ----------")
+        Log.Terminal_Log("INFO", f"Device Time: {RAW_Headers.Device_Time}")
 
         # Decode Message
         Message = Kafka.Decode_Device_Message(RAW_Message)
