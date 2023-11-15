@@ -69,9 +69,6 @@ try:
         # Update Device Last Connection
         Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
 
-        # Convert Device Time (str) to datetime
-        Device_Time = datetime.strptime(RAW_Headers.Device_Time, "%Y-%m-%d %H:%M:%S").isoformat()
-
         # Create New Stream
         New_Stream = Models.Stream(
             Device_ID = RAW_Headers.Device_ID,
@@ -79,7 +76,7 @@ try:
             Client_IP = RAW_Headers.Device_IP,
             Size = RAW_Headers.Size,
             RAW_Data = Message.dict(),
-            Device_Time = Device_Time,
+            Device_Time = RAW_Headers.Device_Time,
             Stream_Time = datetime.now()
         )
 
