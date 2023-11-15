@@ -31,11 +31,10 @@ class CustomFormatter(logging.Formatter):
 # Kafka Filter
 class KafkaFilter(logging.Filter):
     def filter(self, record):
-        # Kafka ile ilgili log kayıtlarını filtrele
         if "kafka" in record.getMessage().lower():
             return False
         return True
-
+    
 # Set Handler
 Handler = logging.StreamHandler()
 Handler.setFormatter(CustomFormatter())
@@ -51,11 +50,12 @@ File_Handler.setFormatter(SimpleFormatter())
 # Set Logger
 Logger = logging.getLogger('PostOffice')
 
+# Add Kafka Filter
+kafka_filter = KafkaFilter()
+Logger.addFilter(kafka_filter)
+
 # Add File Handler
 Logger.addHandler(File_Handler)
-
-# Add Kafka Filter
-Logger.addFilter(KafkaFilter())
 
 # Terminal Log Message
 def Terminal_Log(Type: str, Message: str):
