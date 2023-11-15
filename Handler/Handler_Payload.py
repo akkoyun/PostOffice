@@ -25,9 +25,6 @@ try:
             RAW_Message.headers[5][1].decode('ASCII')
         )
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"----------  Payloads  ----------")
-
         # Convert Device Time (str) to datetime
         Device_Time = RAW_Headers.Device_Time.replace("T", " ").replace("Z", "")
 
