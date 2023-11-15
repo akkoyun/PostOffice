@@ -6,6 +6,7 @@ sys.path.append('/root/PostOffice/')
 from pydantic import BaseModel, Field, validator
 from typing import Optional
 from datetime import datetime
+from dateutil import parser
 import re
 from Setup.Config import Payload_Limits as Limits
 
@@ -81,17 +82,18 @@ class Info(CustomBaseModel):
 
 		# Check Timestamp
 		try:
-
-			# Convert to Datetime
-			datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
+			
+			# Parse Date
+			Parsed_TimeStamp = parser.parse(v)
 
 			# Return Value
-			return v
+			return Parsed_TimeStamp.isoformat()
 		
+		# Raise Error
 		except ValueError:
-		
+			
 			# Raise Error
-			raise ValueError('TimeStamp is not in the correct format')
+			raise ValueError('TimeStamp is not in a valid format')
 
 # Define Power
 class Power(CustomBaseModel):
