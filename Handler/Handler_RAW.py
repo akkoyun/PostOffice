@@ -70,7 +70,7 @@ try:
         Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
 
         # Convert Device Time (str) to datetime
-        Device_Time = Message.Info.TimeStamp
+        Device_Time = Message.Info.TimeStamp.isoformat()
 
         # Create New Stream
         New_Stream = Models.Stream(
