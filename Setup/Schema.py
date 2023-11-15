@@ -82,9 +82,13 @@ class Info(CustomBaseModel):
 
 		# Check Timestamp
 		try:
-			
+
+			# Check for Z
+			if 'Z' in v:
+				v = v.replace('Z', '+00:00')
+
 			# Parse Date
-			Parsed_TimeStamp = parser.parse(v)
+			Parsed_TimeStamp = datetime.fromisoformat(v)
 
 			# Return Value
 			return Parsed_TimeStamp.strftime('%Y-%m-%dT%H:%M:%S')
