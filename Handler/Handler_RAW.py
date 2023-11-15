@@ -71,7 +71,7 @@ try:
 
         # Convert Device Time (str) to datetime
 #        Device_Time = datetime(Message.Info.TimeStamp.replace("T", " ").replace("Z", "")).isoformat()
-        Device_Time = "2023-11-08 10:57:12"
+        Device_Time = datetime("2023-11-08 10:57:12").isoformat()
 
         # Create New Stream
         New_Stream = Models.Stream(
