@@ -121,7 +121,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"***********************************************")
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"New Device Data Recieved from: {request.client.host}")
+	Log.Terminal_Log("INFO", f"New Device Data Recieved from: {request.client.host} / {Data.Info.TimeStamp}")
 
 	# Set headers
 	RAW_Header = [

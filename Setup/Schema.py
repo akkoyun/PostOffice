@@ -5,6 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from pydantic import BaseModel, Field, validator
 from typing import Optional
+from datetime import datetime
 import re
 from Setup.Config import Payload_Limits as Limits
 
@@ -24,7 +25,7 @@ class Info(CustomBaseModel):
 	Command: str = Field(description="Pack command.", example="Online")
     
 	# Timestamp
-	TimeStamp: str = Field(description="Measurement time stamp.", example="2022-07-19T08:28:32Z")
+	TimeStamp: datetime = Field(description="Measurement time stamp.", example="2022-07-19T08:28:32Z")
 	
 	# Device ID
 	ID: str = Field(description="IoT device unique ID.", example="8B00000000000000")
