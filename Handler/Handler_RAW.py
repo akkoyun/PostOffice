@@ -90,7 +90,7 @@ try:
         DB_Module.refresh(New_Stream)
 
         # Set Device Time
-        Device_Time = datetime.strptime(RAW_Headers.Device_Time, "%Y-%m-%d %H:%M:%S")
+        Device_Time = datetime.strptime(RAW_Headers.Device_Time, "%Y-%m-%dT%H:%M:%S")
 
         # Set headers
         New_Header = [

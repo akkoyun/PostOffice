@@ -87,7 +87,7 @@ class Info(CustomBaseModel):
 			Parsed_TimeStamp = parser.parse(v)
 
 			# Return Value
-			return Parsed_TimeStamp.isoformat()
+			return Parsed_TimeStamp.strftime('%Y-%m-%dT%H:%M:%S')
 		
 		# Raise Error
 		except ValueError:
