@@ -26,7 +26,7 @@ try:
         )
 
         # Log Message
-        Log.Terminal_Log("INFO", f"---------- Payloads ----------")
+        Log.Terminal_Log("INFO", f"----------  Payloads  ----------")
 
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)

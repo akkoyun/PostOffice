@@ -109,9 +109,6 @@ try:
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"***********************************************************************************")
-
 # Exception
 except Exception as e:
 

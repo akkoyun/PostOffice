@@ -118,6 +118,9 @@ def Root(request: Request):
 async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
+	Log.Terminal_Log("INFO", f"***********************************************")
+
+	# Log Message
 	Log.Terminal_Log("INFO", f"New Device Data Recieved from: {request.client.host}")
 
 	# Set headers
