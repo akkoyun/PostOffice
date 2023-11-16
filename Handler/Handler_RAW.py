@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models
+from Setup import Database, Models, Definitions
 from Setup.Config import APP_Settings
 from datetime import datetime
 from Functions import Kafka, Log, Handler
@@ -18,7 +18,7 @@ try:
     for RAW_Message in Kafka.RAW_Consumer:
 
         # Handle Headers
-        RAW_Headers = Kafka.Headers(
+        RAW_Headers = Definitions.Headers(
             RAW_Message.headers[0][1].decode('ASCII'),
             RAW_Message.headers[1][1].decode('ASCII'),
             RAW_Message.headers[2][1].decode('ASCII'),
