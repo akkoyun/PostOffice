@@ -449,12 +449,40 @@ class Payload(CustomBaseModel):
 	I_T: Optional[float] = Field(description="Phase T instant current measurement", example=20.12)
 	I_A: Optional[float] = Field(description="Instant current average measurement", example=20.12)
 
+	# I Root Validator
+	@root_validator
+	def Handle_I_Fields(cls, Values):
+		I_Values = Values.get('I')
+		if I_Values is not None:
+			for i, Value in enumerate(I_Values):
+				if i == 0: Values['I_R'] = Value
+				if i == 1: Values['I_S'] = Value
+				if i == 2: Values['I_T'] = Value
+				if i == 3: Values['I_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Peak Current Value
 	IP: Optional[list[Optional[float]]] = Field(description="Peak current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4)
 	IP_R: Optional[float] = Field(description="Phase R peak current measurement", example=20.12)
 	IP_S: Optional[float] = Field(description="Phase S peak current measurement", example=20.12)
 	IP_T: Optional[float] = Field(description="Phase T peak current measurement", example=20.12)
 	IP_A: Optional[float] = Field(description="Peak current average measurement", example=20.12)
+
+	# IP Root Validator
+	@root_validator
+	def Handle_IP_Fields(cls, Values):
+		IP_Values = Values.get('IP')
+		if IP_Values is not None:
+			for i, Value in enumerate(IP_Values):
+				if i == 0: Values['IP_R'] = Value
+				if i == 1: Values['IP_S'] = Value
+				if i == 2: Values['IP_T'] = Value
+				if i == 3: Values['IP_A'] = Value
+		else:
+			pass
+		return Values
 
 	# RMS Current Value
 	IRMS: Optional[list[Optional[float]]] = Field(description="RMS current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4)
@@ -463,6 +491,20 @@ class Payload(CustomBaseModel):
 	IRMS_T: Optional[float] = Field(description="Phase T RMS current measurement", example=20.12)
 	IRMS_A: Optional[float] = Field(description="RMS current average measurement", example=20.12)
 
+	# IRMS Root Validator
+	@root_validator
+	def Handle_IRMS_Fields(cls, Values):
+		IRMS_Values = Values.get('IRMS')
+		if IRMS_Values is not None:
+			for i, Value in enumerate(IRMS_Values):
+				if i == 0: Values['IRMS_R'] = Value
+				if i == 1: Values['IRMS_S'] = Value
+				if i == 2: Values['IRMS_T'] = Value
+				if i == 3: Values['IRMS_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Fundamental Current Value
 	IFun: Optional[list[Optional[float]]] = Field(description="Fundamental current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4)
 	IFun_R: Optional[float] = Field(description="Phase R fundamental current measurement", example=20.12)
@@ -470,12 +512,40 @@ class Payload(CustomBaseModel):
 	IFun_T: Optional[float] = Field(description="Phase T fundamental current measurement", example=20.12)
 	IFun_A: Optional[float] = Field(description="Fundamental current average measurement", example=20.12)
 
+	# IFun Root Validator
+	@root_validator
+	def Handle_IFun_Fields(cls, Values):
+		IFun_Values = Values.get('IFun')
+		if IFun_Values is not None:
+			for i, Value in enumerate(IFun_Values):
+				if i == 0: Values['IFun_R'] = Value
+				if i == 1: Values['IFun_S'] = Value
+				if i == 2: Values['IFun_T'] = Value
+				if i == 3: Values['IFun_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Harmonic Current Value
 	IHarm: Optional[list[Optional[float]]] = Field(description="Harmonic current measurement", example=[20.12, 21.12, 19.12, 20.12], min_items=0, max_items=4)
 	IHarm_R: Optional[float] = Field(description="Phase R harmonic current measurement", example=20.12)
 	IHarm_S: Optional[float] = Field(description="Phase S harmonic current measurement", example=20.12)
 	IHarm_T: Optional[float] = Field(description="Phase T harmonic current measurement", example=20.12)
 	IHarm_A: Optional[float] = Field(description="Harmonic current average measurement", example=20.12)
+
+	# IHarm Root Validator
+	@root_validator
+	def Handle_IHarm_Fields(cls, Values):
+		IHarm_Values = Values.get('IHarm')
+		if IHarm_Values is not None:
+			for i, Value in enumerate(IHarm_Values):
+				if i == 0: Values['IHarm_R'] = Value
+				if i == 1: Values['IHarm_S'] = Value
+				if i == 2: Values['IHarm_T'] = Value
+				if i == 3: Values['IHarm_A'] = Value
+		else:
+			pass
+		return Values
 
 	# Active Power Value
 	P: Optional[list[Optional[float]]] = Field(description="Active power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
