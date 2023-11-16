@@ -80,6 +80,8 @@ WeatherStat_Payload = [
     # Weather Parameters
     ("AT", "Message.AT"),
     ("AH", "Message.AH"),
+    ("AT_FL", "Handler.FL_Calculator(Message.AT, Message.AH)"),
+    ("AT_Dew", "Handler.Dew_Calculator(Message.AT, Message.AH)"),
     ("AP", "Message.AP"),
     ("VL", "Message.VL"),
     ("IR", "Message.IR"),
