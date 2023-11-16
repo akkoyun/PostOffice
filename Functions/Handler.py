@@ -3,26 +3,10 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models, View_Models
+from Setup import Database, Models, View_Models, Definitions
 from Functions import Log
 from datetime import datetime
 import math
-
-# Define Measurement Type
-class Measurement:
-
-    # Define Measurement
-    def __init__(self, Last = None, Last_Time = None, Previous_Value = None, Trend = None, Min = None, Max = None, Min_Time = None, Max_Time = None):
-        
-        # Get Variables
-        self.Last_Value = Last
-        self.Last_Time = Last_Time
-        self.Previous_Value = Previous_Value
-        self.Trend = Trend
-        self.Min = Min
-        self.Min_Time = Min_Time
-        self.Max = Max
-        self.Max_Time = Max_Time
 
 # Control for Device in Database
 def Control_Device(DB_Module, Device_ID: str):
@@ -398,7 +382,7 @@ def Get_Payload_Measurement(Device_ID: str, Variable: str):
         Query_Measurement = DB_Module.query(View_Models.Payload_Measurement).filter(View_Models.Payload_Measurement.Device_ID == Device_ID).filter(View_Models.Payload_Measurement.Variable == Variable).first()
 
         # Define Measurement
-        New_Measurement = Measurement()
+        New_Measurement = Definitions.Measurement()
 
         # Measurement in Database
         if Query_Measurement:

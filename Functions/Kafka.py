@@ -18,31 +18,6 @@ Parameter_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_PARAMETER), boot
 # Kafka Payload Consumer
 Payload_Consumer = KafkaConsumer(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), bootstrap_servers=f"{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}", group_id=str(APP_Settings.KAFKA_CONSUMER_PAYLOAD_GROUP), auto_offset_reset='latest', enable_auto_commit=False)
 
-# Define Headers
-class Headers:
-
-    # Define Incomming Headers
-    def __init__(self, command, device_id, device_time, device_ip, size):
-        
-        # Get Incomming Headers
-        self.Command = command
-        self.Device_ID = device_id
-        self.Device_Time = device_time
-        self.Device_IP = device_ip
-        self.Size = size
-class Handler_Headers:
-
-    # Define Incomming Headers
-    def __init__(self, command, device_id, device_time, device_ip, size, stream_id):
-        
-        # Get Incomming Headers
-        self.Command = command
-        self.Device_ID = device_id
-        self.Device_Time = device_time
-        self.Device_IP = device_ip
-        self.Size = size
-        self.Stream_ID = stream_id
-
 # Kafka Callbacks
 def Send_Success(record_metadata):
 

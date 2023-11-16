@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database
+from Setup import Database, Definitions
 from Functions import Kafka, Log, Handler
 
 # Try to Parse Topics
@@ -16,7 +16,7 @@ try:
     for RAW_Message in Kafka.Payload_Consumer:
 
         # Handle Headers
-        RAW_Headers = Kafka.Handler_Headers(
+        RAW_Headers = Definitions.Handler_Headers(
             RAW_Message.headers[0][1].decode('ASCII'),
             RAW_Message.headers[1][1].decode('ASCII'),
             RAW_Message.headers[2][1].decode('ASCII'),
