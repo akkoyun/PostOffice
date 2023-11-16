@@ -428,6 +428,9 @@ class Payload(CustomBaseModel):
 	VHarm_T: Optional[float] = Field(description="Phase T harmonic voltage measurement", example=220.12)
 	VHarm_A: Optional[float] = Field(description="Harmonic voltage average measurement", example=220.12)
 
+	# Frequency Value
+	FQ: Optional[float] = Field(description="Frequency measurement", example=50.12)
+
 	# VHarm Root Validator
 	@root_validator
 	def Handle_VHarm_Fields(cls, Values):
@@ -721,7 +724,6 @@ class Payload(CustomBaseModel):
 	PF_S: Optional[float] = Field(description="Phase S power factor measurement", example=0.81)
 	PF_T: Optional[float] = Field(description="Phase T power factor measurement", example=0.81)
 	PF_A: Optional[float] = Field(description="Power factor average measurement", example=0.81)
-	FQ: Optional[float] = Field(description="Frequency measurement", example=50.12)
 
 	# PF Root Validator
 	@root_validator
@@ -738,7 +740,7 @@ class Payload(CustomBaseModel):
 		return Values
 
 	# Active Energy Value
-	AE: Optional[list[Optional[float]]] = Field(description="Active energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
+	AE: Optional[list[Optional[float]]] = Field(description="Active energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=5)
 	AE_R: Optional[float] = Field(description="Phase R active energy measurement", example=220.12)
 	AE_S: Optional[float] = Field(description="Phase S active energy measurement", example=220.12)
 	AE_T: Optional[float] = Field(description="Phase T active energy measurement", example=220.12)
@@ -761,7 +763,7 @@ class Payload(CustomBaseModel):
 		return Values
 
 	# Reactive Energy Leading Value
-	RE_L: Optional[list[Optional[float]]] = Field(description="Reactive leading energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
+	RE_L: Optional[list[Optional[float]]] = Field(description="Reactive leading energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=5)
 	RE_L_R: Optional[float] = Field(description="Phase R leading reactive energy measurement", example=220.12)
 	RE_L_S: Optional[float] = Field(description="Phase S leading reactive energy measurement", example=220.12)
 	RE_L_T: Optional[float] = Field(description="Phase T leading reactive energy measurement", example=220.12)
@@ -784,7 +786,7 @@ class Payload(CustomBaseModel):
 		return Values
 
 	# Reactive Energy Lagging Value
-	RE_G: Optional[list[Optional[float]]] = Field(description="Reactive lagging energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
+	RE_G: Optional[list[Optional[float]]] = Field(description="Reactive lagging energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=5)
 	RE_G_R: Optional[float] = Field(description="Phase R lagging reactive energy measurement", example=220.12)
 	RE_G_S: Optional[float] = Field(description="Phase S lagging reactive energy measurement", example=220.12)
 	RE_G_T: Optional[float] = Field(description="Phase T lagging reactive energy measurement", example=220.12)
