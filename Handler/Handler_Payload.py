@@ -65,6 +65,13 @@ try:
         # Log Message
         Log.Terminal_Log("INFO", f"******************************")
 
+# Handle Errors
+except Exception as e:
+
+    # Log Message
+    Log.Terminal_Log("ERROR", f"Payload Handler Error: {e}")
+
+# Close Database
 finally:
 
     # Close Database
