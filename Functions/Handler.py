@@ -496,9 +496,9 @@ def Get_Count(Table: str):
 
         # Handle Table Name
         if Table == 'Device': Table_Name = Models.Device
+        elif Table == 'Data_Type': Table_Name = Models.Data_Type
         elif Table == 'Modem': Table_Name = Models.Modem
         elif Table == 'SIM': Table_Name = Models.SIM
-        elif Table == 'Version': Table_Name = Models.Version
         elif Table == 'Stream': Table_Name = Models.Stream
         elif Table == 'Parameter': Table_Name = Models.Parameter
         elif Table == 'Payload': Table_Name = Models.Payload
