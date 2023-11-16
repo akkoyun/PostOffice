@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, root_validator
 from typing import Optional
 from datetime import datetime
 from dateutil import parser
@@ -511,6 +511,19 @@ class Payload(CustomBaseModel):
 
 	# Max78630 Chip Temperature Value
 	Max78630_T: Optional[float] = Field(description="Max78630 chip temperature measurement", example=20.12)
+
+	# ST Root Validator
+	@root_validator
+	def Handle_ST_Fields(cls, Values):
+		ST_Values = Values.get('ST')
+		if ST_Values is not None:
+			for i, Value in enumerate(ST_Values):
+				Values[f'ST_{i}'] = Value
+		else:
+			pass
+		return Values
+
+
 
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00

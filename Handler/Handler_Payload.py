@@ -51,9 +51,6 @@ try:
             # Handle Parameter
             Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Message_Path)
 
-        # WeatherStat Payloads
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "AT_FL", Handler.FL_Calculator(Message.AT, Message.AH))
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "AT_Dew", Handler.Dew_Calculator(Message.AT, Message.AH))
 
 
 
@@ -63,30 +60,6 @@ try:
 
 
 
-
-        if Message.ST is not None:
-
-            # Loop Through Measurements
-            for index, ST_Value in enumerate(Message.ST):
-
-                # Set Dynamic Variable Name
-                ST_Variable_Name = f"ST{index}"
-
-                # Control for ST
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, ST_Variable_Name, ST_Value)
-        else:
-
-            # Control for ST
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST0", Message.ST_0)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST1", Message.ST_1)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST2", Message.ST_2)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST3", Message.ST_3)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST4", Message.ST_4)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST5", Message.ST_5)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST6", Message.ST_6)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST7", Message.ST_7)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST8", Message.ST_8)
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "ST9", Message.ST_9)
 
         # PowerStat Payloads
         if Message.V is not None:

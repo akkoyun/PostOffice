@@ -88,6 +88,18 @@ WeatherStat_Payload = [
     ("UV", "Message.UV"),
     ("WD", "Message.WD"),
     ("WS", "Message.WS"),
-    ("R", "Message.R")
+    ("R", "Message.R"),
+    ("ST0", "Message.ST_0"),
+    ("ST1", "Message.ST_1"),
+    ("ST2", "Message.ST_2"),
+    ("ST3", "Message.ST_3"),
+    ("ST4", "Message.ST_4"),
+    ("ST5", "Message.ST_5"),
+    ("ST6", "Message.ST_6"),
+    ("ST7", "Message.ST_7"),
+    ("ST8", "Message.ST_8"),
+    ("ST9", "Message.ST_9"),
+    
+
 
 ]
