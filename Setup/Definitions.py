@@ -74,7 +74,7 @@ Non_Device_Parameter = [
 
 ]
 
-# Define Weather Payload
+# Define WeatherStat Payload
 WeatherStat_Payload = [
 
     # Weather Parameters
@@ -99,7 +99,16 @@ WeatherStat_Payload = [
     ("ST7", "Message.ST_7"),
     ("ST8", "Message.ST_8"),
     ("ST9", "Message.ST_9"),
-    
 
+]
+
+# Define PowerStat Payload
+PowerStat_Payload = [
+
+    # Voltage Parameters
+    ("V_R", "Message.V_R"),
+    ("V_S", "Message.V_S"),
+    ("V_T", "Message.V_T"),
+    ("V_A", "Message.V_A"),
 
 ]

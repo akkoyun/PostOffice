@@ -523,6 +523,20 @@ class Payload(CustomBaseModel):
 			pass
 		return Values
 
+	# V Root Validator
+	@root_validator
+	def Handle_V_Fields(cls, Values):
+		V_Values = Values.get('V')
+		if V_Values is not None:
+			for i, Value in enumerate(V_Values):
+				if i == 0: Values['V_R'] = Value
+				if i == 1: Values['V_S'] = Value
+				if i == 2: Values['V_T'] = Value
+				if i == 3: Values['V_A'] = Value
+		else:
+			pass
+		return Values
+
 
 
 # Define IoT RAW Data Base Model

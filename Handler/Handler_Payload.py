@@ -4,8 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Definitions
-from Setup.Definitions import Non_Device_Parameter
-from Setup.Definitions import WeatherStat_Payload
+from Setup.Definitions import Non_Device_Parameter, WeatherStat_Payload, PowerStat_Payload
 from Functions import Kafka, Log, Handler
 
 # Try to Parse Topics
@@ -51,6 +50,14 @@ try:
             # Handle Parameter
             Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Message_Path)
 
+        # Control for PowerStat Payloads
+        for PowerStat_Payload_Name, PowerStat_Payload_Path in PowerStat_Payload:
+
+            # Get Parameter Path
+            PowerStat_Message_Path = eval(PowerStat_Payload_Path)
+
+            # Handle Parameter
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, PowerStat_Message_Path)
 
 
 
@@ -62,28 +69,6 @@ try:
 
 
         # PowerStat Payloads
-        if Message.V is not None:
-
-            if Message.V is not None:
-
-                # Loop Through Measurements
-                for index, V_Value in enumerate(Message.V):
-
-                    # Set Dynamic Variable Name
-                    if index == 0: V_Variable_Name = "V_R"
-                    if index == 1: V_Variable_Name = "V_S"
-                    if index == 2: V_Variable_Name = "V_T"
-                    if index == 3: V_Variable_Name = "V_A"
-
-                    # Record Measurement
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, V_Variable_Name, V_Value)
-            else :
-
-                # Control for Instant Voltage
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "V_R", Message.V_R)
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "V_S", Message.V_S)
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "V_T", Message.V_T)
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "V_A", Message.V_A)
         if Message.VRMS is not None:
 
             if Message.VRMS is not None:
