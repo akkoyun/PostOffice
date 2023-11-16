@@ -365,12 +365,40 @@ class Payload(CustomBaseModel):
 	V_T: Optional[float] = Field(description="Phase T instant voltage measurement", example=220.12)
 	V_A: Optional[float] = Field(description="Instant voltage average measurement", example=220.12)
 
+	# V Root Validator
+	@root_validator
+	def Handle_V_Fields(cls, Values):
+		V_Values = Values.get('V')
+		if V_Values is not None:
+			for i, Value in enumerate(V_Values):
+				if i == 0: Values['V_R'] = Value
+				if i == 1: Values['V_S'] = Value
+				if i == 2: Values['V_T'] = Value
+				if i == 3: Values['V_A'] = Value
+		else:
+			pass
+		return Values
+
 	# RMS Voltage Value
 	VRMS: Optional[list[Optional[float]]] = Field(description="RMS voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 	VRMS_R: Optional[float] = Field(description="Phase R RMS voltage measurement", example=220.12)
 	VRMS_S: Optional[float] = Field(description="Phase S RMS voltage measurement", example=220.12)
 	VRMS_T: Optional[float] = Field(description="Phase T RMS voltage measurement", example=220.12)
 	VRMS_A: Optional[float] = Field(description="RMS voltage average measurement", example=220.12)
+
+	# VRMS Root Validator
+	@root_validator
+	def Handle_VRMS_Fields(cls, Values):
+		VRMS_Values = Values.get('VRMS')
+		if VRMS_Values is not None:
+			for i, Value in enumerate(VRMS_Values):
+				if i == 0: Values['VRMS_R'] = Value
+				if i == 1: Values['VRMS_S'] = Value
+				if i == 2: Values['VRMS_T'] = Value
+				if i == 3: Values['VRMS_A'] = Value
+		else:
+			pass
+		return Values
 
 	# Fundamental Voltage Value
 	VFun: Optional[list[Optional[float]]] = Field(description="Fundamental voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
@@ -379,12 +407,40 @@ class Payload(CustomBaseModel):
 	VFun_T: Optional[float] = Field(description="Phase T fundamental voltage measurement", example=220.12)
 	VFun_A: Optional[float] = Field(description="Fundamental voltage average measurement", example=220.12)
 
+	# VFun Root Validator
+	@root_validator
+	def Handle_VFun_Fields(cls, Values):
+		VFun_Values = Values.get('VFun')
+		if VFun_Values is not None:
+			for i, Value in enumerate(VFun_Values):
+				if i == 0: Values['VFun_R'] = Value
+				if i == 1: Values['VFun_S'] = Value
+				if i == 2: Values['VFun_T'] = Value
+				if i == 3: Values['VFun_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Harmonic Voltage Value
 	VHarm: Optional[list[Optional[float]]] = Field(description="Harmonic voltage measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 	VHarm_R: Optional[float] = Field(description="Phase R harmonic voltage measurement", example=220.12)
 	VHarm_S: Optional[float] = Field(description="Phase S harmonic voltage measurement", example=220.12)
 	VHarm_T: Optional[float] = Field(description="Phase T harmonic voltage measurement", example=220.12)
 	VHarm_A: Optional[float] = Field(description="Harmonic voltage average measurement", example=220.12)
+
+	# VHarm Root Validator
+	@root_validator
+	def Handle_VHarm_Fields(cls, Values):
+		VHarm_Values = Values.get('VHarm')
+		if VHarm_Values is not None:
+			for i, Value in enumerate(VHarm_Values):
+				if i == 0: Values['VHarm_R'] = Value
+				if i == 1: Values['VHarm_S'] = Value
+				if i == 2: Values['VHarm_T'] = Value
+				if i == 3: Values['VHarm_A'] = Value
+		else:
+			pass
+		return Values
 
 	# Instant Current Value
 	I: Optional[list[Optional[float]]] = Field(description="Instant current measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
@@ -522,22 +578,6 @@ class Payload(CustomBaseModel):
 		else:
 			pass
 		return Values
-
-	# V Root Validator
-	@root_validator
-	def Handle_V_Fields(cls, Values):
-		V_Values = Values.get('V')
-		if V_Values is not None:
-			for i, Value in enumerate(V_Values):
-				if i == 0: Values['V_R'] = Value
-				if i == 1: Values['V_S'] = Value
-				if i == 2: Values['V_T'] = Value
-				if i == 3: Values['V_A'] = Value
-		else:
-			pass
-		return Values
-
-
 
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00

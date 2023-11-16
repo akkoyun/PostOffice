@@ -110,5 +110,17 @@ PowerStat_Payload = [
     ("V_S", "Message.V_S"),
     ("V_T", "Message.V_T"),
     ("V_A", "Message.V_A"),
+    ("VRMS_R", "Message.VRMS_R"),
+    ("VRMS_S", "Message.VRMS_S"),
+    ("VRMS_T", "Message.VRMS_T"),
+    ("VRMS_A", "Message.VRMS_A"),
+    ("VFun_R", "Message.VFun_R"),
+    ("VFun_S", "Message.VFun_S"),
+    ("VFun_T", "Message.VFun_T"),
+    ("VFun_A", "Message.VFun_A"),
+    ("VHarm_R", "Message.VHarm_R"),
+    ("VHarm_S", "Message.VHarm_S"),
+    ("VHarm_T", "Message.VHarm_T"),
+    ("VHarm_A", "Message.VHarm_A"),
 
 ]
