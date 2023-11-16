@@ -554,12 +554,40 @@ class Payload(CustomBaseModel):
 	P_T: Optional[float] = Field(description="Phase T active power measurement", example=220.12)
 	P_A: Optional[float] = Field(description="Active power average measurement", example=220.12)
 
+	# P Root Validator
+	@root_validator
+	def Handle_P_Fields(cls, Values):
+		P_Values = Values.get('P')
+		if P_Values is not None:
+			for i, Value in enumerate(P_Values):
+				if i == 0: Values['P_R'] = Value
+				if i == 1: Values['P_S'] = Value
+				if i == 2: Values['P_T'] = Value
+				if i == 3: Values['P_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Reactive Power Value
 	Q: Optional[list[Optional[float]]] = Field(description="Reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 	Q_R: Optional[float] = Field(description="Phase R reactive power measurement", example=220.12)
 	Q_S: Optional[float] = Field(description="Phase S reactive power measurement", example=220.12)
 	Q_T: Optional[float] = Field(description="Phase T reactive power measurement", example=220.12)
 	Q_A: Optional[float] = Field(description="Reactive power average measurement", example=220.12)
+
+	# Q Root Validator
+	@root_validator
+	def Handle_Q_Fields(cls, Values):
+		Q_Values = Values.get('Q')
+		if Q_Values is not None:
+			for i, Value in enumerate(Q_Values):
+				if i == 0: Values['Q_R'] = Value
+				if i == 1: Values['Q_S'] = Value
+				if i == 2: Values['Q_T'] = Value
+				if i == 3: Values['Q_A'] = Value
+		else:
+			pass
+		return Values
 
 	# Apparent Power Value
 	S: Optional[list[Optional[float]]] = Field(description="Apparent power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
@@ -568,12 +596,40 @@ class Payload(CustomBaseModel):
 	S_T: Optional[float] = Field(description="Phase T apparent power measurement", example=220.12)
 	S_A: Optional[float] = Field(description="Apparent power average measurement", example=220.12)
 
+	# S Root Validator
+	@root_validator
+	def Handle_S_Fields(cls, Values):
+		S_Values = Values.get('S')
+		if S_Values is not None:
+			for i, Value in enumerate(S_Values):
+				if i == 0: Values['S_R'] = Value
+				if i == 1: Values['S_S'] = Value
+				if i == 2: Values['S_T'] = Value
+				if i == 3: Values['S_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Fundamental Reactive Power Value
 	QFun: Optional[list[Optional[float]]] = Field(description="Fundamental reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 	QFun_R: Optional[float] = Field(description="Phase R fundamental reactive power measurement", example=220.12)
 	QFun_S: Optional[float] = Field(description="Phase S fundamental reactive power measurement", example=220.12)
 	QFun_T: Optional[float] = Field(description="Phase T fundamental reactive power measurement", example=220.12)
 	QFun_A: Optional[float] = Field(description="Fundamental reactive power average measurement", example=220.12)
+
+	# QFun Root Validator
+	@root_validator
+	def Handle_QFun_Fields(cls, Values):
+		QFun_Values = Values.get('QFun')
+		if QFun_Values is not None:
+			for i, Value in enumerate(QFun_Values):
+				if i == 0: Values['QFun_R'] = Value
+				if i == 1: Values['QFun_S'] = Value
+				if i == 2: Values['QFun_T'] = Value
+				if i == 3: Values['QFun_A'] = Value
+		else:
+			pass
+		return Values
 
 	# Harmonic Reactive Power Value
 	QHarm: Optional[list[Optional[float]]] = Field(description="Harmonic reactive power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
@@ -582,12 +638,40 @@ class Payload(CustomBaseModel):
 	QHarm_T: Optional[float] = Field(description="Phase T harmonic reactive power measurement", example=220.12)
 	QHarm_A: Optional[float] = Field(description="Harmonic reactive power average measurement", example=220.12)
 
+	# QHarm Root Validator
+	@root_validator
+	def Handle_QHarm_Fields(cls, Values):
+		QHarm_Values = Values.get('QHarm')
+		if QHarm_Values is not None:
+			for i, Value in enumerate(QHarm_Values):
+				if i == 0: Values['QHarm_R'] = Value
+				if i == 1: Values['QHarm_S'] = Value
+				if i == 2: Values['QHarm_T'] = Value
+				if i == 3: Values['QHarm_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Fundamental Power Value
 	PFun: Optional[list[Optional[float]]] = Field(description="Fundamental power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 	PFun_R: Optional[float] = Field(description="Phase R fundamental power measurement", example=220.12)
 	PFun_S: Optional[float] = Field(description="Phase S fundamental power measurement", example=220.12)
 	PFun_T: Optional[float] = Field(description="Phase T fundamental power measurement", example=220.12)
 	PFun_A: Optional[float] = Field(description="Fundamental power average measurement", example=220.12)
+
+	# PFun Root Validator
+	@root_validator
+	def Handle_PFun_Fields(cls, Values):
+		PFun_Values = Values.get('PFun')
+		if PFun_Values is not None:
+			for i, Value in enumerate(PFun_Values):
+				if i == 0: Values['PFun_R'] = Value
+				if i == 1: Values['PFun_S'] = Value
+				if i == 2: Values['PFun_T'] = Value
+				if i == 3: Values['PFun_A'] = Value
+		else:
+			pass
+		return Values
 
 	# Harmonic Power Value
 	PHarm: Optional[list[Optional[float]]] = Field(description="Harmonic power measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
@@ -596,12 +680,40 @@ class Payload(CustomBaseModel):
 	PHarm_T: Optional[float] = Field(description="Phase T harmonic power measurement", example=220.12)
 	PHarm_A: Optional[float] = Field(description="Harmonic power average measurement", example=220.12)
 
+	# PHarm Root Validator
+	@root_validator
+	def Handle_PHarm_Fields(cls, Values):
+		PHarm_Values = Values.get('PHarm')
+		if PHarm_Values is not None:
+			for i, Value in enumerate(PHarm_Values):
+				if i == 0: Values['PHarm_R'] = Value
+				if i == 1: Values['PHarm_S'] = Value
+				if i == 2: Values['PHarm_T'] = Value
+				if i == 3: Values['PHarm_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Fundamental Volt Amper 
 	FunVA: Optional[list[Optional[float]]] = Field(description="Fundamental volt ampere measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 	FunVA_R: Optional[float] = Field(description="Phase R fundamental volt ampere measurement", example=220.12)
 	FunVA_S: Optional[float] = Field(description="Phase S fundamental volt ampere measurement", example=220.12)
 	FunVA_T: Optional[float] = Field(description="Phase T fundamental volt ampere measurement", example=220.12)
 	FunVA_A: Optional[float] = Field(description="Fundamental volt ampere average measurement", example=220.12)
+
+	# FunVA Root Validator
+	@root_validator
+	def Handle_FunVA_Fields(cls, Values):
+		FunVA_Values = Values.get('FunVA')
+		if FunVA_Values is not None:
+			for i, Value in enumerate(FunVA_Values):
+				if i == 0: Values['FunVA_R'] = Value
+				if i == 1: Values['FunVA_S'] = Value
+				if i == 2: Values['FunVA_T'] = Value
+				if i == 3: Values['FunVA_A'] = Value
+		else:
+			pass
+		return Values
 
 	# Power Factor Value
 	PF: Optional[list[Optional[float]]] = Field(description="Power factor measurement", example=[0.812, 0.812, 0.812, 0.812], min_items=0, max_items=4)
@@ -611,6 +723,20 @@ class Payload(CustomBaseModel):
 	PF_A: Optional[float] = Field(description="Power factor average measurement", example=0.81)
 	FQ: Optional[float] = Field(description="Frequency measurement", example=50.12)
 
+	# PF Root Validator
+	@root_validator
+	def Handle_PF_Fields(cls, Values):
+		PF_Values = Values.get('PF')
+		if PF_Values is not None:
+			for i, Value in enumerate(PF_Values):
+				if i == 0: Values['PF_R'] = Value
+				if i == 1: Values['PF_S'] = Value
+				if i == 2: Values['PF_T'] = Value
+				if i == 3: Values['PF_A'] = Value
+		else:
+			pass
+		return Values
+
 	# Active Energy Value
 	AE: Optional[list[Optional[float]]] = Field(description="Active energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 	AE_R: Optional[float] = Field(description="Phase R active energy measurement", example=220.12)
@@ -618,6 +744,21 @@ class Payload(CustomBaseModel):
 	AE_T: Optional[float] = Field(description="Phase T active energy measurement", example=220.12)
 	AE_A: Optional[float] = Field(description="Active energy average measurement", example=220.12)
 	AE_TOT: Optional[float] = Field(description="Active energy total measurement", example=220.12)
+
+	# AE Root Validator
+	@root_validator
+	def Handle_AE_Fields(cls, Values):
+		AE_Values = Values.get('AE')
+		if AE_Values is not None:
+			for i, Value in enumerate(AE_Values):
+				if i == 0: Values['AE_R'] = Value
+				if i == 1: Values['AE_S'] = Value
+				if i == 2: Values['AE_T'] = Value
+				if i == 3: Values['AE_A'] = Value
+				if i == 4: Values['AE_TOT'] = Value
+		else:
+			pass
+		return Values
 
 	# Reactive Energy Leading Value
 	RE_L: Optional[list[Optional[float]]] = Field(description="Reactive leading energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
@@ -627,6 +768,21 @@ class Payload(CustomBaseModel):
 	RE_L_A: Optional[float] = Field(description="Reactive leading energy average measurement", example=220.12)
 	RE_L_TOT: Optional[float] = Field(description="Total leading reactive energy measurement", example=220.12)
 
+	# RE_L Root Validator
+	@root_validator
+	def Handle_RE_L_Fields(cls, Values):
+		RE_L_Values = Values.get('RE_L')
+		if RE_L_Values is not None:
+			for i, Value in enumerate(RE_L_Values):
+				if i == 0: Values['RE_L_R'] = Value
+				if i == 1: Values['RE_L_S'] = Value
+				if i == 2: Values['RE_L_T'] = Value
+				if i == 3: Values['RE_L_A'] = Value
+				if i == 4: Values['RE_L_TOT'] = Value
+		else:
+			pass
+		return Values
+
 	# Reactive Energy Lagging Value
 	RE_G: Optional[list[Optional[float]]] = Field(description="Reactive lagging energy measurement", example=[220.12, 221.12, 219.12, 220.12], min_items=0, max_items=4)
 	RE_G_R: Optional[float] = Field(description="Phase R lagging reactive energy measurement", example=220.12)
@@ -634,6 +790,21 @@ class Payload(CustomBaseModel):
 	RE_G_T: Optional[float] = Field(description="Phase T lagging reactive energy measurement", example=220.12)
 	RE_G_A: Optional[float] = Field(description="Reactive lagging energy average measurement", example=220.12)
 	RE_G_TOT: Optional[float] = Field(description="Total lagging reactive energy measurement", example=220.12)
+
+	# RE_G Root Validator
+	@root_validator
+	def Handle_RE_G_Fields(cls, Values):
+		RE_G_Values = Values.get('RE_G')
+		if RE_G_Values is not None:
+			for i, Value in enumerate(RE_G_Values):
+				if i == 0: Values['RE_G_R'] = Value
+				if i == 1: Values['RE_G_S'] = Value
+				if i == 2: Values['RE_G_T'] = Value
+				if i == 3: Values['RE_G_A'] = Value
+				if i == 4: Values['RE_G_TOT'] = Value
+		else:
+			pass
+		return Values
 
 	# Max78630 Chip Temperature Value
 	Max78630_T: Optional[float] = Field(description="Max78630 chip temperature measurement", example=20.12)

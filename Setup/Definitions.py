@@ -143,4 +143,87 @@ PowerStat_Payload = [
     ("IHarm_T", "Message.IHarm_T"),
     ("IHarm_A", "Message.IHarm_A"),
 
+    # Active Power Parameters
+    ("P_R", "Message.P_R"),
+    ("P_S", "Message.P_S"),
+    ("P_T", "Message.P_T"),
+    ("P_A", "Message.P_A"),
+
+    # Reactive Power Parameters
+    ("Q_R", "Message.Q_R"),
+    ("Q_S", "Message.Q_S"),
+    ("Q_T", "Message.Q_T"),
+    ("Q_A", "Message.Q_A"),
+
+    # Apparent Power Parameters
+    ("S_R", "Message.S_R"),
+    ("S_S", "Message.S_S"),
+    ("S_T", "Message.S_T"),
+    ("S_A", "Message.S_A"),
+
+    # Fundamental Reactive Power Parameters
+    ("QFun_R", "Message.QFun_R"),
+    ("QFun_S", "Message.QFun_S"),
+    ("QFun_T", "Message.QFun_T"),
+    ("QFun_A", "Message.QFun_A"),
+
+    # Harmonic Reactive Power Parameters
+    ("QHarm_R", "Message.QHarm_R"),
+    ("QHarm_S", "Message.QHarm_S"),
+    ("QHarm_T", "Message.QHarm_T"),
+    ("QHarm_A", "Message.QHarm_A"),
+
+    # Fundamental Active Power Parameters
+    ("PFun_R", "Message.PFun_R"),
+    ("PFun_S", "Message.PFun_S"),
+    ("PFun_T", "Message.PFun_T"),
+    ("PFun_A", "Message.PFun_A"),
+
+    # Harmonic Active Power Parameters
+    ("PHarm_R", "Message.PHarm_R"),
+    ("PHarm_S", "Message.PHarm_S"),
+    ("PHarm_T", "Message.PHarm_T"),
+    ("PHarm_A", "Message.PHarm_A"),
+
+    # Fundamental Volt Amper Parameters
+    ("FunVA_R", "Message.FunVA_R"),
+    ("FunVA_S", "Message.FunVA_S"),
+    ("FunVA_T", "Message.FunVA_T"),
+    ("FunVA_A", "Message.FunVA_A"),
+
+    # Power Factor Parameters
+    ("PF_R", "Message.PF_R"),
+    ("PF_S", "Message.PF_S"),
+    ("PF_T", "Message.PF_T"),
+    ("PF_A", "Message.PF_A"),
+
+    # Active Energy Parameters
+    ("AE_R", "Message.AE_R"),
+    ("AE_S", "Message.AE_S"),
+    ("AE_T", "Message.AE_T"),
+    ("AE_A", "Message.AE_A"),
+    ("AE_TOT", "Message.AE_TOT"),
+
+    # Leading Reactive Energy Parameters
+    ("RE_L_R", "Message.RE_L_R"),
+    ("RE_L_S", "Message.RE_L_S"),
+    ("RE_L_T", "Message.RE_L_T"),
+    ("RE_L_A", "Message.RE_L_A"),
+    ("RE_L_TOT", "Message.RE_L_TOT"),
+
+    # Lagging Reactive Energy Parameters
+    ("RE_G_R", "Message.RE_G_R"),
+    ("RE_G_S", "Message.RE_G_S"),
+    ("RE_G_T", "Message.RE_G_T"),
+    ("RE_G_A", "Message.RE_G_A"),
+    ("RE_G_TOT", "Message.RE_G_TOT"),
+
+    # Frequency Parameters
+    ("FQ", "Message.FQ"),
+
+    # MAX78630 Temperature Parameters
+    ("Max78630_T", "Message.Max78630_T"),
+
+
+
 ]
