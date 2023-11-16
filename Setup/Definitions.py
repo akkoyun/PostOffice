@@ -77,18 +77,30 @@ Non_Device_Parameter = [
 # Define WeatherStat Payload
 WeatherStat_Payload = [
 
-    # Weather Parameters
+    # Temperature Parameters
     ("AT", "Message.AT"),
-    ("AH", "Message.AH"),
     ("AT_FL", "Handler.FL_Calculator(Message.AT, Message.AH)"),
     ("AT_Dew", "Handler.Dew_Calculator(Message.AT, Message.AH)"),
+
+    # Humidity Parameters
+    ("AH", "Message.AH"),
+
+    # Pressure Parameters
     ("AP", "Message.AP"),
+    
+    # Light Parameters
     ("VL", "Message.VL"),
     ("IR", "Message.IR"),
     ("UV", "Message.UV"),
+    
+    # Wind Parameters
     ("WD", "Message.WD"),
     ("WS", "Message.WS"),
+    
+    # Rain Parameters
     ("R", "Message.R"),
+    
+    # Soil Temperature Parameters
     ("ST0", "Message.ST_0"),
     ("ST1", "Message.ST_1"),
     ("ST2", "Message.ST_2"),
@@ -105,39 +117,55 @@ WeatherStat_Payload = [
 # Define PowerStat Payload
 PowerStat_Payload = [
 
-    # Voltage Parameters
+    # Instant Voltage Parameters
     ("V_R", "Message.V_R"),
     ("V_S", "Message.V_S"),
     ("V_T", "Message.V_T"),
     ("V_A", "Message.V_A"),
+
+    # RMS Voltage Parameters
     ("VRMS_R", "Message.VRMS_R"),
     ("VRMS_S", "Message.VRMS_S"),
     ("VRMS_T", "Message.VRMS_T"),
     ("VRMS_A", "Message.VRMS_A"),
+
+    # Fundamental Voltage Parameters
     ("VFun_R", "Message.VFun_R"),
     ("VFun_S", "Message.VFun_S"),
     ("VFun_T", "Message.VFun_T"),
     ("VFun_A", "Message.VFun_A"),
+
+    # Harmonic Voltage Parameters
     ("VHarm_R", "Message.VHarm_R"),
     ("VHarm_S", "Message.VHarm_S"),
     ("VHarm_T", "Message.VHarm_T"),
     ("VHarm_A", "Message.VHarm_A"),
+
+    # Instant Current Parameters
     ("I_R", "Message.I_R"),
     ("I_S", "Message.I_S"),
     ("I_T", "Message.I_T"),
     ("I_A", "Message.I_A"),
+
+    # Peak Current Parameters
     ("IP_R", "Message.IP_R"),
     ("IP_S", "Message.IP_S"),
     ("IP_T", "Message.IP_T"),
     ("IP_A", "Message.IP_A"),
+
+    # RMS Current Parameters
     ("IRMS_R", "Message.IRMS_R"),
     ("IRMS_S", "Message.IRMS_S"),
     ("IRMS_T", "Message.IRMS_T"),
     ("IRMS_A", "Message.IRMS_A"),
+
+    # Fundamental Current Parameters
     ("IFun_R", "Message.IFun_R"),
     ("IFun_S", "Message.IFun_S"),
     ("IFun_T", "Message.IFun_T"),
     ("IFun_A", "Message.IFun_A"),
+
+    # Harmonic Current Parameters
     ("IHarm_R", "Message.IHarm_R"),
     ("IHarm_S", "Message.IHarm_S"),
     ("IHarm_T", "Message.IHarm_T"),
@@ -223,7 +251,5 @@ PowerStat_Payload = [
 
     # MAX78630 Temperature Parameters
     ("Max78630_T", "Message.Max78630_T"),
-
-
 
 ]
