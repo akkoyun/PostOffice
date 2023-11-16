@@ -6,9 +6,7 @@ sys.path.append('/root/PostOffice/')
 from pydantic import BaseModel, Field, validator, root_validator
 from typing import Optional
 from datetime import datetime
-from dateutil import parser
 import re
-from Setup.Config import Payload_Limits as Limits
 
 # Define IoT Data Base Model
 # Version 01.00.00
@@ -305,37 +303,37 @@ class Device(CustomBaseModel):
 class Payload(CustomBaseModel):
 
 	# Latitude Value of Device
-	Latitude: Optional[float] = Field(description="GNSS lattitude value.", example=1.243242342, min=Limits.LATITUDE_MIN, max=Limits.LATITUDE_MAX)
+	Latitude: Optional[float] = Field(description="GNSS lattitude value.", example=1.243242342)
 
 	# Longitude Value of Device
-	Longitude: Optional[float] = Field(description="GNSS longitude value.", example=23.3213232, min=Limits.LONGITUDE_MIN, max=Limits.LONGITUDE_MAX)
+	Longitude: Optional[float] = Field(description="GNSS longitude value.", example=23.3213232)
 
 	# Last Measured PCB Temperature Value
-	PCB_T: Optional[float] = Field(description="PCB temperature.", example=28.3232, min=Limits.PCB_TEMPERATURE_MIN, max=Limits.PCB_TEMPERATURE_MAX)
+	PCB_T: Optional[float] = Field(description="PCB temperature.", example=28.3232)
 
 	# Last Measured PCB Humidity Value
-	PCB_H: Optional[float] = Field(description="PCB humidity.", example=85.2332, min=Limits.PCB_HUMIDITY_MIN, max=Limits.PCB_HUMIDITY_MAX)
+	PCB_H: Optional[float] = Field(description="PCB humidity.", example=85.2332)
 
 	# Last Measured Air Temperature Value
-	AT: Optional[float] = Field(description="Air temperature.", example=28.3232, min=Limits.AT_MIN, max=Limits.AT_MAX)
+	AT: Optional[float] = Field(description="Air temperature.", example=28.3232)
 
 	# Last Measured Relative Humidity Value
-	AH: Optional[float] = Field(description="Air humidity.", example=85.2332, min=Limits.AH_MIN, max=Limits.AH_MAX)
+	AH: Optional[float] = Field(description="Air humidity.", example=85.2332)
 
 	# Last Measured Air Pressure Value
-	AP: Optional[float] = Field(description="Air pressure.", example=985.55, min=Limits.AP_MIN, max=Limits.AP_MAX)
+	AP: Optional[float] = Field(description="Air pressure.", example=985.55)
 
 	# Last Measured Visual Light Value
-	VL: Optional[int] = Field(description="Visual light.", example=1234, min=Limits.VL_MIN, max=Limits.VL_MAX)
+	VL: Optional[int] = Field(description="Visual light.", example=1234)
 
 	# Last Measured Infrared Light Value
-	IR: Optional[int] = Field(description="Infrared light.", example=1234, min=Limits.IR_MIN, max=Limits.IR_MAX)
+	IR: Optional[int] = Field(description="Infrared light.", example=1234)
 
 	# Last Measured UV Value
-	UV: Optional[float] = Field(description="UV index.", example=2.12, min=Limits.UV_MIN, max=Limits.UV_MAX)
+	UV: Optional[float] = Field(description="UV index.", example=2.12)
 
 	# Last Measured Soil Temperature Value (Array)
-	ST: Optional[list[Optional[float]]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=0, max_items=10, min=Limits.ST_MIN, max=Limits.ST_MAX)
+	ST: Optional[list[Optional[float]]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=0, max_items=10)
 
 	# Last Measured Soil Temperature Value (Single)
 	ST_0: Optional[float] = Field(description="10 cm Soil temperature.", example=28.12)
@@ -350,13 +348,13 @@ class Payload(CustomBaseModel):
 	ST_9: Optional[float] = Field(description="100 cm Soil temperature.", example=19.12)
 
 	# Last Measured Rain Value
-	R: Optional[int] = Field(description="Rain tip counter.", example=23, min=Limits.R_MIN, max=Limits.R_MAX)
+	R: Optional[int] = Field(description="Rain tip counter.", example=23)
 
 	# Last Measured Wind Direction Value
-	WD: Optional[int] = Field(description="Wind direction.", example=275, min=Limits.WD_MIN, max=Limits.WD_MAX)
+	WD: Optional[int] = Field(description="Wind direction.", example=275)
 
 	# Last Measured Wind Speed Value
-	WS: Optional[float] = Field(description="Wind speed.", example=25, min=Limits.WS_MIN, max=Limits.WS_MAX)
+	WS: Optional[float] = Field(description="Wind speed.", example=25)
 
 	# Instant Voltage Value
 	V: Optional[list[Optional[float]]] = Field(description="Instant voltage measurement", example=[220.12, 222.12, 235.12, 225.12], min_items=0, max_items=4)

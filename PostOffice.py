@@ -112,6 +112,22 @@ def Root(request: Request):
 		}
 	}
 
+# Record Abstract Get Method
+@PostOffice.get("/Abstract", status_code=status.HTTP_200_OK)
+@PostOffice.get("/Abstract/", status_code=status.HTTP_200_OK)
+def Abstract(request: Request):
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"New Abstract Request: {request.client.host}")
+
+	# Get Device Count
+	Device_Count = Handler.Get_Device_Count()
+
+	# Send Success
+	return {
+		"Device_Count": Device_Count
+	}
+
 # IoT Post Method
 @PostOffice.post("", status_code=status.HTTP_201_CREATED)
 @PostOffice.post("/", status_code=status.HTTP_201_CREATED)
