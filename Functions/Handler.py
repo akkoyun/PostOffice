@@ -494,8 +494,18 @@ def Get_Count(Table: str):
 
     try:
 
+        # Handle Table Name
+        if Table == 'Device': Table_Name = Models.Device
+        elif Table == 'Modem': Table_Name = Models.Modem
+        elif Table == 'SIM': Table_Name = Models.SIM
+        elif Table == 'Version': Table_Name = Models.Version
+        elif Table == 'Stream': Table_Name = Models.Stream
+        elif Table == 'Parameter': Table_Name = Models.Parameter
+        elif Table == 'Payload': Table_Name = Models.Payload
+        else: Table_Name = None
+
         # Query Count
-        Query_Count = DB_Module.query(Table).count()
+        Query_Count = DB_Module.query(Table_Name).count()
 
         # Get Count
         Count = Query_Count
