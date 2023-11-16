@@ -60,3 +60,32 @@ Parameter = [
     ("LAC", "Message.IoT.LAC"),
     ("Cell_ID", "Message.IoT.Cell_ID")
 ]
+
+# Define Non Device Parameters
+Non_Device_Parameter = [
+
+    # Location Parameters
+    ("Latitude", "Message.Latitude"),
+    ("Longitude", "Message.Longitude"),
+
+    # PCB Initial Measurements
+    ("PCB_T", "Message.PCB_T"),
+    ("PCB_H", "Message.PCB_H")
+
+]
+
+# Define Weather Payload
+WeatherStat_Payload = [
+
+    # Weather Parameters
+    ("AT", "Message.AT"),
+    ("AH", "Message.AH"),
+    ("AP", "Message.AP"),
+    ("VL", "Message.VL"),
+    ("IR", "Message.IR"),
+    ("UV", "Message.UV"),
+    ("WD", "Message.WD"),
+    ("WS", "Message.WS"),
+    ("R", "Message.R")
+
+]

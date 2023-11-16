@@ -4,6 +4,8 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Definitions
+from Setup.Definitions import Non_Device_Parameter
+from Setup.Definitions import WeatherStat_Payload
 from Functions import Kafka, Log, Handler
 
 # Try to Parse Topics
@@ -31,26 +33,37 @@ try:
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)
 
-        # Control for Location
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "Latitude", Message.Latitude)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "Longitude", Message.Longitude)
+        # Control for Non Device Parameters
+        for Non_Device_Parameter_Name, Non_Device_Parameter_Path in Non_Device_Parameter:
 
-        # Control for PCB Initial Measurements
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "PCB_T", Message.PCB_T)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "PCB_H", Message.PCB_H)
+            # Get Parameter Path
+            Non_Device_Message_Path = eval(Non_Device_Parameter_Path)
+
+            # Handle Parameter
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Non_Device_Parameter_Name, Non_Device_Message_Path)
+
+        # Control for WeatherStat Payloads
+        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in WeatherStat_Payload:
+
+            # Get Parameter Path
+            WeatherStat_Message_Path = eval(WeatherStat_Payload_Path)
+
+            # Handle Parameter
+            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Message_Path)
 
         # WeatherStat Payloads
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "AT", Message.AT)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "AH", Message.AH)
         Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "AT_FL", Handler.FL_Calculator(Message.AT, Message.AH))
         Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "AT_Dew", Handler.Dew_Calculator(Message.AT, Message.AH))
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "AP", Message.AP)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "VL", Message.VL)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "IR", Message.IR)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "UV", Message.UV)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "WD", Message.WD)
-        Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "WS", Message.WS)
-        if Message.R is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, "R", (Message.R / 200))
+
+
+
+
+
+
+
+
+
+
         if Message.ST is not None:
 
             # Loop Through Measurements
