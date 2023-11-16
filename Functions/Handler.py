@@ -32,28 +32,6 @@ def Control_Device(DB_Module, Device_ID: str):
     # Return Device Status
     return Device_Status
 
-# Get Device Count
-def Get_Device_Count():
-
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
-    try:
-
-        # Query Device Count
-        Query_Device_Count = DB_Module.query(Models.Device).count()
-
-        # Get Device Count
-        Device_Count = Query_Device_Count
-
-    finally:
-
-        # Close Database
-        DB_Module.close()
-
-    # Return Device Count
-    return Device_Count
-
 # Update Device Last_Connection in Database
 def Update_Device_Last_Connection(DB_Module, Device_ID: str):
 
@@ -507,3 +485,25 @@ def Dew_Calculator(Temperature: float, Humidity: float):
 
             # Return None
             return None
+
+# Get Count
+def Get_Count(Table: str):
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    try:
+
+        # Query Count
+        Query_Count = DB_Module.query(Table).count()
+
+        # Get Count
+        Count = Query_Count
+
+    finally:
+
+        # Close Database
+        DB_Module.close()
+
+    # Return Count
+    return Count

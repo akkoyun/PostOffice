@@ -120,12 +120,24 @@ def Abstract(request: Request):
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Abstract Request: {request.client.host}")
 
-	# Get Device Count
-	Device_Count = Handler.Get_Device_Count()
+	# Get Count
+	Device_Count = Handler.Get_Count("Device")
+	Data_Type_Count = Handler.Get_Count("Data_Type")
+	Modem_Count = Handler.Get_Count("Modem")
+	SIM_Count = Handler.Get_Count("SIM")
+	Stream_Count = Handler.Get_Count("Stream")
+	Parameter_Count = Handler.Get_Count("Parameter")
+	Payload_Count = Handler.Get_Count("Payload")
 
 	# Send Success
 	return {
-		"Device_Count": Device_Count
+		"Device_Count": Device_Count,
+		"Data_Type_Count": Data_Type_Count,
+		"Modem_Count": Modem_Count,
+		"SIM_Count": SIM_Count,
+		"Stream_Count": Stream_Count,
+		"Parameter_Count": Parameter_Count,
+		"Payload_Count": Payload_Count
 	}
 
 # IoT Post Method
