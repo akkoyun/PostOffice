@@ -4,7 +4,8 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Definitions
-from Setup.Definitions import Non_Device_Parameter, WeatherStat_Payload, PowerStat_Payload
+from Setup.Definitions import Non_Device_Parameter, WeatherStat_Payload
+from Setup.Definitions import Type_List
 from Functions import Kafka, Log, Handler
 
 # Try to Parse Topics
@@ -51,7 +52,7 @@ try:
             Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Message_Path)
 
         # Control for PowerStat Payloads
-        for PowerStat_Payload_Name, PowerStat_Payload_Path in PowerStat_Payload:
+        for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(6000):
 
             # Get Parameter Path
             PowerStat_Message_Path = eval(PowerStat_Payload_Path)

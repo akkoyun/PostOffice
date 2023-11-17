@@ -1,3 +1,13 @@
+# Setup Library
+import sys
+sys.path.append('/root/PostOffice/')
+
+# Library Includes
+from Setup import Database, Models, View_Models, Definitions
+from Functions import Log
+from datetime import datetime
+import math
+
 # Define Headers
 class Headers:
 
@@ -40,26 +50,6 @@ class Measurement:
         self.Min_Time = Min_Time
         self.Max = Max
         self.Max_Time = Max_Time
-
-# Define Parameter Type
-Parameter = [
-
-    # Battery Parameters
-    ("B_IV", "Message.Power.B_IV"),
-    ("B_AC", "Message.Power.B_AC"),
-    ("B_FC", "Message.Power.B_FC"),
-    ("B_IC", "Message.Power.B_IC"),
-    ("B_SOC", "Message.Power.B_SOC"),
-    ("B_T", "Message.Power.B_T"),
-    ("B_CS", "Message.Power.B_CS"),
-    
-    # IoT Parameters
-    ("RSSI", "Message.IoT.RSSI"),
-    ("ConnTime", "Message.IoT.ConnTime"),
-    ("TAC", "Message.IoT.TAC"),
-    ("LAC", "Message.IoT.LAC"),
-    ("Cell_ID", "Message.IoT.Cell_ID")
-]
 
 # Define Non Device Parameters
 Non_Device_Parameter = [
@@ -253,3 +243,29 @@ PowerStat_Payload = [
     ("Max78630_T", "Message.Max78630_T"),
 
 ]
+
+# Type List Function
+def Type_List(Type_ID: int):
+
+    # Define Type List
+    Type_Min = Type_ID
+    Type_Max = Type_ID + 1000
+
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
+    try:
+
+        # Query all data types where Type_ID is >= 6000 and < 7000
+        Data_Type_Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Type_ID >= Type_Min).filter(Models.Data_Type.Type_ID < Type_Max).all()
+
+        # Convert query results to the specified format
+        Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+
+    finally:
+        
+        # Close Database
+        DB_Module.close()
+
+    # End Function
+    return Formatted_Data
