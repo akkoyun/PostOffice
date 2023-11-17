@@ -34,15 +34,15 @@ try:
 
         # Control for Non Device Parameters
         for Non_Device_Parameter_Name, Non_Device_Parameter_Path in Definitions.Type_List(0):
-            if eval(Non_Device_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Non_Device_Parameter_Name, eval(Non_Device_Parameter_Path))
+            if eval(Non_Device_Parameter_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Non_Device_Parameter_Name, eval(Non_Device_Parameter_Path))
 
         # Control for WeatherStat Payloads
         for WeatherStat_Parameter_Name, WeatherStat_Parameter_Path in Definitions.Type_List(4):
-            if eval(WeatherStat_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Parameter_Name, eval(WeatherStat_Parameter_Path))
+            if eval(WeatherStat_Parameter_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Parameter_Name, eval(WeatherStat_Parameter_Path))
 
         # Control for PowerStat Payloads
         for PowerStat_Parameter_Name, PowerStat_Parameter_Path in Definitions.Type_List(6):
-            if eval(PowerStat_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Parameter_Name, eval(PowerStat_Parameter_Path))
+            if eval(PowerStat_Parameter_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Parameter_Name, eval(PowerStat_Parameter_Path))
 
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
