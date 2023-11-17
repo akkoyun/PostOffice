@@ -41,10 +41,10 @@ try:
                 try:
 
                     # Get Parameter Path
-                    Message_Path = eval(Battery_Parameter_Path)
+                    Battery_Message_Path = eval(Battery_Parameter_Path)
 
                     # Handle Parameter
-                    Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Battery_Parameter_Name, Message_Path)
+                    Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Battery_Parameter_Name, Battery_Message_Path)
 
                 except Exception as e:
 
@@ -59,10 +59,10 @@ try:
                 try:
 
                     # Get Parameter Path
-                    Message_Path = eval(IoT_Parameter_Path)
+                    IoT_Message_Path = eval(IoT_Parameter_Path)
 
                     # Handle Parameter
-                    Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, IoT_Parameter_Name, Message_Path)
+                    Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, IoT_Parameter_Name, IoT_Message_Path)
 
                 except Exception as e:
 
