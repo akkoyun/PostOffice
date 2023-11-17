@@ -337,15 +337,31 @@ class Payload(CustomBaseModel):
 
 	# Last Measured Air Temperature Value
 	AT: Optional[float] = Field(description="Air temperature.", example=28.3232)
+	AT2: Optional[float] = Field(description="Air temperature.", example=28.3232)
+	AT3: Optional[float] = Field(description="Air temperature.", example=28.3232)
+	AT4: Optional[float] = Field(description="Air temperature.", example=28.3232)
+	AT5: Optional[float] = Field(description="Air temperature.", example=28.3232)
 
 	# Last Measured Relative Humidity Value
 	AH: Optional[float] = Field(description="Air humidity.", example=85.2332)
+	AH2: Optional[float] = Field(description="Air humidity.", example=85.2332)
+	AH3: Optional[float] = Field(description="Air humidity.", example=85.2332)
+	AH4: Optional[float] = Field(description="Air humidity.", example=85.2332)
+	AH5: Optional[float] = Field(description="Air humidity.", example=85.2332)
 
 	# Last Measured Air Pressure Value
 	AP: Optional[float] = Field(description="Air pressure.", example=985.55)
+	AP2: Optional[float] = Field(description="Air pressure.", example=985.55)
+	AP3: Optional[float] = Field(description="Air pressure.", example=985.55)
+	AP4: Optional[float] = Field(description="Air pressure.", example=985.55)
+	AP5: Optional[float] = Field(description="Air pressure.", example=985.55)
 
 	# Last Measured Visual Light Value
 	VL: Optional[int] = Field(description="Visual light.", example=1234)
+	VL2: Optional[int] = Field(description="Visual light.", example=1234)
+	VL3: Optional[int] = Field(description="Visual light.", example=1234)
+	VL4: Optional[int] = Field(description="Visual light.", example=1234)
+	VL5: Optional[int] = Field(description="Visual light.", example=1234)
 
 	# Last Measured Infrared Light Value
 	IR: Optional[int] = Field(description="Infrared light.", example=1234)
