@@ -55,7 +55,7 @@ try:
         for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(6000):
 
             # Control for WeatherStat Payloads
-            if PowerStat_Payload_Path is not None:
+            if PowerStat_Payload_Path in Type_List(6000):
 
                 # Get Parameter Path
                 PowerStat_Message_Path = eval(PowerStat_Payload_Path)
