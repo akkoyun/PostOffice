@@ -36,7 +36,7 @@ try:
             if eval(Battery_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Battery_Parameter_Name, eval(Battery_Parameter_Path))
 
         # Control for IoT Parameters
-        for IoT_Parameter_Name, IoT_Parameter_Path in Definitions.Type_List(2):
+        for IoT_Parameter_Name, IoT_Parameter_Path in Definitions.Type_List(3):
             if eval(IoT_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, IoT_Parameter_Name, eval(IoT_Parameter_Path))
 
         # Commit Kafka Consumer
