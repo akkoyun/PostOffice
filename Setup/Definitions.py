@@ -57,18 +57,29 @@ def Type_List(Segment: int):
     # Define DB
     DB_Module = Database.SessionLocal()
 
+    # Define Formatted Data
+    # 0 - Unknown
+    # 1 - Device
+    # 2 - Power
+    # 3 - GSM
+    # 4 - Location
+    # 5 - Environment
+    # 6 - Water
+    # 7 - Energy
+
     try:
 
         # Query all data types
         Data_Type_Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment).all()
 
         # Control for Parameter Type
-        if Segment == 2:
-            Formatted_Data = [(data_type.Variable, f"Message.Power.{data_type.Variable}") for data_type in Data_Type_Query]
-        elif Segment == 3:
-            Formatted_Data = [(data_type.Variable, f"Message.IoT.{data_type.Variable}") for data_type in Data_Type_Query]
-        else:
-            Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        if Segment == 1: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 2: Formatted_Data = [(data_type.Variable, f"Message.Power.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 3: Formatted_Data = [(data_type.Variable, f"Message.IoT.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 4: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 5: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 6: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 7: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
 
     finally:
         

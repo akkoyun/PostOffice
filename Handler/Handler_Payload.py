@@ -32,77 +32,35 @@ try:
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)
 
+        # Define Formatted Data
+        # 0 - Unknown
+        # 1 - Device
+        # 2 - Power
+        # 3 - GSM
+        # 4 - Location
+        # 5 - Environment
+        # 6 - Water
+        # 7 - Energy
+
         # Control for Device Parameters
         for Device_Parameter_Name, Device_Parameter_Path in Type_List(1):
-
-            # Control Payload Path
-            if Device_Parameter_Path is not None:
-
-                try:
-
-                    # Get Parameter Path
-                    Non_Device_Message_Path = eval(Device_Parameter_Path)
-
-                    # Handle Parameter
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Device_Parameter_Name, Non_Device_Message_Path)
-
-                except Exception as e:
-
-                    continue
+            if eval(Device_Parameter_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Device_Parameter_Name, eval(Device_Parameter_Path))
 
         # Control for Location Parameters
         for Location_Parameter_Name, Location_Parameter_Path in Type_List(4):
-
-            # Control Payload Path
-            if Location_Parameter_Path is not None:
-
-                try:
-
-                    # Get Parameter Path
-                    Non_Device_Message_Path = eval(Location_Parameter_Path)
-
-                    # Handle Parameter
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Location_Parameter_Name, Non_Device_Message_Path)
-
-                except Exception as e:
-
-                    continue
+            if eval(Location_Parameter_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Location_Parameter_Name, eval(Location_Parameter_Path))
 
         # Control for WeatherStat Payloads
         for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(5):
+            if eval(WeatherStat_Payload_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, eval(WeatherStat_Payload_Path))
 
-            # Control Payload Path
-            if WeatherStat_Payload_Path is not None:
-
-                try:
-
-                    # Get Parameter Path
-                    WeatherStat_Message_Path = eval(WeatherStat_Payload_Path)
-
-                    # Handle Parameter
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Message_Path)
-
-                except Exception as e:
-
-                    continue
+        # Control for Water Payloads
+        for Water_Payload_Name, Water_Payload_Path in Type_List(6):
+            if eval(Water_Payload_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Water_Payload_Name, eval(Water_Payload_Path))
 
         # Control for PowerStat Payloads
         for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(7):
-
-            # Control Payload Path
-            if PowerStat_Payload_Path is not None:
-
-                try:
-
-                    # Get Parameter Path
-                    PowerStat_Message_Path = eval(PowerStat_Payload_Path)
-
-                    # Handle Parameter
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, PowerStat_Message_Path)
-
-                except Exception as e:
-
-                    continue
+            if eval(PowerStat_Payload_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, eval(PowerStat_Payload_Path))
 
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
