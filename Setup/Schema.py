@@ -315,7 +315,7 @@ class Payload(CustomBaseModel):
 	Speed: Optional[float] = Field(description="GNSS speed value.", example=123.123)
 
 	# Heading Value of Device
-	Heading: Optional[float] = Field(description="GNSS heading value.", example=123.123)
+	Head: Optional[float] = Field(description="GNSS heading value.", example=123.123)
 
 	# Horizontal Accuracy Value of Device
 	H_Acc: Optional[float] = Field(description="GNSS horizontal accuracy value.", example=123.123)
