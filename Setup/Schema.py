@@ -342,6 +342,20 @@ class Payload(CustomBaseModel):
 	AT4: Optional[float] = Field(description="Air temperature.", example=28.3232)
 	AT5: Optional[float] = Field(description="Air temperature.", example=28.3232)
 
+	# Last Measured Feels Like Temperature Value
+	AT_FL: Optional[float] = Field(description="Feels like temperature.", example=28.3232)
+	AT2_FL: Optional[float] = Field(description="Feels like temperature.", example=28.3232)
+	AT3_FL: Optional[float] = Field(description="Feels like temperature.", example=28.3232)
+	AT4_FL: Optional[float] = Field(description="Feels like temperature.", example=28.3232)
+	AT5_FL: Optional[float] = Field(description="Feels like temperature.", example=28.3232)
+
+	# Last Measured Dew Point Value
+	AT_Dew: Optional[float] = Field(description="Dew point.", example=28.3232)
+	AT2_Dew: Optional[float] = Field(description="Dew point.", example=28.3232)
+	AT3_Dew: Optional[float] = Field(description="Dew point.", example=28.3232)
+	AT4_Dew: Optional[float] = Field(description="Dew point.", example=28.3232)
+	AT5_Dew: Optional[float] = Field(description="Dew point.", example=28.3232)
+
 	# Last Measured Relative Humidity Value
 	AH: Optional[float] = Field(description="Air humidity.", example=85.2332)
 	AH2: Optional[float] = Field(description="Air humidity.", example=85.2332)
