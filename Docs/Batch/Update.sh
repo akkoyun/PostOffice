@@ -91,6 +91,7 @@ Stop_Service Handler_RAW.service
 Stop_Service Handler_Parameter.service
 Stop_Service Handler_Payload.service
 Stop_Service PostOffice_Service_Controller.service
+Stop_Service nginx.service
 
 # Message
 echo "----------------------------------------------"
@@ -108,6 +109,9 @@ python3 /root/PostOffice/Setup/Data_Update.py
 # Message
 echo "----------------------------------------------"
 
+# Copy Files
+echo "${yellow}Updating files...${reset}"
+
 # Copy Service Files
 Copy_File "/root/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
 Copy_File "/root/PostOffice/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"
@@ -115,10 +119,8 @@ Copy_File "/root/PostOffice/Docs/Service/Handler_Parameter.service" "/etc/system
 Copy_File "/root/PostOffice/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
 Copy_File "/root/PostOffice/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
 
-# Copy Admin Files
-cd /root
-rm -r /var/www/admin/*
-cp -r /root/PostOffice/Admin/* /var/www/admin/
+# Copy Nginx Files
+Copy_File "/PostOffice/Docs/Service/nginx.conf" "/etc/nginx/sites-enabled/default"
 
 # Copy SH Batch Files
 Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
@@ -140,6 +142,7 @@ Start_Service Handler_RAW.service
 Start_Service Handler_Parameter.service
 Start_Service Handler_Payload.service
 Start_Service PostOffice_Service_Controller.service
+Start_Service nginx.service
 
 # Message
 echo "----------------------------------------------"
