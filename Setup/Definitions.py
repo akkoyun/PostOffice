@@ -69,7 +69,7 @@ def Type_List(Type_ID: int):
         # Control for Parameter Type
         if Type_ID == 1000:
             Formatted_Data = [(data_type.Variable, f"Message.Power.{data_type.Variable}") for data_type in Data_Type_Query]
-        elif Type_ID == 2000:
+        elif Type_ID == 3000:
             Formatted_Data = [(data_type.Variable, f"Message.IoT.{data_type.Variable}") for data_type in Data_Type_Query]
         else:
             Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
