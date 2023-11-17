@@ -63,7 +63,7 @@ def Type_List(Segment: int):
         Data_Type_Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment).all()
 
         # Control for Parameter Type
-        if Segment == 1:
+        if Segment == 2:
             Formatted_Data = [(data_type.Variable, f"Message.Power.{data_type.Variable}") for data_type in Data_Type_Query]
         elif Segment == 3:
             Formatted_Data = [(data_type.Variable, f"Message.IoT.{data_type.Variable}") for data_type in Data_Type_Query]

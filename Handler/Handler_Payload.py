@@ -32,26 +32,44 @@ try:
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)
 
-        # Control for Non Device Parameters
-        for Non_Device_Parameter_Name, Non_Device_Parameter_Path in Type_List(0):
+        # Control for Device Parameters
+        for Device_Parameter_Name, Device_Parameter_Path in Type_List(1):
 
             # Control Payload Path
-            if Non_Device_Parameter_Path is not None:
+            if Device_Parameter_Path is not None:
 
                 try:
 
                     # Get Parameter Path
-                    Non_Device_Message_Path = eval(Non_Device_Parameter_Path)
+                    Non_Device_Message_Path = eval(Device_Parameter_Path)
 
                     # Handle Parameter
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Non_Device_Parameter_Name, Non_Device_Message_Path)
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Device_Parameter_Name, Non_Device_Message_Path)
+
+                except Exception as e:
+
+                    continue
+
+        # Control for Location Parameters
+        for Location_Parameter_Name, Location_Parameter_Path in Type_List(4):
+
+            # Control Payload Path
+            if Location_Parameter_Path is not None:
+
+                try:
+
+                    # Get Parameter Path
+                    Non_Device_Message_Path = eval(Location_Parameter_Path)
+
+                    # Handle Parameter
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Location_Parameter_Name, Non_Device_Message_Path)
 
                 except Exception as e:
 
                     continue
 
         # Control for WeatherStat Payloads
-        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(4):
+        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(5):
 
             # Control Payload Path
             if WeatherStat_Payload_Path is not None:
