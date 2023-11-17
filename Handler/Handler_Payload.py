@@ -33,58 +33,16 @@ try:
         Message = Kafka.Decode_Payload_Message(RAW_Message)
 
         # Control for Non Device Parameters
-        for Non_Device_Parameter_Name, Non_Device_Parameter_Path in Type_List(0):
-
-            # Control Payload Path
-            if Non_Device_Parameter_Path is not None:
-
-                try:
-
-                    # Get Parameter Path
-                    Non_Device_Message_Path = eval(Non_Device_Parameter_Path)
-
-                    # Handle Parameter
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Non_Device_Parameter_Name, Non_Device_Message_Path)
-
-                except Exception as e:
-
-                    continue
+        for Non_Device_Parameter_Name, Non_Device_Parameter_Path in Definitions.Type_List(0):
+            if eval(Non_Device_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Non_Device_Parameter_Name, eval(Non_Device_Parameter_Path))
 
         # Control for WeatherStat Payloads
-        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(4000):
-
-            # Control Payload Path
-            if WeatherStat_Payload_Path is not None:
-
-                try:
-
-                    # Get Parameter Path
-                    WeatherStat_Message_Path = eval(WeatherStat_Payload_Path)
-
-                    # Handle Parameter
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Message_Path)
-
-                except Exception as e:
-
-                    continue
+        for WeatherStat_Parameter_Name, WeatherStat_Parameter_Path in Definitions.Type_List(4):
+            if eval(WeatherStat_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Parameter_Name, eval(WeatherStat_Parameter_Path))
 
         # Control for PowerStat Payloads
-        for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(6000):
-
-            # Control Payload Path
-            if PowerStat_Payload_Path is not None:
-
-                try:
-
-                    # Get Parameter Path
-                    PowerStat_Message_Path = eval(PowerStat_Payload_Path)
-
-                    # Handle Parameter
-                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, PowerStat_Message_Path)
-
-                except Exception as e:
-
-                    continue
+        for PowerStat_Parameter_Name, PowerStat_Parameter_Path in Definitions.Type_List(6):
+            if eval(PowerStat_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Parameter_Name, eval(PowerStat_Parameter_Path))
 
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()

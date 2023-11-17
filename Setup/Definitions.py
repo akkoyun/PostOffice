@@ -52,24 +52,20 @@ class Measurement:
         self.Max_Time = Max_Time
 
 # Type List Function
-def Type_List(Type_ID: int):
-
-    # Define Type List
-    Type_Min = Type_ID
-    Type_Max = Type_ID + 1000
+def Type_List(Segment: int):
 
     # Define DB
     DB_Module = Database.SessionLocal()
 
     try:
 
-        # Query all data types where Type_ID is >= 6000 and < 7000
-        Data_Type_Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Type_ID >= Type_Min).filter(Models.Data_Type.Type_ID < Type_Max).all()
+        # Query all data types
+        Data_Type_Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment).all()
 
         # Control for Parameter Type
-        if Type_ID == 1000:
+        if Segment == 1:
             Formatted_Data = [(data_type.Variable, f"Message.Power.{data_type.Variable}") for data_type in Data_Type_Query]
-        elif Type_ID == 3000:
+        elif Segment == 3:
             Formatted_Data = [(data_type.Variable, f"Message.IoT.{data_type.Variable}") for data_type in Data_Type_Query]
         else:
             Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]

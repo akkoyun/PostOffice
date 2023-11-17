@@ -32,31 +32,12 @@ try:
         Message = Kafka.Decode_Device_Message(RAW_Message)
 
         # Control for Battery Parameters
-        for Battery_Parameter_Name, Battery_Parameter_Path in Definitions.Type_List(1000):
+        for Battery_Parameter_Name, Battery_Parameter_Path in Definitions.Type_List(1):
             if eval(Battery_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Battery_Parameter_Name, eval(Battery_Parameter_Path))
 
-
-
-
-
-
-        # Control for Battery Parameters
-        for IoT_Parameter_Name, IoT_Parameter_Path in Definitions.Type_List(3000):
-
-            # Control Payload Path
-            if IoT_Parameter_Path is not None:
-
-                try:
-
-                    # Get Parameter Path
-                    IoT_Message_Path = eval(IoT_Parameter_Path)
-
-                    # Handle Parameter
-                    Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, IoT_Parameter_Name, IoT_Message_Path)
-
-                except Exception as e:
-
-                    continue
+        # Control for IoT Parameters
+        for IoT_Parameter_Name, IoT_Parameter_Path in Definitions.Type_List(2):
+            if eval(IoT_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, IoT_Parameter_Name, eval(IoT_Parameter_Path))
 
         # Commit Kafka Consumer
         Kafka.Parameter_Consumer.commit()
