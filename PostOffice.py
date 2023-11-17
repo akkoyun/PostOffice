@@ -169,10 +169,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Message Status Code
 	Message_Status_Code = status.HTTP_200_OK
 
-	# Remove Connection Header
-	if "connection" in request.headers:
-		del request.headers["connection"]
-
 	# Message Content
 	Message_Content = {"Event": status.HTTP_200_OK}
 
