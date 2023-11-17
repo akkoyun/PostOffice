@@ -87,7 +87,7 @@ try:
                     continue
 
         # Control for PowerStat Payloads
-        for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(6):
+        for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(7):
 
             # Control Payload Path
             if PowerStat_Payload_Path is not None:
