@@ -336,16 +336,36 @@ class Payload(CustomBaseModel):
 	ST: Optional[list[Optional[float]]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=0, max_items=10)
 
 	# Last Measured Soil Temperature Value (Single)
-	ST_0: Optional[float] = Field(description="10 cm Soil temperature.", example=28.12)
-	ST_1: Optional[float] = Field(description="20 cm Soil temperature.", example=27.12)
-	ST_2: Optional[float] = Field(description="30 cm Soil temperature.", example=26.12)
-	ST_3: Optional[float] = Field(description="40 cm Soil temperature.", example=25.12)
-	ST_4: Optional[float] = Field(description="50 cm Soil temperature.", example=24.12)
-	ST_5: Optional[float] = Field(description="60 cm Soil temperature.", example=23.12)
-	ST_6: Optional[float] = Field(description="70 cm Soil temperature.", example=22.12)
-	ST_7: Optional[float] = Field(description="80 cm Soil temperature.", example=21.12)
-	ST_8: Optional[float] = Field(description="90 cm Soil temperature.", example=20.12)
-	ST_9: Optional[float] = Field(description="100 cm Soil temperature.", example=19.12)
+	ST0: Optional[float] = Field(description="10 cm Soil temperature.", example=28.12)
+	ST1: Optional[float] = Field(description="20 cm Soil temperature.", example=27.12)
+	ST2: Optional[float] = Field(description="30 cm Soil temperature.", example=26.12)
+	ST3: Optional[float] = Field(description="40 cm Soil temperature.", example=25.12)
+	ST4: Optional[float] = Field(description="50 cm Soil temperature.", example=24.12)
+	ST5: Optional[float] = Field(description="60 cm Soil temperature.", example=23.12)
+	ST6: Optional[float] = Field(description="70 cm Soil temperature.", example=22.12)
+	ST7: Optional[float] = Field(description="80 cm Soil temperature.", example=21.12)
+	ST8: Optional[float] = Field(description="90 cm Soil temperature.", example=20.12)
+	ST9: Optional[float] = Field(description="100 cm Soil temperature.", example=19.12)
+
+	# ST Root Validator
+	@root_validator
+	def Handle_ST_Fields(cls, Values):
+		ST_Values = Values.get('ST')
+		if ST_Values is not None:
+			for i, Value in enumerate(ST_Values):
+				if i == 0: Values['ST0'] = Value
+				if i == 1: Values['ST1'] = Value
+				if i == 2: Values['ST2'] = Value
+				if i == 3: Values['ST3'] = Value
+				if i == 4: Values['ST4'] = Value
+				if i == 5: Values['ST5'] = Value
+				if i == 6: Values['ST6'] = Value
+				if i == 7: Values['ST7'] = Value
+				if i == 8: Values['ST8'] = Value
+				if i == 9: Values['ST9'] = Value
+		else:
+			pass
+		return Values
 
 	# Last Measured Rain Value
 	R: Optional[int] = Field(description="Rain tip counter.", example=23)
