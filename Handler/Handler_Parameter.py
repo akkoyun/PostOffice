@@ -4,7 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Definitions
-from Setup.Definitions import Parameter
+from Setup.Definitions import Type_List
 from Functions import Kafka, Log, Handler
 
 # Try to Parse Topics
@@ -32,14 +32,41 @@ try:
         # Decode Message
         Message = Kafka.Decode_Device_Message(RAW_Message)
 
-        # Control for Parameters
-        for Parameter_Name, Parameter_Path in Parameter:
+        # Control for Battery Parameters
+        for Battery_Parameter_Name, Battery_Parameter_Path in Type_List(1000):
 
-            # Get Parameter Path
-            Message_Path = eval(Parameter_Path)
+            # Control Payload Path
+            if Battery_Parameter_Path is not None:
 
-            # Handle Parameter
-            Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Parameter_Name, Message_Path)
+                try:
+
+                    # Get Parameter Path
+                    Message_Path = eval(Battery_Parameter_Path)
+
+                    # Handle Parameter
+                    Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Battery_Parameter_Name, Message_Path)
+
+                except Exception as e:
+
+                    continue
+
+        # Control for Battery Parameters
+        for IoT_Parameter_Name, IoT_Parameter_Path in Type_List(3000):
+
+            # Control Payload Path
+            if IoT_Parameter_Path is not None:
+
+                try:
+
+                    # Get Parameter Path
+                    Message_Path = eval(IoT_Parameter_Path)
+
+                    # Handle Parameter
+                    Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, IoT_Parameter_Name, Message_Path)
+
+                except Exception as e:
+
+                    continue
 
         # Commit Kafka Consumer
         Kafka.Parameter_Consumer.commit()
