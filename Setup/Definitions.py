@@ -66,8 +66,13 @@ def Type_List(Type_ID: int):
         # Query all data types where Type_ID is >= 6000 and < 7000
         Data_Type_Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Type_ID >= Type_Min).filter(Models.Data_Type.Type_ID < Type_Max).all()
 
-        # Convert query results to the specified format
-        Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        # Control for Parameter Type
+        if Type_ID == 1000:
+            Formatted_Data = [(data_type.Variable, f"Message.Device.Power.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Type_ID == 2000:
+            Formatted_Data = [(data_type.Variable, f"Message.Device.IoT.{data_type.Variable}") for data_type in Data_Type_Query]
+        else:
+            Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
 
     finally:
         

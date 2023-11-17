@@ -33,12 +33,12 @@ try:
 
         # Control for Battery Parameters
         for Battery_Parameter_Name, Battery_Parameter_Path in Definitions.Type_List(1000):
+            if eval(Battery_Parameter_Path) is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Battery_Parameter_Name, eval(Battery_Parameter_Path))
 
-            # Get Parameter Path
-            Battery_Message_Path = eval(Battery_Parameter_Path)
 
-            # Control Payload Path
-            if Battery_Message_Path is not None: Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Battery_Parameter_Name, Battery_Message_Path)
+
+
+
 
         # Control for Battery Parameters
         for IoT_Parameter_Name, IoT_Parameter_Path in Definitions.Type_List(3000):
