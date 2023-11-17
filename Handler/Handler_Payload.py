@@ -54,11 +54,14 @@ try:
         # Control for PowerStat Payloads
         for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(6000):
 
-            # Get Parameter Path
-            PowerStat_Message_Path = eval(PowerStat_Payload_Path)
+            # Control for WeatherStat Payloads
+            if PowerStat_Message_Path is not None:
 
-            # Handle Parameter
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, PowerStat_Message_Path)
+                # Get Parameter Path
+                PowerStat_Message_Path = eval(PowerStat_Payload_Path)
+
+                # Handle Parameter
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, PowerStat_Message_Path)
 
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
