@@ -308,6 +308,27 @@ class Payload(CustomBaseModel):
 	# Longitude Value of Device
 	Longitude: Optional[float] = Field(description="GNSS longitude value.", example=23.3213232)
 
+	# Altitude Value of Device
+	Altitude: Optional[float] = Field(description="GNSS altitude value.", example=123.123)
+
+	# Speed Value of Device
+	Speed: Optional[float] = Field(description="GNSS speed value.", example=123.123)
+
+	# Heading Value of Device
+	Heading: Optional[float] = Field(description="GNSS heading value.", example=123.123)
+
+	# Horizontal Accuracy Value of Device
+	H_Acc: Optional[float] = Field(description="GNSS horizontal accuracy value.", example=123.123)
+
+	# Vertical Accuracy Value of Device
+	V_Acc: Optional[float] = Field(description="GNSS vertical accuracy value.", example=123.123)
+
+	# Position Accuracy Value of Device
+	P_Acc: Optional[float] = Field(description="GNSS position accuracy value.", example=123.123)
+
+	# Position Fix Type Value of Device
+	Fix: Optional[int] = Field(description="GNSS position fix type value.", example=123)
+
 	# Last Measured PCB Temperature Value
 	PCB_T: Optional[float] = Field(description="PCB temperature.", example=28.3232)
 
