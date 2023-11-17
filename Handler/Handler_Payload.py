@@ -4,7 +4,6 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Definitions
-from Setup.Definitions import Non_Device_Parameter, WeatherStat_Payload
 from Setup.Definitions import Type_List
 from Functions import Kafka, Log, Handler
 
@@ -34,22 +33,40 @@ try:
         Message = Kafka.Decode_Payload_Message(RAW_Message)
 
         # Control for Non Device Parameters
-        for Non_Device_Parameter_Name, Non_Device_Parameter_Path in Non_Device_Parameter:
+        for Non_Device_Parameter_Name, Non_Device_Parameter_Path in Type_List(0):
 
-            # Get Parameter Path
-            Non_Device_Message_Path = eval(Non_Device_Parameter_Path)
+            # Control Payload Path
+            if Non_Device_Parameter_Path is not None:
 
-            # Handle Parameter
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Non_Device_Parameter_Name, Non_Device_Message_Path)
+                try:
+
+                    # Get Parameter Path
+                    Non_Device_Message_Path = eval(Non_Device_Parameter_Path)
+
+                    # Handle Parameter
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Non_Device_Parameter_Name, Non_Device_Message_Path)
+
+                except Exception as e:
+
+                    continue
 
         # Control for WeatherStat Payloads
-        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in WeatherStat_Payload:
+        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(4000):
 
-            # Get Parameter Path
-            WeatherStat_Message_Path = eval(WeatherStat_Payload_Path)
+            # Control Payload Path
+            if WeatherStat_Payload_Path is not None:
 
-            # Handle Parameter
-            Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Message_Path)
+                try:
+
+                    # Get Parameter Path
+                    WeatherStat_Message_Path = eval(WeatherStat_Payload_Path)
+
+                    # Handle Parameter
+                    Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Message_Path)
+
+                except Exception as e:
+
+                    continue
 
         # Control for PowerStat Payloads
         for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(6000):
