@@ -120,7 +120,7 @@ Copy_File "/root/PostOffice/Docs/Service/Handler_Payload.service" "/etc/systemd/
 Copy_File "/root/PostOffice/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
 
 # Copy Nginx Files
-Copy_File "/PostOffice/Docs/Service/nginx.conf" "/etc/nginx/sites-enabled/default"
+Copy_File "/root/PostOffice/Docs/Service/nginx.conf" "/etc/nginx/sites-enabled/default"
 
 # Copy SH Batch Files
 Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
