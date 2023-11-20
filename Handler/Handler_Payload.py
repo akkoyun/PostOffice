@@ -44,9 +44,9 @@ try:
 
         # Control for Device Parameters
         for Device_Parameter_Name, Device_Parameter_Path in Type_List(1):
-            if eval(Device_Parameter_Path) is not None:
+            try:
                 Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Device_Parameter_Name, eval(Device_Parameter_Path))
-            else:
+            except:
                 pass
 
         # Control for Location Parameters
@@ -65,18 +65,18 @@ try:
 
         # Control for Water Payloads
         for Water_Payload_Name, Water_Payload_Path in Type_List(6):
-            if eval(Water_Payload_Path) is not None: 
+            try:
                 Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Water_Payload_Name, eval(Water_Payload_Path))
-            else:
-                pass
-            
-        # Control for PowerStat Payloads
-        for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(7):
-            if eval(PowerStat_Payload_Path) is not None: 
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, eval(PowerStat_Payload_Path))
-            else:
+            except: 
                 pass
 
+        # Control for PowerStat Payloads
+        for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(7):
+            try:
+                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, eval(PowerStat_Payload_Path))
+            except:
+                pass
+            
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
 
