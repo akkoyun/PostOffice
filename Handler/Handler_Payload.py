@@ -58,9 +58,9 @@ try:
 
         # Control for WeatherStat Payloads
         for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(5):
-            if eval(WeatherStat_Payload_Path) is not None: 
+            try:
                 Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, eval(WeatherStat_Payload_Path))
-            else:
+            except:
                 pass
 
         # Control for Water Payloads
