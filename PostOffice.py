@@ -16,7 +16,7 @@ import pytz
 Local_Timezone = pytz.timezone("Europe/Istanbul")
 
 # Define FastAPI Object
-PostOffice = FastAPI(version="02.01.00", title="PostOffice")
+PostOffice = FastAPI(version="02.02.00", title="PostOffice")
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
