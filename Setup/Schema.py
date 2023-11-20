@@ -379,9 +379,17 @@ class Payload(CustomBaseModel):
 
 	# Last Measured Infrared Light Value
 	IR: Optional[int] = Field(description="Infrared light.", example=1234)
+	IR2: Optional[int] = Field(description="Infrared light.", example=1234)
+	IR3: Optional[int] = Field(description="Infrared light.", example=1234)
+	IR4: Optional[int] = Field(description="Infrared light.", example=1234)
+	IR5: Optional[int] = Field(description="Infrared light.", example=1234)
 
 	# Last Measured UV Value
 	UV: Optional[float] = Field(description="UV index.", example=2.12)
+	UV2: Optional[float] = Field(description="UV index.", example=2.12)
+	UV3: Optional[float] = Field(description="UV index.", example=2.12)
+	UV4: Optional[float] = Field(description="UV index.", example=2.12)
+	UV5: Optional[float] = Field(description="UV index.", example=2.12)
 
 	# Last Measured Soil Temperature Value (Array)
 	ST: Optional[list[Optional[float]]] = Field(description="Soil temperature.", example=[28.12, 27.12, 26.12, 25.12], min_items=0, max_items=10)

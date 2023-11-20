@@ -44,23 +44,28 @@ try:
 
         # Control for Device Parameters
         for Device_Parameter_Name, Device_Parameter_Path in Type_List(1):
-            if eval(Device_Parameter_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Device_Parameter_Name, eval(Device_Parameter_Path))
+            Device_Path = eval(Device_Parameter_Path)
+            if Device_Path is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Device_Parameter_Name, Device_Path)
 
         # Control for Location Parameters
         for Location_Parameter_Name, Location_Parameter_Path in Type_List(4):
-            if eval(Location_Parameter_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Location_Parameter_Name, eval(Location_Parameter_Path))
+            Loacation_Path = eval(Location_Parameter_Path)
+            if Loacation_Path is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Location_Parameter_Name, Loacation_Path)
 
         # Control for WeatherStat Payloads
         for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(5):
-            if eval(WeatherStat_Payload_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, eval(WeatherStat_Payload_Path))
+            WeatherStat_Path = eval(WeatherStat_Payload_Path)
+            if WeatherStat_Path is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, WeatherStat_Path)
 
         # Control for Water Payloads
         for Water_Payload_Name, Water_Payload_Path in Type_List(6):
-            if eval(Water_Payload_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Water_Payload_Name, eval(Water_Payload_Path))
+            Water_Path = eval(Water_Payload_Path)
+            if Water_Path is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Water_Payload_Name, Water_Path)
 
         # Control for PowerStat Payloads
         for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(7):
-            if eval(PowerStat_Payload_Path) is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, eval(PowerStat_Payload_Path))
+            PowerStat_Path = eval(PowerStat_Payload_Path)
+            if PowerStat_Path is not None: Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, PowerStat_Path)
 
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
