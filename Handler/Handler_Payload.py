@@ -51,9 +51,9 @@ try:
 
         # Control for Location Parameters
         for Location_Parameter_Name, Location_Parameter_Path in Type_List(4):
-            if eval(Location_Parameter_Path) is not None:
+            try:
                 Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Location_Parameter_Name, eval(Location_Parameter_Path))
-            else:
+            except:
                 pass
 
         # Control for WeatherStat Payloads
