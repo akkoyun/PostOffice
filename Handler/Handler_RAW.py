@@ -11,6 +11,9 @@ from Functions import Kafka, Log, Handler
 # Try to Parse Topics
 try:
 
+    # Define DB
+    DB_Module = Database.SessionLocal()
+
     # Parse Topics
     for RAW_Message in Kafka.RAW_Consumer:
 
@@ -65,8 +68,7 @@ try:
         # Update Device Last Connection
         Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
 
-        # Define DB
-        with Database.DB_Session_Scope() as DB:
+        try:
 
             # Create New Stream
             New_Stream = Models.Stream(
@@ -80,7 +82,20 @@ try:
             )
 
             # Add Stream to DataBase
-            DB.add(New_Stream)
+            DB_Module.add(New_Stream)
+
+            # Commit DataBase
+            DB_Module.commit()
+
+        except Exception as e:
+                
+                # Log Message
+                Log.Terminal_Log("ERROR", f"Add Stream to DataBase - {e}")
+
+        finally:
+                 
+                # Close Database
+                DB_Module.close()
 
         # Set headers
         New_Header = [
@@ -109,3 +124,8 @@ except Exception as e:
     # Log Message
     Log.Terminal_Log("ERROR", f"Handle Error - {e}")
 
+# Finally
+finally:
+
+    # Close Database
+    DB_Module.close()
