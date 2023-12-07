@@ -53,3 +53,41 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
 
     # Check if Up to Date
     return minutes_difference < threshold_minutes
+
+
+
+
+
+
+
+# Control for Device in Database
+def Control_Device(Device_ID: str):
+
+
+
+
+
+
+
+
+
+    # Define Device Status
+    Device_Status = False
+
+    # Control for Device_ID
+    if Device_ID is not None:
+
+        # Define DB
+        with Database.DB_Session_Scope() as DB_Module:
+
+            # Control Device in Database
+            Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+            # Device not in Database
+            if Query_Device is not None:
+
+                # Set Device Status
+                Device_Status = True
+
+    # Return Device Status
+    return Device_Status

@@ -698,6 +698,67 @@ def Import_Calibration():
     # End Function
     return New_Data_Count
 
+# Import Project Data
+def Import_Project():
+
+    # New Data Count Definition
+    New_Data_Count = 0
+
+    # Define Data File
+    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_PROJECT
+
+    # Download Data File
+    try:
+        
+        # Download Data File
+        Data_File = pd.read_csv(Data_File_Name)
+
+    except Exception as e:
+
+        # Log Message
+        Log.Terminal_Log("ERROR", f"Data file read error.")
+
+        # Exit
+        exit()
+
+    # Rename Columns
+    Data_File.columns = ['Project_ID', 'Project_Name']
+
+    # Define DB
+    with Database.DB_Session_Scope() as DB_Module:
+
+        # Add Record to DataBase
+        for index, row in Data_File.iterrows():
+
+            # Check for Existing
+            Query = DB_Module.query(Models.Project).filter(Models.Project.Project_Name.like(str(row['Project_Name']))).first()
+
+            # Record Not Found
+            if not Query:
+
+                # Create New Record
+                New_Record = Models.Project(
+                    Project_ID=int(row['Project_ID']),
+                    Project_Name=str(row['Project_Name']),
+                    Project_Description=str("-")
+                )
+
+                # Add Record to DataBase
+                try:
+                
+                    # Add Record to DataBase
+                    DB_Module.add(New_Record)
+
+                    # Increase New Count
+                    New_Data_Count += 1
+
+                except Exception as e:
+
+                    # Log Message
+                    Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
+
+    # End Function
+    return New_Data_Count
 
 # Data Segment
 New_Data_Segment = Import_Data_Segment()
@@ -775,3 +836,10 @@ if New_Calibration > 0:
     Log.Terminal_Log("INFO", f"[{New_Calibration}] New Calibration Added.")
 else:
     Log.Terminal_Log("INFO", f"Calibration is up to date.")
+
+# Project
+New_Project = Import_Project()
+if New_Project > 0:
+    Log.Terminal_Log("INFO", f"[{New_Project}] New Project Added.")
+else:
+    Log.Terminal_Log("INFO", f"Project is up to date.")

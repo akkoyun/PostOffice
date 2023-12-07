@@ -41,6 +41,7 @@ class Settings(BaseSettings):
 	DATA_REPOSITORY: str
 	FILE_MANUFACTURER: str
 	FILE_MODEL: str
+	FILE_PROJECT: str
 	FILE_GSM_OPERATOR: str
 	FILE_SIM: str
 	FILE_MODEM: str
