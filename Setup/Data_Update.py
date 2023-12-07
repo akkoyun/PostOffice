@@ -497,6 +497,9 @@ def Import_Device():
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Device: {New_Record.Device_ID}")
+
                     # Increase New Count
                     New_Data_Count += 1
 
