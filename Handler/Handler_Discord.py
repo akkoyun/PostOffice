@@ -96,14 +96,14 @@ async def Parse_Message():
             if Message.ST9 is not None: Discord_Message += f"Toprak Sıcaklığı 100cm: [2;35m{Message.ST9}[0m °C\r\n"
             Discord_Message += f"------------------------------------------\r\n"
             if B_IV is not None: Discord_Message += f"Batarya Voltajı: [2;35m{B_IV.Last_Value}[0m V\r\n"
-            if B_AC is not None: Discord_Message += f"Batarya Ortalama Akım: [2;35m{B_AC.Last_Value}[0m A\r\n"
+            if B_AC is not None: Discord_Message += f"Batarya Ortalama Akım: [2;35m{B_AC.Last_Value}[0m mA\r\n"
             if B_SOC is not None: Discord_Message += f"Batarya Yüzdesi: [2;35m{B_SOC.Last_Value}[0m %\r\n"
             if B_CS is not None:
-                if B_CS.Last_Value == "0":
+                if B_CS.Last_Value == 0:
                     Discord_Message += f"Şarj Durumu: [2;31mNot Charging[0m\r\n"
-                elif B_CS.Last_Value == "1":
+                elif B_CS.Last_Value == 1:
                     Discord_Message += f"Şarj Durumu: [2;32mPre Charge[0m\r\n"
-                elif B_CS.Last_Value == "2":
+                elif B_CS.Last_Value == 2:
                     Discord_Message += f"Şarj Durumu: [2;32mFast Charge[0m\r\n"
                 else:
                     Discord_Message += f"Şarj Durumu: [2;32mCharge Termination / Done[0m\r\n"
