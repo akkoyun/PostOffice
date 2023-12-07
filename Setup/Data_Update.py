@@ -703,76 +703,76 @@ def Import_Calibration():
 # Data Segment
 New_Data_Segment = Import_Data_Segment()
 if New_Data_Segment > 0:
-    Log.Terminal_Log("INFO", f"New Data Segment: {New_Data_Segment}")
+    Log.Terminal_Log("INFO", f"[{New_Data_Segment}] New Data Segment Added.")
 else:
-    Log.Terminal_Log("INFO", f"No New Data Segment.")
+    Log.Terminal_Log("INFO", f"Data Segment is up to date.")
 
 # GSM Operator
 New_GSM_Operator = Import_GSM_Operator()
 if New_GSM_Operator > 0:
-    Log.Terminal_Log("INFO", f"New GSM Operator: {New_GSM_Operator}")
+    Log.Terminal_Log("INFO", f"[{New_GSM_Operator}] New GSM Operator Added.")
 else:
-    Log.Terminal_Log("INFO", f"No New GSM Operator.")
+    Log.Terminal_Log("INFO", f"GSM Operator is up to date.")
 
 # Status
 New_Status = Import_Status()
 if New_Status > 0:
-    Log.Terminal_Log("INFO", f"New Status: {New_Status}")
+    Log.Terminal_Log("INFO", f"[{New_Status}] New Status Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New Status.")
+    Log.Terminal_Log("INFO", f"Status is up to date.")
 
 # Version
 New_Version = Import_Version()
 if New_Version > 0:
-    Log.Terminal_Log("INFO", f"New Version: {New_Version}")
+    Log.Terminal_Log("INFO", f"[{New_Version}] New Version Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New Version.")
+    Log.Terminal_Log("INFO", f"Version is up to date.")
 
 # Model
 New_Model = Import_Model()
 if New_Model > 0:
-    Log.Terminal_Log("INFO", f"New Model: {New_Model}")
+    Log.Terminal_Log("INFO", f"[{New_Model}] New Model Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New Model.")
+    Log.Terminal_Log("INFO", f"Model is up to date.")
 
 # Manufacturer
 New_Manufacturer = Import_Manufacturer()
 if New_Manufacturer > 0:
-    Log.Terminal_Log("INFO", f"New Manufacturer: {New_Manufacturer}")
+    Log.Terminal_Log("INFO", f"[{New_Manufacturer}] New Manufacturer Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New Manufacturer.")
+    Log.Terminal_Log("INFO", f"Mamufacturer is up to date.")
 
 # Modem
 New_Modem = Import_Modem()
 if New_Modem > 0:
-    Log.Terminal_Log("INFO", f"New Modem: {New_Modem}")
+    Log.Terminal_Log("INFO", f"[{New_Modem}] New Modem Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New Modem.")
+    Log.Terminal_Log("INFO", f"Modem is up to date.")
 
 # Device
 New_Device = Import_Device()
 if New_Device > 0:
-    Log.Terminal_Log("INFO", f"New Device: {New_Device}")
+    Log.Terminal_Log("INFO", f"[{New_Device}] New Device Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New Device.")
+    Log.Terminal_Log("INFO", f"Device is up to date.")
 
 # Data_Type
 New_Data_Type = Import_Data_Type()
 if New_Data_Type > 0:
-    Log.Terminal_Log("INFO", f"New Data_Type: {New_Data_Type}")
+    Log.Terminal_Log("INFO", f"[{New_Data_Type}] New Data_Type Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New Data_Type.")
+    Log.Terminal_Log("INFO", f"Data_Type is up to date.")
 
 # SIM
 New_SIM = Import_SIM()
 if New_SIM > 0:
-    Log.Terminal_Log("INFO", f"New SIM: {New_SIM}")
+    Log.Terminal_Log("INFO", f"[{New_SIM}] New SIM Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New SIM.")
+    Log.Terminal_Log("INFO", f"SIM is up to date.")
 
 # Calibration
 New_Calibration = Import_Calibration()
 if New_Calibration > 0:
-    Log.Terminal_Log("INFO", f"New Calibration: {New_Calibration}")
+    Log.Terminal_Log("INFO", f"[{New_Calibration}] New Calibration Added.]")
 else:
-    Log.Terminal_Log("INFO", f"No New Calibration.")
+    Log.Terminal_Log("INFO", f"Calibration is up to date.")
