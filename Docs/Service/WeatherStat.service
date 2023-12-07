@@ -1,0 +1,12 @@
+[Unit]
+Description=WeatherStat API Service
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root/PostOffice
+ExecStart=gunicorn -c /root/PostOffice/Setup/Service/WeatherStat_config.py WeatherStat:WeatherStat
+
+[Install]
+WantedBy=multi-user.target
