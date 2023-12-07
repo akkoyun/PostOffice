@@ -60,8 +60,42 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
 
 
 
+
+
+
+
+
+
 # Control for Device in Database
-def Control_Device(Device_ID: str):
+# def Control_Device(Device_ID: str):
+
+#     # Define Device Status
+#     Device_Status = False
+
+#     # Control for Device_ID
+#     if Device_ID is not None:
+
+#         # Define DB
+#         with Database.DB_Session_Scope() as DB_Module:
+
+#             # Query Device Project
+#             Query_Device = DB_Module.query(
+#                 Models.Device.Device_ID,
+#                 Models.Device.Status_ID,
+
+
+
+#                 Models.Calibration.Calibration_ID,
+#                 Models.Calibration.Device_ID,
+#                 Models.Data_Type.Variable,
+#                 Models.Calibration.Gain,
+#                 Models.Calibration.Offset,
+#                 Models.Calibration.Create_Time
+#             ).join(
+#                 Models.Data_Type, Models.Calibration.Type_ID == Models.Data_Type.Type_ID
+#             ).order_by(
+#                 desc(Models.Calibration.Create_Time)
+#             ).filter(Models.Calibration.Device_ID == Device_ID).filter(Models.Data_Type.Variable == Variable).first()
 
 
 
@@ -70,24 +104,14 @@ def Control_Device(Device_ID: str):
 
 
 
+#             # Control Device in Database
+#             Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
-    # Define Device Status
-    Device_Status = False
+#             # Device not in Database
+#             if Query_Device is not None:
 
-    # Control for Device_ID
-    if Device_ID is not None:
+#                 # Set Device Status
+#                 Device_Status = True
 
-        # Define DB
-        with Database.DB_Session_Scope() as DB_Module:
-
-            # Control Device in Database
-            Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
-
-            # Device not in Database
-            if Query_Device is not None:
-
-                # Set Device Status
-                Device_Status = True
-
-    # Return Device Status
-    return Device_Status
+#     # Return Device Status
+#     return Device_Status

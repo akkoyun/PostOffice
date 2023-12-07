@@ -5,6 +5,31 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Database, Models
 
+# Define Device
+#class Device:
+
+    # Device_ID
+    # Status
+    # Status_ID
+    # Model
+    # Model_ID
+    # Manufacturer
+    # Manufacturer_ID
+    # Version
+    # Version_ID
+    # IMEI
+    # Last_Connection
+    # Project
+    # Project_ID
+
+
+    # Define Device
+#    def __init__(self, device_id, status_id, 
+                 
+#                 , command, device_id, device_time, device_ip, size):
+
+
+
 # Define Headers
 class Headers:
 
