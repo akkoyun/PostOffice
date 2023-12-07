@@ -476,9 +476,6 @@ def Import_Device():
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"Device: {row['Device_ID']}")
-
             # Check for Existing
             Query = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(str(row['Device_ID']))).first()
 
@@ -499,9 +496,6 @@ def Import_Device():
                 
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
-
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"New Device: {New_Record.Device_ID}")
 
                     # Increase New Count
                     New_Data_Count += 1
