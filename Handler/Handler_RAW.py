@@ -26,76 +26,68 @@ try:
             RAW_Message.headers[4][1].decode('ASCII')
         )
 
-        # Decode Message
-        Message = Kafka.Decode_RAW_Message(RAW_Message)
-
         # Log Message
         Log.Terminal_Log("INFO", f"New Stream Received: {RAW_Headers.Device_ID}")
 
+        # Decode Message
+        Message = Kafka.Decode_RAW_Message(RAW_Message)
+
         # Control for Device
-        if Handler.Control_Device(RAW_Headers.Device_ID):
+        Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)
 
-            # Control for Version
-            Version_ID = Handler.Control_Version(RAW_Headers.Device_ID, Message.Info.Firmware)
+        # Control for Version
+        Version_ID = Handler.Control_Version(RAW_Headers.Device_ID, Message.Info.Firmware)
 
-            # Control for Modem
-            Modem_Status = Handler.Control_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
+        # Control for Modem
+        Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
-            # Control for SIM
-            SIM_Status = Handler.Control_SIM(Message.Device.IoT.ICCID)
+        # Control for SIM
+        SIM_Existance = Handler.Control_SIM(Message.Device.IoT.ICCID)
+
+        # Declare Log Messages
+        Modem_Status = "New" if Modem_Existance else "Old"
+        SIM_Status = "New" if SIM_Existance else "Old"
+
+        # Device Found
+        if Device_Existance:
 
             # Log Message
             Log.Terminal_Log("INFO", f"Device Found: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Status}] / {Message.Device.IoT.ICCID} [{SIM_Status}]")
 
+            # Control for Version at Device
+            Handler.Update_Version(RAW_Headers.Device_ID, Version_ID)
+
         # Device Not Found
         else:
-
-            # Control for Version
-            Version_ID = Handler.Control_Version(RAW_Headers.Device_ID, Message.Info.Firmware)
-
-            # Control for Modem
-            Modem_Status = Handler.Control_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
-
-            # Control for SIM
-            SIM_Status = Handler.Control_SIM(Message.Device.IoT.ICCID)
-
-            # Add Device
-            Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
 
             # Log Message
             Log.Terminal_Log("INFO", f"New Device: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Status}] / {Message.Device.IoT.ICCID} [{SIM_Status}]")
 
+            # Add Device
+            Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
+
         # Update Device Last Connection
         Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
 
-        try:
+        # Create New Stream
+        New_Stream = Models.Stream(
+            Device_ID = RAW_Headers.Device_ID,
+            ICCID = Message.Device.IoT.ICCID,
+            Client_IP = RAW_Headers.Device_IP,
+            Size = RAW_Headers.Size,
+            RAW_Data = Message.dict(),
+            Device_Time = RAW_Headers.Device_Time,
+            Stream_Time = datetime.now()
+        )
 
-            # Create New Stream
-            New_Stream = Models.Stream(
-                Device_ID = RAW_Headers.Device_ID,
-                ICCID = Message.Device.IoT.ICCID,
-                Client_IP = RAW_Headers.Device_IP,
-                Size = RAW_Headers.Size,
-                RAW_Data = Message.dict(),
-                Device_Time = RAW_Headers.Device_Time,
-                Stream_Time = datetime.now()
-            )
+        # Add Stream to DataBase
+        DB_Module.add(New_Stream)
 
-            # Add Stream to DataBase
-            DB_Module.add(New_Stream)
+        # Commit DataBase
+        DB_Module.commit()
 
-            # Commit DataBase
-            DB_Module.commit()
-
-        except Exception as e:
-                
-                # Log Message
-                Log.Terminal_Log("ERROR", f"Add Stream to DataBase - {e}")
-
-        finally:
-                 
-                # Close Database
-                DB_Module.close()
+        # Refresh DataBase
+        DB_Module.refresh(New_Stream)
 
         # Set headers
         New_Header = [
