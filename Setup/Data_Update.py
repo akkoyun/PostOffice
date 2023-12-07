@@ -5,7 +5,6 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup.Config import APP_Settings
 from Setup import Models, Database
-import sys
 from Functions import Log
 import pandas as pd
 
@@ -717,62 +716,62 @@ else:
 # Status
 New_Status = Import_Status()
 if New_Status > 0:
-    Log.Terminal_Log("INFO", f"[{New_Status}] New Status Added.]")
+    Log.Terminal_Log("INFO", f"[{New_Status}] New Status Added.")
 else:
     Log.Terminal_Log("INFO", f"Status is up to date.")
 
 # Version
 New_Version = Import_Version()
 if New_Version > 0:
-    Log.Terminal_Log("INFO", f"[{New_Version}] New Version Added.]")
+    Log.Terminal_Log("INFO", f"[{New_Version}] New Version Added.")
 else:
     Log.Terminal_Log("INFO", f"Version is up to date.")
 
 # Model
 New_Model = Import_Model()
 if New_Model > 0:
-    Log.Terminal_Log("INFO", f"[{New_Model}] New Model Added.]")
+    Log.Terminal_Log("INFO", f"[{New_Model}] New Model Added.")
 else:
     Log.Terminal_Log("INFO", f"Model is up to date.")
 
 # Manufacturer
 New_Manufacturer = Import_Manufacturer()
 if New_Manufacturer > 0:
-    Log.Terminal_Log("INFO", f"[{New_Manufacturer}] New Manufacturer Added.]")
+    Log.Terminal_Log("INFO", f"[{New_Manufacturer}] New Manufacturer Added.")
 else:
     Log.Terminal_Log("INFO", f"Mamufacturer is up to date.")
 
 # Modem
 New_Modem = Import_Modem()
 if New_Modem > 0:
-    Log.Terminal_Log("INFO", f"[{New_Modem}] New Modem Added.]")
+    Log.Terminal_Log("INFO", f"[{New_Modem}] New Modem Added.")
 else:
     Log.Terminal_Log("INFO", f"Modem is up to date.")
 
 # Device
 New_Device = Import_Device()
 if New_Device > 0:
-    Log.Terminal_Log("INFO", f"[{New_Device}] New Device Added.]")
+    Log.Terminal_Log("INFO", f"[{New_Device}] New Device Added.")
 else:
     Log.Terminal_Log("INFO", f"Device is up to date.")
 
 # Data_Type
 New_Data_Type = Import_Data_Type()
 if New_Data_Type > 0:
-    Log.Terminal_Log("INFO", f"[{New_Data_Type}] New Data_Type Added.]")
+    Log.Terminal_Log("INFO", f"[{New_Data_Type}] New Data_Type Added.")
 else:
     Log.Terminal_Log("INFO", f"Data_Type is up to date.")
 
 # SIM
 New_SIM = Import_SIM()
 if New_SIM > 0:
-    Log.Terminal_Log("INFO", f"[{New_SIM}] New SIM Added.]")
+    Log.Terminal_Log("INFO", f"[{New_SIM}] New SIM Added.")
 else:
     Log.Terminal_Log("INFO", f"SIM is up to date.")
 
 # Calibration
 New_Calibration = Import_Calibration()
 if New_Calibration > 0:
-    Log.Terminal_Log("INFO", f"[{New_Calibration}] New Calibration Added.]")
+    Log.Terminal_Log("INFO", f"[{New_Calibration}] New Calibration Added.")
 else:
     Log.Terminal_Log("INFO", f"Calibration is up to date.")

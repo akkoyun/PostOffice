@@ -188,13 +188,7 @@ def Control_Device(Device_ID: str):
             Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
             # Device not in Database
-            if not Query_Device:
-
-                # Set Device Status
-                Device_Status = False
-
-            # Device in Database
-            else:
+            if Query_Device is not None:
 
                 # Set Device Status
                 Device_Status = True
