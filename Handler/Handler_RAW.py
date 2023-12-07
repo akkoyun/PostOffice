@@ -66,7 +66,7 @@ try:
         Handler.Update_Device_Last_Connection(RAW_Headers.Device_ID)
 
         # Define DB
-        with Database.DB_Session_Scope() as DB_Module:
+        with Database.DB_Session_Scope() as DB:
 
             # Create New Stream
             New_Stream = Models.Stream(
@@ -80,7 +80,7 @@ try:
             )
 
             # Add Stream to DataBase
-            DB_Module.add(New_Stream)
+            DB.add(New_Stream)
 
         # Set headers
         New_Header = [
