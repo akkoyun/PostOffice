@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Models
+from Setup import Database, Models, Definitions
 from datetime import timezone, timedelta, datetime
 from dateutil import parser
 from Functions import Log
@@ -54,64 +54,56 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
     # Check if Up to Date
     return minutes_difference < threshold_minutes
 
+# Get Device Information
+def Device_Info(Device_ID: str):
 
+    # Define Device
+    Device = Definitions.Device(
+        Device_ID = None, #
+        Manufacturer_ID = None, 
+        Project_ID = None, #
+        Status_ID = None, #
+        Model_ID = None, #
+        Version_ID = None, #
+        Client_IP= None,
+        IMEI = None, #
+        ICCID = None, #
+        Last_Stream_ID = None, #
+        Last_Connection_Time = None #
+    )
 
+    # Control for Device_ID
+    if Device_ID is not None:
 
+        # Set Device ID
+        Device.Device_ID = Device_ID
 
+        # Define DB
+        with Database.DB_Session_Scope() as DB:
 
+            # Query Device
+            Query_Device = DB.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
+            # Control for Device
+            if Query_Device is not None:
 
+                # Set Device Variables
+                Device.Status_ID = Query_Device.Status_ID
+                Device.Version_ID = Query_Device.Version_ID
+                Device.Project_ID = Query_Device.Project_ID
+                Device.Model_ID = Query_Device.Model_ID
+                Device.IMEI = Query_Device.IMEI
+                Device.Last_Connection = Query_Device.Last_Connection
 
+            # Query Stream
+            Query_Stream = DB.query(Models.Stream).filter(Models.Stream.Device_ID.like(Device_ID)).order_by(Models.Stream.Stream_ID.desc()).first()
 
+            # Control for Stream
+            if Query_Stream is not None:
 
-
-
-# Control for Device in Database
-# def Control_Device(Device_ID: str):
-
-#     # Define Device Status
-#     Device_Status = False
-
-#     # Control for Device_ID
-#     if Device_ID is not None:
-
-#         # Define DB
-#         with Database.DB_Session_Scope() as DB_Module:
-
-#             # Query Device Project
-#             Query_Device = DB_Module.query(
-#                 Models.Device.Device_ID,
-#                 Models.Device.Status_ID,
-
-
-
-#                 Models.Calibration.Calibration_ID,
-#                 Models.Calibration.Device_ID,
-#                 Models.Data_Type.Variable,
-#                 Models.Calibration.Gain,
-#                 Models.Calibration.Offset,
-#                 Models.Calibration.Create_Time
-#             ).join(
-#                 Models.Data_Type, Models.Calibration.Type_ID == Models.Data_Type.Type_ID
-#             ).order_by(
-#                 desc(Models.Calibration.Create_Time)
-#             ).filter(Models.Calibration.Device_ID == Device_ID).filter(Models.Data_Type.Variable == Variable).first()
-
-
-
-
-
-
-
-
-#             # Control Device in Database
-#             Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
-
-#             # Device not in Database
-#             if Query_Device is not None:
-
-#                 # Set Device Status
-#                 Device_Status = True
-
-#     # Return Device Status
-#     return Device_Status
+                # Set Stream Variables
+                Device.Last_Stream_ID = Query_Stream.Stream_ID
+                Device.ICCID = Query_Stream.ICCID
+        
+    # Return Device
+    return Device

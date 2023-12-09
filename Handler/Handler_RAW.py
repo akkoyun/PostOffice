@@ -6,7 +6,7 @@ sys.path.append('/root/PostOffice/')
 from Setup import Database, Models, Definitions
 from Setup.Config import APP_Settings
 from datetime import datetime
-from Functions import Kafka, Log, Handler
+from Functions import Kafka, Log, Handler, Functions
 
 # Try to Parse Topics
 try:
@@ -31,6 +31,16 @@ try:
 
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
+
+
+
+        # Get Device Info
+        Device_Info = Definitions.Device(Functions.Device_Info(RAW_Headers.Device_ID))
+        Log.Terminal_Log("INFO", Device_Info.__dict__)
+
+
+
+
 
         # Control for Device
         Device_Existance = Handler.Control_Device(RAW_Headers.Device_ID)

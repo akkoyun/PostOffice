@@ -6,29 +6,23 @@ sys.path.append('/root/PostOffice/')
 from Setup import Database, Models
 
 # Define Device
-#class Device:
-
-    # Device_ID
-    # Status
-    # Status_ID
-    # Model
-    # Model_ID
-    # Manufacturer
-    # Manufacturer_ID
-    # Version
-    # Version_ID
-    # IMEI
-    # Last_Connection
-    # Project
-    # Project_ID
-
+class Device:
 
     # Define Device
-#    def __init__(self, device_id, status_id, 
-                 
-#                 , command, device_id, device_time, device_ip, size):
-
-
+    def __init__(self, Device_ID, Manufacturer_ID, Project_ID, Status_ID, Model_ID, Version_ID, Client_IP, IMEI, ICCID, Last_Stream_ID, Last_Connection_Time):
+        
+        # Define Device
+        self.Device_ID = Device_ID
+        self.Manufacturer_ID = Manufacturer_ID
+        self.Project_ID = Project_ID
+        self.Status_ID = Status_ID
+        self.Model_ID = Model_ID
+        self.Version_ID = Version_ID
+        self.Client_IP = Client_IP
+        self.IMEI = IMEI
+        self.ICCID = ICCID
+        self.Last_Stream_ID = Last_Stream_ID
+        self.Last_Connection_Time = Last_Connection_Time
 
 # Define Headers
 class Headers:
