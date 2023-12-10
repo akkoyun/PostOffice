@@ -37,7 +37,7 @@ try:
         Device_Info = Functions.Device_Info(RAW_Headers.Device_ID)
         Device_Info.Client_IP = RAW_Headers.Device_IP
 
-        Log.Terminal_Log("INFO", f"Device Found: {Device_Info.Device_Found}")
+        Log.Terminal_Log("INFO", f"New Device : {Device_Info.New_Device}")
 
 
 

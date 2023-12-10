@@ -76,13 +76,19 @@ def Device_Info(Device_ID: str):
             if Query_Device is not None:
 
                 # Set Device Variables
-                Device.Device_Found = True
+                Device.New_Device = False
                 Device.Status_ID = Query_Device.Status_ID
                 Device.Version_ID = Query_Device.Version_ID
                 Device.Project_ID = Query_Device.Project_ID
                 Device.Model_ID = Query_Device.Model_ID
                 Device.IMEI = Query_Device.IMEI
                 Device.Last_Connection_Time = Query_Device.Last_Connection
+
+            # Device Not Found
+            else:
+
+                # Set Device Variables
+                Device.New_Device = True
 
             # Query Stream
             Query_Stream = DB.query(Models.Stream).filter(Models.Stream.Device_ID.like(Device_ID)).order_by(Models.Stream.Stream_ID.desc()).first()
@@ -91,7 +97,6 @@ def Device_Info(Device_ID: str):
             if Query_Stream is not None:
 
                 # Set Stream Variables
-                Device.Device_Found = False
                 Device.Last_Stream_ID = Query_Stream.Stream_ID
                 Device.ICCID = Query_Stream.ICCID
         

@@ -9,11 +9,11 @@ from Setup import Database, Models
 class Device:
 
     # Define Device
-    def __init__(self, device_id = None, device_found = None, manufacturer_id = None, project_id = None, status_id = None, model_id = None, version_id = None, client_ip = None, imei = None, iccid = None, last_stream_id = None, last_connection_time = None):
+    def __init__(self, device_id = None, new_device = None, manufacturer_id = None, project_id = None, status_id = None, model_id = None, version_id = None, client_ip = None, imei = None, iccid = None, last_stream_id = None, last_connection_time = None):
         
         # Define Device
         self.Device_ID = device_id
-        self.Device_Found = device_found
+        self.New_Device = new_device
         self.Manufacturer_ID = manufacturer_id
         self.Project_ID = project_id
         self.Status_ID = status_id
