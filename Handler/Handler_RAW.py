@@ -304,9 +304,3 @@ except Exception as e:
 
     # Log Message
     Log.Terminal_Log("ERROR", f"Handle Error - {e}")
-
-# Finally
-finally:
-
-    # Close Database
-    DB_Module.close()
