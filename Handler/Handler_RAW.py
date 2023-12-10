@@ -11,9 +11,6 @@ from Functions import Kafka, Log, Handler, Functions
 # Try to Parse Topics
 try:
 
-    # Define DB
-    DB_Module = Database.SessionLocal()
-
     # Parse Topics
     for RAW_Message in Kafka.RAW_Consumer:
 
