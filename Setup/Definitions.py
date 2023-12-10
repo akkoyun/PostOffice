@@ -9,20 +9,20 @@ from Setup import Database, Models
 class Device:
 
     # Define Device
-    def __init__(self, Device_ID = None, Manufacturer_ID = None, Project_ID = None, Status_ID = None, Model_ID = None, Version_ID = None, Client_IP = None, IMEI = None, ICCID = None, Last_Stream_ID = None, Last_Connection_Time = None):
+    def __init__(self, device_id = None, manufacturer_id = None, project_id = None, status_id = None, model_id = None, version_id = None, client_ip = None, imei = None, iccid = None, last_stream_id = None, last_connection_time = None):
         
         # Define Device
-        self.Device_ID = Device_ID
-        self.Manufacturer_ID = Manufacturer_ID
-        self.Project_ID = Project_ID
-        self.Status_ID = Status_ID
-        self.Model_ID = Model_ID
-        self.Version_ID = Version_ID
-        self.Client_IP = Client_IP
-        self.IMEI = IMEI
-        self.ICCID = ICCID
-        self.Last_Stream_ID = Last_Stream_ID
-        self.Last_Connection_Time = Last_Connection_Time
+        self.Device_ID = device_id
+        self.Manufacturer_ID = manufacturer_id
+        self.Project_ID = project_id
+        self.Status_ID = status_id
+        self.Model_ID = model_id
+        self.Version_ID = version_id
+        self.Client_IP = client_ip
+        self.IMEI = imei
+        self.ICCID = iccid
+        self.Last_Stream_ID = last_stream_id
+        self.Last_Connection_Time = last_connection_time
 
 # Define Headers
 class Headers:
