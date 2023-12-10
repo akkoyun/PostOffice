@@ -88,6 +88,9 @@ try:
                         # Add Record to DataBase
                         DB.add(New_Version)
 
+                        # Commit DataBase
+                        DB.commit()
+
                         # Get Version ID
                         Device.Version_ID = New_Version.Version_ID
 
