@@ -9,7 +9,7 @@ from Setup import Database, Models
 class Device:
 
     # Define Device
-    def __init__(self, Device_ID, Manufacturer_ID, Project_ID, Status_ID, Model_ID, Version_ID, Client_IP, IMEI, ICCID, Last_Stream_ID, Last_Connection_Time):
+    def __init__(self, Device_ID = None, Manufacturer_ID = None, Project_ID = None, Status_ID = None, Model_ID = None, Version_ID = None, Client_IP = None, IMEI = None, ICCID = None, Last_Stream_ID = None, Last_Connection_Time = None):
         
         # Define Device
         self.Device_ID = Device_ID
