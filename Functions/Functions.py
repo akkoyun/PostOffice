@@ -58,19 +58,7 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
 def Device_Info(Device_ID: str):
 
     # Define Device
-    Device = Definitions.Device(
-        Device_ID = None, #
-        Manufacturer_ID = None, 
-        Project_ID = None, #
-        Status_ID = None, #
-        Model_ID = None, #
-        Version_ID = None, #
-        Client_IP= None,
-        IMEI = None, #
-        ICCID = None, #
-        Last_Stream_ID = None, #
-        Last_Connection_Time = None #
-    )
+    Device = Definitions.Device()
 
     # Control for Device_ID
     if Device_ID is not None:
@@ -93,7 +81,7 @@ def Device_Info(Device_ID: str):
                 Device.Project_ID = Query_Device.Project_ID
                 Device.Model_ID = Query_Device.Model_ID
                 Device.IMEI = Query_Device.IMEI
-                Device.Last_Connection = Query_Device.Last_Connection
+                Device.Last_Connection_Time = Query_Device.Last_Connection
 
             # Query Stream
             Query_Stream = DB.query(Models.Stream).filter(Models.Stream.Device_ID.like(Device_ID)).order_by(Models.Stream.Stream_ID.desc()).first()
