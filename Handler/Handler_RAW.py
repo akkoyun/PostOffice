@@ -35,7 +35,6 @@ try:
 
 
         # Get Device Info
-        Device_Info = Definitions.Device()
         Device_Info = Definitions.Device(Functions.Device_Info(RAW_Headers.Device_ID))
         Log.Terminal_Log("INFO", Device_Info.__dict__)
 
