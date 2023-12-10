@@ -26,9 +26,6 @@ try:
             RAW_Message.headers[4][1].decode('ASCII')
         )
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"New Stream Received: {RAW_Headers.Device_ID}")
-
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
