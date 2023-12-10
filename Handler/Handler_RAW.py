@@ -32,12 +32,36 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
+
+
+
+
         # Get Device Info
         Device_Info = Definitions.Device()
         Device_Info = Functions.Device_Info(RAW_Headers.Device_ID)
         Device_Info.Client_IP = RAW_Headers.Device_IP
 
-        Log.Terminal_Log("INFO", f"New Device : {Device_Info.New_Device}")
+        # Control for Version
+        if Device_Info.New_Device:
+
+            # Add Device
+            Handler.Add_Device(RAW_Headers.Device_ID, Version_ID, Message.Device.IoT.IMEI)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Device added : {RAW_Headers.Device_ID}")
+
+        else:
+
+            # Control for Version at Device
+            if Device_Info.New_Version:
+                Log.Terminal_Log("INFO", f"New Version : {Device_Info.Version_ID}")
+            else:
+                Log.Terminal_Log("INFO", f"Old Version : {Device_Info.Version_ID}")
+
+
+
+
+
 
 
 

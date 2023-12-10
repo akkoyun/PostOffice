@@ -256,6 +256,15 @@ def Update_Version(Device_ID: str, Version_ID: int):
                 # Commit DataBase
                 DB_Module.commit()
 
+                # End Function
+                return True
+            
+            # Version is Same
+            else:
+
+                # End Function
+                return False
+
 # Control for Modem in Database
 def Control_Modem(IMEI: str, Firmware: str = None):
 

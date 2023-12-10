@@ -84,6 +84,24 @@ def Device_Info(Device_ID: str):
                 Device.IMEI = Query_Device.IMEI
                 Device.Last_Connection_Time = Query_Device.Last_Connection
 
+                # Query Version
+                Query_Version = DB.query(Models.Version)\
+                    .filter(Models.Version.Version_ID(Device.Version_ID))\
+                    .filter(Models.Version.Device_ID.like(Device.Device_ID))\
+                    .first()
+
+                # Control for Version
+                if Query_Version is not None:
+
+                    # Set Version Variables
+                    Device.New_Version = False
+
+                # Version Not Found
+                else:
+
+                    # Set Version Variables
+                    Device.New_Version = True
+
             # Device Not Found
             else:
 
