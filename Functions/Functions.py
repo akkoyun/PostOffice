@@ -76,6 +76,7 @@ def Device_Info(Device_ID: str):
             if Query_Device is not None:
 
                 # Set Device Variables
+                Device.Device_Found = True
                 Device.Status_ID = Query_Device.Status_ID
                 Device.Version_ID = Query_Device.Version_ID
                 Device.Project_ID = Query_Device.Project_ID
@@ -90,6 +91,7 @@ def Device_Info(Device_ID: str):
             if Query_Stream is not None:
 
                 # Set Stream Variables
+                Device.Device_Found = False
                 Device.Last_Stream_ID = Query_Stream.Stream_ID
                 Device.ICCID = Query_Stream.ICCID
         

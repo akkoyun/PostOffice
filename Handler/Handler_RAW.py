@@ -32,23 +32,16 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-
-
         # Get Device Info
+        Device_Info = Definitions.Device()
         Device_Info = Functions.Device_Info(RAW_Headers.Device_ID)
-        Log.Terminal_Log("INFO", Device_Info.Device_ID)
-        Log.Terminal_Log("INFO", Device_Info.Manufacturer_ID)
-        Log.Terminal_Log("INFO", Device_Info.Project_ID)
-        Log.Terminal_Log("INFO", Device_Info.Status_ID)
-        Log.Terminal_Log("INFO", Device_Info.Model_ID)
-        Log.Terminal_Log("INFO", Device_Info.Version_ID)
-        Log.Terminal_Log("INFO", Device_Info.Client_IP)
-        Log.Terminal_Log("INFO", Device_Info.IMEI)
-        Log.Terminal_Log("INFO", Device_Info.ICCID)
-        Log.Terminal_Log("INFO", Device_Info.Last_Stream_ID)
-        Log.Terminal_Log("INFO", Device_Info.Last_Connection_Time)
+        Device_Info.Client_IP = RAW_Headers.Device_IP
 
-        Log.Terminal_Log("INFO", "------------")
+        Log.Terminal_Log("INFO", f"Device Found: {Device_Info.Device_Found}")
+
+
+
+
 
 
 
