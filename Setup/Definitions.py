@@ -9,7 +9,7 @@ from Setup import Database, Models
 class Device:
 
     # Define Device
-    def __init__(self, device_id = None, new_device = None, manufacturer_id = None, project_id = None, status_id = None, model_id = None, version_id = None, new_version = None, client_ip = None, imei = None, iccid = None, last_stream_id = None, last_connection_time = None):
+    def __init__(self, device_id = None, new_device = None, manufacturer_id = None, project_id = None, status_id = None, model_id = None, version_id = None, new_version = None, client_ip = None, imei = None, new_modem = None, iccid = None, new_sim = None, last_stream_id = None, last_connection_time = None):
         
         # Define Device
         self.Device_ID = device_id
@@ -22,7 +22,9 @@ class Device:
         self.New_Version = new_version
         self.Client_IP = client_ip
         self.IMEI = imei
+        self.New_Modem = new_modem
         self.ICCID = iccid
+        self.New_SIM = new_sim
         self.Last_Stream_ID = last_stream_id
         self.Last_Connection_Time = last_connection_time
 
