@@ -271,11 +271,12 @@ try:
             # Add Stream to DataBase
             DB.add(New_Stream)
 
-            # Commit DataBase
-            DB.commit()
-
             # Log Message
             Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
+
+
+
+
 
         # Set headers
         New_Header = [
