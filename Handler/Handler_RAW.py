@@ -144,6 +144,9 @@ try:
                         # Add Record to DataBase
                         DB.add(New_Modem)
 
+                        # Commit DataBase
+                        DB.commit()
+
                         # Set Modem Variables
                         Device.New_Modem = True
 
@@ -175,6 +178,9 @@ try:
 
                         # Add Record to DataBase
                         DB.add(New_SIM)
+
+                        # Commit DataBase
+                        DB.commit()
 
                         # Set SIM Variables
                         Device.New_SIM = True
@@ -224,6 +230,9 @@ try:
                         # Add Record to DataBase
                         DB.add(New_Version)
 
+                        # Commit DataBase
+                        DB.commit()
+
                         # Get Version ID
                         Device.Version_ID = New_Version.Version_ID
 
@@ -261,6 +270,9 @@ try:
 
             # Add Stream to DataBase
             DB.add(New_Stream)
+
+            # Commit DataBase
+            DB.commit()
 
             # Log Message
             Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
