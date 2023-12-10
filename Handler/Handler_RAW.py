@@ -257,14 +257,11 @@ try:
                     # Log Message
                     Log.Terminal_Log("INFO", f"New Device: {Device.Device_ID} Recorded.")
 
-        # Define DB
-        with Database.DB_Session_Scope() as DB_Stream:
-
             # Create New Stream
             New_Stream = Models.Stream(
-                Device_ID = Device.Device_ID,
-                ICCID = Device.ICCID,
-                Client_IP = Device.Client_IP,
+                Device_ID = Message.Info.ID,
+                ICCID = Message.Device.IoT.ICCID,
+                Client_IP = RAW_Headers.Device_IP,
                 Size = RAW_Headers.Size,
                 RAW_Data = Message.dict(),
                 Device_Time = RAW_Headers.Device_Time,
@@ -272,10 +269,10 @@ try:
             )
 
             # Add Stream to DataBase
-            DB_Stream.add(New_Stream)
+            DB.add(New_Stream)
 
             # Commit DataBase
-            DB_Stream.commit()
+            DB.commit()
 
             # Log Message
             Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
