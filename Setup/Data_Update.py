@@ -450,7 +450,7 @@ def Import_Device():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = "/PostOffice/Setup/Data/" + APP_Settings.FILE_DEVICE
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_DEVICE
 
     # Download Data File
     try:
