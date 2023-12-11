@@ -1,6 +1,6 @@
 # Library Includes
 from Functions import Log, Kafka, Handler, Functions
-from Setup import Database, Models, Schema, Definitions
+from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
