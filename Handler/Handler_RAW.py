@@ -62,46 +62,47 @@ for RAW_Message in Kafka.RAW_Consumer:
 
 
 
+                # Define DB
+                with Database.DB_Session_Scope() as DB_Version:
 
+                    # Query Version
+                    Query_Version = DB_Version.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
 
-                # Query Version
-                Query_Version = DB.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
+                    # Version Found
+                    if Query_Version is not None:
 
-                # Version Found
-                if Query_Version is not None:
+                        # Set Version Variables
+                        Device.New_Version = False
 
-                    # Set Version Variables
-                    Device.New_Version = False
+                        # Set Version ID
+                        Device.Version_ID = Query_Device.Version_ID
 
-                    # Set Version ID
-                    Device.Version_ID = Query_Device.Version_ID
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"Known Version: {Device.Version_ID}")
 
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"Known Version: {Device.Version_ID}")
+                    # Version Not Found
+                    else:
 
-                # Version Not Found
-                else:
+                        # Create New Version
+                        New_Version = Models.Version(
+                            Firmware = Message.Info.Firmware,
+                            Device_ID = Device.Device_ID,
+                        )
 
-                    # Create New Version
-                    New_Version = Models.Version(
-                        Firmware = Message.Info.Firmware,
-                        Device_ID = Device.Device_ID,
-                    )
+                        # Add Record to DataBase
+                        DB_Version.add(New_Version)
 
-                    # Add Record to DataBase
-                    DB.add(New_Version)
+                        # Commit DataBase
+                        DB_Version.commit()
 
-                    # Commit DataBase
-                    DB.commit()
+                        # Get Version ID
+                        Device.Version_ID = New_Version.Version_ID
 
-                    # Get Version ID
-                    Device.Version_ID = New_Version.Version_ID
+                        # Set Version Variables
+                        Device.New_Version = True
 
-                    # Set Version Variables
-                    Device.New_Version = True
-
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
 
 
 
