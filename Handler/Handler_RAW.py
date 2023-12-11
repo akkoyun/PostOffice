@@ -254,6 +254,8 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Set Device Variables
                 Device.New_Device = True
 
+                Log.Terminal_Log("INFO", f"New Device SQL: {New_Device}")
+
                 # Log Message
                 Log.Terminal_Log("INFO", f"New Device: {Device.Device_ID} Recorded.")
 
