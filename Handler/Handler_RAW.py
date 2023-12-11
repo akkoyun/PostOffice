@@ -254,6 +254,9 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"New Device: {Device.Device_ID} Recorded.")
 
+    # Define DB
+    with Database.DB_Session_Scope() as DB_Stream:
+
         # Create New Stream
         New_Stream = Models.Stream(
             Device_ID = Message.Info.ID,
@@ -266,10 +269,10 @@ for RAW_Message in Kafka.RAW_Consumer:
         )
 
         # Add Stream to DataBase
-        DB.add(New_Stream)
+        DB_Stream.add(New_Stream)
 
         # Commit DataBase
-        DB.commit()
+        DB_Stream.commit()
 
         # Get Stream ID
         Device.Stream_ID = New_Stream.Stream_ID
