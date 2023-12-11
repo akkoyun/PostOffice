@@ -493,7 +493,11 @@ def Import_Device():
                 # Add Record to DataBase
                 try:
                 
-                    print(New_Record)
+                    print(New_Record.Device_ID)
+                    print(New_Record.Status_ID)
+                    print(New_Record.Version_ID)
+                    print(New_Record.Model_ID)
+                    print(New_Record.IMEI)
 
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
