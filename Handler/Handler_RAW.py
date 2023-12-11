@@ -206,44 +206,47 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"UnKnown Device: {Device.Device_ID}")
 
-                # Query Version
-                Query_Version = DB.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
+                # Define DB
+                with Database.DB_Session_Scope() as DB_Version:
 
-                # Version Found
-                if Query_Version is not None:
+                    # Query Version
+                    Query_Version = DB_Version.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
 
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"Version Updated: {Query_Version.Version_ID}")
+                    # Version Found
+                    if Query_Version is not None:
 
-                    # Set Version Variables
-                    Device.New_Version = False
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"Version Updated: {Query_Version.Version_ID}")
 
-                    # Set Version ID
-                    Device.Version_ID = Query_Device.Version_ID
+                        # Set Version Variables
+                        Device.New_Version = False
 
-                # Version Not Found
-                else:
+                        # Set Version ID
+                        Device.Version_ID = Query_Device.Version_ID
 
-                    # Create New Version
-                    New_Version = Models.Version(
-                        Firmware = Message.Info.Firmware,
-                        Device_ID = Device.Device_ID,
-                    )
+                    # Version Not Found
+                    else:
 
-                    # Add Record to DataBase
-                    DB.add(New_Version)
+                        # Create New Version
+                        New_Version = Models.Version(
+                            Firmware = Message.Info.Firmware,
+                            Device_ID = Device.Device_ID,
+                        )
 
-                    # Commit DataBase
-                    DB.commit()
+                        # Add Record to DataBase
+                        DB_Version.add(New_Version)
 
-                    # Get Version ID
-                    Device.Version_ID = New_Version.Version_ID
+                        # Commit DataBase
+                        DB_Version.commit()
 
-                    # Set Version Variables
-                    Device.New_Version = True
+                        # Get Version ID
+                        Device.Version_ID = New_Version.Version_ID
 
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
+                        # Set Version Variables
+                        Device.New_Version = True
+
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
 
                 # Create New Device
                 New_Device = Models.Device(
@@ -260,44 +263,25 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"New Device: {Device.Device_ID} Recorded.")
 
-
-
-
-
-
-
-
-
-
-
-
+    # Define DB
+    with Database.DB_Session_Scope() as DB_Stream:
 
         # Create New Stream
-#        New_Stream = Models.Stream(
-#            Device_ID = Message.Info.ID,
-#            ICCID = Message.Device.IoT.ICCID,
-#            Client_IP = RAW_Headers.Device_IP,
-#            Size = RAW_Headers.Size,
-#            RAW_Data = Message.dict(),
-#            Device_Time = RAW_Headers.Device_Time,
-#            Stream_Time = datetime.now()
-#        )
+        New_Stream = Models.Stream(
+            Device_ID = Message.Info.ID,
+            ICCID = Message.Device.IoT.ICCID,
+            Client_IP = RAW_Headers.Device_IP,
+            Size = RAW_Headers.Size,
+            RAW_Data = Message.dict(),
+            Device_Time = RAW_Headers.Device_Time,
+            Stream_Time = datetime.now()
+        )
 
         # Add Stream to DataBase
-#        DB.add(New_Stream)
+        DB_Stream.add(New_Stream)
 
         # Log Message
-#        Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
-
-
-
-
-
-
-
-
-
-
+        Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
 
     # Set headers
     New_Header = [
@@ -306,7 +290,7 @@ for RAW_Message in Kafka.RAW_Consumer:
         ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
         ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
         ("Size", bytes(RAW_Headers.Size, 'utf-8')),
-#        ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
+        ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
     ]
 
     # Send to Topic
