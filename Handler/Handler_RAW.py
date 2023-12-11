@@ -254,9 +254,6 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"New Device: {Device.Device_ID} Recorded.")
 
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Stream:
-
         # Create New Stream
         New_Stream = Models.Stream(
             Device_ID = Message.Info.ID,
@@ -269,16 +266,16 @@ for RAW_Message in Kafka.RAW_Consumer:
         )
 
         # Add Stream to DataBase
-        DB_Stream.add(New_Stream)
+        DB.add(New_Stream)
 
         # Commit DataBase
-        DB_Stream.commit()
+        DB.commit()
 
         # Get Stream ID
         Device.Stream_ID = New_Stream.Stream_ID
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New Stream: {Device.Stream_ID} Recorded.")
+        Log.Terminal_Log("INFO", f"New Stream: {Device.Last_Stream_ID} Recorded.")
 
     # Set headers
     New_Header = [
@@ -287,7 +284,7 @@ for RAW_Message in Kafka.RAW_Consumer:
         ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
         ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
         ("Size", bytes(RAW_Headers.Size, 'utf-8')),
-        ("Stream_ID", bytes(str(Device.Stream_ID), 'utf-8'))
+        ("Stream_ID", bytes(str(Device.Last_Stream_ID), 'utf-8'))
     ]
 
     # Send to Topic
