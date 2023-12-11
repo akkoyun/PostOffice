@@ -496,6 +496,9 @@ def Import_Device():
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
+                    # Commit DataBase
+                    DB_Module.commit()
+
                     # Increase New Count
                     New_Data_Count += 1
 
