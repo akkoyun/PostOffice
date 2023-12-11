@@ -457,7 +457,6 @@ def Import_Device():
         
         # Download Data File
         Data_File = pd.read_csv(Data_File_Name)
-        print(Data_File_Name)
 
     except Exception as e:
 
@@ -475,8 +474,6 @@ def Import_Device():
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
-
-            print(row['Device_ID'])
 
             # Check for Existing
             Query = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(str(row['Device_ID']))).first()
