@@ -55,13 +55,6 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"Known Device: {Device.Device_ID}")
 
-
-
-
-
-
-
-
                 # Define DB
                 with Database.DB_Session_Scope() as DB_Version:
 
@@ -104,132 +97,99 @@ for RAW_Message in Kafka.RAW_Consumer:
                         # Log Message
                         Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
 
+                # Define DB
+                with Database.DB_Session_Scope() as DB_Modem:
 
+                    # Query Modem
+                    Query_Modem = DB_Modem.query(Models.Modem).filter(Models.Modem.IMEI.like(Message.Device.IoT.IMEI)).first()
 
-
-
-
-
-
-
-
-
-
-
-
-                # Query Modem
-                Query_Modem = DB.query(Models.Modem).filter(Models.Modem.IMEI.like(Message.Device.IoT.IMEI)).first()
-
-                # Modem Found
-                if Query_Modem is not None:
-
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"Known Modem: {Message.Device.IoT.IMEI}")
-
-                    # Control Existing Version With New Version
-                    if Query_Modem.Firmware != Message.Device.IoT.Firmware:
+                    # Modem Found
+                    if Query_Modem is not None:
 
                         # Log Message
-                        Log.Terminal_Log("INFO", f"New Modem Version: {Message.Device.IoT.Firmware}")
+                        Log.Terminal_Log("INFO", f"Known Modem: {Message.Device.IoT.IMEI}")
 
-                        # Update Modem Version
-                        Query_Modem.Firmware = Message.Device.IoT.Firmware
+                        # Control Existing Version With New Version
+                        if Query_Modem.Firmware != Message.Device.IoT.Firmware:
 
-                        # Commit DataBase
-                        DB.commit()
-                    
-                    # Modem Version is the same
+                            # Log Message
+                            Log.Terminal_Log("INFO", f"New Modem Version: {Message.Device.IoT.Firmware}")
+
+                            # Update Modem Version
+                            Query_Modem.Firmware = Message.Device.IoT.Firmware
+
+                            # Commit DataBase
+                            DB_Modem.commit()
+                        
+                        # Modem Version is the same
+                        else:
+
+                            # Log Message
+                            Log.Terminal_Log("INFO", f"Known Modem Version: {Message.Device.IoT.Firmware}")
+
+                        # Set Modem Variables
+                        Device.New_Modem = False
+
+                    # Modem Not Found
                     else:
 
+                        # Create New Modem
+                        New_Modem = Models.Modem(
+                            IMEI = Message.Device.IoT.IMEI,
+                            Model_ID = 0,
+                            Manufacturer_ID = 0,
+                            Firmware = Message.Device.IoT.Firmware,
+                        )
+
+                        # Add Record to DataBase
+                        DB_Modem.add(New_Modem)
+
+                        # Commit DataBase
+                        DB_Modem.commit()
+
+                        # Set Modem Variables
+                        Device.New_Modem = True
+
                         # Log Message
-                        Log.Terminal_Log("INFO", f"Known Modem Version: {Message.Device.IoT.Firmware}")
+                        Log.Terminal_Log("INFO", f"New Modem: {Message.Device.IoT.IMEI}")
 
-                    # Set Modem Variables
-                    Device.New_Modem = False
+                # Define DB
+                with Database.DB_Session_Scope() as DB_SIM:
 
-                # Modem Not Found
-                else:
+                    # Query SIM
+                    Query_SIM = DB_SIM.query(Models.SIM).filter(Models.SIM.ICCID.like(Message.Device.IoT.ICCID)).first()
 
-                    # Create New Modem
-                    New_Modem = Models.Modem(
-                        IMEI = Message.Device.IoT.IMEI,
-                        Model_ID = 0,
-                        Manufacturer_ID = 0,
-                        Firmware = Message.Device.IoT.Firmware,
-                    )
+                    # SIM Found
+                    if Query_SIM is not None:
 
-                    # Add Record to DataBase
-                    DB.add(New_Modem)
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"Known SIM: {Message.Device.IoT.ICCID}")
 
-                    # Commit DataBase
-                    DB.commit()
+                        # Set SIM Variables
+                        Device.New_SIM = False
 
-                    # Set Modem Variables
-                    Device.New_Modem = True
+                    # SIM Not Found
+                    else:
 
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"New Modem: {Message.Device.IoT.IMEI}")
+                        # Create New SIM
+                        New_SIM = Models.SIM(
+                            ICCID = Message.Device.IoT.ICCID,
+                            Operator_ID = 1,
+                            GSM_Number = None,
+                            Static_IP = None
+                        )
 
+                        # Add Record to DataBase
+                        DB_SIM.add(New_SIM)
 
+                        # Commit DataBase
+                        DB_SIM.commit()
 
+                        # Set SIM Variables
+                        Device.New_SIM = True
 
-
-
-
-
-
-
-
-
-
-                # Query SIM
-                Query_SIM = DB.query(Models.SIM).filter(Models.SIM.ICCID.like(Message.Device.IoT.ICCID)).first()
-
-                # SIM Found
-                if Query_SIM is not None:
-
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"Known SIM: {Message.Device.IoT.ICCID}")
-
-                    # Set SIM Variables
-                    Device.New_SIM = False
-
-                # SIM Not Found
-                else:
-
-                    # Create New SIM
-                    New_SIM = Models.SIM(
-                        ICCID = Message.Device.IoT.ICCID,
-                        Operator_ID = 1,
-                        GSM_Number = None,
-                        Static_IP = None
-                    )
-
-                    # Add Record to DataBase
-                    DB.add(New_SIM)
-
-                    # Commit DataBase
-                    DB.commit()
-
-                    # Set SIM Variables
-                    Device.New_SIM = True
-
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"New SIM: {Message.Device.IoT.ICCID}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        # Log Message
+                        Log.Terminal_Log("INFO", f"New SIM: {Message.Device.IoT.ICCID}")
 
                 # Update Device Last_Connection
                 Query_Device.Last_Connection = datetime.now()
@@ -239,12 +199,6 @@ for RAW_Message in Kafka.RAW_Consumer:
 
                 # Log Message
                 Log.Terminal_Log("INFO", f"Device Connection Time Updated: {Query_Device.Last_Connection}")
-
-
-
-
-
-
 
             # Device Not Found
             else:
