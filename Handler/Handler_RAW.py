@@ -12,7 +12,7 @@ from Functions import Kafka, Log, Handler
 try:
 
     # Define DB
-    DB_Module = Database.SessionLocal()
+    DB_Module = Database.DB_Session_Scope()
 
     # Parse Topics
     for RAW_Message in Kafka.RAW_Consumer:
