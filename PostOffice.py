@@ -11,8 +11,6 @@ import pytz
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
 
-Models.Base.metadata.create_all(bind=Database.DB_Engine)
-
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.02.00", title="PostOffice")
 

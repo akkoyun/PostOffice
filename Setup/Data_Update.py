@@ -796,6 +796,9 @@ def Import_Project():
     # End Function
     return New_Data_Count
 
+# Create DataBase
+Models.Base.metadata.create_all(bind=Database.DB_Engine)
+
 # Data Segment
 New_Data_Segment = Import_Data_Segment()
 if New_Data_Segment > 0:
