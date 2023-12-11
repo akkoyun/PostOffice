@@ -470,13 +470,13 @@ def Import_Device():
     Data_File.columns = ['Device_ID', 'Status_ID', 'Version_ID', 'Model_ID', 'IMEI']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Device:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(str(row['Device_ID']))).first()
+            Query = DB_Device.query(Models.Device).filter(Models.Device.Device_ID.like(str(row['Device_ID']))).first()
 
             # Record Not Found
             if not Query:
@@ -500,7 +500,10 @@ def Import_Device():
                     print(New_Record.IMEI)
 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Device.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Device.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
