@@ -203,14 +203,14 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Version Found
                 if Query_Version is not None:
 
-                    # Log Message
-                    Log.Terminal_Log("INFO", f"Version Updated: {Query_Version.Version_ID}")
-
                     # Set Version Variables
                     Device.New_Version = False
 
                     # Set Version ID
                     Device.Version_ID = Query_Device.Version_ID
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"Known Version: {Device.Version_ID}")
 
                 # Version Not Found
                 else:
@@ -235,14 +235,17 @@ for RAW_Message in Kafka.RAW_Consumer:
 
                     # Log Message
                     Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
-
+        
                 # Create New Device
                 New_Device = Models.Device(
                     Device_ID = Device.Device_ID,
                     Status_ID = 0,
                     Version_ID = Device.Version_ID,
                     Model_ID = 0,
+                    Project_ID = 0,
                     IMEI = Message.Device.IoT.IMEI,
+                    Last_Connection = datetime.now(),
+                    Create_Time = datetime.now()
                 )
 
                 # Add Record to DataBase
