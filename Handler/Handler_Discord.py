@@ -1,11 +1,12 @@
 # Setup Library
 import sys
+import asyncio
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Definitions
 from Functions import Kafka, Log, Handler
-import discord, asyncio
+import discord
 from Setup.Config import APP_Settings
 
 # Set Discord Intents
@@ -19,54 +20,33 @@ Discord_Client = discord.Client(intents=intents)
 # Define Discord Login
 @Discord_Client.event
 async def on_ready():
-
-    # Log Message
     Log.Terminal_Log("INFO", f'Login as: {Discord_Client.user}')
-
-    # Process Kafka Messages
     await Discord_Client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="PostOffice"))
+    asyncio.create_task(kafka_consumer_task())  # Run Kafka consumer in a separate task
 
-    # Process Kafka Messages
-    asyncio.create_task(Parse_Message())
+async def kafka_consumer_task():
+    while True:
+        try:
+            await process_kafka_messages()
+        except Exception as e:
+            Log.Terminal_Log("ERROR", f"Kafka Consumer Error: {e}")
+            await asyncio.sleep(5)  # Wait before retrying
+
+async def process_kafka_messages():
+    # Non-blocking Kafka poll
+    RAW_Messages = Kafka.Discord_Consumer.poll(timeout_ms=1000)  # Adjust timeout as needed
+    for RAW_Message in RAW_Messages:
+        await Set_Message(RAW_Message)
+        Kafka.Discord_Consumer.commit()
+        await asyncio.sleep(0.1)  # Yield control back to the event loop
 
 # Mesaj gönderme fonksiyonu
 async def Send_Discord_Message(channel_id, message):
-
-    # Get Channel
     channel = Discord_Client.get_channel(channel_id)
-
-    # Control Channel
     if channel:
         await channel.send(message)
     else:
         print("Kanal bulunamadı.")
-
-# Try to Parse Topics
-async def Parse_Message():
-
-    while True:
-
-        try:
-
-            # Parse Topics
-            for RAW_Message in Kafka.Discord_Consumer:
-
-                # Process message
-                await Set_Message(RAW_Message)
-
-                # Commit Kafka Consumer
-                Kafka.Discord_Consumer.commit()
-
-                # Sleep to yield control back to the event loop
-                await asyncio.sleep(0.1)
-
-        except Exception as e:
-
-            # Log Message
-            Log.Terminal_Log("ERROR", f"Handler Error: {e}")
-
-            # Sleep
-            await asyncio.sleep(5)  # Wait before retrying
 
 # Set Message
 async def Set_Message(RAW_Message):
