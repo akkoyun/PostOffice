@@ -80,6 +80,7 @@ class Version(Base):
 
 	# Define Columns
 	Version_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Device_ID = Column(String(), nullable=True)
 	Firmware = Column(String(), nullable=True)
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
