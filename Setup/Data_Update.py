@@ -493,6 +493,8 @@ def Import_Device():
                 # Add Record to DataBase
                 try:
                 
+                    print(New_Record)
+
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
@@ -503,17 +505,6 @@ def Import_Device():
 
                     # Log Message
                     Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
-
-                finally:
-
-                    # Commit DataBase
-                    DB_Module.commit()
-
-                    # Refresh DataBase
-                    DB_Module.refresh(New_Record)
-
-                    # Close Database
-                    DB_Module.close()
 
     # End Function
     return New_Data_Count
