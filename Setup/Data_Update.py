@@ -58,6 +58,9 @@ def Import_Data_Segment():
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
+                    # Commit DataBase
+                    DB_Module.commit()
+
                     # Increase New Count
                     New_Data_Count += 1
 
@@ -126,6 +129,9 @@ def Import_GSM_Operator():
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
+                    # Commit DataBase
+                    DB_Module.commit()
+
                     # Increase New Count
                     New_Data_Count += 1
 
@@ -186,6 +192,9 @@ def Import_Status():
                 
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Module.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -248,6 +257,9 @@ def Import_Version():
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
+                    # Commit DataBase
+                    DB_Module.commit()
+
                     # Increase New Count
                     New_Data_Count += 1
 
@@ -308,6 +320,9 @@ def Import_Model():
                 
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Module.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -370,6 +385,9 @@ def Import_Manufacturer():
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
+                    # Commit DataBase
+                    DB_Module.commit()
+
                     # Increase New Count
                     New_Data_Count += 1
 
@@ -431,6 +449,9 @@ def Import_Modem():
                 
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Module.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -563,6 +584,9 @@ def Import_Data_Type():
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
+                    # Commit DataBase
+                    DB_Module.commit()
+
                     # Increase New Count
                     New_Data_Count += 1
 
@@ -625,6 +649,9 @@ def Import_SIM():
                 
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Module.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -690,6 +717,9 @@ def Import_Calibration():
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
 
+                    # Commit DataBase
+                    DB_Module.commit()
+
                     # Increase New Count
                     New_Data_Count += 1
 
@@ -751,6 +781,9 @@ def Import_Project():
                 
                     # Add Record to DataBase
                     DB_Module.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Module.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
