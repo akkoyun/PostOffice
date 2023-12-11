@@ -169,11 +169,11 @@ class Header:
         
         # Return Header
         return cls(
-            command=headers[0][1].decode('ASCII'),
-            device_id=headers[1][1].decode('ASCII'),
-            device_time=headers[2][1].decode('ASCII'),
-            device_ip=headers[3][1].decode('ASCII'),
-            size=headers[4][1].decode('ASCII')
+            Command=headers[0][1].decode('ASCII'),
+            Device_ID=headers[1][1].decode('ASCII'),
+            Device_Time=headers[2][1].decode('ASCII'),
+            Device_IP=headers[3][1].decode('ASCII'),
+            Size=headers[4][1].decode('ASCII')
         )
 
     # Define Header from Raw Message
