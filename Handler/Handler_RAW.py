@@ -280,6 +280,9 @@ for RAW_Message in Kafka.RAW_Consumer:
         # Add Stream to DataBase
         DB_Stream.add(New_Stream)
 
+        # Get Stream ID
+        Device.Last_Stream_ID = New_Stream.Stream_ID
+
         # Log Message
         Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
 
@@ -288,9 +291,9 @@ for RAW_Message in Kafka.RAW_Consumer:
         ("Command", bytes(RAW_Headers.Command, 'utf-8')), 
         ("Device_ID", bytes(RAW_Headers.Device_ID, 'utf-8')),
         ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
-        ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
+        ("Device_IP", bytes(Device.Client_IP, 'utf-8')),
         ("Size", bytes(RAW_Headers.Size, 'utf-8')),
-        ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
+        ("Stream_ID", bytes(str(Device.Last_Stream_ID), 'utf-8'))
     ]
 
     # Send to Topic
