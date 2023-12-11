@@ -15,7 +15,7 @@ def Import_Data_Segment():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_DATA_SEGMENT
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_DATA_SEGMENT
 
     # Download Data File
     try:
@@ -35,13 +35,13 @@ def Import_Data_Segment():
     Data_File.columns = ['Segment_ID', 'Description']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Segment:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Data_Segment).filter(Models.Data_Segment.Description.like(str(row['Description']))).first()
+            Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Description.like(str(row['Description']))).first()
 
             # Record Not Found
             if not Query:
@@ -56,7 +56,10 @@ def Import_Data_Segment():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Segment.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Segment.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -76,7 +79,7 @@ def Import_GSM_Operator():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_GSM_OPERATOR
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_GSM_OPERATOR
 
     # Download Data File
     try:
@@ -96,13 +99,13 @@ def Import_GSM_Operator():
     Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'MNC_Operator_Image_URL']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Operator:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.GSM_Operator).filter(Models.GSM_Operator.MCC_ID==int(row['MCC_ID'])).filter(Models.GSM_Operator.MNC_ID==int(row['MNC_ID'])).first()
+            Query = DB_Operator.query(Models.GSM_Operator).filter(Models.GSM_Operator.MCC_ID==int(row['MCC_ID'])).filter(Models.GSM_Operator.MNC_ID==int(row['MNC_ID'])).first()
 
             # Record Not Found
             if not Query:
@@ -124,7 +127,10 @@ def Import_GSM_Operator():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Operator.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Operator.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -144,7 +150,7 @@ def Import_Status():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_STATUS
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_STATUS
 
     # Download Data File
     try:
@@ -164,13 +170,13 @@ def Import_Status():
     Data_File.columns = ['Status_ID', 'Description']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Status:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Status).filter(Models.Status.Description.like(str(row['Description']))).first()
+            Query = DB_Status.query(Models.Status).filter(Models.Status.Description.like(str(row['Description']))).first()
 
             # Record Not Found
             if not Query:
@@ -185,7 +191,10 @@ def Import_Status():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Status.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Status.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -205,7 +214,7 @@ def Import_Version():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_VERSION
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_VERSION
 
     # Download Data File
     try:
@@ -225,13 +234,13 @@ def Import_Version():
     Data_File.columns = ['Version_ID', 'Firmware']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Version:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Version).filter(Models.Version.Firmware.like(str(row['Firmware']))).first()
+            Query = DB_Version.query(Models.Version).filter(Models.Version.Firmware.like(str(row['Firmware']))).first()
 
             # Record Not Found
             if not Query:
@@ -246,7 +255,10 @@ def Import_Version():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Version.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Version.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -266,7 +278,7 @@ def Import_Model():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_MODEL
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_MODEL
 
     # Download Data File
     try:
@@ -286,13 +298,13 @@ def Import_Model():
     Data_File.columns = ['Model_ID', 'Model']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Model:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Model).filter(Models.Model.Model_Name.like(str(row['Model']))).first()
+            Query = DB_Model.query(Models.Model).filter(Models.Model.Model_Name.like(str(row['Model']))).first()
 
             # Record Not Found
             if not Query:
@@ -307,7 +319,10 @@ def Import_Model():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Model.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Model.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -327,7 +342,7 @@ def Import_Manufacturer():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_MANUFACTURER
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_MANUFACTURER
 
     # Download Data File
     try:
@@ -347,13 +362,13 @@ def Import_Manufacturer():
     Data_File.columns = ['Manufacturer_ID', 'Manufacturer']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Manufacturer:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Manufacturer).filter(Models.Manufacturer.Manufacturer_Name.like(str(row['Manufacturer']))).first()
+            Query = DB_Manufacturer.query(Models.Manufacturer).filter(Models.Manufacturer.Manufacturer_Name.like(str(row['Manufacturer']))).first()
 
             # Record Not Found
             if not Query:
@@ -368,7 +383,10 @@ def Import_Manufacturer():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Manufacturer.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Manufacturer.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -388,7 +406,7 @@ def Import_Modem():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_MODEM
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_MODEM
 
     # Download Data File
     try:
@@ -408,13 +426,13 @@ def Import_Modem():
     Data_File.columns = ['IMEI', 'Model_ID', 'Manufacturer_ID']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Modem:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Modem).filter(Models.Modem.IMEI.like(str(row['IMEI']))).first()
+            Query = DB_Modem.query(Models.Modem).filter(Models.Modem.IMEI.like(str(row['IMEI']))).first()
 
             # Record Not Found
             if not Query:
@@ -430,7 +448,10 @@ def Import_Modem():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Modem.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Modem.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -492,12 +513,6 @@ def Import_Device():
 
                 # Add Record to DataBase
                 try:
-                
-                    print(New_Record.Device_ID)
-                    print(New_Record.Status_ID)
-                    print(New_Record.Version_ID)
-                    print(New_Record.Model_ID)
-                    print(New_Record.IMEI)
 
                     # Add Record to DataBase
                     DB_Device.add(New_Record)
@@ -523,7 +538,7 @@ def Import_Data_Type():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_MEASUREMENT_TYPE
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_MEASUREMENT_TYPE
 
     # Download Data File
     try:
@@ -543,13 +558,13 @@ def Import_Data_Type():
     Data_File.columns = ['Type_ID', 'Description', 'Variable', 'Unit', 'Segment']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Data_Type:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Type_ID.like(str(row['Type_ID']))).first()
+            Query = DB_Data_Type.query(Models.Data_Type).filter(Models.Data_Type.Type_ID.like(str(row['Type_ID']))).first()
 
             # Record Not Found
             if not Query:
@@ -567,7 +582,10 @@ def Import_Data_Type():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Data_Type.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Data_Type.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -587,7 +605,7 @@ def Import_SIM():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_SIM
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_SIM
 
     # Download Data File
     try:
@@ -607,13 +625,13 @@ def Import_SIM():
     Data_File.columns = ['SIM_ICCID', 'MCC_ID', 'MNC_ID', 'SIM_Number', 'SIM_Static_IP']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_SIM:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.SIM).filter(Models.SIM.ICCID.like(str(row['SIM_ICCID']))).first()
+            Query = DB_SIM.query(Models.SIM).filter(Models.SIM.ICCID.like(str(row['SIM_ICCID']))).first()
 
             # Record Not Found
             if not Query:
@@ -630,7 +648,10 @@ def Import_SIM():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_SIM.add(New_Record)
+
+                    # Commit DataBase
+                    DB_SIM.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -650,7 +671,7 @@ def Import_Calibration():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_CALIBRATION
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_CALIBRATION
 
     # Download Data File
     try:
@@ -670,13 +691,13 @@ def Import_Calibration():
     Data_File.columns = ['Calibration_ID', 'Device_ID', 'Type_ID', 'Gain', 'Offset']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Calibration:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Calibration).filter(Models.Calibration.Calibration_ID==int(row['Calibration_ID'])).first()
+            Query = DB_Calibration.query(Models.Calibration).filter(Models.Calibration.Calibration_ID==int(row['Calibration_ID'])).first()
 
             # Record Not Found
             if not Query:
@@ -694,7 +715,10 @@ def Import_Calibration():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Calibration.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Calibration.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
@@ -714,7 +738,7 @@ def Import_Project():
     New_Data_Count = 0
 
     # Define Data File
-    Data_File_Name = APP_Settings.DATA_REPOSITORY + APP_Settings.FILE_PROJECT
+    Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_PROJECT
 
     # Download Data File
     try:
@@ -734,13 +758,13 @@ def Import_Project():
     Data_File.columns = ['Project_ID', 'Project_Name']
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Module:
+    with Database.DB_Session_Scope() as DB_Project:
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Module.query(Models.Project).filter(Models.Project.Project_Name.like(str(row['Project_Name']))).first()
+            Query = DB_Project.query(Models.Project).filter(Models.Project.Project_Name.like(str(row['Project_Name']))).first()
 
             # Record Not Found
             if not Query:
@@ -756,7 +780,10 @@ def Import_Project():
                 try:
                 
                     # Add Record to DataBase
-                    DB_Module.add(New_Record)
+                    DB_Project.add(New_Record)
+
+                    # Commit DataBase
+                    DB_Project.commit()
 
                     # Increase New Count
                     New_Data_Count += 1
