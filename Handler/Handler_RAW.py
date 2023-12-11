@@ -55,141 +55,132 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"Known Device: {Device.Device_ID}")
 
-                # Define DB
-                with Database.DB_Session_Scope() as DB_Version:
+                # Query Version
+                Query_Version = DB.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
 
-                    # Query Version
-                    Query_Version = DB_Version.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
+                # Version Found
+                if Query_Version is not None:
 
-                    # Version Found
-                    if Query_Version is not None:
+                    # Set Version Variables
+                    Device.New_Version = False
 
-                        # Set Version Variables
-                        Device.New_Version = False
+                    # Set Version ID
+                    Device.Version_ID = Query_Device.Version_ID
 
-                        # Set Version ID
-                        Device.Version_ID = Query_Device.Version_ID
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"Known Version: {Device.Version_ID}")
+
+                # Version Not Found
+                else:
+
+                    # Create New Version
+                    New_Version = Models.Version(
+                        Firmware = Message.Info.Firmware,
+                        Device_ID = Device.Device_ID,
+                    )
+
+                    # Add Record to DataBase
+                    DB.add(New_Version)
+
+                    # Commit DataBase
+                    DB.commit()
+
+                    # Get Version ID
+                    Device.Version_ID = New_Version.Version_ID
+
+                    # Set Version Variables
+                    Device.New_Version = True
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
+
+                # Query Modem
+                Query_Modem = DB.query(Models.Modem).filter(Models.Modem.IMEI.like(Message.Device.IoT.IMEI)).first()
+
+                # Modem Found
+                if Query_Modem is not None:
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"Known Modem: {Message.Device.IoT.IMEI}")
+
+                    # Control Existing Version With New Version
+                    if Query_Modem.Firmware != Message.Device.IoT.Firmware:
 
                         # Log Message
-                        Log.Terminal_Log("INFO", f"Known Version: {Device.Version_ID}")
+                        Log.Terminal_Log("INFO", f"New Modem Version: {Message.Device.IoT.Firmware}")
 
-                    # Version Not Found
-                    else:
-
-                        # Create New Version
-                        New_Version = Models.Version(
-                            Firmware = Message.Info.Firmware,
-                            Device_ID = Device.Device_ID,
-                        )
-
-                        # Add Record to DataBase
-                        DB_Version.add(New_Version)
+                        # Update Modem Version
+                        Query_Modem.Firmware = Message.Device.IoT.Firmware
 
                         # Commit DataBase
-                        DB_Version.commit()
-
-                        # Get Version ID
-                        Device.Version_ID = New_Version.Version_ID
-
-                        # Set Version Variables
-                        Device.New_Version = True
-
-                        # Log Message
-                        Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
-
-                # Define DB
-                with Database.DB_Session_Scope() as DB_Modem:
-
-                    # Query Modem
-                    Query_Modem = DB_Modem.query(Models.Modem).filter(Models.Modem.IMEI.like(Message.Device.IoT.IMEI)).first()
-
-                    # Modem Found
-                    if Query_Modem is not None:
-
-                        # Log Message
-                        Log.Terminal_Log("INFO", f"Known Modem: {Message.Device.IoT.IMEI}")
-
-                        # Control Existing Version With New Version
-                        if Query_Modem.Firmware != Message.Device.IoT.Firmware:
-
-                            # Log Message
-                            Log.Terminal_Log("INFO", f"New Modem Version: {Message.Device.IoT.Firmware}")
-
-                            # Update Modem Version
-                            Query_Modem.Firmware = Message.Device.IoT.Firmware
-
-                            # Commit DataBase
-                            DB_Modem.commit()
-                        
-                        # Modem Version is the same
-                        else:
-
-                            # Log Message
-                            Log.Terminal_Log("INFO", f"Known Modem Version: {Message.Device.IoT.Firmware}")
-
-                        # Set Modem Variables
-                        Device.New_Modem = False
-
-                    # Modem Not Found
+                        DB.commit()
+                    
+                    # Modem Version is the same
                     else:
 
-                        # Create New Modem
-                        New_Modem = Models.Modem(
-                            IMEI = Message.Device.IoT.IMEI,
-                            Model_ID = 0,
-                            Manufacturer_ID = 0,
-                            Firmware = Message.Device.IoT.Firmware,
-                        )
-
-                        # Add Record to DataBase
-                        DB_Modem.add(New_Modem)
-
-                        # Commit DataBase
-                        DB_Modem.commit()
-
-                        # Set Modem Variables
-                        Device.New_Modem = True
-
                         # Log Message
-                        Log.Terminal_Log("INFO", f"New Modem: {Message.Device.IoT.IMEI}")
+                        Log.Terminal_Log("INFO", f"Known Modem Version: {Message.Device.IoT.Firmware}")
 
-                # Define DB
-                with Database.DB_Session_Scope() as DB_SIM:
+                    # Set Modem Variables
+                    Device.New_Modem = False
 
-                    # Query SIM
-                    Query_SIM = DB_SIM.query(Models.SIM).filter(Models.SIM.ICCID.like(Message.Device.IoT.ICCID)).first()
+                # Modem Not Found
+                else:
 
-                    # SIM Found
-                    if Query_SIM is not None:
+                    # Create New Modem
+                    New_Modem = Models.Modem(
+                        IMEI = Message.Device.IoT.IMEI,
+                        Model_ID = 0,
+                        Manufacturer_ID = 0,
+                        Firmware = Message.Device.IoT.Firmware,
+                    )
 
-                        # Log Message
-                        Log.Terminal_Log("INFO", f"Known SIM: {Message.Device.IoT.ICCID}")
+                    # Add Record to DataBase
+                    DB.add(New_Modem)
 
-                        # Set SIM Variables
-                        Device.New_SIM = False
+                    # Commit DataBase
+                    DB.commit()
 
-                    # SIM Not Found
-                    else:
+                    # Set Modem Variables
+                    Device.New_Modem = True
 
-                        # Create New SIM
-                        New_SIM = Models.SIM(
-                            ICCID = Message.Device.IoT.ICCID,
-                            Operator_ID = 1,
-                            GSM_Number = None,
-                            Static_IP = None
-                        )
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Modem: {Message.Device.IoT.IMEI}")
 
-                        # Add Record to DataBase
-                        DB_SIM.add(New_SIM)
+                # Query SIM
+                Query_SIM = DB.query(Models.SIM).filter(Models.SIM.ICCID.like(Message.Device.IoT.ICCID)).first()
 
-                        # Commit DataBase
-                        DB_SIM.commit()
+                # SIM Found
+                if Query_SIM is not None:
 
-                        # Set SIM Variables
-                        Device.New_SIM = True
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"Known SIM: {Message.Device.IoT.ICCID}")
 
-                        # Log Message
-                        Log.Terminal_Log("INFO", f"New SIM: {Message.Device.IoT.ICCID}")
+                    # Set SIM Variables
+                    Device.New_SIM = False
+
+                # SIM Not Found
+                else:
+
+                    # Create New SIM
+                    New_SIM = Models.SIM(
+                        ICCID = Message.Device.IoT.ICCID,
+                        Operator_ID = 1,
+                        GSM_Number = None,
+                        Static_IP = None
+                    )
+
+                    # Add Record to DataBase
+                    DB.add(New_SIM)
+
+                    # Commit DataBase
+                    DB.commit()
+
+                    # Set SIM Variables
+                    Device.New_SIM = True
+
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New SIM: {Message.Device.IoT.ICCID}")
 
                 # Update Device Last_Connection
                 Query_Device.Last_Connection = datetime.now()
@@ -206,47 +197,44 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"UnKnown Device: {Device.Device_ID}")
 
-                # Define DB
-                with Database.DB_Session_Scope() as DB_Version:
+                # Query Version
+                Query_Version = DB.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
 
-                    # Query Version
-                    Query_Version = DB_Version.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
+                # Version Found
+                if Query_Version is not None:
 
-                    # Version Found
-                    if Query_Version is not None:
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"Version Updated: {Query_Version.Version_ID}")
 
-                        # Log Message
-                        Log.Terminal_Log("INFO", f"Version Updated: {Query_Version.Version_ID}")
+                    # Set Version Variables
+                    Device.New_Version = False
 
-                        # Set Version Variables
-                        Device.New_Version = False
+                    # Set Version ID
+                    Device.Version_ID = Query_Device.Version_ID
 
-                        # Set Version ID
-                        Device.Version_ID = Query_Device.Version_ID
+                # Version Not Found
+                else:
 
-                    # Version Not Found
-                    else:
+                    # Create New Version
+                    New_Version = Models.Version(
+                        Firmware = Message.Info.Firmware,
+                        Device_ID = Device.Device_ID,
+                    )
 
-                        # Create New Version
-                        New_Version = Models.Version(
-                            Firmware = Message.Info.Firmware,
-                            Device_ID = Device.Device_ID,
-                        )
+                    # Add Record to DataBase
+                    DB.add(New_Version)
 
-                        # Add Record to DataBase
-                        DB_Version.add(New_Version)
+                    # Commit DataBase
+                    DB.commit()
 
-                        # Commit DataBase
-                        DB_Version.commit()
+                    # Get Version ID
+                    Device.Version_ID = New_Version.Version_ID
 
-                        # Get Version ID
-                        Device.Version_ID = New_Version.Version_ID
+                    # Set Version Variables
+                    Device.New_Version = True
 
-                        # Set Version Variables
-                        Device.New_Version = True
-
-                        # Log Message
-                        Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
+                    # Log Message
+                    Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
 
                 # Create New Device
                 New_Device = Models.Device(
@@ -257,14 +245,14 @@ for RAW_Message in Kafka.RAW_Consumer:
                     IMEI = Message.Device.IoT.IMEI,
                 )
 
+                # Add Record to DataBase
+                DB.add(New_Device)
+
                 # Set Device Variables
                 Device.New_Device = True
 
                 # Log Message
                 Log.Terminal_Log("INFO", f"New Device: {Device.Device_ID} Recorded.")
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Stream:
 
         # Create New Stream
         New_Stream = Models.Stream(
@@ -278,22 +266,25 @@ for RAW_Message in Kafka.RAW_Consumer:
         )
 
         # Add Stream to DataBase
-        DB_Stream.add(New_Stream)
+        DB.add(New_Stream)
+
+        # Commit DataBase
+        DB.commit()
 
         # Get Stream ID
-        Device.Last_Stream_ID = New_Stream.Stream_ID
+        Device.Stream_ID = New_Stream.Stream_ID
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
+        Log.Terminal_Log("INFO", f"New Stream: {Device.Stream_ID} Recorded.")
 
     # Set headers
     New_Header = [
         ("Command", bytes(RAW_Headers.Command, 'utf-8')), 
         ("Device_ID", bytes(RAW_Headers.Device_ID, 'utf-8')),
         ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
-        ("Device_IP", bytes(Device.Client_IP, 'utf-8')),
+        ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
         ("Size", bytes(RAW_Headers.Size, 'utf-8')),
-        ("Stream_ID", bytes(str(Device.Last_Stream_ID), 'utf-8'))
+        ("Stream_ID", bytes(str(Device.Stream_ID), 'utf-8'))
     ]
 
     # Send to Topic
