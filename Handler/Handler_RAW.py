@@ -248,6 +248,9 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Add Record to DataBase
                 DB.add(New_Device)
 
+                # Commit DataBase
+                DB.commit()
+
                 # Set Device Variables
                 Device.New_Device = True
 
