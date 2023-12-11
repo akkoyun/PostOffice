@@ -120,13 +120,14 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"New Device Data Recieved from: {request.client.host} / {Data.Info.TimeStamp}")
 
 	# Set Header
-	Header = Definitions.Header.Set(
+	Definitions.Header.Set(
 		Data.Info.Command, 
 		Data.Info.ID, 
 		Data.Info.TimeStamp, 
 		request.client.host, 
 		request.headers['content-length']
 	)
+	Header = Definitions.Header.Get()
 
 	# Print Header
 	Log.Terminal_Log("INFO", f"Header: {Header}")
