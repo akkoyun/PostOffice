@@ -55,6 +55,15 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"Known Device: {Device.Device_ID}")
 
+
+
+
+
+
+
+
+
+
                 # Query Version
                 Query_Version = DB.query(Models.Version).filter(Models.Version.Firmware.like(Message.Info.Firmware)).filter(Models.Version.Device_ID.like(Device.Device_ID)).first()
 
@@ -93,6 +102,19 @@ for RAW_Message in Kafka.RAW_Consumer:
 
                     # Log Message
                     Log.Terminal_Log("INFO", f"New Version: {Device.Version_ID}")
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 # Query Modem
                 Query_Modem = DB.query(Models.Modem).filter(Models.Modem.IMEI.like(Message.Device.IoT.IMEI)).first()
@@ -147,6 +169,18 @@ for RAW_Message in Kafka.RAW_Consumer:
                     # Log Message
                     Log.Terminal_Log("INFO", f"New Modem: {Message.Device.IoT.IMEI}")
 
+
+
+
+
+
+
+
+
+
+
+
+
                 # Query SIM
                 Query_SIM = DB.query(Models.SIM).filter(Models.SIM.ICCID.like(Message.Device.IoT.ICCID)).first()
 
@@ -182,6 +216,20 @@ for RAW_Message in Kafka.RAW_Consumer:
                     # Log Message
                     Log.Terminal_Log("INFO", f"New SIM: {Message.Device.IoT.ICCID}")
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 # Update Device Last_Connection
                 Query_Device.Last_Connection = datetime.now()
 
@@ -190,6 +238,12 @@ for RAW_Message in Kafka.RAW_Consumer:
 
                 # Log Message
                 Log.Terminal_Log("INFO", f"Device Connection Time Updated: {Query_Device.Last_Connection}")
+
+
+
+
+
+
 
             # Device Not Found
             else:
@@ -251,22 +305,44 @@ for RAW_Message in Kafka.RAW_Consumer:
                 # Log Message
                 Log.Terminal_Log("INFO", f"New Device: {Device.Device_ID} Recorded.")
 
+
+
+
+
+
+
+
+
+
+
+
+
         # Create New Stream
-        New_Stream = Models.Stream(
-            Device_ID = Message.Info.ID,
-            ICCID = Message.Device.IoT.ICCID,
-            Client_IP = RAW_Headers.Device_IP,
-            Size = RAW_Headers.Size,
-            RAW_Data = Message.dict(),
-            Device_Time = RAW_Headers.Device_Time,
-            Stream_Time = datetime.now()
-        )
+#        New_Stream = Models.Stream(
+#            Device_ID = Message.Info.ID,
+#            ICCID = Message.Device.IoT.ICCID,
+#            Client_IP = RAW_Headers.Device_IP,
+#            Size = RAW_Headers.Size,
+#            RAW_Data = Message.dict(),
+#            Device_Time = RAW_Headers.Device_Time,
+#            Stream_Time = datetime.now()
+#        )
 
         # Add Stream to DataBase
-        DB.add(New_Stream)
+#        DB.add(New_Stream)
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
+#        Log.Terminal_Log("INFO", f"New Stream: {New_Stream.Stream_ID} Recorded.")
+
+
+
+
+
+
+
+
+
+
 
     # Set headers
     New_Header = [
