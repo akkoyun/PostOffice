@@ -131,3 +131,63 @@ def Type_List(Segment: int):
 
     # End Function
     return Formatted_Data
+
+
+
+
+
+# Define Header Class
+class Header:
+    
+    # Define Header
+    def __init__(self, command=None, device_id=None, device_time=None, device_ip=None, size=None):
+        self.command = command
+        self.device_id = device_id
+        self.device_time = device_time
+        self.device_ip = device_ip
+        self.size = size
+
+    # Define Header from Request
+    @classmethod
+    def Set(cls, command: str, device_id: str, device_time: str, device_ip: str, size: int):
+
+        # Return Header
+        return cls(
+            Command=bytes(command, 'utf-8'),
+            Device_ID=bytes(device_id, 'utf-8'),
+            Device_Time=bytes(device_time, 'utf-8'),
+            Device_IP=bytes(device_ip, 'utf-8'),
+            Size=bytes(size, 'utf-8')
+        )
+
+    # Define Header from Raw Message
+    @classmethod
+    def Read(cls, message):
+        
+        # Get Headers
+        headers = message.headers
+        
+        # Return Header
+        return cls(
+            command=headers[0][1].decode('ASCII'),
+            device_id=headers[1][1].decode('ASCII'),
+            device_time=headers[2][1].decode('ASCII'),
+            device_ip=headers[3][1].decode('ASCII'),
+            size=headers[4][1].decode('ASCII')
+        )
+
+    # Define Header from Raw Message
+    def Get(self):
+        
+        # Return Header
+        return [
+            ("Command", self.command),
+            ("Device_ID", self.device_id),
+            ("Device_Time", self.device_time),
+            ("Device_IP", self.device_ip),
+            ("Size", self.size),
+        ]
+
+
+
+

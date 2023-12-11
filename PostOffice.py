@@ -1,6 +1,6 @@
 # Library Includes
 from Functions import Log, Kafka, Handler, Functions
-from Setup import Database, Models, Schema
+from Setup import Database, Models, Schema, Definitions
 from Setup.Config import APP_Settings
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
@@ -118,6 +118,25 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Device Data Recieved from: {request.client.host} / {Data.Info.TimeStamp}")
+
+	# Set Header
+	Header = Definitions.Header.Set(
+		Data.Info.Command, 
+		Data.Info.ID, 
+		Data.Info.TimeStamp, 
+		request.client.host, 
+		request.headers['content-length']
+	)
+
+	# Print Header
+	Log.Terminal_Log("INFO", f"Header: {Header}")
+
+
+
+
+
+
+
 
 	# Set headers
 	RAW_Header = [
