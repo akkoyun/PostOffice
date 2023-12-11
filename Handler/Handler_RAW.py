@@ -351,7 +351,7 @@ for RAW_Message in Kafka.RAW_Consumer:
         ("Device_Time", bytes(RAW_Headers.Device_Time, 'utf-8')), 
         ("Device_IP", bytes(RAW_Headers.Device_IP, 'utf-8')),
         ("Size", bytes(RAW_Headers.Size, 'utf-8')),
-        ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
+#        ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
     ]
 
     # Send to Topic
