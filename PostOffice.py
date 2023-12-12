@@ -114,7 +114,6 @@ def Root(request: Request):
 async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"-----------------------------------------------")
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")
 
 	# Get RAW Body
