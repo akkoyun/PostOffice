@@ -163,7 +163,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"-----------------------------------------------")
 
 	# Send to Kafka Topic
-	Kafka.Send_To_Topic("RAW", Data.model_dump_json(), Header)
+	Kafka.Send_To_Topic("RAW", Data.json(), Header)
 
 	# Send Response
 	return JSONResponse(
