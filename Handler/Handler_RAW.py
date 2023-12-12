@@ -38,8 +38,18 @@ try:
 
 
         # Query Version From Device Table
-        Query_Device_Version_ID = DB_Module.query(Models.Device.Version_ID).filter(Models.Device.Device_ID == Header.Device_ID).first()
-        Log.Terminal_Log("INFO", f"Query_Device_Version_ID: {Query_Device_Version_ID}")
+        Query_Device_Version = DB_Module.query(Models.Device).filter(Models.Device.Device_ID == Header.Device_ID).first()
+
+        # Read Version ID
+        Device_Version_ID = Query_Device_Version.Version_ID
+
+
+
+
+
+
+
+        Log.Terminal_Log("INFO", f"Query_Device_Version_ID: {Device_Version_ID}")
 
 
 
