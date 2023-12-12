@@ -27,6 +27,17 @@ try:
             RAW_Message.headers[5][1].decode('ASCII')
         )
 
+
+        Log.Terminal_Log("INFO", f"{Header}")
+
+
+
+
+
+
+
+
+
         # Log Message
         Log.Terminal_Log("INFO", f"New Stream Received: {Header.Device_ID}")
 
