@@ -123,28 +123,39 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Clean RAW Body
 	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "").replace("\"", "'").replace("\"", "")
 
-	# Define New Stream ID
-	New_Stream_ID = 0
 
-	# Define DB
-	with Database.DB_Session_Scope() as DB_Stream:
 
-		# Create New Stream
-		New_Stream = Models.Stream(
-			Device_ID = Data.Info.ID,
-			ICCID = Data.Device.IoT.ICCID,
-			Client_IP = request.client.host,
-			Size = request.headers['content-length'],
-			RAW_Data = Clean_RAW_Body,
-			Device_Time = Data.Info.TimeStamp,
-			Stream_Time = datetime.now()
-		)
 
-		# Add Stream to DataBase
-		DB_Stream.add(New_Stream)
 
-		# Get Stream ID
-		New_Stream_ID = New_Stream.Stream_ID
+
+
+    # Define DB
+	DB_Stream = Database.SessionLocal()
+
+	# Create New Stream
+	New_Stream = Models.Stream(
+		Device_ID = Data.Info.ID,
+		ICCID = Data.Device.IoT.ICCID,
+		Client_IP = request.client.host,
+		Size = request.headers['content-length'],
+		RAW_Data = Clean_RAW_Body,
+		Device_Time = Data.Info.TimeStamp,
+		Stream_Time = datetime.now()
+	)
+
+	# Add Stream to DataBase
+	DB_Stream.add(New_Stream)
+
+	# Commit DataBase
+	DB_Stream.commit()
+
+	# Refresh DataBase
+	DB_Stream.refresh(New_Stream)
+
+
+
+
+
 
 	# Set headers
 	Header = [
@@ -153,7 +164,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		("Device_Time", bytes(Data.Info.TimeStamp, 'utf-8')), 
 		("Device_IP", bytes(request.client.host, 'utf-8')),
 		("Size", bytes(request.headers['content-length'], 'utf-8')),
-        ("Stream_ID", bytes(str(New_Stream_ID), 'utf-8'))
+        ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
 	]
 
 	# Log Message
