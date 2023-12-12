@@ -117,6 +117,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"-----------------------------------------------")
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")
 
+	print(request)
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB_Stream:
@@ -127,7 +128,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 			ICCID = Data.Device.IoT.ICCID,
 			Client_IP = request.client.host,
 			Size = request.headers['content-length'],
-#			RAW_Data = request.body,
+			RAW_Data = request.body,
 			Device_Time = Data.Info.TimeStamp,
 			Stream_Time = datetime.now()
 		)
