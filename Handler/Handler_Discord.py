@@ -68,6 +68,21 @@ async def Parse_Message():
             # Sleep
             await asyncio.sleep(0)
 
+
+
+            # Set Name
+            if RAW_Headers.Device_ID == "A20000011D13BD70":
+                Device_Name = "Diyodlu / izolesiz / Açık Yeşil Pil"
+            elif RAW_Headers.Device_ID == "3E0000011D2BA170":
+                Device_Name = "Diyodsuz / izolesiz / Gri Pil"
+            elif RAW_Headers.Device_ID == "370000011D157470":
+                Device_Name = "Diyodsuz / izoleli / Gri Pil"
+            else:
+                Device_Name = "Bilinmeyen"
+            
+
+
+
             # Get Parameters
             B_IV = Handler.Get_Parameter_Measurement(RAW_Headers.Device_ID, "B_IV")
             B_SOC = Handler.Get_Parameter_Measurement(RAW_Headers.Device_ID, "B_SOC")
@@ -76,6 +91,7 @@ async def Parse_Message():
 
             # Set Message
             Discord_Message = f"```ansi\r\nDevice ID: [2;32m{RAW_Headers.Device_ID}[0m\r\n"
+            Discord_Message += f"Device Description: [2;32m{Device_Name}[0m\r\n"
             Discord_Message += f"Device Time: [2;34m{Device_Time}[0m\r\n"
             if Message.AT is not None: Discord_Message += f"Hava Sıcaklığı: [2;35m{Message.AT}[0m[2;33m[0m °C\r\n"
             if Message.AH is not None: Discord_Message += f"Bağıl Nem: [2;35m{Message.AH}[0m %\r\n"
