@@ -117,7 +117,10 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"-----------------------------------------------")
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")
 
-	Log.Terminal_Log("INFO", f"Request: {request}")
+	# Get RAW Body
+	RAW_Body = await request.body()
+
+	Log.Terminal_Log("INFO", f"Request: {RAW_Body}")
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB_Stream:
