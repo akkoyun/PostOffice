@@ -42,28 +42,6 @@ class Headers:
         self.Size = size
         self.Stream_ID = stream_id
 
-# Set Header
-def Read_Header(raw_message):
-    
-    # Define Header Keys
-    HEADER_KEYS = ['command', 'device_id', 'device_time', 'device_ip', 'size', 'stream_id']
-    
-    # Decode Headers
-    headers_dict = {key: value.decode('ASCII') for key, value in raw_message.headers if key in HEADER_KEYS}
-
-    # Control for Header Keys
-    if len(headers_dict) != len(HEADER_KEYS):
-        raise ValueError("Eksik başlık bulundu.")
-
-    # End Function
-    return Headers(**headers_dict)
-
-
-
-
-
-
-
 # Define Headers
 class Handler_Headers:
 
