@@ -28,7 +28,7 @@ try:
         )
 
 
-        Log.Terminal_Log("INFO", f"{Header}")
+        Log.Terminal_Log("INFO", f"{Header.__dict__}")
 
 
 
