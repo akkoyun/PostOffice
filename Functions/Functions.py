@@ -118,7 +118,7 @@ def Update_Version(Device_ID: str, Firmware: str):
             return Version_ID
 
 # Control Modem and Modem Version
-def Update_Modem(IMEI: str, Firmware: str):
+def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
 
     # Declare New Modem
     New_Modem = False
@@ -162,7 +162,7 @@ def Update_Modem(IMEI: str, Firmware: str):
                 DB_Module.commit()
 
         # Query IMEI from Device
-        Query_Device = DB_Module.query(Models.Device).filter(Models.Device.IMEI.like(IMEI)).first()
+        Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
         # Device Found
         if Query_Device is not None:

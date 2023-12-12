@@ -40,7 +40,7 @@ try:
         Log.Terminal_Log("INFO", f"Version: {Message.Info.Firmware} [{Version_ID}]")
 
         # Control for Modem
-        Modem_Status = Functions.Update_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
+        Modem_Status = Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
         # Log Message
         if Modem_Status:
