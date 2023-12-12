@@ -48,34 +48,6 @@ try:
         else:
             Log.Terminal_Log("INFO", f"Modem: {Message.Device.IoT.IMEI} [OLD]")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # Update Device Last Connection
-        Handler.Update_Device_Last_Connection(Header.Device_ID)
-
-
-
-
-
         # Set headers
         New_Header = [
             ("Command", bytes(Header.Command, 'utf-8')), 

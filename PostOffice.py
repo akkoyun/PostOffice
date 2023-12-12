@@ -156,6 +156,12 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Device Found
 	else:
 
+		# Update Device Last_Connection
+		Query_Device.Last_Connection = datetime.now()
+
+		# Commit DataBase
+		DB.commit()
+
 		# Log Message
 		Log.Terminal_Log("INFO", f"Device Found.")
 
