@@ -121,7 +121,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	RAW_Body = await request.body()
 
 	# Clean RAW Body
-	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
+	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "").replace("\"", "'").replace("\"", "")
 
 	# Define New Stream ID
 	New_Stream_ID = 0
@@ -142,12 +142,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 		# Add Stream to DataBase
 		DB_Stream.add(New_Stream)
-
-		# Commit DataBase
-		DB_Stream.commit()
-
-		# Refresh DataBase
-		DB_Stream.refresh(New_Stream)
 
 		# Get Stream ID
 		New_Stream_ID = New_Stream.Stream_ID
