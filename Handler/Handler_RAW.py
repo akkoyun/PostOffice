@@ -36,6 +36,9 @@ try:
         # Control Version
         Version_ID = Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
 
+        # Log Message
+        Log.Terminal_Log("INFO", f"Version: {Message.Info.Firmware} [{Version_ID}]")
+
 
 
 
