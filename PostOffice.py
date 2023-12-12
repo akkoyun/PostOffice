@@ -121,11 +121,10 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	RAW_Body = await request.body()
 
 	# Clean RAW Body
-	RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
+	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
 
-
-
-	Log.Terminal_Log("INFO", f"Request: {RAW_Body}")
+	# Define New Stream ID
+	New_Stream_ID = 0
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB_Stream:
@@ -136,7 +135,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 			ICCID = Data.Device.IoT.ICCID,
 			Client_IP = request.client.host,
 			Size = request.headers['content-length'],
-			RAW_Data = request.body,
+			RAW_Data = Clean_RAW_Body,
 			Device_Time = Data.Info.TimeStamp,
 			Stream_Time = datetime.now()
 		)
@@ -147,6 +146,9 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		# Commit DataBase
 		DB_Stream.commit()
 
+		# Get Stream ID
+		New_Stream_ID = New_Stream.Stream_ID
+
 	# Set headers
 	Header = [
 		("Command", bytes(Data.Info.Command, 'utf-8')), 
@@ -154,7 +156,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		("Device_Time", bytes(Data.Info.TimeStamp, 'utf-8')), 
 		("Device_IP", bytes(request.client.host, 'utf-8')),
 		("Size", bytes(request.headers['content-length'], 'utf-8')),
-        ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
+        ("Stream_ID", bytes(str(New_Stream_ID), 'utf-8'))
 	]
 
 	# Log Message
