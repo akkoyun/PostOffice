@@ -48,36 +48,34 @@ try:
         else:
             Log.Terminal_Log("INFO", f"Modem: {Message.Device.IoT.IMEI} [OLD]")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # Control for Device
-        Device_Existance = Handler.Control_Device(Header.Device_ID)
-
-
         # Control for SIM
-        SIM_Existance = Handler.Control_SIM(Message.Device.IoT.ICCID)
+        SIM_Status = Functions.Update_SIM(Message.Device.IoT.ICCID)
+
+        # Log Message
+        if SIM_Status:
+            Log.Terminal_Log("INFO", f"SIM: {Message.Device.IoT.ICCID} [NEW]")
+        else:
+            Log.Terminal_Log("INFO", f"SIM: {Message.Device.IoT.ICCID} [OLD]")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         # Update Device Last Connection
         Handler.Update_Device_Last_Connection(Header.Device_ID)

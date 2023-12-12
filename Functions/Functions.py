@@ -176,5 +176,40 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
         # End Function
         return New_Modem
 
+# Control SIM
+def Update_SIM(ICCID: str):
+
+    # Declare New SIM
+    New_SIM = False
+
+    # Define DB
+    with Database.DB_Session_Scope() as DB_Module:
+
+        # Query ICCID from SIM
+        Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.ICCID.like(ICCID)).first()
+
+        # SIM Not Found
+        if Query_SIM is None:
+
+            # Create New SIM
+            New_SIM = Models.SIM(
+                ICCID = ICCID,
+                Operator_ID = 0,
+                GSM_Number = 0,
+                Static_IP = 0
+            )
+
+            # Add SIM to DataBase
+            DB_Module.add(New_SIM)
+
+            # Commit DataBase
+            DB_Module.commit()
+
+            # Set New SIM
+            New_SIM = True
+
+        # End Function
+        return New_SIM
+
 
 
