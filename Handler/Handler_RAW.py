@@ -39,7 +39,14 @@ try:
         # Log Message
         Log.Terminal_Log("INFO", f"Version: {Message.Info.Firmware} [{Version_ID}]")
 
+        # Control for Modem
+        Modem_Status = Functions.Update_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
+        # Log Message
+        if Modem_Status:
+            Log.Terminal_Log("INFO", f"Modem: {Message.Device.IoT.IMEI} [NEW]")
+        else:
+            Log.Terminal_Log("INFO", f"Modem: {Message.Device.IoT.IMEI} [OLD]")
 
 
 
@@ -68,30 +75,9 @@ try:
         # Control for Device
         Device_Existance = Handler.Control_Device(Header.Device_ID)
 
-        # Control for Modem
-        Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
         # Control for SIM
         SIM_Existance = Handler.Control_SIM(Message.Device.IoT.ICCID)
-
-        # Declare Log Messages
-        Modem_Status = "New" if Modem_Existance else "Old"
-        SIM_Status = "New" if SIM_Existance else "Old"
-
-        # Device Found
-        if Device_Existance:
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"Device Found: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Status}] / {Message.Device.IoT.ICCID} [{SIM_Status}]")
-
-        # Device Not Found
-        else:
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Device: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Status}] / {Message.Device.IoT.ICCID} [{SIM_Status}]")
-
-            # Add Device
-            Handler.Add_Device(Header.Device_ID, Version_ID, Message.Device.IoT.IMEI)
 
         # Update Device Last Connection
         Handler.Update_Device_Last_Connection(Header.Device_ID)

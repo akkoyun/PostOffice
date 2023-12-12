@@ -137,7 +137,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 			Status_ID = 1,
 			Version_ID = 0,
 			Model_ID = 0,
-			IMEI = Data.Device.IoT.IMEI,
+			IMEI = 0
 		)
 
 		# Add Device to DataBase
