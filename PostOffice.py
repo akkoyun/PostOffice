@@ -141,7 +141,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		New_Device = Models.Device(
 			Device_ID = Data.Info.ID,
 			Status_ID = 0,
-			Version_ID = Data.Info.Firmware,
+			Version_ID = 0,
 			Model_ID = 0,
 			IMEI = Data.Device.IoT.IMEI,
 		)
