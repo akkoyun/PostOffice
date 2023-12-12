@@ -129,6 +129,8 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 
 
+
+
 	# Control Device Existance
 	Query_Device = DB.query(Models.Device).filter(Models.Device.Device_ID == Data.Info.ID).first()
 
@@ -150,6 +152,17 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		# Commit DataBase
 		DB.commit()
 
+		# Refresh DataBase
+		DB.refresh(New_Device)
+
+		# Log Message
+		Log.Terminal_Log("INFO", f"New Device: {Data.Info.ID}")
+
+
+
+
+
+
 	# Create New Stream
 	New_Stream = Models.Stream(
 		Device_ID = Data.Info.ID,
@@ -167,6 +180,8 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Commit DataBase
 	DB.commit()
 
+	# Refresh DataBase
+	DB.refresh(New_Stream)
 
 
 
