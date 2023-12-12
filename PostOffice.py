@@ -125,33 +125,56 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
     # Define DB
 	DB = Database.SessionLocal()
 
-	try:
 
-		# Create New Stream
-		New_Stream = Models.Stream(
+
+
+
+	# Control Device Existance
+	Query_Device = DB.query(Models.Device).filter(Models.Device.Device_ID == Data.Info.ID).first()
+
+	# Control Device Existance
+	if Query_Device is None:
+
+		# Create New Device
+		New_Device = Models.Device(
 			Device_ID = Data.Info.ID,
-			ICCID = Data.Device.IoT.ICCID,
-			Client_IP = request.client.host,
-			Size = request.headers['content-length'],
-			RAW_Data = Clean_RAW_Body,
-			Device_Time = Data.Info.TimeStamp,
-			Stream_Time = datetime.now()
+			Status_ID = 0,
+			Version_ID = Data.Info.Firmware,
+			Model_ID = 0,
+			IMEI = Data.Device.IoT.IMEI,
 		)
 
-		# Add Stream to DataBase
-		DB.add(New_Stream)
+		# Add Device to DataBase
+		DB.add(New_Device)
 
 		# Commit DataBase
 		DB.commit()
 
-		# Refresh DataBase
-		DB.refresh(New_Stream)
+	# Create New Stream
+	New_Stream = Models.Stream(
+		Device_ID = Data.Info.ID,
+		ICCID = Data.Device.IoT.ICCID,
+		Client_IP = request.client.host,
+		Size = request.headers['content-length'],
+		RAW_Data = Clean_RAW_Body,
+		Device_Time = Data.Info.TimeStamp,
+		Stream_Time = datetime.now()
+	)
 
-	# Exception
-	except Exception as e:
+	# Add Stream to DataBase
+	DB.add(New_Stream)
 
-		# Log Message
-		Log.Terminal_Log("ERROR", f"{e}")
+	# Commit DataBase
+	DB.commit()
+
+
+
+
+
+
+
+
+
 
 	# Set headers
 	Header = [
