@@ -125,12 +125,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
     # Define DB
 	DB = Database.SessionLocal()
 
-
-
-
-
-
-
 	# Control Device Existance
 	Query_Device = DB.query(Models.Device).filter(Models.Device.Device_ID == Data.Info.ID).first()
 
@@ -140,7 +134,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		# Create New Device
 		New_Device = Models.Device(
 			Device_ID = Data.Info.ID,
-			Status_ID = 0,
+			Status_ID = 1,
 			Version_ID = 0,
 			Model_ID = 0,
 			IMEI = Data.Device.IoT.IMEI,
@@ -156,12 +150,13 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		DB.refresh(New_Device)
 
 		# Log Message
-		Log.Terminal_Log("INFO", f"New Device: {Data.Info.ID}")
+		Log.Terminal_Log("INFO", f"New Device.")
 
+	# Device Found
+	else:
 
-
-
-
+		# Log Message
+		Log.Terminal_Log("INFO", f"Device Found.")
 
 	# Create New Stream
 	New_Stream = Models.Stream(
@@ -182,14 +177,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Refresh DataBase
 	DB.refresh(New_Stream)
-
-
-
-
-
-
-
-
 
 	# Set headers
 	Header = [
