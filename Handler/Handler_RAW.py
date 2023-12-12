@@ -6,7 +6,7 @@ sys.path.append('/root/PostOffice/')
 from Setup import Database, Models, Definitions
 from Setup.Config import APP_Settings
 from datetime import datetime
-from Functions import Kafka, Log, Handler
+from Functions import Kafka, Log, Handler, Functions
 
 # Try to Parse Topics
 try:
@@ -33,23 +33,8 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-
-
-
-
-        # Query Version From Device Table
-        Query_Device_Version = DB_Module.query(Models.Device).filter(Models.Device.Device_ID == Header.Device_ID).first()
-
-        # Read Version ID
-        Device_Version_ID = Query_Device_Version.Version_ID
-
-
-
-
-
-
-
-        Log.Terminal_Log("INFO", f"Query_Device_Version_ID: {Device_Version_ID}")
+        # Control Version
+        Version_ID = Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
 
 
 
@@ -58,8 +43,15 @@ try:
 
 
 
-        # Control for Version
-        Version_ID = Handler.Control_Version(Header.Device_ID, Message.Info.Firmware)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88,9 +80,6 @@ try:
 
             # Log Message
             Log.Terminal_Log("INFO", f"Device Found: {Message.Info.Firmware} [{Version_ID}] / {Message.Device.IoT.IMEI} [{Modem_Status}] / {Message.Device.IoT.ICCID} [{SIM_Status}]")
-
-            # Control for Version at Device
-            Handler.Update_Version(Header.Device_ID, Version_ID)
 
         # Device Not Found
         else:
