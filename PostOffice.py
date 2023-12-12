@@ -115,6 +115,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")
+	Log.Terminal_Log("INFO", f"Device ID: {Data.Info.ID}")
 
 	# Get RAW Body
 	RAW_Body = await request.body()
@@ -198,8 +199,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	]
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"Device ID: {Data.Info.ID}")
-	Log.Terminal_Log("INFO", f"ICCID: {Data.Device.IoT.ICCID}")
 	Log.Terminal_Log("INFO", f"Stream ID: {New_Stream.Stream_ID}")
 	Log.Terminal_Log("INFO", f"-----------------------------------------------")
 
