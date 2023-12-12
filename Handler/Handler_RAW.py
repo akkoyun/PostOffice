@@ -17,18 +17,12 @@ try:
     # Parse Topics
     for RAW_Message in Kafka.RAW_Consumer:
 
-        # Handle Headers
-        Header = Definitions.Headers(
-            RAW_Message.headers[0][1].decode('ASCII'),
-            RAW_Message.headers[1][1].decode('ASCII'),
-            RAW_Message.headers[2][1].decode('ASCII'),
-            RAW_Message.headers[3][1].decode('ASCII'),
-            RAW_Message.headers[4][1].decode('ASCII'),
-            RAW_Message.headers[5][1].decode('ASCII')
-        )
+        # Get Headers
+        Header = Definitions.Read_Header(RAW_Message.headers)
 
 
-        Log.Terminal_Log("INFO", f"{Header.__dict__}")
+
+        Log.Terminal_Log("INFO", f"{Header}")
 
 
 
