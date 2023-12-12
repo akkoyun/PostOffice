@@ -181,10 +181,10 @@ class Stream(Base):
 	Device_ID = Column(String(), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
 	ICCID = Column(String(), ForeignKey("SIM.ICCID"), nullable=False)
 	Client_IP = Column(String, nullable=True)
-	Size = Column(Integer, nullable=True)
-	RAW_Data = Column(JSON, nullable=True)
 	Device_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False)
+	RAW_Data = Column(JSON, nullable=True)
+	Size = Column(Integer, nullable=True)
 
 # Service_LOG Database Model
 class Service_LOG(Base):
