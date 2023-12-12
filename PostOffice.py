@@ -158,6 +158,15 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		# Log Message
 		Log.Terminal_Log("INFO", f"Device Found.")
 
+	# Control for SIM
+	SIM_Status = Functions.Update_SIM(Data.Device.IoT.ICCID)
+
+	# Log Message
+	if SIM_Status:
+		Log.Terminal_Log("INFO", f"SIM: {Data.Device.IoT.ICCID} [NEW]")
+	else:
+		Log.Terminal_Log("INFO", f"SIM: {Data.Device.IoT.ICCID} [OLD]")
+
 	# Create New Stream
 	New_Stream = Models.Stream(
 		Device_ID = Data.Info.ID,
