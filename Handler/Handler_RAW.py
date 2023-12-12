@@ -75,19 +75,19 @@ try:
 
 
         # Set headers
-#        New_Header = [
- #           ("Command", bytes(Header.Command, 'utf-8')), 
-#            ("Device_ID", bytes(Header.Device_ID, 'utf-8')),
-#            ("Device_Time", bytes(Header.Device_Time, 'utf-8')), 
-#            ("Device_IP", bytes(Header.Device_IP, 'utf-8')),
-#            ("Size", bytes(Header.Size, 'utf-8')),
-#            ("Stream_ID", bytes(str(Header.Stream_ID), 'utf-8'))
-#        ]
+        New_Header = [
+            ("Command", bytes(Header.Command, 'utf-8')), 
+            ("Device_ID", bytes(Header.Device_ID, 'utf-8')),
+            ("Device_Time", bytes(Header.Device_Time, 'utf-8')), 
+            ("Device_IP", bytes(Header.Device_IP, 'utf-8')),
+            ("Size", bytes(Header.Size, 'utf-8')),
+            ("Stream_ID", bytes(str(Header.Stream_ID), 'utf-8'))
+        ]
 
         # Send to Topic
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), Header)
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), Header)
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), Header)
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
 
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()

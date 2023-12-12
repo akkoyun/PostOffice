@@ -123,6 +123,10 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Clean RAW Body
 	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
 
+	# Get Device_ID
+	Device_ID = RAW_Body.json()['Info']['ID']
+	Log.Terminal_Log("INFO", f"Device ID: {Device_ID}")
+
     # Define DB
 	DB_Stream = Database.SessionLocal()
 
