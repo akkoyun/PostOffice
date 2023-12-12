@@ -123,27 +123,35 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
 
     # Define DB
-	DB_Stream = Database.SessionLocal()
+	DB = Database.SessionLocal()
 
-	# Create New Stream
-	New_Stream = Models.Stream(
-		Device_ID = Data.Info.ID,
-		ICCID = Data.Device.IoT.ICCID,
-		Client_IP = request.client.host,
-		Size = request.headers['content-length'],
-		RAW_Data = Clean_RAW_Body,
-		Device_Time = Data.Info.TimeStamp,
-		Stream_Time = datetime.now()
-	)
+	try:
 
-	# Add Stream to DataBase
-	DB_Stream.add(New_Stream)
+		# Create New Stream
+		New_Stream = Models.Stream(
+			Device_ID = Data.Info.ID,
+			ICCID = Data.Device.IoT.ICCID,
+			Client_IP = request.client.host,
+			Size = request.headers['content-length'],
+			RAW_Data = Clean_RAW_Body,
+			Device_Time = Data.Info.TimeStamp,
+			Stream_Time = datetime.now()
+		)
 
-	# Commit DataBase
-	DB_Stream.commit()
+		# Add Stream to DataBase
+		DB.add(New_Stream)
 
-	# Refresh DataBase
-	DB_Stream.refresh(New_Stream)
+		# Commit DataBase
+		DB.commit()
+
+		# Refresh DataBase
+		DB.refresh(New_Stream)
+
+	# Exception
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"{e}")
 
 	# Set headers
 	Header = [
