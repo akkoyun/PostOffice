@@ -120,6 +120,11 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Get RAW Body
 	RAW_Body = await request.body()
 
+	# Clean RAW Body
+	RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
+
+
+
 	Log.Terminal_Log("INFO", f"Request: {RAW_Body}")
 
 	# Define DB
