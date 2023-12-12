@@ -121,13 +121,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	RAW_Body = await request.body()
 
 	# Clean RAW Body
-	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "").replace("\"", "'").replace("\"", "")
-
-
-
-
-
-
+	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
 
     # Define DB
 	DB_Stream = Database.SessionLocal()
@@ -152,11 +146,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Refresh DataBase
 	DB_Stream.refresh(New_Stream)
 
-
-
-
-
-
 	# Set headers
 	Header = [
 		("Command", bytes(Data.Info.Command, 'utf-8')), 
@@ -174,7 +163,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"-----------------------------------------------")
 
 	# Send to Kafka Topic
-	Kafka.Send_To_Topic("RAW", Data.json(), Header)
+	Kafka.Send_To_Topic("RAW", Data.model_dump_json(), Header)
 
 	# Send Response
 	return JSONResponse(
