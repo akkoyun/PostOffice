@@ -27,28 +27,41 @@ try:
             RAW_Message.headers[5][1].decode('ASCII')
         )
 
-
-        Log.Terminal_Log("INFO", f"{Header.__dict__}")
-
-
-
-
-
-
-
-
-
         # Log Message
         Log.Terminal_Log("INFO", f"New Stream Received: {Header.Device_ID}")
 
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-        # Control for Device
-        Device_Existance = Handler.Control_Device(Header.Device_ID)
+
+
+
+
+        # Query Version From Device Table
+        Query_Device_Version_ID = DB_Module.query(Models.Device.Version_ID).filter(Models.Device.Device_ID == Header.Device_ID).first()
+        Log.Terminal_Log("INFO", f"Query_Device_Version_ID: {Query_Device_Version_ID}")
+
+
+
+
+
+
+
 
         # Control for Version
         Version_ID = Handler.Control_Version(Header.Device_ID, Message.Info.Firmware)
+
+
+
+
+
+
+
+
+
+
+        # Control for Device
+        Device_Existance = Handler.Control_Device(Header.Device_ID)
 
         # Control for Modem
         Modem_Existance = Handler.Control_Modem(Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
