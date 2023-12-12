@@ -146,6 +146,9 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		# Commit DataBase
 		DB_Stream.commit()
 
+		# Refresh DataBase
+		DB_Stream.refresh(New_Stream)
+
 		# Get Stream ID
 		New_Stream_ID = New_Stream.Stream_ID
 
