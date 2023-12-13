@@ -41,6 +41,9 @@ try:
         # Control Device
         Functions.Control_Device(Device)
 
+        # Control Version
+        Functions.Update_Version(Device)
+
 
 
 
@@ -62,11 +65,10 @@ try:
         Log.Terminal_Log("INFO", f"Device IP   : {Header.Device_IP}")
         Log.Terminal_Log("INFO", f"Size        : {Header.Size}")
         Log.Terminal_Log("INFO", f"New Device  : {Device.New_Device}")
+        Log.Terminal_Log("INFO", f"New Version : {Device.New_Version}")
         Log.Terminal_Log("INFO", f"------------------------------")
 
 
-        # Control Version
-        Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
 
         # Control for Modem
         Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)

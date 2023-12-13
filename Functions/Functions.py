@@ -118,30 +118,30 @@ def Control_Device(Device: Definitions.Device):
     return Device
 
 # Control Device Version
-def Update_Version(Device_ID: str, Firmware: str):
-
-    # Define Version_ID
-    Version_ID = 0
+def Update_Version(Device: Definitions.Device):
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Module:
 
         # Query Version_ID from Version
-        Query_Version = DB_Module.query(Models.Version).filter(Models.Version.Device_ID.like(Device_ID)).filter(Models.Version.Firmware.like(Firmware)).first()
+        Query_Version = DB_Module.query(Models.Version).filter(Models.Version.Device_ID.like(Device.Device_ID)).filter(Models.Version.Firmware.like(Device.Firmware)).first()
 
         # Version Found
         if Query_Version is not None:
 
             # Get Version_ID
-            Version_ID = Query_Version.Version_ID
+            Device.Version_ID = Query_Version.Version_ID
+
+            # Set New Version
+            Device.New_Version = False
         
         # Version Not Found
         else:
 
             # Create New Version
             New_Version = Models.Version(
-                Device_ID = Device_ID,
-                Firmware = Firmware
+                Device_ID = Device.Device_ID,
+                Firmware = Device.Firmware,
             )
 
             # Add Version to DataBase
@@ -154,34 +154,31 @@ def Update_Version(Device_ID: str, Firmware: str):
             DB_Module.refresh(New_Version)
 
             # Get Version_ID
-            Version_ID = New_Version.Version_ID
+            Device.Version_ID = New_Version.Version_ID
+
+            # Set New Version
+            Device.New_Version = False
 
         # Query Device_ID from Device
-        Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+        Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device.Device_ID)).first()
 
         # Control for Version Up to Date
-        if Query_Device.Version_ID != Version_ID:
+        if Query_Device.Version_ID != Device.Version_ID:
 
             # Update Device Version
-            Query_Device.Version_ID = Version_ID
+            Query_Device.Version_ID = Device.Version_ID
 
             # Commit DataBase
             DB_Module.commit()
 
             # Set Version_ID
-            Version_ID = Query_Device.Version_ID
+            Device.Version_ID = Query_Device.Version_ID
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"Version Updated [{Firmware}] [{Version_ID}]")
-
-        # Version is Up to Date
-        else:
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"Version is Up to Date [{Firmware}] [{Version_ID}]")
+            # Set New Version
+            Device.New_Version = True
 
     # End Function
-    return Version_ID
+    return Device
 
 # Control Modem and Modem Version
 def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
