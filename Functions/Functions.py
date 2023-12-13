@@ -69,6 +69,7 @@ def Control_Device(Device_ID: str):
 
             # Update Device Last_Connection
 #            Query_Device.Last_Connection = datetime.now()
+            Query_Device.Status_ID = 1
 
             Log.Terminal_Log("INFO", f"Create Time: {Query_Device.Create_Time}")
 
