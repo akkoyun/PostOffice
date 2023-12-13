@@ -35,6 +35,14 @@ try:
         # Clean RAW Body
         Clean_RAW_Body = Message.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
 
+        Log.Terminal_Log("INFO", f"Message: {Clean_RAW_Body}")
+
+
+
+
+
+
+
         # Control Device
         Functions.Control_Device(Header.Device_ID)
 
