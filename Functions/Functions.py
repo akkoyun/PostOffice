@@ -144,11 +144,11 @@ def Update_Version(Device_ID: str, Firmware: str):
             # Commit DataBase
             DB_Module.commit()
 
+            # Refresh DataBase
+            DB_Module.refresh(New_Version)
+
             # Get Version_ID
             Version_ID = New_Version.Version_ID
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Version Added [{Firmware}] [{Version_ID}]")
 
         # Query Device_ID from Device
         Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
