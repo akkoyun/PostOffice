@@ -181,23 +181,23 @@ def Update_Version(Device: Definitions.Device):
     return Device
 
 # Control Modem and Modem Version
-def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
+def Update_Modem(Device: Definitions.Device):
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Module:
 
         # Query IMEI from Modem
-        Query_Modem = DB_Module.query(Models.Modem).filter(Models.Modem.IMEI.like(IMEI)).first()
+        Query_Modem = DB_Module.query(Models.Modem).filter(Models.Modem.IMEI.like(Device.IMEI)).first()
 
         # Modem Not Found
         if Query_Modem is None:
 
             # Create New Modem
             New_Modem = Models.Modem(
-                IMEI = IMEI,
+                IMEI = Device.IMEI,
                 Model_ID = 0,
                 Manufacturer_ID = 0,
-                Firmware = Firmware
+                Firmware = Device.Modem_Firmware
             )
 
             # Add Modem to DataBase
@@ -206,63 +206,62 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
             # Commit DataBase
             DB_Module.commit()
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Modem Recorded {IMEI} / {Firmware}")
+            # Set New Modem
+            Device.New_Modem = True
 
         # Modem Found
         else:
 
             # Control for Firmware
-            if Query_Modem.Firmware != Firmware:
+            if Query_Modem.Firmware != Device.Modem_Firmware:
 
                 # Update Modem Firmware
-                Query_Modem.Firmware = Firmware
+                Query_Modem.Firmware = Device.Modem_Firmware
 
                 # Commit DataBase
                 DB_Module.commit()
 
-                # Log Message
-                Log.Terminal_Log("INFO", f"Modem Updated {IMEI} / {Firmware}")
+                # Set New Modem
+                Device.New_Modem = False
+                Device.Modem_Firmware_New = True
 
             # Modem is Up to Date
             else:
 
-                # Log Message
-                Log.Terminal_Log("INFO", f"Modem is Up to Date {IMEI} / {Firmware}")
+                # Set New Modem
+                Device.New_Modem = False
+                Device.Modem_Firmware_New = False
 
         # Query IMEI from Device
-        Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+        Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device.Device_ID)).first()
 
         # Device Found
         if Query_Device is not None:
 
             # Control for IMEI
-            if Query_Device.IMEI != IMEI:
+            if Query_Device.IMEI != Device.IMEI:
 
                 # Update Device Modem IMEI
-                Query_Device.IMEI = IMEI
+                Query_Device.IMEI = Device.IMEI
 
                 # Commit DataBase
                 DB_Module.commit()
 
-                # Log Message
-                Log.Terminal_Log("INFO", f"Modem Updated on Device Table {IMEI}")
-
 # Control SIM
-def Update_SIM(ICCID: str):
+def Update_SIM(Device: Definitions.Device):
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Module:
 
         # Query ICCID from SIM
-        Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.ICCID.like(ICCID)).first()
+        Query_SIM = DB_Module.query(Models.SIM).filter(Models.SIM.ICCID.like(Device.ICCID)).first()
 
         # SIM Not Found
         if Query_SIM is None:
 
             # Create New SIM
             New_SIM = Models.SIM(
-                ICCID = ICCID,
+                ICCID = Device.ICCID,
                 Operator_ID = 0,
                 GSM_Number = 0,
                 Static_IP = 0
@@ -274,14 +273,14 @@ def Update_SIM(ICCID: str):
             # Commit DataBase
             DB_Module.commit()
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"New SIM Recorded [{ICCID}]")
+            # Set New SIM
+            Device.New_SIM = True
 
         # SIM Found
         else:
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"SIM Found [{ICCID}]")
+            # Set New SIM
+            Device.New_SIM = False
 
 # Record Stream
 def Record_Stream(Device_ID: str, ICCID: str, Client_IP: str, Size: int, RAW_Data: str, Device_Time: datetime):

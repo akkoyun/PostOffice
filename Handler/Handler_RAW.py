@@ -37,6 +37,8 @@ try:
         Device.Device_ID = Header.Device_ID
         Device.Client_IP = Header.Device_IP
         Device.Firmware = Message.Info.Firmware
+        Device.IMEI = Message.Info.IMEI
+        Device.Modem_Firmware = Message.Device.IoT.Firmware
 
         # Control Device
         Functions.Control_Device(Device)
@@ -44,37 +46,36 @@ try:
         # Control Version
         Functions.Update_Version(Device)
 
+        # Control for Modem
+        Functions.Update_Modem(Device)
 
-
-
-
-
-
-
-
-
-
-
-
-
+        # Control for SIM
+        Functions.Update_SIM(Device)
 
         # Log Message
-        Log.Terminal_Log("INFO", f"Device ID   : {Device.Device_ID}")
-        Log.Terminal_Log("INFO", f"Command     : {Header.Command}")
-        Log.Terminal_Log("INFO", f"Device Time : {Header.Device_Time}")
-        Log.Terminal_Log("INFO", f"Device IP   : {Header.Device_IP}")
-        Log.Terminal_Log("INFO", f"Size        : {Header.Size}")
-        Log.Terminal_Log("INFO", f"New Device  : {Device.New_Device}")
-        Log.Terminal_Log("INFO", f"New Version : {Device.New_Version}")
+        Log.Terminal_Log("INFO", f"Device ID      : {Device.Device_ID}")
+        Log.Terminal_Log("INFO", f"New Device     : {Device.New_Device}")
+        Log.Terminal_Log("INFO", f"Device Time    : {Device.Last_Connection_Time}")
+        Log.Terminal_Log("INFO", f"Device IP      : {Header.Device_IP}")
+        Log.Terminal_Log("INFO", f"Size           : {Header.Size}")
+        Log.Terminal_Log("INFO", f"Firmware       : {Device.Firmware}")
+        Log.Terminal_Log("INFO", f"New Firmware   : {Device.New_Version}")
+        Log.Terminal_Log("INFO", f"IMEI           : {Device.IMEI}")
+        Log.Terminal_Log("INFO", f"Modem Firmware : {Device.Modem_Firmware}")
+        Log.Terminal_Log("INFO", f"New Modem      : {Device.New_Modem}")
+        Log.Terminal_Log("INFO", f"SIM            : {Device.SIM_ID}")
+        Log.Terminal_Log("INFO", f"New SIM        : {Device.New_SIM}")
+        Log.Terminal_Log("INFO", f"Status         : {Device.Status_ID}")
+        Log.Terminal_Log("INFO", f"Project ID     : {Device.Project_ID}")
         Log.Terminal_Log("INFO", f"------------------------------")
 
 
 
-        # Control for Modem
-        Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
-        # Control for SIM
-        Functions.Update_SIM(Message.Device.IoT.ICCID)
+
+
+
+
 
         # Add Stream to DataBase
         Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Header.Body, Message.Info.TimeStamp)
