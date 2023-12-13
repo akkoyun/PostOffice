@@ -50,27 +50,8 @@ try:
         # Control for SIM
         Functions.Update_SIM(Message.Device.IoT.ICCID)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         # Add Stream to DataBase
-#        Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Clean_RAW_Body, Message.Device.Device_Time)
+        Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Header.Body, Message.Device.Device_Time)
 
         # Set headers
 #        New_Header = [
