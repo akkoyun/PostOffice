@@ -5,7 +5,6 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Database, Models, Definitions, Schema
 from datetime import timezone, timedelta, datetime
-import datetime
 from dateutil import parser
 from Functions import Log
 import pytz
@@ -68,10 +67,7 @@ def Control_Device(Device_ID: str):
         if Query_Device is not None:
 
             # Update Device Last_Connection
-#            Query_Device.Last_Connection = datetime.now()
-            Query_Device.Status_ID = 2
-
-            Log.Terminal_Log("INFO", f"Create Time: {Query_Device.Create_Time}")
+            Query_Device.Last_Connection = datetime.now().astimezone(Local_Timezone)
 
             # Commit DataBase
             DB_Device.commit()
