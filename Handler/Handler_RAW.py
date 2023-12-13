@@ -39,33 +39,30 @@ try:
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
         # Log Message
-        Log.Terminal_Log("INFO", f"Message     : {Header.Body}")
-        Log.Terminal_Log("INFO", f"------------------------------")
-
-
-
-
-
-
-
-
-
-
-
-
-        # Clean RAW Body
-#        Clean_RAW_Body = Message.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
-
-#        Log.Terminal_Log("INFO", f"Message: {Clean_RAW_Body}")
-
-
-
-
-
-
+#        Log.Terminal_Log("INFO", f"Message     : {Header.Body}")
+#        Log.Terminal_Log("INFO", f"------------------------------")
 
         # Control Device
-#        Functions.Control_Device(Header.Device_ID)
+        Functions.Control_Device(Header.Device_ID)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         # Control Version
 #        Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
