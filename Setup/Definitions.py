@@ -133,3 +133,23 @@ def Type_List(Segment: int):
     # End Function
     return Formatted_Data
 
+
+
+
+
+
+
+
+# Define Measurement Header
+class Measurement_Headers:
+
+    # Define Incomming Headers
+    def __init__(self, command, device_id, device_time, device_ip, size, stream_id):
+        
+        # Get Incomming Headers
+        self.Command = command
+        self.Device_ID = device_id
+        self.Device_Time = device_time
+        self.Device_IP = device_ip
+        self.Size = size
+        self.Stream_ID = stream_id

@@ -324,3 +324,27 @@ def Record_Stream(Device_ID: str, ICCID: str, Client_IP: str, Size: int, RAW_Dat
         # End Function
         return Stream_ID
 
+# Get Last Connection Time
+def Get_Last_Connection(Device_ID: str):
+
+    # Define Last_Connection
+    Last_Connection = None
+
+    # Control for Device_ID
+    if Device_ID is not None:
+
+        # Define DB
+        with Database.DB_Session_Scope() as DB_Module:
+
+            # Control Device in Stream Table
+            Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+            # Device in Stream Table
+            if Query_Device:
+
+                # Read Stream_ID
+                Last_Connection = Query_Device.Last_Connection
+        
+    # Return Stream_ID
+    return Last_Connection
+

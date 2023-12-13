@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Library Includes
-from Setup import Database, Definitions
+from Setup import Database, Definitions, Schema
 from Setup.Config import APP_Settings
 from datetime import datetime
 from Functions import Kafka, Log, Functions
@@ -67,6 +67,18 @@ try:
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
         if Device_Status != 1: Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
+
+
+
+    
+        # Set Measurement Pack
+        Measurement_Pack = Schema.Measurement_Pack(Message.Device.Power, Message.Device.IoT, Message.Payload)
+
+        # Send to Measurment Topic
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_MEASUREMENT), Measurement_Pack, New_Header)
+
+
+
 
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()

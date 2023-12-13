@@ -901,6 +901,18 @@ class Data_Pack(CustomBaseModel):
 	# Payload
 	Payload: Payload
 
+# Define Measurement Pack Base Model
+class Measurement_Pack(CustomBaseModel):
+
+	# Info
+	Power: Power
+
+	# Device
+	IoT: IoT
+
+	# Payload
+	Payload: Payload
+
 # Define App Response Data Model
 # Model Version 01.00.00
 
