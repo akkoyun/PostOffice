@@ -67,6 +67,9 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
 # Control for Device
 def Control_Device(Device_ID: str):
 
+    # Define Device
+    Device = Definitions.Device()
+
     # Define DB
     with Database.DB_Session_Scope() as DB_Device:
 
@@ -85,8 +88,14 @@ def Control_Device(Device_ID: str):
             # Commit DataBase
             DB_Device.commit()
 
-            # Get Device Status
-            Device_Status = Query_Device.Status_ID
+            # Set Device Details
+            Device.Status_ID = Query_Device.Status_ID
+            Device.Version_ID = Query_Device.Version_ID
+            Device.Model_ID = Query_Device.Model_ID
+            Device.Project_ID = Query_Device.Project_ID
+            Device.IMEI = Query_Device.IMEI
+            Device.New_Device = False
+            Device.Last_Connection_Time = Query_Device.Last_Connection
 
             # Log Message
             Log.Terminal_Log("INFO", f"Existing Device.")
@@ -111,14 +120,14 @@ def Control_Device(Device_ID: str):
             # Commit DataBase
             DB_Device.commit()
 
-            # Set Device Status
-            Device_Status = New_Device.Status_ID
+            # Set Device Details
+            Device.New_Device = True
 
             # Log Message
             Log.Terminal_Log("INFO", f"New Device Recorded.")
 
     # End Function
-    return Device_Status
+    return Device
 
 # Control Device Version
 def Update_Version(Device_ID: str, Firmware: str):

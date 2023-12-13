@@ -39,7 +39,11 @@ try:
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
         # Control Device
-        Device_Status = Functions.Control_Device(Header.Device_ID)
+        Device = Functions.Control_Device(Header.Device_ID)
+
+        # Set Device Variables
+        Device.Device_ID = Header.Device_ID
+        Device.Client_IP = Header.Device_IP
 
         # Control Version
         Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
@@ -63,10 +67,12 @@ try:
            ("Stream_ID", bytes(str(Stream_ID), 'utf-8'))
        ]
 
+        Log.Terminal_Log("INFO", f"Device: {Device}")
+
         # Send to Topic
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
-        if Device_Status != 1: Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
+        if Device.Status_ID != 1: Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
 
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()
