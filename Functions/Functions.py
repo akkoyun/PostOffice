@@ -269,13 +269,13 @@ def Update_SIM(ICCID: str):
             DB_Module.commit()
 
             # Log Message
-            Log.Terminal_Log("INFO", f"SIM: {ICCID} [NEW]")
+            Log.Terminal_Log("INFO", f"New SIM Recorded [{ICCID}]")
 
         # SIM Found
         else:
 
             # Log Message
-            Log.Terminal_Log("INFO", f"SIM: {ICCID} [OLD]")
+            Log.Terminal_Log("INFO", f"SIM Found [{ICCID}]")
 
 # Record Stream
 def Record_Stream(Device_ID: str, ICCID: str, Client_IP: str, Size: int, RAW_Data: str, Device_Time: datetime):

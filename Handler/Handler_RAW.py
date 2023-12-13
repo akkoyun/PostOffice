@@ -47,27 +47,27 @@ try:
         # Control for Modem
         Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         # Control for SIM
-#        Functions.Update_SIM(Message.Device.IoT.ICCID)
+        Functions.Update_SIM(Message.Device.IoT.ICCID)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         # Add Stream to DataBase
 #        Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Clean_RAW_Body, Message.Device.Device_Time)
