@@ -73,6 +73,9 @@ def Control_Device(Device_ID: str):
         # Control Device Existance
         if Query_Device is not None:
 
+            # Log Message
+            Log.Terminal_Log("INFO", f"Existing Device.")
+
             # Update Device Last_Connection
             Query_Device.Last_Connection = datetime.now()
 
@@ -81,9 +84,6 @@ def Control_Device(Device_ID: str):
 
             # Refresh DataBase
             DB_Device.refresh(Query_Device)
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"Existing Device.")
 
         # Device Found
         else:
@@ -107,7 +107,7 @@ def Control_Device(Device_ID: str):
             DB_Device.refresh(New_Device)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New Devic Recorded.")
+            Log.Terminal_Log("INFO", f"New Device Recorded.")
 
 
 
