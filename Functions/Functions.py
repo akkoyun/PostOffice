@@ -67,7 +67,7 @@ def Control_Device(Device_ID: str):
         if Query_Device is not None:
 
             # Update Device Last_Connection
-            Query_Device.Last_Connection = datetime.now().astimezone(Local_Timezone)
+            Query_Device.Last_Connection = datetime.now()
 
             # Commit DataBase
             DB_Device.commit()
@@ -84,7 +84,9 @@ def Control_Device(Device_ID: str):
                 Status_ID = 1,
                 Version_ID = 0,
                 Model_ID = 0,
-                IMEI = 0
+                IMEI = 0,
+                Last_Connection = datetime.now(),
+                Create_Time = datetime.now()
             )
 
             # Add Device to DataBase
