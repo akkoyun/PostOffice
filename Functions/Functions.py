@@ -54,6 +54,16 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
     # Check if Up to Date
     return minutes_difference < threshold_minutes
 
+
+
+
+
+
+
+
+
+
+
 # Control for Device
 def Control_Device(Device_ID: str):
 
@@ -98,12 +108,6 @@ def Control_Device(Device_ID: str):
             # Log Message
             Log.Terminal_Log("INFO", f"New Device Recorded.")
 
-
-
-
-
-
-
 # Control Device Version
 def Update_Version(Device_ID: str, Firmware: str):
 
@@ -121,6 +125,9 @@ def Update_Version(Device_ID: str, Firmware: str):
 
             # Get Version_ID
             Version_ID = Query_Version.Version_ID
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Version is Up to Date [{Firmware}] [{Version_ID}]")
         
         # Version Not Found
         else:
@@ -140,6 +147,9 @@ def Update_Version(Device_ID: str, Firmware: str):
             # Get Version_ID
             Version_ID = New_Version.Version_ID
 
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Version Added [{Firmware}] [{Version_ID}]")
+
         # Query Device_ID from Device
         Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
@@ -155,8 +165,8 @@ def Update_Version(Device_ID: str, Firmware: str):
             # Set Version_ID
             Version_ID = Query_Device.Version_ID
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"Version: {Firmware} [{Version_ID}]")
+            # Log Message
+            Log.Terminal_Log("INFO", f"Version Updated [{Firmware}] [{Version_ID}]")
 
     # End Function
     return Version_ID

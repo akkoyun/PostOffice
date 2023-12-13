@@ -38,34 +38,30 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-        # Log Message
-#        Log.Terminal_Log("INFO", f"Message     : {Header.Body}")
-#        Log.Terminal_Log("INFO", f"------------------------------")
-
         # Control Device
         Functions.Control_Device(Header.Device_ID)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         # Control Version
-#        Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
+        Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         # Control for Modem
 #        Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)

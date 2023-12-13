@@ -119,9 +119,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Get Request Body
 	Request_Body = ((await request.body()).decode("utf-8")).replace(" ", "").replace("\n", "").replace("\r", "")
 
-	# Log Message
-#	Log.Terminal_Log("INFO", f"Pack : {Request_Body}")
-
 	# Set headers
 	Header = [
 		("Command", bytes(Data.Info.Command, 'utf-8')), 
