@@ -74,6 +74,7 @@ def Control_Device(Device_ID: str):
         if Query_Device is not None:
 
             # Update Device Last_Connection
+            Query_Device.Status_ID = 1
             Query_Device.Last_Connection = datetime.now()
 
             # Commit DataBase
