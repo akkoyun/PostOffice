@@ -73,9 +73,6 @@ def Control_Device(Device_ID: str):
     # Define DB
     with Database.DB_Session_Scope() as DB_Device:
 
-        # Define Device Status
-        Device_Status = 0
-
     	# Control Device Existance
         Query_Device = DB_Device.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
@@ -89,6 +86,7 @@ def Control_Device(Device_ID: str):
             DB_Device.commit()
 
             # Set Device Details
+            Device.Device_ID = Query_Device.Device_ID
             Device.Status_ID = Query_Device.Status_ID
             Device.Version_ID = Query_Device.Version_ID
             Device.Model_ID = Query_Device.Model_ID
