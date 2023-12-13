@@ -76,9 +76,6 @@ def Control_Device(Device_ID: str):
             # Commit DataBase
             DB_Device.commit()
 
-            # Refresh DataBase
-            DB_Device.refresh(Query_Device)
-
             # Log Message
             Log.Terminal_Log("INFO", f"Existing Device.")
 
