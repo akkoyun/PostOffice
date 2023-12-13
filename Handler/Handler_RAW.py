@@ -74,8 +74,10 @@ try:
         # Set Measurement Pack
         Measurement_Pack = Schema.Measurement_Pack(Message.Device.Power, Message.Device.IoT, Message.Payload)
 
+        Log.Terminal_Log("INFO", f"Measurement Pack: {Measurement_Pack}")
+
         # Send to Measurment Topic
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_MEASUREMENT), Measurement_Pack, New_Header)
+#        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_MEASUREMENT), Measurement_Pack, New_Header)
 
 
 
