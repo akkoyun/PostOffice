@@ -70,6 +70,9 @@ def Control_Device(Device_ID: str):
     # Define DB
     with Database.DB_Session_Scope() as DB_Device:
 
+        # Define Device Status
+        Device_Status = 0
+
     	# Control Device Existance
         Query_Device = DB_Device.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
@@ -81,6 +84,9 @@ def Control_Device(Device_ID: str):
 
             # Commit DataBase
             DB_Device.commit()
+
+            # Get Device Status
+            Device_Status = Query_Device.Status_ID
 
             # Log Message
             Log.Terminal_Log("INFO", f"Existing Device.")
@@ -105,8 +111,14 @@ def Control_Device(Device_ID: str):
             # Commit DataBase
             DB_Device.commit()
 
+            # Set Device Status
+            Device_Status = New_Device.Status_ID
+
             # Log Message
             Log.Terminal_Log("INFO", f"New Device Recorded.")
+
+    # End Function
+    return Device_Status
 
 # Control Device Version
 def Update_Version(Device_ID: str, Firmware: str):

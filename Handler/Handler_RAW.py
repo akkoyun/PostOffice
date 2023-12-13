@@ -39,7 +39,7 @@ try:
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
         # Control Device
-        Functions.Control_Device(Header.Device_ID)
+        Device_Status = Functions.Control_Device(Header.Device_ID)
 
         # Control Version
         Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
@@ -66,7 +66,7 @@ try:
         # Send to Topic
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
+        if Device_Status != 1: Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
 
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()
