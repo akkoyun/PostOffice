@@ -71,7 +71,22 @@ def Control_Device(Device_ID: str):
         Query_Device = DB_Device.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
         # Control Device Existance
-        if Query_Device is None:
+        if Query_Device is not None:
+
+            # Update Device Last_Connection
+            Query_Device.Last_Connection = datetime.now()
+
+            # Commit DataBase
+            DB_Device.commit()
+
+            # Refresh DataBase
+            DB_Device.refresh(Query_Device)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Existing Device.")
+
+        # Device Found
+        else:
 
             # Create New Device
             New_Device = Models.Device(
@@ -92,19 +107,13 @@ def Control_Device(Device_ID: str):
             DB_Device.refresh(New_Device)
 
             # Log Message
-            Log.Terminal_Log("INFO", f"New Device.")
+            Log.Terminal_Log("INFO", f"New Devic Recorded.")
 
-        # Device Found
-        else:
 
-            # Update Device Last_Connection
-            Query_Device.Last_Connection = datetime.now()
 
-            # Commit DataBase
-            DB_Device.commit()
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"Existing Device.")
+
+
 
 # Control Device Version
 def Update_Version(Device_ID: str, Firmware: str):
