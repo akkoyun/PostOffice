@@ -32,12 +32,16 @@ try:
         Log.Terminal_Log("INFO", f"Device Time : {Header.Device_Time}")
         Log.Terminal_Log("INFO", f"Device IP   : {Header.Device_IP}")
         Log.Terminal_Log("INFO", f"Size        : {Header.Size}")
-
-
-
+        Log.Terminal_Log("INFO", f"------------------------------")
 
         # Decode Message
-#        Message = Kafka.Decode_RAW_Message(RAW_Message)
+        Message = Kafka.Decode_RAW_Message(RAW_Message)
+
+        # Log Message
+        Log.Terminal_Log("INFO", f"Message     : {Message}")
+        Log.Terminal_Log("INFO", f"------------------------------")
+
+
 
         # Clean RAW Body
 #        Clean_RAW_Body = Message.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
