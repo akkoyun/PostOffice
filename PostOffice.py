@@ -126,7 +126,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	]
 
 	# Send to Kafka Topic
-	Kafka.Send_To_Topic("RAW", request.body, Header)
+	Kafka.Send_To_Topic("RAW", str(request.body), Header)
 
 	# Send Response
 	return JSONResponse(
