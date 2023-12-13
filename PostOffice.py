@@ -117,7 +117,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {Data.Info.ID} / {request.client.host}")
 
 	# Get Request Body
-	Request_Body = ((await request.body()).decode("utf-8")).replace(" ", "")
+	Request_Body = ((await request.body()).decode("utf-8")).replace(" ", "").replace("\n", "").replace("\r", "")
 	Log.Terminal_Log("INFO", f"Pack : {Request_Body}")
 
 
