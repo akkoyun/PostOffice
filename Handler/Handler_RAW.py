@@ -30,12 +30,12 @@ try:
         Log.Terminal_Log("INFO", f"New Stream Received: {Header.Device_ID}")
 
         # Decode Message
-        Message = Kafka.Decode_RAW_Message(RAW_Message)
+#        Message = Kafka.Decode_RAW_Message(RAW_Message)
 
         # Clean RAW Body
-        Clean_RAW_Body = Message.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
+#        Clean_RAW_Body = Message.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
 
-        Log.Terminal_Log("INFO", f"Message: {Clean_RAW_Body}")
+#        Log.Terminal_Log("INFO", f"Message: {Clean_RAW_Body}")
 
 
 
@@ -56,25 +56,25 @@ try:
 #        Functions.Update_SIM(Message.Device.IoT.ICCID)
 
         # Add Stream to DataBase
-        Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Clean_RAW_Body, Message.Device.Device_Time)
+#        Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Clean_RAW_Body, Message.Device.Device_Time)
 
         # Set headers
-        New_Header = [
-            ("Command", bytes(Header.Command, 'utf-8')), 
-            ("Device_ID", bytes(Header.Device_ID, 'utf-8')),
-            ("Device_Time", bytes(Header.Device_Time, 'utf-8')), 
-            ("Device_IP", bytes(Header.Device_IP, 'utf-8')),
-            ("Size", bytes(Header.Size, 'utf-8')),
-            ("Stream_ID", bytes(str(Stream_ID), 'utf-8'))
-        ]
+#        New_Header = [
+#           ("Command", bytes(Header.Command, 'utf-8')), 
+#           ("Device_ID", bytes(Header.Device_ID, 'utf-8')),
+#           ("Device_Time", bytes(Header.Device_Time, 'utf-8')), 
+#           ("Device_IP", bytes(Header.Device_IP, 'utf-8')),
+#           ("Size", bytes(Header.Size, 'utf-8')),
+#           ("Stream_ID", bytes(str(Stream_ID), 'utf-8'))
+#       ]
 
         # Send to Topic
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
+#       Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
+#       Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
+#       Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
 
         # Commit Kafka Consumer
-        Kafka.RAW_Consumer.commit()
+#       Kafka.RAW_Consumer.commit()
 
         # Log Message
         Log.Terminal_Log("INFO", f"------------------------------")
