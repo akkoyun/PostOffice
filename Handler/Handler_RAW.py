@@ -27,10 +27,12 @@ try:
         )
 
         # Log Message
-        Log.Terminal_Log("INFO", f"New Stream Received: {Header.Device_ID}")
+        Log.Terminal_Log("INFO", f"Device ID   : {Header.Device_ID}")
+        Log.Terminal_Log("INFO", f"Command     : {Header.Command}")
+        Log.Terminal_Log("INFO", f"Device Time : {Header.Device_Time}")
+        Log.Terminal_Log("INFO", f"Device IP   : {Header.Device_IP}")
+        Log.Terminal_Log("INFO", f"Size        : {Header.Size}")
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"{Header.json()}")
 
 
 
