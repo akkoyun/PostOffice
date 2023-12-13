@@ -125,9 +125,6 @@ def Update_Version(Device_ID: str, Firmware: str):
 
             # Get Version_ID
             Version_ID = Query_Version.Version_ID
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"Version is Up to Date [{Firmware}] [{Version_ID}]")
         
         # Version Not Found
         else:
@@ -167,6 +164,12 @@ def Update_Version(Device_ID: str, Firmware: str):
 
             # Log Message
             Log.Terminal_Log("INFO", f"Version Updated [{Firmware}] [{Version_ID}]")
+
+        # Version is Up to Date
+        else:
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Version is Up to Date [{Firmware}] [{Version_ID}]")
 
     # End Function
     return Version_ID
