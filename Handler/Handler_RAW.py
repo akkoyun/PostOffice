@@ -44,27 +44,27 @@ try:
         # Control Version
         Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         # Control for Modem
-#        Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
+        Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         # Control for SIM
 #        Functions.Update_SIM(Message.Device.IoT.ICCID)
@@ -91,7 +91,7 @@ try:
 #       Kafka.RAW_Consumer.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"------------------------------")
+        Log.Terminal_Log("INFO", f"******************************")
 
 # Exception
 except Exception as e:

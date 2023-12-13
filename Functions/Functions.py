@@ -198,7 +198,7 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
             DB_Module.commit()
 
             # Log Message
-            Log.Terminal_Log("INFO", f"Modem: {IMEI} / {Firmware} [NEW]")
+            Log.Terminal_Log("INFO", f"New Modem Recorded {IMEI} / {Firmware}")
 
         # Modem Found
         else:
@@ -213,7 +213,7 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
                 DB_Module.commit()
 
                 # Log Message
-                Log.Terminal_Log("INFO", f"Modem: {IMEI} / {Firmware} [Updated]")
+                Log.Terminal_Log("INFO", f"Modem Updated {IMEI} / {Firmware}")
 
         # Query IMEI from Device
         Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
@@ -221,14 +221,17 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
         # Device Found
         if Query_Device is not None:
 
-            # Update Device Modem IMEI
-            Query_Device.IMEI = IMEI
+            # Control for IMEI
+            if Query_Device.IMEI != IMEI:
 
-            # Commit DataBase
-            DB_Module.commit()
+                # Update Device Modem IMEI
+                Query_Device.IMEI = IMEI
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"Modem: {IMEI} [OLD]")
+                # Commit DataBase
+                DB_Module.commit()
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"Modem Updated on Device Table {IMEI}")
 
 # Control SIM
 def Update_SIM(ICCID: str):
