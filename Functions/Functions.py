@@ -312,8 +312,3 @@ def Record_Stream(Device_ID: str, ICCID: str, Client_IP: str, Size: int, RAW_Dat
         # End Function
         return Stream_ID
 
-
-
-
-
-

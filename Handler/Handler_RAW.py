@@ -64,15 +64,15 @@ try:
        ]
 
         # Send to Topic
-#       Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
-#       Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), New_Header)
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), New_Header)
 
         # Commit Kafka Consumer
-#       Kafka.RAW_Consumer.commit()
+        Kafka.RAW_Consumer.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"******************************")
+        Log.Terminal_Log("INFO", f"************************************************************")
 
 # Exception
 except Exception as e:
