@@ -488,7 +488,7 @@ def Import_Device():
         exit()
 
     # Rename Columns
-    Data_File.columns = ['Device_ID', 'Status_ID', 'Version_ID', 'Model_ID', 'IMEI']
+    Data_File.columns = ['Device_ID', 'Status_ID', 'Version_ID', 'Model_ID', 'IMEI', 'Project_ID']
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Device:
@@ -509,6 +509,7 @@ def Import_Device():
                     Version_ID=int(row['Version_ID']),
                     Model_ID=int(row['Model_ID']),
                     IMEI=str(row['IMEI']),
+                    Project_ID=int(row['Project_ID']),
                 )
 
                 # Add Record to DataBase
