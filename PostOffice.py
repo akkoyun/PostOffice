@@ -39,31 +39,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Control for Null Body
 	if exc.body is not None:
 
-		# Define DB
-		DB_Module = Database.SessionLocal()
-
-		# Create New Stream
-		New_Stream = Models.Stream(
-			Device_ID = "0",
-			ICCID = "1",
-			Client_IP = request.client.host,
-			Size = request.headers['content-length'],
-			RAW_Data = exc.body,
-			Device_Time = datetime.now(),
-			Stream_Time = datetime.now()
-		)
-
-		# Add Stream to DataBase
-		DB_Module.add(New_Stream)
-
-		# Commit DataBase
-		DB_Module.commit()
-
-		# Refresh DataBase
-		DB_Module.refresh(New_Stream)
-
-		# Close Database
-		DB_Module.close()
+        # Add Stream to DataBase
+		Functions.Record_Stream(0, 0, request.client.host, request.headers['content-length'], exc.body, datetime.now())
 
 		# Message Status Code
 		Message_Status_Code = status.HTTP_400_BAD_REQUEST
@@ -87,7 +64,11 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		Message_Headers = {"server": APP_Settings.SERVER_NAME}
 
 	# Send Response
-	return JSONResponse(status_code=Message_Status_Code, content=Message_Content, headers=Message_Headers)
+	return JSONResponse(
+		status_code=Message_Status_Code, 
+		content=Message_Content, 
+		headers=Message_Headers
+	)
 
 # IoT Get Method
 @PostOffice.get("/", status_code=status.HTTP_200_OK)
