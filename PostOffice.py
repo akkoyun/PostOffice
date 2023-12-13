@@ -118,10 +118,9 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Get Request Body
 	Request_Body = ((await request.body()).decode("utf-8")).replace(" ", "").replace("\n", "").replace("\r", "")
+
+	# Log Message
 	Log.Terminal_Log("INFO", f"Pack : {Request_Body}")
-
-
-
 
 	# Set headers
 	Header = [
@@ -130,11 +129,8 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		("Device_Time", bytes(Data.Info.TimeStamp, 'utf-8')), 
 		("Device_IP", bytes(request.client.host, 'utf-8')),
 		("Size", bytes(request.headers['content-length'], 'utf-8')),
+		("Body", bytes(Request_Body, 'utf-8'))
 	]
-
-
-
-
 
 	# Send to Kafka Topic
 	Kafka.Send_To_Topic("RAW", Data.json(), Header)

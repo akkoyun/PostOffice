@@ -32,7 +32,7 @@ class Device:
 class Headers:
 
     # Define Incomming Headers
-    def __init__(self, command, device_id, device_time, device_ip, size):
+    def __init__(self, command, device_id, device_time, device_ip, size, body):
         
         # Get Incomming Headers
         self.Command = command
@@ -40,6 +40,7 @@ class Headers:
         self.Device_Time = device_time
         self.Device_IP = device_ip
         self.Size = size
+        self.Body = body
 
 # Define Headers
 class Handler_Headers:

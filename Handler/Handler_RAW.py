@@ -24,6 +24,7 @@ try:
             RAW_Message.headers[2][1].decode('ASCII'),
             RAW_Message.headers[3][1].decode('ASCII'),
             RAW_Message.headers[4][1].decode('ASCII'),
+            RAW_Message.headers[5][1].decode('ASCII'),
         )
 
         # Log Message
@@ -38,8 +39,17 @@ try:
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
         # Log Message
-        Log.Terminal_Log("INFO", f"Message     : {Message}")
+        Log.Terminal_Log("INFO", f"Message     : {Header.Body}")
         Log.Terminal_Log("INFO", f"------------------------------")
+
+
+
+
+
+
+
+
+
 
 
 
