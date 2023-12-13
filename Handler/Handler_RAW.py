@@ -37,7 +37,7 @@ try:
         Device.Device_ID = Header.Device_ID
         Device.Client_IP = Header.Device_IP
         Device.Firmware = Message.Info.Firmware
-        Device.IMEI = Message.Info.IMEI
+        Device.IMEI = Message.Device.IoT.IMEI
         Device.Modem_Firmware = Message.Device.IoT.Firmware
 
         # Control Device
