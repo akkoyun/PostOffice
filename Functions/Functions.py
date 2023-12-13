@@ -74,12 +74,12 @@ def Control_Device(Device_ID: str):
         if Query_Device is not None:
 
             # Update Device Last_Connection
-            Query_Device.Last_Connection = datetime.now()
+#            Query_Device.Last_Connection = datetime.now()
 
             Log.Terminal_Log("INFO", f"Create Time: {Query_Device.Create_Time}")
 
             # Commit DataBase
-            DB_Device.commit()
+#            DB_Device.commit()
 
             # Log Message
             Log.Terminal_Log("INFO", f"Existing Device.")
