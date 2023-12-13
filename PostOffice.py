@@ -125,6 +125,8 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		("Size", bytes(request.headers['content-length'], 'utf-8')),
 	]
 
+	Log.Terminal_Log("INFO", f"Pack : {Data.dict()}")
+
 	# Send to Kafka Topic
 	Kafka.Send_To_Topic("RAW", Data.json(), Header)
 
