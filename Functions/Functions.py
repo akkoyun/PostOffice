@@ -215,6 +215,12 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
                 # Log Message
                 Log.Terminal_Log("INFO", f"Modem Updated {IMEI} / {Firmware}")
 
+            # Modem is Up to Date
+            else:
+
+                # Log Message
+                Log.Terminal_Log("INFO", f"Modem is Up to Date {IMEI} / {Firmware}")
+
         # Query IMEI from Device
         Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
