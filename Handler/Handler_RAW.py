@@ -24,7 +24,6 @@ try:
             RAW_Message.headers[2][1].decode('ASCII'),
             RAW_Message.headers[3][1].decode('ASCII'),
             RAW_Message.headers[4][1].decode('ASCII'),
-            RAW_Message.headers[5][1].decode('ASCII')
         )
 
         # Log Message
@@ -33,20 +32,23 @@ try:
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
-        # Control Version
-        Version_ID = Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
+        # Clean RAW Body
+        Clean_RAW_Body = Message.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"Version: {Message.Info.Firmware} [{Version_ID}]")
+        # Control Device
+        Functions.Control_Device(Header.Device_ID)
+
+        # Control Version
+        Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
 
         # Control for Modem
-        Modem_Status = Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
+        Functions.Update_Modem(Header.Device_ID, Message.Device.IoT.IMEI, Message.Device.IoT.Firmware)
 
-        # Log Message
-        if Modem_Status:
-            Log.Terminal_Log("INFO", f"Modem: {Message.Device.IoT.IMEI} [NEW]")
-        else:
-            Log.Terminal_Log("INFO", f"Modem: {Message.Device.IoT.IMEI} [OLD]")
+        # Control for SIM
+        Functions.Update_SIM(Message.Device.IoT.ICCID)
+
+        # Add Stream to DataBase
+        Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Clean_RAW_Body, Message.Device.Device_Time)
 
         # Set headers
         New_Header = [
@@ -55,7 +57,7 @@ try:
             ("Device_Time", bytes(Header.Device_Time, 'utf-8')), 
             ("Device_IP", bytes(Header.Device_IP, 'utf-8')),
             ("Size", bytes(Header.Size, 'utf-8')),
-            ("Stream_ID", bytes(str(Header.Stream_ID), 'utf-8'))
+            ("Stream_ID", bytes(str(Stream_ID), 'utf-8'))
         ]
 
         # Send to Topic

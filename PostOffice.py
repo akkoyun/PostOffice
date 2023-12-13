@@ -114,85 +114,7 @@ def Root(request: Request):
 async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"New Data Recieved from: {request.client.host}")
-	Log.Terminal_Log("INFO", f"Device ID: {Data.Info.ID}")
-
-	# Get RAW Body
-	RAW_Body = await request.body()
-
-	# Clean RAW Body
-	Clean_RAW_Body = RAW_Body.decode('utf-8').replace("\n", "").replace("\r", "").replace(" ", "")
-
-    # Define DB
-	DB = Database.SessionLocal()
-
-	# Control Device Existance
-	Query_Device = DB.query(Models.Device).filter(Models.Device.Device_ID == Data.Info.ID).first()
-
-	# Control Device Existance
-	if Query_Device is None:
-
-		# Create New Device
-		New_Device = Models.Device(
-			Device_ID = Data.Info.ID,
-			Status_ID = 1,
-			Version_ID = 0,
-			Model_ID = 0,
-			IMEI = 0
-		)
-
-		# Add Device to DataBase
-		DB.add(New_Device)
-
-		# Commit DataBase
-		DB.commit()
-
-		# Refresh DataBase
-		DB.refresh(New_Device)
-
-		# Log Message
-		Log.Terminal_Log("INFO", f"New Device.")
-
-	# Device Found
-	else:
-
-		# Update Device Last_Connection
-		Query_Device.Last_Connection = datetime.now()
-
-		# Commit DataBase
-		DB.commit()
-
-		# Log Message
-		Log.Terminal_Log("INFO", f"Device Found.")
-
-	# Control for SIM
-	SIM_Status = Functions.Update_SIM(Data.Device.IoT.ICCID)
-
-	# Log Message
-	if SIM_Status:
-		Log.Terminal_Log("INFO", f"SIM: {Data.Device.IoT.ICCID} [NEW]")
-	else:
-		Log.Terminal_Log("INFO", f"SIM: {Data.Device.IoT.ICCID} [OLD]")
-
-	# Create New Stream
-	New_Stream = Models.Stream(
-		Device_ID = Data.Info.ID,
-		ICCID = Data.Device.IoT.ICCID,
-		Client_IP = request.client.host,
-		Size = request.headers['content-length'],
-		RAW_Data = Clean_RAW_Body,
-		Device_Time = Data.Info.TimeStamp,
-		Stream_Time = datetime.now()
-	)
-
-	# Add Stream to DataBase
-	DB.add(New_Stream)
-
-	# Commit DataBase
-	DB.commit()
-
-	# Refresh DataBase
-	DB.refresh(New_Stream)
+	Log.Terminal_Log("INFO", f"New Data Recieved from: {Data.Info.ID} / {request.client.host}")
 
 	# Set headers
 	Header = [
@@ -201,15 +123,10 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		("Device_Time", bytes(Data.Info.TimeStamp, 'utf-8')), 
 		("Device_IP", bytes(request.client.host, 'utf-8')),
 		("Size", bytes(request.headers['content-length'], 'utf-8')),
-        ("Stream_ID", bytes(str(New_Stream.Stream_ID), 'utf-8'))
 	]
 
-	# Log Message
-	Log.Terminal_Log("INFO", f"Stream ID: {New_Stream.Stream_ID}")
-	Log.Terminal_Log("INFO", f"-----------------------------------------------")
-
 	# Send to Kafka Topic
-	Kafka.Send_To_Topic("RAW", Data.json(), Header)
+	Kafka.Send_To_Topic("RAW", request.body, Header)
 
 	# Send Response
 	return JSONResponse(

@@ -5,6 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Database, Models, Definitions, Schema
 from datetime import timezone, timedelta, datetime
+import datetime
 from dateutil import parser
 from Functions import Log
 import pytz
@@ -60,14 +61,59 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
 
 
 
+# Control for Device
+def Control_Device(Device_ID: str):
+
+    # Define DB
+    with Database.DB_Session_Scope() as DB_Device:
+
+    	# Control Device Existance
+        Query_Device = DB_Device.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+
+        # Control Device Existance
+        if Query_Device is None:
+
+            # Create New Device
+            New_Device = Models.Device(
+                Device_ID = Device_ID,
+                Status_ID = 1,
+                Version_ID = 0,
+                Model_ID = 0,
+                IMEI = 0
+            )
+
+            # Add Device to DataBase
+            DB_Device.add(New_Device)
+
+            # Commit DataBase
+            DB_Device.commit()
+
+            # Refresh DataBase
+            DB_Device.refresh(New_Device)
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"New Device.")
+
+        # Device Found
+        else:
+
+            # Update Device Last_Connection
+            Query_Device.Last_Connection = datetime.now()
+
+            # Commit DataBase
+            DB_Device.commit()
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Existing Device.")
+
 # Control Device Version
 def Update_Version(Device_ID: str, Firmware: str):
 
+    # Define Version_ID
+    Version_ID = 0
+
     # Define DB
     with Database.DB_Session_Scope() as DB_Module:
-
-        # Define Version_ID
-        Version_ID = 0
 
         # Query Version_ID from Version
         Query_Version = DB_Module.query(Models.Version).filter(Models.Version.Device_ID.like(Device_ID)).filter(Models.Version.Firmware.like(Firmware)).first()
@@ -108,20 +154,17 @@ def Update_Version(Device_ID: str, Firmware: str):
             # Commit DataBase
             DB_Module.commit()
 
-            # Return True
-            return Query_Device.Version_ID
-        
-        # Version is Same
-        else:
+            # Set Version_ID
+            Version_ID = Query_Device.Version_ID
 
-            # Return False
-            return Version_ID
+        # Log Message
+        Log.Terminal_Log("INFO", f"Version: {Firmware} [{Version_ID}]")
+
+    # End Function
+    return Version_ID
 
 # Control Modem and Modem Version
 def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
-
-    # Declare New Modem
-    New_Modem = False
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Module:
@@ -146,8 +189,8 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
             # Commit DataBase
             DB_Module.commit()
 
-            # Set New Modem
-            New_Modem = True
+            # Log Message
+            Log.Terminal_Log("INFO", f"Modem: {IMEI} / {Firmware} [NEW]")
 
         # Modem Found
         else:
@@ -161,6 +204,9 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
                 # Commit DataBase
                 DB_Module.commit()
 
+                # Log Message
+                Log.Terminal_Log("INFO", f"Modem: {IMEI} / {Firmware} [Updated]")
+
         # Query IMEI from Device
         Query_Device = DB_Module.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
 
@@ -172,15 +218,12 @@ def Update_Modem(Device_ID: str, IMEI: str, Firmware: str):
 
             # Commit DataBase
             DB_Module.commit()
-        
-        # End Function
-        return New_Modem
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"Modem: {IMEI} [OLD]")
 
 # Control SIM
 def Update_SIM(ICCID: str):
-
-    # Declare New SIM
-    New_SIM = False
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Module:
@@ -205,11 +248,52 @@ def Update_SIM(ICCID: str):
             # Commit DataBase
             DB_Module.commit()
 
-            # Set New SIM
-            New_SIM = True
+            # Log Message
+            Log.Terminal_Log("INFO", f"SIM: {ICCID} [NEW]")
+
+        # SIM Found
+        else:
+
+            # Log Message
+            Log.Terminal_Log("INFO", f"SIM: {ICCID} [OLD]")
+
+# Record Stream
+def Record_Stream(Device_ID: str, ICCID: str, Client_IP: str, Size: int, RAW_Data: str, Device_Time: datetime):
+
+    # Define DB
+    with Database.DB_Session_Scope() as DB_Stream:
+
+        # Create New Stream
+        New_Stream = Models.Stream(
+            Device_ID = Device_ID,
+            ICCID = ICCID,
+            Client_IP = Client_IP,
+            Size = Size,
+            RAW_Data = RAW_Data,
+            Device_Time = Device_Time,
+            Stream_Time = datetime.now()
+        )
+
+        # Add Stream to DataBase
+        DB_Stream.add(New_Stream)
+
+        # Commit DataBase
+        DB_Stream.commit()
+
+        # Refresh DataBase
+        DB_Stream.refresh(New_Stream)
+
+        # Get Stream_ID
+        Stream_ID = New_Stream.Stream_ID
+
+        # Log Message
+        Log.Terminal_Log("INFO", f"Stream Recorded: {Stream_ID}")
 
         # End Function
-        return New_SIM
+        return Stream_ID
+
+
+
 
 
 
