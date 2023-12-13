@@ -55,12 +55,6 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
     # Check if Up to Date
     return minutes_difference < threshold_minutes
 
-
-
-
-
-
-
 # Control for Device
 def Control_Device(Device_ID: str):
 
@@ -79,7 +73,7 @@ def Control_Device(Device_ID: str):
             Log.Terminal_Log("INFO", f"Create Time: {Query_Device.Create_Time}")
 
             # Commit DataBase
-#            DB_Device.commit()
+            DB_Device.commit()
 
             # Log Message
             Log.Terminal_Log("INFO", f"Existing Device.")
