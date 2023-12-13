@@ -29,6 +29,11 @@ try:
         # Log Message
         Log.Terminal_Log("INFO", f"New Stream Received: {Header.Device_ID}")
 
+        # Log Message
+        Log.Terminal_Log("INFO", f"{Header.json()}")
+
+
+
         # Decode Message
 #        Message = Kafka.Decode_RAW_Message(RAW_Message)
 
