@@ -63,11 +63,11 @@ try:
         Log.Terminal_Log("INFO", f"IMEI           : {Device.IMEI}")
         Log.Terminal_Log("INFO", f"Modem Firmware : {Device.Modem_Firmware}")
         Log.Terminal_Log("INFO", f"New Modem      : {Device.New_Modem}")
-        Log.Terminal_Log("INFO", f"SIM            : {Device.SIM_ID}")
+        Log.Terminal_Log("INFO", f"SIM            : {Device.ICCID}")
         Log.Terminal_Log("INFO", f"New SIM        : {Device.New_SIM}")
         Log.Terminal_Log("INFO", f"Status         : {Device.Status_ID}")
         Log.Terminal_Log("INFO", f"Project ID     : {Device.Project_ID}")
-        Log.Terminal_Log("INFO", f"------------------------------")
+        Log.Terminal_Log("INFO", f"------------------------------------------------------------")
 
 
 
