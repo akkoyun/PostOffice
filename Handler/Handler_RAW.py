@@ -30,13 +30,13 @@ try:
         # Define Device
         Device = Definitions.Device()
 
+        # Decode Message
+        Message = Kafka.Decode_RAW_Message(RAW_Message)
+
         # Set Device Variables
         Device.Device_ID = Header.Device_ID
         Device.Client_IP = Header.Device_IP
         Device.Firmware = Message.Info.Firmware
-
-        # Decode Message
-        Message = Kafka.Decode_RAW_Message(RAW_Message)
 
         # Control Device
         Functions.Control_Device(Device)
