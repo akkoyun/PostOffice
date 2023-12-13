@@ -65,23 +65,8 @@ try:
         Log.Terminal_Log("INFO", f"Project ID     : {Device.Project_ID}")
         Log.Terminal_Log("INFO", f"------------------------------------------------------------")
 
-
-
-
-
-
-
-
-
         # Add Stream to DataBase
         Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Header.Body, Message.Info.TimeStamp)
-
-
-
-
-
-
-
 
         # Set headers
         New_Header = [
