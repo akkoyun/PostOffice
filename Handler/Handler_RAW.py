@@ -27,23 +27,43 @@ try:
             RAW_Message.headers[5][1].decode('ASCII'),
         )
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"Device ID   : {Header.Device_ID}")
-        Log.Terminal_Log("INFO", f"Command     : {Header.Command}")
-        Log.Terminal_Log("INFO", f"Device Time : {Header.Device_Time}")
-        Log.Terminal_Log("INFO", f"Device IP   : {Header.Device_IP}")
-        Log.Terminal_Log("INFO", f"Size        : {Header.Size}")
-        Log.Terminal_Log("INFO", f"------------------------------")
+        # Define Device
+        Device = Definitions.Device()
+
+        # Set Device Variables
+        Device.Device_ID = Header.Device_ID
+        Device.Client_IP = Header.Device_IP
+        Device.Firmware = Message.Info.Firmware
 
         # Decode Message
         Message = Kafka.Decode_RAW_Message(RAW_Message)
 
         # Control Device
-        Device = Functions.Control_Device(Header.Device_ID)
+        Functions.Control_Device(Device)
 
-        # Set Device Variables
-        Device.Device_ID = Header.Device_ID
-        Device.Client_IP = Header.Device_IP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # Log Message
+        Log.Terminal_Log("INFO", f"Device ID   : {Device.Device_ID}")
+        Log.Terminal_Log("INFO", f"Command     : {Header.Command}")
+        Log.Terminal_Log("INFO", f"Device Time : {Header.Device_Time}")
+        Log.Terminal_Log("INFO", f"Device IP   : {Header.Device_IP}")
+        Log.Terminal_Log("INFO", f"Size        : {Header.Size}")
+        Log.Terminal_Log("INFO", f"New Device  : {Device.New_Device}")
+        Log.Terminal_Log("INFO", f"------------------------------")
+
 
         # Control Version
         Functions.Update_Version(Header.Device_ID, Message.Info.Firmware)
@@ -56,6 +76,13 @@ try:
 
         # Add Stream to DataBase
         Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Header.Body, Message.Info.TimeStamp)
+
+
+
+
+
+
+
 
         # Set headers
         New_Header = [

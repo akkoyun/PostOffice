@@ -65,16 +65,13 @@ def Check_Up_to_Date(last_time: str, threshold_minutes: int = 32):
 
 
 # Control for Device
-def Control_Device(Device_ID: str):
-
-    # Define Device
-    Device = Definitions.Device()
+def Control_Device(Device: Definitions.Device):
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Device:
 
     	# Control Device Existance
-        Query_Device = DB_Device.query(Models.Device).filter(Models.Device.Device_ID.like(Device_ID)).first()
+        Query_Device = DB_Device.query(Models.Device).filter(Models.Device.Device_ID.like(Device.Device_ID)).first()
 
         # Control Device Existance
         if Query_Device is not None:
@@ -86,7 +83,6 @@ def Control_Device(Device_ID: str):
             DB_Device.commit()
 
             # Set Device Details
-            Device.Device_ID = Query_Device.Device_ID
             Device.Status_ID = Query_Device.Status_ID
             Device.Version_ID = Query_Device.Version_ID
             Device.Model_ID = Query_Device.Model_ID
@@ -95,15 +91,12 @@ def Control_Device(Device_ID: str):
             Device.New_Device = False
             Device.Last_Connection_Time = Query_Device.Last_Connection
 
-            # Log Message
-            Log.Terminal_Log("INFO", f"Existing Device.")
-
         # Device Found
         else:
 
             # Create New Device
             New_Device = Models.Device(
-                Device_ID = Device_ID,
+                Device_ID = Device.Device_ID,
                 Status_ID = 1,
                 Version_ID = 0,
                 Model_ID = 0,
@@ -120,9 +113,6 @@ def Control_Device(Device_ID: str):
 
             # Set Device Details
             Device.New_Device = True
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"New Device Recorded.")
 
     # End Function
     return Device
