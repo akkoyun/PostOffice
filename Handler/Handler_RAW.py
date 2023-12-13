@@ -67,7 +67,7 @@ try:
            ("Stream_ID", bytes(str(Stream_ID), 'utf-8'))
        ]
 
-        Log.Terminal_Log("INFO", f"Device: {Device}")
+        Log.Terminal_Log("INFO", f"Device: {Device.dict}")
 
         # Send to Topic
         Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), New_Header)
