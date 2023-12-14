@@ -195,7 +195,7 @@ def Variable_List(Segment: int):
         if Segment == 1:
 
             # Define Formatted Data
-            Formatted_Data = [("Type_ID", Variable.Type_ID, "Variable", Variable.Variable, "Description", Variable.Description, "Unit", Variable.Unit, "Segment_ID", Variable.Segment_ID) for Variable in Data_Type_Query]
+            Formatted_Data = [(Variable.Type_ID, f"Message.Power.{Variable.Variable}", Variable.Description, Variable.Unit, Variable.Segment_ID) for Variable in Data_Type_Query]
 
 
 
