@@ -69,12 +69,12 @@ try:
         Stream_ID = Functions.Record_Stream(Header.Device_ID, Message.Device.IoT.ICCID, Header.Device_IP, Header.Size, Header.Body, Message.Info.TimeStamp)
 
         # Set headers
-        Definitions.Kafka_Header(Header, Device, Stream_ID)
+        Kafka_Header = Definitions.Kafka_Header(Header, Device, Stream_ID)
 
         # Send to Topic
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), Definitions.Kafka_Header.Get())
-        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), Definitions.Kafka_Header.Get())
-        if Device.Status_ID != 1: Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), Definitions.Kafka_Header.Get())
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PARAMETER), Message.Device.dict(), Kafka_Header.Get())
+        Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_PAYLOAD), Message.Payload.dict(), Kafka_Header.Get())
+        if Device.Status_ID != 1: Kafka.Send_To_Topic(str(APP_Settings.KAFKA_TOPIC_DISCORD), Message.Payload.dict(), Kafka_Header.Get())
 
         # Commit Kafka Consumer
         Kafka.RAW_Consumer.commit()
