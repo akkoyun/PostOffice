@@ -93,7 +93,16 @@ async def Parse_Message():
 
             # Set Message
             Discord_Message = f"```ansi\r\nDevice ID: [2;32m{RAW_Headers.Device_ID}[0m\r\n"
-            Discord_Message += f"Device Type: [2;35m{RAW_Headers.Status_ID} / {RAW_Headers.Project_ID}[0m\r\n"
+
+            # Handle Status and Project
+            if RAW_Headers.Status_ID == "1": Status = "Test Device"
+            elif RAW_Headers.Status_ID == "2": Status = "Demo Device"
+            else: RAW_Headers.Status_ID = "Unknown"
+            if RAW_Headers.Project_ID == "1": Project = "WeatherStat"
+            elif RAW_Headers.Project_ID == "2": Project = "PowerStat"
+            else: RAW_Headers.Project_ID = "Unknown"
+
+            Discord_Message += f"Device Type: [2;35m{Project} / {Status}[0m\r\n"
             Discord_Message += f"Device Description: [2;32m{Device_Name}[0m\r\n"
             Discord_Message += f"Device Time: [2;34m{Device_Time}[0m\r\n"
             if Message.AT is not None: Discord_Message += f"Hava Sıcaklığı: [2;35m{Message.AT}[0m[2;33m[0m °C\r\n"
