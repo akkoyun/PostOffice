@@ -354,14 +354,6 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
     # Control for Parameter
     if Measurement_Pack.Value is not None:
 
-        Log.Terminal_Log("INFO", f"-")
-        Log.Terminal_Log("INFO", f"{Measurement_Pack.Stream_ID} - {Measurement_Pack.Type_ID} - {Measurement_Pack.Variable} - {Measurement_Pack.Value} - {Measurement_Pack.Unit} - {Measurement_Pack.Device_Time}")
-
-
-
-
-
-
         # Define Measurement_ID
         Measurement_ID = None
 
