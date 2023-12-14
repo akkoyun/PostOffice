@@ -14,7 +14,7 @@ intents.messages = False
 intents.guilds = True
 
 # Define Discord Client
-Discord_Client = discord.Client(intents=intents)
+Discord_Client = discord.Client(command_prefix='!', intents=intents)
 
 # Define Discord Login
 @Discord_Client.event
@@ -40,6 +40,22 @@ async def Send_Discord_Message(channel_id, message):
         await channel.send(message)
     else:
         print("Kanal bulunamadı.")
+
+
+
+
+@Discord_Client.event
+async def on_message(message):
+
+    # Log Message
+    if message.author == Discord_Client.user:
+        return
+ 
+    if message.content.startswith('hi'):
+        await message.channel.send('Hello!')
+
+
+
 
 # Try to Parse Topics
 async def Parse_Message():
@@ -69,6 +85,12 @@ async def Parse_Message():
 
             # Sleep
             await asyncio.sleep(0)
+
+
+
+
+
+
 
 
 
