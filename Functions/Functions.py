@@ -368,11 +368,8 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
                 # Add Record to DataBase
                 DB_Measurement.add(New_Measurement)
 
-                # Refresh DataBase
-                DB_Measurement.refresh(New_Measurement)
-
         # Set Log Message
-        Message = f"[{Measurement_Pack.Variable:^8}] - {round(Measurement_Pack.Value, 5):^7} {Measurement_Pack.Unit} [{New_Measurement.Measurement_ID}]"
+        Message = f"[{Measurement_Pack.Variable:^8}] - {round(Measurement_Pack.Value, 5):^7} {Measurement_Pack.Unit} [{Measurement_Pack.Stream_ID} / {New_Measurement.Measurement_ID}]"
 
         # Log Message
         Log.Terminal_Log("INFO", Message = Message)
