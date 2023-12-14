@@ -90,20 +90,25 @@ try:
 
         for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(5):
 
-            # Set Data Pack
-            Measurement = Definitions.Measurement_Class(
-                type_id=Type_ID, 
-                variable=Variable, 
-                path=f"Message.{Variable}",
-                value=eval(f"Message.{Variable}"),
-                description=Description, 
-                unit=Unit, 
-                segment_id=Segment_ID,
-                stream_id=RAW_Headers.Stream_ID,
-                device_time=Device_Time
-            )
+            try:
 
-            Log.Terminal_Log("INFO", f"Measurement: {Measurement}")
+                # Set Data Pack
+                Measurement = Definitions.Measurement_Class(
+                    type_id=Type_ID, 
+                    variable=Variable, 
+                    path=f"Message.{Variable}",
+                    value=eval(f"Message.{Variable}"),
+                    description=Description, 
+                    unit=Unit, 
+                    segment_id=Segment_ID,
+                    stream_id=RAW_Headers.Stream_ID,
+                    device_time=Device_Time
+                )
+
+                Log.Terminal_Log("INFO", f"Measurement: {Measurement}")
+
+            except:
+                pass
 
             # Record Payload
 #            Functions.Measurement_Recorder(Measurement)
