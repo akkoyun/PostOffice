@@ -184,10 +184,17 @@ async def Parse_Message():
         # Log Message
         Log.Terminal_Log("INFO", f"******************************")
 
+# Loop Function
+async def Loop():
+
+    # Try to Parse Topics
+    await Parse_Message()
 
 
-# Try to Parse Topics
-Parse_Message()
+
+
+
+Loop()
 
 # Run Discord Bot
 Discord_Client.run(APP_Settings.DISCORD_TOKEN)
