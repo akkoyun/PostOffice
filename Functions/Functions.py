@@ -381,7 +381,7 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
                 Measurement_ID = New_Measurement.Measurement_ID
 
         # Set Log Message
-        Message = f"[{Measurement_Pack.Variable:^8}] - {round(Measurement_Pack.Value, 5):^7} {Measurement_Pack.Unit} [{Measurement_ID}]"
+        Message = f"[{Measurement_Pack.Variable:^10}] - {round(Measurement_Pack.Value, 5):^12} {Measurement_Pack.Unit:^8} [{Measurement_ID:^8}]"
 
         # Log Message
         Log.Terminal_Log("INFO", Message = Message)

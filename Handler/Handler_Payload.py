@@ -87,9 +87,10 @@ try:
 
 
 
-
+        # Control for Environment Variables
         for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(5):
 
+            # Try to Record
             try:
 
                 # Set Data Pack
@@ -108,6 +109,7 @@ try:
                 # Record Payload
                 Functions.Measurement_Recorder(Measurement)
 
+            # Handle Errors
             except:
                 pass
 
