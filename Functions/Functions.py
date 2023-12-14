@@ -354,6 +354,9 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
     # Control for Parameter
     if Measurement_Pack.Value is not None:
 
+        Log.Terminal_Log("INFO", f"-")
+        Log.Terminal_Log("INFO", f"{Measurement_Pack.Path} = {Measurement_Pack.Value}")
+
         # Define DB
         with Database.DB_Session_Scope() as DB_Measurement:
 
@@ -380,8 +383,6 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
         # Log Message
         Log.Terminal_Log("INFO", Message = Message)
 
-    Log.Terminal_Log("INFO", f"-")
-    Log.Terminal_Log("INFO", f"{Measurement_Pack.Path} = {Measurement_Pack.Value}")
 
 
 
