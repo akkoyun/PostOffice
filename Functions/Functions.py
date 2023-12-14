@@ -372,7 +372,7 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
                 DB_Measurement.commit()
 
         # Set Log Message
-        Message = f"[{Measurement_Pack.Variable:^8}] - {round(Measurement_Pack.Value, 5):^7} {Measurement_Pack.Unit} [{Measurement_Pack.Stream_ID} / {New_Measurement.Measurement_ID}]"
+        Message = f"[{Measurement_Pack.Variable:^8}] - {round(Measurement_Pack.Value, 5):^7} {Measurement_Pack.Unit} [{New_Measurement.Measurement_ID}]"
 
         # Log Message
         Log.Terminal_Log("INFO", Message = Message)
