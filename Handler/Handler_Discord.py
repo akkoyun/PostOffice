@@ -9,12 +9,13 @@ import discord, asyncio
 from Setup.Config import APP_Settings
 
 # Set Discord Intents
-intents = discord.Intents.default()
-intents.messages = False
-intents.guilds = True
+#intents = discord.Intents.default()
+#intents.messages = False
+#intents.guilds = True
 
 # Define Discord Client
-Discord_Client = discord.Client(command_prefix='!', intents=intents)
+intents = discord.Intents.all()
+Discord_Client = discord.Client(intents=intents)
 
 # Define Discord Login
 @Discord_Client.event
