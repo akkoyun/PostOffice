@@ -130,7 +130,7 @@ try:
         Kafka.Payload_Consumer.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"******************************")
+        Log.Terminal_Log("INFO", f"************************************************************")
 
 # Handle Errors
 except Exception as e:
