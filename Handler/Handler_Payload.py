@@ -94,8 +94,8 @@ try:
             Measurement = Definitions.Measurement_Class(
                 type_id=Type_ID, 
                 variable=Variable, 
-                path=f"Message.{Variable.Variable}",
-                value=eval(f"Message.{Variable.Variable}"),
+                path=f"Message.{Variable}",
+                value=eval(f"Message.{Variable}"),
                 description=Description, 
                 unit=Unit, 
                 segment_id=Segment_ID,
