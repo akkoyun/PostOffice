@@ -137,3 +137,33 @@ def Type_List(Segment: int):
 
     # End Function
     return Formatted_Data
+
+
+
+
+
+# Define Kafka Header
+class Kafka_Header:
+    
+    # Define Kafka Header
+    def __init__(self, header, device, stream_id):
+        self.header = header
+        self.device = device
+        self.stream_id = stream_id
+
+    def Get(self):
+        
+        # Get New Header
+        new_header = [
+            ("Command", bytes(self.header.Command, 'utf-8')), 
+            ("Device_ID", bytes(self.header.Device_ID, 'utf-8')),
+            ("Device_Time", bytes(self.header.Device_Time, 'utf-8')), 
+            ("Device_IP", bytes(self.header.Device_IP, 'utf-8')),
+            ("Size", bytes(self.header.Size, 'utf-8')),
+            ("Stream_ID", bytes(str(self.stream_id), 'utf-8')),
+            ("Status_ID", bytes(str(self.device.Status_ID), 'utf-8')),
+            ("Project_ID", bytes(str(self.device.Project_ID), 'utf-8'))
+        ]
+
+        # Return New Header
+        return new_header
