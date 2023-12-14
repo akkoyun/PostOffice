@@ -103,8 +103,10 @@ try:
                 device_time=Device_Time
             )
 
+            Log.Terminal_Log("INFO", f"Measurement: {Measurement}")
+
             # Record Payload
-            Functions.Measurement_Recorder(Measurement)
+#            Functions.Measurement_Recorder(Measurement)
 
 
 
