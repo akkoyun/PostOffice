@@ -379,6 +379,12 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
                 # Add Record to DataBase
                 DB_Measurement.add(New_Measurement)
 
+                # Commit DataBase
+                DB_Measurement.commit()
+
+                # Refresh DataBase
+                DB_Measurement.refresh(New_Measurement)
+
                 # Get Measurement_ID
                 Measurement_ID = New_Measurement.Measurement_ID
 
