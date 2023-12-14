@@ -384,7 +384,7 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
         Message = f"[{Measurement_Pack.Variable:^10}] - {round(Measurement_Pack.Value, 5):^12} {Measurement_Pack.Unit:^8} [{Measurement_Pack.Stream_ID:^8} / {Measurement_ID:^8}]"
 
         # Log Message
-        Log.Terminal_Log("INFO", Message = Message)
+        Log.Terminal_Log("INFO", Message)
 
 # Parameter Recorder
 def Parameter_Recorder(Parameter_Pack: Definitions.Measurement_Class):
@@ -392,14 +392,14 @@ def Parameter_Recorder(Parameter_Pack: Definitions.Measurement_Class):
     # Control for Parameter
     if Parameter_Pack.Value is not None:
 
-        # Define Measurement_ID
-        Measurement_ID = None
+        # Define Parameter_ID
+        Parameter_ID = None
 
         # Define DB
-        with Database.DB_Session_Scope() as DB_Measurement:
+        with Database.DB_Session_Scope() as DB_Parameter:
 
-            # Create New Payload Measurement
-            New_Measurement = Models.Parameter(
+            # Create New Payload Parameter
+            New_Parameter = Models.Parameter(
                 Stream_ID = Parameter_Pack.Stream_ID,
                 Type_ID = Parameter_Pack.Type_ID,
                 Value = Parameter_Pack.Value,
@@ -407,22 +407,22 @@ def Parameter_Recorder(Parameter_Pack: Definitions.Measurement_Class):
             )
 
             # Add Record to DataBase
-            DB_Measurement.add(New_Measurement)
+            DB_Parameter.add(New_Parameter)
 
             # Commit DataBase
-            DB_Measurement.commit()
+            DB_Parameter.commit()
 
             # Refresh DataBase
-            DB_Measurement.refresh(New_Measurement)
+            DB_Parameter.refresh(New_Parameter)
 
-            # Get Measurement_ID
-            Measurement_ID = New_Measurement.Measurement_ID
+            # Get Parameter_ID
+            Parameter_ID = New_Parameter.Measurement_ID
 
         # Set Log Message
-        Message = f"[{Parameter_Pack.Variable:^10}] - {round(Parameter_Pack.Value, 5):^12} {Parameter_Pack.Unit:^8} [{Parameter_Pack.Stream_ID:^8} / {Measurement_ID:^8}]"
+        Message = f"[{Parameter_Pack.Variable:^10}] - {round(Parameter_Pack.Value, 5):^12} {Parameter_Pack.Unit:^8} [{Parameter_Pack.Stream_ID:^8} / {Parameter_ID:^8}]"
 
         # Log Message
-        Log.Terminal_Log("INFO", Message = Message)
+        Log.Terminal_Log("INFO", Message)
 
 
 
