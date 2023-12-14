@@ -5,7 +5,7 @@ sys.path.append('/root/PostOffice/')
 # Library Includes
 from Setup import Definitions
 from Setup.Definitions import Type_List
-from Functions import Kafka, Log, Handler
+from Functions import Kafka, Log, Handler, Functions
 
 # Try to Parse Topics
 try:
@@ -56,11 +56,11 @@ try:
                 pass
 
         # Control for WeatherStat Payloads
-        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(5):
-            try:
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, eval(WeatherStat_Payload_Path))
-            except:
-                pass
+#        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(5):
+#            try:
+#                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, eval(WeatherStat_Payload_Path))
+#            except:
+#                pass
 
         # Control for Water Payloads
         for Water_Payload_Name, Water_Payload_Path in Type_List(6):
@@ -82,8 +82,35 @@ try:
 
 
 
-        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(1):
-            Log.Terminal_Log("INFO", f"Type_ID : {Type_ID} - Variable : {Variable} - Description : {Description} - Unit : {Unit} - Segment_ID : {Segment_ID}")
+
+
+
+
+
+
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(5):
+
+            # Set Data Pack
+            Measurement = Definitions.Measurement_Class(
+                type_id=Type_ID, 
+                variable=Variable, 
+                path=f"Message.{Variable.Variable}",
+                value=eval(f"Message.{Variable.Variable}"),
+                description=Description, 
+                unit=Unit, 
+                segment_id=Segment_ID,
+                stream_id=RAW_Headers.Stream_ID,
+                device_time=Device_Time
+            )
+
+            # Record Payload
+            Functions.Measurement_Recorder(Measurement)
+
+
+
+
+
+
 
 
 

@@ -341,3 +341,43 @@ def Get_Last_Connection(Device_ID: str):
     # Return Stream_ID
     return Last_Connection
 
+
+
+
+
+
+
+
+# Measurement Recorder
+def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
+
+    # Control for Parameter
+    if Measurement_Pack.Value is not None:
+
+        # Define DB
+        with Database.DB_Session_Scope() as DB_Measurement:
+
+                # Create New Payload Measurement
+                New_Measurement = Models.Payload(
+                    Stream_ID = Measurement_Pack.Stream_ID,
+                    Type_ID = Measurement_Pack.Type_ID,
+                    Value = Measurement_Pack.Value,
+                    Create_Time = Measurement_Pack.Device_Time
+                )
+
+                # Add Record to DataBase
+                DB_Measurement.add(New_Measurement)
+
+                # Refresh DataBase
+                DB_Measurement.refresh(New_Measurement)
+
+        # Set Log Message
+        Message = f"[{Measurement_Pack.Variable:^8}] - {round(Measurement_Pack.Value, 5):^7} {Measurement_Pack.Unit}"
+
+        # Log Message
+        Log.Terminal_Log("INFO", Message = Message)
+
+
+
+
+

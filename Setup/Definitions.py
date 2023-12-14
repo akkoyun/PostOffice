@@ -195,7 +195,7 @@ def Variable_List(Segment: int):
         if Segment == 1:
 
             # Define Formatted Data
-            Formatted_Data = [(Variable.Type_ID, f"Message.Power.{Variable.Variable}", Variable.Description, Variable.Unit, Variable.Segment_ID) for Variable in Data_Type_Query]
+            Formatted_Data = [(Variable.Type_ID, Variable.Variable, Variable.Description, Variable.Unit, Variable.Segment_ID) for Variable in Data_Type_Query]
 
 
 
@@ -218,7 +218,22 @@ def Variable_List(Segment: int):
     # End Function
     return Formatted_Data
 
+# Measurement Class Definition
+class Measurement_Class:
 
+    # Define Measurement
+    def __init__(self, type_id = None, variable = None, path = None, value = None, description = None, unit = None, segment_id = None, stream_id = None, device_time = None):
+        
+        # Get Variables
+        self.Type_ID = type_id
+        self.Variable = variable
+        self.Path = path
+        self.Value = value
+        self.Description = description
+        self.Unit = unit
+        self.Segment_ID = segment_id
+        self.Stream_ID = stream_id
+        self.Device_Time = device_time
 
 
 
