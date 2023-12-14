@@ -171,41 +171,44 @@ class Kafka_Header:
         return new_header
 
 # Get Variable List
-def Variable_List(Segment_ID: int):
+def Variable_List(Segment: int):
 
     # Define DB
-    DB_Variable = Database.SessionLocal()
+    DB_Module = Database.SessionLocal()
 
-    # Try to Query Data Types for Segment
+    # Define Formatted Data
+    # 0 - Unknown
+    # 1 - Device
+    # 2 - Power
+    # 3 - GSM
+    # 4 - Location
+    # 5 - Environment
+    # 6 - Water
+    # 7 - Energy
+
     try:
 
-        # Define Formatted Data
-        # 0 - Unknown
-        # 1 - Device
-        # 2 - Power
-        # 3 - GSM
-        # 4 - Location
-        # 5 - Environment
-        # 6 - Water
-        # 7 - Energy
+        # Query all data types
+        Data_Type_Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment).all()
 
-        # Query all Data Types for Segment
-        Variable_Query = DB_Variable.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment_ID).all()
+        # Control for Parameter Type
+        if Segment == 1: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
 
-        # 1 - Device Segment
-        if Segment_ID == 1:
+        elif Segment == 2: Formatted_Data = [(data_type.Variable, f"Message.Power.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 3: Formatted_Data = [(data_type.Variable, f"Message.IoT.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 4: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 5: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 6: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        elif Segment == 7: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
 
-            # Set Variable List
-            Variable_List = [Variable(Variable.Type_ID, Variable.Description, f"Message.{Variable.Variable}", Variable.Unit, Variable.Segment_ID) for Variable in Variable_Query]
-            
-            # Return Variable List
-            return Variable_List
+    finally:
+        
+        # Close Database
+        DB_Module.close()
 
-    # Exception
-    except Exception as e:
+    # End Function
+    return Formatted_Data
 
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Error - {e}")
 
 
 
