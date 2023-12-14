@@ -4,7 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Definitions
-from Functions import Kafka, Log, Handler
+from Functions import Kafka, Log, Handler, Functions
 from Setup.Definitions import Type_List
 
 # Try to Parse Topics
@@ -31,27 +31,55 @@ try:
         # Decode Message
         Message = Kafka.Decode_Device_Message(RAW_Message)
 
-        # Define Formatted Data
-        # 0 - Unknown
-        # 1 - Device
-        # 2 - Power
-        # 3 - GSM
-        # 4 - Location
-        # 5 - Environment
-        # 6 - Water
-        # 7 - Energy
+        # 2 - Control for Power Variables
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(2):
 
-        # Control for Battery Parameters
-        for Battery_Parameter_Name, Battery_Parameter_Path in Type_List(2):
+            # Try to Record
             try:
-                Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, Battery_Parameter_Name, eval(Battery_Parameter_Path))
+
+                # Set Data Pack
+                Measurement = Definitions.Measurement_Class(
+                    type_id=Type_ID, 
+                    variable=Variable, 
+                    path=f"Message.Power.{Variable}",
+                    value=eval(f"Message.Power.{Variable}"),
+                    description=Description, 
+                    unit=Unit, 
+                    segment_id=Segment_ID,
+                    stream_id=RAW_Headers.Stream_ID,
+                    device_time=Device_Time
+                )
+
+                # Record Payload
+                Functions.Parameter_Recorder(Measurement)
+
+            # Handle Errors
             except:
                 pass
 
-        # Control for GSM Parameters
-        for GSM_Parameter_Name, GSM_Parameter_Path in Type_List(3):
+        # 3 - Control for IoT Variables
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(3):
+
+            # Try to Record
             try:
-                Handler.Parameter_Recorder(RAW_Headers.Stream_ID, Device_Time, GSM_Parameter_Name, eval(GSM_Parameter_Path))
+
+                # Set Data Pack
+                Measurement = Definitions.Measurement_Class(
+                    type_id=Type_ID, 
+                    variable=Variable, 
+                    path=f"Message.IoT.{Variable}",
+                    value=eval(f"Message.IoT.{Variable}"),
+                    description=Description, 
+                    unit=Unit, 
+                    segment_id=Segment_ID,
+                    stream_id=RAW_Headers.Stream_ID,
+                    device_time=Device_Time
+                )
+
+                # Record Payload
+                Functions.Parameter_Recorder(Measurement)
+
+            # Handle Errors
             except:
                 pass
 
