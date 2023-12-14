@@ -22,10 +22,37 @@ async def on_ready():
     Log.Terminal_Log("INFO", f'Login as: {Discord_Client.user}')
 
     # Process Kafka Messages
-    await Discord_Client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="PostOffice"))
+#    await Discord_Client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="PostOffice"))
 
     # Process Kafka Messages
-    asyncio.create_task(Parse_Message())
+#    asyncio.create_task(Parse_Message())
+
+
+@Discord_Client.event
+async def on_message(message):
+
+    Log.Terminal_Log("INFO", f"Message: {message.content}")
+
+    # Log Message
+    if message.author == Discord_Client.user:
+        return
+ 
+    if message.content.startswith('hi'):
+        await message.channel.send('Hello!')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Mesaj gönderme fonksiyonu
 async def Send_Discord_Message(channel_id, message):
@@ -43,18 +70,6 @@ async def Send_Discord_Message(channel_id, message):
 
 
 
-
-@Discord_Client.event
-async def on_message(message):
-
-    Log.Terminal_Log("INFO", f"Message: {message.content}")
-
-    # Log Message
-#    if message.author == Discord_Client.user:
-#        return
- 
-    if message.content.startswith('hi'):
-        await message.channel.send('Hello!')
 
 
 
