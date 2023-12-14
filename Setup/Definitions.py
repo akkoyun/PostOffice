@@ -170,58 +170,42 @@ class Kafka_Header:
         # Return New Header
         return new_header
 
-# Define Variable Class
-class Variable:
+# Get Variable List
+def Variable_List(self):
 
-    # Define Variable
-    def __init__(self, type_id = None, description = None, variable = None, unit = None, segment_id = None):
-        
-        # Get Variables
-        self.Type_ID = type_id
-        self.Description = description
-        self.Variable = variable
-        self.Unit = unit
-        self.Segment_ID = segment_id
+    # Define DB
+    with Database.DB_Session_Scope() as DB_Variable:
 
-    # Get Variable List
-    def List(self):
+        # Try to Query Data Types for Segment
+        try:
 
-        # Define DB
-        with Database.DB_Session_Scope() as DB_Variable:
+            # Define Formatted Data
+            # 0 - Unknown
+            # 1 - Device
+            # 2 - Power
+            # 3 - GSM
+            # 4 - Location
+            # 5 - Environment
+            # 6 - Water
+            # 7 - Energy
 
-            # Try to Query Data Types for Segment
-            try:
+            # Query all Data Types for Segment
+            Variable_Query = DB_Variable.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == self.Segment_ID).all()
 
-                # Define Formatted Data
-                # 0 - Unknown
-                # 1 - Device
-                # 2 - Power
-                # 3 - GSM
-                # 4 - Location
-                # 5 - Environment
-                # 6 - Water
-                # 7 - Energy
+            # 1 - Device Segment
+            if self.Segment_ID == 1:
 
-                # Query all Data Types for Segment
-                Variable_Query = DB_Variable.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == self.Segment_ID).all()
+                # Set Variable List
+                Variable_List = [Variable(Variable.Type_ID, Variable.Description, f"Message.{Variable.Variable}", Variable.Unit, Variable.Segment_ID) for Variable in Variable_Query]
+                
+                # Return Variable List
+                return Variable_List
 
-                # 1 - Device Segment
-                if self.Segment_ID == 1:
+        # Exception
+        except Exception as e:
 
-                    # Set Variable List
-                    Variable_List = [Variable(Variable.Type_ID, Variable.Description, f"Message.{Variable.Variable}", Variable.Unit, Variable.Segment_ID) for Variable in Variable_Query]
-                    
-                    # Return Variable List
-                    return Variable_List
-
-
-
-
-            # Exception
-            except Exception as e:
-
-                # Log Message
-                Log.Terminal_Log("ERROR", f"Error - {e}")
+            # Log Message
+            Log.Terminal_Log("ERROR", f"Error - {e}")
 
 
 

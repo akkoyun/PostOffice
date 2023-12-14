@@ -80,9 +80,8 @@ try:
 
 
 
-        Variable_List = Definitions.Variable(segment_id=1)
-        Variable_List_1 = Variable_List.List()
-        Log.Terminal_Log("INFO", f"List : {Variable_List_1}")
+        Variable_List = Definitions.Variable_List(1)
+        Log.Terminal_Log("INFO", f"List : {Variable_List}")
 
 
 
