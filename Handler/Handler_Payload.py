@@ -76,6 +76,17 @@ try:
             except:
                 pass
 
+
+
+
+
+        Variable_List = Definitions.Variable(segment_id=1)
+        Variable_List_1 = Variable_List.List()
+        Log.Terminal_Log("INFO", f"{Variable_List_1}")
+
+
+
+
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
 

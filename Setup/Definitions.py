@@ -4,6 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Database, Models
+from Functions import Log
 
 # Define Device
 class Device:
@@ -123,6 +124,7 @@ def Type_List(Segment: int):
 
         # Control for Parameter Type
         if Segment == 1: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+
         elif Segment == 2: Formatted_Data = [(data_type.Variable, f"Message.Power.{data_type.Variable}") for data_type in Data_Type_Query]
         elif Segment == 3: Formatted_Data = [(data_type.Variable, f"Message.IoT.{data_type.Variable}") for data_type in Data_Type_Query]
         elif Segment == 4: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
@@ -167,3 +169,61 @@ class Kafka_Header:
 
         # Return New Header
         return new_header
+
+# Define Variable Class
+class Variable:
+
+    # Define Variable
+    def __init__(self, type_id = None, description = None, variable = None, unit = None, segment_id = None):
+        
+        # Get Variables
+        self.Type_ID = type_id
+        self.Description = description
+        self.Variable = variable
+        self.Unit = unit
+        self.Segment_ID = segment_id
+
+    # Get Variable List
+    def List(self):
+
+        # Define DB
+        with Database.DB_Session_Scope() as DB_Variable:
+
+            # Try to Query Data Types for Segment
+            try:
+
+                # Define Formatted Data
+                # 0 - Unknown
+                # 1 - Device
+                # 2 - Power
+                # 3 - GSM
+                # 4 - Location
+                # 5 - Environment
+                # 6 - Water
+                # 7 - Energy
+
+                # Query all Data Types for Segment
+                Variable_Query = DB_Variable.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == self.Segment_ID).all()
+
+                # 1 - Device Segment
+                if self.Segment_ID == 1:
+
+                    # Set Variable List
+                    Variable_List = [Variable(Variable.Type_ID, Variable.Description, f"Message.{Variable.Variable}", Variable.Unit, Variable.Segment_ID) for Variable in Variable_Query]
+                    
+                    # Return Variable List
+                    return Variable_List
+
+
+
+
+            # Exception
+            except Exception as e:
+
+                # Log Message
+                Log.Terminal_Log("ERROR", f"Error - {e}")
+
+
+
+
+
