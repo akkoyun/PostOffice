@@ -371,6 +371,9 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
                 # Commit DataBase
                 DB_Measurement.commit()
 
+                # Refresh DataBase
+                DB_Measurement.refresh(New_Measurement)
+
         # Set Log Message
         Message = f"[{Measurement_Pack.Variable:^8}] - {round(Measurement_Pack.Value, 5):^7} {Measurement_Pack.Unit} [{New_Measurement.Measurement_ID}]"
 
