@@ -381,6 +381,7 @@ def Measurement_Recorder(Measurement_Pack: Definitions.Measurement_Class):
         Log.Terminal_Log("INFO", Message = Message)
 
     Log.Terminal_Log("INFO", f"-")
+    Log.Terminal_Log("INFO", f"{Measurement_Pack}")
 
 
 
