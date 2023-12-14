@@ -47,6 +47,8 @@ async def Send_Discord_Message(channel_id, message):
 @Discord_Client.event
 async def on_message(message):
 
+    Log.Terminal_Log("INFO", f"Message: {message.content}")
+
     # Log Message
     if message.author == Discord_Client.user:
         return
