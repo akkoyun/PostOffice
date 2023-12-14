@@ -171,7 +171,7 @@ class Kafka_Header:
         return new_header
 
 # Get Variable List
-def Variable_List(self):
+def Variable_List(Segment_ID: int):
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Variable:
@@ -190,10 +190,10 @@ def Variable_List(self):
             # 7 - Energy
 
             # Query all Data Types for Segment
-            Variable_Query = DB_Variable.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == self.Segment_ID).all()
+            Variable_Query = DB_Variable.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment_ID).all()
 
             # 1 - Device Segment
-            if self.Segment_ID == 1:
+            if Segment_ID == 1:
 
                 # Set Variable List
                 Variable_List = [Variable(Variable.Type_ID, Variable.Description, f"Message.{Variable.Variable}", Variable.Unit, Variable.Segment_ID) for Variable in Variable_Query]
