@@ -191,24 +191,8 @@ def Variable_List(Segment: int):
         # Query all data types
         Data_Type_Query = DB_Module.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment).all()
 
-        # 1 - Device Segment
-        if Segment == 5:
-
-            # Define Formatted Data
-            Formatted_Data = [(Variable.Type_ID, Variable.Variable, Variable.Description, Variable.Unit, Variable.Segment_ID) for Variable in Data_Type_Query]
-
-
-
-
-
-
-
-        elif Segment == 2: Formatted_Data = [(data_type.Variable, f"Message.Power.{data_type.Variable}") for data_type in Data_Type_Query]
-        elif Segment == 3: Formatted_Data = [(data_type.Variable, f"Message.IoT.{data_type.Variable}") for data_type in Data_Type_Query]
-        elif Segment == 4: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
-#        elif Segment == 5: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
-        elif Segment == 6: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
-        elif Segment == 7: Formatted_Data = [(data_type.Variable, f"Message.{data_type.Variable}") for data_type in Data_Type_Query]
+        # Get Data Type List
+        Formatted_Data = [(Variable.Type_ID, Variable.Variable, Variable.Description, Variable.Unit, Variable.Segment_ID) for Variable in Data_Type_Query]
 
     finally:
         

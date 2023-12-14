@@ -31,63 +31,59 @@ try:
         # Decode Message
         Message = Kafka.Decode_Payload_Message(RAW_Message)
 
-        # Define Formatted Data
-        # 0 - Unknown
-        # 1 - Device
-        # 2 - Power
-        # 3 - GSM
-        # 4 - Location
-        # 5 - Environment
-        # 6 - Water
-        # 7 - Energy
+        # 1 - Control for Device Variables
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(1):
 
-        # Control for Device Parameters
-        for Device_Parameter_Name, Device_Parameter_Path in Type_List(1):
+            # Try to Record
             try:
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Device_Parameter_Name, eval(Device_Parameter_Path))
+
+                # Set Data Pack
+                Measurement = Definitions.Measurement_Class(
+                    type_id=Type_ID, 
+                    variable=Variable, 
+                    path=f"Message.{Variable}",
+                    value=eval(f"Message.{Variable}"),
+                    description=Description, 
+                    unit=Unit, 
+                    segment_id=Segment_ID,
+                    stream_id=RAW_Headers.Stream_ID,
+                    device_time=Device_Time
+                )
+
+                # Record Payload
+                Functions.Measurement_Recorder(Measurement)
+
+            # Handle Errors
             except:
                 pass
 
-        # Control for Location Parameters
-        for Location_Parameter_Name, Location_Parameter_Path in Type_List(4):
+        # 4 - Control for Location Variables
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(4):
+
+            # Try to Record
             try:
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Location_Parameter_Name, eval(Location_Parameter_Path))
+
+                # Set Data Pack
+                Measurement = Definitions.Measurement_Class(
+                    type_id=Type_ID, 
+                    variable=Variable, 
+                    path=f"Message.{Variable}",
+                    value=eval(f"Message.{Variable}"),
+                    description=Description, 
+                    unit=Unit, 
+                    segment_id=Segment_ID,
+                    stream_id=RAW_Headers.Stream_ID,
+                    device_time=Device_Time
+                )
+
+                # Record Payload
+                Functions.Measurement_Recorder(Measurement)
+
+            # Handle Errors
             except:
                 pass
 
-        # Control for WeatherStat Payloads
-#        for WeatherStat_Payload_Name, WeatherStat_Payload_Path in Type_List(5):
-#            try:
-#                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, WeatherStat_Payload_Name, eval(WeatherStat_Payload_Path))
-#            except:
-#                pass
-
-        # Control for Water Payloads
-        for Water_Payload_Name, Water_Payload_Path in Type_List(6):
-            try:
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, Water_Payload_Name, eval(Water_Payload_Path))
-            except: 
-                pass
-
-        # Control for PowerStat Payloads
-        for PowerStat_Payload_Name, PowerStat_Payload_Path in Type_List(7):
-            try:
-                Handler.Payload_Recorder(RAW_Headers.Stream_ID, Device_Time, PowerStat_Payload_Name, eval(PowerStat_Payload_Path))
-            except:
-                pass
-
-
-
-
-
-
-
-
-
-
-
-
-        # Control for Environment Variables
+        # 5 - Control for Environment Variables
         for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(5):
 
             # Try to Record
@@ -113,18 +109,57 @@ try:
             except:
                 pass
 
+        # 6 - Control for Water Variables
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(6):
 
+            # Try to Record
+            try:
 
+                # Set Data Pack
+                Measurement = Definitions.Measurement_Class(
+                    type_id=Type_ID, 
+                    variable=Variable, 
+                    path=f"Message.{Variable}",
+                    value=eval(f"Message.{Variable}"),
+                    description=Description, 
+                    unit=Unit, 
+                    segment_id=Segment_ID,
+                    stream_id=RAW_Headers.Stream_ID,
+                    device_time=Device_Time
+                )
 
+                # Record Payload
+                Functions.Measurement_Recorder(Measurement)
 
+            # Handle Errors
+            except:
+                pass
 
+        # 7 - Control for Energy Variables
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(7):
 
+            # Try to Record
+            try:
 
+                # Set Data Pack
+                Measurement = Definitions.Measurement_Class(
+                    type_id=Type_ID, 
+                    variable=Variable, 
+                    path=f"Message.{Variable}",
+                    value=eval(f"Message.{Variable}"),
+                    description=Description, 
+                    unit=Unit, 
+                    segment_id=Segment_ID,
+                    stream_id=RAW_Headers.Stream_ID,
+                    device_time=Device_Time
+                )
 
+                # Record Payload
+                Functions.Measurement_Recorder(Measurement)
 
-
-
-
+            # Handle Errors
+            except:
+                pass
 
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
