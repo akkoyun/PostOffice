@@ -66,14 +66,6 @@ async def Send_Discord_Message(channel_id, message):
     else:
         print("Kanal bulunamadı.")
 
-
-
-
-
-
-
-
-
 # Try to Parse Topics
 async def Parse_Message():
 
@@ -197,6 +189,10 @@ async def Parse_Message():
 
         # Log Message
         Log.Terminal_Log("ERROR", f"Handler Error: {e}")
+
+
+# Try to Parse Topics
+Parse_Message()
 
 # Run Discord Bot
 Discord_Client.run(APP_Settings.DISCORD_TOKEN)
