@@ -25,8 +25,7 @@ async def on_ready():
 #    await Discord_Client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="PostOffice"))
 
     # Process Kafka Messages
-    await Parse_Message()
-#    asyncio.create_task(Parse_Message())
+    asyncio.create_task(Parse_Message())
 
 
 @Discord_Client.event
