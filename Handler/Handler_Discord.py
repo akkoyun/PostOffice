@@ -31,11 +31,12 @@ async def on_ready():
 @Discord_Client.event
 async def on_message(message):
 
-    Log.Terminal_Log("INFO", f"Message: {message.content}")
-
     # Log Message
     if message.author == Discord_Client.user:
         return
+
+    # Log Message
+    Log.Terminal_Log("INFO", f"Message: {message.content}")
 
     # Command Sample
     if message.content.startswith('hi'):
@@ -72,7 +73,7 @@ async def Send_Discord_Message(channel_id, message):
 async def Parse_Message():
 
     # Parse Topics
-    for RAW_Message in Kafka.Discord_Consumer:
+    async for RAW_Message in Kafka.Discord_Consumer:
 
         # Handle Headers
         RAW_Headers = Definitions.Handler_Headers(
