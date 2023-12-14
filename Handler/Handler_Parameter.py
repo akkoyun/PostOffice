@@ -4,8 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Definitions
-from Functions import Kafka, Log, Handler, Functions
-from Setup.Definitions import Type_List
+from Functions import Kafka, Log, Functions
 
 # Try to Parse Topics
 try:
@@ -87,7 +86,7 @@ try:
         Kafka.Parameter_Consumer.commit()
 
         # Log Message
-        Log.Terminal_Log("INFO", f"******************************")
+        Log.Terminal_Log("INFO", f"************************************************************")
 
 # Handle Errors
 except Exception as e:

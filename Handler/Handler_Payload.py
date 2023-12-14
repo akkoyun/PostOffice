@@ -4,8 +4,7 @@ sys.path.append('/root/PostOffice/')
 
 # Library Includes
 from Setup import Definitions
-from Setup.Definitions import Type_List
-from Functions import Kafka, Log, Handler, Functions
+from Functions import Kafka, Log, Functions
 
 # Try to Parse Topics
 try:
