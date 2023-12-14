@@ -49,7 +49,7 @@ class Headers:
 class Handler_Headers:
 
     # Define Incomming Headers
-    def __init__(self, command, device_id, device_time, device_ip, size, stream_id):
+    def __init__(self, command, device_id, device_time, device_ip, size, stream_id, status_id, project_id):
         
         # Get Incomming Headers
         self.Command = command
@@ -58,6 +58,8 @@ class Handler_Headers:
         self.Device_IP = device_ip
         self.Size = size
         self.Stream_ID = stream_id
+        self.Status_ID = status_id
+        self.Project_ID = project_id
 
 # Define Measurement Type
 class Measurement:

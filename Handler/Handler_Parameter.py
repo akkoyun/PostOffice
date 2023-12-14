@@ -20,7 +20,9 @@ try:
             RAW_Message.headers[2][1].decode('ASCII'),
             RAW_Message.headers[3][1].decode('ASCII'),
             RAW_Message.headers[4][1].decode('ASCII'),
-            RAW_Message.headers[5][1].decode('ASCII')
+            RAW_Message.headers[5][1].decode('ASCII'),
+            RAW_Message.headers[6][1].decode('ASCII'),
+            RAW_Message.headers[7][1].decode('ASCII'),
         )
 
         # Convert Device Time (str) to datetime

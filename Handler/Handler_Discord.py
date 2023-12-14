@@ -56,7 +56,9 @@ async def Parse_Message():
                 RAW_Message.headers[2][1].decode('ASCII'),
                 RAW_Message.headers[3][1].decode('ASCII'),
                 RAW_Message.headers[4][1].decode('ASCII'),
-                RAW_Message.headers[5][1].decode('ASCII')
+                RAW_Message.headers[5][1].decode('ASCII'),
+                RAW_Message.headers[6][1].decode('ASCII'),
+                RAW_Message.headers[7][1].decode('ASCII'),
             )
 
             # Convert Device Time (str) to datetime
@@ -91,6 +93,7 @@ async def Parse_Message():
 
             # Set Message
             Discord_Message = f"```ansi\r\nDevice ID: [2;32m{RAW_Headers.Device_ID}[0m\r\n"
+            Discord_Message += f"Device Type: [2;35m{RAW_Headers.Status_ID} / {RAW_Headers.Project_ID}[0m\r\n"
             Discord_Message += f"Device Description: [2;32m{Device_Name}[0m\r\n"
             Discord_Message += f"Device Time: [2;34m{Device_Time}[0m\r\n"
             if Message.AT is not None: Discord_Message += f"Hava Sıcaklığı: [2;35m{Message.AT}[0m[2;33m[0m °C\r\n"

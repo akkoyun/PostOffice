@@ -70,12 +70,14 @@ try:
 
         # Set headers
         New_Header = [
-           ("Command", bytes(Header.Command, 'utf-8')), 
-           ("Device_ID", bytes(Header.Device_ID, 'utf-8')),
-           ("Device_Time", bytes(Header.Device_Time, 'utf-8')), 
-           ("Device_IP", bytes(Header.Device_IP, 'utf-8')),
-           ("Size", bytes(Header.Size, 'utf-8')),
-           ("Stream_ID", bytes(str(Stream_ID), 'utf-8'))
+            ("Command", bytes(Header.Command, 'utf-8')), 
+            ("Device_ID", bytes(Header.Device_ID, 'utf-8')),
+            ("Device_Time", bytes(Header.Device_Time, 'utf-8')), 
+            ("Device_IP", bytes(Header.Device_IP, 'utf-8')),
+            ("Size", bytes(Header.Size, 'utf-8')),
+            ("Stream_ID", bytes(str(Stream_ID), 'utf-8')),
+            ("Status_ID", bytes(str(Device.Status_ID), 'utf-8')),
+            ("Project_ID", bytes(str(Device.Project_ID), 'utf-8'))
        ]
 
         # Send to Topic
