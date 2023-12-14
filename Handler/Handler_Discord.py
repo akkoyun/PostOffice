@@ -73,7 +73,7 @@ async def Send_Discord_Message(channel_id, message):
 async def Parse_Message():
 
     # Parse Topics
-    async for RAW_Message in Kafka.Discord_Consumer:
+    for RAW_Message in Kafka.Discord_Consumer:
 
         # Handle Headers
         RAW_Headers = Definitions.Handler_Headers(
