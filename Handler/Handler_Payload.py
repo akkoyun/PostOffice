@@ -80,8 +80,13 @@ try:
 
 
 
-        Variable_List = Definitions.Variable_List(1)
-        Log.Terminal_Log("INFO", f"List : {Variable_List}")
+
+
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(1):
+            Log.Terminal_Log("INFO", f"Type_ID : {Type_ID} - Variable : {Variable} - Description : {Description} - Unit : {Unit} - Segment_ID : {Segment_ID}")
+
+
+
 
 
 
