@@ -416,7 +416,7 @@ def Parameter_Recorder(Parameter_Pack: Definitions.Measurement_Class):
             DB_Parameter.refresh(New_Parameter)
 
             # Get Parameter_ID
-            Parameter_ID = New_Parameter.Measurement_ID
+            Parameter_ID = New_Parameter.Parameter_ID
 
         # Set Log Message
         Message = f"[{Parameter_Pack.Variable:^10}] - {round(Parameter_Pack.Value, 5):^12} {Parameter_Pack.Unit:^8} [{Parameter_Pack.Stream_ID:^8} / {Parameter_ID:^8}]"
