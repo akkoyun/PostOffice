@@ -25,7 +25,7 @@ async def on_ready():
 #    await Discord_Client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="PostOffice"))
 
     # Process Kafka Messages
-#    asyncio.create_task(Parse_Message())
+    asyncio.create_task(Parse_Message())
 
 
 @Discord_Client.event
@@ -36,10 +36,12 @@ async def on_message(message):
     # Log Message
     if message.author == Discord_Client.user:
         return
- 
+
+    # Command Sample
     if message.content.startswith('hi'):
         await message.channel.send('Hello!')
 
+        
 
 
 
@@ -184,17 +186,13 @@ async def Parse_Message():
         # Log Message
         Log.Terminal_Log("INFO", f"******************************")
 
-# Loop Function
-async def Loop():
-
-    # Try to Parse Topics
-    await Parse_Message()
 
 
 
 
 
-Loop()
+
+
 
 # Run Discord Bot
 Discord_Client.run(APP_Settings.DISCORD_TOKEN)
