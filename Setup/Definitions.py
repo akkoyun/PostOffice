@@ -174,38 +174,38 @@ class Kafka_Header:
 def Variable_List(Segment_ID: int):
 
     # Define DB
-    with Database.DB_Session_Scope() as DB_Variable:
+    DB_Variable = Database.SessionLocal()
 
-        # Try to Query Data Types for Segment
-        try:
+    # Try to Query Data Types for Segment
+    try:
 
-            # Define Formatted Data
-            # 0 - Unknown
-            # 1 - Device
-            # 2 - Power
-            # 3 - GSM
-            # 4 - Location
-            # 5 - Environment
-            # 6 - Water
-            # 7 - Energy
+        # Define Formatted Data
+        # 0 - Unknown
+        # 1 - Device
+        # 2 - Power
+        # 3 - GSM
+        # 4 - Location
+        # 5 - Environment
+        # 6 - Water
+        # 7 - Energy
 
-            # Query all Data Types for Segment
-            Variable_Query = DB_Variable.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment_ID).all()
+        # Query all Data Types for Segment
+        Variable_Query = DB_Variable.query(Models.Data_Type).filter(Models.Data_Type.Segment_ID == Segment_ID).all()
 
-            # 1 - Device Segment
-            if Segment_ID == 1:
+        # 1 - Device Segment
+        if Segment_ID == 1:
 
-                # Set Variable List
-                Variable_List = [Variable(Variable.Type_ID, Variable.Description, f"Message.{Variable.Variable}", Variable.Unit, Variable.Segment_ID) for Variable in Variable_Query]
-                
-                # Return Variable List
-                return Variable_List
+            # Set Variable List
+            Variable_List = [Variable(Variable.Type_ID, Variable.Description, f"Message.{Variable.Variable}", Variable.Unit, Variable.Segment_ID) for Variable in Variable_Query]
+            
+            # Return Variable List
+            return Variable_List
 
-        # Exception
-        except Exception as e:
+    # Exception
+    except Exception as e:
 
-            # Log Message
-            Log.Terminal_Log("ERROR", f"Error - {e}")
+        # Log Message
+        Log.Terminal_Log("ERROR", f"Error - {e}")
 
 
 
