@@ -94,6 +94,10 @@ async def Parse_Message():
             # Set Message
             Discord_Message = f"```ansi\r\nDevice ID: [2;32m{RAW_Headers.Device_ID}[0m\r\n"
 
+            # Declare Status and Project
+            Status = "Unknown"
+            Project = "Unknown"
+
             # Handle Status and Project
             if RAW_Headers.Status_ID == "1": Status = "Test Device"
             elif RAW_Headers.Status_ID == "2": Status = "Demo Device"
