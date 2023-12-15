@@ -167,8 +167,34 @@ def Firmware(request: Request, Version_ID: int):
 	# Version ID is Integer	
 	else:
 
-		# Log Message
-		Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host} [Version ID: {Version_ID}]")
+		# Define DB
+		with Database.DB_Session_Scope() as DB_Firmware:
 
-		# Send Success
-		return {"Status": Version_ID}
+			# Query Firmware
+			Firmware = DB_Firmware.query(Models.Firmware).filter(Models.Firmware.Version_ID == Version_ID).first()
+
+			# Control for Firmware
+			if Firmware is None:
+
+				# Log Message
+				Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [Not Found]")
+
+				# Send Error
+				return JSONResponse(
+					status_code=status.HTTP_404_NOT_FOUND, 
+					content={"Event": status.HTTP_404_NOT_FOUND, "Message": "Version ID Not Found"}
+				)
+			
+			# Firmware Found
+			else:
+
+				# Log Message
+				Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host} [Version ID: {Version_ID}]")
+
+				# Send Success
+				return {"Status": Firmware.Firmware}
+
+
+
+
+
