@@ -148,12 +148,27 @@ def Info(request: Request):
 	}
 
 # Firmware Get Method
-@PostOffice.get("/Firmware", status_code=status.HTTP_200_OK)
-@PostOffice.get("/Firmware/", status_code=status.HTTP_200_OK)
-def Firmware(request: Request):
+@PostOffice.get("/Firmware/{Version_ID}", status_code=status.HTTP_200_OK)
+@PostOffice.get("/Firmware/{Version_ID}/", status_code=status.HTTP_200_OK)
+def Firmware(request: Request, Version_ID: int):
 
-	# Log Message
-	Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host}")
+	# Control for Version ID
+	if not isinstance(Version_ID, int):
 
-	# Send Success
-	return {"Status": "OK"}
+		# Log Message
+		Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [Bad Request]")
+
+		# Send Error
+		return JSONResponse(
+			status_code=status.HTTP_400_BAD_REQUEST, 
+			content={"Event": status.HTTP_400_BAD_REQUEST, "Message": "Version ID is not Integer"}
+		)
+
+	# Version ID is Integer	
+	else:
+
+		# Log Message
+		Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host} [Version ID: {Version_ID}]")
+
+		# Send Success
+		return {"Status": Version_ID}
