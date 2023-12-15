@@ -4,7 +4,7 @@ from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from datetime import datetime
 import pytz
 
@@ -188,13 +188,13 @@ def Firmware(request: Request, Version_ID: int):
 			# Firmware Found
 			else:
 
-				# Log Message
-				Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host} [Version ID: {Version_ID}]")
+				# /root/PostOffice/Docs/Firmware
 
-				# Send Success
-				return {"Status": Firmware.File_Name}
+				# Set File Path
+				Firmware_File_Path = f"/root/PostOffice/Docs/Firmware"
 
-
+				# Return File
+				return FileResponse(path=Firmware_File_Path, filename=Firmware.File_Name, media_type='application/octet-stream')
 
 
 
