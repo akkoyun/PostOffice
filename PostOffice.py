@@ -192,7 +192,7 @@ def Firmware(request: Request, Version_ID: int):
 				Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host} [Version ID: {Version_ID}]")
 
 				# Send Success
-				return {"Status": Firmware.Firmware}
+				return {"Status": Firmware.File_Name}
 
 
 
