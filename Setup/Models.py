@@ -213,7 +213,7 @@ class Calibration(Base):
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Firmware Database Model
-class Calibration(Base):
+class Firmware(Base):
 
 	# Define Table Name
 	__tablename__ = "Firmware"
