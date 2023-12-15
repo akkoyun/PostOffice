@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Import Packages
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, JSON, LargeBinary
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
 from Setup.Database import Base, DB_Engine
@@ -210,6 +210,21 @@ class Calibration(Base):
 	Type_ID = Column(Integer, ForeignKey("Data_Type.Type_ID", ondelete="CASCADE"), nullable=False)
 	Gain = Column(Float, nullable=False, server_default="1")
 	Offset = Column(Float, nullable=False, server_default="0")
+	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+# Firmware Database Model
+class Calibration(Base):
+
+	# Define Table Name
+	__tablename__ = "Firmware"
+
+	# Define Columns
+	Firmware_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Version_ID = Column(Integer, ForeignKey("Version.Version_ID", ondelete="CASCADE"), nullable=False)
+	File_Name = Column(String(), nullable=True)
+	Size = Column(Integer, nullable=True)
+	Title = Column(String(), nullable=True)
+	Description = Column(String(), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # View Models
