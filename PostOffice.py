@@ -191,10 +191,14 @@ def Firmware(request: Request, Version_ID: int):
 				# /root/PostOffice/Docs/Firmware
 
 				# Set File Path
-				Firmware_File_Path = f"/root/PostOffice/Docs/Firmware"
+				Firmware_File_Path = f"/root/PostOffice/Docs/Firmware/"
 
 				# Return File
-				return FileResponse(path=Firmware_File_Path, filename=Firmware.File_Name, media_type='application/octet-stream')
+				return FileResponse(
+					path=Firmware_File_Path, 
+					filename=Firmware.File_Name, 
+					media_type='application/octet-stream'
+				)
 
 
 
