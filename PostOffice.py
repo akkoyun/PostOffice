@@ -152,53 +152,35 @@ def Info(request: Request):
 @PostOffice.get("/Firmware/{Version_ID}/", status_code=status.HTTP_200_OK)
 def Firmware(request: Request, Version_ID: int):
 
-	# Control for Version ID
-	if not isinstance(Version_ID, int):
+    # Define DB
+    with Database.DB_Session_Scope() as DB_Firmware:
 
-		# Log Message
-		Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [Bad Request]")
+        # Query Firmware
+        Firmware = DB_Firmware.query(Models.Firmware).filter(Models.Firmware.Version_ID == Version_ID).first()
 
-		# Send Error
-		return JSONResponse(
-			status_code=status.HTTP_400_BAD_REQUEST, 
-			content={"Event": status.HTTP_400_BAD_REQUEST, "Message": "Version ID is not Integer"}
-		)
+        # Control for Firmware
+        if Firmware is None:
 
-	# Version ID is Integer	
-	else:
+            # Log Message
+            Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [Not Found]")
 
-		# Define DB
-		with Database.DB_Session_Scope() as DB_Firmware:
+            # Send Error
+            return JSONResponse(
+                status_code=status.HTTP_404_NOT_FOUND, 
+                content={"Event": status.HTTP_404_NOT_FOUND, "Message": "Version ID Not Found"}
+            )
+        
+        # Firmware Found
+        else:
 
-			# Query Firmware
-			Firmware = DB_Firmware.query(Models.Firmware).filter(Models.Firmware.Version_ID == Version_ID).first()
+            # Set File Path
+            Firmware_File_Path = f"/root/PostOffice/Docs/Firmware/{Firmware.File_Name}"
 
-			# Control for Firmware
-			if Firmware is None:
-
-				# Log Message
-				Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [Not Found]")
-
-				# Send Error
-				return JSONResponse(
-					status_code=status.HTTP_404_NOT_FOUND, 
-					content={"Event": status.HTTP_404_NOT_FOUND, "Message": "Version ID Not Found"}
-				)
-			
-			# Firmware Found
-			else:
-
-				# /root/PostOffice/Docs/Firmware
-
-				# Set File Path
-				Firmware_File_Path = f"/root/PostOffice/Docs/Firmware/"
-
-				# Return File
-				return FileResponse(
-					path=Firmware_File_Path, 
-					filename=Firmware.File_Name, 
-					media_type='application/octet-stream'
-				)
-
+            # Return File
+            return FileResponse(
+                path=Firmware_File_Path, 
+                filename=Firmware.File_Name, 
+                media_type='application/octet-stream'
+            )
 
 
