@@ -146,3 +146,14 @@ def Info(request: Request):
 		"Parameter_Count": Parameter_Count,
 		"Payload_Count": Payload_Count
 	}
+
+# Firmware Get Method
+@PostOffice.get("/Firmware", status_code=status.HTTP_200_OK)
+@PostOffice.get("/Firmware/", status_code=status.HTTP_200_OK)
+def Firmware(request: Request):
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host}")
+
+	# Send Success
+	return {"Status": "OK"}
