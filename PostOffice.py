@@ -152,32 +152,38 @@ def Info(request: Request):
 @PostOffice.get("/Firmware/{Version_ID}/", status_code=status.HTTP_200_OK)
 def Firmware(request: Request, Version_ID: int):
 
+	# Set File Path
+	Firmware_File_Path = f"/root/PostOffice/Docs/Firmware/"
+
     # Define DB
-    with Database.DB_Session_Scope() as DB_Firmware:
+	with Database.DB_Session_Scope() as DB_Firmware:
 
-        # Query Firmware
-        Firmware = DB_Firmware.query(Models.Firmware).filter(Models.Firmware.Version_ID == Version_ID).first()
+		# Query Firmware
+		Firmware = DB_Firmware.query(Models.Firmware).filter(Models.Firmware.Version_ID == Version_ID).first()
 
-        # Control for Firmware
-        if Firmware is None:
+		# Control for Firmware
+		if Firmware is None:
 
-            # Log Message
-            Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [Not Found]")
+			# Log Message
+			Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [Not Found]")
 
             # Send Error
-            return JSONResponse(
-                status_code=status.HTTP_404_NOT_FOUND, 
-                content={"Event": status.HTTP_404_NOT_FOUND, "Message": "Version ID Not Found"}
-            )
+			return JSONResponse(
+				status_code=status.HTTP_404_NOT_FOUND, 
+				content={"Event": status.HTTP_404_NOT_FOUND, "Message": "Version ID Not Found"}
+			)
         
-        # Firmware Found
-        else:
+		# Firmware Found
+		else:
 
-            # Set File Path
-            Firmware_File_Path = f"/root/PostOffice/Docs/Firmware/{Firmware.File_Name}"
+			# Log Message
+			Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host} [Ready]")
 
-            # Return File
-            return FileResponse(
+			# Set File Path
+			Firmware_File_Path += f"{Firmware.File_Name}"
+
+			# Return File
+			return FileResponse(
                 path=Firmware_File_Path, 
                 filename=Firmware.File_Name, 
                 media_type='application/octet-stream'
