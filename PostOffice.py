@@ -165,7 +165,7 @@ def Firmware(request: Request, Version_ID: int):
 		if Firmware is None:
 
 			# Log Message
-			Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [Not Found]")
+			Log.Terminal_Log("ERROR", f"New Firmware Request: {request.client.host} [{Version_ID} / Not Found]")
 
             # Send Error
 			return JSONResponse(
@@ -177,7 +177,7 @@ def Firmware(request: Request, Version_ID: int):
 		else:
 
 			# Log Message
-			Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host} [Ready]")
+			Log.Terminal_Log("INFO", f"New Firmware Request: {request.client.host} [{Version_ID} / Ready]")
 
 			# Set File Path
 			Firmware_File_Path += f"{Firmware.File_Name}"
