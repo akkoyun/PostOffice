@@ -80,6 +80,8 @@ async def Parse_Message():
                 Device_Name = "Diyodsuz / izolesiz / Gri Pil"
             elif RAW_Headers.Device_ID == "370000011D157470":
                 Device_Name = "Diyodsuz / izoleli / Gri Pil"
+            elif RAW_Headers.Device_ID == "C50000011D05A970":
+                Device_Name = "PowerStat Test"
             else:
                 Device_Name = "Bilinmeyen"
             
