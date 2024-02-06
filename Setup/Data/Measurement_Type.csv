@@ -2,6 +2,9 @@ Type_ID,Description,Variable,Unit,Segment
 0,Unknown,-,-,0
 1001,PCB Temperature,PCB_T,C,1
 1002,PCB Humidity,PCB_H,%,1
+1010,Status Register,STATUS,-,0
+1011,Publish Register,PUBLISH,-,0
+1012,Stop Register,STOP,-,0
 2011,Battery Instant Voltage,B_IV,V,2
 2012,Battery Average Voltage,B_AV,V,2
 2013,Battery Empty Voltage,B_EV,V,2
@@ -25,6 +28,7 @@ Type_ID,Description,Variable,Unit,Segment
 3003,GSM Cell ID,Cell_ID,-,3
 3004,RSSI,RSSI,dBm,3
 3005,Connection Time,ConnTime,Sec,3
+3006,Connection Type,WDS,-,3
 4001,Latitude,Latitude,Degree,4
 4002,Longitude,Longitude,Degree,4
 4003,Altitude,Altitude,m,4
