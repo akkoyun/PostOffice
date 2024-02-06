@@ -870,6 +870,11 @@ class Payload(CustomBaseModel):
 	RE_G_A: Optional[float] = Field(description="Reactive lagging energy average measurement", example=220.12)
 	RE_G_TOT: Optional[float] = Field(description="Total lagging reactive energy measurement", example=220.12)
 
+	# Register Values
+	STATUS: Optional[int] = Field(description="Device status register value.", example=0)
+	PUBLISH: Optional[int] = Field(description="Device publish register value.", example=0)
+	STOP: Optional[int] = Field(description="Device stop register value.", example=0)
+
 	# RE_G Root Validator
 	@root_validator
 	def Handle_RE_G_Fields(cls, Values):
