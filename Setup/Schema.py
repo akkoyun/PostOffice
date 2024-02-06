@@ -242,6 +242,9 @@ class IoT(CustomBaseModel):
 	# Cell ID
 	Cell_ID: Optional[int] = Field(description="Operator base station cell id.", example=34124, min=0, max=65535)
 
+	# WDS
+	WDS: Optional[int] = Field(description="IoT WDS type.", example=28)
+
 	# Firmware Validator
 	@validator('Firmware', pre=True, always=True)
 	def Version_Validator(cls, Value):
