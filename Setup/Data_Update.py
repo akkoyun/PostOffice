@@ -565,9 +565,9 @@ def Import_Data_Type():
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Data_Type.query(Models.Data_Type).filter(Models.Data_Type.Type_ID.like(str(row['Type_ID']))).first()
+            Query = DB_Data_Type.query(Models.Data_Type).filter(Models.Data_Type.Type_ID.like(int(row['Type_ID']))).first()
             
-            print(row['Type_ID'])
+            Log.Terminal_Log("ERROR", f"{int(row['Type_ID'])}")
             
             # Record Not Found
             if not Query:
