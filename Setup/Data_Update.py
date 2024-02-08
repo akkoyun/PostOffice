@@ -555,13 +555,13 @@ def Import_Data_Type():
         # Exit
         exit()
 
-    Log.Terminal_Log("ERROR", f"{Data_File_Name}")
-
     # Rename Columns
     Data_File.columns = ['Type_ID', 'Description', 'Variable', 'Unit', 'Segment']
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Data_Type:
+
+        Log.Terminal_Log("ERROR", "OK")
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
