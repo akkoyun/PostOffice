@@ -566,8 +566,6 @@ def Import_Data_Type():
 
             # Check for Existing
             Query = DB_Data_Type.query(Models.Data_Type).filter(Models.Data_Type.Type_ID == int(row['Type_ID'])).first()
-
-            Log.Terminal_Log("ERROR", Query)
             
             # Record Not Found
             if not Query:
