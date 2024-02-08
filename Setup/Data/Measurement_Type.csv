@@ -5,7 +5,6 @@ Type_ID,Description,Variable,Unit,Segment
 1010,Status Register,STATUS,-,1
 1011,Publish Register,PUBLISH,-,1
 1012,Stop Register,STOP,-,1
-1100,Pump Work Time,T_Pump,Min,1
 2011,Battery Instant Voltage,B_IV,V,2
 2012,Battery Average Voltage,B_AV,V,2
 2013,Battery Empty Voltage,B_EV,V,2
@@ -182,6 +181,7 @@ Type_ID,Description,Variable,Unit,Segment
 6909,Water Temperature IN Data Count,WTIN_CNT,-,6
 6910,Water Temperature OUT Data Count,WTOUT_CNT,-,6
 6911,Water Level Data Count,WL_CNT,-,6
+7000,Pump Work Time,T_Pump,Min,7
 7100,Instant Voltage,V,V,7
 7101,Phase R Instant Voltage,V_R,V,7
 7102,Phase S Instant Voltage,V_S,V,7
