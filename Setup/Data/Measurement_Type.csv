@@ -181,115 +181,228 @@ Type_ID,Description,Variable,Unit,Segment
 6909,Water Temperature IN Data Count,WTIN_CNT,-,6
 6910,Water Temperature OUT Data Count,WTOUT_CNT,-,6
 6911,Water Level Data Count,WL_CNT,-,6
-7010,Instant Voltage,V,V,7
-7011,Phase R Instant Voltage,V_R,V,7
-7012,Phase S Instant Voltage,V_S,V,7
-7013,Phase T Instant Voltage,V_T,V,7
-7014,Instant Voltage Average,V_A,V,7
-7020,RMS Voltage,VRMS,V,7
-7021,Phase R RMS Voltage,VRMS_R,V,7
-7022,Phase S RMS Voltage,VRMS_S,V,7
-7023,Phase T RMS Voltage,VRMS_T,V,7
-7024,RMS Voltage Average,VRMS_A,V,7
-7030,Fundamental Voltage,VFun,V,7
-7031,Phase R Fundamental Voltage,VFun_R,V,7
-7032,Phase S Fundamental Voltage,VFun_S,V,7
-7033,Phase T Fundamental Voltage,VFun_T,V,7
-7034,Fundamental Voltage Average,VFun_A,V,7
-7040,Harmonic Voltage,VHarm,V,7
-7041,Phase R Harmonic Voltage,VHarm_R,V,7
-7042,Phase S Harmonic Voltage,VHarm_S,V,7
-7043,Phase T Harmonic Voltage,VHarm_T,V,7
-7044,Harmonic Voltage Average,VHarm_A,V,7
-7050,Instant Current,I,A,7
-7051,Phase R Instant Current,I_R,A,7
-7052,Phase S Instant Current,I_S,A,7
-7053,Phase T Instant Current,I_T,A,7
-7054,Instant Current Average,I_A,A,7
-7060,Peak Current,IP,A,7
-7061,Phase R Peak Current,IP_R,A,7
-7062,Phase S Peak Current,IP_S,A,7
-7063,Phase T Peak Current,IP_T,A,7
-7064,Peak Current Average,IP_A,A,7
-7070,RMS Current,IRMS,A,7
-7071,Phase R RMS Current,IRMS_R,A,7
-7072,Phase S RMS Current,IRMS_S,A,7
-7073,Phase T RMS Current,IRMS_T,A,7
-7074,RMS Current Average,IRMS_A,A,7
-7080,Fundamental Current,IFun,A,7
-7081,Phase R Fundamental Current,IFun_R,A,7
-7082,Phase S Fundamental Current,IFun_S,A,7
-7083,Phase T Fundamental Current,IFun_T,A,7
-7084,Fundamental Current Average,IFun_A,A,7
-7090,Harmonic Current,IHarm,A,7
-7091,Phase R Harmonic Current,IHarm_R,A,7
-7092,Phase S Harmonic Current,IHarm_S,A,7
-7093,Phase T Harmonic Current,IHarm_T,A,7
-7094,Harmonic Current Average,IHarm_A,A,7
-7100,Active Power,P,W,7
-7101,Phase R Active Power,P_R,W,7
-7102,Phase S Active Power,P_S,W,7
-7103,Phase T Active Power,P_T,W,7
-7104,Active Power Average,P_A,W,7
-7110,Reactive Power,Q,Var,7
-7111,Phase R Reactive Power,Q_R,Var,7
-7112,Phase S Reactive Power,Q_S,Var,7
-7113,Phase T Reactive Power,Q_T,Var,7
-7114,Reactive Power Average,Q_A,Var,7
-7120,Apparent Power,S,VA,7
-7121,Phase R Apparent Power,S_R,VA,7
-7122,Phase S Apparent Power,S_S,VA,7
-7123,Phase T Apparent Power,S_T,VA,7
-7124,Apparent Power Average,S_A,VA,7
-7130,Fundamental Reactive Power,QFun,Var,7
-7131,Phase R Fundamental Reactive Power,QFun_R,Var,7
-7132,Phase S Fundamental Reactive Power,QFun_S,Var,7
-7133,Phase T Fundamental Reactive Power,QFun_T,Var,7
-7134,Fundamental Reactive Power Average,QFun_A,Var,7
-7140,Harmonic Reactive Power,QHarm,Var,7
-7141,Phase R Harmonic Reactive Power,QHarm_R,Var,7
-7142,Phase S Harmonic Reactive Power,QHarm_S,Var,7
-7143,Phase T Harmonic Reactive Power,QHarm_T,Var,7
-7144,Harmonic Reactive Power Average,QHarm_A,Var,7
-7150,Fundamental Power,PFun,-,7
-7151,Phase R Fundamental Power,PFun_R,-,7
-7152,Phase S Fundamental Power,PFun_S,-,7
-7153,Phase T Fundamental Power,PFun_T,-,7
-7154,Fundamental Power Average,PFun_A,-,7
-7160,Harmonic Power,PHarm,-,7
-7161,Phase R Harmonic Power,PHarm_R,-,7
-7162,Phase S Harmonic Power,PHarm_S,-,7
-7163,Phase T Harmonic Power,PHarm_T,-,7
-7164,Harmonic Power Average,PHarm_A,-,7
-7170,Fundamental Volt Ampere,FunVA,VA,7
-7171,Phase R Fundamental Volt Ampere,FunVA_R,VA,7
-7172,Phase S Fundamental Volt Ampere,FunVA_S,VA,7
-7173,Phase T Fundamental Volt Ampere,FunVA_T,VA,7
-7174,Fundamental Volt Ampere Average,FunVA_A,VA,7
-7180,Power Factor,PF,-,7
-7181,Phase R Power Factor,PF_R,-,7
-7182,Phase S Power Factor,PF_S,-,7
-7183,Phase T Power Factor,PF_T,-,7
-7184,Power Factor Average,PF_A,-,7
-7190,Frequency,FQ,Hz,7
-7200,Active Energy,AE,kWh,7
-7201,Phase R Active Energy,AE_R,kWh,7
-7202,Phase S Active Energy,AE_S,kWh,7
-7203,Phase T Active Energy,AE_T,kWh,7
-7204,Active Energy Average,AE_A,kWh,7
-7210,Reactive Energy Leading,RE_L,kVARh,7
-7211,Phase R Reactive Energy Leading,RE_L_R,kVARh,7
-7212,Phase S Reactive Energy Leading,RE_L_S,kVARh,7
-7213,Phase T Reactive Energy Leading,RE_L_T,kVARh,7
-7214,Reactive Energy Leading Average,RE_L_A,kVARh,7
-7215,Total Leading Reactive Energy,RE_L_TOT,kVARh,7
-7220,Reactive Energy Lagging,RE_G,kVARh,7
-7221,Phase R Reactive Energy Lagging,RE_G_R,kVARh,7
-7222,Phase S Reactive Energy Lagging,RE_G_S,kVARh,7
-7223,Phase T Reactive Energy Lagging,RE_G_T,kVARh,7
-7224,Reactive Energy Lagging Average,RE_G_A,kVARh,7
-7225,Total Lagging Reactive Energy,RE_G_TOT,kVARh,7
-7230,Chip Temperature,Max78630_T,C,7
+7100,Instant Voltage,V,V,7
+7101,Phase R Instant Voltage,V_R,V,7
+7102,Phase S Instant Voltage,V_S,V,7
+7103,Phase T Instant Voltage,V_T,V,7
+7104,Instant Voltage Average,V_A,V,7
+7105,Phase R Instant Voltage Minimum,V_MIN_R,V,7
+7106,Phase S Instant Voltage Minimum,V_MIN_S,V,7
+7107,Phase T Instant Voltage Minimum,V_MIN_T,V,7
+7108,Phase R Instant Voltage Maximum,V_MAX_R,V,7
+7109,Phase S Instant Voltage Maximum,V_MAX_S,V,7
+7110,Phase T Instant Voltage Maximum,V_MAX_T,V,7
+7120,RMS Voltage,VRMS,V,7
+7121,Phase R RMS Voltage,VRMS_R,V,7
+7122,Phase S RMS Voltage,VRMS_S,V,7
+7123,Phase T RMS Voltage,VRMS_T,V,7
+7124,RMS Voltage Average,VRMS_A,V,7
+7125,Phase R RMS Voltage Minimum,VRMS_MIN_R,V,7
+7126,Phase S RMS Voltage Minimum,VRMS_MIN_S,V,7
+7127,Phase T RMS Voltage Minimum,VRMS_MIN_T,V,7
+7128,Phase R RMS Voltage Maximum,VRMS_MAX_R,V,7
+7129,Phase S RMS Voltage Maximum,VRMS_MAX_S,V,7
+7130,Phase T RMS Voltage Maximum,VRMS_MAX_T,V,7
+7140,Fundamental Voltage,VFun,V,7
+7141,Phase R Fundamental Voltage,VFun_R,V,7
+7142,Phase S Fundamental Voltage,VFun_S,V,7
+7143,Phase T Fundamental Voltage,VFun_T,V,7
+7144,Fundamental Voltage Average,VFun_A,V,7
+7145,Phase R Fundamental Voltage Minimum,VFun_MIN_R,V,7
+7146,Phase S Fundamental Voltage Minimum,VFun_MIN_S,V,7
+7147,Phase T Fundamental Voltage Minimum,VFun_MIN_T,V,7
+7148,Phase R Fundamental Voltage Maximum,VFun_MAX_R,V,7
+7149,Phase S Fundamental Voltage Maximum,VFun_MAX_S,V,7
+7150,Phase T Fundamental Voltage Maximum,VFun_MAX_T,V,7
+7160,Harmonic Voltage,VHarm,V,7
+7161,Phase R Harmonic Voltage,VHarm_R,V,7
+7162,Phase S Harmonic Voltage,VHarm_S,V,7
+7163,Phase T Harmonic Voltage,VHarm_T,V,7
+7164,Harmonic Voltage Average,VHarm_A,V,7
+7165,Phase R Harmonic Voltage Minimum,VHarm_MIN_R,V,7
+7166,Phase S Harmonic Voltage Minimum,VHarm_MIN_S,V,7
+7167,Phase T Harmonic Voltage Minimum,VHarm_MIN_T,V,7
+7168,Phase R Harmonic Voltage Maximum,VHarm_MAX_R,V,7
+7169,Phase S Harmonic Voltage Maximum,VHarm_MAX_S,V,7
+7170,Phase T Harmonic Voltage Maximum,VHarm_MAX_T,V,7
+7200,Instant Current,I,A,7
+7201,Phase R Instant Current,I_R,A,7
+7202,Phase S Instant Current,I_S,A,7
+7203,Phase T Instant Current,I_T,A,7
+7204,Instant Current Average,I_A,A,7
+7205,Phase R Instant Current Minimum,I_MIN_R,A,7
+7206,Phase S Instant Current Minimum,I_MIN_S,A,7
+7207,Phase T Instant Current Minimum,I_MIN_T,A,7
+7208,Phase R Instant Current Maximum,I_MAX_R,A,7
+7209,Phase S Instant Current Maximum,I_MAX_S,A,7
+7210,Phase T Instant Current Maximum,I_MAX_T,A,7
+7220,Peak Current,IP,A,7
+7221,Phase R Peak Current,IP_R,A,7
+7222,Phase S Peak Current,IP_S,A,7
+7223,Phase T Peak Current,IP_T,A,7
+7224,Peak Current Average,IP_A,A,7
+7225,Phase R Peak Current Minimum,IP_MIN_R,A,7
+7226,Phase S Peak Current Minimum,IP_MIN_S,A,7
+7227,Phase T Peak Current Minimum,IP_MIN_T,A,7
+7228,Phase R Peak Current Maximum,IP_MAX_R,A,7
+7229,Phase S Peak Current Maximum,IP_MAX_S,A,7
+7230,Phase T Peak Current Maximum,IP_MAX_T,A,7
+7240,RMS Current,IRMS,A,7
+7241,Phase R RMS Current,IRMS_R,A,7
+7242,Phase S RMS Current,IRMS_S,A,7
+7243,Phase T RMS Current,IRMS_T,A,7
+7244,RMS Current Average,IRMS_A,A,7
+7245,Phase R RMS Current Minimum,IRMS_MIN_R,A,7
+7246,Phase S RMS Current Minimum,IRMS_MIN_S,A,7
+7247,Phase T RMS Current Minimum,IRMS_MIN_T,A,7
+7248,Phase R RMS Current Maximum,IRMS_MAX_R,A,7
+7249,Phase S RMS Current Maximum,IRMS_MAX_S,A,7
+7250,Phase T RMS Current Maximum,IRMS_MAX_T,A,7
+7260,Fundamental Current,IFun,A,7
+7261,Phase R Fundamental Current,IFun_R,A,7
+7262,Phase S Fundamental Current,IFun_S,A,7
+7263,Phase T Fundamental Current,IFun_T,A,7
+7264,Fundamental Current Average,IFun_A,A,7
+7265,Phase R Fundamental Current Minimum,IFun_MIN_R,A,7
+7266,Phase S Fundamental Current Minimum,IFun_MIN_S,A,7
+7267,Phase T Fundamental Current Minimum,IFun_MIN_T,A,7
+7268,Phase R Fundamental Current Maximum,IFun_MAX_R,A,7
+7269,Phase S Fundamental Current Maximum,IFun_MAX_S,A,7
+7270,Phase T Fundamental Current Maximum,IFun_MAX_T,A,7
+7280,Harmonic Current,IHarm,A,7
+7281,Phase R Harmonic Current,IHarm_R,A,7
+7282,Phase S Harmonic Current,IHarm_S,A,7
+7283,Phase T Harmonic Current,IHarm_T,A,7
+7284,Harmonic Current Average,IHarm_A,A,7
+7285,Phase R Harmonic Current Minimum,IHarm_MIN_R,A,7
+7286,Phase S Harmonic Current Minimum,IHarm_MIN_S,A,7
+7287,Phase T Harmonic Current Minimum,IHarm_MIN_T,A,7
+7288,Phase R Harmonic Current Maximum,IHarm_MAX_R,A,7
+7289,Phase S Harmonic Current Maximum,IHarm_MAX_S,A,7
+7290,Phase T Harmonic Current Maximum,IHarm_MAX_T,A,7
+7300,Active Power,P,W,7
+7301,Phase R Active Power,P_R,W,7
+7302,Phase S Active Power,P_S,W,7
+7303,Phase T Active Power,P_T,W,7
+7304,Active Power Average,P_A,W,7
+7305,Phase R Active Power Minimum,P_MIN_R,W,7
+7306,Phase S Active Power Minimum,P_MIN_S,W,7
+7307,Phase T Active Power Minimum,P_MIN_T,W,7
+7308,Phase R Active Power Maximum,P_MAX_R,W,7
+7309,Phase S Active Power Maximum,P_MAX_S,W,7
+7310,Phase T Active Power Maximum,P_MAX_T,W,7
+7220,Reactive Power,Q,Var,7
+7221,Phase R Reactive Power,Q_R,Var,7
+7222,Phase S Reactive Power,Q_S,Var,7
+7223,Phase T Reactive Power,Q_T,Var,7
+7224,Reactive Power Average,Q_A,Var,7
+7225,Phase R Reactive Power Minimum,Q_MIN_R,Var,7
+7226,Phase S Reactive Power Minimum,Q_MIN_S,Var,7
+7227,Phase T Reactive Power Minimum,Q_MIN_T,Var,7
+7228,Phase R Reactive Power Maximum,Q_MAX_R,Var,7
+7229,Phase S Reactive Power Maximum,Q_MAX_S,Var,7
+7230,Phase T Reactive Power Maximum,Q_MAX_T,Var,7
+7240,Apparent Power,S,VA,7
+7241,Phase R Apparent Power,S_R,VA,7
+7242,Phase S Apparent Power,S_S,VA,7
+7243,Phase T Apparent Power,S_T,VA,7
+7244,Apparent Power Average,S_A,VA,7
+7245,Phase R Apparent Power Minimum,S_MIN_R,VA,7
+7246,Phase S Apparent Power Minimum,S_MIN_S,VA,7
+7247,Phase T Apparent Power Minimum,S_MIN_T,VA,7
+7248,Phase R Apparent Power Maximum,S_MAX_R,VA,7
+7249,Phase S Apparent Power Maximum,S_MAX_S,VA,7
+7250,Phase T Apparent Power Maximum,S_MAX_T,VA,7
+7260,Fundamental Reactive Power,QFun,Var,7
+7261,Phase R Fundamental Reactive Power,QFun_R,Var,7
+7262,Phase S Fundamental Reactive Power,QFun_S,Var,7
+7263,Phase T Fundamental Reactive Power,QFun_T,Var,7
+7264,Fundamental Reactive Power Average,QFun_A,Var,7
+7265,Phase R Fundamental Reactive Power Minimum,QFun_MIN_R,Var,7
+7266,Phase S Fundamental Reactive Power Minimum,QFun_MIN_S,Var,7
+7267,Phase T Fundamental Reactive Power Minimum,QFun_MIN_T,Var,7
+7268,Phase R Fundamental Reactive Power Maximum,QFun_MAX_R,Var,7
+7269,Phase S Fundamental Reactive Power Maximum,QFun_MAX_S,Var,7
+7270,Phase T Fundamental Reactive Power Maximum,QFun_MAX_T,Var,7
+7280,Harmonic Reactive Power,QHarm,Var,7
+7281,Phase R Harmonic Reactive Power,QHarm_R,Var,7
+7282,Phase S Harmonic Reactive Power,QHarm_S,Var,7
+7283,Phase T Harmonic Reactive Power,QHarm_T,Var,7
+7284,Harmonic Reactive Power Average,QHarm_A,Var,7
+7285,Phase R Harmonic Reactive Power Minimum,QHarm_MIN_R,Var,7
+7286,Phase S Harmonic Reactive Power Minimum,QHarm_MIN_S,Var,7
+7287,Phase T Harmonic Reactive Power Minimum,QHarm_MIN_T,Var,7
+7288,Phase R Harmonic Reactive Power Maximum,QHarm_MAX_R,Var,7
+7289,Phase S Harmonic Reactive Power Maximum,QHarm_MAX_S,Var,7
+7290,Phase T Harmonic Reactive Power Maximum,QHarm_MAX_T,Var,7
+7300,Fundamental Power,PFun,-,7
+7301,Phase R Fundamental Power,PFun_R,-,7
+7302,Phase S Fundamental Power,PFun_S,-,7
+7303,Phase T Fundamental Power,PFun_T,-,7
+7304,Fundamental Power Average,PFun_A,-,7
+7305,Phase R Fundamental Power Minimum,PFun_MIN_R,-,7
+7306,Phase S Fundamental Power Minimum,PFun_MIN_S,-,7
+7307,Phase T Fundamental Power Minimum,PFun_MIN_T,-,7
+7308,Phase R Fundamental Power Maximum,PFun_MAX_R,-,7
+7309,Phase S Fundamental Power Maximum,PFun_MAX_S,-,7
+7310,Phase T Fundamental Power Maximum,PFun_MAX_T,-,7
+7320,Harmonic Power,PHarm,-,7
+7321,Phase R Harmonic Power,PHarm_R,-,7
+7322,Phase S Harmonic Power,PHarm_S,-,7
+7323,Phase T Harmonic Power,PHarm_T,-,7
+7324,Harmonic Power Average,PHarm_A,-,7
+7325,Phase R Harmonic Power Minimum,PHarm_MIN_R,-,7
+7326,Phase S Harmonic Power Minimum,PHarm_MIN_S,-,7
+7327,Phase T Harmonic Power Minimum,PHarm_MIN_T,-,7
+7328,Phase R Harmonic Power Maximum,PHarm_MAX_R,-,7
+7329,Phase S Harmonic Power Maximum,PHarm_MAX_S,-,7
+7330,Phase T Harmonic Power Maximum,PHarm_MAX_T,-,7
+7340,Fundamental Volt Ampere,FunVA,VA,7
+7341,Phase R Fundamental Volt Ampere,FunVA_R,VA,7
+7342,Phase S Fundamental Volt Ampere,FunVA_S,VA,7
+7343,Phase T Fundamental Volt Ampere,FunVA_T,VA,7
+7344,Fundamental Volt Ampere Average,FunVA_A,VA,7
+7345,Phase R Fundamental Volt Ampere Minimum,FunVA_MIN_R,VA,7
+7346,Phase S Fundamental Volt Ampere Minimum,FunVA_MIN_S,VA,7
+7347,Phase T Fundamental Volt Ampere Minimum,FunVA_MIN_T,VA,7
+7348,Phase R Fundamental Volt Ampere Maximum,FunVA_MAX_R,VA,7
+7349,Phase S Fundamental Volt Ampere Maximum,FunVA_MAX_S,VA,7
+7350,Phase T Fundamental Volt Ampere Maximum,FunVA_MAX_T,VA,7
+7400,Power Factor,PF,-,7
+7401,Phase R Power Factor,PF_R,-,7
+7402,Phase S Power Factor,PF_S,-,7
+7403,Phase T Power Factor,PF_T,-,7
+7404,Power Factor Average,PF_A,-,7
+7405,Phase R Power Factor Minimum,PF_MIN_R,-,7
+7406,Phase S Power Factor Minimum,PF_MIN_S,-,7
+7407,Phase T Power Factor Minimum,PF_MIN_T,-,7
+7408,Phase R Power Factor Maximum,PF_MAX_R,-,7
+7409,Phase S Power Factor Maximum,PF_MAX_S,-,7
+7410,Phase T Power Factor Maximum,PF_MAX_T,-,7
+7500,Frequency,FQ,Hz,7
+7501,Frequency Minimum,FQ_MIN,Hz,7
+7502,Frequency Maximum,FQ_MAX,Hz,7
+7600,Active Energy,AE,kWh,7
+7601,Phase R Active Energy,AE_R,kWh,7
+7602,Phase S Active Energy,AE_S,kWh,7
+7603,Phase T Active Energy,AE_T,kWh,7
+7604,Active Energy Average,AE_A,kWh,7
+7605,Total Active Energy,AE_TOT,kWh,7
+7620,Reactive Energy Leading,RE_L,kVARh,7
+7621,Phase R Reactive Energy Leading,RE_L_R,kVARh,7
+7622,Phase S Reactive Energy Leading,RE_L_S,kVARh,7
+7623,Phase T Reactive Energy Leading,RE_L_T,kVARh,7
+7624,Reactive Energy Leading Average,RE_L_A,kVARh,7
+7625,Total Leading Reactive Energy,RE_L_TOT,kVARh,7
+7640,Reactive Energy Lagging,RE_G,kVARh,7
+7641,Phase R Reactive Energy Lagging,RE_G_R,kVARh,7
+7642,Phase S Reactive Energy Lagging,RE_G_S,kVARh,7
+7643,Phase T Reactive Energy Lagging,RE_G_T,kVARh,7
+7644,Reactive Energy Lagging Average,RE_G_A,kVARh,7
+7645,Total Lagging Reactive Energy,RE_G_TOT,kVARh,7
+7700,Chip Temperature,Max78630_T,C,7
+7701,Chip Temperature Minimum,Max78630_T_MIN,C,7
+7702,Chip Temperature Maximum,Max78630_T_MAX,C,7
 7900,Actual samples in previous accumulation interval,MAX_DIVISOR,-,7
 7901,High-rate sample counter,MAX_CYCLE,-,7
 7902,Low-rate sample counter,MAX_FRAME,-,7
