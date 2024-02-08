@@ -903,6 +903,14 @@ class Payload(CustomBaseModel):
 	V_Set_Min: Optional[float] = Field(description="Minimum voltage set value.", example=220.12)
 	V_Set_Max: Optional[float] = Field(description="Maximum voltage set value.", example=220.12)
 
+	# Energy Min Max Values
+	VRMS_MIN_R: Optional[float] = Field(description="Phase R minimum voltage measurement", example=220.12)
+	VRMS_MAX_R: Optional[float] = Field(description="Phase R maximum voltage measurement", example=220.12)
+	VRMS_MIN_S: Optional[float] = Field(description="Phase S minimum voltage measurement", example=220.12)
+	VRMS_MAX_S: Optional[float] = Field(description="Phase S maximum voltage measurement", example=220.12)
+	VRMS_MIN_T: Optional[float] = Field(description="Phase T minimum voltage measurement", example=220.12)
+	VRMS_MAX_T: Optional[float] = Field(description="Phase T maximum voltage measurement", example=220.12)
+
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00
 class Data_Pack(CustomBaseModel):
