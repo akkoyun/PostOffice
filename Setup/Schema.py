@@ -896,6 +896,9 @@ class Payload(CustomBaseModel):
 	# Max78630 Chip Temperature Value
 	Max78630_T: Optional[float] = Field(description="Max78630 chip temperature measurement", example=20.12)
 
+	# Pump Run Time Value
+	T_Pump: Optional[float] = Field(description="Pump run time measurement", example=20.12)
+
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00
 class Data_Pack(CustomBaseModel):
