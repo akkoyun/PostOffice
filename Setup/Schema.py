@@ -899,6 +899,10 @@ class Payload(CustomBaseModel):
 	# Pump Run Time Value
 	T_Pump: Optional[float] = Field(description="Pump run time measurement", example=20.12)
 
+	# Energy Set Values
+	V_Set_Min: Optional[float] = Field(description="Minimum voltage set value.", example=220.12)
+	V_Set_Max: Optional[float] = Field(description="Maximum voltage set value.", example=220.12)
+
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00
 class Data_Pack(CustomBaseModel):
