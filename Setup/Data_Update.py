@@ -541,8 +541,6 @@ def Import_Data_Type():
     # Define Data File
     Data_File_Name = "/root/PostOffice/Setup/Data/" + APP_Settings.FILE_MEASUREMENT_TYPE
 
-    Log.Terminal_Log("ERROR", f"{Data_File_Name}")
-
     # Download Data File
     try:
         
@@ -556,6 +554,8 @@ def Import_Data_Type():
 
         # Exit
         exit()
+
+    Log.Terminal_Log("ERROR", f"{Data_File_Name}")
 
     # Rename Columns
     Data_File.columns = ['Type_ID', 'Description', 'Variable', 'Unit', 'Segment']
