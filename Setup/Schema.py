@@ -910,6 +910,8 @@ class Payload(CustomBaseModel):
 	VRMS_MAX_S: Optional[float] = Field(description="Phase S maximum voltage measurement", example=220.12)
 	VRMS_MIN_T: Optional[float] = Field(description="Phase T minimum voltage measurement", example=220.12)
 	VRMS_MAX_T: Optional[float] = Field(description="Phase T maximum voltage measurement", example=220.12)
+	FQ_MIN: Optional[float] = Field(description="Minimum frequency measurement", example=50.12)
+	FQ_MAX: Optional[float] = Field(description="Maximum frequency measurement", example=50.12)
 
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00
