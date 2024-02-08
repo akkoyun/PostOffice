@@ -915,12 +915,12 @@ class Payload(CustomBaseModel):
 	IRMS_MAX_T: Optional[float] = Field(description="Phase T maximum current measurement", example=20.12)
 	FQ_MIN: Optional[float] = Field(description="Minimum frequency measurement", example=50.12)
 	FQ_MAX: Optional[float] = Field(description="Maximum frequency measurement", example=50.12)
-	P_MIN_R: Optional[float] = Field(description="Phase R minimum active power measurement", example=0.8)
-	P_MAX_R: Optional[float] = Field(description="Phase R maximum active power measurement", example=0.8)
-	P_MIN_S: Optional[float] = Field(description="Phase S minimum active power measurement", example=0.8)
-	P_MAX_S: Optional[float] = Field(description="Phase S maximum active power measurement", example=0.8)
-	P_MIN_T: Optional[float] = Field(description="Phase T minimum active power measurement", example=0.8)
-	P_MAX_T: Optional[float] = Field(description="Phase T maximum active power measurement", example=0.8)
+	PF_MIN_R: Optional[float] = Field(description="Phase R minimum active power measurement", example=0.8)
+	PF_MAX_R: Optional[float] = Field(description="Phase R maximum active power measurement", example=0.8)
+	PF_MIN_S: Optional[float] = Field(description="Phase S minimum active power measurement", example=0.8)
+	PF_MAX_S: Optional[float] = Field(description="Phase S maximum active power measurement", example=0.8)
+	PF_MIN_T: Optional[float] = Field(description="Phase T minimum active power measurement", example=0.8)
+	PF_MAX_T: Optional[float] = Field(description="Phase T maximum active power measurement", example=0.8)
 
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00
