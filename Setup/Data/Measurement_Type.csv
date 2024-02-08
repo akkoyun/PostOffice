@@ -454,4 +454,6 @@ Type_ID,Description,Variable,Unit,Segment
 7947,Frequency alarm upper limit,MAX_F_MAX,-,7
 7948,Energy bucket low word,MAX_BUCKET_L,-,7
 7949,Energy bucket high word,MAX_BUCKET_H,-,7
+7960,Voltage Min set,V_Set_Min,V,7
+7961,Voltage Max set,V_Set_Max,V,7
 7999,System status register,MAX_SYSSTAT,-,7
