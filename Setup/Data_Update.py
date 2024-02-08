@@ -566,7 +566,9 @@ def Import_Data_Type():
 
             # Check for Existing
             Query = DB_Data_Type.query(Models.Data_Type).filter(Models.Data_Type.Type_ID.like(str(row['Type_ID']))).first()
-
+            
+            print(row['Type_ID'])
+            
             # Record Not Found
             if not Query:
 
@@ -576,12 +578,12 @@ def Import_Data_Type():
                     Description=str(row['Description']),
                     Variable=str(row['Variable']),
                     Unit=str(row['Unit']),
-                    Segment_ID=int(row['Segment']),                    
+                    Segment_ID=int(row['Segment']),
                 )
 
                 # Add Record to DataBase
                 try:
-                
+
                     # Add Record to DataBase
                     DB_Data_Type.add(New_Record)
 
