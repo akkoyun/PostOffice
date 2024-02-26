@@ -185,7 +185,7 @@ def Firmware(request: Request, Version_ID: int):
 
 			with open(Firmware_File_Path, "rb") as file:
 				file_content = file.read()
-				etag = hashlib.sha256(file_content).hexdigest()
+				etag = hashlib.md5(file_content).hexdigest()
 			
 			headers = {"Etag": etag}
 
