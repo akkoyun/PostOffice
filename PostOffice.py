@@ -7,6 +7,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, FileResponse
 from datetime import datetime
 import pytz
+import hashlib
 
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
@@ -182,11 +183,18 @@ def Firmware(request: Request, Version_ID: int):
 			# Set File Path
 			Firmware_File_Path += f"{Firmware.File_Name}"
 
+			with open(Firmware_File_Path, "rb") as file:
+				file_content = file.read()
+				etag = hashlib.sha256(file_content).hexdigest()
+			
+			headers = {"Etag": etag}
+
 			# Return File
 			return FileResponse(
                 path=Firmware_File_Path, 
                 filename=Firmware.File_Name, 
-                media_type='application/octet-stream'
+                media_type='application/octet-stream',
+				headers=headers
             )
 
 
