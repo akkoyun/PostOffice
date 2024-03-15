@@ -160,6 +160,32 @@ try:
             except:
                 pass
 
+        # 9 - Control for FOTA Variables
+        for Type_ID, Variable, Description, Unit, Segment_ID in Definitions.Variable_List(9):
+
+            # Try to Record
+            try:
+
+                # Set Data Pack
+                Measurement = Definitions.Measurement_Class(
+                    type_id=Type_ID, 
+                    variable=Variable, 
+                    path=f"Message.{Variable}",
+                    value=eval(f"Message.{Variable}"),
+                    description=Description, 
+                    unit=Unit, 
+                    segment_id=Segment_ID,
+                    stream_id=RAW_Headers.Stream_ID,
+                    device_time=Device_Time
+                )
+
+                # Record Payload
+                Functions.Measurement_Recorder(Measurement)
+
+            # Handle Errors
+            except:
+                pass
+
         # Commit Kafka Consumer
         Kafka.Payload_Consumer.commit()
 

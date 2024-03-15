@@ -922,6 +922,12 @@ class Payload(CustomBaseModel):
 	PF_MIN_T: Optional[float] = Field(description="Phase T minimum active power measurement", example=0.8)
 	PF_MAX_T: Optional[float] = Field(description="Phase T maximum active power measurement", example=0.8)
 
+	# FOTA Parameters
+	Firmware_ID: Optional[float] = Field(description="Firmware ID.", example=2)
+	FOTA_Download_Status: Optional[float] = Field(description="FOTA download status.", example=2)
+	FOTA_Download_Time: Optional[float] = Field(description="FOTA download time.", example=2)
+
+
 # Define IoT RAW Data Base Model
 # Model Version 01.03.00
 class Data_Pack(CustomBaseModel):

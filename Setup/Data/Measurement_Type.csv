@@ -1,5 +1,6 @@
 Type_ID,Description,Variable,Unit,Segment
 0,Unknown,-,-,0
+
 1001,PCB Temperature,PCB_T,C,1
 1002,PCB Humidity,PCB_H,%,1
 1010,Status Register,STATUS,-,1
@@ -457,3 +458,6 @@ Type_ID,Description,Variable,Unit,Segment
 7960,Voltage Min set,V_Set_Min,V,7
 7961,Voltage Max set,V_Set_Max,V,7
 7999,System status register,MAX_SYSSTAT,-,7
+9001,FOTA ID,Firmware_ID,-,9
+9002,FOTA Download Time,FOTA_Download_Status,-,9
+9003,FOTA Download Status,FOTA_Download_Time,Sec,9
