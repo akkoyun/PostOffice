@@ -199,12 +199,12 @@ def Firmware(request: Request, Version_ID: int):
             )
 
 @PostOffice.websocket("/WS")
-async def websocket_endpoint(websocket: WebSocket, request: Request):
+async def websocket_endpoint(websocket: WebSocket):
 	await websocket.accept()
 
 	while True:
 		data = await websocket.receive_text()
 
-		Log.Terminal_Log("INFO", f"New WebSocket Data: {request.client.host}] - [{data}]")
+		Log.Terminal_Log("INFO", f"New WebSocket Data: [{data}]")
 
 		await websocket.send_text(f"Message text was: {data}")
