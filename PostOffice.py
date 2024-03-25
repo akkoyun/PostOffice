@@ -2,7 +2,7 @@
 from Functions import Log, Kafka, Handler, Functions
 from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
-from fastapi import FastAPI, Request, status, WebSocket
+from fastapi import FastAPI, Request, status, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, FileResponse
@@ -198,15 +198,46 @@ def Firmware(request: Request, Version_ID: int):
 				headers=headers
             )
 
+
+
+
+
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: list[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+
+    async def send_personal_message(self, message: str, websocket: WebSocket):
+        await websocket.send_text(message)
+
+    async def broadcast(self, message: str):
+        for connection in self.active_connections:
+            await connection.send_text(message)
+
+manager = ConnectionManager()
+
+
+
 @PostOffice.websocket("/WS/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
-	await websocket.accept()
+	await manager.connect(websocket)
 
-	while True:
+	try:
+		while True:
+			data = await websocket.receive_text()
+			await manager.send_personal_message(f"You wrote: {data}", websocket)
+			await manager.send_personal_message({"Response": 200}, websocket)
+			Log.Terminal_Log("INFO", f"New WebSocket Data: [{client_id}] - [{data}]")
 
-		data = await websocket.receive_text()
+	except WebSocketDisconnect:
+		manager.disconnect(websocket)
+		await manager.broadcast(f"Client #{client_id} left the chat")
 
-		Log.Terminal_Log("INFO", f"New WebSocket Data: [{client_id}] - [{data}]")
 
-		await websocket.send_json({"Event": 200})
