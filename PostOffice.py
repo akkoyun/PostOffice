@@ -202,7 +202,7 @@ def Firmware(request: Request, Version_ID: int):
 # Send Command Method
 @PostOffice.get("/Device/{Device_ID}/Firmware/Download/{File_ID}", status_code=status.HTTP_200_OK)
 @PostOffice.get("/Device/{Device_ID}/Firmware/Download/{File_ID}/", status_code=status.HTTP_200_OK)
-def Device(Device_ID: str, File_ID: int):
+def Firmware_Download(Device_ID: str, File_ID: int):
 
 	# Get Last IP
 	Last_IP = Handler.Get_Device_Last_IP(Device_ID)
@@ -215,6 +215,41 @@ def Device(Device_ID: str, File_ID: int):
 
 	# Set Payload JSON
 	Payload = f"{{\"Request\":{{\"Event\":901,\"FW_ID\":{File_ID}}}}}"
+
+	# Set Headers
+	Headers = {}
+
+	# Send Request
+	Connection.request("POST", "/", Payload, Headers)
+
+	# Get Response
+	Response = Connection.getresponse()
+
+	# Read Data
+	Data = Response.read()
+
+	# Send Response
+	return JSONResponse(
+		status_code=status.HTTP_200_OK, 
+		content={"Event": status.HTTP_200_OK, "Message": Data.decode("utf-8")}
+	)
+
+# Send Command Method
+@PostOffice.get("/Device/{Device_ID}/Firmware/Burn", status_code=status.HTTP_200_OK)
+@PostOffice.get("/Device/{Device_ID}/Firmware/Burn/", status_code=status.HTTP_200_OK)
+def Firmware_Burn(Device_ID: str):
+
+	# Get Last IP
+	Last_IP = Handler.Get_Device_Last_IP(Device_ID)
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"New Firmware Burn Request: [{Device_ID} - {Last_IP}]")
+
+	# Connect to Device
+	Connection = http.client.HTTPConnection(Last_IP)
+
+	# Set Payload JSON
+	Payload = f"{{\"Request\":{{\"Event\":950}}}}"
 
 	# Set Headers
 	Headers = {}
