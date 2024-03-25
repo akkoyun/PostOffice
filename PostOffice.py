@@ -199,7 +199,7 @@ def Firmware(request: Request, Version_ID: int):
             )
 
 @PostOffice.websocket("/WS/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: hex):
+async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
 	await websocket.accept()
 
