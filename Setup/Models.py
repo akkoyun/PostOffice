@@ -108,6 +108,7 @@ class Device(Base):
 	Project_ID = Column(Integer, ForeignKey("Project.Project_ID"), nullable=True)
 	IMEI = Column(String(), ForeignKey("Modem.IMEI"), nullable=False)
 	Last_Connection = Column(TIMESTAMP(timezone=True), nullable=True)
+	Last_IP = Column(String(), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 # Project Database Model

@@ -79,6 +79,9 @@ def Control_Device(Device: Definitions.Device):
             # Update Device Last_Connection
             Query_Device.Last_Connection = datetime.now()
 
+            # Update Device Last_IP
+            Query_Device.Last_IP = Device.Client_IP
+
             # Commit DataBase
             DB_Device.commit()
 
@@ -102,6 +105,7 @@ def Control_Device(Device: Definitions.Device):
                 Model_ID = 0,
                 IMEI = 0,
                 Last_Connection = datetime.now(),
+                Last_IP = Device.Client_IP,
                 Create_Time = datetime.now()
             )
 

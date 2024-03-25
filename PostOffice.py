@@ -198,6 +198,11 @@ def Firmware(request: Request, Version_ID: int):
 				headers=headers
             )
 
+# Send Command Method
+@PostOffice.get("/Device/{Device_ID}/Firmware/Download/{File_ID}", status_code=status.HTTP_200_OK)
+@PostOffice.get("/Device/{Device_ID}/Firmware/Download/{File_ID}/", status_code=status.HTTP_200_OK)
+		
+
 
 
 @PostOffice.websocket("/WS/{client_id}")
