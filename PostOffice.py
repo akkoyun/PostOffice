@@ -1,5 +1,6 @@
 # Library Includes
 from Functions import Log, Kafka, Handler, Functions
+import http.client
 from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
 from fastapi import FastAPI, Request, status, WebSocket
@@ -209,7 +210,29 @@ def Device(Device_ID: str, File_ID: int):
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Firmware FTP Download Request: [{Device_ID} - {Last_IP}] / {File_ID}.hex")
 
+	# Connect to Device
+	Connection = http.client.HTTPConnection(Last_IP)
 
+	# Set Payload JSON
+	Payload = f"{{\"Request\":{{\"Event\":901,\"FW_ID\":{File_ID}}}}}"
+
+	# Set Headers
+	Headers = {}
+
+	# Send Request
+	Connection.request("POST", "/", Payload, Headers)
+
+	# Get Response
+	Response = Connection.getresponse()
+
+	# Read Data
+	Data = Response.read()
+
+	# Send Response
+	return JSONResponse(
+		status_code=status.HTTP_200_OK, 
+		content={"Event": status.HTTP_200_OK, "Message": Data.decode("utf-8")}
+	)
 
 @PostOffice.websocket("/WS/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
