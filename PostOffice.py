@@ -2,7 +2,8 @@
 from Functions import Log, Kafka, Handler, Functions
 from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, status, WebSocket
+from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, FileResponse
 from datetime import datetime
@@ -13,7 +14,7 @@ import hashlib
 Local_Timezone = pytz.timezone("Europe/Istanbul")
 
 # Define FastAPI Object
-PostOffice = FastAPI(version="02.02.00", title="PostOffice")
+PostOffice = FastAPI(version="02.03.00", title="PostOffice")
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
@@ -197,4 +198,9 @@ def Firmware(request: Request, Version_ID: int):
 				headers=headers
             )
 
-
+@PostOffice.websocket("/WS")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message text was: {data}")
