@@ -201,7 +201,13 @@ def Firmware(request: Request, Version_ID: int):
 # Send Command Method
 @PostOffice.get("/Device/{Device_ID}/Firmware/Download/{File_ID}", status_code=status.HTTP_200_OK)
 @PostOffice.get("/Device/{Device_ID}/Firmware/Download/{File_ID}/", status_code=status.HTTP_200_OK)
-		
+def Device(Device_ID: str, File_ID: int):
+
+	# Get Last IP
+	Last_IP = Handler.Get_Device_Last_IP(Device_ID)
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"New Firmware FTP Download Request: [{Device_ID} - {Last_IP}] / {File_ID}.hex")
 
 
 
