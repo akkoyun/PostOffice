@@ -209,4 +209,4 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
 		Log.Terminal_Log("INFO", f"New WebSocket Data: [{client_id}] - [{data}]")
 
-		await websocket.send_text(f"Message text was: {data}")
+		await websocket.send_json({"Event": 200})
