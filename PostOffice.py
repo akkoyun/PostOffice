@@ -205,6 +205,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
 	await websocket.accept()
 
+	Log.Terminal_Log("INFO", f"New WebSocket Connection: Client ID [{client_id}] has connected.")
+    
 	while True:
 
 		data = await websocket.receive_text()
