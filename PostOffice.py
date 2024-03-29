@@ -300,9 +300,6 @@ def Command(Command: Schema.Command, Device_ID: str):
 	# Read Data
 	Data = Response.read()
 
-	# Convert Data to JSON
-	Data = Data.decode("utf-8")
-
 	# Send Response
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
