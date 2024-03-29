@@ -1164,3 +1164,18 @@ class Full_Forecast(CustomBaseModel):
 
 	# Forecast Date
 	ForecastList: list[Forecast]
+
+# Define Command Detail Data Model
+class Command_Detail(BaseModel):
+
+	# Event
+	Event: int = Field(description="Command event.", example=256)
+
+	# Firmware ID
+	FW_ID: Optional[int] = Field(description="Firmware ID.", example=2)
+
+# Define Command Data Model
+class Command(BaseModel):
+
+	# Command
+	Command: Command_Detail

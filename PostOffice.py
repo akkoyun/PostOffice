@@ -269,6 +269,40 @@ def Firmware_Burn(Device_ID: str):
 		content={"Event": status.HTTP_200_OK, "Message": Data.decode("utf-8")}
 	)
 
+# Send Command Method
+@PostOffice.get("/Device/{Device_ID}", status_code=status.HTTP_200_OK)
+def Command(Command: Schema.Command, Device_ID: str):
+
+	# Get Last IP
+	Last_IP = Handler.Get_Device_Last_IP(Device_ID)
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"New Command Request from Device: [{Device_ID} - {Last_IP}] / [{Command.Command.Event}]")
+
+	# Parse Payload
+	Payload = f"{{\"Request\":{{\"Event\":{Command.Command.Event}}}"
+
+	# Connect to Device
+	Connection = http.client.HTTPConnection(Last_IP)
+
+	# Set Headers
+	Headers = {}
+
+	# Send Request
+	Connection.request("POST", "/", Payload, Headers)
+
+	# Get Response
+	Response = Connection.getresponse()
+
+	# Read Data
+	Data = Response.read()
+
+	# Send Response
+	return JSONResponse(
+		status_code=status.HTTP_200_OK, 
+		content={"Event": status.HTTP_200_OK, "Message": Data.decode("utf-8")}
+	)
+
 @PostOffice.websocket("/WS/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
