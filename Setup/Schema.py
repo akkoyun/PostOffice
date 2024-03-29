@@ -1178,4 +1178,4 @@ class Command_Detail(BaseModel):
 class Command(BaseModel):
 
 	# Command
-	Command: Command_Detail
+	Request: Command_Detail

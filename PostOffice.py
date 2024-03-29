@@ -270,17 +270,17 @@ def Firmware_Burn(Device_ID: str):
 	)
 
 # Send Command Method
-@PostOffice.get("/Device/{Device_ID}", status_code=status.HTTP_200_OK)
+@PostOffice.post("/Device/{Device_ID}", status_code=status.HTTP_200_OK)
 def Command(Command: Schema.Command, Device_ID: str):
 
 	# Get Last IP
 	Last_IP = Handler.Get_Device_Last_IP(Device_ID)
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"New Command Request from Device: [{Device_ID} - {Last_IP}] / [{Command.Command.Event}]")
+	Log.Terminal_Log("INFO", f"New Command Request from Device: [{Device_ID} - {Last_IP}] / [{Command.Request.Event}]")
 
 	# Parse Payload
-	Payload = f"{{\"Request\":{{\"Event\":{Command.Command.Event}}}"
+	Payload = f"{{\"Request\":{{\"Event\":{Command.Request.Event}}}"
 
 	# Connect to Device
 	Connection = http.client.HTTPConnection(Last_IP)
