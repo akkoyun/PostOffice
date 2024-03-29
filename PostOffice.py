@@ -280,7 +280,7 @@ def Command(Command: Schema.Command, Device_ID: str):
 	Log.Terminal_Log("INFO", f"New Command Request from Device: [{Device_ID} - {Last_IP}] / [{Command.Request.Event}]")
 
 	# Parse Payload
-	Payload = f"{{\"Request\":{{\"Event\":{Command.Request.Event}}}"
+	Payload = f"{{\"Request\":{{\"Event\":{Command.Request.Event}}}}}"
 
 	# Connect to Device
 	Connection = http.client.HTTPConnection(Last_IP)
