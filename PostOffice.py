@@ -277,10 +277,13 @@ def Command(Command: Schema.Command, Device_ID: str):
 	Last_IP = Handler.Get_Device_Last_IP(Device_ID)
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"New Command Request from Device: [{Device_ID} - {Last_IP}] / [{Command.Request.Event}]")
+	Log.Terminal_Log("INFO", f"Command Sended to Device: [{Device_ID} - {Last_IP}] / [{Command.Request.Event}]")
 
 	# Parse Payload
-	Payload = f"{{\"Request\":{{\"Event\":{Command.Request.Event}}}}}"
+	if Command.Request.Event == 900 or Command.Request.Event == 901:
+		Payload = f"{{\"Request\":{{\"Event\":{Command.Request.Event},\"FW_ID\":{Command.Request.FW_ID}}}}}"
+	else :
+		Payload = f"{{\"Request\":{{\"Event\":{Command.Request.Event}}}}}"
 
 	# Connect to Device
 	Connection = http.client.HTTPConnection(Last_IP)
@@ -297,10 +300,13 @@ def Command(Command: Schema.Command, Device_ID: str):
 	# Read Data
 	Data = Response.read()
 
+	# Convert Data to JSON
+	Data = Data.decode("utf-8")
+
 	# Send Response
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
-		content={"Event": status.HTTP_200_OK, "Message": Data.decode("utf-8")}
+		content={"Event": Data.Response, "Message": Data.decode("utf-8")}
 	)
 
 @PostOffice.websocket("/WS/{client_id}")
