@@ -306,7 +306,7 @@ def Command(Command: Schema.Command, Device_ID: str):
 	# Send Response
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
-		content={"Event": Data.Response, "Message": Data.decode("utf-8")}
+		content={"Event": status.HTTP_200_OK, "Message": Data.decode("utf-8")}
 	)
 
 @PostOffice.websocket("/WS/{client_id}")
