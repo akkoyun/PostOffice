@@ -904,6 +904,12 @@ class Payload(CustomBaseModel):
 	V_Set_Max: Optional[float] = Field(description="Maximum voltage set value.", example=220.12)
 
 	# Energy Min Max Values
+	V_MIN_R: Optional[float] = Field(description="Phase R minimum voltage measurement", example=220.12)
+	V_MAX_R: Optional[float] = Field(description="Phase R maximum voltage measurement", example=220.12)
+	V_MIN_S: Optional[float] = Field(description="Phase S minimum voltage measurement", example=220.12)
+	V_MAX_S: Optional[float] = Field(description="Phase S maximum voltage measurement", example=220.12)
+	V_MIN_T: Optional[float] = Field(description="Phase T minimum voltage measurement", example=220.12)
+	V_MAX_T: Optional[float] = Field(description="Phase T maximum voltage measurement", example=220.12)
 	VRMS_MIN_R: Optional[float] = Field(description="Phase R minimum voltage measurement", example=220.12)
 	VRMS_MAX_R: Optional[float] = Field(description="Phase R maximum voltage measurement", example=220.12)
 	VRMS_MIN_S: Optional[float] = Field(description="Phase S minimum voltage measurement", example=220.12)
