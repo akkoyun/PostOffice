@@ -14,21 +14,6 @@ Local_Timezone = pytz.timezone("Europe/Istanbul")
 # Define FastAPI Object
 Hardware_API = FastAPI(version="01.00.00", title="Hardware API")
 
-# API Boot Sequence
-@Hardware_API.on_event("startup")
-async def Startup_Event():
-
-	# Log Message
-	Log.Terminal_Log("DEBUG", f"Hardware API Started {datetime.now()}")
-	Log.Terminal_Log("DEBUG", f"*************************************************")
-
-# API ShutDown Sequence
-@Hardware_API.on_event("shutdown")
-async def Shutdown_event():
-
-	# Log Message
-	Log.Terminal_Log("DEBUG", f"Hardware API Shutdown {datetime.now()}")
-
 # Schema Error Handler
 @Hardware_API.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
