@@ -308,7 +308,7 @@ def Command(Command: Schema.Command, Device_ID: str):
 
 # Send Command Method
 @PostOffice.post("/Old_Device/{Device_IP}", status_code=status.HTTP_200_OK)
-def Command_Old(request: Request, Device_IP: str):
+async def Command_Old(request: Request, Device_IP: str):
 
 	# Connect to Device
 	Connection = http.client.HTTPConnection(Device_IP)
@@ -316,8 +316,14 @@ def Command_Old(request: Request, Device_IP: str):
 	# Set Headers
 	Headers = {}
 
+	# Get Request Body
+	Request_Body = ((await request.body()).decode("utf-8"))
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"Body : [{Request_Body}]")
+
 	# Send Request
-	Connection.request("POST", "/", request.body, Headers)
+	Connection.request("POST", "/", Request_Body, Headers)
 
 	# Get Response
 	Response = Connection.getresponse()
