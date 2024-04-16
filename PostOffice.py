@@ -325,6 +325,9 @@ def Command_Old(request: Request, Device_IP: str):
 	# Read Data
 	Data = Response.read()
 
+	# Log Message
+	Log.Terminal_Log("INFO", f"Command Sended : [{Data}]")
+
 	# Send Response
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
