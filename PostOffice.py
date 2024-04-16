@@ -306,6 +306,32 @@ def Command(Command: Schema.Command, Device_ID: str):
 		content=Data.decode("utf-8")
 	)
 
+# Send Command Method
+@PostOffice.post("/Old_Device/{Device_IP}", status_code=status.HTTP_200_OK)
+def Command_Old(request: Request, Device_IP: str):
+
+	# Connect to Device
+	Connection = http.client.HTTPConnection(Device_IP)
+
+	# Set Headers
+	Headers = {}
+
+	# Send Request
+	Connection.request("POST", "/", request.body, Headers)
+
+	# Get Response
+	Response = Connection.getresponse()
+
+	# Read Data
+	Data = Response.read()
+
+	# Send Response
+	return JSONResponse(
+		status_code=status.HTTP_200_OK, 
+		content=Data.decode("utf-8")
+	)
+
+
 @PostOffice.websocket("/WS/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
