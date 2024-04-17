@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse, FileResponse
 from datetime import datetime
 import pytz
 import hashlib
+import json
 
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
@@ -303,7 +304,7 @@ def Command(Command: Schema.Command, Device_ID: str):
 	# Send Response
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
-		content=Data
+		content=json.loads(Data)
 	)
 
 # Send Command Method
