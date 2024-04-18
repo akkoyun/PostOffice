@@ -278,7 +278,7 @@ async def Command(request: Request, Device_ID: str):
 	Last_IP = Handler.Get_Device_Last_IP(Device_ID)
 
 	# Parse Payload
-	Payload = ((await request.body()).decode("utf-8"))
+	Payload = ((await request.body()).decode("utf-8")).replace(" ", "").replace("\n", "").replace("\r", "")
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"Command Sended to Device: [{Device_ID} - {Last_IP}] / [{Payload}]")
@@ -298,10 +298,16 @@ async def Command(request: Request, Device_ID: str):
 	# Read Data
 	Data = Response.read()
 
+	# Handle JSON
+	Data_JSON = json.loads(Data)
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"Command Recieved from Device: [{Data_JSON}]")
+
 	# Send Response
 	return JSONResponse(
 		status_code=Response.status, 
-		content=json.loads(Data)
+		content=Data_JSON
 	)
 
 # Send Command Method
