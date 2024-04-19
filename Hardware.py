@@ -75,7 +75,7 @@ def Root(request: Request):
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
-	Log.Terminal_Log("INFO", f"Request Size   : {request.headers['content-length']}")
+#	Log.Terminal_Log("INFO", f"Request Size   : {request.headers['content-length']}")
 	Log.Terminal_Log("INFO", f"****************************************")
 
 	# Send Success
