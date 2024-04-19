@@ -18,15 +18,18 @@ Hardware = FastAPI(version="01.00.00", title="Hardware")
 async def Log_Request(request: Request, call_next):
 
     # Log Message
-	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
-	Log.Terminal_Log("INFO", f"Request Headers: {request.headers}")
-	Log.Terminal_Log("INFO", f"****************************************")
+    Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
+
+    for header, value in request.headers.items():
+        Log.Terminal_Log("INFO", f"{header}: {value}")
 	
+    Log.Terminal_Log("INFO", f"****************************************")
+
     # Set Response
-	Response = await call_next(request)
+    Response = await call_next(request)
 	
     # End Function
-	return Response
+    return Response
 
 # Schema Error Handler
 @Hardware.exception_handler(RequestValidationError)
