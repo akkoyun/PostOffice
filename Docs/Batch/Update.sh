@@ -122,6 +122,7 @@ Copy_File "/root/PostOffice/Docs/Service/Handler_Payload.service" "/etc/systemd/
 Copy_File "/root/PostOffice/Docs/Service/Handler_Discord.service" "/etc/systemd/system/Handler_Discord.service"
 Copy_File "/root/PostOffice/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
 Copy_File "/root/PostOffice/Docs/Service/WeatherStat.service" "/etc/systemd/system/WeatherStat.service"
+Copy_File "/root/PostOffice/Docs/Service/Hardware.service" "/etc/systemd/system/Hardware.service"
 
 # Copy Nginx Files
 Copy_File "/root/PostOffice/Docs/Service/default" "/etc/nginx/sites-enabled/default"
@@ -143,6 +144,7 @@ systemctl daemon-reload
 
 # Start Services
 Start_Service PostOffice.service
+Start_Service Hardware.service
 Start_Service Handler_RAW.service
 Start_Service Handler_Parameter.service
 Start_Service Handler_Payload.service
