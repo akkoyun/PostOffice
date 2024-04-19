@@ -19,6 +19,7 @@ async def Log_Request(request: Request, call_next):
 
     # Log Message
 	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
+	Log.Terminal_Log("INFO", f"Request Headers: {request.headers}")
 	Log.Terminal_Log("INFO", f"****************************************")
 	
     # Set Response
