@@ -14,19 +14,18 @@ Local_Timezone = pytz.timezone("Europe/Istanbul")
 Hardware = FastAPI(version="01.00.00", title="Hardware")
 
 # API Middleware Sequence
-#@Hardware.middleware("http")
-#async def add_process_time_header(request: Request, call_next):
+@Hardware.middleware("http")
+async def Log_Request(request: Request, call_next):
 
-	# Log Message
-#	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
-#	Log.Terminal_Log("INFO", f"Request Size   : {request.headers['content-length']}")
-#	Log.Terminal_Log("INFO", f"****************************************")
-
-
-
-
-
-
+    # Log Message
+	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
+	Log.Terminal_Log("INFO", f"****************************************")
+	
+    # Set Response
+	Response = await call_next(request)
+	
+    # End Function
+	return Response
 
 # Schema Error Handler
 @Hardware.exception_handler(RequestValidationError)
@@ -72,11 +71,6 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 # IoT Get Method
 @Hardware.get("/", status_code=status.HTTP_200_OK)
 def Root(request: Request):
-
-	# Log Message
-	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
-#	Log.Terminal_Log("INFO", f"Request Size   : {request.headers['content-length']}")
-	Log.Terminal_Log("INFO", f"****************************************")
 
 	# Send Success
 	return {
