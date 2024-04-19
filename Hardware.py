@@ -73,6 +73,11 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 @Hardware.get("/", status_code=status.HTTP_200_OK)
 def Root(request: Request):
 
+	# Log Message
+	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
+	Log.Terminal_Log("INFO", f"Request Size   : {request.headers['content-length']}")
+	Log.Terminal_Log("INFO", f"****************************************")
+
 	# Send Success
 	return {
 		"Service": "Hardware",
