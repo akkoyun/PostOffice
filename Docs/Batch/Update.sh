@@ -87,6 +87,7 @@ cd /root/PostOffice
 
 # Stop Services
 Stop_Service PostOffice.service
+Stop_Service Hardware.service
 Stop_Service Handler_RAW.service
 Stop_Service Handler_Parameter.service
 Stop_Service Handler_Payload.service
