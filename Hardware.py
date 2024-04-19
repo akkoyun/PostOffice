@@ -14,13 +14,13 @@ Local_Timezone = pytz.timezone("Europe/Istanbul")
 Hardware = FastAPI(version="01.00.00", title="Hardware")
 
 # API Middleware Sequence
-@Hardware.middleware("http")
-async def add_process_time_header(request: Request, call_next):
+#@Hardware.middleware("http")
+#async def add_process_time_header(request: Request, call_next):
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
-	Log.Terminal_Log("INFO", f"Request Size   : {request.headers['content-length']}")
-	Log.Terminal_Log("INFO", f"****************************************")
+#	Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
+#	Log.Terminal_Log("INFO", f"Request Size   : {request.headers['content-length']}")
+#	Log.Terminal_Log("INFO", f"****************************************")
 
 
 
