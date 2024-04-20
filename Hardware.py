@@ -74,9 +74,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 # IoT Get Method
 @Hardware.get("/", status_code=status.HTTP_200_OK)
-async def Root(request: Request, host: str = Header(None)):
+async def Root(request: Request, x_real_ip: str = Header(None)):
 
 	# Send Success
 	return {
-		"Service": f"{host}",
+		"Service": f"{x_real_ip}",
 	}
