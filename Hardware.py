@@ -1,7 +1,7 @@
 # Library Includes
 from Functions import Log, Functions
 from Setup.Config import APP_Settings
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, status, Header
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from datetime import datetime
@@ -74,9 +74,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 # IoT Get Method
 @Hardware.get("/", status_code=status.HTTP_200_OK)
-def Root(request: Request):
+async def Root(request: Request, host: str = Header(None)):
 
 	# Send Success
 	return {
-		"Service": "Hardware",
+		"Service": f"{host}",
 	}
