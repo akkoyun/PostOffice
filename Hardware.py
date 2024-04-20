@@ -15,14 +15,14 @@ Hardware = FastAPI(version="01.00.00", title="Hardware")
 
 # API Middleware Sequence
 @Hardware.middleware("http")
-async def Log_Request(request: Request, call_next):
+async def MiddleWare(
+	request: Request, 
+	call_next,
+	x_real_ip: str = Header(None)
+):
 
     # Log Message
-    Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
-
-    for header, value in request.headers.items():
-        Log.Terminal_Log("INFO", f"{header}: {value}")
-	
+    Log.Terminal_Log("INFO", f"New Get Request: {x_real_ip}")
     Log.Terminal_Log("INFO", f"****************************************")
 
     # Set Response
