@@ -18,8 +18,20 @@ async def Startup_Event():
 	Log.Terminal_Log("INFO", f"Hardware API Started {datetime.now()}")
 	Log.Terminal_Log("INFO", f"*************************************************")
 
+# Define Shutdown Event
+async def Shutdown_event():
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"Hardware API Shutdown {datetime.now()}")
+	Log.Terminal_Log("INFO", f"*************************************************")
+
 # Define FastAPI Object
-Hardware = FastAPI(version="01.00.00", title="Hardware", on_startup=[Startup_Event])
+Hardware = FastAPI(
+	version="01.00.00", 
+	title="Hardware", 
+	on_startup=[Startup_Event], 
+	on_shutdown=[Shutdown_event]
+)
 
 # API Middleware Sequence
 @Hardware.middleware("http")
