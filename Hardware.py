@@ -38,19 +38,11 @@ async def validation_exception_handler(exc: RequestValidationError):
 		# Message Status Code
 		Message_Status_Code = status.HTTP_400_BAD_REQUEST
 
-		# Log Message
-		Log.Terminal_Log("INFO", f"Bad Request: {exc}")
-		Log.Terminal_Log("INFO", f"****************************************")
-
 	# Null Body
 	else:
 
 		# Message Status Code
 		Message_Status_Code = status.HTTP_204_NO_CONTENT
-
-		# Log Message
-		Log.Terminal_Log("INFO", f"No Content")
-		Log.Terminal_Log("INFO", f"****************************************")
 
 	# Send Response
 	return JSONResponse(
