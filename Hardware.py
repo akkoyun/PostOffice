@@ -30,7 +30,7 @@ async def MiddleWare(request: Request, call_next):
 
 # Schema Error Handler
 @Hardware.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(exc: RequestValidationError):
 
 	# Control for Null Body
 	if exc.body is not None:
@@ -42,12 +42,13 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	else:
 
 		# Message Status Code
-		Message_Status_Code = status.HTTP_406_NOT_ACCEPTABLE
+		Message_Status_Code = status.HTTP_204_NO_CONTENT
 
 	# Send Response
 	return JSONResponse(
-		status_code=Message_Status_Code, 
+		status_code=status.HTTP_200_OK, 
 		content={"Event": Message_Status_Code},
+		headers={"Server": APP_Settings.SERVER_NAME}
 	)
 
 # IoT Get Method
