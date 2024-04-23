@@ -48,7 +48,7 @@ async def validation_exception_handler(exc: RequestValidationError):
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
 		content={"Event": Message_Status_Code},
-		headers={"Server": APP_Settings.SERVER_NAME}
+		headers={"server": APP_Settings.SERVER_NAME}
 	)
 
 # IoT Get Method
