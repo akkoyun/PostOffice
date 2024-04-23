@@ -32,12 +32,9 @@ async def MiddleWare(request: Request, call_next):
 @Hardware.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
-	# Control for Command key
-	if Schema.Hardware_API_Info.Command in exc.body:
-
-		return JSONResponse(status_code=exc.status_code, content={"error": exc.detail})
-
-
+	if exc.status_code == 422:
+		if "Command" not in request.json():
+			return JSONResponse(status_code=400, content={"Event": 211})
 		
 
 
