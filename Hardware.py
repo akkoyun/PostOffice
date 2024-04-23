@@ -15,8 +15,8 @@ Local_Timezone = pytz.timezone("Europe/Istanbul")
 async def Startup_Event():
 
 	# Log Message
-	Log.Terminal_Log("DEBUG", f"Hardware API Started {datetime.now()}")
-	Log.Terminal_Log("DEBUG", f"*************************************************")
+	Log.Terminal_Log("INFO", f"Hardware API Started {datetime.now()}")
+	Log.Terminal_Log("INFO", f"*************************************************")
 
 # Define FastAPI Object
 Hardware = FastAPI(version="01.00.00", title="Hardware", on_startup=[Startup_Event])
