@@ -15,7 +15,7 @@ Local_Timezone = pytz.timezone("Europe/Istanbul")
 def Startup_Event():
 
 	# Set Message
-	Message = f"Hardware API Started {datetime.now()}\r\n*************************************************"
+	Message = f"Hardware API Started\r\nStart Time: {datetime.now()}\r\n***************************************************************************************"
 
 	# Log Message
 	Log.Terminal_Log("INFO", Message)
@@ -24,7 +24,7 @@ def Startup_Event():
 def Shutdown_event():
 
 	# Set Message
-	Message = f"Hardware API Shutdown {datetime.now()}\r\n*************************************************"
+	Message = f"Hardware API Shutdown\r\nStop Time: {datetime.now()}\r\n***************************************************************************************"
 	
 	# Log Message
 	Log.Terminal_Log("INFO", Message)
