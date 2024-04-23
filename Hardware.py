@@ -11,8 +11,15 @@ import pytz
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
 
+# Define Startup Event
+async def Startup_Event():
+
+	# Log Message
+	Log.Terminal_Log("DEBUG", f"Hardware API Started {datetime.now()}")
+	Log.Terminal_Log("DEBUG", f"*************************************************")
+
 # Define FastAPI Object
-Hardware = FastAPI(version="01.00.00", title="Hardware")
+Hardware = FastAPI(version="01.00.00", title="Hardware", on_startup=[Startup_Event])
 
 # API Middleware Sequence
 @Hardware.middleware("http")
@@ -69,7 +76,7 @@ async def Root(request: Request, Data: Schema.Hardware_API_Info, response: Respo
 	response.status_code = HTTP_Status_Code
 
 	# Set Response Event
-	Response_Event = 210
+	Response_Event = 200
 
 	# Create Response Content
 	Response_Pack = Schema.Hardware_API_Response_Model(Event=Response_Event)
