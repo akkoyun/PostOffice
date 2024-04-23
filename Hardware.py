@@ -2,7 +2,7 @@
 from Functions import Log, Functions
 from Setup.Config import APP_Settings
 from Setup import Schema
-from fastapi import FastAPI, Request, status, Header
+from fastapi import FastAPI, Request, status, Header, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from datetime import datetime
@@ -70,11 +70,12 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	)
 
 # IoT Get Method
-@Hardware.get("/", response_model=Schema.Hardware_API_Response_Model)
-async def Root(request: Request, x_real_ip: str = Header(None)):
+@Hardware.get("/", status_code=status.HTTP_200_OK, response_model=Schema.Hardware_API_Response_Model)
+async def Root(request: Request, response: Response, x_real_ip: str = Header(None)):
 
 	# Define Status Code
 	HTTP_Status_Code = status.HTTP_202_ACCEPTED
+	response.status_code = HTTP_Status_Code
 
 	# Set Response Event
 	Response_Event = 210
@@ -83,4 +84,4 @@ async def Root(request: Request, x_real_ip: str = Header(None)):
 	Response_Pack = Schema.Hardware_API_Response_Model(Event=Response_Event)
 
 	# Send Success
-	return Response_Pack, HTTP_Status_Code
+	return Response_Pack
