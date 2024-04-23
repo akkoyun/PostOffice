@@ -12,18 +12,22 @@ import pytz
 Local_Timezone = pytz.timezone("Europe/Istanbul")
 
 # Define Startup Event
-async def Startup_Event():
+def Startup_Event():
+
+	# Set Message
+	Message = f"Hardware API Started {datetime.now()}\r\n*************************************************"
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"Hardware API Started {datetime.now()}")
-	Log.Terminal_Log("INFO", f"*************************************************")
+	Log.Terminal_Log("INFO", Message)
 
 # Define Shutdown Event
-async def Shutdown_event():
+def Shutdown_event():
 
+	# Set Message
+	Message = f"Hardware API Shutdown {datetime.now()}\r\n*************************************************"
+	
 	# Log Message
-	Log.Terminal_Log("INFO", f"Hardware API Shutdown {datetime.now()}")
-	Log.Terminal_Log("INFO", f"*************************************************")
+	Log.Terminal_Log("INFO", Message)
 
 # Define FastAPI Object
 Hardware = FastAPI(
@@ -37,15 +41,17 @@ Hardware = FastAPI(
 @Hardware.middleware("http")
 async def MiddleWare(request: Request, call_next):
 
-    # Log Message
-    Log.Terminal_Log("INFO", f"New Get Request: {request.client.host}")
-    Log.Terminal_Log("INFO", f"****************************************")
+	# Set Message
+	Message = f"New Get Request: {request.client.host}\r\n****************************************"
 
-    # Set Response
-    Response = await call_next(request)
+    # Log Message
+	Log.Terminal_Log("INFO", Message)
+	
+	# Set Response
+	Response = await call_next(request)
 
     # End Function
-    return Response
+	return Response
 
 # Schema Error Handler
 @Hardware.exception_handler(RequestValidationError)
@@ -57,9 +63,11 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		# Message Status Code
 		Message_Status_Code = status.HTTP_400_BAD_REQUEST
 
+		# Set Message
+		Message = f"New Undefinied Data Recieved from: {request.client.host}\r\n****************************************"
+
 		# Log Message
-		Log.Terminal_Log("ERROR", f"Bad Request")
-		Log.Terminal_Log("INFO", f"****************************************")
+		Log.Terminal_Log("ERROR", Message)
 
 	# Null Body
 	else:
@@ -67,9 +75,11 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		# Message Status Code
 		Message_Status_Code = status.HTTP_204_NO_CONTENT
 
+		# Set Message
+		Message = f"No Content\r\n****************************************"
+
 		# Log Message
-		Log.Terminal_Log("ERROR", f"No Content")
-		Log.Terminal_Log("INFO", f"****************************************")
+		Log.Terminal_Log("ERROR", Message)
 
 	# Send Response
 	return JSONResponse(
