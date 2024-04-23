@@ -24,7 +24,7 @@ async def MiddleWare(request: Request, call_next):
 
     # Set Response
     Response = await call_next(request)
-	
+
     # End Function
     return Response
 
@@ -70,11 +70,13 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	)
 
 # IoT Get Method
-@Hardware.get("/", status_code=status.HTTP_200_OK, response_model=Schema.Hardware_API_Response_Model)
-async def Root(request: Request, response: Response, x_real_ip: str = Header(None)):
+@Hardware.post("/", status_code=status.HTTP_200_OK, response_model=Schema.Hardware_API_Response_Model)
+async def Root(request: Request, Data: Schema.Hardware_API_Info, response: Response, x_real_ip: str = Header(None)):
 
 	# Define Status Code
 	HTTP_Status_Code = status.HTTP_202_ACCEPTED
+
+	# Set Response Status Code
 	response.status_code = HTTP_Status_Code
 
 	# Set Response Event

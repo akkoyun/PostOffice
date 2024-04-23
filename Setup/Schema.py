@@ -1200,6 +1200,96 @@ class Command(BaseModel):
 
 
 
+
+# Define Info
+class Hardware_API_Info(BaseModel):
+
+	# Define Command
+	Command: str = Field(description="Pack command.", example="Online")
+    
+	# Timestamp
+	TimeStamp: str = Field(description="Measurement time stamp.", example="2022-07-19 08:28:32")
+	
+	# Device ID
+	ID: str = Field(description="IoT device unique ID.", example="8B00000000000000")
+	
+	# Device Firmware Version
+	Firmware: Optional[str] = Field(description="Firmware version of device.", example="01.00.00")
+
+	# Command Validator
+	@validator("Command", pre=True, always=True)
+	def Validate_Command(cls, command):
+
+		# Define Allowed Commands
+		Allowed_Commands = ["Online", "Offline", "Timed"]
+
+		# Return Command
+		return command if command in Allowed_Commands else "Unknown"
+
+	# Device ID Validator
+	@validator('ID', pre=True, always=True)
+	def ID_Validator(cls, ID_Value):
+
+		# Define Regex Pattern
+		Pattern = r'^[0-9A-F]{10,16}$'
+
+		# Check ID
+		if not re.match(Pattern, ID_Value):
+
+			# Raise Error
+			raise ValueError(f"Invalid ID format. Expected 'XXXXXXXXXXXXXXXX', got {ID_Value}")
+
+		# Return ID
+		return ID_Value
+
+	# Firmware Validator
+	@validator('Firmware', pre=True, always=True)
+	def Version_Validator(cls, Value):
+
+		# Define Regex Pattern
+		Pattern = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$'
+
+		# Check Value
+		if not re.match(Pattern, Value):
+
+			# Raise Error
+			raise ValueError(f"Invalid version format. Expected 'XX.XX.XX', got {Value}")
+
+		# Return Value
+		return Value
+
+	# Timestamp Validator
+	@validator('TimeStamp')
+	def validate_timestamp(cls, v):
+
+		# Check Timestamp
+		try:
+
+			# Check for Z
+			if 'Z' in v:
+				v = v.replace('Z', '+00:00')
+
+			# Check for +
+			v = re.sub(r'\+\d{2}:\d{2}', '', v)
+
+			# Parse Date
+			Parsed_TimeStamp = datetime.fromisoformat(v)
+
+			# Return Value
+			return Parsed_TimeStamp.strftime('%Y-%m-%dT%H:%M:%S')
+		
+		# Raise Error
+		except ValueError:
+			
+			# Raise Error
+			raise ValueError('TimeStamp is not in a valid format')
+
+
+
+
+
+
+
 # Define Hardware API Response Data Model
 class Hardware_API_Response_Model(BaseModel):
 
