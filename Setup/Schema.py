@@ -1185,3 +1185,23 @@ class Command(BaseModel):
 
 	# Command
 	Request: Command_Detail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Define Hardware API Response Data Model
+class Hardware_API_Response_Model(BaseModel):
+
+	# Event
+	Event: int = Field(description="Command Response Event.", example=256)
