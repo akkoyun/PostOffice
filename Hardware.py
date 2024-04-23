@@ -32,42 +32,14 @@ async def MiddleWare(request: Request, call_next):
 @Hardware.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
-	# Log Message
-	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
+	# Control for Command key
+	if Schema.Hardware_API_Info.Command in exc.body:
 
-	# Control for Null Body
-	if exc.body is not None:
+		return JSONResponse(status_code=exc.status_code, content={"error": exc.detail})
 
-        # Add Stream to DataBase
-		Functions.Record_Stream(0, 0, request.client.host, request.headers['content-length'], exc.body, datetime.now())
 
-		# Message Status Code
-		Message_Status_Code = status.HTTP_400_BAD_REQUEST
+		
 
-		# Message Content
-		Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
-
-		# Headers
-		Message_Headers = {"server": APP_Settings.SERVER_NAME}
-
-	# Null Body
-	else:
-
-		# Message Status Code
-		Message_Status_Code = status.HTTP_406_NOT_ACCEPTABLE
-
-		# Message Content
-		Message_Content = {"Event": status.HTTP_406_NOT_ACCEPTABLE, "Message": "Null Body"}
-
-		# Headers
-		Message_Headers = {"server": APP_Settings.SERVER_NAME}
-
-	# Send Response
-	return JSONResponse(
-		status_code=Message_Status_Code, 
-		content=Message_Content, 
-		headers=Message_Headers
-	)
 
 # IoT Get Method
 @Hardware.post("/", status_code=status.HTTP_200_OK, response_model=Schema.Hardware_API_Response_Model)
