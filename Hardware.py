@@ -32,11 +32,23 @@ async def MiddleWare(request: Request, call_next):
 @Hardware.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
-	if exc.status_code == 422:
-		if "Command" not in request.json():
-			return JSONResponse(status_code=400, content={"Event": 211})
-		
+	# Control for Null Body
+	if exc.body is not None:
 
+		# Message Status Code
+		Message_Status_Code = status.HTTP_400_BAD_REQUEST
+
+	# Null Body
+	else:
+
+		# Message Status Code
+		Message_Status_Code = status.HTTP_406_NOT_ACCEPTABLE
+
+	# Send Response
+	return JSONResponse(
+		status_code=Message_Status_Code, 
+		content={"Event": Message_Status_Code},
+	)
 
 # IoT Get Method
 @Hardware.post("/", status_code=status.HTTP_200_OK, response_model=Schema.Hardware_API_Response_Model)
