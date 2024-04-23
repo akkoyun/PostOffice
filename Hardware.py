@@ -30,7 +30,7 @@ async def MiddleWare(request: Request, call_next):
 
 # Schema Error Handler
 @Hardware.exception_handler(RequestValidationError)
-async def validation_exception_handler(exc: RequestValidationError):
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
 	# Control for Null Body
 	if exc.body is not None:
