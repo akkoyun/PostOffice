@@ -83,4 +83,4 @@ async def Root(request: Request, x_real_ip: str = Header(None)):
 	Response_Pack = Schema.Hardware_API_Response_Model(Event=Response_Event)
 
 	# Send Success
-	return Response_Pack, HTTP_Status_Code
+	return Response_Pack
