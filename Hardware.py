@@ -38,17 +38,24 @@ async def validation_exception_handler(exc: RequestValidationError):
 		# Message Status Code
 		Message_Status_Code = status.HTTP_400_BAD_REQUEST
 
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Bad Request: {exc}")
+		Log.Terminal_Log("INFO", f"****************************************")
+
 	# Null Body
 	else:
 
 		# Message Status Code
 		Message_Status_Code = status.HTTP_204_NO_CONTENT
 
+		# Log Message
+		Log.Terminal_Log("ERROR", f"No Content")
+		Log.Terminal_Log("INFO", f"****************************************")
+
 	# Send Response
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
-		content={"Event": Message_Status_Code},
-		headers={"server": APP_Settings.SERVER_NAME}
+		content={"Event": Message_Status_Code}
 	)
 
 # IoT Get Method
