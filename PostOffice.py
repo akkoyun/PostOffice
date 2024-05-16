@@ -314,35 +314,68 @@ async def Command(request: Request, Device_ID: str):
 @PostOffice.post("/Old_Device/{Device_IP}", status_code=status.HTTP_200_OK)
 async def Command_Old(request: Request, Device_IP: str):
 
-	# Connect to Device
-	Connection = http.client.HTTPConnection(Device_IP)
+	try:
 
-	# Set Headers
-	Headers = {}
+		# Connect to Device
+		Connection = http.client.HTTPConnection(Device_IP)
 
-	# Get Request Body
-	Request_Body = ((await request.body()).decode("utf-8"))
+		# Set Headers
+		Headers = {}
 
-	# Log Message
-	Log.Terminal_Log("INFO", f"Body : [{Request_Body}]")
+		# Get Request Body
+		Request_Body = ((await request.body()).decode("utf-8"))
 
-	# Send Request
-	Connection.request("POST", "/", Request_Body, Headers)
+		# Log Message
+		Log.Terminal_Log("INFO", f"Body : [{Request_Body}]")
 
-	# Get Response
-	Response = Connection.getresponse()
+		# Send Request
+		Connection.request("POST", "/", Request_Body, Headers)
 
-	# Read Data
-	Data = Response.read()
+		# Get Response
+		Response = Connection.getresponse()
 
-	# Log Message
-	Log.Terminal_Log("INFO", f"Command Sended : [{Data}]")
+		# Read Data
+		Data = Response.read()
 
-	# Send Response
-	return JSONResponse(
-		status_code=status.HTTP_200_OK, 
-		content=Data.decode("utf-8")
-	)
+		# Handle JSON
+		Data_JSON = json.loads(Data)
+
+		# Log Message
+		Log.Terminal_Log("INFO", f"Command Sended : [{Data}]")
+
+		# Send Response
+		return JSONResponse(
+			status_code=Response.status, 
+			content=Data_JSON
+		)
+
+	except http.client.HTTPException as Error:
+		
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Command Error : [{Error}]")
+
+		# Send Response
+		return JSONResponse(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+			content={"Event": status.HTTP_500_INTERNAL_SERVER_ERROR, "Message": "Internal Server Error"}
+		)
+
+	except Exception as Error:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Command Error : [{Error}]")
+
+		# Send Response
+		return JSONResponse(
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+			content={"Event": status.HTTP_500_INTERNAL_SERVER_ERROR, "Message": "Internal Server Error"}
+		)
+
+	finally:
+		
+		# Close Connection
+		if Connection:
+			Connection.close()
 
 @PostOffice.websocket("/WS/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
