@@ -11,16 +11,12 @@ from datetime import datetime
 import pytz
 import hashlib
 import json
-from api_analytics.fastapi import Analytics
 
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.03.00", title="PostOffice")
-
-# Add Middleware
-PostOffice.add_middleware(Analytics, api_key=e07cd314-d096-48c7-9fab-2b30979bbd1b)  # Add middleware
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
