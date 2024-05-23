@@ -20,7 +20,7 @@ Local_Timezone = pytz.timezone("Europe/Istanbul")
 PostOffice = FastAPI(version="02.03.00", title="PostOffice")
 
 # Add Middleware
-PostOffice.add_middleware(Analytics, api_key=<e07cd314-d096-48c7-9fab-2b30979bbd1b>)  # Add middleware
+PostOffice.add_middleware(Analytics, api_key=e07cd314-d096-48c7-9fab-2b30979bbd1b)  # Add middleware
 
 # API Boot Sequence
 @PostOffice.on_event("startup")
