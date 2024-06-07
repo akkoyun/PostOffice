@@ -15,7 +15,7 @@ underline=$(tput smul)
 clear
 
 # Version: 1.0
-echo "${blue}${underline}PostOffice System Update...${reset}"
+echo "${blue}PostOffice System Update...${reset}"
 echo "----------------------------------------------"
 
 # Stop Service
@@ -51,10 +51,10 @@ Perform_Git_Pull() {
 
     if [ $exit_code -eq 0 ]; then
         echo "${green}Update Succesful:${reset}"
-        echo "${BLUE}$git_pull_output${reset}"
+        echo "${blue}$git_pull_output${reset}"
     else
         echo "${red}Update Fail:${reset}"
-        echo "${BLUE}$git_pull_output${reset}"
+        echo "${blue}$git_pull_output${reset}"
     fi
 }
 
@@ -136,9 +136,6 @@ Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
 
 # Message
 echo "----------------------------------------------"
-
-# Message
-echo "${green}PostOffice System Service Restarting...${reset}"
 
 # Restart Deamon
 systemctl daemon-reload
