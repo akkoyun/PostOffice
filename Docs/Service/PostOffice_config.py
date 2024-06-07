@@ -20,7 +20,7 @@ bind = '0.0.0.0:8000'
 workers = multiprocessing.cpu_count() * 2 + 1
 
 # Worker Class
-worker_class = 'Setup.Service.PostOffice_config.CustomUvicornWorker'
+worker_class = 'Docs.Service.PostOffice_config.CustomUvicornWorker'
 
 # Worker Timeout
 worker_timeout = 60
