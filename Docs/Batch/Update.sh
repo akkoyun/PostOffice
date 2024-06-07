@@ -9,6 +9,7 @@ green=$(tput setaf 2)
 yellow=$(tput setaf 3)
 blue=$(tput setaf 4)
 bold=$(tput bold)
+gray=$(tput setaf 240)
 underline=$(tput smul)
 
 # Clear Screen
@@ -50,7 +51,7 @@ Perform_Git_Pull() {
     exit_code=$?
 
     if [ $exit_code -eq 0 ]; then
-        echo "${green}Update Succesful:${reset}"
+        echo "${gray}Update Succesful:${reset}"
         echo "${blue}$git_pull_output${reset}"
     else
         echo "${red}Update Fail:${reset}"
@@ -76,7 +77,7 @@ Copy_File() {
     
     # Control copy status
     if [ $? -eq 0 ]; then
-        echo "${green}$source, $destination konumuna kopyalandı.${reset}"
+        echo "${gray}$source, $destination konumuna kopyalandı.${reset}"
     else
         echo "${red}$source kopyalanamadı.${reset}"
     fi
