@@ -3,8 +3,8 @@ Description=PostOffice Hardware API Service
 After=network.target
 
 [Service]
-User=akkoyun
-Group=akkoyun
+User=root
+Group=root
 WorkingDirectory=/root/PostOffice
 ExecStart=/usr/bin/gunicorn -c /root/PostOffice/Docs/Service/PostOffice_config.py PostOffice:PostOffice
 Restart=always
