@@ -1,0 +1,12 @@
+[Unit]
+Description=PostOffice Hardware API Service
+After=network.target
+
+[Service]
+User=akkoyun
+Group=akkoyun
+WorkingDirectory=/home/akkoyun/PostOffice
+ExecStart=gunicorn -c /home/akkoyun/PostOffice/Docs/Service/PostOffice_config.py PostOffice:PostOffice
+
+[Install]
+WantedBy=multi-user.target
