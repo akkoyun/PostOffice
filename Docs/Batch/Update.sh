@@ -130,7 +130,7 @@ Copy_File "/root/PostOffice/Docs/nginx/PostOffice" "/etc/nginx/sites-available/P
 Copy_File "/root/PostOffice/Docs/nginx/nginx.conf" "/etc/nginx/nginx.conf"
 
 # Copy SH Batch Files
-Copy_File "/root/PostOffice/Batch/Update.sh" "/root/Update.sh"
+Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
 #Copy_File "/root/PostOffice/Docs/Batch/Restart.sh" "/root/Restart.sh"
 #Copy_File "/root/PostOffice/Docs/Batch/Service.sh" "/root/Service.sh"
 
