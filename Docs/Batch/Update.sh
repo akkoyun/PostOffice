@@ -83,7 +83,7 @@ Copy_File() {
 }
 
 # Change Directory to PostOffice
-cd /home/akkoyun/PostOffice
+cd /root/PostOffice
 
 # Stop Services
 Stop_Service PostOffice.service
@@ -116,7 +116,7 @@ echo "----------------------------------------------"
 echo "${yellow}Updating files...${reset}"
 
 # Copy Service Files
-Copy_File "/home/akkoyun/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
+Copy_File "/root/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
 #Copy_File "/root/PostOffice/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"
 #Copy_File "/root/PostOffice/Docs/Service/Handler_Parameter.service" "/etc/systemd/system/Handler_Parameter.service"
 #Copy_File "/root/PostOffice/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
@@ -126,11 +126,11 @@ Copy_File "/home/akkoyun/PostOffice/Docs/Service/PostOffice.service" "/etc/syste
 #Copy_File "/root/PostOffice/Docs/Service/Hardware.service" "/etc/systemd/system/Hardware.service"
 
 # Copy Nginx Files
-Copy_File "/home/akkoyun/PostOffice/Docs/nginx/PostOffice" "/etc/nginx/sites-available/PostOffice"
-Copy_File "/home/akkoyun/PostOffice/Docs/nginx/nginx.conf" "/etc/nginx/nginx.conf"
+Copy_File "/root/PostOffice/Docs/nginx/PostOffice" "/etc/nginx/sites-available/PostOffice"
+Copy_File "/root/PostOffice/Docs/nginx/nginx.conf" "/etc/nginx/nginx.conf"
 
 # Copy SH Batch Files
-Copy_File "/home/akkoyun/PostOffice/Batch/Update.sh" "/home/akkoyun/Update.sh"
+Copy_File "/root/PostOffice/Batch/Update.sh" "/home/akkoyun/Update.sh"
 #Copy_File "/root/PostOffice/Docs/Batch/Restart.sh" "/root/Restart.sh"
 #Copy_File "/root/PostOffice/Docs/Batch/Service.sh" "/root/Service.sh"
 
