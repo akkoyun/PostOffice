@@ -138,7 +138,7 @@ Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
 echo "----------------------------------------------"
 
 # Message
-echo "${green}${bold}PostOffice System Service Restarting...${reset}"
+echo "${green}PostOffice System Service Restarting...${reset}"
 
 # Restart Deamon
 systemctl daemon-reload
