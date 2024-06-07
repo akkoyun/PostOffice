@@ -14,8 +14,6 @@ underline=$(tput smul)
 # Clear Screen
 clear
 
-echo -e "\e[32mThis should be green text\e[0m"
-
 # Version: 1.0
 echo "${blue}PostOffice System Update...${reset}"
 echo "----------------------------------------------"
