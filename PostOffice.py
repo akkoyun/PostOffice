@@ -3,6 +3,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
+from Functions import Log
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.04.00", title="PostOffice")
@@ -23,6 +24,9 @@ def Main_Root(request: Request):
 
     # Render the template with the footer message
 	Rendered_HTML = Template.render(error_message=Error_Message)
+
+	# Log Message
+	Log.Terminal_Log("INFO", f"New Get Request [{request.client.host}]")
 
 	# Return the HTML content
 	return HTMLResponse(content=Rendered_HTML)
