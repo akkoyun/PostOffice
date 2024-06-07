@@ -6,7 +6,9 @@ After=network.target
 User=akkoyun
 Group=akkoyun
 WorkingDirectory=/home/akkoyun/PostOffice
-ExecStart=gunicorn -c /home/akkoyun/PostOffice/Docs/Service/PostOffice_config.py PostOffice:PostOffice
+ExecStart=/usr/bin/gunicorn -c /home/akkoyun/PostOffice/Docs/Service/PostOffice_config.py PostOffice:PostOffice
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
