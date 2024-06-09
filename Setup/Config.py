@@ -3,7 +3,7 @@ import sys
 sys.path.append('/root/PostOffice/')
 
 # Import Packages
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 # Define Setting
 class Settings(BaseSettings):
@@ -16,7 +16,7 @@ class Settings(BaseSettings):
 
 	# Load env File
 	class Config:
-		env_file = "Setup/.env"
+		env_file = ".env"
 
 # Set Setting
 APP_Settings = Settings()
