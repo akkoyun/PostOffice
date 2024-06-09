@@ -1,6 +1,6 @@
 # Setup Root Path
 import sys
-sys.path.append('/root/PostOffice/')
+sys.path.append('/home/postoffice/PostOffice/src/')
 
 # Import Packages
 from pydantic_settings import BaseSettings

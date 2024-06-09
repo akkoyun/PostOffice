@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
-from Functions import Log
+#from Functions import Log
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.04.00", title="PostOffice")

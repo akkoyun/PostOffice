@@ -84,7 +84,7 @@ Copy_File() {
 }
 
 # Change Directory to PostOffice
-cd /root/PostOffice
+cd /home/postoffice/PostOffice/src
 
 # Stop Services
 Stop_Service PostOffice.service
@@ -117,23 +117,23 @@ echo "----------------------------------------------"
 echo "${yellow}Updating files...${reset}"
 
 # Copy Service Files
-Copy_File "/root/PostOffice/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
-#Copy_File "/root/PostOffice/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"
-#Copy_File "/root/PostOffice/Docs/Service/Handler_Parameter.service" "/etc/systemd/system/Handler_Parameter.service"
-#Copy_File "/root/PostOffice/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
-#Copy_File "/root/PostOffice/Docs/Service/Handler_Discord.service" "/etc/systemd/system/Handler_Discord.service"
-#Copy_File "/root/PostOffice/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
-#Copy_File "/root/PostOffice/Docs/Service/WeatherStat.service" "/etc/systemd/system/WeatherStat.service"
-#Copy_File "/root/PostOffice/Docs/Service/Hardware.service" "/etc/systemd/system/Hardware.service"
+Copy_File "/home/postoffice/PostOffice/src/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Parameter.service" "/etc/systemd/system/Handler_Parameter.service"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Discord.service" "/etc/systemd/system/Handler_Discord.service"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/WeatherStat.service" "/etc/systemd/system/WeatherStat.service"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Hardware.service" "/etc/systemd/system/Hardware.service"
 
 # Copy Nginx Files
-Copy_File "/root/PostOffice/Docs/nginx/PostOffice" "/etc/nginx/sites-available/PostOffice"
-Copy_File "/root/PostOffice/Docs/nginx/nginx.conf" "/etc/nginx/nginx.conf"
+Copy_File "/home/postoffice/PostOffice/src/Docs/nginx/PostOffice" "/etc/nginx/sites-available/PostOffice"
+Copy_File "/home/postoffice/PostOffice/src/Docs/nginx/nginx.conf" "/etc/nginx/nginx.conf"
 
 # Copy SH Batch Files
-Copy_File "/root/PostOffice/Docs/Batch/Update.sh" "/root/Update.sh"
-#Copy_File "/root/PostOffice/Docs/Batch/Restart.sh" "/root/Restart.sh"
-#Copy_File "/root/PostOffice/Docs/Batch/Service.sh" "/root/Service.sh"
+Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Update.sh" "/root/Update.sh"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Restart.sh" "/root/Restart.sh"
+#Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Service.sh" "/root/Service.sh"
 
 # Message
 echo "----------------------------------------------"

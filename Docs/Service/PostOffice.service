@@ -5,8 +5,8 @@ After=network.target
 [Service]
 User=root
 Group=root
-WorkingDirectory=/root/PostOffice
-ExecStart=/usr/bin/gunicorn -c /root/PostOffice/Docs/Service/PostOffice_config.py PostOffice:PostOffice
+WorkingDirectory=/home/postoffice/PostOffice/src
+ExecStart=/usr/bin/gunicorn -c /home/postoffice/PostOffice/src/Docs/Service/PostOffice_config.py PostOffice:PostOffice
 Restart=always
 RestartSec=5
 
