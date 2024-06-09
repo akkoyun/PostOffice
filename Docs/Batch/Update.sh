@@ -26,7 +26,7 @@ Stop_Service() {
     echo "${red}Stopping: $1${reset}"
     
     # Stop Service
-    systemctl stop "$1"
+    sudo systemctl stop "$1"
 
 }
 
@@ -37,7 +37,7 @@ Start_Service() {
     echo "${green}Starting: $1${reset}"
     
     # Start Service
-    systemctl start "$1"
+    sudo systemctl start "$1"
 
 }
 
@@ -73,7 +73,7 @@ Copy_File() {
     fi
 
     # Copy file
-    cp "$source" "$destination"
+    sudo cp "$source" "$destination"
     
     # Control copy status
     if [ $? -eq 0 ]; then
@@ -131,7 +131,7 @@ Copy_File "/home/postoffice/PostOffice/src/Docs/nginx/PostOffice" "/etc/nginx/si
 Copy_File "/home/postoffice/PostOffice/src/Docs/nginx/nginx.conf" "/etc/nginx/nginx.conf"
 
 # Copy SH Batch Files
-Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Update.sh" "/root/Update.sh"
+Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Update.sh" "/home/postoffice/"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Restart.sh" "/root/Restart.sh"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Service.sh" "/root/Service.sh"
 
@@ -139,7 +139,7 @@ Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Update.sh" "/root/Update.s
 echo "----------------------------------------------"
 
 # Restart Deamon
-systemctl daemon-reload
+sudo systemctl daemon-reload
 
 # Start Services
 Start_Service PostOffice.service
