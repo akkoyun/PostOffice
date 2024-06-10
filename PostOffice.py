@@ -5,14 +5,22 @@ from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from Functions import Log, FastApi_Functions
 
+# Define FastAPI Tags
+FastAPI_Tags = [
+    {
+        "name": "Root",
+        "description": "This endpoint is the root of the PostOffice API.",
+    }
+]
+
 # Define FastAPI Object
-PostOffice = FastAPI(version="02.04.00", title="PostOffice")
+PostOffice = FastAPI(version="02.04.00", title="PostOffice", openapi_tags=FastAPI_Tags)
 
 # Define Middleware
 PostOffice.add_middleware(FastApi_Functions.Pre_Request)
 
 # Main Root Get Method
-@PostOffice.get("/")
+@PostOffice.get("/", tags=["Root"])
 def Main_Root(request: Request):
 
 	# Set up Jinja2 Environment
