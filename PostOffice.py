@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from Functions import Log, FastApi_Functions
-from Setup import Database
+from Setup import Database, Models
 
 # Define FastAPI Tags
 FastAPI_Tags = [
