@@ -1,12 +1,11 @@
 # Library Imports
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
 from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from Functions import Log, FastApi_Functions
 from Setup import Database, Models
-import Setup.Data_Update
 
 # Define FastAPI Tags
 FastAPI_Tags = [
@@ -39,7 +38,7 @@ PostOffice = FastAPI(version="02.04.00", title="PostOffice", openapi_tags=FastAP
 PostOffice.add_middleware(FastApi_Functions.Pre_Request)
 
 # Main Root Get Method
-@PostOffice.get("/", tags=["Root"])
+@PostOffice.get("/", tags=["Root"], status_code=status.HTTP_200_OK)
 def Main_Root(request: Request):
 
 	# Set up Jinja2 Environment
