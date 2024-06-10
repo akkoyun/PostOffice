@@ -3,10 +3,13 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
-from Functions import Log
+from Functions import Log, FastApi_Functions
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.04.00", title="PostOffice")
+
+# Define Middleware
+PostOffice.add_middleware(FastApi_Functions.AddHeaderMiddleware)
 
 # Main Root Get Method
 @PostOffice.get("/")
