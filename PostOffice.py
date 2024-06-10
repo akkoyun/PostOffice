@@ -6,6 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from Functions import Log, FastApi_Functions
 from Setup import Database, Models
+import Setup.Data_Update
 
 # Define FastAPI Tags
 FastAPI_Tags = [
@@ -25,7 +26,10 @@ async def FastAPI_Lifespan(app: FastAPI):
     # Create Tables
     Database.Base.metadata.create_all(bind=Database.DB_Engine)
     Log.Terminal_Log("INFO", "Missing Tables Created.")
-    
+
+    # Insert Default Data
+    Setup.Data_Update()
+
     # Run the application
     yield
 
