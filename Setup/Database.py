@@ -9,14 +9,3 @@ from contextlib import contextmanager
 from sqlalchemy.orm import sessionmaker
 from Setup.Config import APP_Settings
 
-# Define Database Connection
-SQLALCHEMY_DATABASE_URL = f'postgresql://{APP_Settings.DB_USERNAME}:{APP_Settings.DB_PASSWORD}@{APP_Settings.DB_HOSTNAME}:{APP_Settings.DB_PORT}/{APP_Settings.DB_NAME}'
-
-# Create Database Engine
-DB_Engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_size=30, max_overflow=10)
-
-# Create Session
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=DB_Engine)
-
-# Define Base Class
-Base = declarative_base()
