@@ -6,6 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from Functions import Log, FastApi_Functions
 from Setup import Database, Models
+import time
 
 # Define FastAPI Tags
 FastAPI_Tags = [
@@ -30,6 +31,15 @@ async def FastAPI_Lifespan(app: FastAPI):
 
     # Shutdown Functions
     Log.Terminal_Log("INFO", "Application is shutting down.")
+
+    # Close the database connection
+    Database.DB_Session.remove()
+
+    # Close the database engine
+    Database.DB_Engine.dispose()
+
+    # Close Delays
+    time.sleep(10)
 
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.04.00", title="PostOffice", openapi_tags=FastAPI_Tags, lifespan=FastAPI_Lifespan)
