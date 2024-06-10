@@ -22,23 +22,21 @@ async def FastAPI_Lifespan(app: FastAPI):
     # Startup Functions
     Log.Terminal_Log("INFO", "Application is starting...")
 
-	# Create Tables
+    # Create Tables
     Database.Base.metadata.create_all(bind=Database.DB_Engine)
-
-	# Log Message
     Log.Terminal_Log("INFO", "Missing Tables Created.")
     
-	# Run the application
+    # Run the application
     yield
 
-    # Kapatma olayları burada
+    # Shutdown Functions
     Log.Terminal_Log("INFO", "Application is shutting down.")
 
 # Define FastAPI Object
-PostOffice = FastAPI(version="02.04.00", title="PostOffice", openapi_tags=FastAPI_Tags)
+PostOffice = FastAPI(version="02.04.00", title="PostOffice", openapi_tags=FastAPI_Tags, lifespan=FastAPI_Lifespan)
 
 # Define Middleware
-PostOffice.add_middleware(FastApi_Functions.Pre_Request, lifespan=FastAPI_Lifespan)
+PostOffice.add_middleware(FastApi_Functions.Pre_Request)
 
 # Main Root Get Method
 @PostOffice.get("/", tags=["Root"])
