@@ -108,7 +108,7 @@ echo "----------------------------------------------"
 
 # Table Update
 echo "${yellow}Table updating...${reset}"
-python3 /root/PostOffice/Setup/Data_Update.py
+python3 /home/postoffice/PostOffice/src/Setup/Data_Update.py
 
 # Message
 echo "----------------------------------------------"
