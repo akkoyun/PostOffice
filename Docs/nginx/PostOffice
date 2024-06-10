@@ -3,11 +3,10 @@ server {
 
     # Port Ayarları
     listen 80;
-    listen [::]:80;
+    #listen [::]:80;
 
     # Server Ayarları
-    # server_name postoffice.stf.digital;
-    server_name 176.235.232.121;
+    server_name 176.235.232.121 postoffice.stf.digital;
 
     # Site Ayarları
     location / {
