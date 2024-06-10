@@ -7,6 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from contextlib import contextmanager
 from sqlalchemy.orm import sessionmaker
+from Setup import Models
 from Setup.Config import APP_Settings
 
 # Define Database Connection
