@@ -7,7 +7,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from contextlib import contextmanager
 from sqlalchemy.orm import sessionmaker
-from Setup import Models
 from Setup.Config import APP_Settings
 
 # Define Database Connection
@@ -21,9 +20,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=DB_Engine)
 
 # Define Base Class
 Base = declarative_base()
-
-# Create Tables
-Base.metadata.create_all(bind=DB_Engine)
 
 # Define Session Scope
 @contextmanager
