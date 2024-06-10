@@ -7,11 +7,11 @@ class AddHeaderMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next):
 
-        # Define Response
-        Response = await call_next(request)
-
         # Log Message
         Log.Terminal_Log("INFO", f"-----------------------------------------")
+
+        # Define Response
+        Response = await call_next(request)
 
         # Return Response
         return Response
