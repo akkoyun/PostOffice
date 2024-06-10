@@ -21,6 +21,9 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=DB_Engine)
 # Define Base Class
 Base = declarative_base()
 
+# Create Tables
+Base.metadata.create_all(bind=DB_Engine)
+
 # Define Session Scope
 @contextmanager
 def DB_Session_Scope():
