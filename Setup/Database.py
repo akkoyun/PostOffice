@@ -20,28 +20,3 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=DB_Engine)
 
 # Define Base Class
 Base = declarative_base()
-
-# Define Session Scope
-@contextmanager
-def DB_Session_Scope():
-
-	# Create Session
-	db = SessionLocal()
-
-	try:
-
-		# Return Session
-		yield db
-
-		# Commit Changes
-		db.commit()
-
-	except:
-		
-		# Rollback Changes
-		db.rollback()
-
-	finally:
-
-		# Close Database
-		db.close()
