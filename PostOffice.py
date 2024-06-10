@@ -6,6 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from Functions import Log, FastApi_Functions
 from Setup import Database, Models
+import multiprocessing
 
 # Define FastAPI Tags
 FastAPI_Tags = [
@@ -15,16 +16,29 @@ FastAPI_Tags = [
     }
 ]
 
+# Global Lock for startup
+Startup_Lock = multiprocessing.Lock()
+
 # Define Lifespan
 @asynccontextmanager
 async def FastAPI_Lifespan(app: FastAPI):
 
-    # Startup Functions
-    Log.Terminal_Log("INFO", "Application is starting...")
+    with Startup_Lock:
 
-    # Create Tables
-    Database.Base.metadata.create_all(bind=Database.DB_Engine)
-    Log.Terminal_Log("INFO", "Missing Tables Created.")
+        if Startup_Lock.acquire(block=False):
+
+            try:
+
+                # Startup Functions
+                Log.Terminal_Log("INFO", "Application is starting...")
+
+                # Create Tables
+                Database.Base.metadata.create_all(bind=Database.DB_Engine)
+                Log.Terminal_Log("INFO", "Missing Tables Created.")
+
+            finally:
+
+                Startup_Lock.release()
     
     # Run the application
     yield
