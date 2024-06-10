@@ -1,5 +1,6 @@
 # Library Imports
 from fastapi import FastAPI, Request
+from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
@@ -14,18 +15,30 @@ FastAPI_Tags = [
     }
 ]
 
+# Define Lifespan
+@asynccontextmanager
+async def FastAPI_Lifespan(app: FastAPI):
+
+    # Startup Functions
+    Log.Terminal_Log("INFO", "Application is starting...")
+
+	# Create Tables
+    Database.Base.metadata.create_all(bind=Database.DB_Engine)
+
+	# Log Message
+    Log.Terminal_Log("INFO", "Missing Tables Created.")
+    
+	# Run the application
+    yield
+
+    # Kapatma olayları burada
+    Log.Terminal_Log("INFO", "Application is shutting down.")
+
 # Define FastAPI Object
 PostOffice = FastAPI(version="02.04.00", title="PostOffice", openapi_tags=FastAPI_Tags)
 
 # Define Middleware
-PostOffice.add_middleware(FastApi_Functions.Pre_Request)
-
-# Define Event Handlers
-@PostOffice.on_event("startup")
-def on_startup():
-
-	# Create Tables
-	Database.Base.metadata.create_all(bind=Database.DB_Engine)
+PostOffice.add_middleware(FastApi_Functions.Pre_Request, lifespan=FastAPI_Lifespan)
 
 # Main Root Get Method
 @PostOffice.get("/", tags=["Root"])
