@@ -20,6 +20,13 @@ PostOffice = FastAPI(version="02.04.00", title="PostOffice", openapi_tags=FastAP
 # Define Middleware
 PostOffice.add_middleware(FastApi_Functions.Pre_Request)
 
+# Define Event Handlers
+@PostOffice.on_event("startup")
+def on_startup():
+
+	# Create Tables
+	Database.Base.metadata.create_all(bind=Database.DB_Engine)
+
 # Main Root Get Method
 @PostOffice.get("/", tags=["Root"])
 def Main_Root(request: Request):
