@@ -27,9 +27,6 @@ async def FastAPI_Lifespan(app: FastAPI):
     Database.Base.metadata.create_all(bind=Database.DB_Engine)
     Log.Terminal_Log("INFO", "Missing Tables Created.")
 
-    # Insert Default Data
-    Setup.Data_Update()
-
     # Run the application
     yield
 
