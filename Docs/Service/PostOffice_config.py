@@ -8,7 +8,7 @@ class CustomUvicornWorker(UvicornWorker):
     CONFIG_KWARGS = {
         "loop": "uvloop",
         "http": "httptools",
-        "lifespan": "off",
+        "lifespan": "on",
         "server_header": False,
         "date_header": False,
     }
