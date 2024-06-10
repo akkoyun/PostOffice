@@ -20,10 +20,3 @@ class Settings(BaseSettings):
 
 # Set Setting
 APP_Settings = Settings()
-
-
-# Service Settings
-SERVER_NAME = 'PostOffice'
-
-# Logging Settings
-LOG_FILE = './Log/Service.LOG'
