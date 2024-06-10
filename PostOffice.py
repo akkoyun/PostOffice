@@ -27,9 +27,6 @@ def on_startup():
 	# Create Tables
 	Database.Base.metadata.create_all(bind=Database.DB_Engine)
 
-	# Log Message
-	Log.Terminal_Log("INFO", f"Missing Tables Created.")
-
 # Main Root Get Method
 @PostOffice.get("/", tags=["Root"])
 def Main_Root(request: Request):
