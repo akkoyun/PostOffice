@@ -8,7 +8,7 @@ class CustomUvicornWorker(UvicornWorker):
     CONFIG_KWARGS = {
         "loop": "uvloop",
         "http": "httptools",
-        "lifespan": "on",
+        "lifespan": "off",
         "server_header": False,
         "date_header": False,
     }
@@ -23,7 +23,10 @@ workers = multiprocessing.cpu_count() * 2 + 1
 worker_class = 'Docs.Service.PostOffice_config.CustomUvicornWorker'
 
 # Worker Timeout
-worker_timeout = 60
+worker_timeout = 120
+
+# Worker Graceful Timeout
+graceful_timeout = 120
 
 # Worker Max Requests
 max_requests = 1000
