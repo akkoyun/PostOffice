@@ -26,7 +26,7 @@ def Main_Root(request: Request):
 	Rendered_HTML = Template.render(error_message=Error_Message)
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"New Get Request [{request.client.host}]")
+	Log.Terminal_Log("INFO", f"New Root Request [{request.client.host}]")
 
 	# Return the HTML content
 	return HTMLResponse(content=Rendered_HTML)
