@@ -9,7 +9,7 @@ from Functions import Log, FastApi_Functions
 PostOffice = FastAPI(version="02.04.00", title="PostOffice")
 
 # Define Middleware
-PostOffice.add_middleware(FastApi_Functions.AddHeaderMiddleware)
+PostOffice.add_middleware(FastApi_Functions.Pre_Request)
 
 # Main Root Get Method
 @PostOffice.get("/")
@@ -29,7 +29,7 @@ def Main_Root(request: Request):
 	Rendered_HTML = Template.render(error_message=Error_Message)
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"New Root Request [{request.client.host}]")
+	Log.Terminal_Log("WARNING", f"New Root Request.")
 
 	# Return the HTML content
 	return HTMLResponse(content=Rendered_HTML)
