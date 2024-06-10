@@ -14,6 +14,13 @@ class Settings(BaseSettings):
 	# Logging Settings
 	LOG_FILE: str
 
+	# Database Settings
+	DB_HOSTNAME: str
+	DB_PORT: str
+	DB_PASSWORD: str
+	DB_NAME: str
+	DB_USERNAME: str
+
 	# Load env File
 	class Config:
 		env_file = "Setup/.env"
