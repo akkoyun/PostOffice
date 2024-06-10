@@ -5,6 +5,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 # Library Includes
 from Setup.Config import APP_Settings
 import logging
+import os
 
 # Define Formats
 Log_Format = "{asctime} [{levelname:^9}] --> {message}"
@@ -36,8 +37,15 @@ logging.basicConfig(
     handlers = [Handler],
 )
 
+# Set Log Directory
+LOG_DIR = "/mnt/postoffice/hardware-api/PostOffice_Log"
+os.makedirs(LOG_DIR, exist_ok=True)
+
+# Set Log File
+LOG_FILE = os.path.join(LOG_DIR, "APP_Settings.LOG_FILE")
+File_Handler = logging.FileHandler(LOG_FILE)
+
 # Set File Handler
-File_Handler = logging.FileHandler(APP_Settings.LOG_FILE)
 File_Handler.setFormatter(SimpleFormatter())
 
 # Set Logger
