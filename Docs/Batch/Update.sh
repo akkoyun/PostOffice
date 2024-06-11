@@ -83,11 +83,11 @@ Copy_File() {
     fi
 }
 
-# Change Directory to PostOffice
-cd /home/postoffice/PostOffice/src
-
 # Environment Activate
 sudo source /home/postoffice/PostOffice/PostOffice_ENV/bin/activate
+
+# Change Directory to PostOffice
+cd /home/postoffice/PostOffice/src
 
 # Stop Services
 Stop_Service PostOffice.service
