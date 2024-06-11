@@ -128,3 +128,9 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"New Data Recieved from: {Data.Info.ID} / {request.client.host}")
+
+	# Send Response
+	return JSONResponse(
+		status_code=status.HTTP_200_OK, 
+		content={"Event": status.HTTP_200_OK}
+	)
