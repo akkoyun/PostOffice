@@ -22,7 +22,7 @@ server {
         proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
         proxy_hide_header Server;
-        proxy_set_header Server "PostOffice";
+        proxy_set_header Server 'PostOffice';
         proxy_set_header X-NginX-Proxy true;
 
         # TimeOut Ayarları
