@@ -321,7 +321,7 @@ class Power(CustomBaseModel):
 class IoT(CustomBaseModel):
 
 	# GSM Module Firmware
-	Firmware: Optional[str] = Field(None, description="Modem firmware version.", example="13.00.007", default=Constants.IOT.DEFAULT_FIRMWARE)
+	Firmware: Optional[str] = Field(description="Modem firmware version.", example="13.00.007", default=Constants.IOT.DEFAULT_FIRMWARE)
 
 	# Firmware Validator
 	@field_validator('Firmware', mode='before')
@@ -337,7 +337,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# Module IMEI Number
-	IMEI: Optional[str] = Field(None, description="GSM modem IMEI number.", example="356156060000000", min_length=Constants.IOT.IMEI_MIN_LENGTH, max_length=Constants.IOT.IMEI_MAX_LENGTH, default=Constants.IOT.DEFAULT_IMEI)
+	IMEI: Optional[str] = Field(description="GSM modem IMEI number.", example="356156060000000", min_length=Constants.IOT.IMEI_MIN_LENGTH, max_length=Constants.IOT.IMEI_MAX_LENGTH, default=Constants.IOT.DEFAULT_IMEI)
 
 	# IMEI Validator
 	@field_validator('IMEI', mode='before')
@@ -369,7 +369,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# RSSI
-	RSSI: Optional[int] = Field(None, description="IoT RSSI signal level.", example=28, ge=Constants.IOT.RSSI_MIN, le=Constants.IOT.RSSI_MAX, default=Constants.IOT.DEFAULT_RSSI)
+	RSSI: Optional[int] = Field(description="IoT RSSI signal level.", example=28, ge=Constants.IOT.RSSI_MIN, le=Constants.IOT.RSSI_MAX, default=Constants.IOT.DEFAULT_RSSI)
 
 	# RSSI Validator
 	@field_validator('RSSI', mode='before')
@@ -385,7 +385,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# Connection Time
-	ConnTime: Optional[int] = Field(None, description="IoT connection time.", example=12, ge=Constants.IOT.CONNECTION_TIME_MIN, le=Constants.IOT.CONNECTION_TIME_MAX, default=Constants.IOT.DEFAULT_CONNECTION_TIME)
+	ConnTime: Optional[int] = Field(description="IoT connection time.", example=12, ge=Constants.IOT.CONNECTION_TIME_MIN, le=Constants.IOT.CONNECTION_TIME_MAX, default=Constants.IOT.DEFAULT_CONNECTION_TIME)
 
 	# Connection Time Validator
 	@field_validator('ConnTime', mode='before')
@@ -401,7 +401,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# TAC
-	TAC: Optional[int] = Field(None, description="Operator type allocation code.", example=34124, ge=Constants.IOT.TAC_MIN, le=Constants.IOT.TAC_MAX, default=Constants.IOT.DEFAULT_TAC)
+	TAC: Optional[int] = Field(description="Operator type allocation code.", example=34124, ge=Constants.IOT.TAC_MIN, le=Constants.IOT.TAC_MAX, default=Constants.IOT.DEFAULT_TAC)
 
 	# TAC Validator
 	@field_validator("TAC", mode='before')
@@ -417,7 +417,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# LAC
-	LAC: Optional[int] = Field(None, description="Operator base station location.", example=34124, ge=Constants.IOT.LAC_MIN, le=Constants.IOT.LAC_MAX, default=Constants.IOT.DEFAULT_LAC)
+	LAC: Optional[int] = Field(description="Operator base station location.", example=34124, ge=Constants.IOT.LAC_MIN, le=Constants.IOT.LAC_MAX, default=Constants.IOT.DEFAULT_LAC)
 
 	# LAC Validator
 	@field_validator("LAC", mode='before')
@@ -433,7 +433,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# Cell ID
-	Cell_ID: Optional[int] = Field(None, description="Operator base station cell id.", example=34124, ge=Constants.IOT.CELL_ID_MIN, le=Constants.IOT.CELL_ID_MAX, default=Constants.IOT.DEFAULT_CELL_ID)
+	Cell_ID: Optional[int] = Field(description="Operator base station cell id.", example=34124, ge=Constants.IOT.CELL_ID_MIN, le=Constants.IOT.CELL_ID_MAX, default=Constants.IOT.DEFAULT_CELL_ID)
 
 	# Cell ID Validator
 	@field_validator("Cell_ID", mode='before')
@@ -449,7 +449,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# WDS
-	WDS: Optional[int] = Field(None, description="IoT WDS type.", example=Constants.IOT.WDS.CONNECTION_4G, default=Constants.IOT.WDS.CONNECTION_UNKNOWN)
+	WDS: Optional[int] = Field(description="IoT WDS type.", example=Constants.IOT.WDS.CONNECTION_4G, default=Constants.IOT.WDS.CONNECTION_UNKNOWN)
 
 	# WDS Validator
 	@field_validator('WDS', mode='before')
