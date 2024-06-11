@@ -137,7 +137,7 @@ class Info(CustomBaseModel):
 	Command: str = Field(description="Pack command.", example="Online", min_length=Constants.INFO.COMMAND_MIN_LENGTH, max_length=Constants.INFO.COMMAND_MAX_LENGTH, default=Constants.INFO.DEFAULT_COMMAND)
 
 	# Command Validator
-	@field_validator("Command",  mode='before')
+	@field_validator("Command", mode='before')
 	def Command_Validator(cls, command):
 		
 		# Return Command
@@ -147,7 +147,7 @@ class Info(CustomBaseModel):
 	TimeStamp: str = Field(..., description="Measurement time stamp.", example="2022-07-19T08:28:32")
 
 	# Timestamp Validator
-	@field_validator('TimeStamp',  mode='before')
+	@field_validator('TimeStamp', mode='before')
 	def TimeStamp_Validator(cls, v):
 
 		try:
@@ -174,7 +174,7 @@ class Info(CustomBaseModel):
 	ID: str = Field(description="IoT device unique ID.", example="8B00000000000000", default=Constants.INFO.DEFAULT_ID)
 
 	# Device ID Validator
-	@field_validator('ID',  mode='before')
+	@field_validator('ID', mode='before')
 	def ID_Validator(cls, id_value):
 
 		# Check ID
@@ -190,7 +190,7 @@ class Info(CustomBaseModel):
 	Firmware: Optional[str] = Field(description="Firmware version of device.", example="01.00.00", default=Constants.INFO.DEFAULT_FIRMWARE)
 
 	# Firmware Validator
-	@field_validator('Firmware',  mode='before')
+	@field_validator('Firmware', mode='before')
 	def Firmware_Validator(cls, value):
 
 		# Check Value
