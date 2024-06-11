@@ -39,12 +39,6 @@ async def FastAPI_Lifespan(app: FastAPI):
 	# Shutdown Functions
 	Log.Terminal_Log("INFO", "Application is shutting down.")
 
-	# Close the database connection
-	Database.DB_Session.remove()
-
-	# Close the database engine
-	Database.DB_Engine.dispose()
-
 	# Close Delays
 	time.sleep(10)
 
