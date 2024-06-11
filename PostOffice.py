@@ -124,6 +124,8 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"Device ID : {Data.Info.ID}")
 	Log.Terminal_Log("INFO", f"Data      : Valid")
 
+	Log.Terminal_Log("INFO", f"{Data}")
+
 	# Send Response
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
