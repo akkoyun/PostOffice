@@ -134,7 +134,7 @@ class CustomBaseModel(BaseModel):
 class Info(CustomBaseModel):
 
 	# Define Command
-	Command: str = Field(..., description="Pack command.", example="Online", min_length=Constants.INFO.COMMAND_MIN_LENGTH, max_length=Constants.INFO.COMMAND_MAX_LENGTH, default=Constants.INFO.DEFAULT_COMMAND)
+	Command: str = Field(description="Pack command.", example="Online", min_length=Constants.INFO.COMMAND_MIN_LENGTH, max_length=Constants.INFO.COMMAND_MAX_LENGTH, default=Constants.INFO.DEFAULT_COMMAND)
 
 	# Command Validator
 	@field_validator("Command", mode='before', always=True)
@@ -171,7 +171,7 @@ class Info(CustomBaseModel):
 			return "2024-01-01T00:00:00"
 
 	# Device ID
-	ID: str = Field(..., description="IoT device unique ID.", example="8B00000000000000", default=Constants.INFO.DEFAULT_ID)
+	ID: str = Field(description="IoT device unique ID.", example="8B00000000000000", default=Constants.INFO.DEFAULT_ID)
 
 	# Device ID Validator
 	@field_validator('ID', mode='before', always=True)
@@ -187,7 +187,7 @@ class Info(CustomBaseModel):
 		return id_value
 
 	# Device Firmware Version
-	Firmware: Optional[str] = Field(..., description="Firmware version of device.", example="01.00.00", default=Constants.INFO.DEFAULT_FIRMWARE)
+	Firmware: Optional[str] = Field(description="Firmware version of device.", example="01.00.00", default=Constants.INFO.DEFAULT_FIRMWARE)
 
 	# Firmware Validator
 	@field_validator('Firmware', mode='before', always=True)
