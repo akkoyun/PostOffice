@@ -187,7 +187,7 @@ class Info(CustomBaseModel):
 		return id_value
 
 	# Device Firmware Version
-	Firmware: Optional[str] = Field(None, description="Firmware version of device.", example="01.00.00", default=Constants.INFO.DEFAULT_FIRMWARE)
+	Firmware: Optional[str] = Field(description="Firmware version of device.", example="01.00.00", default=Constants.INFO.DEFAULT_FIRMWARE)
 
 	# Firmware Validator
 	@field_validator('Firmware', mode='before')
@@ -238,7 +238,7 @@ class Power(CustomBaseModel):
 		return value
 
 	# Full Battery Capacity
-	B_FC: Optional[int] = Field(None, description="Full battery capacity.", example=2000, ge=Constants.BATTERY.CAPACITY_MIN, le=Constants.BATTERY.CAPACITY_MAX, default=Constants.BATTERY.DEFAULT_CAPACITY)
+	B_FC: Optional[int] = Field(description="Full battery capacity.", example=2000, ge=Constants.BATTERY.CAPACITY_MIN, le=Constants.BATTERY.CAPACITY_MAX, default=Constants.BATTERY.DEFAULT_CAPACITY)
 
 	# Full Battery Capacity Validator
 	@field_validator('B_FC', mode='before')
@@ -254,7 +254,7 @@ class Power(CustomBaseModel):
 		return value
 
 	# Instant Battery Capacity
-	B_IC: Optional[int] = Field(None, description="Instant battery capacity.", example=1820, ge=Constants.BATTERY.INSTANT_CAPACITY_MIN, le=Constants.BATTERY.INSTANT_CAPACITY_MAX, default=Constants.BATTERY.DEFAULT_INSTANT_CAPACITY)
+	B_IC: Optional[int] = Field(description="Instant battery capacity.", example=1820, ge=Constants.BATTERY.INSTANT_CAPACITY_MIN, le=Constants.BATTERY.INSTANT_CAPACITY_MAX, default=Constants.BATTERY.DEFAULT_INSTANT_CAPACITY)
 
 	# Instant Battery Capacity Validator
 	@field_validator('B_IC', mode='before')
@@ -286,7 +286,7 @@ class Power(CustomBaseModel):
 		return value
 
 	# Battery Temperature
-	B_T: Optional[float] = Field(None, description="Battery temperature.", example=32.1903, ge=Constants.BATTERY.TEMPERATURE_MIN, le=Constants.BATTERY.TEMPERATURE_MAX, default=Constants.BATTERY.DEFAULT_TEMPERATURE)
+	B_T: Optional[float] = Field(description="Battery temperature.", example=32.1903, ge=Constants.BATTERY.TEMPERATURE_MIN, le=Constants.BATTERY.TEMPERATURE_MAX, default=Constants.BATTERY.DEFAULT_TEMPERATURE)
 
 	# Battery Temperature Validator
 	@field_validator('B_T', mode='before')
