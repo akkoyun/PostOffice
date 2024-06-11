@@ -353,7 +353,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# SIM ICCID
-	ICCID: str = Field(..., description="SIM card ICCID number.", example="8990011916180280000", min_length=Constants.IOT.ICCID_MIN_LENGTH, max_length=Constants.IOT.ICCID_MAX_LENGTH, default=Constants.IOT.DEFAULT_ICCID)
+	ICCID: str = Field(description="SIM card ICCID number.", example="8990011916180280000", min_length=Constants.IOT.ICCID_MIN_LENGTH, max_length=Constants.IOT.ICCID_MAX_LENGTH, default=Constants.IOT.DEFAULT_ICCID)
 
 	# ICCID Validator
 	@field_validator('ICCID', mode='before')
