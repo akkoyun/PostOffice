@@ -10,16 +10,8 @@ class Pre_Request(BaseHTTPMiddleware):
         # Log Message
         Log.Terminal_Log("INFO", f"-----------------------------------------")
 
-        # Control for HQ IP
-        if request.client.host != "213.14.250.214":
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"Client IP : {request.client.host}")
-        
-        else:
-
-            # Log Message
-            Log.Terminal_Log("INFO", f"Client IP : STF Headquarters")
+        # Log Message
+        Log.Terminal_Log("INFO", f"Client IP : {request.client.host}")
 
         # Define Response
         Response = await call_next(request)
