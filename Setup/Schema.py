@@ -103,9 +103,9 @@ class Constants:
 		DEFAULT_RSSI = 0
 
 		# Connection Time Constants
-		CONNECTION_TIME_MIN = 0
-		CONNECTION_TIME_MAX = 100000
-		DEFAULT_CONNECTION_TIME = 0
+		CONNECTION_TIME_MIN = 0.0
+		CONNECTION_TIME_MAX = 100000.0
+		DEFAULT_CONNECTION_TIME = 0.0
 
 		# TAC Constants
 		TAC_MIN = 0
@@ -385,7 +385,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# Connection Time
-	ConnTime: Optional[int] = Field(description="IoT connection time.", example=12, ge=Constants.IOT.CONNECTION_TIME_MIN, le=Constants.IOT.CONNECTION_TIME_MAX, default=Constants.IOT.DEFAULT_CONNECTION_TIME)
+	ConnTime: Optional[float] = Field(description="IoT connection time.", example=12, ge=Constants.IOT.CONNECTION_TIME_MIN, le=Constants.IOT.CONNECTION_TIME_MAX, default=Constants.IOT.DEFAULT_CONNECTION_TIME)
 
 	# Connection Time Validator
 	@field_validator('ConnTime', mode='before')
