@@ -121,7 +121,7 @@ def Main_Root(request: Request):
 async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
-	Log.Terminal_Log("INFO", f"New Data Recieved from: {Data.Info.ID} / {request.client.host}")
+	Log.Terminal_Log("INFO", f"New Data Recieved from: {Data.Info.ID}")
 
 	# Send Response
 	return JSONResponse(
