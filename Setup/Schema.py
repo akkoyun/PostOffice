@@ -449,7 +449,7 @@ class IoT(CustomBaseModel):
 		return value
 
 	# WDS
-	WDS: Optional[int] = Field(...,description="IoT WDS type.", example=Constants.IOT.WDS.CONNECTION_4G, default=Constants.IOT.WDS.CONNECTION_UNKNOWN)
+	WDS: Optional[int] = Field(description="IoT WDS type.", example=Constants.IOT.WDS.CONNECTION_4G, default=Constants.IOT.WDS.CONNECTION_UNKNOWN)
 
 	# WDS Validator
 	@field_validator('B_CS', mode='before')
