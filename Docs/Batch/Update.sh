@@ -86,6 +86,9 @@ Copy_File() {
 # Change Directory to PostOffice
 cd /home/postoffice/PostOffice/src
 
+# Environment Activate
+sudo source /home/postoffice/PostOffice/PostOffice_ENV/bin/activate
+
 # Stop Services
 Stop_Service PostOffice.service
 #Stop_Service Hardware.service
