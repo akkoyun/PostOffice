@@ -206,10 +206,10 @@ class Info(CustomBaseModel):
 class Power(CustomBaseModel):
 	
 	# Instant Battery Voltage
-	B_IV: float = Field(..., description="Battery instant voltage.", example=3.8, ge=Constants.BATTERY.VOLTAGE_MIN, le=Constants.BATTERY.VOLTAGE_MAX, default=Constants.BATTERY.DEFAULT_VOLTAGE)
+	B_IV: float = Field(description="Battery instant voltage.", example=3.8, ge=Constants.BATTERY.VOLTAGE_MIN, le=Constants.BATTERY.VOLTAGE_MAX, default=Constants.BATTERY.DEFAULT_VOLTAGE)
 
 	# Battery Instant Voltage Validator
-	@field_validator('B_IV', mode='before', always=True)
+	@field_validator('B_IV', mode='before')
 	def B_IV_Validator(cls, value):
 
 		# Check Value
@@ -222,10 +222,10 @@ class Power(CustomBaseModel):
 		return value
 
 	# Average Battery Current
-	B_AC: float = Field(..., description="Battery average current.", example=0.2, ge=Constants.BATTERY.CURRENT_MIN, le=Constants.BATTERY.CURRENT_MAX, default=Constants.BATTERY.DEFAULT_CURRENT)
+	B_AC: float = Field(description="Battery average current.", example=0.2, ge=Constants.BATTERY.CURRENT_MIN, le=Constants.BATTERY.CURRENT_MAX, default=Constants.BATTERY.DEFAULT_CURRENT)
 
 	# Battery Average Current Validator
-	@field_validator('B_AC', mode='before', always=True)
+	@field_validator('B_AC', mode='before')
 	def B_AC_Validator(cls, value):
 
 		# Check Value
@@ -241,7 +241,7 @@ class Power(CustomBaseModel):
 	B_FC: Optional[int] = Field(description="Full battery capacity.", example=2000, ge=Constants.BATTERY.CAPACITY_MIN, le=Constants.BATTERY.CAPACITY_MAX, default=Constants.BATTERY.DEFAULT_CAPACITY)
 
 	# Full Battery Capacity Validator
-	@field_validator('B_FC', mode='before', always=True)
+	@field_validator('B_FC', mode='before')
 	def B_FC_Validator(cls, value):
 
 		# Check Value
@@ -257,7 +257,7 @@ class Power(CustomBaseModel):
 	B_IC: Optional[int] = Field(description="Instant battery capacity.", example=1820, ge=Constants.BATTERY.INSTANT_CAPACITY_MIN, le=Constants.BATTERY.INSTANT_CAPACITY_MAX, default=Constants.BATTERY.DEFAULT_INSTANT_CAPACITY)
 
 	# Instant Battery Capacity Validator
-	@field_validator('B_IC', mode='before', always=True)
+	@field_validator('B_IC', mode='before')
 	def B_IC_Validator(cls, value):
 
 		# Check Value
@@ -270,10 +270,10 @@ class Power(CustomBaseModel):
 		return value
 
 	# Battery State of Charge
-	B_SOC: float = Field(..., description="Battery state of charge.", example=97.30, ge=Constants.BATTERY.SOC_MIN, le=Constants.BATTERY.SOC_MAX, default=Constants.BATTERY.DEFAULT_SOC)
+	B_SOC: float = Field(description="Battery state of charge.", example=97.30, ge=Constants.BATTERY.SOC_MIN, le=Constants.BATTERY.SOC_MAX, default=Constants.BATTERY.DEFAULT_SOC)
 
 	# Battery State of Charge Validator
-	@field_validator('B_SOC', mode='before', always=True)
+	@field_validator('B_SOC', mode='before')
 	def B_SOC_Validator(cls, value):
 
 		# Check Value
@@ -289,7 +289,7 @@ class Power(CustomBaseModel):
 	B_T: Optional[float] = Field(description="Battery temperature.", example=32.1903, ge=Constants.BATTERY.TEMPERATURE_MIN, le=Constants.BATTERY.TEMPERATURE_MAX, default=Constants.BATTERY.DEFAULT_TEMPERATURE)
 
 	# Battery Temperature Validator
-	@field_validator('B_T', mode='before', always=True)
+	@field_validator('B_T', mode='before')
 	def B_T_Validator(cls, value):
 
 		# Check Value
@@ -305,7 +305,7 @@ class Power(CustomBaseModel):
 	B_CS: int = Field(description="Battery charge state.", examples=Constants.BATTERY.CHARGE_STATE.UNKNOWN, default=Constants.BATTERY.CHARGE_STATE.UNKNOWN)
 
 	# Battery Charge State Validator
-	@field_validator('B_CS', mode='before', always=True)
+	@field_validator('B_CS', mode='before')
 	def Battery_Charge_State_Validator(cls, value):
 
 		# Check Value
