@@ -742,6 +742,81 @@ def Import_SIM():
 		# Log the result
 		Log.Terminal_Log("INFO", f"SIM is up to date.")
 
+# Import Calibration Data
+def Import_Calibration():
+
+	# New Calibration Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_CALIBRATION
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['Calibration_ID', 'Device_ID', 'Type_ID', 'Gain', 'Offset']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Calibration).filter(
+				Models.Calibration.Device_ID==str(row['Device_ID']),
+				Models.Calibration.Type_ID==int(row['Type_ID']),
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Calibration(
+					Calibration_ID=int(row['Calibration_ID']),
+					Device_ID=str(row['Device_ID']),
+					Type_ID=int(row['Type_ID']),
+					Gain=float(row['Gain']),
+					Offset=float(row['Offset']),
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Calibration Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Calibration is up to date.")
+
 
 # Update Data
 Import_Data_Segment()
@@ -754,6 +829,7 @@ Import_Modem()
 Import_Project()
 Import_Device()
 Import_SIM()
+Import_Calibration()
 
 
 
@@ -837,72 +913,6 @@ def Import_Data_Type():
     # Return the count of new records added
     return New_Data_Count
 
-# Import Calibration Data
-def Import_Calibration():
-
-    # New Calibration Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_CALIBRATION
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['Calibration_ID', 'Device_ID', 'Type_ID', 'Gain', 'Offset']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Calibration:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Calibration.query(Models.Calibration).filter(Models.Calibration.Calibration_ID==int(row['Calibration_ID'])).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.Calibration(
-                    Calibration_ID=int(row['Calibration_ID']),
-                    Device_ID=str(row['Device_ID']),
-                    Type_ID=int(row['Type_ID']),
-                    Gain=float(row['Gain']),
-                    Offset=float(row['Offset']),
-                )
-
-                # Add Record to DataBase
-                try:
-                
-                    # Add Record to DataBase
-                    DB_Calibration.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Calibration.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Calibration: {e}")
-
-    # End Function
-    return New_Data_Count
 
 
 
@@ -914,14 +924,6 @@ if New_Data_Type > 0:
     Log.Terminal_Log("INFO", f"[{New_Data_Type}] New Data_Type Added.")
 else:
     Log.Terminal_Log("INFO", f"Data_Type is up to date.")
-
-
-# Calibration
-New_Calibration = Import_Calibration()
-if New_Calibration > 0:
-    Log.Terminal_Log("INFO", f"[{New_Calibration}] New Calibration Added.")
-else:
-    Log.Terminal_Log("INFO", f"Calibration is up to date.")
 
 
 """
