@@ -24,6 +24,7 @@ class Model(Base):
 
 	# Define Relationships
 	devices = relationship("Device", back_populates="model")
+	modems = relationship("Modem", back_populates="model")
 
 	# Define Table Arguments
 	__table_args__ = (
@@ -206,6 +207,7 @@ class Device(Base):
 	manufacturer = relationship("Manufacturer", back_populates="devices")
 	modem = relationship("Modem", back_populates="devices")
 	sim = relationship("SIM", back_populates="devices")
+	calibrations = relationship("Calibration", back_populates="device")
 
 	# Define Table Arguments
 	__table_args__ = (
@@ -279,6 +281,7 @@ class Variable(Base):
 	# Define Relationships
 	segment = relationship("Data_Segment", back_populates="variables")
 	measurements = relationship("Measurement", back_populates="variable")
+	calibrations = relationship("Calibration", back_populates="variable")
 
 	# Define Table Arguments
 	__table_args__ = (
