@@ -801,6 +801,8 @@ def Import_Data_Type():
 
 				except Exception as e:
 
+					Log.Terminal_Log("ERROR", f"An error occurred while adding Data_Type: {e}")
+
 					# Rollback in case of error
 					DB.rollback()
 
@@ -912,7 +914,7 @@ Import_Project()
 Import_Device()
 Import_SIM()
 Import_Data_Type()
-Import_Calibration()
+#Import_Calibration()
 
 
 
