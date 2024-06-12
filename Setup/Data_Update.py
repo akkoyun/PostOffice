@@ -40,10 +40,10 @@ def Import_Data_Segment():
     # Define DB
     with Database.DB_Session_Scope() as DB_Segment:
 
-        Log.Terminal_Log("ERROR", f"Working : {Data_File.head()}")
-
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
+
+            Log.Terminal_Log("ERROR", f"Working : {str(row['Description'])}")
 
             # Check for Existing
             Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Segment_ID == int(row['Segment_ID'])).first()
