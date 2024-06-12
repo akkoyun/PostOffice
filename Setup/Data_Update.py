@@ -763,7 +763,7 @@ def Import_Data_Type():
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
 	# Rename Columns to match the new table schema
-	Data_File.columns = ['Variable_ID', 'Variable_Name', 'Variable_Description', 'Variable_Unit', 'Segment_ID']
+	Data_File.columns = ['Variable_Name', 'Variable_Description', 'Variable_Unit', 'Segment_ID']
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB:
