@@ -45,14 +45,30 @@ def Import_Data_Segment():
 
             Log.Terminal_Log("ERROR", f"Working : {str(row['Segment_ID'])} - {str(row['Description'])}")
 
-            # Check for Existing
-            Query = DB_Segment.query(Models.Data_Segment).filter(
-                Models.Data_Segment.Segment_ID == int(row['Segment_ID']), 
-                Models.Data_Segment.Segment_Name == str(row['Description'])
-            ).first()
+            try:
+                # Ensure correct data types
+                segment_id = int(row['Segment_ID'])
+                description = str(row['Description'])
+
+                # Check for Existing
+                Query = DB_Segment.query(Models.Data_Segment).filter(
+                    Models.Data_Segment.Segment_ID == segment_id, 
+                    Models.Data_Segment.Description == description
+                ).first()
+
+                # Log the result of the query
+                Log.Terminal_Log("INFO", f"Query Result : {Query}")
+
+            except Exception as e:
+                # Log the error if any
+                Log.Terminal_Log("ERROR", f"An error occurred during the query: {e}")
 
             Log.Terminal_Log("ERROR", f"---")
-            Log.Terminal_Log("ERROR", f"Query : {Query}")
+
+
+
+
+
 
 
             #Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Segment_Name == str(row['Description'])).first()
