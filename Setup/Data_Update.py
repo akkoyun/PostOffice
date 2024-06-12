@@ -566,6 +566,7 @@ def Import_Device():
 					Version_ID=int(row['Version_ID']),
 					Project_ID=int(row['Project_ID']),
 					Model_ID=int(row['Model_ID']),
+					Manufacturer_ID=0,
 					IMEI=str(row['IMEI'])
 				)
 
