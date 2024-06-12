@@ -329,7 +329,7 @@ def Import_Model():
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
 	# Rename Columns
-	Data_File.columns = ['Model_ID', 'Model']
+	Data_File.columns = ['Model_ID', 'Model_Name', 'Model_Description']
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB:
@@ -339,7 +339,7 @@ def Import_Model():
 
 			# Check for Existing
 			Query = DB.query(Models.Model).filter(
-				Models.Model.Model_Name.like(str(row['Model']))
+				Models.Model.Model_Name.like(str(row['Model_Name']))
 			).first()
 
 			# Record Not Found
@@ -348,7 +348,8 @@ def Import_Model():
 				# Create New Record
 				New_Record = Models.Model(
 					Model_ID=int(row['Model_ID']),
-					Model_Name=str(row['Model']),
+					Model_Name=str(row['Model_Name']),
+					Model_Description=str(row['Model_Description'])
 				)
 
 				# Add Record to DataBase
