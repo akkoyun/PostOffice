@@ -237,6 +237,77 @@ def Import_Status():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Status is up to date.")
 
+# Import Version Data
+def Import_Version():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_VERSION
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['Version_ID', 'Firmware']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Version).filter(
+				Models.Version.Firmware.like(str(row['Firmware']))
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Version(
+					Version_ID=int(row['Version_ID']),
+					Firmware=str(row['Firmware']),
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Version Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Version is up to date.")
+
 
 
 
@@ -245,6 +316,7 @@ def Import_Status():
 Import_Data_Segment()
 Import_GSM_Operator()
 Import_Status()
+Import_Version()
 
 
 
@@ -256,70 +328,6 @@ Import_Status()
 
 
 """
-
-# Import Version Data
-def Import_Version():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_VERSION
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['Version_ID', 'Firmware']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Version:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Version.query(Models.Version).filter(Models.Version.Firmware.like(str(row['Firmware']))).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.Version(
-                    Version_ID=int(row['Version_ID']),
-                    Firmware=str(row['Firmware']),
-                )
-
-                # Add Record to DataBase
-                try:
-                
-                    # Add Record to DataBase
-                    DB_Version.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Version.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
-
-    # End Function
-    return New_Data_Count
 
 # Import Model Data
 def Import_Model():
@@ -856,12 +864,6 @@ def Import_Project():
 
 
 
-# Version
-New_Version = Import_Version()
-if New_Version > 0:
-    Log.Terminal_Log("INFO", f"[{New_Version}] New Version Added.")
-else:
-    Log.Terminal_Log("INFO", f"Version is up to date.")
 
 # Model
 New_Model = Import_Model()
