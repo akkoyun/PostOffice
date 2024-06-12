@@ -549,59 +549,62 @@ def Import_Data_Type():
     # Download Data File
     try:
         
-        # Download Data File
+        # Read Data File
         Data_File = pd.read_csv(Data_File_Name)
 
     except Exception as e:
 
         # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
+        Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
         # Exit
         exit()
 
-    # Rename Columns
-    Data_File.columns = ['Type_ID', 'Description', 'Variable', 'Unit', 'Segment']
+    # Rename Columns to match the new table schema
+    Data_File.columns = ['Variable_ID', 'Variable_Description', 'Variable_Name', 'Variable_Unit', 'Segment_ID']
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Data_Type:
 
-        # Add Record to DataBase
+        # Iterate over each row in the CSV file
         for index, row in Data_File.iterrows():
 
-            # Check for Existing
-            Query = DB_Data_Type.query(Models.Variable).filter(Models.Variable.Variable_ID == int(row['Type_ID'])).first()
+            # Check if the record already exists
+            Query = DB_Data_Type.query(Models.Variable).filter(Models.Variable.Variable_ID == str(row['Variable_ID'])).first()
             
-            # Record Not Found
+            # If the record does not exist
             if not Query:
 
-                # Create New Record
+                # Create a new record
                 New_Record = Models.Variable(
-                    Variable_ID=int(row['Type_ID']),
-                    Variable_Description=str(row['Description']),
-                    Variable_Code=str(row['Variable']),
-                    Variable_Unit=str(row['Unit']),
-                    Segment_ID=int(row['Segment']),
+                    Variable_ID=str(row['Variable_ID']),  # Ensure Variable_ID is string as per table schema
+                    Variable_Description=str(row['Variable_Description']),
+                    Variable_Name=str(row['Variable_Name']),
+                    Variable_Unit=str(row['Variable_Unit']),
+                    Segment_ID=int(row['Segment_ID'])  # Segment_ID is an integer
                 )
 
-                # Add Record to DataBase
+                # Add the new record to the database
                 try:
 
-                    # Add Record to DataBase
+                    # Add record to the session
                     DB_Data_Type.add(New_Record)
 
-                    # Commit DataBase
+                    # Commit the session to save the record in the database
                     DB_Data_Type.commit()
 
-                    # Increase New Count
+                    # Increase the count of new records added
                     New_Data_Count += 1
 
                 except Exception as e:
 
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Data_Type: {e}")
+                    # Rollback in case of an error during commit
+                    DB_Data_Type.rollback()
 
-    # End Function
+                    # Log the error
+                    Log.Terminal_Log("ERROR", f"An error occurred while adding Variable: {e}")
+
+    # Return the count of new records added
     return New_Data_Count
 
 # Import SIM Data
