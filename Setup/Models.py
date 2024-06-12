@@ -380,7 +380,7 @@ class Calibration(Base):
 	# Define Relationships
 	__table_args__ = (
         Index('idx_calibration_device_id', 'Device_ID'),
-        Index('idx_variable_id', 'Variable_ID'),
+        Index('idx_calibration_variable_id', 'Variable_ID'),
 		UniqueConstraint('Device_ID', 'Variable_ID', name='uix_device_variable'),
 	)
 
