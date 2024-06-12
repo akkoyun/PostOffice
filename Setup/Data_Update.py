@@ -46,10 +46,10 @@ def Import_Data_Segment():
             # Check for Existing
             Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Segment_Name == str(row['Description'])).first()
 
+            Log.Terminal_Log("ERROR", f"Working : {Query}")
+
             # Record Not Found
             if not Query:
-
-                Log.Terminal_Log("ERROR", f"Working : {New_Data_Count}")
 
                 # Create New Record
                 New_Record = Models.Data_Segment(
