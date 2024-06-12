@@ -53,7 +53,7 @@ PostOffice.add_middleware(FastApi_Functions.Pre_Request)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
 	# Log Message
-	Log.Terminal_Log("ERROR", f"New Undefinied Data Recieved from: {request.client.host}")
+	Log.Terminal_Log("ERROR", f"Undefinied Data")
 
 	# Control for Null Body
 	if exc.body is not None:
@@ -65,10 +65,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		Message_Status_Code = status.HTTP_400_BAD_REQUEST
 
 		# Message Content
-		Message_Content = {"Event": status.HTTP_400_BAD_REQUEST, "Message": f"{exc}"}
-
-		# Headers
-		Message_Headers = {"server": APP_Settings.SERVER_NAME}
+		Message_Content = {"Event": status.HTTP_400_BAD_REQUEST}
 
 	# Null Body
 	else:
@@ -77,16 +74,12 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		Message_Status_Code = status.HTTP_406_NOT_ACCEPTABLE
 
 		# Message Content
-		Message_Content = {"Event": status.HTTP_406_NOT_ACCEPTABLE, "Message": "Null Body"}
-
-		# Headers
-		Message_Headers = {"server": APP_Settings.SERVER_NAME}
+		Message_Content = {"Event": status.HTTP_406_NOT_ACCEPTABLE}
 
 	# Send Response
 	return JSONResponse(
 		status_code=Message_Status_Code, 
-		content=Message_Content, 
-		headers=Message_Headers
+		content=Message_Content
 	)
 
 # Main Root Get Method
@@ -124,6 +117,12 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"Device ID : {Data.Info.ID}")
 	Log.Terminal_Log("INFO", f"ICCID     : {Data.Device.IoT.ICCID}")
 	Log.Terminal_Log("INFO", f"IMEI      : {Data.Device.IoT.IMEI}")
+
+
+
+
+
+
 
 	# Send Response
 	return JSONResponse(
