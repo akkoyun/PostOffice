@@ -22,90 +22,77 @@ Models.Base.metadata.create_all(bind=Database.DB_Engine)
 # Import Data_Segment Data
 def Import_Data_Segment():
 
-    # New Data Count Definition
-    New_Data_Count = 0
+	# New Data Count Definition
+	New_Data_Count = 0
 
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_DATA_SEGMENT
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_DATA_SEGMENT
 
-    # Download Data File
-    try:
+	# Download Data File
+	try:
 
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
 
-    except Exception as e:
+	except Exception as e:
 
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
-        # Exit
-        return New_Data_Count
+		# Exit
+		return New_Data_Count
 
-    # Rename Columns
-    Data_File.columns = ['Segment_ID', 'Description']
+	# Rename Columns
+	Data_File.columns = ['Segment_ID', 'Description']
 
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Segment:
+	# Define DB
+	with Database.DB_Session_Scope() as DB_Segment:
 
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
 
-            Log.Terminal_Log("ERROR", f"Working : {str(row['Segment_ID'])} - {str(row['Description'])}")
+			# Check for Existing
+			Query = DB_Segment.query(Models.Data_Segment).filter(
+				Models.Data_Segment.Segment_ID == int(row['Segment_ID']), 
+				Models.Data_Segment.Description == str(row['Description'])
+			).first()
 
-            try:
-                # Ensure correct data types
-                segment_id = int(row['Segment_ID'])
-                description = str(row['Description'])
+			# Record Not Found
+			if not Query:
 
-                # Check for Existing
-                Query = DB_Segment.query(Models.Data_Segment).filter(
-                    Models.Data_Segment.Segment_ID == segment_id, 
-                    Models.Data_Segment.Description == description
-                ).first()
+				# Create New Record
+				New_Record = Models.Data_Segment(
+					Segment_ID=int(row['Segment_ID']),
+					Segment_Name=str(row['Description']),
+					Description=str('')
+				)
 
-            except Exception as e:
+				# Add Record to DataBase
+				try:
+					# Add Record to DataBase
+					DB_Segment.add(New_Record)
 
-                # Log the error if any
-                Log.Terminal_Log("ERROR", f"An error occurred during the query: {e}")
+					# Commit DataBase
+					DB_Segment.commit()
 
-            # Record Not Found
-            if not Query:
+					# Increase New Count
+					New_Data_Count += 1
 
-                # Create New Record
-                New_Record = Models.Data_Segment(
-                    Segment_ID=int(row['Segment_ID']),
-                    Segment_Name=str(row['Description']),
-                    Description=str('')
-                )
+				except Exception as e:
+					# Rollback in case of error
+					DB_Segment.rollback()
 
-                # Add Record to DataBase
-                try:
-                    # Add Record to DataBase
-                    DB_Segment.add(New_Record)
+					# Log Message
+					Log.Terminal_Log("ERROR", f"An error occurred while adding Data Segment: {e}")
 
-                    # Commit DataBase
-                    DB_Segment.commit()
+	# Log the result of the data segment import
+	if New_Data_Count > 0:
 
-                    # Increase New Count
-                    New_Data_Count += 1
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data Segment Added.")
 
-                except Exception as e:
-                    # Rollback in case of error
-                    DB_Segment.rollback()
+	else:
 
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Data Segment: {e}")
-
-    # Log the result of the data segment import
-    if New_Data_Count > 0:
-
-        Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data Segment Added.")
-
-    else:
-
-        Log.Terminal_Log("INFO", f"Data Segment is up to date.")
-
+		Log.Terminal_Log("INFO", f"Data Segment is up to date.")
 
 # Data Segment
 New_Data_Segment = Import_Data_Segment()
