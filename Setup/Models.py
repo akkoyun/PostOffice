@@ -333,7 +333,7 @@ class Stream(Base):
 
 	# Define Table Arguments
 	__table_args__ = (
-		Index('idx_device_id', 'Device_ID'),
+		Index('idx_stream_device_id', 'Device_ID'),
 		Index('idx_stream_iccid', 'ICCID'),
 		Index('idx_stream_time', 'Stream_Time'),
 		Index('idx_device_time', 'Device_Time'),
@@ -379,7 +379,7 @@ class Calibration(Base):
 
 	# Define Relationships
 	__table_args__ = (
-        Index('idx_device_id', 'Device_ID'),
+        Index('idx_calibration_device_id', 'Device_ID'),
         Index('idx_variable_id', 'Variable_ID'),
 		UniqueConstraint('Device_ID', 'Variable_ID', name='uix_device_variable'),
 	)
