@@ -522,6 +522,78 @@ def Import_Modem():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Modem is up to date.")
 
+# Import Project Data
+def Import_Project():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_PROJECT
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['Project_ID', 'Project_Name']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Project).filter(
+				Models.Project.Project_Name.like(str(row['Project_Name']))
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Project(
+					Project_ID=int(row['Project_ID']),
+					Project_Name=str(row['Project_Name']),
+					Project_Description=str("-")
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Project Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Project is up to date.")
+
 # Import Device Data
 def Import_Device():
 
@@ -584,9 +656,6 @@ def Import_Device():
 
 				except Exception as e:
 
-					# Log Message
-					Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
-
 					# Rollback in case of error
 					DB.rollback()
 
@@ -610,6 +679,7 @@ Import_Version()
 Import_Model()
 Import_Manufacturer()
 Import_Modem()
+Import_Project()
 Import_Device()
 
 
@@ -826,81 +896,9 @@ def Import_Calibration():
     # End Function
     return New_Data_Count
 
-# Import Project Data
-def Import_Project():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_PROJECT
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['Project_ID', 'Project_Name']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Project:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Project.query(Models.Project).filter(Models.Project.Project_Name.like(str(row['Project_Name']))).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.Project(
-                    Project_ID=int(row['Project_ID']),
-                    Project_Name=str(row['Project_Name']),
-                    Project_Description=str("-")
-                )
-
-                # Add Record to DataBase
-                try:
-                
-                    # Add Record to DataBase
-                    DB_Project.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Project.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
-
-    # End Function
-    return New_Data_Count
 
 
 
-
-
-# Device
-New_Device = Import_Device()
-if New_Device > 0:
-    Log.Terminal_Log("INFO", f"[{New_Device}] New Device Added.")
-else:
-    Log.Terminal_Log("INFO", f"Device is up to date.")
 
 # Data_Type
 New_Data_Type = Import_Data_Type()
@@ -923,11 +921,5 @@ if New_Calibration > 0:
 else:
     Log.Terminal_Log("INFO", f"Calibration is up to date.")
 
-# Project
-New_Project = Import_Project()
-if New_Project > 0:
-    Log.Terminal_Log("INFO", f"[{New_Project}] New Project Added.")
-else:
-    Log.Terminal_Log("INFO", f"Project is up to date.")
 
 """
