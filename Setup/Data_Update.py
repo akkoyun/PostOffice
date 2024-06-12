@@ -771,11 +771,15 @@ def Import_Calibration():
 		# Add Record to DataBase
 		for index, row in Data_File.iterrows():
 
+			Log.Terminal_Log("INFO", f"1")
+
 			# Check for Existing
 			Query = DB.query(Models.Calibration).filter(
 				Models.Calibration.Device_ID==str(row['Device_ID']),
 				Models.Calibration.Variable_ID==int(row['Type_ID']),
 			).first()
+
+			Log.Terminal_Log("INFO", f"2")
 
 			# Record Not Found
 			if not Query:
