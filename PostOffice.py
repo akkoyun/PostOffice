@@ -52,8 +52,11 @@ PostOffice.add_middleware(FastApi_Functions.Pre_Request)
 @PostOffice.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
+	# Get Request Body
+	Request_Body = await request.body()
+
 	# Log Message
-	Log.Terminal_Log("ERROR", f"Undefinied Data : {request.body}")
+	Log.Terminal_Log("ERROR", f"Undefinied Data : {Request_Body.decode('utf-8')}")
 
 	# Control for Null Body
 	if exc.body is not None:
