@@ -56,7 +56,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	Request_Body = await request.body()
 
 	# Log Message
-	Log.Terminal_Log("ERROR", f"Undefinied Data : {Request_Body.decode('utf-8')}")
+	Log.Terminal_Log("ERROR", f"Undefinied Data")
+	Log.Terminal_Log("ERROR", f"\r\n{Request_Body.decode('utf-8')}")
 
 	# Control for Null Body
 	if exc.body is not None:
