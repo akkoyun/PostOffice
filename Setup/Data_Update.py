@@ -762,6 +762,8 @@ def Import_Calibration():
 		# Log Message
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
+	Log.Terminal_Log("INFO", f"Data File: {Data_File.head()}")
+
 	# Rename Columns
 	Data_File.columns = ['Calibration_ID', 'Device_ID', 'Type_ID', 'Gain', 'Offset']
 
