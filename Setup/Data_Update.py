@@ -801,8 +801,6 @@ def Import_Data_Type():
 
 				except Exception as e:
 
-					Log.Terminal_Log("ERROR", f"An error occurred while adding Data_Type: {e}")
-
 					# Rollback in case of error
 					DB.rollback()
 
@@ -901,7 +899,6 @@ def Import_Calibration():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Calibration is up to date.")
 
-
 # Update Data
 Import_Data_Segment()
 Import_GSM_Operator()
@@ -914,7 +911,4 @@ Import_Project()
 Import_Device()
 Import_SIM()
 Import_Data_Type()
-#Import_Calibration()
-
-
-
+Import_Calibration()
