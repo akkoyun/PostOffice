@@ -763,7 +763,7 @@ def Import_Calibration():
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
 	# Rename Columns
-	Data_File.columns = ['Calibration_ID', 'Device_ID', 'Type_ID', 'Gain', 'Offset']
+	Data_File.columns = ['Calibration_ID', 'Device_ID', 'Variable_ID', 'Gain', 'Offset']
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB:
@@ -776,8 +776,14 @@ def Import_Calibration():
 			# Check for Existing
 			Query = DB.query(Models.Calibration).filter(
 				Models.Calibration.Device_ID==str(row['Device_ID']),
-				Models.Calibration.Variable_ID==int(row['Type_ID']),
+				Models.Calibration.Variable_ID==str(row['Variable_ID'])
 			).first()
+
+
+
+
+
+
 
 			Log.Terminal_Log("INFO", f"2")
 
