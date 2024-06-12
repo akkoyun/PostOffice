@@ -283,7 +283,6 @@ class Variable(Base):
 	# Define Table Arguments
 	__table_args__ = (
 		Index('idx_variable_id', 'Variable_ID'),
-		Index('idx_variable_name', 'Variable_Name'),
 		Index('idx_segment_id', 'Segment_ID'),
 	)
 
