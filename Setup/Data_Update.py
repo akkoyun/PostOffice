@@ -368,9 +368,87 @@ def Import_Model():
 					# Rollback in case of error
 					DB.rollback()
 
-	# End Function
-	return New_Data_Count
+	# Log the result
+	if New_Data_Count > 0:
 
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Model Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Model is up to date.")
+
+# Import Manufacturer Data
+def Import_Manufacturer():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_MANUFACTURER
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['Manufacturer_ID', 'Manufacturer']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Manufacturer).filter(
+				Models.Manufacturer.Manufacturer_Name.like(str(row['Manufacturer']))
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Manufacturer(
+					Manufacturer_ID=int(row['Manufacturer_ID']),
+					Manufacturer_Name=str(row['Manufacturer']),
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Manufacturer Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Mamufacturer is up to date.")
 
 
 
@@ -392,71 +470,6 @@ Import_Model()
 
 
 """
-
-
-# Import Manufacturer Data
-def Import_Manufacturer():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_MANUFACTURER
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['Manufacturer_ID', 'Manufacturer']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Manufacturer:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Manufacturer.query(Models.Manufacturer).filter(Models.Manufacturer.Manufacturer_Name.like(str(row['Manufacturer']))).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.Manufacturer(
-                    Manufacturer_ID=int(row['Manufacturer_ID']),
-                    Manufacturer_Name=str(row['Manufacturer']),
-                )
-
-                # Add Record to DataBase
-                try:
-                
-                    # Add Record to DataBase
-                    DB_Manufacturer.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Manufacturer.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Manufacturer: {e}")
-
-    # End Function
-    return New_Data_Count
 
 # Import Modem Data
 def Import_Modem():
@@ -865,13 +878,6 @@ def Import_Project():
 
 
 
-
-# Model
-New_Model = Import_Model()
-if New_Model > 0:
-    Log.Terminal_Log("INFO", f"[{New_Model}] New Model Added.")
-else:
-    Log.Terminal_Log("INFO", f"Model is up to date.")
 
 # Manufacturer
 New_Manufacturer = Import_Manufacturer()
