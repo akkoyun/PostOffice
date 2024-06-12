@@ -14,11 +14,6 @@ Data_Root_Path = "/home/postoffice/PostOffice/src/Setup/Data/"
 # Create DataBase
 Models.Base.metadata.create_all(bind=Database.DB_Engine)
 
-
-
-
-
-
 # Import Data_Segment Data
 def Import_Data_Segment():
 
@@ -38,9 +33,6 @@ def Import_Data_Segment():
 
 		# Log Message
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
-
-		# Exit
-		return New_Data_Count
 
 	# Rename Columns
 	Data_File.columns = ['Segment_ID', 'Segment_Name', 'Description']
@@ -69,6 +61,7 @@ def Import_Data_Segment():
 
 				# Add Record to DataBase
 				try:
+
 					# Add Record to DataBase
 					DB_Segment.add(New_Record)
 
@@ -83,7 +76,7 @@ def Import_Data_Segment():
 					# Rollback in case of error
 					DB_Segment.rollback()
 
-	# Log the result of the data segment import
+	# Log the result
 	if New_Data_Count > 0:
 
 		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data Segment Added.")
@@ -92,8 +85,90 @@ def Import_Data_Segment():
 
 		Log.Terminal_Log("INFO", f"Data Segment is up to date.")
 
-# Data Segment
-New_Data_Segment = Import_Data_Segment()
+# Import Operator Data
+def Import_GSM_Operator():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_GSM_OPERATOR
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'MNC_Operator_Image_URL']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB_Segment:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB_Segment.query(Models.GSM_Operator).filter(
+				Models.GSM_Operator.MCC_ID == int(row['MCC_ID']), 
+				Models.GSM_Operator.MNC_ID == int(row['MNC_ID'])
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.GSM_Operator(
+					MCC_ID=int(row['MCC_ID']),
+					MCC_ISO=str(row['MCC_ISO']),
+					MCC_Country_Name=str(row['MCC_Country_Name']),
+					MCC_Country_Code=int(row['MCC_Country_Code']) if not pd.isna(row['MCC_Country_Code']) else None,
+					MCC_Country_Flag_Image_URL=str(row['MCC_Country_Flag_Image_URL']) if not pd.isna(row['MCC_Country_Flag_Image_URL']) else None,
+					MNC_ID=int(row['MNC_ID']),
+					MNC_Brand_Name=str(row['MNC_Brand_Name']),
+					MNC_Operator_Name=str(row['MNC_Operator_Name']),
+					MNC_Operator_Image_URL=str(row['MNC_Operator_Image_URL']) if not pd.isna(row['MNC_Operator_Image_URL']) else None,
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB_Segment.add(New_Record)
+
+					# Commit DataBase
+					DB_Segment.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB_Segment.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New GSM Operator Added.")
+
+	else:
+
+		Log.Terminal_Log("INFO", f"GSM Operator is up to date.")
+
+
+
+
+
+# Update Data
+Import_Data_Segment()
+Import_GSM_Operator()
 
 
 
@@ -106,76 +181,6 @@ New_Data_Segment = Import_Data_Segment()
 
 """
 
-# Import Operator Data
-def Import_GSM_Operator():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_GSM_OPERATOR
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'MNC_Operator_Image_URL']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Operator:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Operator.query(Models.GSM_Operator).filter(Models.GSM_Operator.MCC_ID==int(row['MCC_ID'])).filter(Models.GSM_Operator.MNC_ID==int(row['MNC_ID'])).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.GSM_Operator(
-                    MCC_ID=int(row['MCC_ID']),
-                    MCC_ISO=str(row['MCC_ISO']),
-                    MCC_Country_Name=str(row['MCC_Country_Name']),
-                    MCC_Country_Code=int(row['MCC_Country_Code']) if not pd.isna(row['MCC_Country_Code']) else None,
-                    MCC_Country_Flag_Image_URL=str(row['MCC_Country_Flag_Image_URL']) if not pd.isna(row['MCC_Country_Flag_Image_URL']) else None,
-                    MNC_ID=int(row['MNC_ID']),
-                    MNC_Brand_Name=str(row['MNC_Brand_Name']),
-                    MNC_Operator_Name=str(row['MNC_Operator_Name']),
-                    MNC_Operator_Image_URL=str(row['MNC_Operator_Image_URL']) if not pd.isna(row['MNC_Operator_Image_URL']) else None,
-                )
-
-                # Add Record to DataBase
-                try:
-                
-                    # Add Record to DataBase
-                    DB_Operator.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Operator.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
-
-    # End Function
-    return New_Data_Count
 
 # Import Status Data
 def Import_Status():
@@ -837,14 +842,6 @@ def Import_Project():
 
 
 
-
-
-# GSM Operator
-New_GSM_Operator = Import_GSM_Operator()
-if New_GSM_Operator > 0:
-    Log.Terminal_Log("INFO", f"[{New_GSM_Operator}] New GSM Operator Added.")
-else:
-    Log.Terminal_Log("INFO", f"GSM Operator is up to date.")
 
 # Status
 New_Status = Import_Status()
