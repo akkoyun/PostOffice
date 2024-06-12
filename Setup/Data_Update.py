@@ -20,12 +20,13 @@ def Import_Data_Segment():
     # Define Data File
     Data_File_Name = Data_Root_Path + APP_Settings.FILE_DATA_SEGMENT
 
-    Log.Terminal_Log("ERROR", f"Updateing")
-
     # Download Data File
     try:
+
         # Download Data File
         Data_File = pd.read_csv(Data_File_Name)
+
+        Log.Terminal_Log("ERROR", f"Updateing")
 
     except Exception as e:
 
