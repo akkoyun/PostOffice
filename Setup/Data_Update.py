@@ -803,6 +803,9 @@ def Import_Calibration():
 
 				except Exception as e:
 
+					# Log the error
+					Log.Terminal_Log("ERROR", f"An error occurred while adding Calibration: {e}")
+
 					# Rollback in case of error
 					DB.rollback()
 
