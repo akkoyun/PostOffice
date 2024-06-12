@@ -450,6 +450,77 @@ def Import_Manufacturer():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Mamufacturer is up to date.")
 
+# Import Modem Data
+def Import_Modem():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_MODEM
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['IMEI', 'Model_ID', 'Manufacturer_ID']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Modem).filter(
+				Models.Modem.IMEI.like(str(row['IMEI']))
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Modem(
+					IMEI=str(row['IMEI']),
+					Model_ID=int(row['Model_ID']),
+					Manufacturer_ID=int(row['Manufacturer_ID']),
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Modem Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Modem is up to date.")
 
 
 
@@ -459,6 +530,10 @@ Import_GSM_Operator()
 Import_Status()
 Import_Version()
 Import_Model()
+Import_Manufacturer()
+Import_Modem()
+
+
 
 
 
@@ -470,71 +545,6 @@ Import_Model()
 
 
 """
-
-# Import Modem Data
-def Import_Modem():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_MODEM
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['IMEI', 'Model_ID', 'Manufacturer_ID']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Modem:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Modem.query(Models.Modem).filter(Models.Modem.IMEI.like(str(row['IMEI']))).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.Modem(
-                    IMEI=str(row['IMEI']),
-                    Model_ID=int(row['Model_ID']),
-                    Manufacturer_ID=int(row['Manufacturer_ID']),
-                )
-
-                # Add Record to DataBase
-                try:
-                
-                    # Add Record to DataBase
-                    DB_Modem.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Modem.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Modem: {e}")
-
-    # End Function
-    return New_Data_Count
 
 # Import Device Data
 def Import_Device():
@@ -876,22 +886,6 @@ def Import_Project():
 
 
 
-
-
-
-# Manufacturer
-New_Manufacturer = Import_Manufacturer()
-if New_Manufacturer > 0:
-    Log.Terminal_Log("INFO", f"[{New_Manufacturer}] New Manufacturer Added.")
-else:
-    Log.Terminal_Log("INFO", f"Mamufacturer is up to date.")
-
-# Modem
-New_Modem = Import_Modem()
-if New_Modem > 0:
-    Log.Terminal_Log("INFO", f"[{New_Modem}] New Modem Added.")
-else:
-    Log.Terminal_Log("INFO", f"Modem is up to date.")
 
 # Device
 New_Device = Import_Device()
