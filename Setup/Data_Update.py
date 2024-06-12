@@ -40,8 +40,6 @@ def Import_Data_Segment():
     # Define DB
     with Database.DB_Session_Scope() as DB_Segment:
 
-        Log.Terminal_Log("ERROR", f"Working : {New_Data_Count}")
-
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
@@ -75,6 +73,8 @@ def Import_Data_Segment():
 
                     # Log Message
                     Log.Terminal_Log("ERROR", f"An error occurred while adding Data Segment: {e}")
+
+            Log.Terminal_Log("ERROR", f"Working : {New_Data_Count}")
 
     return New_Data_Count
 
