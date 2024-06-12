@@ -522,6 +522,82 @@ def Import_Modem():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Modem is up to date.")
 
+# Import Device Data
+def Import_Device():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_DEVICE
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['Device_ID', 'Status_ID', 'Version_ID', 'Model_ID', 'IMEI', 'Project_ID']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Device).filter(
+				Models.Device.Device_ID.like(str(row['Device_ID']))
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Device(
+					Device_ID=str(row['Device_ID']),
+					Status_ID=int(row['Status_ID']),
+					Version_ID=int(row['Version_ID']),
+					Project_ID=int(row['Project_ID']),
+					Model_ID=int(row['Model_ID']),
+					Manufacturer_ID=int(row['Manufacturer_ID']),
+					IMEI=str(row['IMEI']),
+					Last_IP=str('')
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Device Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Device is up to date.")
 
 
 # Update Data
@@ -532,7 +608,7 @@ Import_Version()
 Import_Model()
 Import_Manufacturer()
 Import_Modem()
-
+Import_Device()
 
 
 
@@ -545,76 +621,6 @@ Import_Modem()
 
 
 """
-
-# Import Device Data
-def Import_Device():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_DEVICE
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['Device_ID', 'Status_ID', 'Version_ID', 'Model_ID', 'IMEI', 'Project_ID']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Device:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Device.query(Models.Device).filter(Models.Device.Device_ID.like(str(row['Device_ID']))).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.Device(
-                    Device_ID=str(row['Device_ID']),
-                    Status_ID=int(row['Status_ID']),
-                    Version_ID=int(row['Version_ID']),
-                    Project_ID=int(row['Project_ID']),
-                    Model_ID=int(row['Model_ID']),
-                    Manufacturer_ID=int(row['Manufacturer_ID']),
-                    IMEI=str(row['IMEI']),
-                    Last_IP=str('')
-                )
-
-                # Add Record to DataBase
-                try:
-
-                    # Add Record to DataBase
-                    DB_Device.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Device.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
-
-    # End Function
-    return New_Data_Count
 
 # Import Data_Type Data
 def Import_Data_Type():
