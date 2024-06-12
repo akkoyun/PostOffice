@@ -43,7 +43,7 @@ def Import_Data_Segment():
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
 
-            Log.Terminal_Log("ERROR", f"Working : {str(row['Description'])}")
+            Log.Terminal_Log("ERROR", f"Working : {str(row['Segment_ID']) - str(row['Description'])}")
 
             # Check for Existing
             Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Segment_ID == int(row['Segment_ID'])).first()
