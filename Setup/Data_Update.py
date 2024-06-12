@@ -34,13 +34,13 @@ def Import_Data_Segment():
         # Exit
         return New_Data_Count
 
-    Log.Terminal_Log("ERROR", f"Working")
-
     # Rename Columns
     Data_File.columns = ['Segment_ID', 'Description']
 
     # Define DB
     with Database.DB_Session_Scope() as DB_Segment:
+
+        Log.Terminal_Log("ERROR", f"Working : {New_Data_Count}")
 
         # Add Record to DataBase
         for index, row in Data_File.iterrows():
