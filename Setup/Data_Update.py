@@ -46,7 +46,14 @@ def Import_Data_Segment():
             Log.Terminal_Log("ERROR", f"Working : {str(row['Segment_ID'])} - {str(row['Description'])}")
 
             # Check for Existing
-            Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Segment_ID == int(row['Segment_ID'])).first()
+            Query = DB_Segment.query(Models.Data_Segment).filter(
+                Models.Data_Segment.Segment_ID == int(row['Segment_ID']), 
+                Models.Data_Segment.Segment_Name == str(row['Description'])
+            ).first()
+
+            Log.Terminal_Log("ERROR", f"Query : {Query}")
+
+
             #Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Segment_Name == str(row['Description'])).first()
 
             # Record Not Found
