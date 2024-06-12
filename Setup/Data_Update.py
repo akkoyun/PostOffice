@@ -308,6 +308,69 @@ def Import_Version():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Version is up to date.")
 
+# Import Model Data
+def Import_Model():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_MODEL
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['Model_ID', 'Model']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Model).filter(
+				Models.Model.Model_Name.like(str(row['Model']))
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Model(
+					Model_ID=int(row['Model_ID']),
+					Model_Name=str(row['Model']),
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# End Function
+	return New_Data_Count
+
 
 
 
@@ -317,6 +380,7 @@ Import_Data_Segment()
 Import_GSM_Operator()
 Import_Status()
 Import_Version()
+Import_Model()
 
 
 
@@ -329,69 +393,6 @@ Import_Version()
 
 """
 
-# Import Model Data
-def Import_Model():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_MODEL
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['Model_ID', 'Model']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Model:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Model.query(Models.Model).filter(Models.Model.Model_Name.like(str(row['Model']))).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.Model(
-                    Model_ID=int(row['Model_ID']),
-                    Model_Name=str(row['Model']),
-                )
-
-                # Add Record to DataBase
-                try:
-                
-                    # Add Record to DataBase
-                    DB_Model.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Model.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
-
-    # End Function
-    return New_Data_Count
 
 # Import Manufacturer Data
 def Import_Manufacturer():
