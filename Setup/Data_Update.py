@@ -11,6 +11,9 @@ import pandas as pd
 # Define Data Root Path
 Data_Root_Path = "/home/postoffice/PostOffice/src/Setup/Data/"
 
+# Create DataBase
+Models.Base.metadata.create_all(bind=Database.DB_Engine)
+
 # Import Data_Segment Data
 def Import_Data_Segment():
 
@@ -103,12 +106,18 @@ def Import_Data_Segment():
 
     return New_Data_Count
 
+# Data Segment
+New_Data_Segment = Import_Data_Segment()
+if Import_Data_Segment() > 0:
+
+    Log.Terminal_Log("INFO", f"[{New_Data_Segment}] New Data Segment Added.")
+
+else:
+
+    Log.Terminal_Log("INFO", f"Data Segment is up to date.")
 
 
-
-
-
-
+"""
 
 # Import Operator Data
 def Import_GSM_Operator():
@@ -839,15 +848,9 @@ def Import_Project():
     # End Function
     return New_Data_Count
 
-# Create DataBase
-Models.Base.metadata.create_all(bind=Database.DB_Engine)
 
-# Data Segment
-New_Data_Segment = Import_Data_Segment()
-if New_Data_Segment > 0:
-    Log.Terminal_Log("INFO", f"[{New_Data_Segment}] New Data Segment Added.")
-else:
-    Log.Terminal_Log("INFO", f"Data Segment is up to date.")
+
+
 
 # GSM Operator
 New_GSM_Operator = Import_GSM_Operator()
@@ -925,3 +928,5 @@ if New_Project > 0:
     Log.Terminal_Log("INFO", f"[{New_Project}] New Project Added.")
 else:
     Log.Terminal_Log("INFO", f"Project is up to date.")
+
+"""
