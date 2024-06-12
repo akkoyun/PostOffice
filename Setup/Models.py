@@ -213,7 +213,7 @@ class Device(Base):
 		Index('idx_model_id', 'Model_ID'),
 		Index('idx_manufacturer_id', 'Manufacturer_ID'),
 		Index('idx_status_id', 'Status_ID'),
-		Index('idx_version_id', 'Version_ID'),
+		Index('idx_device_version_id', 'Version_ID'),
 		Index('idx_project_id', 'Project_ID'),
 	)
 
