@@ -126,7 +126,6 @@ class SIM(Base):
 
 	# Define Relationships
 	streams = relationship("Stream", back_populates="sim")
-	devices = relationship("Device", back_populates="sim")
 	operator = relationship("GSM_Operator", back_populates="sims")
 
 	# Define Table Arguments
@@ -206,7 +205,6 @@ class Device(Base):
 	model = relationship("Model", back_populates="devices")
 	manufacturer = relationship("Manufacturer", back_populates="devices")
 	modem = relationship("Modem", back_populates="devices")
-	sim = relationship("SIM", back_populates="devices")
 	calibrations = relationship("Calibration", back_populates="device")
 
 	# Define Table Arguments
