@@ -334,7 +334,7 @@ class Stream(Base):
 	# Define Table Arguments
 	__table_args__ = (
 		Index('idx_device_id', 'Device_ID'),
-		Index('idx_iccid', 'ICCID'),
+		Index('idx_stream_iccid', 'ICCID'),
 		Index('idx_stream_time', 'Stream_Time'),
 		Index('idx_device_time', 'Device_Time'),
 	)
