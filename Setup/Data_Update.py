@@ -26,8 +26,6 @@ def Import_Data_Segment():
         # Download Data File
         Data_File = pd.read_csv(Data_File_Name)
 
-        Log.Terminal_Log("ERROR", f"Updateing")
-
     except Exception as e:
 
         # Log Message
@@ -35,6 +33,8 @@ def Import_Data_Segment():
 
         # Exit
         return New_Data_Count
+
+    Log.Terminal_Log("ERROR", f"Working")
 
     # Rename Columns
     Data_File.columns = ['Segment_ID', 'Description']
