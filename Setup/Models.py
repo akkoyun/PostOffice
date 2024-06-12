@@ -269,7 +269,6 @@ class Variable(Base):
 
 	# Define Columns
 	Variable_ID = Column(String(20), primary_key=True, unique=True, nullable=False)
-	Variable_Name = Column(String(100), nullable=False, unique=True) 
 	Variable_Description = Column(String(255), nullable=False, unique=True)
 	Variable_Unit = Column(String(10), nullable=True)
 	Segment_ID = Column(Integer, ForeignKey("Data_Segment.Segment_ID"), nullable=False)

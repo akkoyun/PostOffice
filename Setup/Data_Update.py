@@ -742,6 +742,79 @@ def Import_SIM():
 		# Log the result
 		Log.Terminal_Log("INFO", f"SIM is up to date.")
 
+# Import Data_Type Data
+def Import_Data_Type():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_SIM
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns to match the new table schema
+	Data_File.columns = ['Variable_ID', 'Variable_Name', 'Variable_Description', 'Variable_Unit', 'Segment_ID']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Iterate over each row in the CSV file
+		for index, row in Data_File.iterrows():
+
+			# Check if the record already exists
+			Query = DB.query(Models.Variable).filter(
+				Models.Variable.Variable_ID == str(row['Variable_Name'])
+			).first()
+			
+			# If the record does not exist
+			if not Query:
+
+				# Create a new record
+				New_Record = Models.Variable(
+					Variable_ID=str(row['Variable_Name']),
+					Variable_Description=str(row['Variable_Description']),
+					Variable_Unit=str(row['Variable_Unit']),
+					Segment_ID=int(row['Segment_ID'])
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data_Type Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Data_Type is up to date.")
+
 # Import Calibration Data
 def Import_Calibration():
 
@@ -838,101 +911,8 @@ Import_Modem()
 Import_Project()
 Import_Device()
 Import_SIM()
+Import_Data_Type()
 Import_Calibration()
 
 
 
-
-
-
-
-
-
-
-
-"""
-
-# Import Data_Type Data
-def Import_Data_Type():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_MEASUREMENT_TYPE
-
-    # Download Data File
-    try:
-        
-        # Read Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error: {e}")
-
-        # Exit
-        exit()
-
-    # Rename Columns to match the new table schema
-    Data_File.columns = ['Variable_ID', 'Variable_Description', 'Variable_Name', 'Variable_Unit', 'Segment_ID']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Data_Type:
-
-        # Iterate over each row in the CSV file
-        for index, row in Data_File.iterrows():
-
-            # Check if the record already exists
-            Query = DB_Data_Type.query(Models.Variable).filter(Models.Variable.Variable_ID == str(row['Variable_ID'])).first()
-            
-            # If the record does not exist
-            if not Query:
-
-                # Create a new record
-                New_Record = Models.Variable(
-                    Variable_ID=str(row['Variable_ID']),  # Ensure Variable_ID is string as per table schema
-                    Variable_Description=str(row['Variable_Description']),
-                    Variable_Name=str(row['Variable_Name']),
-                    Variable_Unit=str(row['Variable_Unit']),
-                    Segment_ID=int(row['Segment_ID'])  # Segment_ID is an integer
-                )
-
-                # Add the new record to the database
-                try:
-
-                    # Add record to the session
-                    DB_Data_Type.add(New_Record)
-
-                    # Commit the session to save the record in the database
-                    DB_Data_Type.commit()
-
-                    # Increase the count of new records added
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Rollback in case of an error during commit
-                    DB_Data_Type.rollback()
-
-                    # Log the error
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Variable: {e}")
-
-    # Return the count of new records added
-    return New_Data_Count
-
-
-
-
-
-
-# Data_Type
-New_Data_Type = Import_Data_Type()
-if New_Data_Type > 0:
-    Log.Terminal_Log("INFO", f"[{New_Data_Type}] New Data_Type Added.")
-else:
-    Log.Terminal_Log("INFO", f"Data_Type is up to date.")
-
-
-"""
