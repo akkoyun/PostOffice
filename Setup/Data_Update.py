@@ -583,6 +583,9 @@ def Import_Device():
 
 				except Exception as e:
 
+					# Log Message
+					Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
+
 					# Rollback in case of error
 					DB.rollback()
 
