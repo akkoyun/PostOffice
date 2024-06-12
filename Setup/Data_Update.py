@@ -749,7 +749,7 @@ def Import_Data_Type():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_SIM
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_MEASUREMENT_TYPE
 
 	# Download Data File
 	try:
