@@ -567,8 +567,9 @@ def Import_Device():
 					Project_ID=int(row['Project_ID']),
 					Model_ID=int(row['Model_ID']),
 					Manufacturer_ID=int(row['Manufacturer_ID']),
+					Device_Name=str(''),
 					IMEI=str(row['IMEI']),
-					Last_IP=str('')
+					Last_Connection_IP=str('')
 				)
 
 				# Add Record to DataBase
