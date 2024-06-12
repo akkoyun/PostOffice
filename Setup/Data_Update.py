@@ -763,7 +763,7 @@ def Import_Data_Type():
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
 	# Rename Columns to match the new table schema
-	Data_File.columns = ['Variable_Name', 'Variable_Description', 'Variable_Unit', 'Segment_ID']
+	Data_File.columns = ['Variable_ID', 'Variable_Description', 'Variable_Unit', 'Segment_ID']
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB:
@@ -773,7 +773,7 @@ def Import_Data_Type():
 
 			# Check if the record already exists
 			Query = DB.query(Models.Variable).filter(
-				Models.Variable.Variable_ID == str(row['Variable_Name'])
+				Models.Variable.Variable_ID == str(row['Variable_ID'])
 			).first()
 			
 			# If the record does not exist
@@ -781,7 +781,7 @@ def Import_Data_Type():
 
 				# Create a new record
 				New_Record = Models.Variable(
-					Variable_ID=str(row['Variable_Name']),
+					Variable_ID=str(row['Variable_ID']),
 					Variable_Description=str(row['Variable_Description']),
 					Variable_Unit=str(row['Variable_Unit']),
 					Segment_ID=int(row['Segment_ID'])
