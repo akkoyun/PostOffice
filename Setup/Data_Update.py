@@ -43,7 +43,7 @@ def Import_Data_Segment():
 		return New_Data_Count
 
 	# Rename Columns
-	Data_File.columns = ['Segment_ID', 'Description']
+	Data_File.columns = ['Segment_ID', 'Segment_Name', 'Description']
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB_Segment:
@@ -54,7 +54,7 @@ def Import_Data_Segment():
 			# Check for Existing
 			Query = DB_Segment.query(Models.Data_Segment).filter(
 				Models.Data_Segment.Segment_ID == int(row['Segment_ID']), 
-				Models.Data_Segment.Description == str(row['Description'])
+				Models.Data_Segment.Segment_Name == str(row['Segment_Name'])
 			).first()
 
 			# Record Not Found
@@ -63,8 +63,8 @@ def Import_Data_Segment():
 				# Create New Record
 				New_Record = Models.Data_Segment(
 					Segment_ID=int(row['Segment_ID']),
-					Segment_Name=str(row['Description']),
-					Description=str('')
+					Segment_Name=str(row['Segment_Name']),
+					Description=str(row['Description'])
 				)
 
 				# Add Record to DataBase
