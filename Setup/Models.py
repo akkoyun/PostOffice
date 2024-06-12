@@ -269,7 +269,7 @@ class Variable(Base):
 
 	# Define Columns
 	Variable_ID = Column(String(30), primary_key=True, unique=True, nullable=False)
-	Variable_Description = Column(String(255), nullable=False, unique=True)
+	Variable_Description = Column(String(255), nullable=False)
 	Variable_Unit = Column(String(10), nullable=True)
 	Segment_ID = Column(Integer, ForeignKey("Data_Segment.Segment_ID"), nullable=False)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
