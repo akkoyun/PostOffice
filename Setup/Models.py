@@ -268,7 +268,7 @@ class Variable(Base):
 	__tablename__ = "Variable"
 
 	# Define Columns
-	Variable_ID = Column(String(20), primary_key=True, unique=True, nullable=False)
+	Variable_ID = Column(String(30), primary_key=True, unique=True, nullable=False)
 	Variable_Description = Column(String(255), nullable=False, unique=True)
 	Variable_Unit = Column(String(10), nullable=True)
 	Segment_ID = Column(Integer, ForeignKey("Data_Segment.Segment_ID"), nullable=False)
