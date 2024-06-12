@@ -248,7 +248,7 @@ class Data_Segment(Base):
 	# Define Columns
 	Segment_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Segment_Name = Column(String(100), nullable=False, unique=True)
-	Description = Column(String(255), nullable=False, unique=True)
+	Description = Column(String(255), nullable=False)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
 
