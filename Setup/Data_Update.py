@@ -780,6 +780,8 @@ def Import_Calibration():
 			# Record Not Found
 			if not Query:
 
+				Log.Terminal_Log("INFO", f"New Calibration")
+
 				# Create New Record
 				New_Record = Models.Calibration(
 					Calibration_ID=int(row['Calibration_ID']),
@@ -788,6 +790,8 @@ def Import_Calibration():
 					Gain=float(row['Gain']),
 					Offset=float(row['Offset']),
 				)
+
+				Log.Terminal_Log("INFO", f"New Calibration: {New_Record}")
 
 				# Add Record to DataBase
 				try:
