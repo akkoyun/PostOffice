@@ -49,6 +49,8 @@ def Import_Data_Segment():
             # Record Not Found
             if not Query:
 
+                Log.Terminal_Log("ERROR", f"Working : {New_Data_Count}")
+
                 # Create New Record
                 New_Record = Models.Data_Segment(
                     Segment_ID=int(row['Segment_ID']),
@@ -73,8 +75,6 @@ def Import_Data_Segment():
 
                     # Log Message
                     Log.Terminal_Log("ERROR", f"An error occurred while adding Data Segment: {e}")
-
-            Log.Terminal_Log("ERROR", f"Working : {New_Data_Count}")
 
     return New_Data_Count
 
