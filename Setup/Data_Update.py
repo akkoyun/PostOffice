@@ -777,6 +777,8 @@ def Import_Calibration():
 				Models.Calibration.Type_ID==int(row['Type_ID']),
 			).first()
 
+			Log.Terminal_Log("INFO", f"Query: {Query}")
+
 			# Record Not Found
 			if not Query:
 
