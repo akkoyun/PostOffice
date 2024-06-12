@@ -26,8 +26,10 @@ def Import_Data_Segment():
         Data_File = pd.read_csv(Data_File_Name)
 
     except Exception as e:
+
         # Log Message
         Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
         # Exit
         return New_Data_Count
 
@@ -41,7 +43,7 @@ def Import_Data_Segment():
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Description == str(row['Description'])).first()
+            Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Segment_Name == str(row['Description'])).first()
 
             # Record Not Found
             if not Query:
@@ -50,7 +52,7 @@ def Import_Data_Segment():
                 New_Record = Models.Data_Segment(
                     Segment_ID=int(row['Segment_ID']),
                     Segment_Name=str(row['Description']),
-                    Description=str(row['Description'])
+                    Description=str('')
                 )
 
                 # Add Record to DataBase
