@@ -762,8 +762,6 @@ def Import_Calibration():
 		# Log Message
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
-	Log.Terminal_Log("INFO", f"Data File: {Data_File.head()}")
-
 	# Rename Columns
 	Data_File.columns = ['Calibration_ID', 'Device_ID', 'Type_ID', 'Gain', 'Offset']
 
@@ -778,8 +776,6 @@ def Import_Calibration():
 				Models.Calibration.Device_ID==str(row['Device_ID']),
 				Models.Calibration.Type_ID==int(row['Type_ID']),
 			).first()
-
-			Log.Terminal_Log("INFO", f"Query: {Query}")
 
 			# Record Not Found
 			if not Query:
