@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Data Stream</title>
+    <!-- Google Fonts Nunito -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <style>
+        /* Apply Nunito Font */
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f9fafb; /* Set background color for entire page */
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 50px;
+        }
+
+        /* Container Styles */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items to the top */
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            width: 100%;
+            max-width: 800px; /* Adjust width to fit within typical screens */
+            margin-bottom: 20px; /* Space between cards */
+        }
+
+        /* Card Header and Subheader */
+        .card-header {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            text-align: left; /* Align header text to the left */
+            margin-bottom: 8px;
+        }
+        .card-subheader {
+            font-size: 14px;
+            font-weight: 400;
+            color: #71717a;
+            text-align: left; /* Align subheader text to the left */
+            margin-bottom: 16px;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse; /* Remove gaps between table cells */
+            margin-top: 20px;
+            table-layout: fixed; /* Fix table layout */
+        }
+        .data-table th, .data-table td {
+            padding: 8px; /* Adjust padding to reduce row height */
+            text-align: center; /* Center align table text */
+            border-top: 1px solid #e5e7eb; /* Add border to top */
+            border-bottom: none; /* Remove bottom border */
+            cursor: pointer; /* Indicate clickable rows */
+            font-size: 12px; /* Reduce font size by 2 points */
+        }
+        .data-table th {
+            background-color: #f9fafb; /* Match header background to card */
+            color: #6b7280;
+            font-weight: 600;
+            border-top: none; /* Remove top border for header */
+            border-bottom: 1px solid #e5e7eb; /* Add bottom border to header */
+        }
+        .data-table td {
+            background-color: #fff;
+        }
+        .data-table tbody tr:nth-child(even) td {
+            background-color: #f9fafb; /* Zebra striping for better readability */
+        }
+        .data-table th, .data-table td {
+            border-right: 1px solid #e5e7eb; /* Add right border */
+        }
+        .data-table th:last-child, .data-table td:last-child {
+            border-right: none; /* Remove right border for the last cell */
+        }
+        .data-table tbody tr:hover td {
+            background-color: #e5f4ff; /* Change background color on hover */
+        }
+
+        /* JSON Display Card Styles */
+        .json-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .json-card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            width: 100%;
+            max-width: 800px; /* Match the container width */
+            position: relative; /* For positioning the close button */
+        }
+        .json-card pre {
+            background-color: #f9fafb;
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #71717a;
+        }
+
+        .close-btn:hover {
+            color: #111827;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Device Data Stream</div>
+            <div class="card-subheader">PostOffice Data Stream List</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Device Serial ID</th>
+                        <th>Stream Time Stamp</th>
+                        <th>Device IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-json='{"serialID": "A20000011D13BD70", "timestamp": "2022-07-19T08:28:32", "ip": "000.000.000.000"}'>
+                        <td>A20000011D13BD70</td>
+                        <td>2022-07-19T08:28:32</td>
+                        <td>000.000.000.000</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD71", "timestamp": "2022-07-19T08:30:00", "ip": "111.111.111.111"}'>
+                        <td>A20000011D13BD71</td>
+                        <td>2022-07-19T08:30:00</td>
+                        <td>111.111.111.111</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD72", "timestamp": "2022-07-19T08:31:00", "ip": "222.222.222.222"}'>
+                        <td>A20000011D13BD72</td>
+                        <td>2022-07-19T08:31:00</td>
+                        <td>222.222.222.222</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD73", "timestamp": "2022-07-19T08:32:00", "ip": "333.333.333.333"}'>
+                        <td>A20000011D13BD73</td>
+                        <td>2022-07-19T08:32:00</td>
+                        <td>333.333.333.333</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD74", "timestamp": "2022-07-19T08:33:00", "ip": "444.444.444.444"}'>
+                        <td>A20000011D13BD74</td>
+                        <td>2022-07-19T08:33:00</td>
+                        <td>444.444.444.444</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD75", "timestamp": "2022-07-19T08:34:00", "ip": "555.555.555.555"}'>
+                        <td>A20000011D13BD75</td>
+                        <td>2022-07-19T08:34:00</td>
+                        <td>555.555.555.555</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD76", "timestamp": "2022-07-19T08:35:00", "ip": "666.666.666.666"}'>
+                        <td>A20000011D13BD76</td>
+                        <td>2022-07-19T08:35:00</td>
+                        <td>666.666.666.666</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD77", "timestamp": "2022-07-19T08:36:00", "ip": "777.777.777.777"}'>
+                        <td>A20000011D13BD77</td>
+                        <td>2022-07-19T08:36:00</td>
+                        <td>777.777.777.777</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD78", "timestamp": "2022-07-19T08:37:00", "ip": "888.888.888.888"}'>
+                        <td>A20000011D13BD78</td>
+                        <td>2022-07-19T08:37:00</td>
+                        <td>888.888.888.888</td>
+                    </tr>
+                    <tr data-json='{"serialID": "A20000011D13BD79", "timestamp": "2022-07-19T08:38:00", "ip": "999.999.999.999"}'>
+                        <td>A20000011D13BD79</td>
+                        <td>2022-07-19T08:38:00</td>
+                        <td>999.999.999.999</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="json-container">
+        <!-- JSON display card will be inserted here -->
+    </div>
+
+    <script>
+        // Select all table rows within the tbody
+        const tableRows = document.querySelectorAll('.data-table tbody tr');
+
+        // Iterate over each row to add click event listener
+        tableRows.forEach(row => {
+            row.addEventListener('click', function() {
+                // Get the JSON data from the data-json attribute
+                const jsonData = this.getAttribute('data-json');
+                const jsonParsed = JSON.parse(jsonData);
+
+                // Function to highlight JSON syntax
+                function syntaxHighlight(json) {
+                    json = JSON.stringify(json, undefined, 2);
+                    json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+                    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(:)?|\b(true|false|null)\b|\d+)/g, function (match) {
+                        var cls = 'number';
+                        if (/^"/.test(match)) {
+                            if (/:$/.test(match)) {
+                                cls = 'key';
+                            } else {
+                                cls = 'string';
+                            }
+                        } else if (/true|false/.test(match)) {
+                            cls = 'boolean';
+                        } else if (/null/.test(match)) {
+                            cls = 'null';
+                        }
+                        return '<span class="' + cls + '">' + match + '</span>';
+                    });
+                }
+
+                // Create a new card to display JSON data
+                const jsonCard = document.createElement('div');
+                jsonCard.className = 'json-card';
+                jsonCard.innerHTML = `
+                    <button class="close-btn">&times;</button>
+                    <div class="card-header">Device Latest Data</div>
+                    <div class="card-subheader">Details for device ${jsonParsed.serialID}</div>
+                    <pre>${syntaxHighlight(jsonParsed)}</pre>
+                `;
+
+                // Clear any existing JSON cards and append the new card
+                const jsonContainer = document.querySelector('.json-container');
+                jsonContainer.innerHTML = ''; // Clear previous content
+                jsonContainer.appendChild(jsonCard);
+
+                // Add event listener to the close button
+                const closeButton = jsonCard.querySelector('.close-btn');
+                closeButton.addEventListener('click', function() {
+                    jsonContainer.innerHTML = ''; // Remove the JSON card
+                });
+            });
+        });
+    </script>
+    <style>
+        /* Add JSON syntax highlighting styles */
+        pre .string { color: #d14; }
+        pre .number { color: #099; }
+        pre .boolean { color: #905; }
+        pre .null { color: #c00; }
+        pre .key { color: #1a1a1a; font-weight: bold; }
+    </style>
+</body>
+</html>
