@@ -38,13 +38,13 @@ def Import_Data_Segment():
 	Data_File.columns = ['Segment_ID', 'Segment_Name', 'Description']
 
 	# Define DB
-	with Database.DB_Session_Scope() as DB_Segment:
+	with Database.DB_Session_Scope() as DB:
 
 		# Add Record to DataBase
 		for index, row in Data_File.iterrows():
 
 			# Check for Existing
-			Query = DB_Segment.query(Models.Data_Segment).filter(
+			Query = DB.query(Models.Data_Segment).filter(
 				Models.Data_Segment.Segment_ID == int(row['Segment_ID']), 
 				Models.Data_Segment.Segment_Name == str(row['Segment_Name'])
 			).first()
@@ -63,10 +63,10 @@ def Import_Data_Segment():
 				try:
 
 					# Add Record to DataBase
-					DB_Segment.add(New_Record)
+					DB.add(New_Record)
 
 					# Commit DataBase
-					DB_Segment.commit()
+					DB.commit()
 
 					# Increase New Count
 					New_Data_Count += 1
@@ -74,15 +74,17 @@ def Import_Data_Segment():
 				except Exception as e:
 
 					# Rollback in case of error
-					DB_Segment.rollback()
+					DB.rollback()
 
 	# Log the result
 	if New_Data_Count > 0:
 
+		# Log the result
 		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data Segment Added.")
 
 	else:
 
+		# Log the result
 		Log.Terminal_Log("INFO", f"Data Segment is up to date.")
 
 # Import Operator Data
@@ -109,13 +111,13 @@ def Import_GSM_Operator():
 	Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'MNC_Operator_Image_URL']
 
 	# Define DB
-	with Database.DB_Session_Scope() as DB_Segment:
+	with Database.DB_Session_Scope() as DB:
 
 		# Add Record to DataBase
 		for index, row in Data_File.iterrows():
 
 			# Check for Existing
-			Query = DB_Segment.query(Models.GSM_Operator).filter(
+			Query = DB.query(Models.GSM_Operator).filter(
 				Models.GSM_Operator.MCC_ID == int(row['MCC_ID']), 
 				Models.GSM_Operator.MNC_ID == int(row['MNC_ID'])
 			).first()
@@ -140,10 +142,10 @@ def Import_GSM_Operator():
 				try:
 
 					# Add Record to DataBase
-					DB_Segment.add(New_Record)
+					DB.add(New_Record)
 
 					# Commit DataBase
-					DB_Segment.commit()
+					DB.commit()
 
 					# Increase New Count
 					New_Data_Count += 1
@@ -151,16 +153,89 @@ def Import_GSM_Operator():
 				except Exception as e:
 
 					# Rollback in case of error
-					DB_Segment.rollback()
+					DB.rollback()
 
 	# Log the result
 	if New_Data_Count > 0:
 
+		# Log the result
 		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New GSM Operator Added.")
 
 	else:
 
+		# Log the result
 		Log.Terminal_Log("INFO", f"GSM Operator is up to date.")
+
+# Import Status Data
+def Import_Status():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_STATUS
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['Status_ID', 'Description']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Status).filter(
+				Models.Status.Description.like(str(row['Description']))
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Status(
+					Status_ID=int(row['Status_ID']),
+					Description=str(row['Description']),
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Status Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Status is up to date.")
 
 
 
@@ -169,6 +244,7 @@ def Import_GSM_Operator():
 # Update Data
 Import_Data_Segment()
 Import_GSM_Operator()
+Import_Status()
 
 
 
@@ -180,71 +256,6 @@ Import_GSM_Operator()
 
 
 """
-
-
-# Import Status Data
-def Import_Status():
-
-    # New Data Count Definition
-    New_Data_Count = 0
-
-    # Define Data File
-    Data_File_Name = Data_Root_Path + APP_Settings.FILE_STATUS
-
-    # Download Data File
-    try:
-        
-        # Download Data File
-        Data_File = pd.read_csv(Data_File_Name)
-
-    except Exception as e:
-
-        # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
-        # Exit
-        exit()
-
-    # Rename Columns
-    Data_File.columns = ['Status_ID', 'Description']
-
-    # Define DB
-    with Database.DB_Session_Scope() as DB_Status:
-
-        # Add Record to DataBase
-        for index, row in Data_File.iterrows():
-
-            # Check for Existing
-            Query = DB_Status.query(Models.Status).filter(Models.Status.Description.like(str(row['Description']))).first()
-
-            # Record Not Found
-            if not Query:
-
-                # Create New Record
-                New_Record = Models.Status(
-                    Status_ID=int(row['Status_ID']),
-                    Description=str(row['Description']),
-                )
-
-                # Add Record to DataBase
-                try:
-                
-                    # Add Record to DataBase
-                    DB_Status.add(New_Record)
-
-                    # Commit DataBase
-                    DB_Status.commit()
-
-                    # Increase New Count
-                    New_Data_Count += 1
-
-                except Exception as e:
-
-                    # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
-
-    # End Function
-    return New_Data_Count
 
 # Import Version Data
 def Import_Version():
@@ -843,12 +854,7 @@ def Import_Project():
 
 
 
-# Status
-New_Status = Import_Status()
-if New_Status > 0:
-    Log.Terminal_Log("INFO", f"[{New_Status}] New Status Added.")
-else:
-    Log.Terminal_Log("INFO", f"Status is up to date.")
+
 
 # Version
 New_Version = Import_Version()
