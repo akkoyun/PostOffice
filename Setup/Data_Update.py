@@ -844,15 +844,11 @@ def Import_Calibration():
 		# Add Record to DataBase
 		for index, row in Data_File.iterrows():
 
-			Log.Terminal_Log("INFO", f"1")
-
 			# Check for Existing
 			Query = DB.query(Models.Calibration).filter(
 				Models.Calibration.Device_ID==str(row['Device_ID']),
 				Models.Calibration.Variable_ID==str(row['Variable_ID'])
 			).first()
-
-			Log.Terminal_Log("INFO", f"2")
 
 			# Record Not Found
 			if not Query:
@@ -865,8 +861,6 @@ def Import_Calibration():
 					Gain=float(row['Gain']),
 					Offset=float(row['Offset']),
 				)
-
-				Log.Terminal_Log("INFO", f"3")
 
 				# Add Record to DataBase
 				try:
@@ -881,9 +875,6 @@ def Import_Calibration():
 					New_Data_Count += 1
 
 				except Exception as e:
-
-					# Log the error
-					Log.Terminal_Log("ERROR", f"An error occurred while adding Calibration: {e}")
 
 					# Rollback in case of error
 					DB.rollback()
