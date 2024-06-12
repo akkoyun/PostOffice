@@ -79,11 +79,9 @@ def Import_Data_Segment():
 					New_Data_Count += 1
 
 				except Exception as e:
+
 					# Rollback in case of error
 					DB_Segment.rollback()
-
-					# Log Message
-					Log.Terminal_Log("ERROR", f"An error occurred while adding Data Segment: {e}")
 
 	# Log the result of the data segment import
 	if New_Data_Count > 0:
