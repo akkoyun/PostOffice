@@ -22,17 +22,14 @@ def Import_Data_Segment():
 
     # Download Data File
     try:
-        
         # Download Data File
         Data_File = pd.read_csv(Data_File_Name)
 
     except Exception as e:
-
         # Log Message
-        Log.Terminal_Log("ERROR", f"Data file read error.")
-
+        Log.Terminal_Log("ERROR", f"Data file read error: {e}")
         # Exit
-        exit()
+        return New_Data_Count
 
     # Rename Columns
     Data_File.columns = ['Segment_ID', 'Description']
@@ -44,7 +41,7 @@ def Import_Data_Segment():
         for index, row in Data_File.iterrows():
 
             # Check for Existing
-            Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Description.like(str(row['Description']))).first()
+            Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Description == str(row['Description'])).first()
 
             # Record Not Found
             if not Query:
@@ -52,12 +49,12 @@ def Import_Data_Segment():
                 # Create New Record
                 New_Record = Models.Data_Segment(
                     Segment_ID=int(row['Segment_ID']),
-                    Description=str(row['Description']),
+                    Segment_Name=str(row['Description']),
+                    Description=str(row['Description'])
                 )
 
                 # Add Record to DataBase
                 try:
-                
                     # Add Record to DataBase
                     DB_Segment.add(New_Record)
 
@@ -68,12 +65,20 @@ def Import_Data_Segment():
                     New_Data_Count += 1
 
                 except Exception as e:
+                    # Rollback in case of error
+                    DB_Segment.rollback()
 
                     # Log Message
-                    Log.Terminal_Log("ERROR", f"An error occurred while adding Device: {e}")
+                    Log.Terminal_Log("ERROR", f"An error occurred while adding Data Segment: {e}")
 
-    # End Function
     return New_Data_Count
+
+
+
+
+
+
+
 
 # Import Operator Data
 def Import_GSM_Operator():
