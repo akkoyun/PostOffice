@@ -51,6 +51,7 @@ def Import_Data_Segment():
                 Models.Data_Segment.Segment_Name == str(row['Description'])
             ).first()
 
+            Log.Terminal_Log("ERROR", f"---")
             Log.Terminal_Log("ERROR", f"Query : {Query}")
 
 
