@@ -14,6 +14,11 @@ Data_Root_Path = "/home/postoffice/PostOffice/src/Setup/Data/"
 # Create DataBase
 Models.Base.metadata.create_all(bind=Database.DB_Engine)
 
+
+
+
+
+
 # Import Data_Segment Data
 def Import_Data_Segment():
 
@@ -104,17 +109,30 @@ def Import_Data_Segment():
                     # Log Message
                     Log.Terminal_Log("ERROR", f"An error occurred while adding Data Segment: {e}")
 
-    return New_Data_Count
+
+
+
+
+    # Log the result of the data segment import
+    if New_Data_Count > 0:
+
+        Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data Segment Added.")
+
+    else:
+
+        Log.Terminal_Log("INFO", f"Data Segment is up to date.")
+
 
 # Data Segment
 New_Data_Segment = Import_Data_Segment()
-if Import_Data_Segment() > 0:
 
-    Log.Terminal_Log("INFO", f"[{New_Data_Segment}] New Data Segment Added.")
 
-else:
 
-    Log.Terminal_Log("INFO", f"Data Segment is up to date.")
+
+
+
+
+
 
 
 """
