@@ -64,22 +64,10 @@ def Import_Data_Segment():
                     Models.Data_Segment.Description == description
                 ).first()
 
-                # Log the result of the query
-                Log.Terminal_Log("INFO", f"Query Result : {Query}")
-
             except Exception as e:
+
                 # Log the error if any
                 Log.Terminal_Log("ERROR", f"An error occurred during the query: {e}")
-
-            Log.Terminal_Log("ERROR", f"---")
-
-
-
-
-
-
-
-            #Query = DB_Segment.query(Models.Data_Segment).filter(Models.Data_Segment.Segment_Name == str(row['Description'])).first()
 
             # Record Not Found
             if not Query:
@@ -108,10 +96,6 @@ def Import_Data_Segment():
 
                     # Log Message
                     Log.Terminal_Log("ERROR", f"An error occurred while adding Data Segment: {e}")
-
-
-
-
 
     # Log the result of the data segment import
     if New_Data_Count > 0:
