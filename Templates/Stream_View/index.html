@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Data Stream</title>
+    <!-- Google Fonts Nunito -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <!-- CSS Dosyasını Bağla -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="card">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th aria-label="Device Serial ID">Device Serial ID</th>
+                        <th aria-label="Stream Time Stamp">Stream Time Stamp</th>
+                        <th aria-label="Device IP">Device IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-json='{"Info":{"Command":"Timed","TimeStamp":"2024-03-20 14:40:49","ID":"C50000011D05A970","Firmware":"04.00.20"},"Device":{"Power":{"B_IV":4.16,"B_AC":0.47,"B_IC":1600,"B_FC":1500,"B_SOC":99.0,"B_T":24.5,"B_CS":3},"IoT":{"Firmware":"25.30.226","IMEI":"354485417649444","ICCID":"8990011936290169339","RSSI":66,"WDS":3,"ConnTime":3.724,"MCC":286,"MNC":1,"TAC":8770,"CELLID":53541}},"Payload":{"PCB_T":25.13,"VRMS_R":222.92,"VRMS_S":222.82,"VRMS_T":222.93}}'>
+                        <td>A20000011D13BD70</td>
+                        <td>2024-03-20 14:40:49</td>
+                        <td>192.168.1.1</td>
+                    </tr>
+                    <tr data-json='{"Info":{"Command":"Periodic","TimeStamp":"2024-03-21 10:30:21","ID":"C50000011D05A971","Firmware":"04.00.21"},"Device":{"Power":{"B_IV":4.2,"B_AC":0.5,"B_IC":1620,"B_FC":1520,"B_SOC":98.5,"B_T":25.0,"B_CS":4},"IoT":{"Firmware":"25.30.227","IMEI":"354485417649445","ICCID":"8990011936290169340","RSSI":68,"WDS":4,"ConnTime":3.95,"MCC":286,"MNC":1,"TAC":8771,"CELLID":53542}},"Payload":{"PCB_T":25.5,"VRMS_R":223.0,"VRMS_S":222.9,"VRMS_T":223.1}}'>
+                        <td>A20000011D13BD71</td>
+                        <td>2024-03-21 10:30:21</td>
+                        <td>192.168.1.2</td>
+                    </tr>
+                    <!-- Diğer satırlar buraya eklenir -->
+                </tbody>
+            </table>
+        </div>
+        <div class="json-card">
+            <pre class="json-pre">No data selected</pre>
+        </div>
+    </div>
+
+    <!-- JavaScript Dosyasını Bağla -->
+    <script src="script.js"></script>
+</body>
+</html>

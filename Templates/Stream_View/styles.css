@@ -1,0 +1,119 @@
+/* Apply Nunito Font */
+body {
+    font-family: "Nunito", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9fafb; /* Set background color for entire page */
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the main container */
+    padding: 20px;
+}
+
+/* Main Container Styles */
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Create two equal columns */
+    gap: 20px; /* Space between the two cards */
+    width: 100%;
+    max-width: 1600px; /* Adjust max width to fit two cards side by side */
+    height: 90vh; /* Set container height to 90% of the viewport height */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr; /* Tek sütuna geçiş yap */
+    }
+    .card, .json-card {
+        height: auto; /* Yüksekliği içeriğe göre ayarla */
+    }
+}
+
+/* Card Styles */
+.card, .json-card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto; /* Add scroll if content overflows */
+    height: 90%; /* Make card take full height of the container */
+}
+
+.json-card pre {
+    font-size: 15px; /* Increase the font size by 1 unit */
+    display: none; /* Başlangıçta gizle */
+}
+
+.json-card pre.active {
+    display: block; /* Tıklama ile göster */
+}
+
+/* Table Styles */
+.data-table {
+    width: 100%;
+    border-collapse: collapse; /* Remove gaps between table cells */
+    margin-top: 20px;
+    table-layout: fixed; /* Fix table layout */
+}
+.data-table th, .data-table td {
+    padding: 10px; /* Adjust padding to provide a better layout */
+    text-align: center; /* Center align table text */
+    border-top: 1px solid #e5e7eb; /* Add border to top */
+    border-bottom: none; /* Remove bottom border */
+    cursor: pointer; /* Indicate clickable rows */
+    font-size: 14px; /* Increase font size by 1 unit */
+}
+.data-table th {
+    background-color: #f9fafb; /* Match header background to card */
+    color: #6b7280;
+    font-weight: bold; /* Make the header text bold */
+    border-top: none; /* Remove top border for header */
+    border-bottom: 1px solid #e5e7eb; /* Add bottom border to header */
+    font-size: 15px; /* Increase the font size by 1 unit */
+}
+
+.data-table td {
+    background-color: #fff;
+}
+.data-table tbody tr:nth-child(even) td {
+    background-color: #f9fafb; /* Zebra striping for better readability */
+}
+.data-table th, .data-table td {
+    border-right: 1px solid #e5e7eb; /* Add right border */
+}
+.data-table th:last-child, .data-table td:last-child {
+    border-right: none; /* Remove right border for the last cell */
+}
+.data-table tbody tr:hover td {
+    background-color: #e5f4ff; /* Change background color on hover */
+}
+.data-table tbody tr.selected td {
+    background-color: #b0e0e6; /* Seçilen satırın arka plan rengini değiştir */
+}
+
+/* Add JSON syntax highlighting styles */
+pre .string {
+    color: #d14;
+    font-weight: bold;
+}
+pre .number {
+    color: #099;
+    font-style: italic;
+}
+pre .boolean {
+    color: #905;
+    text-decoration: underline;
+}
+pre .null {
+    color: #c00;
+    font-weight: bold;
+}
+pre .key {
+    color: #1a1a1a;
+    font-weight: bold;
+}

@@ -1,0 +1,146 @@
+/* Apply Nunito Font */
+body {
+    font-family: "Nunito", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9fafb; /* Set background color for entire page */
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the main container */
+    padding: 20px;
+}
+
+/* Main Container Styles */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Adjust max width */
+}
+
+/* Arama Kutusu için Stil */
+.search-container {
+    width: 100%;
+    max-width: 1200px; /* Kart genişliği ile aynı */
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center; /* Arama kutusunu ortalayın */
+}
+.search-container input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-size: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Card Styles */
+.card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06),
+        0px 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px; /* Kart genişliği */
+    height: 70vh; /* Sabit yükseklik */
+    position: relative; /* Pagination'u alta sabitlemek için */
+    box-sizing: border-box; /* Padding ve border'ın toplam genişliğe dahil olmasını sağlar */
+}
+
+/* Kart içeriği stil */
+.card-content {
+    flex: 1; /* Kartın geri kalan kısmını kaplar */
+    overflow-y: auto; /* İçerik taşarsa kaydırma */
+    padding-bottom: 50px; /* Pagination için boşluk bırak */
+}
+
+/* Table Styles */
+.data-table {
+    width: 100%;
+    border-collapse: collapse; /* Remove gaps between table cells */
+    margin: 0; /* Table'dan herhangi bir dış boşluk kaldır */
+    table-layout: fixed; /* Fix table layout */
+    box-sizing: border-box; /* Padding ve border'ın toplam genişliğe dahil olmasını sağlar */
+}
+.data-table th,
+.data-table td {
+    padding: 6px 12px; /* Padding değerlerini artırarak satır yüksekliğini biraz artır */
+    text-align: center; /* Center align table text */
+    border-top: 1px solid #e5e7eb; /* Add border to top */
+    border-bottom: none; /* Remove bottom border */
+    cursor: pointer; /* Indicate clickable rows */
+    font-size: 14px; /* Varsayılan font boyutuna geri dön */
+    line-height: 1.5; /* Satır yüksekliğini artır */
+    height: 20px; /* Satır yüksekliğini otomatik yap */
+    white-space: nowrap; /* Metnin taşmasını engelle */
+}
+.data-table th {
+    background-color: #f9fafb; /* Match header background to card */
+    color: #6b7280;
+    font-weight: 600;
+    border-top: none; /* Remove top border for header */
+    border-bottom: 1px solid #e5e7eb; /* Add bottom border to header */
+}
+
+.data-table td {
+    background-color: #fff;
+}
+.data-table tbody tr:nth-child(even) td {
+    background-color: #f9fafb; /* Zebra striping for better readability */
+}
+.data-table th,
+.data-table td {
+    border-right: 1px solid #e5e7eb; /* Add right border */
+}
+.data-table th:last-child,
+.data-table td:last-child {
+    border-right: none; /* Remove right border for the last cell */
+}
+.data-table tbody tr:hover td {
+    background-color: #e5f4ff; /* Change background color on hover */
+}
+
+/* Status Icon Stil */
+.status-icon.active {
+    color: green;
+}
+.status-icon.inactive {
+    color: red;
+}
+
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: absolute; /* Pagination butonlarını alt kısma sabitler */
+    bottom: 10px; /* Kartın altından mesafe */
+    left: 0;
+    right: 0;
+    margin-bottom: 10px;
+}
+.pagination button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}
+.pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.pagination span {
+    font-size: 14px;
+    color: #6b7280;
+}
