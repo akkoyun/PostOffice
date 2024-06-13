@@ -17,7 +17,11 @@ FastAPI_Tags = [
     {
         "name": "Root",
         "description": "This endpoint is the root of the PostOffice API.",
-    }
+    },
+	{
+		"name": "Hardware_Post",
+		"description": "This endpoint is used to receive data from IoT devices."
+	}
 ]
 
 # Define Lifespan
@@ -114,7 +118,7 @@ def Main_Root(request: Request):
 	return HTMLResponse(content=Rendered_HTML)
 
 # IoT Post Method
-@PostOffice.post("/", status_code=status.HTTP_201_CREATED)
+@PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_201_CREATED)
 async def Data_POST(request: Request, Data: Schema.Data_Pack):
 
 	# Log Message
