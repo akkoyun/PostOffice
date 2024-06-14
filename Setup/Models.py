@@ -322,7 +322,6 @@ class Stream(Base):
 	ICCID = Column(String(21), ForeignKey("SIM.ICCID"), nullable=False)
 	Client_IP = Column(String(16), nullable=True)
 	Size = Column(Integer, nullable=True)
-	RAW_Data = Column(JSON, nullable=True)
 	Device_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 
@@ -337,6 +336,24 @@ class Stream(Base):
 		Index('idx_stream_iccid', 'ICCID'),
 		Index('idx_stream_time', 'Stream_Time'),
 		Index('idx_device_time', 'Device_Time'),
+	)
+
+# Unknown_Data Database Model
+class Unknown_Data(Base):
+
+	# Define Table Name
+	__tablename__ = "Unknown_Data"
+
+	# Define Columns
+	Data_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Client_IP = Column(String(16), nullable=True)
+	RAW_Data = Column(JSON, nullable=True)
+	Size = Column(Integer, nullable=True)
+	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False)
+
+	# Define Table Arguments
+	__table_args__ = (
+		Index('idx_unknown_data_id', 'Data_ID'),
 	)
 
 # Service_LOG Database Model
