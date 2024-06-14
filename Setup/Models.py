@@ -347,9 +347,9 @@ class Unknown_Data(Base):
 	# Define Columns
 	Data_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Client_IP = Column(String(16), nullable=True)
-	RAW_Data = Column(JSON, nullable=True)
+	RAW_Data = Column(String(1024), nullable=True)
 	Size = Column(Integer, nullable=True)
-	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False)
+	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 	# Define Table Arguments
 	__table_args__ = (
