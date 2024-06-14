@@ -40,8 +40,9 @@ class Settings(BaseSettings):
 	FILE_CALIBRATION: str
 
 	# Load env File
-	class Config:
-		env_file = "Setup/.env"
+	model_config = {
+		"env_file": "Setup/.env"
+	}
 
 # Set Setting
 APP_Settings = Settings()
