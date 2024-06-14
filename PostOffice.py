@@ -59,6 +59,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Get Request Body
 	Request_Body = await request.body()
 
+	# Log Message
+	Log.Terminal_Log("INFO", f"Unkown Data Recorded: {Request_Body}")
+
 	# Record Unknown Data
 	Database_Functions.Record_Unknown_Data(request.client.host, Request_Body)
 
