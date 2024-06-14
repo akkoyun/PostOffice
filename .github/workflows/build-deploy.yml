@@ -7,6 +7,26 @@ on:
 
 jobs:
   job1:
+    env:
+      SERVER_NAME: ${{secrets.SERVER_NAME}}
+      LOG_FILE: ${{secrets.LOG_FILE}}
+      DB_HOSTNAME: ${{secrets.DB_HOSTNAME}}
+      DB_PORT: ${{secrets.DB_PORT}}
+      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      DB_NAME: ${{secrets.DB_NAME}}
+      DB_USERNAME: ${{secrets.DB_USERNAME}}
+      FILE_MANUFACTURER: ${{secrets.FILE_MANUFACTURER}}
+      FILE_MODEL: ${{secrets.FILE_MODEL}}
+      FILE_GSM_OPERATOR: ${{secrets.FILE_GSM_OPERATOR}}
+      FILE_SIM: ${{secrets.FILE_SIM}}
+      FILE_MODEM: ${{secrets.FILE_MODEM}}
+      FILE_DATA_SEGMENT: ${{secrets.FILE_DATA_SEGMENT}}
+      FILE_MEASUREMENT_TYPE: ${{secrets.FILE_MEASUREMENT_TYPE}}
+      FILE_VERSION: ${{secrets.FILE_VERSION}}
+      FILE_STATUS: ${{secrets.FILE_STATUS}}
+      FILE_DEVICE: ${{secrets.FILE_DEVICE}}
+      FILE_CALIBRATION: ${{secrets.FILE_CALIBRATION}}
+      FILE_PROJECT: ${{secrets.FILE_PROJECT}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
