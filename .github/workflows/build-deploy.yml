@@ -86,3 +86,4 @@ jobs:
             cd ~
             source /home/postoffice/PostOffice/PostOffice_ENV/bin/activate
             source Update.sh
+            echo "Deployed Successfully"
