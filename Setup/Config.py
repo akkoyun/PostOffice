@@ -13,6 +13,9 @@ class Settings(BaseSettings):
 
 	# Logging Settings
 	LOG_FILE: str
+	LOG_DIR: str
+	LOG_SERVICE_ERROR: str
+	LOG_SERVICE_ACCESS: str
 
 	# Database Settings
 	DB_HOSTNAME: str
