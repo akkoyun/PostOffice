@@ -36,7 +36,7 @@ max_requests = 1000
 max_requests_jitter = 100
 
 # Error Log
-errorlog = str({APP_Settings.LOG_SERVICE_ERROR})
+errorlog = str(APP_Settings.LOG_SERVICE_ERROR)
 
 # Access Log
-accesslog = str({APP_Settings.LOG_SERVICE_ACCESS})
+accesslog = str(APP_Settings.LOG_SERVICE_ACCESS)
