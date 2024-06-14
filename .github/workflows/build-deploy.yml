@@ -6,7 +6,11 @@ on:
       - Turkcell-Bulut
 
 jobs:
-  job1:
+
+  # Build PostOffice
+  Build:
+
+    # Set Environment Variables
     env:
       SERVER_NAME: ${{secrets.SERVER_NAME}}
       LOG_FILE: ${{secrets.LOG_FILE}}
@@ -31,7 +35,7 @@ jobs:
       FILE_CALIBRATION: ${{secrets.FILE_CALIBRATION}}
       FILE_PROJECT: ${{secrets.FILE_PROJECT}}
 
-
+    # Set Postgres Service
     services:
       db:
         image: postgres:16
@@ -47,7 +51,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-
+    # Set PostOffice Service
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -66,3 +70,19 @@ jobs:
         run: |
           pip install pytest
           pytest -s --disable-warnings -v Tests/Data_Post.py
+  
+  # Deploy PostOffice
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    steps:
+      - name: deploy to ubuntu server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.PROD_HOST}}
+          username: ${{secrets.PROD_USERNAME}}
+          password: ${{secrets.PROD_PASSWORD}}
+          script: |
+            cd ~
+            source /home/postoffice/PostOffice/PostOffice_ENV/bin/activate
+            source Update.sh
