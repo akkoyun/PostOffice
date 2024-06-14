@@ -10,6 +10,7 @@ class Settings(BaseSettings):
 
 	# Server Settings
 	SERVER_NAME: str
+	PROJECT_ROOT: str
 
 	# Logging Settings
 	LOG_FILE: str
