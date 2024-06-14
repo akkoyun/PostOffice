@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from .PostOffice.PostOffice import PostOffice
+from PostOffice.PostOffice import PostOffice
 
 # Define Test Client
 Test_Client = TestClient(PostOffice)
