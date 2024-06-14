@@ -39,7 +39,7 @@ def Record_Unknown_Data(Client_IP: str, RAW_Data: str):
 		DB.refresh(New_Unknown_Data)
 
 		# Log Message
-		Log.Terminal_Log("INFO", f"2")
+		Log.Terminal_Log("INFO", f"3")
 
 		# Get Data_ID
 		Data_ID = New_Unknown_Data.Data_ID
