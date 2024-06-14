@@ -41,7 +41,7 @@ jobs:
         run: pip install -r requirements.txt
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:/home/runner/work/***/***" >> $GITHUB_ENV
-      - name: Run tests
+      - name: Run Post Test
         run: |
           pip install pytest
           pytest -s --disable-warnings -v Tests/Data_Post.py
