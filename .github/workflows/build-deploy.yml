@@ -57,5 +57,4 @@ jobs:
       - name: Run tests
         run: |
           pip install pytest
-          cd /home/postoffice/PostOffice/src
           pytest -s --disable-warnings -v Tests/Data_Post.py
