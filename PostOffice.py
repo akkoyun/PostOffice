@@ -57,10 +57,7 @@ PostOffice.add_middleware(FastApi_Functions.Pre_Request)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
 
 	# Get Request Body
-	Request_Body = await request.body()
-
-	# Log Message
-	Log.Terminal_Log("INFO", f"Unkown Data Recorded: {Request_Body}")
+	Request_Body = ((await request.body()).decode("utf-8")).replace(" ", "").replace("\n", "").replace("\r", "")
 
 	# Record Unknown Data
 	Database_Functions.Record_Unknown_Data(request.client.host, Request_Body)

@@ -13,27 +13,36 @@ Local_Timezone = pytz.timezone("Europe/Istanbul")
 # Record Unkown Data
 def Record_Unknown_Data(Client_IP: str, RAW_Data: str):
 
-    # Define DB
-    with Database.DB_Session_Scope() as DB:
+	# Log Message
+	Log.Terminal_Log("INFO", f"1")
 
-        # Create New Unknown Data
-        New_Unknown_Data = Models.Unknown_Data(
-            Client_IP = Client_IP,
-            RAW_Data = RAW_Data,
-            Size = len(RAW_Data)
-        )
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
 
-        # Add New_Unknown_Data to DataBase
-        DB.add(New_Unknown_Data)
+		# Create New Unknown Data
+		New_Unknown_Data = Models.Unknown_Data(
+			Client_IP = Client_IP,
+			RAW_Data = RAW_Data,
+			Size = len(RAW_Data)
+		)
 
-        # Commit DataBase
-        DB.commit()
+		# Log Message
+		Log.Terminal_Log("INFO", f"2")
 
-        # Refresh DataBase
-        DB.refresh(New_Unknown_Data)
+		# Add New_Unknown_Data to DataBase
+		DB.add(New_Unknown_Data)
 
-        # Get Data_ID
-        Data_ID = New_Unknown_Data.Data_ID
+		# Commit DataBase
+		DB.commit()
 
-        # Log Message
-        Log.Terminal_Log("INFO", f"Unkown Data Recorded: {Data_ID}")
+		# Refresh DataBase
+		DB.refresh(New_Unknown_Data)
+
+		# Log Message
+		Log.Terminal_Log("INFO", f"2")
+
+		# Get Data_ID
+		Data_ID = New_Unknown_Data.Data_ID
+
+		# Log Message
+		Log.Terminal_Log("INFO", f"Unkown Data Recorded: {Data_ID}")
