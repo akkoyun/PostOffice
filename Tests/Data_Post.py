@@ -5,7 +5,7 @@ from PostOffice import PostOffice
 Test_Client = TestClient(PostOffice)
 
 # Define Test Cases
-def Test_Data_Post():
+def test_Data_Post():
 
 	# Define Data
 	Data = {
