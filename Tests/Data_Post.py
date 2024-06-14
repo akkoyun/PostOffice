@@ -1,7 +1,5 @@
 from fastapi.testclient import TestClient
 from PostOffice import PostOffice
-from Setup import Database, Models, Schema
-from Setup.Config import APP_Settings
 
 # Define Test Client
 Test_Client = TestClient(PostOffice)
