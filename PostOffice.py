@@ -129,8 +129,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Get Request Body
 	Request_Body = ((await request.body()).decode("utf-8")).replace(" ", "").replace("\n", "").replace("\r", "")
 
-	# Log Message
-	Log.Terminal_Log("INFO", f"Request Body : {Request_Body}")
 
 
 

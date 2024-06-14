@@ -318,6 +318,7 @@ class Stream(Base):
 	# Define Columns
 	Stream_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String(21), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
+	Command_ID = Column(Integer, nullable=True)
 	ICCID = Column(String(21), ForeignKey("SIM.ICCID"), nullable=False)
 	Client_IP = Column(String(16), nullable=True)
 	Size = Column(Integer, nullable=True)
