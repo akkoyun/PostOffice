@@ -50,7 +50,10 @@ def test_Data_Post():
 	Response = Test_Client.post("/", json=Data)
 
 	# Print Response
+	print("--------------------\r\n")
 	print(Response.json())
+	print("\r\n")
+	print("--------------------\r\n")
 
 	# Check Response
 	assert Response.status_code == 200
