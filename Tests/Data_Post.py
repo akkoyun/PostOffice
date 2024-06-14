@@ -49,5 +49,8 @@ def test_Data_Post():
 	# Send Data
 	Response = Test_Client.post("/", json=Data)
 
+	# Print Response
+	print(Response.json())
+
 	# Check Response
 	assert Response.status_code == 200
