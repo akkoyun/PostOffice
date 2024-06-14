@@ -83,9 +83,6 @@ Copy_File() {
     fi
 }
 
-# Environment Activate
-sudo source /home/postoffice/PostOffice/PostOffice_ENV/bin/activate
-
 # Change Directory to PostOffice
 cd /home/postoffice/PostOffice/src
 

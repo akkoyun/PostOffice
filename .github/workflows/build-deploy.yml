@@ -13,6 +13,7 @@ jobs:
     # Set Environment Variables
     env:
       SERVER_NAME: ${{secrets.SERVER_NAME}}
+      SUDO_PASSWORD: ${{secrets.SUDO_PASSWORD}}
       LOG_FILE: ${{secrets.LOG_FILE}}
       LOG_DIR: ${{secrets.LOG_DIR}}
       LOG_SERVICE_ERROR: ${{secrets.LOG_SERVICE_ERROR}}
@@ -60,6 +61,8 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
+      - name: Set TERM
+        run: echo "TERM=xterm-256color" >> $GITHUB_ENV
       - name: Update pip
         run: python -m pip install --upgrade pip
       - name: Install dependencies
