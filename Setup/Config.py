@@ -3,7 +3,7 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Packages
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 # Define Setting
 class Settings(BaseSettings):
