@@ -103,7 +103,7 @@ def Main_Root(request: Request):
 	Jinja_ENV = Environment(loader=FileSystemLoader(Templates_Directory))
 
 	# Define the error message
-	Error_Message = f"Hata: İsteğiniz geçersiz. Yardım için destek ekibimize başvurun. [{request.client.host}]"
+	Error_Message = f"Hata : İsteğiniz geçersiz. Yardım için destek ekibimize başvurun. [{request.client.host}]"
 
 	# Load the HTML template
 	Template = Jinja_ENV.get_template("HTML_Response.html")
@@ -126,7 +126,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"ICCID     : {Data.Device.IoT.ICCID}")
 	Log.Terminal_Log("INFO", f"IMEI      : {Data.Device.IoT.IMEI}")
 
-	
+
 
 
 
