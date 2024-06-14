@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from Functions import Log, FastApi_Functions
+from Functions import Log, FastApi_Functions, Database_Functions
 from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
 import pytz
@@ -59,15 +59,11 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 	# Get Request Body
 	Request_Body = await request.body()
 
-	# Log Message
-	Log.Terminal_Log("ERROR", f"Undefinied Data")
-	Log.Terminal_Log("WARNING", f"\r\n***********************************************\r\n{Request_Body.decode('utf-8')}\r\n***********************************************")
+	# Record Unknown Data
+	Database_Functions.Record_Unknown_Data(request.client.host, Request_Body)
 
 	# Control for Null Body
 	if exc.body is not None:
-
-        # Add Stream to DataBase
-#		Functions.Record_Stream(0, 0, request.client.host, request.headers['content-length'], exc.body, datetime.now())
 
 		# Message Status Code
 		Message_Status_Code = status.HTTP_400_BAD_REQUEST
