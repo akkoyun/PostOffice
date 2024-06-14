@@ -72,7 +72,7 @@ jobs:
       - name: Run Post Test
         run: |
           pip install pytest
-          pytest -s --disable-warnings -v Tests/Data_Post.py
+          pytest -s --disable-warnings -v tests/test_Data_Post.py
   
   # Deploy PostOffice
   Deploy:
