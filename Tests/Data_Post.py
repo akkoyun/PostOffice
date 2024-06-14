@@ -1,11 +1,11 @@
 from fastapi.testclient import TestClient
-from .PostOffice import PostOffice
+from PostOffice import PostOffice
 
 # Define Test Client
 Test_Client = TestClient(PostOffice)
 
 # Define Test Cases
-def Data_Post():
+def Test_Data_Post():
 
 	# Define Data
 	Data = {
