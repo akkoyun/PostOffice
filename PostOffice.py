@@ -126,6 +126,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	Log.Terminal_Log("INFO", f"ICCID     : {Data.Device.IoT.ICCID}")
 	Log.Terminal_Log("INFO", f"IMEI      : {Data.Device.IoT.IMEI}")
 
+	
 
 
 

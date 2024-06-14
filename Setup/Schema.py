@@ -302,7 +302,7 @@ class Power(CustomBaseModel):
 		return value
 
 	# Battery Charge State
-	B_CS: Constants.BATTERY.CHARGE_STATE = Field(description="Battery charge state.", examples=Constants.BATTERY.CHARGE_STATE.UNKNOWN, default=Constants.BATTERY.CHARGE_STATE.UNKNOWN)
+	B_CS: Constants.BATTERY.CHARGE_STATE = Field(description="Battery charge state.", examples=[Constants.BATTERY.CHARGE_STATE.UNKNOWN], default=Constants.BATTERY.CHARGE_STATE.UNKNOWN)
 
 	# Battery Charge State Validator
 	@field_validator('B_CS', mode='before')
