@@ -13,6 +13,7 @@ httpcore==1.0.5
 httptools==0.6.1
 httpx==0.27.0
 idna==3.7
+iniconfig==2.0.0
 Jinja2==3.1.4
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
@@ -22,11 +23,13 @@ orjson==3.10.3
 packaging==24.0
 pandas==2.2.2
 pathlib==1.0.1
+pluggy==1.5.0
 psycopg2-binary==2.9.9
-pydantic==2.7.3
-pydantic-settings==2.3.1
+pydantic==2.7.4
+pydantic-settings==2.3.3
 pydantic_core==2.18.4
 Pygments==2.18.0
+pytest==8.2.2
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-multipart==0.0.9
