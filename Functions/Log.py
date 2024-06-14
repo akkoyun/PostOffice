@@ -37,7 +37,7 @@ logging.basicConfig(
     handlers = [Handler],
 )
 
-# Set Log Directory
+# Set Log Directory 
 LOG_DIR = APP_Settings.LOG_DIR
 os.makedirs(LOG_DIR, exist_ok=True)
 
