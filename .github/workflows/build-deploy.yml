@@ -13,6 +13,7 @@ jobs:
     # Set Environment Variables
     env:
       SERVER_NAME: ${{secrets.SERVER_NAME}}
+      PROJECT_ROOT: ${{secrets.PROJECT_ROOT}}
       SUDO_PASSWORD: ${{secrets.SUDO_PASSWORD}}
       LOG_FILE: ${{secrets.LOG_FILE}}
       LOG_DIR: ${{secrets.LOG_DIR}}
