@@ -1,6 +1,7 @@
 # config.py
 import multiprocessing
 from uvicorn.workers import UvicornWorker
+from Setup.Config import APP_Settings
 
 # Custom Uvicorn Worker
 class CustomUvicornWorker(UvicornWorker):
@@ -35,7 +36,7 @@ max_requests = 1000
 max_requests_jitter = 100
 
 # Error Log
-errorlog = '/mnt/postoffice/hardware-api/PostOffice/PostOffice_Error.LOG'
+errorlog = {APP_Settings.LOG_SERVICE_ERROR}
 
 # Access Log
-accesslog = '/mnt/postoffice/hardware-api/PostOffice/PostOffice_Access.LOG'
+accesslog = {APP_Settings.LOG_SERVICE_ACCESS}
