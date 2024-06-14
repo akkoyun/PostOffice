@@ -51,9 +51,10 @@ def test_Data_Post():
 
 	# Print Response
 	print("\r\n")
-	print("--------------------\r\n")
+	print("------Response------")
 	print(Response.json())
-	print("--------------------\r\n")
+	print("--------------------")
+	print("\r\n")
 
 	# Check Response
 	assert Response.status_code == 200
