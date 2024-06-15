@@ -136,9 +136,9 @@ class Info(CustomBaseModel):
 	# Define Command
 	Command: str = Field(
 		description="Pack command.",
-		example="Online",
 		default=Constants.INFO.DEFAULT_COMMAND,
 		json_schema_extra={
+			"examples": ["Online", "Offline", "Timed", "Interrupt", "Alarm"],
 			"min_length": Constants.INFO.COMMAND_MIN_LENGTH,
 			"max_length": Constants.INFO.COMMAND_MAX_LENGTH
 		}
