@@ -6,11 +6,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 from confluent_kafka import Producer
 from Setup.Config import APP_Settings
 from Functions import Log
-
-print(APP_Settings)
-
-
-
+import json
 
 # Define Kafka Producer
 Kafka_Producer = Producer({
@@ -29,6 +25,39 @@ def Delivery_Error_Report(err, msg):
 		# Log Error
 		Log.Terminal_Log("ERROR", f"Message delivery failed: {err}")
 
+# Send To Topic Function
+def Send_To_Topic(topic: str, value, headers):
+
+    # Convert value to JSON format
+    json_value = json.dumps(value)
+    
+    # Encode headers
+    Encoded_Headers = [(k, bytes(v, 'utf-8')) for k, v in headers]
+
+    # Produce message to Kafka
+    Kafka_Producer.produce(
+        topic,
+        json_value.encode('utf-8'),
+        callback=Delivery_Error_Report,
+        headers=Encoded_Headers
+    )
+
+    # Poll and flush to ensure delivery
+    Kafka_Producer.poll(0)
+    Kafka_Producer.flush()
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Define Topic and Message
 Topic = 'Test'
 Message = 'Hello, Kafka!'
@@ -39,13 +68,4 @@ Headers = [
 ]
 
 # Produce Message
-Kafka_Producer.produce(
-    Topic,
-    Message.encode('utf-8'),
-    callback=Delivery_Error_Report,
-    headers=Headers
-)
-
-# Poll and Flush
-Kafka_Producer.poll(0)
-Kafka_Producer.flush()
+Send_To_Topic(Topic, Message, Headers)
