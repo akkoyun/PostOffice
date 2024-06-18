@@ -318,9 +318,9 @@ class Stream(Base):
 	# Define Columns
 	Stream_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String(21), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
-	Command_ID = Column(Integer, nullable=True)
+	Command_ID = Column(Integer, ForeignKey("Command.Command_ID", ondelete="CASCADE"), nullable=True)
 	ICCID = Column(String(21), ForeignKey("SIM.ICCID"), nullable=False)
-	Client_IP = Column(String(16), nullable=True)
+	IP_Address = Column(String(16), ForeignKey("Connection.IP_Address"), nullable=True)
 	Size = Column(Integer, nullable=True)
 	Device_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False)
@@ -329,13 +329,37 @@ class Stream(Base):
 	device = relationship("Device", back_populates="streams")
 	sim = relationship("SIM", back_populates="streams")
 	measurements = relationship("Measurement", back_populates="stream")
+	command = relationship("Command", back_populates="streams")
+	ip_address = relationship("Connection", back_populates="streams")
 
 	# Define Table Arguments
 	__table_args__ = (
 		Index('idx_stream_device_id', 'Device_ID'),
 		Index('idx_stream_iccid', 'ICCID'),
 		Index('idx_stream_time', 'Stream_Time'),
+		Index('idx_stream_ip_address', 'IP_Address'),
 		Index('idx_device_time', 'Device_Time'),
+	)
+
+# Command Database Model
+class Command(Base):
+
+	# Define Table Name
+	__tablename__ = "Command"
+
+	# Define Columns
+	Command_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Command = Column(String(30), nullable=False, unique=True)
+	Description = Column(String(255), nullable=False)
+	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
+
+	# Define Relationships
+	streams = relationship("Stream", back_populates="command")
+
+	# Define Table Arguments
+	__table_args__ = (
+		Index('idx_command', 'Command'),
 	)
 
 # Unknown_Data Database Model
@@ -428,4 +452,25 @@ class Firmware(Base):
     	Index('idx_version_id', 'Version_ID'),
 	    Index('idx_create_time', 'Create_Time'),
 		UniqueConstraint('File_Name', 'Version_ID', name='uix_file_version'),
+	)
+
+# Connection Database Model
+class Connection(Base):
+
+	# Define Table Name
+	__tablename__ = "Connection"
+
+	# Define Columns
+	Connection_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	IP_Address = Column(String(16), nullable=False)
+	IP_Pool = Column(Boolean, nullable=False, server_default="0")
+	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
+
+	# Define Relationships
+	streams = relationship("Stream", back_populates="ip_address")
+
+	# Define Table Arguments
+	__table_args__ = (
+		Index('idx_ip_address', 'IP_Address')
 	)

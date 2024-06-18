@@ -38,6 +38,7 @@ class Settings(BaseSettings):
 	FILE_STATUS: str
 	FILE_DEVICE: str
 	FILE_CALIBRATION: str
+	FILE_CONNECTION: str
 
 	# Load env File
 	model_config = {

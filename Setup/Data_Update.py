@@ -891,6 +891,77 @@ def Import_Calibration():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Calibration is up to date.")
 
+# Import Connection Data
+def Import_Connection():
+
+	# New Calibration Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_CONNECTION
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['IP_Address', 'IP_Pool']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Connection).filter(
+				Models.Connection.IP_Address==str(row['IP_Address'])
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Connection(
+					IP_Address=str(row['IP_Address']),
+					IP_Pool=bool(row['IP_Pool'])
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New IP Address Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"IP address is up to date.")
+
 # Update Data
 Import_Data_Segment()
 Import_GSM_Operator()
@@ -904,3 +975,4 @@ Import_Device()
 Import_SIM()
 Import_Data_Type()
 Import_Calibration()
+Import_Connection()
