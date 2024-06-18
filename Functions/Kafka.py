@@ -39,3 +39,7 @@ def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
 
     # Log Message
     Log.Terminal_Log("INFO", f"Failed to send message to {topic} after {max_retries} attempts.")
+
+
+# Send Test
+Send_To_Topic("Test", {"Test": "Test"}, {"Test": "Test"})

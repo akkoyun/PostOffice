@@ -135,8 +135,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 		("Body", bytes(Request_Body, 'utf-8'))
 	]
 
-	# Send to Kafka
-#	Kafka.Send_To_Topic("PostOffice", Data.dict(), Header)
 
 
 
