@@ -4,13 +4,13 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Library Includes
 from Functions import Log
-from Setup.Config import APP_Settings
+#from Setup.Config import APP_Settings
 from kafka import KafkaProducer
 import json
 import time
 
 # Kafka Producers
-Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers=f'{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}')
+Kafka_Producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('utf-8'), bootstrap_servers='172.20.5.3:9092')
 
 # Send to Topic
 def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
