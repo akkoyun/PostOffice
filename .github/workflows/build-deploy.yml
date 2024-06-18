@@ -22,6 +22,7 @@ jobs:
       LOG_SERVICE_ERROR: ${{secrets.LOG_SERVICE_ERROR}}
       LOG_SERVICE_ACCESS: ${{secrets.LOG_SERVICE_ACCESS}}
 
+      # Set Database Variables
       DB_HOSTNAME: ${{secrets.DB_HOSTNAME}}
       DB_PORT: ${{secrets.DB_PORT}}
       DB_PASSWORD: ${{secrets.DB_PASSWORD}}
