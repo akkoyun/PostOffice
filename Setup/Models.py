@@ -461,8 +461,7 @@ class Connection(Base):
 	__tablename__ = "Connection"
 
 	# Define Columns
-	Connection_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
-	IP_Address = Column(String(16), nullable=False)
+	IP_Address = Column(String(16), nullable=False, primary_key=True, unique=True)
 	IP_Pool = Column(Boolean, nullable=False, server_default="0")
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
