@@ -469,8 +469,3 @@ class Connection(Base):
 
 	# Define Relationships
 	streams = relationship("Stream", back_populates="ip_address")
-
-	# Define Table Arguments
-	__table_args__ = (
-		Index('idx_ip_address', 'IP_Address')
-	)
