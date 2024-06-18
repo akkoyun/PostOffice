@@ -4,8 +4,8 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Packages
 from confluent_kafka import Producer
-from Functions import Log
-from Setup.Config import APP_Settings
+from ..Functions import Log
+from ..Setup.Config import APP_Settings
 
 # Define Kafka Producer
 Kafka_Producer = Producer({
@@ -27,9 +27,19 @@ def Delivery_Error_Report(err, msg):
 # Define Topic and Message
 Topic = 'Test'
 Message = 'Hello, Kafka!'
+Headers = [
+    ('header_key_1', 'header_value_1'),
+    ('header_key_2', 'header_value_2'),
+    ('header_key_3', 'header_value_3')
+]
 
 # Produce Message
-Kafka_Producer.produce(Topic, Message.encode('utf-8'), callback=Delivery_Error_Report)
+Kafka_Producer.produce(
+    Topic,
+    Message.encode('utf-8'),
+    callback=Delivery_Error_Report,
+    headers=Headers
+)
 
 # Poll and Flush
 Kafka_Producer.poll(0)
