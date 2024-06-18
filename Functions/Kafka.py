@@ -2,19 +2,35 @@
 import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
+# Import Packages
 from confluent_kafka import Producer
+from Functions import Log
+from Setup.Config import APP_Settings
 
-p = Producer({'bootstrap.servers': '172.20.5.3:9092'}) 
+# Define Kafka Producer
+Kafka_Producer = Producer({
+    'bootstrap.servers': f'{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}',
+    'acks': 'all',
+    'compression.type': 'gzip',
+    'retries': 5
+})
 
-def delivery_report(err, msg):
+# Define Delivery Report
+def Delivery_Error_Report(err, msg):
+
+	# Check for Error
 	if err is not None:
-		print(f'Message delivery failed: {err}')
-	else:
-		print(f'Message delivered to {msg.topic()} [{msg.partition()}]')
 
-topic = 'Test'
-message = 'Hello, Kafka!'
+		# Log Error
+		Log.Terminal_Log("ERROR", f"Message delivery failed: {err}")
 
-p.produce(topic, message.encode('utf-8'), callback=delivery_report)
-p.poll(0)
-p.flush()
+# Define Topic and Message
+Topic = 'Test'
+Message = 'Hello, Kafka!'
+
+# Produce Message
+Kafka_Producer.produce(Topic, Message.encode('utf-8'), callback=Delivery_Error_Report)
+
+# Poll and Flush
+Kafka_Producer.poll(0)
+Kafka_Producer.flush()
