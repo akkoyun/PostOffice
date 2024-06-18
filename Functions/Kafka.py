@@ -4,8 +4,10 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Packages
 from confluent_kafka import Producer
-from ..Functions import Log
-from ..Setup.Config import APP_Settings
+from Setup.Config import APP_Settings
+from Functions import Log
+
+print(APP_Settings.dict())
 
 # Define Kafka Producer
 Kafka_Producer = Producer({
