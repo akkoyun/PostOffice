@@ -36,6 +36,7 @@ jobs:
       FILE_DEVICE: ${{secrets.FILE_DEVICE}}
       FILE_CALIBRATION: ${{secrets.FILE_CALIBRATION}}
       FILE_PROJECT: ${{secrets.FILE_PROJECT}}
+      FILE_CONNECTION: ${{secrets.FILE_CONNECTION}}
 
     # Set Postgres Service
     services:
