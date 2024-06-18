@@ -955,7 +955,7 @@ def Import_Connection():
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New IP Address Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New IP Addres Added.")
 
 	else:
 
