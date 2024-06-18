@@ -28,16 +28,19 @@ def Delivery_Error_Report(err, msg):
 # Send To Topic Function
 def Send_To_Topic(topic: str, value, headers):
 
-    # Convert value to JSON format
-    json_value = json.dumps(value)
-    
-    # Encode headers
-    Encoded_Headers = [(k, bytes(v, 'utf-8')) for k, v in headers]
+    # Convert value to JSON format if it's a dict or list, otherwise use it as is
+    if isinstance(value, (dict, list)):
+        json_value = json.dumps(value)
+    else:
+        json_value = value
+
+    # Encode headers if they are not already in bytes
+    Encoded_Headers = [(k, v if isinstance(v, bytes) else bytes(v, 'utf-8')) for k, v in headers]
 
     # Produce message to Kafka
     Kafka_Producer.produce(
         topic,
-        json_value.encode('utf-8'),
+        json_value.encode('utf-8') if isinstance(json_value, str) else json_value,
         callback=Delivery_Error_Report,
         headers=Encoded_Headers
     )
