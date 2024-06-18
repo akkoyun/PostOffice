@@ -7,7 +7,7 @@ from confluent_kafka import Producer
 from Setup.Config import APP_Settings
 #from Functions import Log
 
-print(APP_Settings.dict())
+print(APP_Settings.KAFKA_HOSTNAME)
 
 
 
