@@ -45,27 +45,3 @@ def Send_To_Topic(topic: str, value, headers):
     # Poll and flush to ensure delivery
     Kafka_Producer.poll(0)
     Kafka_Producer.flush()
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Define Topic and Message
-Topic = 'Test'
-Message = 'Hello, Kafka!'
-Headers = [
-    ('header_key_1', 'header_value_1'),
-    ('header_key_2', 'header_value_2'),
-    ('header_key_3', 'header_value_3')
-]
-
-# Produce Message
-Send_To_Topic(Topic, Message, Headers)
