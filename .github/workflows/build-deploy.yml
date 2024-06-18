@@ -16,6 +16,7 @@ jobs:
       PROJECT_ROOT: ${{secrets.PROJECT_ROOT}}
       SUDO_PASSWORD: ${{secrets.SUDO_PASSWORD}}
 
+      # Set Log Files
       LOG_FILE: ${{secrets.LOG_FILE}}
       LOG_DIR: ${{secrets.LOG_DIR}}
       LOG_SERVICE_ERROR: ${{secrets.LOG_SERVICE_ERROR}}
