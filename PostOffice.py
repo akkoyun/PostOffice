@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from Functions import Log, FastApi_Functions, Database_Functions, Kafka
+from Functions import Log, FastApi_Functions, Database_Functions
 from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
 import pytz
@@ -136,7 +136,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	]
 
 	# Send to Kafka
-	Kafka.Send_To_Topic("PostOffice", Data.dict(), Header)
+#	Kafka.Send_To_Topic("PostOffice", Data.dict(), Header)
 
 
 

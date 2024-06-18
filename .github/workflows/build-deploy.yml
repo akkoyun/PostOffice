@@ -80,10 +80,10 @@ jobs:
         run: pip install -r requirements.txt
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:/home/runner/work/***/***" >> $GITHUB_ENV
-#      - name: Run Post Test
-#        run: |
-#          pip install pytest
-#          pytest -s --disable-warnings -v tests/test_Data_Post.py
+      - name: Run Post Test
+        run: |
+          pip install pytest
+          pytest -s --disable-warnings -v tests/test_Data_Post.py
   
   # Deploy PostOffice
   Deploy:
