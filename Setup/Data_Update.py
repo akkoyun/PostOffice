@@ -962,6 +962,77 @@ def Import_Connection():
 		# Log the result
 		Log.Terminal_Log("INFO", f"IP address is up to date.")
 
+# Import Command Data
+def Import_Command():
+
+	# New Calibration Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File_Name = Data_Root_Path + APP_Settings.FILE_COMMAND
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(Data_File_Name)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Rename Columns
+	Data_File.columns = ['Command', 'Description']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Command).filter(
+				Models.Command.Command==str(row['Command'])
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Command(
+					Command=str(row['Command']),
+					Description=str(row['Description'])
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Command Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Command is up to date.")
+
 # Update Data
 Import_Data_Segment()
 Import_GSM_Operator()
@@ -976,3 +1047,4 @@ Import_SIM()
 Import_Data_Type()
 Import_Calibration()
 Import_Connection()
+Import_Command()
