@@ -3,7 +3,7 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Library Includes
-from Functions import Log
+#from Functions import Log
 #from Setup.Config import APP_Settings
 from kafka import KafkaProducer
 import json
@@ -33,7 +33,7 @@ def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
         except Exception as e:
 
             # Log Message
-            Log.Terminal_Log("INFO", f"Failed to send message to {topic}. Attempt {Retries+1} of {max_retries}. Error: {e}")
+            print("INFO", f"Failed to send message to {topic}. Attempt {Retries+1} of {max_retries}. Error: {e}")
 
             # Increment Retry Counter
             Retries += 1
@@ -42,7 +42,7 @@ def Send_To_Topic(topic: str, value, headers, max_retries=3, delay=5):
             time.sleep(delay)
 
     # Log Message
-    Log.Terminal_Log("INFO", f"Failed to send message to {topic} after {max_retries} attempts.")
+    print("INFO", f"Failed to send message to {topic} after {max_retries} attempts.")
 
 
 # Send Test
