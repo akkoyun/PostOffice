@@ -1,3 +1,7 @@
+# Setup Root Path
+import sys
+sys.path.append('/home/postoffice/PostOffice/src')
+
 # Library Includes
 from Functions import Log
 from Setup.Config import APP_Settings
