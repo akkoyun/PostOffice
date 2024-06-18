@@ -15,15 +15,21 @@ jobs:
       SERVER_NAME: ${{secrets.SERVER_NAME}}
       PROJECT_ROOT: ${{secrets.PROJECT_ROOT}}
       SUDO_PASSWORD: ${{secrets.SUDO_PASSWORD}}
+
       LOG_FILE: ${{secrets.LOG_FILE}}
       LOG_DIR: ${{secrets.LOG_DIR}}
       LOG_SERVICE_ERROR: ${{secrets.LOG_SERVICE_ERROR}}
       LOG_SERVICE_ACCESS: ${{secrets.LOG_SERVICE_ACCESS}}
+
       DB_HOSTNAME: ${{secrets.DB_HOSTNAME}}
       DB_PORT: ${{secrets.DB_PORT}}
       DB_PASSWORD: ${{secrets.DB_PASSWORD}}
       DB_NAME: ${{secrets.DB_NAME}}
       DB_USERNAME: ${{secrets.DB_USERNAME}}
+
+      KAFKA_HOSTNAME: ${{secrets.KAFKA_HOSTNAME}}
+      KAFKA_PORT: ${{secrets.KAFKA_PORT}}
+
       FILE_MANUFACTURER: ${{secrets.FILE_MANUFACTURER}}
       FILE_MODEL: ${{secrets.FILE_MODEL}}
       FILE_GSM_OPERATOR: ${{secrets.FILE_GSM_OPERATOR}}

@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from Functions import Log, FastApi_Functions, Database_Functions
+from Functions import Log, FastApi_Functions, Database_Functions, Kafka
 from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
 import pytz
@@ -125,6 +125,18 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	# Get Request Body
 	Request_Body = ((await request.body()).decode("utf-8")).replace(" ", "").replace("\n", "").replace("\r", "")
 
+	# Set headers
+	Header = [
+		("Command", bytes(Data.Info.Command, 'utf-8')), 
+		("Device_ID", bytes(Data.Info.ID, 'utf-8')),
+		("Device_Time", bytes(Data.Info.TimeStamp, 'utf-8')), 
+		("Device_IP", bytes(request.client.host, 'utf-8')),
+		("Size", bytes(request.headers['content-length'], 'utf-8')),
+		("Body", bytes(Request_Body, 'utf-8'))
+	]
+
+	# Send to Kafka
+	Kafka.Send_To_Topic("PostOffice", Data.dict(), Header)
 
 
 

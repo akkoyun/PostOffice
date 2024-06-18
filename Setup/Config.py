@@ -25,6 +25,10 @@ class Settings(BaseSettings):
 	DB_NAME: str
 	DB_USERNAME: str
 
+	# Kafka Settings
+	KAFKA_HOSTNAME: str
+	KAFKA_PORT: int
+
 	# File Settings
 	FILE_MANUFACTURER: str
 	FILE_MODEL: str
