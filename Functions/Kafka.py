@@ -27,7 +27,7 @@ def Delivery_Error_Report(err, msg):
 		Log.Terminal_Log("ERROR", f"Message delivery failed: {err}")
 
 # Send To Topic Function
-def Send_To_Topic(Topic: str, Value: Schema.Data_Pack, Headers, Partition=0):
+def Send_To_Topic(Topic: str, Value, Headers, Partition=0):
 
     # Convert value to JSON format if it's a dict or list, otherwise use it as is
     if isinstance(Value, (dict, list)):
@@ -44,8 +44,7 @@ def Send_To_Topic(Topic: str, Value: Schema.Data_Pack, Headers, Partition=0):
         JSON_Value.encode('utf-8') if isinstance(JSON_Value, str) else JSON_Value,
         callback=Delivery_Error_Report,
         partition=Partition,
-        headers=Encoded_Headers,
-        key=Value.Info.ID.encode('utf-8')
+        headers=Encoded_Headers
     )
 
     # Poll and flush to ensure delivery
