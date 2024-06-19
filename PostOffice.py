@@ -136,7 +136,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: Backgr
 	]
 
 	# Produce Message
-	Send_Kafka(Kafka.Send_To_Topic, "RAW", Request_Body, Header)
+	Send_Kafka.add_task(Kafka.Send_To_Topic, "RAW", Request_Body, Header)
 
 	# Send Response
 	return JSONResponse(
