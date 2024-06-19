@@ -1,5 +1,5 @@
 # Library Imports
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, status, BackgroundTasks
 from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
@@ -115,7 +115,7 @@ def Main_Root(request: Request):
 
 # IoT Post Method
 @PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_201_CREATED)
-async def Data_POST(request: Request, Data: Schema.Data_Pack):
+async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: BackgroundTasks):
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"Device ID : {Data.Info.ID}")
@@ -136,7 +136,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack):
 	]
 
 	# Produce Message
-	Kafka.Send_To_Topic("RAW", Request_Body, Header)
+	Send_Kafka(Kafka.Send_To_Topic, "RAW", Request_Body, Header)
 
 	# Send Response
 	return JSONResponse(
