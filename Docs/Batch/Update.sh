@@ -88,7 +88,7 @@ cd /home/postoffice/PostOffice/src
 
 # Stop Services
 Stop_Service PostOffice.service
-#Stop_Service Hardware.service
+Stop_Service DataHandler.service
 #Stop_Service Handler_RAW.service
 #Stop_Service Handler_Parameter.service
 #Stop_Service Handler_Payload.service
@@ -118,7 +118,7 @@ echo "${yellow}Updating files...${reset}"
 
 # Copy Service Files
 Copy_File "/home/postoffice/PostOffice/src/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_RAW.service" "/etc/systemd/system/Handler_RAW.service"
+Copy_File "/home/postoffice/PostOffice/src/Docs/Service/DataHandler.service" "/etc/systemd/system/DataHandler.service"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Parameter.service" "/etc/systemd/system/Handler_Parameter.service"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Discord.service" "/etc/systemd/system/Handler_Discord.service"
@@ -143,7 +143,7 @@ sudo systemctl daemon-reload
 
 # Start Services
 Start_Service PostOffice.service
-#Start_Service Hardware.service
+Start_Service DataHandler.service
 #Start_Service Handler_RAW.service
 #Start_Service Handler_Parameter.service
 #Start_Service Handler_Payload.service

@@ -1,0 +1,18 @@
+[Unit]
+Description=PostOffice Data Handler Service
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/home/postoffice/PostOffice/src
+Environment="PATH=/home/postoffice/PostOffice/PostOffice_ENV/bin"
+EnvironmentFile=/home/postoffice/PostOffice/src/Setup/.env
+ExecStart=/usr/bin/python3 /home/postoffice/PostOffice/src/Consumer/DataHandler.py
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
