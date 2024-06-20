@@ -133,6 +133,9 @@ try:
 			# Check for ICCID
 			if Message.Device.IoT.ICCID is not None:
 
+				# Remove Last 1 Digit from ICCID
+				Message.Device.IoT.ICCID = Message.Device.IoT.ICCID[:-1]
+
 				# Check for SIM Table
 				try:
 
@@ -197,8 +200,6 @@ try:
 			Log.Terminal_Log('INFO', f'Device IP   : {Headers["Device_IP"]}')
 			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Device.IoT.ICCID} - [{New_SIM}]')
 			Log.Terminal_Log('INFO', f'Size        : {Headers["Size"]}')
-			Log.Terminal_Log('INFO', f'-------------------')
-			Log.Terminal_Log('INFO', f'Message     : {Message}')
 			Log.Terminal_Log('INFO', f'-------------------')
 
 
