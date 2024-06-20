@@ -119,7 +119,6 @@ echo "${yellow}Updating files...${reset}"
 # Copy Service Files
 Copy_File "/home/postoffice/PostOffice/src/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
 Copy_File "/home/postoffice/PostOffice/src/Docs/Service/DataHandler.service" "/etc/systemd/system/DataHandler.service"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Parameter.service" "/etc/systemd/system/Handler_Parameter.service"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Discord.service" "/etc/systemd/system/Handler_Discord.service"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
