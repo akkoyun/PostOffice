@@ -9,6 +9,7 @@ from Setup import Database, Models, Schema
 from confluent_kafka import Consumer, KafkaException, KafkaError
 import time
 import json
+from pydantic import ValidationError
 
 # Define Topic
 RAW_Consumer_Topic = 'RAW'
@@ -26,9 +27,6 @@ RAW_Consumer = Consumer(Consumer_Config)
 
 # Define Subscription Function
 RAW_Consumer.subscribe([RAW_Consumer_Topic])
-
-# Define DB
-DB_Module = Database.SessionLocal()
 
 # Define Consumer Topic Loop
 try:
@@ -66,41 +64,42 @@ try:
 		else:
 
 			# Get Headers
-			Headers = Consumer_Message.headers()
+			Headers = {key: value.decode('utf-8') for key, value in Consumer_Message.headers()}
 
-			# Headers Dict Conversion
-			Headers_Dict = {key: value.decode('utf-8') for key, value in Headers}
+			# Declare Message
+			Message = None
 
-			# Get Message Value
-			Message = Consumer_Message.value().decode('utf-8')
-
-			# Declare Message JSON
-			Message_JSON = None
-
-			# Control for JSON Message
+			# Get Message
 			try:
 
-				Message_JSON = json.loads(Message)
+				# Decode Message
+				RAW_Message = Kafka.Decode_RAW_Message(Consumer_Message.value().decode('utf-8'))
 
-			except json.JSONDecodeError as e:
-				
+				# Parse Message
+				Message = Schema.Data_Pack(**RAW_Message)
+
+			except (json.JSONDecodeError, ValidationError) as e:
+
 				# Continue
 				continue
 
 			# Define Variables
-			Database_Command_ID = None
-			Database_SIM_ID = None
+			Database_Command_ID = 0
+			Database_SIM_ID = 0
 			New_SIM	= False
 
 			# Check for Command
-			if Headers_Dict['Command'] is not None:
+			if Headers['Command'] is not None:
 
 				# Check for Command Table
 				try:
 
+					# Define DB
+					DB_Module = Database.SessionLocal()
+
 					# Control Service
 					Command_Query = (DB_Module.query(Models.Command).filter(
-						Models.Command.Command.like(Headers_Dict['Command'])
+						Models.Command.Command.like(Headers['Command'])
 					).first())
 
 					# Command Found
@@ -119,16 +118,14 @@ try:
 					# Close Database
 					DB_Module.close()
 
-			else:
-
-				# Set Command ID
-				Command_ID = 0
-
 			# Check for ICCID
-			if Schema.Data_Pack.Device.IoT.ICCID is not None:
+			if Message.Device.IoT.ICCID is not None:
 
 				# Check for SIM Table
 				try:
+
+					# Define DB
+					DB_Module = Database.SessionLocal()
 
 					# Control Service
 					SIM_Query = (DB_Module.query(Models.SIM).filter(
@@ -166,11 +163,6 @@ try:
 					# Close Database
 					DB_Module.close()
 
-			else:
-
-				# Set SIM ID
-				Database_SIM_ID = 0
-
 
 
 
@@ -192,14 +184,14 @@ try:
 
 			# Log Message
 			Log.Terminal_Log('INFO', f'Topic       : {Consumer_Message.topic()}')
-			Log.Terminal_Log('INFO', f'Command     : {Headers_Dict["Command"]} - [{Command_ID}]')
-			Log.Terminal_Log('INFO', f'Device ID   : {Headers_Dict["Device_ID"]}')
-			Log.Terminal_Log('INFO', f'Device Time : {Headers_Dict["Device_Time"]}')
-			Log.Terminal_Log('INFO', f'Device IP   : {Headers_Dict["Device_IP"]}')
-			Log.Terminal_Log('INFO', f'ICCID	   : {Schema.Data_Pack.Device.IoT.ICCID} - [{Database_SIM_ID}]')
-			Log.Terminal_Log('INFO', f'Size        : {Headers_Dict["Size"]}')
+			Log.Terminal_Log('INFO', f'Command     : {Headers["Command"]} - [{Database_Command_ID}]')
+			Log.Terminal_Log('INFO', f'Device ID   : {Headers["Device_ID"]}')
+			Log.Terminal_Log('INFO', f'Device Time : {Headers["Device_Time"]}')
+			Log.Terminal_Log('INFO', f'Device IP   : {Headers["Device_IP"]}')
+			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Data_Pack.Device.IoT.ICCID} - [{Database_SIM_ID}]')
+			Log.Terminal_Log('INFO', f'Size        : {Headers["Size"]}')
 			Log.Terminal_Log('INFO', f'-------------------')
-			Log.Terminal_Log('INFO', f'Message     : {Message_JSON}')
+			Log.Terminal_Log('INFO', f'Message     : {Message}')
 			Log.Terminal_Log('INFO', f'-------------------')
 
 
