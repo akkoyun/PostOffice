@@ -6,6 +6,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 from Setup.Config import APP_Settings
 from Functions import Log, FastApi_Functions, Database_Functions, Kafka
 from confluent_kafka import Consumer, KafkaException, KafkaError
+import time
 
 # Define Topic
 RAW_Consumer_Topic = 'RAW'
@@ -14,7 +15,8 @@ RAW_Consumer_Topic = 'RAW'
 Consumer_Config = {
     'bootstrap.servers': f'{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}',
     'group.id': 'RAW_Handler_Group',
-    'auto.offset.reset': 'earliest'
+    'auto.offset.reset': 'earliest',
+	'enable.auto.commit': False,
 }
 
 # Define Consumer Class
@@ -57,14 +59,33 @@ try:
 
 		# Get Message
 		else:
-			
+
+			# Log Message
+			Log.Terminal_Log('INFO', f'Topic : {Consumer_Message.topic()}')
+
+			# Log Message
+			Log.Terminal_Log('INFO', f'-------------------')
+
+			# Get Headers
+			Headers = Consumer_Message.headers()
+
+			# Headers Dict Conversion
+			Headers_Dict = {key: value.decode('utf-8') for key, value in Headers}
+
+			# Log Message
+			Log.Terminal_Log('INFO', f'Headers : {Headers_Dict}')
+
+			# Log Message
+			Log.Terminal_Log('INFO', f'-------------------')
+
 			# Get Message Value
 			Message = Consumer_Message.value().decode('utf-8')
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'Topic   : {RAW_Consumer_Topic}')
-			Log.Terminal_Log('INFO', f'Headers : {Consumer_Message.headers()}')
 			Log.Terminal_Log('INFO', f'Message : {Message}')
+
+			# Log Message
+			Log.Terminal_Log('INFO', f'-------------------')
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
@@ -76,5 +97,8 @@ except KeyboardInterrupt:
 
 finally:
 
+	# Wait for Finish
+	time.sleep(2)
+
 	# Close Consumer
-    RAW_Consumer.close()
+	RAW_Consumer.close()
