@@ -98,7 +98,6 @@ try:
 
 			# Define Variables
 			Database_Command_ID = 0
-			Database_SIM_ID = 0
 			New_SIM	= False
 
 			# Check for Command
@@ -146,12 +145,7 @@ try:
 					).first())
 
 					# SIM Found
-					if SIM_Query is not None:
-
-						# Get SIM ID
-						Database_SIM_ID = SIM_Query.SIM_ID
-
-					else:
+					if SIM_Query is None:
 
 						# Create New SIM
 						New_SIM = Models.SIM(
@@ -167,9 +161,6 @@ try:
 
 						# Refresh DataBase
 						DB_Module.refresh(New_SIM)
-
-						# Get SIM ID
-						Database_SIM_ID = New_SIM.SIM_ID
 
 						# Set New SIM
 						New_SIM = True
@@ -204,7 +195,7 @@ try:
 			Log.Terminal_Log('INFO', f'Device ID   : {Headers["Device_ID"]}')
 			Log.Terminal_Log('INFO', f'Device Time : {Headers["Device_Time"]}')
 			Log.Terminal_Log('INFO', f'Device IP   : {Headers["Device_IP"]}')
-			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Data_Pack.Device.IoT.ICCID} - [{Database_SIM_ID}] - [{New_SIM}]')
+			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Device.IoT.ICCID} - [{New_SIM}]')
 			Log.Terminal_Log('INFO', f'Size        : {Headers["Size"]}')
 			Log.Terminal_Log('INFO', f'-------------------')
 			Log.Terminal_Log('INFO', f'Message     : {Message}')
