@@ -73,7 +73,11 @@ try:
 			Headers_Dict = {key: value.decode('utf-8') for key, value in Headers}
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'Headers : {Headers_Dict}')
+			Log.Terminal_Log('INFO', f'Command     : {Headers_Dict["Command"]}')
+			Log.Terminal_Log('INFO', f'Device ID   : {Headers_Dict["Device_ID"]}')
+			Log.Terminal_Log('INFO', f'Device Time : {Headers_Dict["Device_Time"]}')
+			Log.Terminal_Log('INFO', f'Device IP   : {Headers_Dict["Device_IP"]}')
+			Log.Terminal_Log('INFO', f'Size        : {Headers_Dict["Size"]}')
 
 			# Log Message
 			Log.Terminal_Log('INFO', f'-------------------')

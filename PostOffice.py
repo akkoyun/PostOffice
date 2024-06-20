@@ -131,8 +131,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: Backgr
 		("Device_ID", bytes(Data.Info.ID, 'utf-8')),
 		("Device_Time", bytes(Data.Info.TimeStamp, 'utf-8')), 
 		("Device_IP", bytes(request.client.host, 'utf-8')),
-		("Size", bytes(request.headers['content-length'], 'utf-8')),
-		("Body", bytes(Request_Body, 'utf-8'))
+		("Size", bytes(request.headers['content-length'], 'utf-8'))
 	]
 
 	# Produce Message
