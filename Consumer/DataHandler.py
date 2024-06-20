@@ -336,7 +336,7 @@ try:
 			New_Stream = Models.Stream(
 				Device_ID = Stream_Data.message.Info.ID,
 				Command_ID = Stream_Data.command_id,
-				ICCID = Stream_Data.message.Device.IoT.ICCID,
+				ICCID = Stream_Data.message.Device.IoT.ICCID[:-1],
 				IP_Address = Headers['Device_IP'],
 				Size = Headers['Size'],
 				Device_Time = Headers['Device_Time'],
