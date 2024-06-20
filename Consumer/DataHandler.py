@@ -340,6 +340,7 @@ try:
 				IP_Address = Headers['Device_IP'],
 				Size = Headers['Size'],
 				Device_Time = Headers['Device_Time'],
+				Stream_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()),
 			)
 
 			# Add Stream to DataBase
