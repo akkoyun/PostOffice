@@ -75,12 +75,25 @@ try:
 				# Decode Message
 				RAW_Message = Kafka.Decode_RAW_Message(Consumer_Message.value().decode('utf-8'))
 
-				# Parse Message
+				# Check if RAW_Message is valid
+				if not RAW_Message:
+					continue
+
+				# Parse RAW_Message to dict if it's a JSON string
+				if isinstance(RAW_Message, str):
+					try:
+						RAW_Message = json.loads(RAW_Message)
+					except json.JSONDecodeError as e:
+						continue
+
+				# Ensure RAW_Message is a dict
+				if not isinstance(RAW_Message, dict):
+					continue
+
+				# Parse Message using Schema
 				Message = Schema.Data_Pack(**RAW_Message)
 
-			except (json.JSONDecodeError, ValidationError) as e:
-
-				# Continue
+			except (TypeError, json.JSONDecodeError, ValidationError) as e:
 				continue
 
 			# Define Variables
