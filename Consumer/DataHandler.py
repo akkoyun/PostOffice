@@ -4,9 +4,9 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
 from Setup.Config import APP_Settings
-from Functions import Log, FastApi_Functions, Database_Functions, Kafka
+from Functions import Log
 from Setup import Database, Models, Schema
-from confluent_kafka import Consumer, KafkaException, KafkaError
+from confluent_kafka import Consumer, KafkaError
 import time
 import json
 from pydantic import ValidationError
@@ -155,7 +155,7 @@ try:
 
 						# Create New SIM
 						New_SIM = Models.SIM(
-							ICCID = Schema.Data_Pack.Device.IoT.ICCID,
+							ICCID = Message.Data_Pack.Device.IoT.ICCID,
 							Operator_ID = 286 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
 						)
 
@@ -170,6 +170,9 @@ try:
 
 						# Get SIM ID
 						Database_SIM_ID = New_SIM.SIM_ID
+
+						# Set New SIM
+						New_SIM = True
 
 				finally:
 
@@ -201,7 +204,7 @@ try:
 			Log.Terminal_Log('INFO', f'Device ID   : {Headers["Device_ID"]}')
 			Log.Terminal_Log('INFO', f'Device Time : {Headers["Device_Time"]}')
 			Log.Terminal_Log('INFO', f'Device IP   : {Headers["Device_IP"]}')
-			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Data_Pack.Device.IoT.ICCID} - [{Database_SIM_ID}]')
+			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Data_Pack.Device.IoT.ICCID} - [{Database_SIM_ID}] - [{New_SIM}]')
 			Log.Terminal_Log('INFO', f'Size        : {Headers["Size"]}')
 			Log.Terminal_Log('INFO', f'-------------------')
 			Log.Terminal_Log('INFO', f'Message     : {Message}')
