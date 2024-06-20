@@ -97,6 +97,7 @@ try:
 				continue
 
 			# Define Variables
+			Stream_ID = 0
 			Database_Command_ID = 0
 			Database_Device_Firmware_ID = 0
 			New_SIM	= False
@@ -328,15 +329,33 @@ try:
 					# Close Database
 					DB_Module.close()
 
+			# Define DB
+			DB_Module = Database.SessionLocal()
+
+			# Record Stream
+			New_Stream = Models.Stream(
+				Device_ID = Message.Info.ID,
+				Command_ID = Database_Command_ID,
+				ICCID = Message.Device.IoT.ICCID,
+				IP_Address = Headers['Device_IP'],
+				Size = Headers['Size'],
+				Device_Time = Headers['Device_Time'],
+			)
+
+			# Add Stream to DataBase
+			DB_Module.add(New_Stream)
+
+			# Commit DataBase
+			DB_Module.commit()
+
+			# Refresh DataBase
+			DB_Module.refresh(New_Stream)
+
+			# Get Stream ID
+			Stream_ID = New_Stream.Stream_ID
 
 
-
-
-
-
-
-
-
+			
 
 
 
@@ -353,6 +372,9 @@ try:
 			Log.Terminal_Log('INFO', f'IMEI	       : {Message.Device.IoT.IMEI} - [{New_Modem}]')
 			Log.Terminal_Log('INFO', f'Size        : {Headers["Size"]}')
 			Log.Terminal_Log('INFO', f'-------------------')
+			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_ID}')
+			Log.Terminal_Log('INFO', f'-------------------')
+
 
 
 
