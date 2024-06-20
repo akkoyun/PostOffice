@@ -54,3 +54,50 @@ def Record_Unknown_Data(Client_IP: str, RAW_Data: str):
 
 		# Log Message
 		Log.Terminal_Log("ERROR", f"An error occurred: {str(e)}")
+
+# Get Command ID Function
+def Get_Command_ID(Command: str):
+
+	# Check for Command
+	if Command is not None:
+
+		# Check for Command Table
+		try:
+
+			# Define DB
+			DB_Module = Database.SessionLocal()
+
+			# Control Service
+			Command_Query = (DB_Module.query(Models.Command).filter(
+				Models.Command.Command.like(Command)
+			).first())
+
+			# Command Found
+			if Command_Query is not None:
+
+				# Get Existed Command ID
+				Command_ID = Command_Query.Command_ID
+
+				# Return Command ID
+				return Command_ID
+
+			else:
+
+				# Return 'Unknown' Command ID
+				return 1
+
+		finally:
+
+			# Close Database
+			DB_Module.close()
+
+	else :
+
+		# Return 'Unknown' Command ID
+		return 1
+
+
+
+
+
+

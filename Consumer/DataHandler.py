@@ -4,7 +4,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
 from Setup.Config import APP_Settings
-from Functions import Log
+from Functions import Log, Database_Functions
 from Setup import Database, Models, Schema
 from confluent_kafka import Consumer, KafkaError
 import time
@@ -127,35 +127,16 @@ try:
 				# Continue
 				continue
 
-			# Check for Command
-			if Headers['Command'] is not None:
+			# Get Command ID
+			Stream_Data.command_id = Database_Functions.Get_Command_ID(Headers['Command'])
 
-				# Check for Command Table
-				try:
 
-					# Define DB
-					DB_Module = Database.SessionLocal()
 
-					# Control Service
-					Command_Query = (DB_Module.query(Models.Command).filter(
-						Models.Command.Command.like(Headers['Command'])
-					).first())
 
-					# Command Found
-					if Command_Query is not None:
 
-						# Get Command ID
-						Stream_Data.command_id = Command_Query.Command_ID
 
-					else:
 
-						# Set Command ID
-						Stream_Data.command_id = 1
 
-				finally:
-
-					# Close Database
-					DB_Module.close()
 
 			# Check for ICCID
 			if Stream_Data.message.Device.IoT.ICCID is not None:
