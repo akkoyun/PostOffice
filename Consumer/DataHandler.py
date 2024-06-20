@@ -103,7 +103,6 @@ try:
 			New_SIM	= False
 			New_Modem = False
 			New_Device = False
-			Database_Connection_ID = 0
 
 			# Check for Command
 			if Headers['Command'] is not None:
@@ -361,14 +360,6 @@ try:
 
 						# Refresh DataBase
 						DB_Module.refresh(New_Connection)
-
-						# Get Connection ID
-						Database_Connection_ID = New_Connection.Connection_ID
-
-					else:
-
-						# Get Connection ID
-						Database_Connection_ID = Connection_Query.Connection_ID
 
 				finally:
 
