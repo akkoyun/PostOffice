@@ -95,9 +95,6 @@ try:
 
 					else:
 
-						# Log Message
-						Log.Terminal_Log('ERROR', 'Command Not Found!')
-
 						# Set Command ID
 						Command_ID = 0
 
@@ -106,6 +103,10 @@ try:
 					# Close Database
 					DB_Module.close()
 
+			else:
+
+				# Set Command ID
+				Command_ID = 0
 
 
 
