@@ -23,7 +23,7 @@ Consumer_Config = {
 RAW_Consumer = Consumer(Consumer_Config)
 
 # Define Subscription Function
-RAW_Consumer.subscribe(str(APP_Settings.KAFKA_RAW_TOPIC))
+RAW_Consumer.subscribe(APP_Settings.KAFKA_RAW_TOPIC)
 
 # Define Stream Data Class
 class StreamData:
