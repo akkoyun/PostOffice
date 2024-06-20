@@ -73,7 +73,7 @@ try:
 			try:
 
 				# Decode Message
-				RAW_Message = Kafka.Decode_RAW_Message(Consumer_Message.value().decode('utf-8'))
+				RAW_Message = Consumer_Message.value().decode('utf-8')
 
 				# Check if RAW_Message is valid
 				if not RAW_Message:
