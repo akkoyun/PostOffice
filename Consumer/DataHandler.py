@@ -350,7 +350,7 @@ try:
 						# Create New Connection
 						New_Connection = Models.Connection(
 							IP_Address = Headers['Device_IP'],
-							IP_Pool_ID = 0,
+							IP_Pool = 0,
 						)
 
 						# Add Connection to DataBase
@@ -401,30 +401,8 @@ try:
 			# Get Stream ID
 			Stream_ID = New_Stream.Stream_ID
 
-
-			
-
-
-
-
-
 			# Log Message
-			Log.Terminal_Log('INFO', f'Topic       : {Consumer_Message.topic()}')
-			Log.Terminal_Log('INFO', f'Command     : {Headers["Command"]} - [{Database_Command_ID}]')
-			Log.Terminal_Log('INFO', f'Device ID   : {Headers["Device_ID"]} - [{New_Device}]')
-			Log.Terminal_Log('INFO', f'Firmware    : {Message.Info.Firmware} - [{Database_Device_Firmware_ID}]')
-			Log.Terminal_Log('INFO', f'Device Time : {Headers["Device_Time"]}')
-			Log.Terminal_Log('INFO', f'Device IP   : {Headers["Device_IP"]}')
-			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Device.IoT.ICCID} - [{New_SIM}]')
-			Log.Terminal_Log('INFO', f'IMEI	       : {Message.Device.IoT.IMEI} - [{New_Modem}]')
-			Log.Terminal_Log('INFO', f'Size        : {Headers["Size"]}')
-			Log.Terminal_Log('INFO', f'-------------------')
-			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_ID}')
-			Log.Terminal_Log('INFO', f'-------------------')
-
-
-
-
+			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_ID} - [{Headers["Device_ID"]} / {New_Device}] - [{Headers["Command"]} / {Database_Command_ID}] - [{Message.Device.IoT.ICCID} / {New_SIM}] - [{Message.Device.IoT.IMEI} / {New_Modem}]') 
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
