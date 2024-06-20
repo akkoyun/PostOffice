@@ -29,9 +29,12 @@ jobs:
       DB_NAME: ${{secrets.DB_NAME}}
       DB_USERNAME: ${{secrets.DB_USERNAME}}
 
+      # Set Kafka Variables
       KAFKA_HOSTNAME: ${{secrets.KAFKA_HOSTNAME}}
       KAFKA_PORT: ${{secrets.KAFKA_PORT}}
+      KAFKA_RAW_TOPIC: ${{secrets.KAFKA_RAW_TOPIC}}
 
+      # Set File Variables
       FILE_MANUFACTURER: ${{secrets.FILE_MANUFACTURER}}
       FILE_MODEL: ${{secrets.FILE_MODEL}}
       FILE_GSM_OPERATOR: ${{secrets.FILE_GSM_OPERATOR}}

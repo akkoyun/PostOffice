@@ -11,9 +11,6 @@ import time
 import json
 from pydantic import ValidationError
 
-# Define Topic
-RAW_Consumer_Topic = 'RAW'
-
 # Define Kafka Consumer
 Consumer_Config = {
     'bootstrap.servers': f'{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}',
@@ -26,7 +23,7 @@ Consumer_Config = {
 RAW_Consumer = Consumer(Consumer_Config)
 
 # Define Subscription Function
-RAW_Consumer.subscribe([RAW_Consumer_Topic])
+RAW_Consumer.subscribe([{APP_Settings.KAFKA_RAW_TOPIC}])
 
 # Define Consumer Topic Loop
 try:
@@ -127,7 +124,7 @@ try:
 					else:
 
 						# Set Command ID
-						Database_Command_ID = 0
+						Database_Command_ID = 1
 
 				finally:
 

@@ -28,6 +28,7 @@ class Settings(BaseSettings):
 	# Kafka Settings
 	KAFKA_HOSTNAME: str
 	KAFKA_PORT: int
+	KAFKA_RAW_TOPIC: str
 
 	# File Settings
 	FILE_MANUFACTURER: str
