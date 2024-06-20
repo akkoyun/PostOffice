@@ -8,6 +8,7 @@ from Functions import Log, FastApi_Functions, Database_Functions, Kafka
 from Setup import Database, Models, Schema
 from confluent_kafka import Consumer, KafkaException, KafkaError
 import time
+import json
 
 # Define Topic
 RAW_Consumer_Topic = 'RAW'
@@ -72,6 +73,19 @@ try:
 
 			# Get Message Value
 			Message = Consumer_Message.value().decode('utf-8')
+
+			# Declare Message JSON
+			Message_JSON = None
+
+			# Control for JSON Message
+			try:
+
+				Message_JSON = json.loads(Message)
+
+			except json.JSONDecodeError as e:
+				
+				# Continue
+				continue
 
 			# Define Variables
 			Database_Command_ID = None
@@ -185,7 +199,7 @@ try:
 			Log.Terminal_Log('INFO', f'ICCID	   : {Schema.Data_Pack.Device.IoT.ICCID} - [{Database_SIM_ID}]')
 			Log.Terminal_Log('INFO', f'Size        : {Headers_Dict["Size"]}')
 			Log.Terminal_Log('INFO', f'-------------------')
-			Log.Terminal_Log('INFO', f'Message     : {Message}')
+			Log.Terminal_Log('INFO', f'Message     : {Message_JSON}')
 			Log.Terminal_Log('INFO', f'-------------------')
 
 
