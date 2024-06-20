@@ -142,7 +142,7 @@ try:
 
 					# Control Service
 					SIM_Query = (DB_Module.query(Models.SIM).filter(
-						Models.SIM.ICCID.like(Message.Data_Pack.Device.IoT.ICCID)
+						Models.SIM.ICCID.like(Message.Device.IoT.ICCID)
 					).first())
 
 					# SIM Found
@@ -155,7 +155,7 @@ try:
 
 						# Create New SIM
 						New_SIM = Models.SIM(
-							ICCID = Message.Data_Pack.Device.IoT.ICCID,
+							ICCID = Message.Device.IoT.ICCID,
 							Operator_ID = 286 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
 						)
 
