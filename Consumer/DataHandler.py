@@ -101,6 +101,7 @@ try:
 			Database_Device_Firmware_ID = 0
 			New_SIM	= False
 			New_Modem = False
+			New_Device = False
 
 			# Check for Command
 			if Headers['Command'] is not None:
@@ -271,7 +272,60 @@ try:
 					# Close Database
 					DB_Module.close()
 
+			# Check for Device
+			if Message.Info.ID is not None:
 
+				# Check for Device Table
+				try:
+
+					# Define DB
+					DB_Module = Database.SessionLocal()
+
+					# Control Service
+					Device_Query = (DB_Module.query(Models.Device).filter(
+						Models.Device.Device_ID.like(Message.Info.ID)
+					).first())
+
+					# Device Found
+					if Device_Query is None:
+
+						# Create New Device
+						New_Device = Models.Device(
+							Status_ID = 0,
+							Version_ID = Database_Device_Firmware_ID,
+							Project_ID = 0,
+							Model_ID = 0,
+							Manufacturer_ID = 11, # Daha sonra düzenlenecek
+							IMEI = Message.Device.IoT.IMEI,
+							Last_Connection_IP = Headers['Device_IP'],
+							Last_Connection_Time = Headers['Device_Time'],
+						)
+
+						# Add Device to DataBase
+						DB_Module.add(New_Device)
+
+						# Commit DataBase
+						DB_Module.commit()
+
+						# Refresh DataBase
+						DB_Module.refresh(New_Device)
+
+						# Set New Device
+						New_Device = True
+
+					else:
+
+						# Update Device
+						Device_Query.Last_Connection_IP = Headers['Device_IP']
+						Device_Query.Last_Connection_Time = Headers['Device_Time']
+
+						# Commit DataBase
+						DB_Module.commit()
+
+				finally:
+
+					# Close Database
+					DB_Module.close()
 
 
 
@@ -290,7 +344,7 @@ try:
 			# Log Message
 			Log.Terminal_Log('INFO', f'Topic       : {Consumer_Message.topic()}')
 			Log.Terminal_Log('INFO', f'Command     : {Headers["Command"]} - [{Database_Command_ID}]')
-			Log.Terminal_Log('INFO', f'Device ID   : {Headers["Device_ID"]}')
+			Log.Terminal_Log('INFO', f'Device ID   : {Headers["Device_ID"]} - [{New_Device}]')
 			Log.Terminal_Log('INFO', f'Firmware    : {Message.Info.Firmware} - [{Database_Device_Firmware_ID}]')
 			Log.Terminal_Log('INFO', f'Device Time : {Headers["Device_Time"]}')
 			Log.Terminal_Log('INFO', f'Device IP   : {Headers["Device_IP"]}')
