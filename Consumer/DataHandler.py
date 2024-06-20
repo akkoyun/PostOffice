@@ -4,7 +4,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
 from Setup.Config import APP_Settings
-from Functions import Log, Database_Functions
+from Functions import Log, Database_Functions, ICCID_Functions
 from Setup import Database, Models, Schema
 from confluent_kafka import Consumer, KafkaError
 import time
@@ -130,8 +130,15 @@ try:
 			# Get Command ID
 			Stream_Data.command_id = Database_Functions.Get_Command_ID(Headers['Command'])
 
-			# Get or Create SIM
-			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(Stream_Data.message.Device.IoT.ICCID)
+			# Check for SIM
+			ICCID_Controlled = ICCID_Functions.Verify_and_Strip_ICCID(Stream_Data.message.Device.IoT.ICCID)
+
+			# Get or Create SIM Existence
+			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(ICCID_Controlled)
+
+
+
+
 
 
 
@@ -356,7 +363,7 @@ try:
 			Stream_ID = New_Stream.Stream_ID
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_ID} - [{Headers["Device_ID"]} / {Stream_Data.message.Info.Firmware} / {Stream_Data.new_device}] - [{Headers["Command"]} / {Stream_Data.command_id}] - [{Stream_Data.message.Device.IoT.ICCID} / {Stream_Data.new_sim}] - [{Stream_Data.message.Device.IoT.IMEI} / {Stream_Data.message.Device.IoT.Firmware} / {Stream_Data.new_modem}]')
+			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_ID} - [{Headers["Device_ID"]} / {Stream_Data.message.Info.Firmware} / {Stream_Data.new_device}] - [{Headers["Command"]} / {Stream_Data.command_id}] - [{ICCID_Controlled} / {Stream_Data.new_sim}] - [{Stream_Data.message.Device.IoT.IMEI} / {Stream_Data.message.Device.IoT.Firmware} / {Stream_Data.new_modem}]')
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)

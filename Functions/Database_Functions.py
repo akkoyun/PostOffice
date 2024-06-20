@@ -102,9 +102,6 @@ def Get_or_Create_SIM(iccid: str):
 	# Check for ICCID
 	if iccid is not None:
 
-		# Remove Last 1 Digit from ICCID
-		iccid = iccid[:-1]
-
 		# Check for SIM Table
 		try:
 
