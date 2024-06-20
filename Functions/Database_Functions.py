@@ -119,7 +119,7 @@ def Get_or_Create_SIM(iccid: str):
 				# Create New SIM
 				New_SIM = Models.SIM(
 					ICCID = iccid,
-					Operator_ID = 0 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
+					Operator_ID = 1 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
 				)
 
 				# Add SIM to DataBase
