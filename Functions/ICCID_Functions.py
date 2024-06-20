@@ -6,16 +6,16 @@ def Luhn_Algorithm_Check(num):
 
     # Double every second digit from the right    
     for i in range(len(Digits) - 2, -1, -2):
-        doubled_value = Digits[i] * 2
-        if doubled_value > 9:
-            doubled_value -= 9
-        checksum += doubled_value
+        Doubled_Value = Digits[i] * 2
+        if Doubled_Value > 9:
+            Doubled_Value -= 9
+        Checksum += Doubled_Value
     
     # Add the rest of the digits
-    checksum += sum(Digits[-1::-2])
+    Checksum += sum(Digits[-1::-2])
     
     # The number is valid if the checksum is a multiple of 10
-    return checksum % 10 == 0
+    return Checksum % 10 == 0
 
 def Verify_and_Strip_ICCID(iccid):
 

@@ -4,3 +4,4 @@
 __pycache__
 /.vscode/
 /Log/Service.LOG
+.pytest_cache/
