@@ -98,6 +98,7 @@ try:
 
 			# Define Variables
 			Database_Command_ID = 0
+			Database_Device_Firmware_ID = 0
 			New_SIM	= False
 
 			# Check for Command
@@ -173,6 +174,49 @@ try:
 					# Close Database
 					DB_Module.close()
 
+			# Check for Version
+			if Message.Info.Firmware is not None:
+
+				# Check for Version Table
+				try:
+
+					# Define DB
+					DB_Module = Database.SessionLocal()
+
+					# Control Service
+					Version_Query = (DB_Module.query(Models.Version).filter(
+						Models.Version.Firmware.like(Message.Info.Firmware)
+					).first())
+
+					# Version Found
+					if Version_Query is None:
+
+						# Create New Version
+						New_Version = Models.Version(
+							Firmware = Message.Info.Firmware
+						)
+
+						# Add Version to DataBase
+						DB_Module.add(New_Version)
+
+						# Commit DataBase
+						DB_Module.commit()
+
+						# Refresh DataBase
+						DB_Module.refresh(New_Version)
+
+						# Get Device Firmware ID
+						Database_Device_Firmware_ID = New_Version.Device_Firmware_ID
+
+					else:
+
+						# Get Device Firmware ID
+						Database_Device_Firmware_ID = Version_Query.Device_Firmware_ID
+
+				finally:
+
+					# Close Database
+					DB_Module.close()
 
 
 
@@ -196,9 +240,10 @@ try:
 			Log.Terminal_Log('INFO', f'Topic       : {Consumer_Message.topic()}')
 			Log.Terminal_Log('INFO', f'Command     : {Headers["Command"]} - [{Database_Command_ID}]')
 			Log.Terminal_Log('INFO', f'Device ID   : {Headers["Device_ID"]}')
+			Log.Terminal_Log('INFO', f'Firmware    : {Message.Info.Firmware} - [{Database_Device_Firmware_ID}]')
 			Log.Terminal_Log('INFO', f'Device Time : {Headers["Device_Time"]}')
 			Log.Terminal_Log('INFO', f'Device IP   : {Headers["Device_IP"]}')
-			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Device.IoT.ICCID} - [{New_SIM}]')
+			Log.Terminal_Log('INFO', f'ICCID	    : {Message.Device.IoT.ICCID} - [{New_SIM}]')
 			Log.Terminal_Log('INFO', f'Size        : {Headers["Size"]}')
 			Log.Terminal_Log('INFO', f'-------------------')
 
