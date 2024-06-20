@@ -239,7 +239,7 @@ try:
 						# Create New Device
 						New_Modem = Models.Modem(
 							IMEI = Message.Device.IoT.IMEI,
-							Model_ID = 1,
+							Model_ID = 0,
 							Manufacturer_ID = 21, # Daha sonra düzenlenecek
 							Firmware = Message.Device.IoT.Firmware
 						)
@@ -255,6 +255,16 @@ try:
 
 						# Set New Device
 						New_Modem = True
+					
+					else:
+
+						if Modem_Query.Firmware != Message.Device.IoT.Firmware:
+
+							# Update Device Firmware
+							Modem_Query.Firmware = Message.Device.IoT.Firmware
+
+							# Commit DataBase
+							DB_Module.commit()
 
 				finally:
 
