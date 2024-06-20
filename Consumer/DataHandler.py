@@ -130,6 +130,8 @@ try:
 			# Get Command ID
 			Stream_Data.command_id = Database_Functions.Get_Command_ID(Headers['Command'])
 
+			# Get or Create SIM
+			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(Stream_Data.message.Device.IoT.ICCID)
 
 
 
@@ -137,49 +139,6 @@ try:
 
 
 
-
-			# Check for ICCID
-			if Stream_Data.message.Device.IoT.ICCID is not None:
-
-				# Remove Last 1 Digit from ICCID
-				Stream_Data.message.Device.IoT.ICCID = Stream_Data.message.Device.IoT.ICCID[:-1]
-
-				# Check for SIM Table
-				try:
-
-					# Define DB
-					DB_Module = Database.SessionLocal()
-
-					# Control Service
-					SIM_Query = (DB_Module.query(Models.SIM).filter(
-						Models.SIM.ICCID.like(Stream_Data.message.Device.IoT.ICCID)
-					).first())
-
-					# SIM Found
-					if SIM_Query is None:
-
-						# Create New SIM
-						New_SIM = Models.SIM(
-							ICCID = Stream_Data.message.Device.IoT.ICCID,
-							Operator_ID = 1492 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
-						)
-
-						# Add SIM to DataBase
-						DB_Module.add(New_SIM)
-
-						# Commit DataBase
-						DB_Module.commit()
-
-						# Refresh DataBase
-						DB_Module.refresh(New_SIM)
-
-						# Set New SIM
-						Stream_Data.new_sim = True
-
-				finally:
-
-					# Close Database
-					DB_Module.close()
 
 			# Check for Version
 			if Stream_Data.message.Info.Firmware is not None:

@@ -96,8 +96,58 @@ def Get_Command_ID(Command: str):
 		# Return 'Unknown' Command ID
 		return 1
 
+# Get or Create SIM Function
+def Get_or_Create_SIM(iccid: str):
 
+	# Check for ICCID
+	if iccid is not None:
 
+		# Remove Last 1 Digit from ICCID
+		iccid = iccid[:-1]
 
+		# Check for SIM Table
+		try:
 
+			# Define DB
+			DB_Module = Database.SessionLocal()
 
+			# Control Service
+			SIM_Query = (DB_Module.query(Models.SIM).filter(
+				Models.SIM.ICCID.like(iccid)
+			).first())
+
+			# SIM Found
+			if SIM_Query is None:
+
+				# Create New SIM
+				New_SIM = Models.SIM(
+					ICCID = iccid,
+					Operator_ID = 0 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
+				)
+
+				# Add SIM to DataBase
+				DB_Module.add(New_SIM)
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Refresh DataBase
+				DB_Module.refresh(New_SIM)
+				
+				# Return New SIM
+				return True
+			
+			else:
+
+				# Return Existed SIM
+				return False
+
+		finally:
+
+			# Close Database
+			DB_Module.close()
+
+	else :
+
+		# Return 'Unknown' SIM
+		return False
