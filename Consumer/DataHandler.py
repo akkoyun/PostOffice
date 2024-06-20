@@ -100,6 +100,7 @@ try:
 			Database_Command_ID = 0
 			Database_Device_Firmware_ID = 0
 			New_SIM	= False
+			New_Modem = False
 
 			# Check for Command
 			if Headers['Command'] is not None:
@@ -218,7 +219,47 @@ try:
 					# Close Database
 					DB_Module.close()
 
+			# Check for IMEI
+			if Message.Device.IoT.IMEI is not None:
 
+				# Check for Device Table
+				try:
+
+					# Define DB
+					DB_Module = Database.SessionLocal()
+
+					# Control Service
+					Modem_Query = (DB_Module.query(Models.Modem).filter(
+						Models.Modem.IMEI.like(Message.Device.IoT.IMEI)
+					).first())
+
+					# Device Found
+					if Modem_Query is None:
+
+						# Create New Device
+						New_Modem = Models.Modem(
+							IMEI = Message.Device.IoT.IMEI,
+							Model_ID = 1,
+							Manufacturer_ID = 21, # Daha sonra düzenlenecek
+							Firmware = Message.Device.IoT.Firmware
+						)
+
+						# Add Device to DataBase
+						DB_Module.add(New_Modem)
+
+						# Commit DataBase
+						DB_Module.commit()
+
+						# Refresh DataBase
+						DB_Module.refresh(New_Modem)
+
+						# Set New Device
+						New_Modem = True
+
+				finally:
+
+					# Close Database
+					DB_Module.close()
 
 
 
@@ -243,7 +284,8 @@ try:
 			Log.Terminal_Log('INFO', f'Firmware    : {Message.Info.Firmware} - [{Database_Device_Firmware_ID}]')
 			Log.Terminal_Log('INFO', f'Device Time : {Headers["Device_Time"]}')
 			Log.Terminal_Log('INFO', f'Device IP   : {Headers["Device_IP"]}')
-			Log.Terminal_Log('INFO', f'ICCID	    : {Message.Device.IoT.ICCID} - [{New_SIM}]')
+			Log.Terminal_Log('INFO', f'ICCID	   : {Message.Device.IoT.ICCID} - [{New_SIM}]')
+			Log.Terminal_Log('INFO', f'IMEI	       : {Message.Device.IoT.IMEI} - [{New_Modem}]')
 			Log.Terminal_Log('INFO', f'Size        : {Headers["Size"]}')
 			Log.Terminal_Log('INFO', f'-------------------')
 
