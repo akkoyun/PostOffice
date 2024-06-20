@@ -103,6 +103,7 @@ try:
 			New_SIM	= False
 			New_Modem = False
 			New_Device = False
+			Database_Connection_ID = 0
 
 			# Check for Command
 			if Headers['Command'] is not None:
@@ -323,6 +324,51 @@ try:
 
 						# Commit DataBase
 						DB_Module.commit()
+
+				finally:
+
+					# Close Database
+					DB_Module.close()
+
+			# Check for Connection Table
+			if Headers['Device_IP'] is not None:
+
+				# Check for Connection Table
+				try:
+
+					# Define DB
+					DB_Module = Database.SessionLocal()
+
+					# Control Service
+					Connection_Query = (DB_Module.query(Models.Connection).filter(
+						Models.Connection.IP_Address.like(Headers['Device_IP'])
+					).first())
+
+					# Connection Found
+					if Connection_Query is None:
+
+						# Create New Connection
+						New_Connection = Models.Connection(
+							IP_Address = Headers['Device_IP'],
+							IP_Pool_ID = 0,
+						)
+
+						# Add Connection to DataBase
+						DB_Module.add(New_Connection)
+
+						# Commit DataBase
+						DB_Module.commit()
+
+						# Refresh DataBase
+						DB_Module.refresh(New_Connection)
+
+						# Get Connection ID
+						Database_Connection_ID = New_Connection.Connection_ID
+
+					else:
+
+						# Get Connection ID
+						Database_Connection_ID = Connection_Query.Connection_ID
 
 				finally:
 
