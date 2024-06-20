@@ -291,6 +291,7 @@ try:
 
 						# Create New Device
 						New_Device = Models.Device(
+							Device_ID = Message.Info.ID,
 							Status_ID = 0,
 							Version_ID = Database_Device_Firmware_ID,
 							Project_ID = 0,
