@@ -206,12 +206,12 @@ try:
 						DB_Module.refresh(New_Version)
 
 						# Get Device Firmware ID
-						Database_Device_Firmware_ID = New_Version.Device_Firmware_ID
+						Database_Device_Firmware_ID = New_Version.Version_ID
 
 					else:
 
 						# Get Device Firmware ID
-						Database_Device_Firmware_ID = Version_Query.Device_Firmware_ID
+						Database_Device_Firmware_ID = Version_Query.Version_ID
 
 				finally:
 
