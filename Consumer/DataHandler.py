@@ -416,7 +416,7 @@ try:
 			Stream_ID = New_Stream.Stream_ID
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_ID} - [{Headers["Device_ID"]} {Stream_Data.message.Info.Firmware} / {Stream_Data.new_device}] - [{Headers["Command"]} / {Stream_Data.command_id}] - [{Stream_Data.message.Device.IoT.ICCID} / {Stream_Data.new_sim}] - [{Stream_Data.message.Device.IoT.IMEI} / {Stream_Data.message.Device.IoT.Firmware} / {Stream_Data.new_modem}]')
+			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_ID} - [{Headers["Device_ID"]} / {Stream_Data.message.Info.Firmware} / {Stream_Data.new_device}] - [{Headers["Command"]} / {Stream_Data.command_id}] - [{Stream_Data.message.Device.IoT.ICCID} / {Stream_Data.new_sim}] - [{Stream_Data.message.Device.IoT.IMEI} / {Stream_Data.message.Device.IoT.Firmware} / {Stream_Data.new_modem}]')
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
