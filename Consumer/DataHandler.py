@@ -1,6 +1,6 @@
 # Setup Library
 import sys
-sys.path.append('/root/PostOffice/')
+sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
 from Setup.Config import APP_Settings
