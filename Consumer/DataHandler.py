@@ -5,7 +5,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 # Import Libraries
 from Setup.Config import APP_Settings
 from Functions import Log, FastApi_Functions, Database_Functions, Kafka
-from Setup import Database, Models
+from Setup import Database, Models, Schema
 from confluent_kafka import Consumer, KafkaException, KafkaError
 import time
 
@@ -74,7 +74,9 @@ try:
 			Message = Consumer_Message.value().decode('utf-8')
 
 			# Define Variables
-			Command_ID = None
+			Database_Command_ID = None
+			Database_SIM_ID = None
+			New_SIM	= False
 
 			# Check for Command
 			if Headers_Dict['Command'] is not None:
@@ -91,12 +93,12 @@ try:
 					if Command_Query is not None:
 
 						# Get Command ID
-						Command_ID = Command_Query.Command_ID
+						Database_Command_ID = Command_Query.Command_ID
 
 					else:
 
 						# Set Command ID
-						Command_ID = 0
+						Database_Command_ID = 0
 
 				finally:
 
@@ -108,6 +110,52 @@ try:
 				# Set Command ID
 				Command_ID = 0
 
+			# Check for ICCID
+			if Schema.Data_Pack.Device.IoT.ICCID is not None:
+
+				# Check for SIM Table
+				try:
+
+					# Control Service
+					SIM_Query = (DB_Module.query(Models.SIM).filter(
+						Models.SIM.ICCID.like(Schema.Data_Pack.Device.IoT.ICCID)
+					).first())
+
+					# SIM Found
+					if SIM_Query is not None:
+
+						# Get SIM ID
+						Database_SIM_ID = SIM_Query.SIM_ID
+
+					else:
+
+						# Create New SIM
+						New_SIM = Models.SIM(
+							ICCID = Schema.Data_Pack.Device.IoT.ICCID,
+							Operator_ID = 286 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
+						)
+
+						# Add SIM to DataBase
+						DB_Module.add(New_SIM)
+
+						# Commit DataBase
+						DB_Module.commit()
+
+						# Refresh DataBase
+						DB_Module.refresh(New_SIM)
+
+						# Get SIM ID
+						Database_SIM_ID = New_SIM.SIM_ID
+
+				finally:
+
+					# Close Database
+					DB_Module.close()
+
+			else:
+
+				# Set SIM ID
+				Database_SIM_ID = 0
 
 
 
@@ -134,6 +182,7 @@ try:
 			Log.Terminal_Log('INFO', f'Device ID   : {Headers_Dict["Device_ID"]}')
 			Log.Terminal_Log('INFO', f'Device Time : {Headers_Dict["Device_Time"]}')
 			Log.Terminal_Log('INFO', f'Device IP   : {Headers_Dict["Device_IP"]}')
+			Log.Terminal_Log('INFO', f'ICCID	   : {Schema.Data_Pack.Device.IoT.ICCID} - [{Database_SIM_ID}]')
 			Log.Terminal_Log('INFO', f'Size        : {Headers_Dict["Size"]}')
 			Log.Terminal_Log('INFO', f'-------------------')
 			Log.Terminal_Log('INFO', f'Message     : {Message}')

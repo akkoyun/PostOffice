@@ -121,7 +121,6 @@ class SIM(Base):
 	Operator_ID = Column(Integer, ForeignKey("GSM_Operator.Operator_ID", ondelete="CASCADE"), nullable=False)
 	GSM_Number = Column(String(15), nullable=True)
 	Status = Column(Boolean, nullable=False, server_default="1")
-	Size = Column(Integer, nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
 
@@ -322,6 +321,7 @@ class Stream(Base):
 	Command_ID = Column(Integer, ForeignKey("Command.Command_ID", ondelete="CASCADE"), nullable=True)
 	ICCID = Column(String(21), ForeignKey("SIM.ICCID"), nullable=False)
 	IP_Address = Column(String(16), ForeignKey("Connection.IP_Address"), nullable=True)
+	Size = Column(Integer, nullable=True)
 	Device_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 	Stream_Time = Column(TIMESTAMP(timezone=True), nullable=False)
 
