@@ -153,7 +153,7 @@ try:
 						# Create New SIM
 						New_SIM = Models.SIM(
 							ICCID = Message.Device.IoT.ICCID,
-							Operator_ID = 286 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
+							Operator_ID = 1492 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
 						)
 
 						# Add SIM to DataBase
