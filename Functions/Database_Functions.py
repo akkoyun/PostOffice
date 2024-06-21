@@ -427,9 +427,6 @@ def Create_Stream(Stream_Data: dict, Headers: dict):
 	# Get Stream ID
 	return New_Stream.Stream_ID
 
-
-
-
 # Record Measurements Function
 def Record_Measurement(Pack, Stream: int, Segment: int):
 

@@ -183,25 +183,14 @@ try:
 			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Device.IoT.IMEI} - {Stream_Data.message.Device.IoT.Firmware} - {Stream_Data.new_modem}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
-			# Record Power Measurements
+			# Record  Measurements
 			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Variable_Segment.Power.value)
-
-			# Record IoT Measurements
 			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Variable_Segment.GSM.value)
-
-			# Record Location Measurements
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Device.value)
 			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Location.value)
-
-			# Record Environment Measurements
 			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Environment.value)
-
-			# Record Water Measurements
 			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Water.value)
-
-			# Record Energy Measurements
 			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Energy.value)
-
-			# Record FOTA Measurements
 			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.FOTA.value)
 
 			# Commit Message
