@@ -186,6 +186,8 @@ try:
 			# Record Power Measurements
 			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Segment.Power.value)
 
+			# Record IoT Measurements
+			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Segment.IoT.value)
 
 
 
