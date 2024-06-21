@@ -27,25 +27,24 @@ RAW_Consumer = Consumer(Consumer_Config)
 RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
 
 
-# Define Check_Variables_in_JSON Function
 def Check_Variables_in_JSON(Pack, Variables):
 
-	# Define Present Variables
-	Found_Variables = []
+	# Define Present Variables with their values
+	Found_Variables = {}
 
 	# Extract keys from the Variables list if they are in tuple form
-	keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
-
+	Keys_to_Check = [var[0] if isinstance(var, tuple) else var for var in Variables]
+	
 	# Check for Variables
-	for variable in keys_to_check:
+	for variable in Keys_to_Check:
 
 		# Check if variable in Pack
 		if variable in Pack:
 
-			# Append Variable
-			Found_Variables.append(variable)
+			# Append Variable and its value to the dictionary
+			Found_Variables[variable] = Pack[variable]
 
-	# Return Present Variables
+	# Return dictionary of Present Variables and their values
 	return Found_Variables
 
 
