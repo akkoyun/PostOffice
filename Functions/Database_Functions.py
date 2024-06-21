@@ -268,6 +268,80 @@ def Get_or_Create_Modem(imei: str, firmware: str):
 		# Return 'Unknown' Modem
 		return False
 
+# Get or Create Device Function
+def Get_or_Create_Device(id: str, firmware: int, imei: str, ip: str, time: str):
+
+	# Check for Device ID
+	if id is not None:
+
+		# Check for Device Table
+		try:
+
+			# Define DB
+			DB_Module = Database.SessionLocal()
+
+			# Control Service
+			Device_Query = (DB_Module.query(Models.Device).filter(
+				Models.Device.Device_ID.like(id)
+			).first())
+
+			# Device Not Found
+			if Device_Query is None:
+
+				# Create New Device
+				New_Device = Models.Device(
+					Device_ID = id,
+					Status_ID = 0,
+					Version_ID = firmware,
+					Project_ID = 0,
+					Model_ID = 0,
+					Manufacturer_ID = 0, 
+					IMEI = imei,
+					Last_Connection_IP = ip,
+					Last_Connection_Time = time,
+				)
+
+				# Add Device to DataBase
+				DB_Module.add(New_Device)
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Refresh DataBase
+				DB_Module.refresh(New_Device)
+
+				# Return New Device
+				return True
+
+			# Device Found
+			else:
+
+				# Update Device
+				Device_Query.Last_Connection_IP = ip
+				Device_Query.Last_Connection_Time = time
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Return Existed Device
+				return False
+
+		finally:
+
+			# Close Database
+			DB_Module.close()
+
+	else:
+
+		# Return 'Unknown' Modem
+		return False
+
+
+
+
+
+
+
 
 
 

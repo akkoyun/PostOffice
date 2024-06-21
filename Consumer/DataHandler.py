@@ -142,70 +142,16 @@ try:
 			# Check for Modem
 			Stream_Data.new_modem = Database_Functions.Get_or_Create_Modem(Stream_Data.message.Device.IoT.IMEI, Stream_Data.message.Device.IoT.Firmware)
 
-
-
-
-
-
-
-
-
-
 			# Check for Device
-			if Stream_Data.message.Info.ID is not None:
+			Stream_Data.new_device = Database_Functions.Get_or_Create_Device(Stream_Data.message.Info.ID, Stream_Data.message.Device.IoT.IMEI, Headers['Device_IP'], Headers['Device_Time'])
 
-				# Check for Device Table
-				try:
 
-					# Define DB
-					DB_Module = Database.SessionLocal()
 
-					# Control Service
-					Device_Query = (DB_Module.query(Models.Device).filter(
-						Models.Device.Device_ID.like(Stream_Data.message.Info.ID)
-					).first())
 
-					# Device Found
-					if Device_Query is None:
 
-						# Create New Device
-						New_Device = Models.Device(
-							Device_ID = Stream_Data.message.Info.ID,
-							Status_ID = 0,
-							Version_ID = Stream_Data.device_firmware_id,
-							Project_ID = 0,
-							Model_ID = 0,
-							Manufacturer_ID = 11, # Daha sonra düzenlenecek
-							IMEI = Stream_Data.message.Device.IoT.IMEI,
-							Last_Connection_IP = Headers['Device_IP'],
-							Last_Connection_Time = Headers['Device_Time'],
-						)
 
-						# Add Device to DataBase
-						DB_Module.add(New_Device)
 
-						# Commit DataBase
-						DB_Module.commit()
 
-						# Refresh DataBase
-						DB_Module.refresh(New_Device)
-
-						# Set New Device
-						Stream_Data.new_device = True
-
-					else:
-
-						# Update Device
-						Device_Query.Last_Connection_IP = Headers['Device_IP']
-						Device_Query.Last_Connection_Time = Headers['Device_Time']
-
-						# Commit DataBase
-						DB_Module.commit()
-
-				finally:
-
-					# Close Database
-					DB_Module.close()
 
 			# Check for Connection Table
 			if Headers['Device_IP'] is not None:
