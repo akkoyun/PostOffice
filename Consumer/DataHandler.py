@@ -5,7 +5,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 # Import Libraries
 from Setup.Config import APP_Settings
 from Functions import Log, Database_Functions, ICCID_Functions
-from Setup import Database, Models, Schema
+from Setup import Schema
 from confluent_kafka import Consumer, KafkaError
 import time
 import json
@@ -179,6 +179,7 @@ try:
 			Log.Terminal_Log('INFO', f'Device ID   : {Stream_Data.message.Info.ID} - {Stream_Data.message.Info.Firmware} - {Stream_Data.new_device}')
 			Log.Terminal_Log('INFO', f'ICCID       : {Stream_Data.iccid} - {Stream_Data.new_sim}')
 			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Device.IoT.IMEI} - {Stream_Data.message.Device.IoT.Firmware} - {Stream_Data.new_modem}')
+			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
