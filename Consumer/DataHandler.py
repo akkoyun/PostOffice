@@ -162,48 +162,19 @@ try:
 				Headers['Device_Time']
 			)
 
-
-
-
-
-
-
 			# Check for Connection Table
-			if Headers['Device_IP'] is not None:
+			Stream_Data.new_connection = Database_Functions.Get_or_Create_Connection(
+				Headers['Device_IP']
+			)
 
-				# Check for Connection Table
-				try:
 
-					# Define DB
-					DB_Module = Database.SessionLocal()
 
-					# Control Service
-					Connection_Query = (DB_Module.query(Models.Connection).filter(
-						Models.Connection.IP_Address.like(Headers['Device_IP'])
-					).first())
 
-					# Connection Found
-					if Connection_Query is None:
 
-						# Create New Connection
-						New_Connection = Models.Connection(
-							IP_Address = Headers['Device_IP'],
-							IP_Pool = 0,
-						)
 
-						# Add Connection to DataBase
-						DB_Module.add(New_Connection)
 
-						# Commit DataBase
-						DB_Module.commit()
 
-						# Refresh DataBase
-						DB_Module.refresh(New_Connection)
 
-				finally:
-
-					# Close Database
-					DB_Module.close()
 
 			# Define DB
 			DB_Module = Database.SessionLocal()

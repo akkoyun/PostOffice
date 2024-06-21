@@ -337,7 +337,64 @@ def Get_or_Create_Device(id: str, firmware: int, imei: str, ip: str, time: str):
 		# Return 'Unknown' Modem
 		return False
 
+# Get or Create Connection Function
+def Get_or_Create_Connection(ip: str):
 
+	# Check for IP Address
+	if ip is not None:
+
+		# Check for Connection Table
+		try:
+
+			# Define DB
+			DB_Module = Database.SessionLocal()
+
+			# Control Service
+			Connection_Query = (DB_Module.query(Models.Connection).filter(
+				Models.Connection.IP_Address.like(ip)
+			).first())
+
+			# Connection Found
+			if Connection_Query is None:
+
+				# Create New Connection
+				New_Connection = Models.Connection(
+					IP_Address = ip,
+					IP_Pool = 0,
+				)
+
+				# Add Connection to DataBase
+				DB_Module.add(New_Connection)
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Refresh DataBase
+				DB_Module.refresh(New_Connection)
+
+				# Return New Connection
+				return True
+
+			else:
+
+				# Update Connection
+				Connection_Query.IP_Address = ip
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Return Existed Connection
+				return False
+
+		finally:
+
+			# Close Database
+			DB_Module.close()
+
+	else:
+
+		# Return 'Unknown' Connection
+		return False
 
 
 
