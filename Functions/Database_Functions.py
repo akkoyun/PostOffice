@@ -163,7 +163,7 @@ def Get_or_Create_Firmware(firmware: str):
 
 			# Control Service
 			Firmware_Query = (DB_Module.query(Models.Version).filter(
-				Models.Version.Version.like(firmware)
+				Models.Version.Firmware.like(firmware)
 			).first())
 
 			# Firmware Found
