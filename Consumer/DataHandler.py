@@ -29,23 +29,26 @@ RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
 # Define Check Variables in JSON Function
 def Check_Variables_in_JSON(Pack, Variables):
 
-    # Define Present Variables with their values
-    Found_Variables = {}
+	# Define Present Variables with their values
+	Found_Variables = {}
 
-    # Extract keys from the Variables list if they are in tuple form
-    keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
-    
-    # Check for Variables
-    for variable in keys_to_check:
+	# Extract keys from the Variables list if they are in tuple form
+	keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
+	
+	# Pack bir sınıf örneği olduğundan, özniteliklerini bir sözlük olarak almak için __dict__ özelliğini kullanıyoruz
+	pack_dict = Pack.__dict__
 
-        # Check if variable in Pack
-        if variable in Pack:
+	# Check for Variables
+	for variable in keys_to_check:
 
-            # Append Variable and its value to the dictionary
-            Found_Variables[variable] = Pack[variable]
+		# Check if variable in pack_dict
+		if variable in pack_dict:
 
-    # Return dictionary of Present Variables and their values
-    return Found_Variables
+			# Append Variable and its value to the dictionary
+			Found_Variables[variable] = pack_dict[variable]
+
+	# Return dictionary of Present Variables and their values
+	return Found_Variables
 
 
 
