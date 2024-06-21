@@ -35,12 +35,18 @@ def Check_Variables_in_JSON(Pack, Variables):
 
     # Extract keys from the Variables list if they are in tuple form
     keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
+    
+    print(f"Checking for keys: {keys_to_check} in the given pack.")
 
     # Check for Variables
     for variable in keys_to_check:
 
+        print(f"Checking if {variable} is in pack...")
+
         # Check if variable in Pack
         if variable in Pack:
+
+            print(f"Found {variable} in pack.")
 
             # Append Variable
             Found_Variables.append(variable)
