@@ -383,10 +383,16 @@ class Power(CustomBaseModel):
 	@field_validator('B_CS', mode='before')
 	def Battery_Charge_State_Validator(cls, value):
 
-		# Check Value
-		if value is None or not isinstance(value, Constants.BATTERY.CHARGE_STATE):
+		# Convert integer to corresponding Enum value
+		if isinstance(value, int):
 
-			# Set Default Value
+			# Convert to Enum
+			value = Constants.BATTERY.CHARGE_STATE(value)
+
+		# Check Value
+		elif not isinstance(value, Constants.BATTERY.CHARGE_STATE):
+
+			# If value is not valid, set to default
 			value = Constants.BATTERY.CHARGE_STATE.UNKNOWN
 
 		# Return Value

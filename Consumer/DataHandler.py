@@ -29,23 +29,23 @@ RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
 # Define Check Variables in JSON Function
 def Check_Variables_in_JSON(Pack, Variables):
 
-	# Define Present Variables with their values
+	# Define Found Variables
 	Found_Variables = {}
 
-	# Extract keys from the Variables list if they are in tuple form
+	# Check for Tuple
 	keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
 	
-	# Pack bir sınıf örneği olduğundan, özniteliklerini bir sözlük olarak almak için __dict__ özelliğini kullanıyoruz
-	pack_dict = Pack.__dict__
+	# Get Pack Dictionary
+	Pack_Dict = Pack.__dict__
 
 	# Check for Variables
 	for variable in keys_to_check:
 
-		# Check if variable in pack_dict
-		if variable in pack_dict:
+		# Check if variable in Pack_Dict
+		if variable in Pack_Dict:
 
-			# Append Variable and its value to the dictionary
-			Found_Variables[variable] = pack_dict[variable]
+			# Add to Found Variables
+			Found_Variables[variable] = Pack_Dict[variable]
 
 	# Return dictionary of Present Variables and their values
 	return Found_Variables
@@ -217,10 +217,6 @@ try:
 
 			# Get Variables
 			Battery_Variables = Database_Functions.Variable_List(Segment.Power.value)
-
-			# Log type of variables
-			Log.Terminal_Log('INFO', f'Data type: {type(Stream_Data.message.Device.Power)}')
-
 
 			# Check for Present Variables
 			Variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Battery_Variables)
