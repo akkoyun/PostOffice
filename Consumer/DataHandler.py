@@ -215,6 +215,10 @@ try:
 			# Get Variables
 			Battery_Variables = Database_Functions.Variable_List(Segment.Power.value)
 
+			# Log type of variables
+			Log.Terminal_Log('INFO', f'Data type: {type(Stream_Data.message.Device.Power)}')
+
+
 			# Check for Present Variables
 			Variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Battery_Variables)
 
