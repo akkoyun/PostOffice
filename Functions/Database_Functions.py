@@ -184,12 +184,12 @@ def Get_or_Create_Firmware(firmware: str):
 				DB_Module.refresh(New_Firmware)
 
 				# Return New Firmware
-				return New_Firmware.Firmware_ID
+				return New_Firmware.Version_ID
 
 			else:
 
 				# Return Existed Firmware
-				return Firmware_Query.Firmware_ID
+				return Firmware_Query.Version_ID
 
 		finally:
 
