@@ -7,6 +7,7 @@ from Setup import Database, Models
 from Functions import Log
 import pytz
 import time
+from sqlalchemy.exc import SQLAlchemyError
 
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
@@ -429,8 +430,8 @@ def Create_Stream(Stream_Data: dict, Headers: dict):
 
 
 
-# Get Variables in JSON Function
-def Get_Variables(Pack, Segment: int):
+# Record Measurements Function
+def Record_Measurement(Pack, Stream: int, Segment: int):
 
 	# Define DB
 	DB_Module = Database.SessionLocal()
@@ -467,8 +468,53 @@ def Get_Variables(Pack, Segment: int):
 			# Add to Found Variables
 			Found_Variables[variable] = Pack_Dict[variable]
 
-	# Return dictionary of Present Variables and their values
-	return Found_Variables
+	# Record Measurements
+	try:
+
+		# Define DB
+		DB_Module = Database.SessionLocal()
+
+		# Log Variables
+		for Variable, Value in Found_Variables.items():
+
+			# Record Measurement
+			try:
+
+				# New Measurement
+				New_Measurement = Models.Measurement(
+					Stream_ID=Stream,
+					Variable_ID=Variable,
+					Measurement_Value=Value
+				)
+
+				# Add Stream to DataBase
+				DB_Module.add(New_Measurement)
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Refresh DataBase
+				DB_Module.refresh(New_Measurement)
+
+			except SQLAlchemyError as e:
+
+				# Rollback in case of error
+				DB_Module.rollback()
+
+				# Log Error
+				Log.Terminal_Log('ERROR', f"Error while processing {Variable}: {e}")
+
+	finally:
+
+		# Close Database
+		DB_Module.close()
+
+
+
+
+
+
+
 
 
 

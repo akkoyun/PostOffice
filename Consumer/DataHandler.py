@@ -11,6 +11,7 @@ import time
 import json
 from pydantic import ValidationError
 from Setup.Definitions import Variable_Segment as Segment
+from sqlalchemy.exc import SQLAlchemyError
 
 # Define Kafka Consumer
 Consumer_Config = {
@@ -182,46 +183,9 @@ try:
 			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Device.IoT.IMEI} - {Stream_Data.message.Device.IoT.Firmware} - {Stream_Data.new_modem}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
+			# Record Power Measurements
+			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Segment.Power.value)
 
-
-
-
-
-
-
-			# Get Variables
-			Power = Database_Functions.Get_Variables(Stream_Data.message.Device.Power, Segment.Power.value)
-
-
-			# Record Measurements
-			try:
-
-				# Define DB
-				DB_Module = Database.SessionLocal()
-
-				# Log Variables
-				for Variable, Value in Power.items():
-
-					# New Measurement
-					New_Measurement = Models.Measurement(
-						Stream_ID = Stream_Data.stream_id,
-						Variable_ID = Variable,
-						Measurement_Value = Value
-					)
-
-					# Add Stream to DataBase
-					DB_Module.add(New_Measurement)
-
-					# Commit DataBase
-					DB_Module.commit()
-
-					# Refresh DataBase
-					DB_Module.refresh(New_Measurement)
-
-			finally:
-
-				# Close Database
-				DB_Module.close()
 
 
 
