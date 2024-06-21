@@ -567,7 +567,6 @@ class IoT(CustomBaseModel):
 	# LAC
 	LAC: Optional[int] = Field(
 		description="Operator base station location.",
-		default=Constants.IOT.DEFAULT_LAC,
 		json_schema_extra={
 			"example": 34124,
 			"minimum": Constants.IOT.LAC_MIN,
@@ -582,13 +581,11 @@ class IoT(CustomBaseModel):
 		# Check Value
 		if value is None:
 			return value
-
+		
 		# Check Value
-		if value < Constants.IOT.LAC_MIN or value > Constants.IOT.LAC_MAX:
-
-			# Set Default Value
+		if value is not None and value < Constants.IOT.LAC_MIN or value > Constants.IOT.LAC_MAX:
 			value = Constants.IOT.DEFAULT_LAC
-
+		
 		# Return Value
 		return value
 
