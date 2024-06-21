@@ -10,7 +10,7 @@ from confluent_kafka import Consumer, KafkaError
 import time
 import json
 from pydantic import ValidationError
-from Setup.Definitions import Variable_Segment as Segment
+from Setup.Definitions import Variable_Segment
 from sqlalchemy.exc import SQLAlchemyError
 
 # Define Kafka Consumer
@@ -184,19 +184,25 @@ try:
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Record Power Measurements
-			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Segment.Power.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Variable_Segment.Power.value)
 
 			# Record IoT Measurements
-			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Segment.GSM.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Variable_Segment.GSM.value)
 
+			# Record Location Measurements
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Location.value)
 
+			# Record Environment Measurements
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Environment.value)
 
+			# Record Water Measurements
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Water.value)
 
+			# Record Energy Measurements
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Energy.value)
 
-
-
-
-
+			# Record FOTA Measurements
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.FOTA.value)
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
