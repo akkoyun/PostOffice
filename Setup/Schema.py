@@ -607,11 +607,17 @@ class IoT(CustomBaseModel):
 	@field_validator('WDS', mode='before')
 	def WDS_Validator(cls, value):
 
-		# Check Value
-		if value is None or not isinstance(value, Constants.IOT.WDS):
+		# Convert integer to corresponding Enum value
+		if isinstance(value, int):
 
-			# Set Default Value
-			value = Constants.IOT.WDS.CONNECTION_UNKNOWN
+			# Convert to Enum
+			value = Constants.IOT.WDS(value)
+
+		# Check Value
+		elif not isinstance(value, Constants.IOT.WDS):
+
+			# If value is not valid, set to default
+			value = Constants.IOT.WDS.UNKNOWN
 
 		# Return Value
 		return value
