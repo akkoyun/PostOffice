@@ -201,6 +201,80 @@ def Get_or_Create_Firmware(firmware: str):
 		# Return 'Unknown' Firmware
 		return 0
 
+# Get or Create Modem Function
+def Get_or_Create_Modem(imei: str, firmware: str):
+
+	# Check for IMEI
+	if imei is not None:
+
+		# Check for Modem Table
+		try:
+
+			# Define DB
+			DB_Module = Database.SessionLocal()
+
+			# Control Service
+			Modem_Query = (DB_Module.query(Models.Modem).filter(
+				Models.Modem.IMEI.like(imei)
+			).first())
+
+			# Modem Found
+			if Modem_Query is None:
+
+				# Create New Modem
+				New_Modem = Models.Modem(
+					IMEI = imei,
+					Model_ID = 0,
+					Manufacturer_ID = 0,
+					Firmware = firmware,
+				)
+
+				# Add Modem to DataBase
+				DB_Module.add(New_Modem)
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Refresh DataBase
+				DB_Module.refresh(New_Modem)
+
+				# Return New Modem
+				return True
+
+			else:
+
+				# Check for Firmware
+				if firmware is not None:
+
+					# Check for Firmware Update
+					if Modem_Query.Firmware != firmware:
+
+						# Update Device Firmware
+						Modem_Query.Firmware = firmware
+
+						# Commit DataBase
+						DB_Module.commit()
+
+				# Return Existed Modem
+				return False
+
+		finally:
+
+			# Close Database
+			DB_Module.close()
+
+	else:
+
+		# Return 'Unknown' Modem
+		return False
+
+
+
+
+
+
+
+
 
 
 

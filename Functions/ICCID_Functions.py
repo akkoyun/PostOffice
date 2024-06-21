@@ -1,3 +1,8 @@
+# Setup Root Path
+import sys
+sys.path.append('/home/postoffice/PostOffice/src')
+
+# Luhn Algorithm Check
 def Luhn_Algorithm_Check(num):
 
     # Convert the number to a list of digits
@@ -17,6 +22,7 @@ def Luhn_Algorithm_Check(num):
     # The number is valid if the checksum is a multiple of 10
     return Checksum % 10 == 0
 
+# Verify and Strip ICCID
 def Verify_and_Strip_ICCID(iccid):
 
     # Check if the ICCID is valid

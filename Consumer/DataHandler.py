@@ -130,14 +130,17 @@ try:
 			# Get Command ID
 			Stream_Data.command_id = Database_Functions.Get_Command_ID(Headers['Command'])
 
+			# Get or Create Device Firmware
+			Stream_Data.device_firmware_id = Database_Functions.Get_or_Create_Firmware(Stream_Data.message.Info.Firmware)
+
 			# Check for SIM
 			ICCID_Controlled = ICCID_Functions.Verify_and_Strip_ICCID(Stream_Data.message.Device.IoT.ICCID)
 
 			# Get or Create SIM Existence
 			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(ICCID_Controlled)
 
-			# Get or Create Device Firmware
-			Stream_Data.device_firmware_id = Database_Functions.Get_or_Create_Firmware(Stream_Data.message.Info.Firmware)
+			# Check for Modem
+			Stream_Data.new_modem = Database_Functions.Get_or_Create_Modem(Stream_Data.message.Device.IoT.IMEI, Stream_Data.message.Device.IoT.Firmware)
 
 
 
@@ -147,59 +150,6 @@ try:
 
 
 
-
-
-			# Check for IMEI
-			if Stream_Data.message.Device.IoT.IMEI is not None:
-
-				# Check for Device Table
-				try:
-
-					# Define DB
-					DB_Module = Database.SessionLocal()
-
-					# Control Service
-					Modem_Query = (DB_Module.query(Models.Modem).filter(
-						Models.Modem.IMEI.like(Stream_Data.message.Device.IoT.IMEI)
-					).first())
-
-					# Device Found
-					if Modem_Query is None:
-
-						# Create New Device
-						New_Modem = Models.Modem(
-							IMEI = Stream_Data.message.Device.IoT.IMEI,
-							Model_ID = 0,
-							Manufacturer_ID = 21, # Daha sonra düzenlenecek
-							Firmware = Stream_Data.message.Device.IoT.Firmware,
-						)
-
-						# Add Device to DataBase
-						DB_Module.add(New_Modem)
-
-						# Commit DataBase
-						DB_Module.commit()
-
-						# Refresh DataBase
-						DB_Module.refresh(New_Modem)
-
-						# Set New Device
-						New_Modem = True
-					
-					else:
-
-						if Modem_Query.Firmware != Stream_Data.message.Device.IoT.Firmware:
-
-							# Update Device Firmware
-							Modem_Query.Firmware = Stream_Data.message.Device.IoT.Firmware
-
-							# Commit DataBase
-							DB_Module.commit()
-
-				finally:
-
-					# Close Database
-					DB_Module.close()
 
 			# Check for Device
 			if Stream_Data.message.Info.ID is not None:
