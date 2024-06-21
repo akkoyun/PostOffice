@@ -29,7 +29,7 @@ RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
 class StreamData:
 
 	# Constructor
-	def __init__(self, stream_id=0, command_id=0, device_firmware_id=0, new_sim=False, new_modem=False, new_device=False, message=None):
+	def __init__(self, stream_id=0, command_id=0, device_firmware_id=0, new_sim=False, new_modem=False, new_device=False, message=None, iccid=None):
 
 		# Define Variables
 		self.stream_id = stream_id
@@ -39,10 +39,11 @@ class StreamData:
 		self.new_modem = new_modem
 		self.new_device = new_device
 		self.message = message
+		self.iccid = iccid
 
 	# Define Repr Function
 	def __repr__(self):
-		return (f"StreamData(stream_id={self.stream_id}, command_id={self.command_id}, device_firmware_id={self.device_firmware_id}, new_sim={self.new_sim}, new_modem={self.new_modem}, new_device={self.new_device}), message={self.message}")
+		return (f"StreamData(stream_id={self.stream_id}, command_id={self.command_id}, device_firmware_id={self.device_firmware_id}, new_sim={self.new_sim}, new_modem={self.new_modem}, new_device={self.new_device}), message={self.message}, iccid={self.iccid})")
 
 # Define Consumer Topic Loop
 try:
@@ -138,13 +139,13 @@ try:
 			)
 
 			# Check for SIM
-			ICCID_Controlled = ICCID_Functions.Verify_and_Strip_ICCID(
+			Stream_Data.iccid = ICCID_Functions.Verify_and_Strip_ICCID(
 				Stream_Data.message.Device.IoT.ICCID
 			)
 
 			# Get or Create SIM Existence
 			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(
-				ICCID_Controlled
+				Stream_Data.iccid
 			)
 
 			# Check for Modem
@@ -167,43 +168,17 @@ try:
 				Headers['Device_IP']
 			)
 
-
-
-
-
-
-
-
-
-
-			# Define DB
-			DB_Module = Database.SessionLocal()
-
-			# Record Stream
-			New_Stream = Models.Stream(
-				Device_ID = Stream_Data.message.Info.ID,
-				Command_ID = Stream_Data.command_id,
-				ICCID = ICCID_Controlled,
-				IP_Address = Headers['Device_IP'],
-				Size = Headers['Size'],
-				Device_Time = Headers['Device_Time'],
-				Stream_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()),
+			# Create Stream
+			Stream_Data.stream_id = Database_Functions.Create_Stream(
+				Stream_Data, 
+				Headers
 			)
 
-			# Add Stream to DataBase
-			DB_Module.add(New_Stream)
-
-			# Commit DataBase
-			DB_Module.commit()
-
-			# Refresh DataBase
-			DB_Module.refresh(New_Stream)
-
-			# Get Stream ID
-			Stream_ID = New_Stream.Stream_ID
-
 			# Log Message
-			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_ID} - [{Headers["Device_ID"]} / {Stream_Data.message.Info.Firmware} / {Stream_Data.new_device}] - [{Headers["Command"]} / {Stream_Data.command_id}] - [{ICCID_Controlled} / {Stream_Data.new_sim}] - [{Stream_Data.message.Device.IoT.IMEI} / {Stream_Data.message.Device.IoT.Firmware} / {Stream_Data.new_modem}]')
+			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_Data.stream_id} - {Headers["Command"]}')
+			Log.Terminal_Log('INFO', f'Device ID   : {Stream_Data.message.Info.ID} - {Stream_Data.message.Info.Firmware} - {Stream_Data.new_device}')
+			Log.Terminal_Log('INFO', f'ICCID       : {Stream_Data.iccid} - {Stream_Data.new_sim}')
+			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Device.IoT.IMEI} - {Stream_Data.message.Device.IoT.Firmware} - {Stream_Data.new_modem}')
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)

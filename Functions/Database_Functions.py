@@ -397,17 +397,32 @@ def Get_or_Create_Connection(ip: str):
 		# Return 'Unknown' Connection
 		return False
 
+# Create Stream Function
+def Create_Stream(Stream_Data: dict, Headers: dict):
 
+	# Define DB
+	DB_Module = Database.SessionLocal()
 
+	# Record Stream
+	New_Stream = Models.Stream(
+		Device_ID = Stream_Data.message.Info.ID,
+		Command_ID = Stream_Data.command_id,
+		ICCID = Stream_Data.iccid,
+		IP_Address = Headers['Device_IP'],
+		Size = Headers['Size'],
+		Device_Time = Headers['Device_Time'],
+		Stream_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()),
+	)
 
+	# Add Stream to DataBase
+	DB_Module.add(New_Stream)
 
+	# Commit DataBase
+	DB_Module.commit()
 
+	# Refresh DataBase
+	DB_Module.refresh(New_Stream)
 
-
-
-
-
-
-
-
+	# Get Stream ID
+	return New_Stream.Stream_ID
 
