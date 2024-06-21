@@ -477,32 +477,40 @@ def Record_Measurement(Pack, Stream: int, Segment: int):
 		# Log Variables
 		for Variable, Value in Found_Variables.items():
 
-			# Record Measurement
-			try:
+			# Control Value for None
+			if Value or Variable is None:
 
-				# New Measurement
-				New_Measurement = Models.Measurement(
-					Stream_ID=Stream,
-					Variable_ID=Variable,
-					Measurement_Value=Value
-				)
+				# Skip Value
+				continue
 
-				# Add Stream to DataBase
-				DB_Module.add(New_Measurement)
+			else:
 
-				# Commit DataBase
-				DB_Module.commit()
+				# Record Measurement
+				try:
 
-				# Refresh DataBase
-				DB_Module.refresh(New_Measurement)
+					# New Measurement
+					New_Measurement = Models.Measurement(
+						Stream_ID=Stream,
+						Variable_ID=Variable,
+						Measurement_Value=Value
+					)
 
-			except SQLAlchemyError as e:
+					# Add Stream to DataBase
+					DB_Module.add(New_Measurement)
 
-				# Rollback in case of error
-				DB_Module.rollback()
+					# Commit DataBase
+					DB_Module.commit()
 
-				# Log Error
-				Log.Terminal_Log('ERROR', f"Error while processing {Variable}: {e}")
+					# Refresh DataBase
+					DB_Module.refresh(New_Measurement)
+
+				except SQLAlchemyError as e:
+
+					# Rollback in case of error
+					DB_Module.rollback()
+
+					# Log Error
+					Log.Terminal_Log('ERROR', f"Error while processing {Variable}: {e}")
 
 	finally:
 
