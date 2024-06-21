@@ -522,6 +522,24 @@ class IoT(CustomBaseModel):
 		# Return Value
 		return value
 
+	# MCC
+	MCC: Optional[int] = Field(
+		description="Mobile country code.",
+		default=286,
+		json_schema_extra={
+			"example": 286
+		}
+	)
+
+	# MNC
+	MNC: Optional[int] = Field(
+		description="Mobile network code.",
+		default=1,
+		json_schema_extra={
+			"example": 1
+		}
+	)
+
 	# TAC
 	TAC: Optional[int] = Field(
 		description="Operator type allocation code.",

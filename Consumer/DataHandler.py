@@ -147,7 +147,9 @@ try:
 
 			# Get or Create SIM Existence
 			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(
-				Stream_Data.iccid
+				Stream_Data.iccid,
+				Stream_Data.message.Device.IoT.MCC,
+				Stream_Data.message.Device.IoT.MNC
 			)
 
 			# Check for Modem
