@@ -26,6 +26,21 @@ RAW_Consumer = Consumer(Consumer_Config)
 # Define Subscription Function
 RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
 
+
+
+def check_variables_in_payload(payload, variables):
+    present_variables = []
+    for variable in variables:
+        if variable in payload:
+            present_variables.append(variable)
+    return present_variables
+
+
+
+
+
+
+
 # Define Stream Data Class
 class StreamData:
 
@@ -194,6 +209,12 @@ try:
 			Log.Terminal_Log('INFO', f'Variable List: {Battery_Variables}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
+
+
+			present_variables = check_variables_in_payload(Stream_Data.message.Device.Power, Battery_Variables)
+
+			Log.Terminal_Log('INFO', f'Present Variables: {present_variables}')
+			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 
 
