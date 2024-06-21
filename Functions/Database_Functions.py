@@ -477,13 +477,8 @@ def Record_Measurement(Pack, Stream: int, Segment: int):
 		# Log Variables
 		for Variable, Value in Found_Variables.items():
 
-			# Control Value for None
-			if Value or Variable is None:
-
-				# Skip Value
-				continue
-
-			else:
+			# Check for Value
+			if Value is not None:
 
 				# Record Measurement
 				try:
