@@ -426,3 +426,41 @@ def Create_Stream(Stream_Data: dict, Headers: dict):
 	# Get Stream ID
 	return New_Stream.Stream_ID
 
+# Get Variable List
+def Variable_List(Segment: int):
+
+	# Define DB
+	DB_Module = Database.SessionLocal()
+
+	# Define Formatted Data
+	# 0 - Unknown
+	# 1 - Device
+	# 2 - Power
+	# 3 - GSM
+	# 4 - Location
+	# 5 - Environment
+	# 6 - Water
+	# 7 - Energy
+
+	try:
+
+		# Query all data types
+		Data_Type_Query = DB_Module.query(Models.Variable).filter(Models.Variable.Segment_ID == Segment).all()
+
+		# Get Data Type List
+		Formatted_Data = [(Variable.Variable_ID, Variable.Variable_Unit) for Variable in Data_Type_Query]
+
+	finally:
+		
+		# Close Database
+		DB_Module.close()
+
+	# End Function
+	return Formatted_Data
+
+
+
+
+
+
+
