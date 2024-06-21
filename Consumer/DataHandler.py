@@ -26,33 +26,6 @@ RAW_Consumer = Consumer(Consumer_Config)
 # Define Subscription Function
 RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
 
-# Define Check Variables in JSON Function
-def Check_Variables_in_JSON(Pack, Variables):
-
-	# Define Found Variables
-	Found_Variables = {}
-
-	# Check for Tuple
-	keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
-	
-	# Get Pack Dictionary
-	Pack_Dict = Pack.__dict__
-
-	# Check for Variables
-	for variable in keys_to_check:
-
-		# Check if variable in Pack_Dict
-		if variable in Pack_Dict:
-
-			# Add to Found Variables
-			Found_Variables[variable] = Pack_Dict[variable]
-
-	# Return dictionary of Present Variables and their values
-	return Found_Variables
-
-
-
-
 # Define Stream Data Class
 class StreamData:
 
@@ -215,9 +188,10 @@ try:
 
 
 
+
 			# Get Variables
-			Power_Variables = Database_Functions.Variable_List(Segment.Power.value)
-			Power = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Power_Variables)
+			Power = Database_Functions.Get_Variables(Stream_Data.message.Device.Power, Segment.Power.value)
+
 
 			# Record Measurements
 			try:

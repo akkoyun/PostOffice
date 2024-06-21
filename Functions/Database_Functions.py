@@ -426,22 +426,16 @@ def Create_Stream(Stream_Data: dict, Headers: dict):
 	# Get Stream ID
 	return New_Stream.Stream_ID
 
-# Get Variable List
-def Variable_List(Segment: int):
+
+
+
+# Get Variables in JSON Function
+def Get_Variables(Pack, Segment: int):
 
 	# Define DB
 	DB_Module = Database.SessionLocal()
 
-	# Define Formatted Data
-	# 0 - Unknown
-	# 1 - Device
-	# 2 - Power
-	# 3 - GSM
-	# 4 - Location
-	# 5 - Environment
-	# 6 - Water
-	# 7 - Energy
-
+	# Get Pack Dictionary
 	try:
 
 		# Query all data types
@@ -455,9 +449,26 @@ def Variable_List(Segment: int):
 		# Close Database
 		DB_Module.close()
 
-	# End Function
-	return Formatted_Data
+	# Define Found Variables
+	Found_Variables = {}
 
+	# Check for Tuple
+	keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
+	
+	# Get Pack Dictionary
+	Pack_Dict = Pack.__dict__
+
+	# Check for Variables
+	for variable in keys_to_check:
+
+		# Check if variable in Pack_Dict
+		if variable in Pack_Dict:
+
+			# Add to Found Variables
+			Found_Variables[variable] = Pack_Dict[variable]
+
+	# Return dictionary of Present Variables and their values
+	return Found_Variables
 
 
 
