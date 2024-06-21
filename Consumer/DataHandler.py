@@ -206,7 +206,7 @@ try:
 					New_Measurement = Models.Measurement(
 						Stream_ID = Stream_Data.stream_id,
 						Variable_ID = Variable,
-						Value = Value
+						Measurement_Value = Value
 					)
 
 					# Add Stream to DataBase
