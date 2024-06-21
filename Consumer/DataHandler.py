@@ -216,21 +216,39 @@ try:
 
 
 			# Get Variables
-			Battery_Variables = Database_Functions.Variable_List(Segment.Power.value)
+			Power_Variables = Database_Functions.Variable_List(Segment.Power.value)
+			Power = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Power_Variables)
 
-			# Check for Present Variables
-			Variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Battery_Variables)
+			# Record Measurements
+			try:
 
-			for key, value in Variables.items():
+				# Define DB
+				DB_Module = Database.SessionLocal()
 
-				# Log Message
-				Log.Terminal_Log('INFO', f'Variable     : {key} - {value}')
+				# Log Variables
+				for Variable, Value in Power.items():
 
-			
+					# New Measurement
+					New_Measurement = Models.Measurement(
+						Stream_ID = Stream_Data.stream_id,
+						Variable_ID = Variable,
+						Value = Value
+					)
 
+					# Add Stream to DataBase
+					DB_Module.add(New_Measurement)
 
+					# Commit DataBase
+					DB_Module.commit()
 
-			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
+					# Refresh DataBase
+					DB_Module.refresh(New_Measurement)
+
+			finally:
+
+				# Close Database
+				DB_Module.close()
+
 
 
 
