@@ -136,6 +136,8 @@ try:
 			# Get or Create SIM Existence
 			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(ICCID_Controlled)
 
+			# Get or Create Device Firmware
+			Stream_Data.device_firmware_id = Database_Functions.Get_or_Create_Firmware(Stream_Data.message.Info.Firmware)
 
 
 
@@ -146,50 +148,6 @@ try:
 
 
 
-
-			# Check for Version
-			if Stream_Data.message.Info.Firmware is not None:
-
-				# Check for Version Table
-				try:
-
-					# Define DB
-					DB_Module = Database.SessionLocal()
-
-					# Control Service
-					Version_Query = (DB_Module.query(Models.Version).filter(
-						Models.Version.Firmware.like(Stream_Data.message.Info.Firmware)
-					).first())
-
-					# Version Found
-					if Version_Query is None:
-
-						# Create New Version
-						New_Version = Models.Version(
-							Firmware = Stream_Data.message.Info.Firmware,
-						)
-
-						# Add Version to DataBase
-						DB_Module.add(New_Version)
-
-						# Commit DataBase
-						DB_Module.commit()
-
-						# Refresh DataBase
-						DB_Module.refresh(New_Version)
-
-						# Get Device Firmware ID
-						Stream_Data.device_firmware_id = New_Version.Version_ID
-
-					else:
-
-						# Get Device Firmware ID
-						Stream_Data.device_firmware_id = Version_Query.Version_ID
-
-				finally:
-
-					# Close Database
-					DB_Module.close()
 
 			# Check for IMEI
 			if Stream_Data.message.Device.IoT.IMEI is not None:

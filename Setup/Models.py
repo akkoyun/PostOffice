@@ -145,7 +145,7 @@ class Version(Base):
 	Version_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Firmware = Column(String(20), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
+	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()')) # silinebilir gereksiz görüyorum
 
 	# Define Relationships
 	devices = relationship("Device", back_populates="version")

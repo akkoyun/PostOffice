@@ -148,3 +148,59 @@ def Get_or_Create_SIM(iccid: str):
 
 		# Return 'Unknown' SIM
 		return False
+
+# Get or Create Firmware Function
+def Get_or_Create_Firmware(firmware: str):
+
+	# Check for Firmware
+	if firmware is not None:
+
+		# Check for Firmware Table
+		try:
+
+			# Define DB
+			DB_Module = Database.SessionLocal()
+
+			# Control Service
+			Firmware_Query = (DB_Module.query(Models.Version).filter(
+				Models.Version.Version.like(firmware)
+			).first())
+
+			# Firmware Found
+			if Firmware_Query is None:
+
+				# Create New Firmware
+				New_Firmware = Models.Version(
+					Firmware = firmware
+				)
+
+				# Add Firmware to DataBase
+				DB_Module.add(New_Firmware)
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Refresh DataBase
+				DB_Module.refresh(New_Firmware)
+
+				# Return New Firmware
+				return New_Firmware.Firmware_ID
+
+			else:
+
+				# Return Existed Firmware
+				return Firmware_Query.Firmware_ID
+
+		finally:
+
+			# Close Database
+			DB_Module.close()
+	
+	else:
+
+		# Return 'Unknown' Firmware
+		return 0
+
+
+
+
