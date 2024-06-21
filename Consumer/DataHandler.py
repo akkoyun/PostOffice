@@ -27,32 +27,26 @@ RAW_Consumer = Consumer(Consumer_Config)
 RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
 
 
-
+# Define Check_Variables_in_JSON Function
 def Check_Variables_in_JSON(Pack, Variables):
 
-    # Define Present Variables
-    Found_Variables = []
+	# Define Present Variables
+	Found_Variables = []
 
-    # Extract keys from the Variables list if they are in tuple form
-    keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
-    
-    print(f"Checking for keys: {keys_to_check} in the given pack.")
+	# Extract keys from the Variables list if they are in tuple form
+	keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
 
-    # Check for Variables
-    for variable in keys_to_check:
+	# Check for Variables
+	for variable in keys_to_check:
 
-        print(f"Checking if {variable} is in pack...")
+		# Check if variable in Pack
+		if variable in Pack:
 
-        # Check if variable in Pack
-        if variable in Pack:
+			# Append Variable
+			Found_Variables.append(variable)
 
-            print(f"Found {variable} in pack.")
-
-            # Append Variable
-            Found_Variables.append(variable)
-
-    # Return Present Variables
-    return Found_Variables
+	# Return Present Variables
+	return Found_Variables
 
 
 
@@ -225,15 +219,14 @@ try:
 			# Get Variables
 			Battery_Variables = Database_Functions.Variable_List(Segment.Power.value)
 
-			Log.Terminal_Log('INFO', f'Variable List: {Battery_Variables}')
-			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
+			# Check for Present Variables
+			Variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power.json(), Battery_Variables)
 
-			Log.Terminal_Log('INFO', f'Stream Data: {Stream_Data.message.Device.Power}')
-			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
-			present_variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power.json(), Battery_Variables)
 
-			Log.Terminal_Log('INFO', f'Present Variables: {present_variables}')
+
+
+			Log.Terminal_Log('INFO', f'Present Variables: {Variables}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 
