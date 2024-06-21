@@ -6,6 +6,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 from Setup import Database, Models
 from Functions import Log
 import pytz
+import time
 
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
@@ -378,7 +379,7 @@ def Get_or_Create_Connection(ip: str):
 			else:
 
 				# Update Connection
-				Connection_Query.IP_Address = ip
+				Connection_Query.Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
 				# Commit DataBase
 				DB_Module.commit()
