@@ -404,7 +404,6 @@ class IoT(CustomBaseModel):
 	# GSM Module Firmware
 	Firmware: Optional[str] = Field(
 		description="Modem firmware version.",
-		default=Constants.IOT.DEFAULT_FIRMWARE,
 		json_schema_extra={
 			"example": "13.00.007",
 			"pattern": Constants.IOT.FIRMWARE_PATTERN  # Optional: Ek olarak pattern'i belirtmek için
@@ -427,7 +426,6 @@ class IoT(CustomBaseModel):
 	# Module IMEI Number
 	IMEI: Optional[str] = Field(
 		description="GSM modem IMEI number.",
-		default=Constants.IOT.DEFAULT_IMEI,
 		json_schema_extra={
 			"example": "356156060000000",
 			"min_length": Constants.IOT.IMEI_MIN_LENGTH,
@@ -452,7 +450,6 @@ class IoT(CustomBaseModel):
 	# SIM ICCID
 	ICCID: str = Field(
 		description="SIM card ICCID number.",
-		default=Constants.IOT.DEFAULT_ICCID,
 		json_schema_extra={
 			"example": "8990011916180280000",
 			"min_length": Constants.IOT.ICCID_MIN_LENGTH,
@@ -477,7 +474,6 @@ class IoT(CustomBaseModel):
 	# RSSI
 	RSSI: Optional[int] = Field(
 		description="IoT RSSI signal level.",
-		default=Constants.IOT.DEFAULT_RSSI,
 		json_schema_extra={
 			"example": 28,
 			"minimum": Constants.IOT.RSSI_MIN,
@@ -501,7 +497,6 @@ class IoT(CustomBaseModel):
 	# Connection Time
 	ConnTime: Optional[float] = Field(
 		description="IoT connection time.",
-		default=Constants.IOT.DEFAULT_CONNECTION_TIME,
 		json_schema_extra={
 			"example": 12.0,
 			"minimum": Constants.IOT.CONNECTION_TIME_MIN,
@@ -525,7 +520,6 @@ class IoT(CustomBaseModel):
 	# MCC
 	MCC: Optional[int] = Field(
 		description="Mobile country code.",
-		default=286,
 		json_schema_extra={
 			"example": 286
 		}
@@ -534,7 +528,6 @@ class IoT(CustomBaseModel):
 	# MNC
 	MNC: Optional[int] = Field(
 		description="Mobile network code.",
-		default=1,
 		json_schema_extra={
 			"example": 1
 		}
@@ -543,7 +536,6 @@ class IoT(CustomBaseModel):
 	# TAC
 	TAC: Optional[int] = Field(
 		description="Operator type allocation code.",
-		default=Constants.IOT.DEFAULT_TAC,
 		json_schema_extra={
 			"example": 34124,
 			"minimum": Constants.IOT.TAC_MIN,
@@ -567,7 +559,6 @@ class IoT(CustomBaseModel):
 	# LAC
 	LAC: Optional[int] = Field(
 		description="Operator base station location.",
-		default=Constants.IOT.DEFAULT_LAC,
 		json_schema_extra={
 			"example": 34124,
 			"minimum": Constants.IOT.LAC_MIN,
@@ -595,7 +586,6 @@ class IoT(CustomBaseModel):
 	# Cell ID
 	Cell_ID: Optional[int] = Field(
 		description="Operator base station cell ID.",
-		default=Constants.IOT.DEFAULT_CELL_ID,
 		json_schema_extra={
 			"example": 34124,
 			"minimum": Constants.IOT.CELL_ID_MIN,
@@ -619,7 +609,6 @@ class IoT(CustomBaseModel):
 	# WDS
 	WDS: Optional[int] = Field(
 		description="IoT WDS type.",
-		default=Constants.IOT.WDS.CONNECTION_UNKNOWN,
 		json_schema_extra={
 			"example": Constants.IOT.WDS.CONNECTION_4G
 		}
