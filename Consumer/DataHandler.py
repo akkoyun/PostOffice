@@ -10,6 +10,7 @@ from confluent_kafka import Consumer, KafkaError
 import time
 import json
 from pydantic import ValidationError
+from Setup.Definitions import Variable_Segment as Segment
 
 # Define Kafka Consumer
 Consumer_Config = {
@@ -188,7 +189,7 @@ try:
 
 
 			# Get Variables
-			Battery_Variables = StreamData.Variable_List(2)
+			Battery_Variables = Database_Functions.Variable_List(Segment.Battery)
 
 			Log.Terminal_Log('INFO', f'Variable List: {Battery_Variables}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
