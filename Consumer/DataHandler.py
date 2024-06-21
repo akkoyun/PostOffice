@@ -189,7 +189,7 @@ try:
 
 
 			# Get Variables
-			Battery_Variables = Database_Functions.Variable_List(Segment.Power)
+			Battery_Variables = Database_Functions.Variable_List(Segment.Power.value)
 
 			Log.Terminal_Log('INFO', f'Variable List: {Battery_Variables}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
