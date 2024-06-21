@@ -221,11 +221,15 @@ try:
 			# Check for Present Variables
 			Variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Battery_Variables)
 
+			for key, value in Variables.items():
+
+				# Log Message
+				Log.Terminal_Log('INFO', f'Variable     : {key} - {value}')
+
+			
 
 
 
-
-			Log.Terminal_Log('INFO', f'Present Variables: {Variables}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 
