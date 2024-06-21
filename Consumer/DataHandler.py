@@ -28,12 +28,25 @@ RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
 
 
 
-def check_variables_in_payload(payload, variables):
-    present_variables = []
-    for variable in variables:
-        if variable in payload:
-            present_variables.append(variable)
-    return present_variables
+def Check_Variables_in_JSON(Pack, Variables):
+
+    # Define Present Variables
+    Found_Variables = []
+
+    # Extract keys from the Variables list if they are in tuple form
+    keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Variables]
+
+    # Check for Variables
+    for variable in keys_to_check:
+
+        # Check if variable in Pack
+        if variable in Pack:
+
+            # Append Variable
+            Found_Variables.append(variable)
+
+    # Return Present Variables
+    return Found_Variables
 
 
 
@@ -209,9 +222,10 @@ try:
 			Log.Terminal_Log('INFO', f'Variable List: {Battery_Variables}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
+			Log.Terminal_Log('INFO', f'Stream Data: {Stream_Data.message.Device.Power}')
+			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
-
-			present_variables = check_variables_in_payload(Stream_Data.message.Device.Power, Battery_Variables)
+			present_variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Battery_Variables)
 
 			Log.Terminal_Log('INFO', f'Present Variables: {present_variables}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
