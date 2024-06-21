@@ -231,7 +231,7 @@ try:
 			Log.Terminal_Log('INFO', f'Stream Data: {Stream_Data.message.Device.Power}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
-			present_variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Battery_Variables)
+			present_variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power.json(), Battery_Variables)
 
 			Log.Terminal_Log('INFO', f'Present Variables: {present_variables}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
