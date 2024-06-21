@@ -99,7 +99,7 @@ def Get_Command_ID(Command: str):
 		return 1
 
 # Get or Create SIM Function
-def Get_or_Create_SIM(iccid: str):
+def Get_or_Create_SIM(iccid: str, mcc: int, mnc: int):
 
 	# Check for ICCID
 	if iccid is not None:
@@ -118,10 +118,27 @@ def Get_or_Create_SIM(iccid: str):
 			# SIM Found
 			if SIM_Query is None:
 
+				# Check for MCC and MNC
+				if mcc is None or mnc is None:
+					mcc = 286
+					mnc = 1
+
+				# Check for Operator_ID
+				Operator_Query = (DB_Module.query(Models.GSM_Operator).filter(
+					Models.GSM_Operator.MCC == mcc,
+					Models.GSM_Operator.MNC == mnc
+				).first())
+
+				# Operator Found
+				if Operator_Query is not None:
+
+					# Get Operator ID
+					Operator_ID = Operator_Query.Operator_ID
+
 				# Create New SIM
 				New_SIM = Models.SIM(
 					ICCID = iccid,
-					Operator_ID = 1 # Daha sonra düzeltilecek şu an manuel olarak yazıldı
+					Operator_ID = Operator_ID
 				)
 
 				# Add SIM to DataBase
@@ -511,16 +528,4 @@ def Record_Measurement(Pack, Stream: int, Segment: int):
 
 		# Close Database
 		DB_Module.close()
-
-
-
-
-
-
-
-
-
-
-
-
 

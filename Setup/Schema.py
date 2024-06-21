@@ -562,7 +562,11 @@ class IoT(CustomBaseModel):
 	def LAC_Validator(cls, value):
 
 		# Check Value
-		if value is None or value < Constants.IOT.LAC_MIN or value > Constants.IOT.LAC_MAX:
+		if value is None:
+			return value
+
+		# Check Value
+		if value < Constants.IOT.LAC_MIN or value > Constants.IOT.LAC_MAX:
 
 			# Set Default Value
 			value = Constants.IOT.DEFAULT_LAC
