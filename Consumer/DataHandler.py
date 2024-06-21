@@ -128,24 +128,39 @@ try:
 				continue
 
 			# Get Command ID
-			Stream_Data.command_id = Database_Functions.Get_Command_ID(Headers['Command'])
+			Stream_Data.command_id = Database_Functions.Get_Command_ID(
+				Headers['Command']
+			)
 
 			# Get or Create Device Firmware
-			Stream_Data.device_firmware_id = Database_Functions.Get_or_Create_Firmware(Stream_Data.message.Info.Firmware)
+			Stream_Data.device_firmware_id = Database_Functions.Get_or_Create_Firmware(
+				Stream_Data.message.Info.Firmware
+			)
 
 			# Check for SIM
-			ICCID_Controlled = ICCID_Functions.Verify_and_Strip_ICCID(Stream_Data.message.Device.IoT.ICCID)
+			ICCID_Controlled = ICCID_Functions.Verify_and_Strip_ICCID(
+				Stream_Data.message.Device.IoT.ICCID
+			)
 
 			# Get or Create SIM Existence
-			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(ICCID_Controlled)
+			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(
+				ICCID_Controlled
+			)
 
 			# Check for Modem
-			Stream_Data.new_modem = Database_Functions.Get_or_Create_Modem(Stream_Data.message.Device.IoT.IMEI, Stream_Data.message.Device.IoT.Firmware)
+			Stream_Data.new_modem = Database_Functions.Get_or_Create_Modem(
+				Stream_Data.message.Device.IoT.IMEI, 
+				Stream_Data.message.Device.IoT.Firmware
+			)
 
 			# Check for Device
-			Stream_Data.new_device = Database_Functions.Get_or_Create_Device(Stream_Data.message.Info.ID, Stream_Data.message.Device.IoT.IMEI, Headers['Device_IP'], Headers['Device_Time'])
-
-
+			Stream_Data.new_device = Database_Functions.Get_or_Create_Device(
+				Stream_Data.message.Info.ID,
+				Stream_Data.device_firmware_id,
+				Stream_Data.message.Device.IoT.IMEI,
+				Headers['Device_IP'],
+				Headers['Device_Time']
+			)
 
 
 

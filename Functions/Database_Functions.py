@@ -317,6 +317,7 @@ def Get_or_Create_Device(id: str, firmware: int, imei: str, ip: str, time: str):
 			else:
 
 				# Update Device
+				Device_Query.Version_ID = firmware
 				Device_Query.Last_Connection_IP = ip
 				Device_Query.Last_Connection_Time = time
 
