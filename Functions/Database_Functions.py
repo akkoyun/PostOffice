@@ -453,20 +453,26 @@ def Record_Measurement(Pack, Stream: int, Segment: int):
 	# Define Found Variables
 	Found_Variables = {}
 
-	# Check for Tuple
+	# Check for Tuple and Extract Variable IDs
 	keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
-	
+
 	# Get Pack Dictionary
 	Pack_Dict = Pack.__dict__
 
 	# Check for Variables
 	for variable in keys_to_check:
 
-		# Check if variable in Pack_Dict
+		# Check for Variable
 		if variable in Pack_Dict:
 
-			# Add to Found Variables
-			Found_Variables[variable] = Pack_Dict[variable]
+			# Get Value
+			value = Pack_Dict[variable]
+
+			# Check for Value
+			if value is not None and value != "":
+
+				# Add to Found Variables
+				Found_Variables[variable] = value
 
 	# Record Measurements
 	try:
@@ -477,35 +483,32 @@ def Record_Measurement(Pack, Stream: int, Segment: int):
 		# Log Variables
 		for Variable, Value in Found_Variables.items():
 
-			# Check for Value
-			if Value is not None:
+			# Record Measurement
+			try:
 
-				# Record Measurement
-				try:
+				# New Measurement
+				New_Measurement = Models.Measurement(
+					Stream_ID=Stream,
+					Variable_ID=Variable,
+					Measurement_Value=Value
+				)
 
-					# New Measurement
-					New_Measurement = Models.Measurement(
-						Stream_ID=Stream,
-						Variable_ID=Variable,
-						Measurement_Value=Value
-					)
+				# Add Stream to DataBase
+				DB_Module.add(New_Measurement)
 
-					# Add Stream to DataBase
-					DB_Module.add(New_Measurement)
+				# Commit DataBase
+				DB_Module.commit()
 
-					# Commit DataBase
-					DB_Module.commit()
+				# Refresh DataBase
+				DB_Module.refresh(New_Measurement)
 
-					# Refresh DataBase
-					DB_Module.refresh(New_Measurement)
+			except SQLAlchemyError as e:
 
-				except SQLAlchemyError as e:
+				# Rollback in case of error
+				DB_Module.rollback()
 
-					# Rollback in case of error
-					DB_Module.rollback()
-
-					# Log Error
-					Log.Terminal_Log('ERROR', f"Error while processing {Variable}: {e}")
+				# Log Error
+				Log.Terminal_Log('ERROR', f"Error while processing {Variable}: {e}")
 
 	finally:
 
