@@ -216,7 +216,7 @@ try:
 			Battery_Variables = Database_Functions.Variable_List(Segment.Power.value)
 
 			# Check for Present Variables
-			Variables = Check_Variables_in_JSON(json.loads(Stream_Data.message.Device.Power), Battery_Variables)
+			Variables = Check_Variables_in_JSON(Stream_Data.message.Device.Power, Battery_Variables)
 
 
 
