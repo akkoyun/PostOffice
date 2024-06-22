@@ -132,7 +132,7 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: Backgr
 		("Device_Time", bytes(Data.Info.TimeStamp, 'utf-8')), 
 		("Device_IP", bytes(request.client.host, 'utf-8')),
 		("Size", bytes(request.headers['content-length'], 'utf-8'))
-	]
+	] 
 
 	# Produce Message
 	Send_Kafka.add_task(Kafka.Send_To_Topic, APP_Settings.KAFKA_RAW_TOPIC, Request_Body, Header, 0)
