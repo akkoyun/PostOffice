@@ -1,6 +1,18 @@
 # Import Required Libraries
 from enum import Enum
 
+# Command Enum Class
+class Command(Enum):
+
+	# Define Enumerations
+	Unknown = 0
+	Online = 1
+	Timed = 2
+	Alarm = 3
+	Interrupt = 4
+	Offline = 5
+	Configuration = 6
+
 # Variable Data Segment Enum Class
 class Variable_Segment(Enum):
 

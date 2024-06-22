@@ -983,7 +983,7 @@ def Import_Command():
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
 
 	# Rename Columns
-	Data_File.columns = ['Command', 'Description']
+	Data_File.columns = ['Command_ID', 'Command', 'Description']
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB:
@@ -1001,6 +1001,7 @@ def Import_Command():
 
 				# Create New Record
 				New_Record = Models.Command(
+					Command_ID=int(row['Command_ID']),
 					Command=str(row['Command']),
 					Description=str(row['Description'])
 				)
