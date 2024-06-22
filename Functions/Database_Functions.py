@@ -481,7 +481,7 @@ def Create_Stream(Stream_Data: dict, Headers: dict):
 	New_Stream = Models.Stream(
 		Device_ID = Stream_Data.message.Info.ID,
 		Command_ID = Stream_Data.command_id,
-		ICCID = Stream_Data.iccid,
+		SIM_ID = Stream_Data.sim_id,
 		IP_Address = Headers['Device_IP'],
 		Size = Headers['Size'],
 		Device_Time = Headers['Device_Time'],
