@@ -3,19 +3,15 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
-from Setup.Config import APP_Settings
+from Setup import Schema, Definitions, Config
 from Functions import Log, Database_Functions, ICCID_Functions
-from Setup import Schema, Database, Models
 from confluent_kafka import Consumer, KafkaError
-import time
-import json
 from pydantic import ValidationError
-from Setup.Definitions import Variable_Segment
-from sqlalchemy.exc import SQLAlchemyError
+import time, json
 
 # Define Kafka Consumer
 Consumer_Config = {
-    'bootstrap.servers': f'{APP_Settings.KAFKA_HOSTNAME}:{APP_Settings.KAFKA_PORT}',
+    'bootstrap.servers': f'{Config.APP_Settings.KAFKA_HOSTNAME}:{Config.APP_Settings.KAFKA_PORT}',
     'group.id': 'RAW_Handler_Group',
     'auto.offset.reset': 'earliest',
 	'enable.auto.commit': False,
@@ -25,27 +21,7 @@ Consumer_Config = {
 RAW_Consumer = Consumer(Consumer_Config)
 
 # Define Subscription Function
-RAW_Consumer.subscribe([APP_Settings.KAFKA_RAW_TOPIC])
-
-# Define Stream Data Class
-class StreamData:
-
-	# Constructor
-	def __init__(self, stream_id=0, command_id=0, device_firmware_id=0, new_sim=False, new_modem=False, new_device=False, message=None, iccid=None):
-
-		# Define Variables
-		self.stream_id = stream_id
-		self.command_id = command_id
-		self.device_firmware_id = device_firmware_id
-		self.new_sim = new_sim
-		self.new_modem = new_modem
-		self.new_device = new_device
-		self.message = message
-		self.iccid = iccid
-
-	# Define Repr Function
-	def __repr__(self):
-		return (f"StreamData(stream_id={self.stream_id}, command_id={self.command_id}, device_firmware_id={self.device_firmware_id}, new_sim={self.new_sim}, new_modem={self.new_modem}, new_device={self.new_device}), message={self.message}, iccid={self.iccid})")
+RAW_Consumer.subscribe([Config.APP_Settings.KAFKA_RAW_TOPIC])
 
 # Define Consumer Topic Loop
 try:
@@ -57,22 +33,22 @@ try:
 
 		# Check for Message
 		if Consumer_Message is None:
-			
+
 			# Continue
 			continue
 
 		# Check for Error
 		if Consumer_Message.error():
-			
+
 			# Check for Error
 			if Consumer_Message.error().code() == KafkaError._PARTITION_EOF:
-				
+
 				# Continue
 				continue
 
 			# Check for Error
 			elif Consumer_Message.error():
-				
+
 				# Log Error
 				Log.Terminal_Log('ERROR', f'Consumer Error: {Consumer_Message.error()}')
 
@@ -83,7 +59,7 @@ try:
 		else:
 
 			# Define Variables
-			Stream_Data = StreamData()
+			Stream_Data = Definitions.StreamData()
 
 			# Get Headers
 			Headers = {key: value.decode('utf-8') for key, value in Consumer_Message.headers()}
@@ -186,20 +162,20 @@ try:
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Record  Measurements
-			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Variable_Segment.Power.value)
-			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Variable_Segment.GSM.value)
-			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Device.value)
-			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Location.value)
-			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Environment.value)
-			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Water.value)
-			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.Energy.value)
-			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Variable_Segment.FOTA.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Device.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Location.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Environment.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Water.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Energy.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.FOTA.value)
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
 
 except KeyboardInterrupt:
-    
+
 	# Consumer Closed Manually
     Log.Terminal_Log('INFO', 'Handler is shutting down...')
 

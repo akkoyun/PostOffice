@@ -3,11 +3,10 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Library Imports
-from Setup import Database, Models
+from Setup import Database, Models, Definitions
 from Functions import Log
-import pytz
-import time
 from sqlalchemy.exc import SQLAlchemyError
+import pytz, time
 
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
@@ -58,45 +57,71 @@ def Record_Unknown_Data(Client_IP: str, RAW_Data: str):
 		Log.Terminal_Log("ERROR", f"An error occurred: {str(e)}")
 
 # Get Command ID Function
-def Get_Command_ID(Command: str):
+def Get_Command_ID(Command: str) -> int:
 
-	# Check for Command
-	if Command is not None:
+    # Check for Command
+    if not Command:
 
-		# Check for Command Table
-		try:
+        # Return 'Unknown' Command ID
+        return Definitions.Command.Unknown.value
 
-			# Define DB
-			DB_Module = Database.SessionLocal()
+    # Try to open a database session
+    try:
 
-			# Control Service
-			Command_Query = (DB_Module.query(Models.Command).filter(
-				Models.Command.Command.like(Command)
-			).first())
+        with Database.SessionLocal() as DB_Module:
 
-			# Command Found
-			if Command_Query is not None:
+            # Try to query the Command
+            try:
 
-				# Get Existed Command ID
-				Command_ID = Command_Query.Command_ID
+                # Query Command
+                Command_Query = DB_Module.query(Models.Command).filter(
+                    Models.Command.Command == Command  # Use '==' for exact match
+                ).first()
 
-				# Return Command ID
-				return Command_ID
+                # Check if Command exists
+                if Command_Query is not None:
+                    # Get existing Command ID
+                    return Command_Query.Command_ID
+                
+                # Command Not Found
+                else:
+                    # Return 'Unknown' Command ID
+                    return Definitions.Command.Unknown.value
 
-			else:
+            except SQLAlchemyError as e:
 
-				# Return 'Unknown' Command ID
-				return 1
+                # Log Error
+                Log.Terminal_Log('ERROR', f"Error while processing {Command}: {e}")
 
-		finally:
+                # Return 'Unknown' Command ID
+                return Definitions.Command.Unknown.value
 
-			# Close Database
-			DB_Module.close()
+    except SQLAlchemyError as e:
 
-	else :
+        # Log Error
+        Log.Terminal_Log('ERROR', f"Database session error: {e}")
 
-		# Return 'Unknown' Command ID
-		return 1
+        # Return 'Unknown' Command ID
+        return Definitions.Command.Unknown.value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Get or Create SIM Function
 def Get_or_Create_SIM(iccid: str, mcc: int, mnc: int):
@@ -149,7 +174,7 @@ def Get_or_Create_SIM(iccid: str, mcc: int, mnc: int):
 
 				# Refresh DataBase
 				DB_Module.refresh(New_SIM)
-				
+
 				# Return New SIM
 				return True
 			
@@ -357,63 +382,106 @@ def Get_or_Create_Device(id: str, firmware: int, imei: str, ip: str, time: str):
 		return False
 
 # Get or Create Connection Function
-def Get_or_Create_Connection(ip: str):
+def Get_or_Create_Connection(ip: str) -> bool:
 
 	# Check for IP Address
-	if ip is not None:
+	if ip is None:
 
-		# Check for Connection Table
-		try:
+		# End Function
+		return False
 
-			# Define DB
-			DB_Module = Database.SessionLocal()
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
 
 			# Control Service
-			Connection_Query = (DB_Module.query(Models.Connection).filter(
-				Models.Connection.IP_Address.like(ip)
-			).first())
+			try:
 
-			# Connection Found
-			if Connection_Query is None:
+				# Query IP Address
+				IP_Query = (DB_Module.query(Models.Connection).filter(
+					Models.Connection.IP_Address.like(ip)
+				).first())
 
-				# Create New Connection
-				New_Connection = Models.Connection(
-					IP_Address = ip,
-					IP_Pool = 0,
-				)
+				# IP Address Found
+				if IP_Query is not None:
 
-				# Add Connection to DataBase
-				DB_Module.add(New_Connection)
+					# Update Connection
+					IP_Query.Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
-				# Commit DataBase
-				DB_Module.commit()
+					# Commit DataBase
+					DB_Module.commit()
 
-				# Refresh DataBase
-				DB_Module.refresh(New_Connection)
+					# Return Existed Connection
+					return False
 
-				# Return New Connection
-				return True
+				# IP Address Not Found
+				else:
 
-			else:
+					# Create New Connection
+					New_IP = Models.Connection(
+						IP_Address = ip,
+						IP_Pool = 0,
+						Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+					)
 
-				# Update Connection
-				Connection_Query.Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+					# Add Connection to DataBase
+					DB_Module.add(New_IP)
 
-				# Commit DataBase
-				DB_Module.commit()
+					# Commit DataBase
+					DB_Module.commit()
 
-				# Return Existed Connection
+					# Refresh DataBase
+					DB_Module.refresh(New_IP)
+
+					# Return New Connection
+					return True
+
+			# Error Handling
+			except SQLAlchemyError as e:
+
+				# Log Error
+				Log.Terminal_Log('ERROR', f"Error while processing {ip}: {e}")
+
+				# Rollback DataBase
+				DB_Module.rollback()
+
+				# Return False
 				return False
 
-		finally:
+	# Error Handling
+	except SQLAlchemyError as e:
 
-			# Close Database
-			DB_Module.close()
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
 
-	else:
-
-		# Return 'Unknown' Connection
+		# Return False
 		return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Create Stream Function
 def Create_Stream(Stream_Data: dict, Headers: dict):
