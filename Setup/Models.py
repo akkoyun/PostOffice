@@ -117,7 +117,8 @@ class SIM(Base):
 	__tablename__ = "SIM"
 
 	# Define Columns
-	ICCID = Column(String(25), primary_key=True, unique=True, nullable=False)
+	SIM_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	ICCID = Column(String(25), unique=True, nullable=False)
 	Operator_ID = Column(Integer, ForeignKey("GSM_Operator.Operator_ID", ondelete="CASCADE"), nullable=False)
 	GSM_Number = Column(String(15), nullable=True)
 	Status = Column(Boolean, nullable=False, server_default="1")
@@ -319,7 +320,7 @@ class Stream(Base):
 	Stream_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Device_ID = Column(String(21), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
 	Command_ID = Column(Integer, ForeignKey("Command.Command_ID", ondelete="CASCADE"), nullable=True)
-	ICCID = Column(String(21), ForeignKey("SIM.ICCID"), nullable=False)
+	SIM_ID = Column(Integer, ForeignKey("SIM.SIM_ID", ondelete="CASCADE"), nullable=False)
 	IP_Address = Column(String(16), ForeignKey("Connection.IP_Address"), nullable=True)
 	Size = Column(Integer, nullable=True)
 	Device_Time = Column(TIMESTAMP(timezone=True), nullable=False)
@@ -335,7 +336,7 @@ class Stream(Base):
 	# Define Table Arguments
 	__table_args__ = (
 		Index('idx_stream_device_id', 'Device_ID'),
-		Index('idx_stream_iccid', 'ICCID'),
+		Index('idx_stream_sim_id', 'SIM_ID'),
 		Index('idx_stream_time', 'Stream_Time'),
 		Index('idx_stream_ip_address', 'IP_Address'),
 		Index('idx_device_time', 'Device_Time'),

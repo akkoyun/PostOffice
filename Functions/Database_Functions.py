@@ -106,94 +106,182 @@ def Get_Command_ID(Command: str) -> int:
         # Return 'Unknown' Command ID
         return Definitions.Command.Unknown.value
 
+# Get or Create Connection Function
+def Get_or_Create_Connection(ip: str) -> bool:
 
+	# Check for IP Address
+	if ip is None:
 
+		# End Function
+		return False
 
+	try:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Get or Create SIM Function
-def Get_or_Create_SIM(iccid: str, mcc: int, mnc: int):
-
-	# Check for ICCID
-	if iccid is not None:
-
-		# Check for SIM Table
-		try:
-
-			# Define DB
-			DB_Module = Database.SessionLocal()
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
 
 			# Control Service
-			SIM_Query = (DB_Module.query(Models.SIM).filter(
-				Models.SIM.ICCID.like(iccid)
-			).first())
+			try:
 
-			# SIM Found
-			if SIM_Query is None:
-
-				# Check for MCC and MNC
-				if mcc is None or mnc is None:
-					mcc = 286
-					mnc = 1
-
-				# Check for Operator_ID
-				Operator_Query = (DB_Module.query(Models.GSM_Operator).filter(
-					Models.GSM_Operator.MCC == mcc,
-					Models.GSM_Operator.MNC == mnc
+				# Query IP Address
+				IP_Query = (DB_Module.query(Models.Connection).filter(
+					Models.Connection.IP_Address.like(ip)
 				).first())
 
-				# Operator Found
-				if Operator_Query is not None:
+				# IP Address Found
+				if IP_Query is not None:
 
-					# Get Operator ID
-					Operator_ID = Operator_Query.Operator_ID
+					# Update Connection
+					IP_Query.Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
-				# Create New SIM
-				New_SIM = Models.SIM(
-					ICCID = iccid,
-					Operator_ID = Operator_ID
-				)
+					# Commit DataBase
+					DB_Module.commit()
 
-				# Add SIM to DataBase
-				DB_Module.add(New_SIM)
+					# Return Existed Connection
+					return False
 
-				# Commit DataBase
-				DB_Module.commit()
+				# IP Address Not Found
+				else:
 
-				# Refresh DataBase
-				DB_Module.refresh(New_SIM)
+					# Create New Connection
+					New_IP = Models.Connection(
+						IP_Address = ip,
+						IP_Pool = 0,
+						Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+					)
 
-				# Return New SIM
-				return True
-			
-			else:
+					# Add Connection to DataBase
+					DB_Module.add(New_IP)
 
-				# Return Existed SIM
+					# Commit DataBase
+					DB_Module.commit()
+
+					# Refresh DataBase
+					DB_Module.refresh(New_IP)
+
+					# Return New Connection
+					return True
+
+			# Error Handling
+			except SQLAlchemyError as e:
+
+				# Log Error
+				Log.Terminal_Log('ERROR', f"Error while processing {ip}: {e}")
+
+				# Rollback DataBase
+				DB_Module.rollback()
+
+				# Return False
 				return False
 
-		finally:
+	# Error Handling
+	except SQLAlchemyError as e:
 
-			# Close Database
-			DB_Module.close()
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
 
-	else :
-
-		# Return 'Unknown' SIM
+		# Return False
 		return False
+
+# Get or Create SIM Function
+def Get_or_Create_SIM(iccid: str, mcc: int, mnc: int) -> int:
+
+	# Check for ICCID
+	if not iccid:
+
+		# Return 'Unknown' SIM ID
+		return 1
+
+	# Try to open a database session
+	try:
+
+		with Database.SessionLocal() as DB_Module:
+
+			# Try to query the Command
+			try:
+
+				# Query ICCID
+				SIM_Query = (DB_Module.query(Models.SIM).filter(
+					Models.SIM.ICCID.like(iccid)
+				).first())
+
+				# SIM Found
+				if SIM_Query is not None:
+
+					# Get existing SIM ID
+					return SIM_Query.SIM_ID
+
+				# SIM Not Found
+				else:
+
+					# Check for MCC and MNC
+					if mcc is None or mnc is None:
+						mcc = 286
+						mnc = 1
+
+					# Check for Operator_ID
+					Operator_Query = (DB_Module.query(Models.GSM_Operator).filter(
+						Models.GSM_Operator.MCC == mcc,
+						Models.GSM_Operator.MNC == mnc
+					).first())
+
+					# Operator Found
+					if Operator_Query is not None:
+
+						# Get Operator ID
+						Operator_ID = Operator_Query.Operator_ID
+
+					# Create New SIM
+					New_SIM = Models.SIM(
+						ICCID = iccid,
+						Operator_ID = Operator_ID
+					)
+
+					# Add SIM to DataBase
+					DB_Module.add(New_SIM)
+
+					# Commit DataBase
+					DB_Module.commit()
+
+					# Refresh DataBase
+					DB_Module.refresh(New_SIM)
+
+					# Return New SIM
+					return New_SIM.SIM_ID
+
+			# Except SQLAlchemy Error
+			except SQLAlchemyError as e:
+
+				# Log Error
+				Log.Terminal_Log('ERROR', f"Error while processing {iccid}: {e}")
+
+				# Return 'Unknown' SIM ID
+				return 1
+
+	# Except SQLAlchemy Error
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Return 'Unknown' SIM ID
+		return 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Get or Create Firmware Function
 def Get_or_Create_Firmware(firmware: str):
@@ -382,108 +470,6 @@ def Get_or_Create_Device(id: str, firmware: int, imei: str, ip: str, time: str):
 
 		# Return 'Unknown' Modem
 		return False
-
-# Get or Create Connection Function
-def Get_or_Create_Connection(ip: str) -> bool:
-
-	# Check for IP Address
-	if ip is None:
-
-		# End Function
-		return False
-
-	try:
-
-		# Define DB
-		with Database.SessionLocal() as DB_Module:
-
-			# Control Service
-			try:
-
-				# Query IP Address
-				IP_Query = (DB_Module.query(Models.Connection).filter(
-					Models.Connection.IP_Address.like(ip)
-				).first())
-
-				# IP Address Found
-				if IP_Query is not None:
-
-					# Update Connection
-					IP_Query.Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-
-					# Commit DataBase
-					DB_Module.commit()
-
-					# Return Existed Connection
-					return False
-
-				# IP Address Not Found
-				else:
-
-					# Create New Connection
-					New_IP = Models.Connection(
-						IP_Address = ip,
-						IP_Pool = 0,
-						Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-					)
-
-					# Add Connection to DataBase
-					DB_Module.add(New_IP)
-
-					# Commit DataBase
-					DB_Module.commit()
-
-					# Refresh DataBase
-					DB_Module.refresh(New_IP)
-
-					# Return New Connection
-					return True
-
-			# Error Handling
-			except SQLAlchemyError as e:
-
-				# Log Error
-				Log.Terminal_Log('ERROR', f"Error while processing {ip}: {e}")
-
-				# Rollback DataBase
-				DB_Module.rollback()
-
-				# Return False
-				return False
-
-	# Error Handling
-	except SQLAlchemyError as e:
-
-		# Log Error
-		Log.Terminal_Log('ERROR', f"Database session error: {e}")
-
-		# Return False
-		return False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Create Stream Function
 def Create_Stream(Stream_Data: dict, Headers: dict):

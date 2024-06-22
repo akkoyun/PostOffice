@@ -31,13 +31,13 @@ class Variable_Segment(Enum):
 class StreamData:
 
 	# Constructor
-	def __init__(self, stream_id=0, command_id=0, device_firmware_id=0, new_sim=False, new_modem=False, new_device=False, message=None, iccid=None):
+	def __init__(self, stream_id=0, command_id=0, device_firmware_id=0, sim_id=0, new_modem=False, new_device=False, message=None, iccid=None):
 
 		# Define Variables
 		self.stream_id = stream_id
 		self.command_id = command_id
 		self.device_firmware_id = device_firmware_id
-		self.new_sim = new_sim
+		self.sim_id = sim_id
 		self.new_modem = new_modem
 		self.new_device = new_device
 		self.message = message
@@ -45,4 +45,4 @@ class StreamData:
 
 	# Define Repr Function
 	def __repr__(self):
-		return (f"StreamData(stream_id={self.stream_id}, command_id={self.command_id}, device_firmware_id={self.device_firmware_id}, new_sim={self.new_sim}, new_modem={self.new_modem}, new_device={self.new_device}), message={self.message}, iccid={self.iccid})")
+		return (f"StreamData(stream_id={self.stream_id}, command_id={self.command_id}, device_firmware_id={self.device_firmware_id}, sim_id={self.sim_id}, new_modem={self.new_modem}, new_device={self.new_device}), message={self.message}, iccid={self.iccid})")

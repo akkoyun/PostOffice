@@ -122,7 +122,7 @@ try:
 			)
 
 			# Get or Create SIM Existence
-			Stream_Data.new_sim = Database_Functions.Get_or_Create_SIM(
+			Stream_Data.sim_id = Database_Functions.Get_or_Create_SIM(
 				Stream_Data.iccid,
 				Stream_Data.message.Device.IoT.MCC,
 				Stream_Data.message.Device.IoT.MNC
@@ -157,7 +157,7 @@ try:
 			# Log Message
 			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_Data.stream_id} - {Headers["Command"]}')
 			Log.Terminal_Log('INFO', f'Device ID   : {Stream_Data.message.Info.ID} - {Stream_Data.message.Info.Firmware} - {Stream_Data.new_device}')
-			Log.Terminal_Log('INFO', f'ICCID       : {Stream_Data.iccid} - {Stream_Data.new_sim}')
+			Log.Terminal_Log('INFO', f'ICCID       : {Stream_Data.iccid} - {Stream_Data.sim_id}')
 			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Device.IoT.IMEI} - {Stream_Data.message.Device.IoT.Firmware} - {Stream_Data.new_modem}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
