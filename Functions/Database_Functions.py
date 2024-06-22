@@ -221,8 +221,8 @@ def Get_or_Create_SIM(iccid: str, mcc: int, mnc: int) -> int:
 
 					# Check for Operator_ID
 					Operator_Query = (DB_Module.query(Models.GSM_Operator).filter(
-						Models.GSM_Operator.MCC == mcc,
-						Models.GSM_Operator.MNC == mnc
+						Models.GSM_Operator.MCC_ID == mcc,
+						Models.GSM_Operator.MNC_ID == mnc
 					).first())
 
 					# Operator Found
