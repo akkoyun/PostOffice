@@ -134,6 +134,10 @@ Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Update.sh" "/home/postoffi
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Restart.sh" "/root/Restart.sh"
 #Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Service.sh" "/root/Service.sh"
 
+# Update sh Permission
+sudo chmod +x /home/postoffice/PostOffice/src/Docs/Batch/Update.sh
+sudo chmod +x /home/postoffice/PostOffice/src/Docs/Batch/DataHandler_workers.sh
+
 # Message
 echo "----------------------------------------------"
 
