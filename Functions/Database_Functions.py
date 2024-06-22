@@ -75,16 +75,18 @@ def Get_Command_ID(Command: str) -> int:
 
                 # Query Command
                 Command_Query = DB_Module.query(Models.Command).filter(
-                    Models.Command.Command == Command  # Use '==' for exact match
+                    Models.Command.Command.like(Command)
                 ).first()
 
                 # Check if Command exists
                 if Command_Query is not None:
+
                     # Get existing Command ID
                     return Command_Query.Command_ID
                 
                 # Command Not Found
                 else:
+
                     # Return 'Unknown' Command ID
                     return Definitions.Command.Unknown.value
 
