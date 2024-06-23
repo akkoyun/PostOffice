@@ -335,34 +335,21 @@ class IoT(CustomBaseModel):
 		# Return Value
 		return value
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	# Module IMEI Number
-	IMEI: Optional[str] = Field(
+	IMEI: Annotated[Optional[str], Field(
 		description="GSM modem IMEI number.",
-		default=Constants.IOT.DEFAULT_IMEI,
+		default=None,
 		json_schema_extra={
 			"example": "356156060000000",
 			"min_length": Constants.IOT.IMEI_MIN_LENGTH,
 			"max_length": Constants.IOT.IMEI_MAX_LENGTH,
 			"pattern": Constants.IOT.IMEI_PATTERN
 		}
-	)
+	)]
 
 	# IMEI Validator
 	@field_validator('IMEI', mode='before')
-	def IMEI_Validator(cls, value):
+	def validate_imei(cls, value: Optional[str]) -> Optional[str]:
 
 		# Check Value
 		if value is None or not re.match(Constants.IOT.IMEI_PATTERN, value):
@@ -374,77 +361,92 @@ class IoT(CustomBaseModel):
 		return value
 
 	# SIM ICCID
-	ICCID: str = Field(
+	ICCID: Annotated[str, Field(
 		description="SIM card ICCID number.",
 		default=Constants.IOT.DEFAULT_ICCID,
 		json_schema_extra={
 			"example": "8990011916180280000",
 			"min_length": Constants.IOT.ICCID_MIN_LENGTH,
 			"max_length": Constants.IOT.ICCID_MAX_LENGTH,
-			"pattern": Constants.IOT.ICCID_PATTERN  # Optional: Ek olarak pattern'i belirtmek için
+			"pattern": Constants.IOT.ICCID_PATTERN 
 		}
-	)
+	)]
 
 	# ICCID Validator
 	@field_validator('ICCID', mode='before')
-	def ICCID_Validator(cls, value):
+	def validate_iccid(cls, value: str) -> str:
 
 		# Check Value
 		if value is None or not re.match(Constants.IOT.ICCID_PATTERN, value):
 
 			# Set Default Value
-			value = Constants.IOT.DEFAULT_ICCID
+			return Constants.IOT.DEFAULT_ICCID
 
 		# Return Value
 		return value
 
 	# RSSI
-	RSSI: Optional[int] = Field(
+	RSSI: Annotated[Optional[int], Field(
 		description="IoT RSSI signal level.",
-		default=Constants.IOT.DEFAULT_RSSI,
+		default=None,
 		json_schema_extra={
 			"example": 28,
 			"minimum": Constants.IOT.RSSI_MIN,
 			"maximum": Constants.IOT.RSSI_MAX
-		}
-	)
+		},
+		ge=Constants.IOT.RSSI_MIN,
+		le=Constants.IOT.RSSI_MAX
+	)]
 
 	# RSSI Validator
 	@field_validator('RSSI', mode='before')
-	def RSSI_Validator(cls, value):
+	def validate_rssi(cls, value: Optional[int]) -> Optional[int]:
 
 		# Check Value
 		if value is None or value < Constants.IOT.RSSI_MIN or value > Constants.IOT.RSSI_MAX:
 
 			# Set Default Value
-			value = Constants.IOT.DEFAULT_RSSI
+			return Constants.IOT.DEFAULT_RSSI
 
 		# Return Value
 		return value
 
 	# Connection Time
-	ConnTime: Optional[float] = Field(
+	ConnTime: Annotated[Optional[float], Field(
 		description="IoT connection time.",
-		default=Constants.IOT.DEFAULT_CONNECTION_TIME,
+		default=None,
 		json_schema_extra={
-			"example": 12.0,
+			"example": 1.32,
 			"minimum": Constants.IOT.CONNECTION_TIME_MIN,
 			"maximum": Constants.IOT.CONNECTION_TIME_MAX
-		}
-	)
+		},
+		ge=Constants.IOT.CONNECTION_TIME_MIN,
+		le=Constants.IOT.CONNECTION_TIME_MAX
+	)]
 
 	# Connection Time Validator
 	@field_validator('ConnTime', mode='before')
-	def ConnTime_Validator(cls, value):
+	def validate_conn_time(cls, value: Optional[float]) -> Optional[float]:
 
 		# Check Value
 		if value is None or value < Constants.IOT.CONNECTION_TIME_MIN or value > Constants.IOT.CONNECTION_TIME_MAX:
 
 			# Set Default Value
-			value = Constants.IOT.DEFAULT_CONNECTION_TIME
+			return Constants.IOT.DEFAULT_CONNECTION_TIME
 
 		# Return Value
 		return value
+
+
+
+
+
+
+
+
+
+
+
 
 	# MCC
 	MCC: Optional[int] = Field(
