@@ -204,82 +204,74 @@ class Power(CustomBaseModel):
 		# Return Value
 		return value
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	# Instant Battery Capacity
-	B_IC: Optional[int] = Field(
+	B_IC: Annotated[Optional[int], Field(
 		description="Instant battery capacity.",
-		default=Constants.BATTERY.DEFAULT_INSTANT_CAPACITY,
+		default=None,
 		json_schema_extra={
 			"example": 1820,
 			"minimum": Constants.BATTERY.INSTANT_CAPACITY_MIN,
 			"maximum": Constants.BATTERY.INSTANT_CAPACITY_MAX
-		}
-	)
+		},
+		ge=Constants.BATTERY.INSTANT_CAPACITY_MIN,
+		le=Constants.BATTERY.INSTANT_CAPACITY_MAX
+	)]
 
 	# Instant Battery Capacity Validator
 	@field_validator('B_IC', mode='before')
-	def B_IC_Validator(cls, value):
+	def validate_b_ic(cls, value: Optional[int]) -> Optional[int]:
 
 		# Check Value
 		if value is not None and not Constants.BATTERY.INSTANT_CAPACITY_MIN <= value <= Constants.BATTERY.INSTANT_CAPACITY_MAX:
 
 			# Set Default Value
-			value = Constants.BATTERY.DEFAULT_INSTANT_CAPACITY
+			return Constants.BATTERY.DEFAULT_INSTANT_CAPACITY
 
 		# Return Value
 		return value
 
 	# Battery State of Charge
-	B_SOC: float = Field(
+	B_SOC: Annotated[Optional[float], Field(
 		description="Battery state of charge.",
-		default=Constants.BATTERY.DEFAULT_SOC,
+		default=None,
 		json_schema_extra={
 			"example": 97.30,
 			"minimum": Constants.BATTERY.SOC_MIN,
 			"maximum": Constants.BATTERY.SOC_MAX
-		}
-	)
+		},
+		ge=Constants.BATTERY.SOC_MIN,
+		le=Constants.BATTERY.SOC_MAX
+	)]
 
 	# Battery State of Charge Validator
 	@field_validator('B_SOC', mode='before')
-	def B_SOC_Validator(cls, value):
+	def validate_b_soc(cls, value: Optional[float]) -> Optional[float]:
 
 		# Check Value
 		if value is None or not Constants.BATTERY.SOC_MIN <= value <= Constants.BATTERY.SOC_MAX:
 
 			# Set Default Value
-			value = Constants.BATTERY.DEFAULT_SOC
+			return Constants.BATTERY.DEFAULT_SOC
 
 		# Return Value
 		return value
 
 	# Battery Temperature
-	B_T: Optional[float] = Field(
+	B_T: Annotated[Optional[float], Field(
 		description="Battery temperature.",
-		default=Constants.BATTERY.DEFAULT_TEMPERATURE,
+		default=None,
 		json_schema_extra={
 			"example": 32.1903,
 			"minimum": Constants.BATTERY.TEMPERATURE_MIN,
 			"maximum": Constants.BATTERY.TEMPERATURE_MAX
-		}
-	)
+		},
+		ge=Constants.BATTERY.TEMPERATURE_MIN,
+		le=Constants.BATTERY.TEMPERATURE_MAX
+	)]
 
 	# Battery Temperature Validator
 	@field_validator('B_T', mode='before')
-	def B_T_Validator(cls, value):
+	def validate_b_t(cls, value: Optional[float]) -> Optional[float]:
 
 		# Check Value
 		if value is not None and not Constants.BATTERY.TEMPERATURE_MIN <= value <= Constants.BATTERY.TEMPERATURE_MAX:
@@ -316,6 +308,12 @@ class Power(CustomBaseModel):
 
 		# Return Value
 		return value
+
+
+
+
+
+
 
 
 
