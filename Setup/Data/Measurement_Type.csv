@@ -1,5 +1,4 @@
 Variable_ID,Variable_Description,Variable_Unit,Segment_ID
-Unknown,Unknown,-,0
 PCB_T,PCB Temperature,C,1
 PCB_H,PCB Humidity,%,1
 STATUS,Status Register,-,1
