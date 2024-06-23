@@ -575,47 +575,38 @@ class Device(CustomBaseModel):
 # Dynamic Payload Model Creator
 def Create_Dynamic_Payload_Model():
 
-	# Variable List
-    Variable_List: Dict[str, Tuple[Type, Any]] = {}
+	attributes: Dict[str, Any] = {}
 
-	# Try to create the dynamic model
-    try:
+	try:
+		with Database.DB_Session_Scope() as DB:
+			query_variables = DB.query(Models.Variable).all()
 
-		# Create a new database session
-        with Database.DB_Session_Scope() as DB:
+			for variable in query_variables:
+				# Specify the field type directly in the attributes dictionary
+				attributes[variable.Variable_ID] = (Optional[float], Field(
+					default=None, 
+					description=variable.Variable_Description,
+					ge=variable.Variable_Min_Value if variable.Variable_Min_Value is not None else None,
+					le=variable.Variable_Max_Value if variable.Variable_Max_Value is not None else None
+				))
 
-			# Query all variables
-            Query_Variables = DB.query(Models.Variable).all()
-
-			# Iterate over the variables
-            for Variable in Query_Variables:
-
-                # Directly add type annotations and Field definitions in a tuple
-                Variable_List[Variable.Variable_ID] = (
-                    (Optional[float], Field(default=None, description=Variable.Variable_Description,
-                                            ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
-                                            le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None))
-                )
-
-        # Dynamically create a Pydantic model class
-        Dynamic_Model = type('DynamicModel', (CustomBaseModel,), {
-            var_id: field_type[1] for var_id, field_type in Variable_List.items()
-        })
-
-		# Return the dynamic model
-        return Dynamic_Model
+		# Dynamically create a Pydantic model class with proper type annotations
+		dynamic_model = type('DynamicModel', (CustomBaseModel,), {
+			var_id: value[0] for var_id, value in attributes.items()
+		})
+		return dynamic_model
 
 	# Handle Exceptions
-    except SQLAlchemyError as e:
+	except SQLAlchemyError as e:
 
 		# Raise Error
-        raise RuntimeError(f"Failed to create dynamic model due to database error: {str(e)}") from e
+		raise RuntimeError(f"Failed to create dynamic model due to database error: {str(e)}") from e
 
 	# Handle Exceptions
-    except Exception as e:
+	except Exception as e:
 
 		# Raise Error
-        raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
+		raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
 
 # Define Payload payload
 Dynamic_Payload = Create_Dynamic_Payload_Model()
