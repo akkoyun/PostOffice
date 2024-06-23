@@ -68,6 +68,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		# Message Status Code
 		Message_Status_Code = status.HTTP_400_BAD_REQUEST
 
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Error : {exc.errors()}")
+
 		# Message Content
 		Message_Content = {"Event": status.HTTP_400_BAD_REQUEST}
 
