@@ -485,7 +485,6 @@ class IoT(CustomBaseModel):
 	LAC: Annotated[Optional[int], Field(
 		description="Operator base station location.",
 		default=None,
-		default=Constants.IOT.DEFAULT_LAC,
 		json_schema_extra={
 			"example": 34124,
 			"minimum": Constants.IOT.LAC_MIN,
