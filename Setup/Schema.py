@@ -429,7 +429,7 @@ class IoT(CustomBaseModel):
 	def validate_conn_time(cls, value: Optional[float]) -> Optional[float]:
 
 		# Check Value
-		if value is not None or (value <= Constants.IOT.CONNECTION_TIME_MIN or value >= Constants.IOT.CONNECTION_TIME_MAX):
+		if value is not None and (value < Constants.IOT.CONNECTION_TIME_MIN or value > Constants.IOT.CONNECTION_TIME_MAX):
 
 			# Set Default Value
 			return Constants.IOT.DEFAULT_CONNECTION_TIME
