@@ -292,7 +292,7 @@ class Power(CustomBaseModel):
 
 	# Battery Charge State Validator
 	@field_validator('B_CS', mode='before')
-	def Battery_Charge_State_Validator(cls, value):
+	def validate_b_charge_state(cls, value: Optional[int]) -> Optional[int]:
 
 		# Convert integer to corresponding Enum value
 		if isinstance(value, int):
@@ -309,43 +309,44 @@ class Power(CustomBaseModel):
 		# Return Value
 		return value
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Define IoT
 class IoT(CustomBaseModel):
 
 	# GSM Module Firmware
-	Firmware: Optional[str] = Field(
+	Firmware: Annotated[Optional[str], Field(
 		description="Modem firmware version.",
-		default=Constants.IOT.DEFAULT_FIRMWARE,
+		default=None,
 		json_schema_extra={
 			"example": "13.00.007",
-			"pattern": Constants.IOT.FIRMWARE_PATTERN  # Optional: Ek olarak pattern'i belirtmek için
+			"pattern": Constants.IOT.FIRMWARE_PATTERN 
 		}
-	)
+	)]
 
 	# Firmware Validator
 	@field_validator('Firmware', mode='before')
-	def Firmware_Validator(cls, value):
+	def validate_firmware(cls, value: Optional[str]) -> Optional[str]:
 
 		# Check Value
 		if value is None or not re.match(Constants.IOT.FIRMWARE_PATTERN, value):
 
 			# Set Default Value
-			value = Constants.IOT.DEFAULT_FIRMWARE
+			return Constants.IOT.DEFAULT_FIRMWARE
 
 		# Return Value
 		return value
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	# Module IMEI Number
 	IMEI: Optional[str] = Field(
@@ -566,6 +567,15 @@ class IoT(CustomBaseModel):
 
 		# Return Value
 		return value
+
+
+
+
+
+
+
+
+
 
 # Define Device
 class Device(CustomBaseModel):
