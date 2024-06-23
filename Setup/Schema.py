@@ -181,7 +181,6 @@ class Power(CustomBaseModel):
 	# Full Battery Capacity
 	B_FC: Annotated[Optional[int], Field(
 		description="Full battery capacity.",
-		default=Constants.BATTERY.DEFAULT_CAPACITY,
 		json_schema_extra={
 			"example": 2000,
 			"minimum": Constants.BATTERY.CAPACITY_MIN,
