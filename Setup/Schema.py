@@ -616,7 +616,7 @@ def Create_Dynamic_Payload_Model():
 		raise RuntimeError("An unexpected error occurred while creating the dynamic model") from e
 
 # Define Payload payload
-Payload = Create_Dynamic_Payload_Model()
+Dynamic_Payload = Create_Dynamic_Payload_Model()
 
 # Define IoT RAW Data Base Model
 class Data_Pack(CustomBaseModel):
@@ -628,4 +628,4 @@ class Data_Pack(CustomBaseModel):
 	Device: Device
 
 	# Payload
-	Payload: Payload
+	Payload: Dynamic_Payload
