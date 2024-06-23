@@ -591,12 +591,13 @@ def Create_Dynamic_Payload_Model():
 
 				# Add Variable to List
 				Variable_List[Variable.Variable_ID] = (
-					Optional[float], Field(
-						#field_type=float,
-						#default=None, 
+					Optional[float],
+					Field(
+						default=None,
 						description=Variable.Variable_Description,
-						#ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
-						#le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None
+						ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
+						le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None,
+						json_schema_extra={'field_type': float}
 					)
 				)
 
