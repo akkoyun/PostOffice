@@ -45,7 +45,7 @@ class Info(CustomBaseModel):
 		return value
 
 	# Timestamp
-	Timestamp: Annotated[str, Field(
+	TimeStamp: Annotated[str, Field(
 		description="Measurement time stamp.",
 		json_schema_extra={
 			"example": "2023-10-29T08:28:32"
