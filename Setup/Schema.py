@@ -582,21 +582,16 @@ def Create_Dynamic_Payload_Model():
 			query_variables = DB.query(Models.Variable).all()
 
 			for variable in query_variables:
-				# Specify the field type directly in the attributes dictionary
-				field_info = Field(
+				# Specify the field type and additional properties directly
+				attributes[variable.Variable_ID] = (Optional[float], Field(
 					default=None, 
 					description=variable.Variable_Description,
 					ge=variable.Variable_Min_Value if variable.Variable_Min_Value is not None else None,
 					le=variable.Variable_Max_Value if variable.Variable_Max_Value is not None else None
-				)
-				# Add the type annotation directly with the field
-				attributes[variable.Variable_ID] = (Optional[float], field_info)
+				))
 
-		# Dynamically create a Pydantic model class with proper type annotations
-		dynamic_model = type('DynamicModel', (CustomBaseModel,), {
-			var_id: (typ, field) for var_id, (typ, field) in attributes.items()
-		})
-		return dynamic_model
+		# Create and return the dynamic Pydantic model class
+		return type('DynamicModel', (CustomBaseModel,), attributes)
 
 	# Handle Exceptions
 	except SQLAlchemyError as e:
