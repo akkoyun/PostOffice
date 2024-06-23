@@ -153,65 +153,70 @@ class Power(CustomBaseModel):
 		# Return Value
 		return value
 
-
-
-
-
-
-
-
-
-
-
-
-
 	# Average Battery Current
-	B_AC: float = Field(
+	B_AC: Annotated[float, Field(
 		description="Battery average current.",
-		default=Constants.BATTERY.DEFAULT_CURRENT,
 		json_schema_extra={
 			"example": 0.2,
 			"minimum": Constants.BATTERY.CURRENT_MIN,
 			"maximum": Constants.BATTERY.CURRENT_MAX
-		}
-	)
+		},
+        ge=Constants.BATTERY.CURRENT_MIN,
+        le=Constants.BATTERY.CURRENT_MAX		
+	)]
 
 	# Battery Average Current Validator
 	@field_validator('B_AC', mode='before')
-	def B_AC_Validator(cls, value):
+	def validate_b_ac(cls, value: float) -> float:
 
 		# Check Value
 		if value is None or not Constants.BATTERY.CURRENT_MIN <= value <= Constants.BATTERY.CURRENT_MAX:
 
-			# Set Default Value
-			value = Constants.BATTERY.DEFAULT_CURRENT
+			# Raise Error
+			raise ValueError(f"B_AC must be between {Constants.BATTERY.CURRENT_MIN} and {Constants.BATTERY.CURRENT_MAX}")
 
 		# Return Value
 		return value
 
 	# Full Battery Capacity
-	B_FC: Optional[int] = Field(
+	B_FC: Annotated[Optional[int], Field(
 		description="Full battery capacity.",
 		default=Constants.BATTERY.DEFAULT_CAPACITY,
 		json_schema_extra={
 			"example": 2000,
 			"minimum": Constants.BATTERY.CAPACITY_MIN,
 			"maximum": Constants.BATTERY.CAPACITY_MAX
-		}
-	)
+		},
+        ge=Constants.BATTERY.CAPACITY_MIN,
+        le=Constants.BATTERY.CAPACITY_MAX
+	)]
 
 	# Full Battery Capacity Validator
 	@field_validator('B_FC', mode='before')
-	def B_FC_Validator(cls, value):
+	def validate_b_fc(cls, value: Optional[int]) -> int:
 
 		# Check Value
 		if value is not None and not Constants.BATTERY.CAPACITY_MIN <= value <= Constants.BATTERY.CAPACITY_MAX:
 
 			# Set Default Value
-			value = Constants.BATTERY.DEFAULT_CAPACITY
+			return Constants.BATTERY.DEFAULT_CAPACITY
 
 		# Return Value
 		return value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	# Instant Battery Capacity
 	B_IC: Optional[int] = Field(
