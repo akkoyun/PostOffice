@@ -586,16 +586,16 @@ def Create_Dynamic_Payload_Model():
 			Query_Variables = DB.query(Models.Variable).all()
 
 			# Loop through Variables
-			for Variable in Query_Variables:
+			for Variable_ID, Variable_Description, Variable_Min_Value, Variable_Max_Value in Query_Variables:
 
 				# Add Variable to List
-				Variable_List[Variable.Variable_ID] = (
-					(Optional[float], Field(
+				Variable_List[Variable_ID] = (
+					Annotated[Optional[float], Field(
 						default=None, 
-						description=Variable.Variable_Description,
-						ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
-						le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None
-					))
+						description=Variable_Description,
+						ge=Variable_Min_Value if Variable_Min_Value is not None else None,
+						le=Variable_Max_Value if Variable_Max_Value is not None else None
+					)]
 				)
 
 		# Create Dynamic Fields
