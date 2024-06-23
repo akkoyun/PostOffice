@@ -473,7 +473,7 @@ class IoT(CustomBaseModel):
 	def validate_tac(cls, value: Optional[int]) -> Optional[int]:
 
 		# Check Value
-		if value is not None or (value < Constants.IOT.TAC_MIN or value > Constants.IOT.TAC_MAX):
+		if value is not None and (value < Constants.IOT.TAC_MIN or value > Constants.IOT.TAC_MAX):
 
 			# Set Default Value
 			return Constants.IOT.DEFAULT_TAC
@@ -558,16 +558,6 @@ class IoT(CustomBaseModel):
 			# If value is not valid, set to default
 			return Constants.IOT.WDS.UNKNOWN
 
-
-
-
-
-
-
-
-
-
-
 # Define Device
 class Device(CustomBaseModel):
 
@@ -576,6 +566,12 @@ class Device(CustomBaseModel):
 
 	# Device IoT
 	IoT: IoT
+
+
+
+
+
+
 
 # Define Payload payload
 class Payload(CustomBaseModel):
