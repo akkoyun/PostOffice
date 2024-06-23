@@ -572,6 +572,9 @@ class Device(CustomBaseModel):
 # Dynamic Payload Model Creator
 def Create_Dynamic_Payload_Model():
 
+	# Define Variables List
+	Variable_List = {}
+
 	try:
 
 		# Define DB
@@ -579,9 +582,6 @@ def Create_Dynamic_Payload_Model():
 
 			# Get All Variables
 			Query_Variables = DB.query(Models.Variable).all()
-
-			# Define Variables List
-			Variable_List = {}
 
 			# Loop through Variables
 			for Variable in Query_Variables:
@@ -599,11 +599,13 @@ def Create_Dynamic_Payload_Model():
 		# Create Dynamic Fields
 		return type('DynamicModel', (CustomBaseModel,), Variable_List)
 
+	# Handle Exceptions
 	except SQLAlchemyError as e:
 
 		# Handle database errors
 		raise RuntimeError("Failed to create dynamic model due to database error") from e
 
+	# Handle Exceptions
 	except Exception as e:
 
 		# Handle unexpected errors
