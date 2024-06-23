@@ -3,124 +3,11 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Library Includes
+from Setup import Constants
 from pydantic import BaseModel, Field, field_validator
-from typing import Optional
+from typing import Optional, Annotated
 from datetime import datetime
 import re
-from enum import IntEnum
-
-# Define Constants
-class Constants:
-
-	# Info Constants
-	class INFO:
-
-		# Command Constants
-		COMMAND_MIN_LENGTH = 3
-		COMMAND_MAX_LENGTH = 10
-		DEFAULT_COMMAND = "Unknown"
-		COMMAND_ALLOWED = ["Online", "Offline", "Timed", "Interrupt", "Alarm"]
-
-		# ID Constants
-		ID_PATTERN = r'^[0-9A-F]{10,16}$'
-		DEFAULT_ID = "0000000000000000"
-
-		# Firmware Constants
-		FIRMWARE_PATTERN = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{2}$'
-		DEFAULT_FIRMWARE = "00.00.00"
-
-	# Define Battery Constants
-	class BATTERY:
-
-		# Define Battery Charge State
-		class CHARGE_STATE(IntEnum):
-			DISCHARGE = 0
-			PRE_CHARGE = 1
-			FAST_CHARGE = 2
-			CHARGE_DONE = 3
-			UNKNOWN = 9
-
-		# Battery Voltage Constants
-		VOLTAGE_MIN = 0.0
-		VOLTAGE_MAX = 6.0
-		DEFAULT_VOLTAGE = 0.0
-
-		# Battery Current Constants
-		CURRENT_MIN = -5000.0
-		CURRENT_MAX = 5000.0
-		DEFAULT_CURRENT = 0.0
-
-		# Full Battery Capacity Constants
-		CAPACITY_MIN = 0
-		CAPACITY_MAX = 10000
-		DEFAULT_CAPACITY = 0
-
-		# Instant Battery Capacity Constants
-		INSTANT_CAPACITY_MIN = 0
-		INSTANT_CAPACITY_MAX = 10000
-		DEFAULT_INSTANT_CAPACITY = 0
-
-		# Battery State of Charge Constants
-		SOC_MIN = 0.0
-		SOC_MAX = 100.0
-		DEFAULT_SOC = 0.0
-
-		# Battery Temperature Constants
-		TEMPERATURE_MIN = -50.0
-		TEMPERATURE_MAX = 100.0
-		DEFAULT_TEMPERATURE = 0.0
-
-	# Define IoT Constants
-	class IOT:
-
-		# Define WDS Constants
-		class WDS(IntEnum):
-			CONNECTION_UNKNOWN = 0
-			CONNECTION_2G = 1
-			CONNECTION_3G = 2
-			CONNECTION_4G = 3
-			CONNECTION_TDSCDMA = 4
-
-		# Firmware Version Constants
-		FIRMWARE_PATTERN = r'^[0-9]{2}\.[0-9]{2}\.[0-9]{3}$'
-		DEFAULT_FIRMWARE = "00.00.000"
-
-		# IMEI Number Constants
-		IMEI_PATTERN = r'^[0-9]{10,15}$'
-		DEFAULT_IMEI = "000000000000000"
-		IMEI_MIN_LENGTH = 10
-		IMEI_MAX_LENGTH = 15
-
-		# ICCID Number Constants
-		ICCID_MIN_LENGTH = 10
-		ICCID_MAX_LENGTH = 20
-		ICCID_PATTERN = r'^[0-9]{10,20}$'
-		DEFAULT_ICCID = "00000000000000000000"
-
-		# RSSI Signal Level Constants
-		RSSI_MIN = -100
-		RSSI_MAX = 100
-		DEFAULT_RSSI = 0
-
-		# Connection Time Constants
-		CONNECTION_TIME_MIN = 0.0
-		CONNECTION_TIME_MAX = 100000.0
-		DEFAULT_CONNECTION_TIME = 0.0
-
-		# TAC Constants
-		TAC_MIN = 0
-		TAC_MAX = 65535
-		DEFAULT_TAC = 0
-
-		# LAC Constants
-		LAC_MIN = 0
-		LAC_MAX = 65535
-		DEFAULT_LAC = 0
-
-		# Cell ID Constants
-		CELL_ID_MIN = 0
-		CELL_ID_MAX = 65535
-		DEFAULT_CELL_ID = 0
 
 # Define IoT Data Base Model
 
@@ -134,92 +21,106 @@ class CustomBaseModel(BaseModel):
 class Info(CustomBaseModel):
 
 	# Define Command
-	Command: str = Field(
+	Command: Annotated[str, Field(
 		description="Pack command.",
 		default=Constants.INFO.DEFAULT_COMMAND,
 		json_schema_extra={
-			"examples": ["Online", "Offline", "Timed", "Interrupt", "Alarm"],
+			"examples": Constants.INFO.COMMAND_ALLOWED,
 			"min_length": Constants.INFO.COMMAND_MIN_LENGTH,
 			"max_length": Constants.INFO.COMMAND_MAX_LENGTH
 		}
-	)
+	)]
 
 	# Command Validator
 	@field_validator("Command", mode='before')
-	def Command_Validator(cls, command):
-		
+	def validate_command(cls, value: str) -> str:
+
+		# Check Command
+		if value not in Constants.INFO.COMMAND_ALLOWED:
+
+			# Set Default Value
+			return Constants.INFO.DEFAULT_COMMAND
+
 		# Return Command
-		return command if command in Constants.INFO.COMMAND_ALLOWED else Constants.INFO.DEFAULT_COMMAND
+		return value
 
 	# Timestamp
-	TimeStamp: str = Field(
-		...,
+	Timestamp: Annotated[str, Field(
 		description="Measurement time stamp.",
-		json_schema_extra={"example": "2022-07-19T08:28:32"}
-	)
+		json_schema_extra={
+			"example": "2023-10-29T08:28:32"
+		}
+	)]
 
 	# Timestamp Validator
 	@field_validator('TimeStamp', mode='before')
-	def TimeStamp_Validator(cls, v):
+	def validate_timestamp(cls, value: str) -> str:
 
+		# Try to parse the timestamp
 		try:
-			# Check for Z
-			if 'Z' in v:
-				v = v.replace('Z', '+00:00')
 
-			# Clean Timezone
-			v = re.sub(r'\+\d{2}:\d{2}', '', v)
+			# Check if 'Z' is in the value
+			if 'Z' in value:
 
-			# Parse Date Time
-			Parsed_TimeStamp = datetime.fromisoformat(v)
+				# Replace 'Z' with '+00:00'
+				value = value.replace('Z', '+00:00')
 
-			# Return Value
-			return Parsed_TimeStamp.strftime('%Y-%m-%dT%H:%M:%S')
+			# Check if there is a timezone offset
+			value = re.sub(r'\+\d{2}:\d{2}', '', value)
 
+			# Parse the timestamp
+			parsed_timestamp = datetime.fromisoformat(value)
+
+			# Return the formatted timestamp
+			return parsed_timestamp.strftime('%Y-%m-%dT%H:%M:%S')
+
+		# If the value is not a valid timestamp
 		except ValueError:
 
-			# Set Default Value
+			# Return the default timestamp
 			return "2024-01-01T00:00:00"
 
 	# Device ID
-	ID: str = Field(
+	ID: Annotated[str, Field(
 		description="IoT device unique ID.",
 		default=Constants.INFO.DEFAULT_ID,
-		json_schema_extra={"example": "8B00000000000000"}
-	)
+		json_schema_extra={
+			"example": "8B00000000000000"
+		}
+	)]
 
 	# Device ID Validator
 	@field_validator('ID', mode='before')
-	def ID_Validator(cls, id_value):
+	def validate_id(cls, value: str) -> str:
 
 		# Check ID
-		if not re.match(Constants.INFO.ID_PATTERN, id_value):
+		if not re.match(Constants.INFO.ID_PATTERN, value):
 
 			# Set Default Value
-			id_value = Constants.INFO.DEFAULT_ID
+			return Constants.INFO.DEFAULT_ID
 
 		# Return ID
-		return id_value
+		return value
 
 	# Device Firmware Version
-	Firmware: Optional[str] = Field(
+	Firmware: Annotated[Optional[str], Field(
 		description="Firmware version of device.",
 		default=Constants.INFO.DEFAULT_FIRMWARE,
 		json_schema_extra={
 			"example": "01.00.00",
 			"pattern": Constants.INFO.FIRMWARE_PATTERN
 		}
-	)
+	)]
 
 	# Firmware Validator
 	@field_validator('Firmware', mode='before')
-	def Firmware_Validator(cls, value):
+	def validate_firmware(cls, value: Optional[str]) -> str:
 
 		# Check Value
-		if not re.match(Constants.INFO.FIRMWARE_PATTERN, value):
+		if value is None or not re.match(Constants.INFO.FIRMWARE_PATTERN, value):
 
 			# Set Default Value
-			value = Constants.INFO.DEFAULT_FIRMWARE
+			return Constants.INFO.DEFAULT_FIRMWARE
 
 		# Return Value
 		return value
@@ -228,28 +129,42 @@ class Info(CustomBaseModel):
 class Power(CustomBaseModel):
 
 	# Instant Battery Voltage
-	B_IV: float = Field(
+	B_IV: Annotated[float, Field(
 		description="Battery instant voltage.",
 		default=Constants.BATTERY.DEFAULT_VOLTAGE,
 		json_schema_extra={
 			"example": 3.8,
 			"minimum": Constants.BATTERY.VOLTAGE_MIN,
 			"maximum": Constants.BATTERY.VOLTAGE_MAX
-		}
-	)
+		},
+        ge=Constants.BATTERY.VOLTAGE_MIN,
+        le=Constants.BATTERY.VOLTAGE_MAX		
+	)]
 
 	# Battery Instant Voltage Validator
 	@field_validator('B_IV', mode='before')
-	def B_IV_Validator(cls, value):
+	def validate_b_iv(cls, value: float) -> float:
 
 		# Check Value
 		if value is None or not Constants.BATTERY.VOLTAGE_MIN <= value <= Constants.BATTERY.VOLTAGE_MAX:
 
-			# Set Default Value
-			value = Constants.BATTERY.DEFAULT_VOLTAGE
+			# Raise Error
+			raise ValueError(f"B_IV must be between {Constants.BATTERY.VOLTAGE_MIN} and {Constants.BATTERY.VOLTAGE_MAX}")
 
 		# Return Value
 		return value
+
+
+
+
+
+
+
+
+
+
+
+
 
 	# Average Battery Current
 	B_AC: float = Field(
@@ -397,6 +312,12 @@ class Power(CustomBaseModel):
 
 		# Return Value
 		return value
+
+
+
+
+
+
 
 # Define IoT
 class IoT(CustomBaseModel):
