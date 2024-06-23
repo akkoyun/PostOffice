@@ -403,7 +403,7 @@ class IoT(CustomBaseModel):
 	def validate_rssi(cls, value: Optional[int]) -> Optional[int]:
 
 		# Check Value
-		if value is None or value < Constants.IOT.RSSI_MIN or value > Constants.IOT.RSSI_MAX:
+		if value is not None and (value <= Constants.IOT.RSSI_MIN or value >= Constants.IOT.RSSI_MAX):
 
 			# Set Default Value
 			return Constants.IOT.DEFAULT_RSSI
@@ -429,7 +429,7 @@ class IoT(CustomBaseModel):
 	def validate_conn_time(cls, value: Optional[float]) -> Optional[float]:
 
 		# Check Value
-		if value is None or value < Constants.IOT.CONNECTION_TIME_MIN or value > Constants.IOT.CONNECTION_TIME_MAX:
+		if value is not None or (value <= Constants.IOT.CONNECTION_TIME_MIN or value >= Constants.IOT.CONNECTION_TIME_MAX):
 
 			# Set Default Value
 			return Constants.IOT.DEFAULT_CONNECTION_TIME
@@ -437,138 +437,128 @@ class IoT(CustomBaseModel):
 		# Return Value
 		return value
 
-
-
-
-
-
-
-
-
-
-
-
 	# MCC
-	MCC: Optional[int] = Field(
+	MCC: Annotated[Optional[int], Field(
 		description="Mobile country code.",
-		default=286,
+		default=286, # Turkey
 		json_schema_extra={
 			"example": 286
 		}
-	)
+	)]
 
 	# MNC
-	MNC: Optional[int] = Field(
+	MNC: Annotated[Optional[int], Field(
 		description="Mobile network code.",
-		default=1,
+		default=1, # Turkcell
 		json_schema_extra={
 			"example": 1
 		}
-	)
+	)]
 
 	# TAC
-	TAC: Optional[int] = Field(
+	TAC: Annotated[Optional[int], Field(
 		description="Operator type allocation code.",
-		default=Constants.IOT.DEFAULT_TAC,
+		default=None,
 		json_schema_extra={
 			"example": 34124,
 			"minimum": Constants.IOT.TAC_MIN,
 			"maximum": Constants.IOT.TAC_MAX
-		}
-	)
+		},
+		ge=Constants.IOT.TAC_MIN,
+		le=Constants.IOT.TAC_MAX
+	)]
 
 	# TAC Validator
 	@field_validator("TAC", mode='before')
-	def TAC_Validator(cls, value):
+	def validate_tac(cls, value: Optional[int]) -> Optional[int]:
 
 		# Check Value
-		if value is None or value < Constants.IOT.TAC_MIN or value > Constants.IOT.TAC_MAX:
+		if value is not None or (value < Constants.IOT.TAC_MIN or value > Constants.IOT.TAC_MAX):
 
 			# Set Default Value
-			value = Constants.IOT.DEFAULT_TAC
+			return Constants.IOT.DEFAULT_TAC
 
 		# Return Value
 		return value
 
 	# LAC
-	LAC: Optional[int] = Field(
+	LAC: Annotated[Optional[int], Field(
 		description="Operator base station location.",
+		default=None,
 		default=Constants.IOT.DEFAULT_LAC,
 		json_schema_extra={
 			"example": 34124,
 			"minimum": Constants.IOT.LAC_MIN,
 			"maximum": Constants.IOT.LAC_MAX
-		}
-	)
+		},
+		ge=Constants.IOT.LAC_MIN,
+		le=Constants.IOT.LAC_MAX
+	)]
 
 	# LAC Validator
 	@field_validator("LAC", mode='before')
-	def LAC_Validator(cls, value):
+	def validate_lac(cls, value: Optional[int]) -> Optional[int]:
 
 		# Check Value
-		if value is None:
-			return value
-
-		# Check Value
-		if value < Constants.IOT.LAC_MIN or value > Constants.IOT.LAC_MAX:
+		if value is not None and (value < Constants.IOT.LAC_MIN or value > Constants.IOT.LAC_MAX):
 
 			# Set Default Value
-			value = Constants.IOT.DEFAULT_LAC
+			return Constants.IOT.DEFAULT_LAC
 
 		# Return Value
 		return value
 
 	# Cell ID
-	Cell_ID: Optional[int] = Field(
+	Cell_ID: Annotated[Optional[int], Field(
 		description="Operator base station cell ID.",
-		default=Constants.IOT.DEFAULT_CELL_ID,
+		default=None,
 		json_schema_extra={
 			"example": 34124,
 			"minimum": Constants.IOT.CELL_ID_MIN,
 			"maximum": Constants.IOT.CELL_ID_MAX
-		}
-	)
+		},
+		ge=Constants.IOT.CELL_ID_MIN,
+		le=Constants.IOT.CELL_ID_MAX
+	)]
 
 	# Cell ID Validator
 	@field_validator("Cell_ID", mode='before')
-	def Cell_ID_Validator(cls, value):
+	def validate_cell_id(cls, value: Optional[int]) -> Optional[int]:
 
 		# Check Value
-		if value is None or value < Constants.IOT.CELL_ID_MIN or value > Constants.IOT.CELL_ID_MAX:
+		if value is not None and (value < Constants.IOT.CELL_ID_MIN or value > Constants.IOT.CELL_ID_MAX):
 
 			# Set Default Value
-			value = Constants.IOT.DEFAULT_CELL_ID
+			return Constants.IOT.DEFAULT_CELL_ID
 
 		# Return Value
 		return value
 
 	# WDS
-	WDS: Optional[int] = Field(
+	WDS: Annotated[Constants.IOT.WDS, Field(
 		description="IoT WDS type.",
-		default=Constants.IOT.WDS.CONNECTION_UNKNOWN,
+		default=None,
 		json_schema_extra={
 			"example": Constants.IOT.WDS.CONNECTION_4G
 		}
-	)
+	)]
 
 	# WDS Validator
 	@field_validator('WDS', mode='before')
-	def WDS_Validator(cls, value):
+	def validate_wds(cls, value: Optional[int]) -> Optional[int]:
 
 		# Convert integer to corresponding Enum value
 		if isinstance(value, int):
 
 			# Convert to Enum
-			value = Constants.IOT.WDS(value)
+			return Constants.IOT.WDS(value)
 
 		# Check Value
-		elif not isinstance(value, Constants.IOT.WDS):
+		else:
 
 			# If value is not valid, set to default
-			value = Constants.IOT.WDS.UNKNOWN
+			return Constants.IOT.WDS.UNKNOWN
 
-		# Return Value
-		return value
 
 
 
