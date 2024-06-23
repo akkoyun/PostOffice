@@ -15,9 +15,11 @@ import re
 
 # Custom Base Model
 class CustomBaseModel(BaseModel):
-    def model_dump(self, **kwargs):
-        kwargs['exclude_none'] = True
-        return super().model_dump(**kwargs)
+	def model_dump(self, **kwargs):
+		kwargs['exclude_none'] = True
+		return super().model_dump(**kwargs)
+	class Config:
+		extra = 'ignore'
 
 # Define Info
 class Info(CustomBaseModel):
@@ -588,12 +590,12 @@ def Create_Dynamic_Payload_Model():
 
 				# Add Variable to List
 				Variable_List[Variable.Variable_ID] = (
-					Optional[float], Field(
-						None, 
+					(Optional[float], Field(
+						default=None, 
 						description=Variable.Variable_Description,
-						#ge=Variable.Variable_Min_Value,
-						#le=Variable.Variable_Max_Value
-					)
+						ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
+						le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None
+					))
 				)
 
 		# Create Dynamic Fields
