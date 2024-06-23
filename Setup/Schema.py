@@ -8,7 +8,7 @@ from Setup import Models, Database
 from Functions import Log
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy.exc import SQLAlchemyError
-from typing import Optional, Annotated, Type
+from typing import Optional, Annotated, Type, Dict, Tuple, Any
 from datetime import datetime
 import re
 
@@ -575,36 +575,35 @@ class Device(CustomBaseModel):
 # Dynamic Payload Model Creator
 def Create_Dynamic_Payload_Model():
 
-	# Define Variable List
-    variable_list = {}
+	# Variable List
+    Variable_List: Dict[str, Tuple[Type, Any]] = {}
 
 	# Try to create the dynamic model
     try:
 
+		# Create a new database session
         with Database.DB_Session_Scope() as DB:
 
-			# Query Variables
-            query_variables = DB.query(Models.Variable).all()
+			# Query all variables
+            Query_Variables = DB.query(Models.Variable).all()
 
-			# Iterate over the query results
-            for variable in query_variables:
+			# Iterate over the variables
+            for Variable in Query_Variables:
 
-                # Define fields directly in the dictionary with type annotations
-                field_info = Field(
-                    default=None,
-                    description=variable.Variable_Description,
-                    ge=variable.Variable_Min_Value if variable.Variable_Min_Value is not None else None,
-                    le=variable.Variable_Max_Value if variable.Variable_Max_Value is not None else None
+                # Directly add type annotations and Field definitions in a tuple
+                Variable_List[Variable.Variable_ID] = (
+                    (Optional[float], Field(default=None, description=Variable.Variable_Description,
+                                            ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
+                                            le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None))
                 )
 
-				# Add the variable to the variable list
-                variable_list[variable.Variable_ID] = (Optional[float], field_info)
-
-        # Create the dynamic model class with fields
-        dynamic_model: Type[BaseModel] = type('DynamicModel', (CustomBaseModel,), variable_list)
+        # Dynamically create a Pydantic model class
+        Dynamic_Model = type('DynamicModel', (CustomBaseModel,), {
+            var_id: field_type[1] for var_id, field_type in Variable_List.items()
+        })
 
 		# Return the dynamic model
-        return dynamic_model
+        return Dynamic_Model
 
 	# Handle Exceptions
     except SQLAlchemyError as e:
