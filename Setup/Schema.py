@@ -192,10 +192,10 @@ class Power(CustomBaseModel):
 
 	# Full Battery Capacity Validator
 	@field_validator('B_FC', mode='before')
-	def validate_b_fc(cls, value: Optional[int]) -> int:
+	def validate_b_fc(cls, value: Optional[int]) -> Optional[int]:
 
 		# Check Value
-		if value is not Constants.BATTERY.CAPACITY_MIN <= value <= Constants.BATTERY.CAPACITY_MAX:
+		if value is not None and not Constants.BATTERY.CAPACITY_MIN <= value <= Constants.BATTERY.CAPACITY_MAX:
 
 			# Set Default Value
 			return Constants.BATTERY.DEFAULT_CAPACITY
