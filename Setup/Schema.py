@@ -598,6 +598,8 @@ def Create_Dynamic_Payload_Model():
 					)]
 				)
 
+		print(Variable_List)
+
 		# Create Dynamic Fields
 		return type('DynamicModel', (CustomBaseModel,), Variable_List)
 
