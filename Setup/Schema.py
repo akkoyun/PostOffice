@@ -195,7 +195,7 @@ class Power(CustomBaseModel):
 	def validate_b_fc(cls, value: Optional[int]) -> int:
 
 		# Check Value
-		if value is not None and not Constants.BATTERY.CAPACITY_MIN <= value <= Constants.BATTERY.CAPACITY_MAX:
+		if value is not Constants.BATTERY.CAPACITY_MIN <= value <= Constants.BATTERY.CAPACITY_MAX:
 
 			# Set Default Value
 			return Constants.BATTERY.DEFAULT_CAPACITY
