@@ -272,6 +272,8 @@ class Variable(Base):
 	Variable_ID = Column(String(30), primary_key=True, unique=True, nullable=False)
 	Variable_Description = Column(String(255), nullable=False)
 	Variable_Unit = Column(String(10), nullable=True)
+	Variable_Min_Value = Column(Float, nullable=True)
+	Variable_Max_Value = Column(Float, nullable=True)
 	Segment_ID = Column(Integer, ForeignKey("Data_Segment.Segment_ID"), nullable=False)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
