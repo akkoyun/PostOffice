@@ -3,7 +3,7 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Library Includes
-from Setup import Constants
+from Setup.Definitions import Constants
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional, Annotated
 from datetime import datetime
@@ -131,7 +131,6 @@ class Power(CustomBaseModel):
 	# Instant Battery Voltage
 	B_IV: Annotated[float, Field(
 		description="Battery instant voltage.",
-		default=Constants.BATTERY.DEFAULT_VOLTAGE,
 		json_schema_extra={
 			"example": 3.8,
 			"minimum": Constants.BATTERY.VOLTAGE_MIN,
