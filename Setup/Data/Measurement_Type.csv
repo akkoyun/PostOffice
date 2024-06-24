@@ -100,7 +100,7 @@ SWP5,Soil Water Potential 60 cm,kPa,5
 SWP6,Soil Water Potential 70 cm,kPa,5
 SWP7,Soil Water Potential 80 cm,kPa,5
 SWP8,Soil Water Potential 90 cm,kPa,5
-R, Rain Tip Counter,-,5
+R,Rain Tip Counter,-,5
 RA,Rain Accumulation,mm,5
 WS,Wind Speed,m/Sn,5
 WS1,Wind Speed Sensor 1,m/Sn,5
@@ -453,8 +453,8 @@ MAX_F_MIN,Frequency alarm lower limit,-,7
 MAX_F_MAX,Frequency alarm upper limit,-,7
 MAX_BUCKET_L,Energy bucket low word,-,7
 MAX_BUCKET_H,Energy bucket high word,-,7
-V_Set_Min,Voltage Min set,V,7
-V_Set_Max,Voltage Max set,V,7
+SET_MIN_V,Voltage Min set,V,7
+SET_MAX_V,Voltage Max set,V,7
 MAX_SYSSTAT,System status register,-,7
 Firmware_ID,FOTA ID,-,9
 FOTA_Download_Status,FOTA Download Time,-,9

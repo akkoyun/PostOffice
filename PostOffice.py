@@ -6,6 +6,8 @@ from fastapi import FastAPI, Request, status, BackgroundTasks
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
 import pytz
 
@@ -21,6 +23,10 @@ FastAPI_Tags = [
 	{
 		"name": "Hardware_Post",
 		"description": "This endpoint is used to receive data from IoT devices."
+	},
+	{
+		"name": "SIM Admin Panel",
+		"description": "This endpoint is used to manage SIM cards."
 	}
 ]
 
@@ -115,6 +121,35 @@ def Main_Root(request: Request):
 
 	# Return the HTML content
 	return HTMLResponse(content=Rendered_HTML)
+
+# SIM List Web Page
+@PostOffice.get("/SIM", tags=["SIM Admin Panel"], status_code=status.HTTP_200_OK)
+def SIM_List(request: Request):
+
+	# Define Static Files
+	PostOffice.mount("/Templates/SIM_View", StaticFiles(directory="/Templates/SIM_View"), name="SIM List")
+
+	# Define Template
+	SIM_Template = Jinja2Templates(directory="Templates/SIM_View")
+
+	# Render Template
+	sim_data = [
+		{ "ICCID": "899001190805082550", "Operator": "Turkcell", "GSMNumber": "5392048908", "Status": "Active", "CreateTime": "2024-06-12 13:18:35" },
+		{ "ICCID": "899001190805082553", "Operator": "Turkcell", "GSMNumber": "5392048916", "Status": "Active", "CreateTime": "2024-06-12 13:18:35" },
+	]
+
+	# Return Template
+	return SIM_Template.TemplateResponse("index.html", {"request": request, "sim_data": sim_data})
+
+
+
+
+
+
+
+
+
+
 
 # IoT Post Method
 @PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_201_CREATED)
