@@ -11,7 +11,55 @@ from typing import Optional, Annotated
 from datetime import datetime
 import re
 
-# Define IoT Data Base Model
+# Dynamic Model Creator
+def Create_Dynamic_Model(Segment_ID: int = 0):
+
+	# Define Variables List
+	Felds = {}
+	Annotations = {}
+
+	# Try to open a database session
+	try:
+
+		# Open a database session
+		with Database.DB_Session_Scope() as DB:
+
+			# Query all data types
+			if Segment_ID == 0:
+				Query_Variables = DB.query(Models.Variable).all()
+			else:
+				Query_Variables = DB.query(Models.Variable).filter(Models.Variable.Segment_ID == Segment_ID).all()
+
+			# Get Data Type List
+			for Variable in Query_Variables:
+
+				# Field definition
+				field_info = Field(
+					default=None, 
+					description=Variable.Variable_Description,
+					ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
+					le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None
+				)
+
+				# Assign Field and Type annotations
+				Felds[Variable.Variable_ID] = field_info
+				Annotations[Variable.Variable_ID] = Optional[float]
+
+		# Create Dynamic Model with type and annotations
+		return type('DynamicModel', (CustomBaseModel,), {'__annotations__': Annotations, **Felds})
+
+	# Handle Exceptions
+	except SQLAlchemyError as e:
+
+		# Raise Error
+		raise RuntimeError(f"Failed to create dynamic model due to database error: {str(e)}") from e
+
+	# Handle Exceptions
+	except Exception as e:
+
+		# Raise Error
+		raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
+
 
 # Custom Base Model
 class CustomBaseModel(BaseModel):
@@ -128,52 +176,6 @@ class Info(CustomBaseModel):
 
 		# Return Value
 		return value
-
-# Dynamic Model Creator
-def Create_Dynamic_Model(Segment_ID: int):
-
-	# Define Variables List
-	Felds = {}
-	Annotations = {}
-
-	# Try to open a database session
-	try:
-
-		# Open a database session
-		with Database.DB_Session_Scope() as DB:
-
-			# Query all data types
-			Query_Variables = DB.query(Models.Variable).filter(Models.Variable.Segment_ID == Segment_ID).all()
-
-			# Get Data Type List
-			for Variable in Query_Variables:
-
-				# Field definition
-				field_info = Field(
-					default=None, 
-					description=Variable.Variable_Description,
-					ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
-					le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None
-				)
-
-				# Assign Field and Type annotations
-				Felds[Variable.Variable_ID] = field_info
-				Annotations[Variable.Variable_ID] = Optional[float]
-
-		# Create Dynamic Model with type and annotations
-		return type('DynamicModel', (CustomBaseModel,), {'__annotations__': Annotations, **Felds})
-
-	# Handle Exceptions
-	except SQLAlchemyError as e:
-
-		# Raise Error
-		raise RuntimeError(f"Failed to create dynamic model due to database error: {str(e)}") from e
-
-	# Handle Exceptions
-	except Exception as e:
-
-		# Raise Error
-		raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
 
 # Define IoT
 class IoT(CustomBaseModel):
@@ -436,54 +438,8 @@ class Device(CustomBaseModel):
 	# Device IoT
 	IoT: IoT
 
-# Dynamic Payload Model Creator
-def Create_Dynamic_Payload_Model():
-
-	# Define Variables List
-	Felds = {}
-	Annotations = {}
-
-	# Try to open a database session
-	try:
-
-		# Open a database session
-		with Database.DB_Session_Scope() as DB:
-
-			# Query all data types
-			Query_Variables = DB.query(Models.Variable).all()
-
-			# Get Data Type List
-			for Variable in Query_Variables:
-
-				# Field definition
-				field_info = Field(
-					default=None, 
-					description=Variable.Variable_Description,
-					ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
-					le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None
-				)
-
-				# Assign Field and Type annotations
-				Felds[Variable.Variable_ID] = field_info
-				Annotations[Variable.Variable_ID] = Optional[float]
-
-		# Create Dynamic Model with type and annotations
-		return type('DynamicModel', (CustomBaseModel,), {'__annotations__': Annotations, **Felds})
-
-	# Handle Exceptions
-	except SQLAlchemyError as e:
-
-		# Raise Error
-		raise RuntimeError(f"Failed to create dynamic model due to database error: {str(e)}") from e
-
-	# Handle Exceptions
-	except Exception as e:
-
-		# Raise Error
-		raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
-
 # Define Payload payload
-Dynamic_Payload = Create_Dynamic_Payload_Model()
+Dynamic_Payload = Create_Dynamic_Model(0)
 
 # Define IoT RAW Data Base Model
 class Data_Pack(CustomBaseModel):
