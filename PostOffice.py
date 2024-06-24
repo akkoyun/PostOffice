@@ -1,5 +1,5 @@
 # Library Imports
-from Setup import Database, Schema
+from Setup import Database, Schema, Models
 from Setup.Config import APP_Settings
 from Functions import Log, FastApi_Functions, Database_Functions, Kafka
 from fastapi import FastAPI, Request, status, BackgroundTasks
@@ -125,6 +125,8 @@ def Main_Root(request: Request):
 
 
 
+
+
 # Define Static Files
 PostOffice.mount("/Templates/SIM_View", StaticFiles(directory="Templates/SIM_View"), name="Templates/SIM_View")
 
@@ -135,11 +137,21 @@ SIM_Template = Jinja2Templates(directory="Templates/SIM_View")
 @PostOffice.get("/SIM", tags=["SIM Admin Panel"], status_code=status.HTTP_200_OK)
 def SIM_List(request: Request):
 
-	# Render Template
-	sim_data = [
-		{ "ICCID": "899001190805082550", "Operator": "Turkcell", "GSMNumber": "5392048908", "Status": "Active", "CreateTime": "2024-06-12 13:18:35" },
-		{ "ICCID": "899001190805082553", "Operator": "Turkcell", "GSMNumber": "5392048916", "Status": "Active", "CreateTime": "2024-06-12 13:18:35" },
-	]
+	with Database.SessionLocal() as DB_Module:
+
+		# Query ICCID
+		SIM_Query = (DB_Module.query(Models.SIM).all())
+
+	# Set SIM Data
+	sim_data = []
+	for sim in SIM_Query:
+		sim_dict = {
+			"ICCID": sim.ICCID,
+			"Operator": sim.Operator_ID,
+			"GSMNumber": sim.GSM_Number,
+			"Status": sim.Status,
+			"CreateTime": sim.Create_Time.astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
+		}
 
 	# Return Template
 	return SIM_Template.TemplateResponse("index.html", {"request": request, "sim_data": sim_data})
