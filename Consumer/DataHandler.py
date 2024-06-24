@@ -118,7 +118,7 @@ try:
 
 			# Check for SIM
 			Stream_Data.iccid = ICCID_Functions.Verify_and_Strip_ICCID(
-				Stream_Data.message.Device.IoT.ICCID
+				Stream_Data.message.Info.ICCID
 			)
 
 			# Get or Create SIM Existence
@@ -137,7 +137,7 @@ try:
 			Stream_Data.new_device = Database_Functions.Get_or_Create_Device(
 				Stream_Data.message.Info.ID,
 				Stream_Data.device_firmware_id,
-				Stream_Data.message.Device.IoT.IMEI,
+				Stream_Data.message.Info.IMEI,
 				Headers['Device_IP'],
 				Headers['Device_Time']
 			)
@@ -157,7 +157,7 @@ try:
 			Log.Terminal_Log('INFO', f'Stream ID   : {Stream_Data.stream_id} - {Headers["Command"]}')
 			Log.Terminal_Log('INFO', f'Device ID   : {Stream_Data.message.Info.ID} - {Stream_Data.message.Info.Firmware} - {Stream_Data.new_device}')
 			Log.Terminal_Log('INFO', f'ICCID       : {Stream_Data.iccid} - {Stream_Data.sim_id}')
-			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Device.IoT.IMEI} - {Stream_Data.message.Device.IoT.Firmware} - {Stream_Data.new_modem}')
+			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Info.IMEI} - {Stream_Data.new_modem}')
 
 			# Define Record Count
 			Power_Record_Count = 0
