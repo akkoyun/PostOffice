@@ -161,9 +161,6 @@ try:
 			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Device.IoT.IMEI} - {Stream_Data.message.Device.IoT.Firmware} - {Stream_Data.new_modem}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
-			Log.Terminal_Log('INFO', f'Message	 : {Stream_Data.message}')
-			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
-
 			# Record  Measurements
 			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
 			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)

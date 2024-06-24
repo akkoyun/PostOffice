@@ -122,10 +122,10 @@ def Main_Root(request: Request):
 async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: BackgroundTasks):
 
 
-	try:
-		Payload_Instance = Schema.Dynamic_Payload.parse_obj(Data.Payload.dict())
-	except ValidationError as e:
-		raise HTTPException(status_code=400, detail=f"Payload validation error: {str(e)}")
+#	try:
+#		Payload_Instance = Schema.Dynamic_Payload.parse_obj(Data.Payload.dict())
+#	except ValidationError as e:
+#		raise HTTPException(status_code=400, detail=f"Payload validation error: {str(e)}")
 
 
 
