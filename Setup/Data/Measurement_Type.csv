@@ -1,6 +1,4 @@
 Variable_ID,Variable_Description,Variable_Unit,Segment_ID
-PCB_T,PCB Temperature,C,1
-PCB_H,PCB Humidity,%,1
 STATUS,Status Register,-,1
 PUBLISH,Publish Register,-,1
 STOP,Stop Register,-,1
@@ -37,6 +35,8 @@ H_Acc,Horizontal Accuracy,m,4
 V_Acc,Vertical Accuracy,m,4
 P_Acc,Position Accuracy,m,4
 Fix,Position Fix Type,-,4
+PCB_T,PCB Temperature,C,5
+PCB_H,PCB Humidity,%,5
 AT,Air Temperature,C,5
 AT_Daily,Air Temperature Daily Average,C,5
 AT_FL,Feel Temperature,C,5
@@ -180,7 +180,7 @@ WFOUT_CNT,Water Flow OUT Data Count,-,6
 WTIN_CNT,Water Temperature IN Data Count,-,6
 WTOUT_CNT,Water Temperature OUT Data Count,-,6
 WL_CNT,Water Level Data Count,-,6
-T_Pump,Pump Work Time,Min,7
+T_PUMP,Pump Work Time,Min,7
 V,Instant Voltage,V,7
 V_R,Phase R Instant Voltage,V,7
 V_S,Phase S Instant Voltage,V,7

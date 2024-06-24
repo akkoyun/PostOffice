@@ -62,7 +62,6 @@ class Modem(Base):
 	IMEI = Column(String(20), primary_key=True, unique=True, nullable=False)
 	Model_ID = Column(Integer, ForeignKey("Model.Model_ID", ondelete="CASCADE"), nullable=False)
 	Manufacturer_ID = Column(Integer, ForeignKey("Manufacturer.Manufacturer_ID", ondelete="CASCADE"), nullable=False)
-	Firmware = Column(String(10), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
 

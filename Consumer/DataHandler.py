@@ -123,15 +123,14 @@ try:
 
 			# Get or Create SIM Existence
 			Stream_Data.sim_id = Database_Functions.Get_or_Create_SIM(
-				Stream_Data.iccid,
+				Stream_Data.message.Info.ICCID,
 				Stream_Data.message.Device.IoT.MCC,
 				Stream_Data.message.Device.IoT.MNC
 			)
 
 			# Check for Modem
 			Stream_Data.new_modem = Database_Functions.Get_or_Create_Modem(
-				Stream_Data.message.Device.IoT.IMEI, 
-				Stream_Data.message.Device.IoT.Firmware
+				Stream_Data.message.Info.IMEI
 			)
 
 			# Check for Device

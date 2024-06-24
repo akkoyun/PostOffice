@@ -153,55 +153,6 @@ class Info(CustomBaseModel):
 		# Return ID
 		return value
 
-	# Device Firmware Version
-	Firmware: Annotated[Optional[str], Field(
-		description="Firmware version of device.",
-		default=Constants.INFO.DEFAULT_FIRMWARE,
-		json_schema_extra={
-			"example": "01.00.00",
-			"pattern": Constants.INFO.FIRMWARE_PATTERN
-		}
-	)]
-
-	# Firmware Validator
-	@field_validator('Firmware', mode='before')
-	def validate_firmware(cls, value: Optional[str]) -> str:
-
-		# Check Value
-		if value is None or not re.match(Constants.INFO.FIRMWARE_PATTERN, value):
-
-			# Set Default Value
-			return Constants.INFO.DEFAULT_FIRMWARE
-
-		# Return Value
-		return value
-
-# Define IoT
-class IoT(CustomBaseModel):
-
-	# GSM Module Firmware
-	Firmware: Annotated[Optional[str], Field(
-		description="Modem firmware version.",
-		default=None,
-		json_schema_extra={
-			"example": "13.00.007",
-			"pattern": Constants.IOT.FIRMWARE_PATTERN 
-		}
-	)]
-
-	# Firmware Validator
-	@field_validator('Firmware', mode='before')
-	def validate_firmware(cls, value: Optional[str]) -> Optional[str]:
-
-		# Check Value
-		if value is None or not re.match(Constants.IOT.FIRMWARE_PATTERN, value):
-
-			# Set Default Value
-			return Constants.IOT.DEFAULT_FIRMWARE
-
-		# Return Value
-		return value
-
 	# Module IMEI Number
 	IMEI: Annotated[Optional[str], Field(
 		description="GSM modem IMEI number.",
@@ -251,6 +202,33 @@ class IoT(CustomBaseModel):
 
 		# Return Value
 		return value
+
+
+	# Device Firmware Version
+	Firmware: Annotated[Optional[str], Field(
+		description="Firmware version of device.",
+		default=Constants.INFO.DEFAULT_FIRMWARE,
+		json_schema_extra={
+			"example": "01.00.00",
+			"pattern": Constants.INFO.FIRMWARE_PATTERN
+		}
+	)]
+
+	# Firmware Validator
+	@field_validator('Firmware', mode='before')
+	def validate_firmware(cls, value: Optional[str]) -> str:
+
+		# Check Value
+		if value is None or not re.match(Constants.INFO.FIRMWARE_PATTERN, value):
+
+			# Set Default Value
+			return Constants.INFO.DEFAULT_FIRMWARE
+
+		# Return Value
+		return value
+
+# Define IoT
+class IoT(CustomBaseModel):
 
 	# RSSI
 	RSSI: Annotated[Optional[int], Field(
