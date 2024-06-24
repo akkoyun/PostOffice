@@ -1,13 +1,12 @@
 # Library Imports
-from fastapi import FastAPI, Request, status, BackgroundTasks, HTTPException
-from pydantic import ValidationError
-from contextlib import asynccontextmanager
+from Setup import Database, Schema
+from Setup.Config import APP_Settings
+from Functions import Log, FastApi_Functions, Database_Functions, Kafka
+from fastapi import FastAPI, Request, status, BackgroundTasks
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from Functions import Log, FastApi_Functions, Database_Functions, Kafka
-from Setup import Database, Models, Schema
-from Setup.Config import APP_Settings
+from contextlib import asynccontextmanager
 import pytz
 
 # Set Timezone

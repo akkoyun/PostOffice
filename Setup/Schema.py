@@ -129,189 +129,51 @@ class Info(CustomBaseModel):
 		# Return Value
 		return value
 
-# Define Power
-class Power(CustomBaseModel):
+# Dynamic Model Creator
+def Create_Dynamic_Model(Variable_Type: int):
 
-	# Instant Battery Voltage
-	B_IV: Annotated[float, Field(
-		description="Battery instant voltage.",
-		json_schema_extra={
-			"example": 3.8,
-			"minimum": Constants.BATTERY.VOLTAGE_MIN,
-			"maximum": Constants.BATTERY.VOLTAGE_MAX
-		},
-        ge=Constants.BATTERY.VOLTAGE_MIN,
-        le=Constants.BATTERY.VOLTAGE_MAX		
-	)]
+	# Define Variables List
+	Felds = {}
+	Annotations = {}
 
-	# Battery Instant Voltage Validator
-	@field_validator('B_IV', mode='before')
-	def validate_b_iv(cls, value: float) -> float:
+	# Try to open a database session
+	try:
 
-		# Check Value
-		if value is None or not Constants.BATTERY.VOLTAGE_MIN <= value <= Constants.BATTERY.VOLTAGE_MAX:
+		# Open a database session
+		with Database.DB_Session_Scope() as DB:
 
-			# Raise Error
-			raise ValueError(f"B_IV must be between {Constants.BATTERY.VOLTAGE_MIN} and {Constants.BATTERY.VOLTAGE_MAX}")
+			# Query all data types
+			Query_Variables = DB.query(Models.Variable).filter(Models.Variable.Variable_Type == Variable_Type).all()
 
-		# Return Value
-		return value
+			# Get Data Type List
+			for Variable in Query_Variables:
 
-	# Average Battery Current
-	B_AC: Annotated[float, Field(
-		description="Battery average current.",
-		json_schema_extra={
-			"example": 0.2,
-			"minimum": Constants.BATTERY.CURRENT_MIN,
-			"maximum": Constants.BATTERY.CURRENT_MAX
-		},
-        ge=Constants.BATTERY.CURRENT_MIN,
-        le=Constants.BATTERY.CURRENT_MAX		
-	)]
+				# Field definition
+				field_info = Field(
+					default=None, 
+					description=Variable.Variable_Description,
+					ge=Variable.Variable_Min_Value if Variable.Variable_Min_Value is not None else None,
+					le=Variable.Variable_Max_Value if Variable.Variable_Max_Value is not None else None
+				)
 
-	# Battery Average Current Validator
-	@field_validator('B_AC', mode='before')
-	def validate_b_ac(cls, value: float) -> float:
+				# Assign Field and Type annotations
+				Felds[Variable.Variable_ID] = field_info
+				Annotations[Variable.Variable_ID] = Optional[float]
 
-		# Check Value
-		if value is None or not Constants.BATTERY.CURRENT_MIN <= value <= Constants.BATTERY.CURRENT_MAX:
+		# Create Dynamic Model with type and annotations
+		return type('DynamicModel', (CustomBaseModel,), {'__annotations__': Annotations, **Felds})
 
-			# Raise Error
-			raise ValueError(f"B_AC must be between {Constants.BATTERY.CURRENT_MIN} and {Constants.BATTERY.CURRENT_MAX}")
+	# Handle Exceptions
+	except SQLAlchemyError as e:
 
-		# Return Value
-		return value
+		# Raise Error
+		raise RuntimeError(f"Failed to create dynamic model due to database error: {str(e)}") from e
 
-	# Full Battery Capacity
-	B_FC: Annotated[Optional[int], Field(
-		description="Full battery capacity.",
-		default=None,
-		json_schema_extra={
-			"example": 2000,
-			"minimum": Constants.BATTERY.CAPACITY_MIN,
-			"maximum": Constants.BATTERY.CAPACITY_MAX
-		},
-        ge=Constants.BATTERY.CAPACITY_MIN,
-        le=Constants.BATTERY.CAPACITY_MAX
-	)]
+	# Handle Exceptions
+	except Exception as e:
 
-	# Full Battery Capacity Validator
-	@field_validator('B_FC', mode='before')
-	def validate_b_fc(cls, value: Optional[int]) -> Optional[int]:
-
-		# Check Value
-		if value is not None and not Constants.BATTERY.CAPACITY_MIN <= value <= Constants.BATTERY.CAPACITY_MAX:
-
-			# Set Default Value
-			return Constants.BATTERY.DEFAULT_CAPACITY
-
-		# Return Value
-		return value
-
-	# Instant Battery Capacity
-	B_IC: Annotated[Optional[int], Field(
-		description="Instant battery capacity.",
-		default=None,
-		json_schema_extra={
-			"example": 1820,
-			"minimum": Constants.BATTERY.INSTANT_CAPACITY_MIN,
-			"maximum": Constants.BATTERY.INSTANT_CAPACITY_MAX
-		},
-		ge=Constants.BATTERY.INSTANT_CAPACITY_MIN,
-		le=Constants.BATTERY.INSTANT_CAPACITY_MAX
-	)]
-
-	# Instant Battery Capacity Validator
-	@field_validator('B_IC', mode='before')
-	def validate_b_ic(cls, value: Optional[int]) -> Optional[int]:
-
-		# Check Value
-		if value is not None and not Constants.BATTERY.INSTANT_CAPACITY_MIN <= value <= Constants.BATTERY.INSTANT_CAPACITY_MAX:
-
-			# Set Default Value
-			return Constants.BATTERY.DEFAULT_INSTANT_CAPACITY
-
-		# Return Value
-		return value
-
-	# Battery State of Charge
-	B_SOC: Annotated[Optional[float], Field(
-		description="Battery state of charge.",
-		default=None,
-		json_schema_extra={
-			"example": 97.30,
-			"minimum": Constants.BATTERY.SOC_MIN,
-			"maximum": Constants.BATTERY.SOC_MAX
-		},
-		ge=Constants.BATTERY.SOC_MIN,
-		le=Constants.BATTERY.SOC_MAX
-	)]
-
-	# Battery State of Charge Validator
-	@field_validator('B_SOC', mode='before')
-	def validate_b_soc(cls, value: Optional[float]) -> Optional[float]:
-
-		# Check Value
-		if value is None or not Constants.BATTERY.SOC_MIN <= value <= Constants.BATTERY.SOC_MAX:
-
-			# Set Default Value
-			return Constants.BATTERY.DEFAULT_SOC
-
-		# Return Value
-		return value
-
-	# Battery Temperature
-	B_T: Annotated[Optional[float], Field(
-		description="Battery temperature.",
-		default=None,
-		json_schema_extra={
-			"example": 32.1903,
-			"minimum": Constants.BATTERY.TEMPERATURE_MIN,
-			"maximum": Constants.BATTERY.TEMPERATURE_MAX
-		},
-		ge=Constants.BATTERY.TEMPERATURE_MIN,
-		le=Constants.BATTERY.TEMPERATURE_MAX
-	)]
-
-	# Battery Temperature Validator
-	@field_validator('B_T', mode='before')
-	def validate_b_t(cls, value: Optional[float]) -> Optional[float]:
-
-		# Check Value
-		if value is not None and not Constants.BATTERY.TEMPERATURE_MIN <= value <= Constants.BATTERY.TEMPERATURE_MAX:
-
-			# Set Default Value
-			value = Constants.BATTERY.DEFAULT_TEMPERATURE
-
-		# Return Value
-		return value
-
-	B_CS: Constants.BATTERY.CHARGE_STATE = Field(
-		description="Battery charge state.",
-		default=Constants.BATTERY.CHARGE_STATE.UNKNOWN,
-		json_schema_extra={
-			"examples": [Constants.BATTERY.CHARGE_STATE.UNKNOWN]
-		}
-	)
-
-	# Battery Charge State Validator
-	@field_validator('B_CS', mode='before')
-	def validate_b_charge_state(cls, value: Optional[int]) -> Optional[int]:
-
-		# Convert integer to corresponding Enum value
-		if isinstance(value, int):
-
-			# Convert to Enum
-			value = Constants.BATTERY.CHARGE_STATE(value)
-
-		# Check Value
-		elif not isinstance(value, Constants.BATTERY.CHARGE_STATE):
-
-			# If value is not valid, set to default
-			value = Constants.BATTERY.CHARGE_STATE.UNKNOWN
-
-		# Return Value
-		return value
+		# Raise Error
+		raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
 
 # Define IoT
 class IoT(CustomBaseModel):
@@ -562,11 +424,13 @@ class IoT(CustomBaseModel):
 			# If value is not valid, set to default
 			return Constants.IOT.WDS.UNKNOWN
 
+Dynamic_Power = Create_Dynamic_Model(2)
+
 # Define Device
 class Device(CustomBaseModel):
 
 	# Device Power
-	Power: Power
+	Power: Dynamic_Power
 
 	# Device IoT
 	IoT: IoT
