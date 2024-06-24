@@ -161,20 +161,22 @@ try:
 			Log.Terminal_Log('INFO', f'IMEI        : {Stream_Data.message.Device.IoT.IMEI} - {Stream_Data.message.Device.IoT.Firmware} - {Stream_Data.new_modem}')
 
 			# Define Record Count
-			Record_Count = 0
-
+			Power_Record_Count = 0
+			Payload_Record_Count = 0
+			
 			# Record  Measurements
-			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
+			Power_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
 			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)
-			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Device.value)
-			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Location.value)
-			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Environment.value)
-			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Water.value)
-			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Energy.value)
-			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.FOTA.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Device.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Location.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Environment.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Water.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Energy.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.FOTA.value)
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'New Payload : {Record_Count}')
+			Log.Terminal_Log('INFO', f'New Power   : {Power_Record_Count}')
+			Log.Terminal_Log('INFO', f'New Payload : {Payload_Record_Count}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Commit Message

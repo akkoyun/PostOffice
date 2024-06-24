@@ -60,7 +60,6 @@ def Create_Dynamic_Model(Segment_ID: int = 0):
 		# Raise Error
 		raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
 
-
 # Custom Base Model
 class CustomBaseModel(BaseModel):
 	def model_dump(self, **kwargs):
