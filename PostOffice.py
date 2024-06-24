@@ -121,17 +121,6 @@ def Main_Root(request: Request):
 @PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_201_CREATED)
 async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: BackgroundTasks):
 
-
-#	try:
-#		Payload_Instance = Schema.Dynamic_Payload.parse_obj(Data.Payload.dict())
-#	except ValidationError as e:
-#		raise HTTPException(status_code=400, detail=f"Payload validation error: {str(e)}")
-
-
-
-
-
-
 	# Log Message
 	Log.Terminal_Log("INFO", f"Device ID : {Data.Info.ID}")
 	Log.Terminal_Log("INFO", f"ICCID     : {Data.Device.IoT.ICCID}")

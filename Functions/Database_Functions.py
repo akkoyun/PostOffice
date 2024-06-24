@@ -504,7 +504,10 @@ def Create_Stream(Stream_Data: dict, Headers: dict):
 	return New_Stream.Stream_ID
 
 # Record Measurements Function
-def Record_Measurement(Pack, Stream: int, Segment: int):
+def Record_Measurement(Pack, Stream: int, Segment: int) -> int:
+
+	# Define Record Count
+	New_Record_Count = 0
 
 	# Define DB
 	DB_Module = Database.SessionLocal()
@@ -575,6 +578,9 @@ def Record_Measurement(Pack, Stream: int, Segment: int):
 				# Refresh DataBase
 				DB_Module.refresh(New_Measurement)
 
+				# Update Record Count
+				New_Record_Count += 1
+
 			except SQLAlchemyError as e:
 
 				# Rollback in case of error
@@ -588,3 +594,5 @@ def Record_Measurement(Pack, Stream: int, Segment: int):
 		# Close Database
 		DB_Module.close()
 
+	# End Function
+	return New_Record_Count
