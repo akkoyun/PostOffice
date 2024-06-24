@@ -7,7 +7,7 @@ from Setup.Definitions import Constants
 from Setup import Models, Database
 from pydantic import BaseModel, Field, field_validator
 from sqlalchemy.exc import SQLAlchemyError
-from typing import Optional, Annotated
+from typing import Optional, Annotated, Type
 from datetime import datetime
 import re
 
@@ -640,4 +640,4 @@ class Data_Pack(CustomBaseModel):
 	Device: Device
 
 	# Payload
-	Payload: Dynamic_Payload
+	Payload: Type[Dynamic_Payload]
