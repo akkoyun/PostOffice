@@ -1,5 +1,5 @@
 # Library Imports
-from fastapi import FastAPI, Request, status, BackgroundTasks, HTTPException
+from fastapi import FastAPI, Request, status, BackgroundTasks
 from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
@@ -8,7 +8,6 @@ from Functions import Log, FastApi_Functions, Database_Functions, Kafka
 from Setup import Database, Models, Schema
 from Setup.Config import APP_Settings
 import pytz
-from pydantic import ValidationError
 
 # Set Timezone
 Local_Timezone = pytz.timezone("Europe/Istanbul")
@@ -121,13 +120,6 @@ def Main_Root(request: Request):
 @PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_201_CREATED)
 async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: BackgroundTasks):
 
-	try:
-		Payload_Instance = Schema.Dynamic_Payload(**Data.Payload.dict())
-		Log.Terminal_Log("INFO", f"Payload: {Payload_Instance.dict()}")
-	except ValidationError as e:
-		raise HTTPException(status_code=400, detail=f"Payload validation error: {str(e)}")
-
-
 	# Log Message
 	Log.Terminal_Log("INFO", f"Device ID : {Data.Info.ID}")
 	Log.Terminal_Log("INFO", f"ICCID     : {Data.Device.IoT.ICCID}")
@@ -153,4 +145,3 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: Backgr
 		status_code=status.HTTP_200_OK, 
 		content={"Event": status.HTTP_200_OK}
 	)
-
