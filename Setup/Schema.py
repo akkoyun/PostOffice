@@ -130,7 +130,7 @@ class Info(CustomBaseModel):
 		return value
 
 # Dynamic Model Creator
-def Create_Dynamic_Model(Variable_Type: int):
+def Create_Dynamic_Model(Segment_ID: int):
 
 	# Define Variables List
 	Felds = {}
@@ -143,7 +143,7 @@ def Create_Dynamic_Model(Variable_Type: int):
 		with Database.DB_Session_Scope() as DB:
 
 			# Query all data types
-			Query_Variables = DB.query(Models.Variable).filter(Models.Variable.Variable_Type == Variable_Type).all()
+			Query_Variables = DB.query(Models.Variable).filter(Models.Variable.Segment_ID == Segment_ID).all()
 
 			# Get Data Type List
 			for Variable in Query_Variables:
@@ -424,6 +424,7 @@ class IoT(CustomBaseModel):
 			# If value is not valid, set to default
 			return Constants.IOT.WDS.UNKNOWN
 
+# Define Device Power Model
 Dynamic_Power = Create_Dynamic_Model(2)
 
 # Define Device
