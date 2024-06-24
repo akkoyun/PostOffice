@@ -122,16 +122,11 @@ def Main_Root(request: Request):
 async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: BackgroundTasks):
 
 	try:
-		Payload_Instance = Schema.Dynamic_Payload(**Data.Payload.dict())
+		# Validate the Payload as Dynamic_Payload model
+		Payload_Instance = Schema.Dynamic_Payload.parse_obj(Data.Payload.dict())
+
 	except ValidationError as e:
 		raise HTTPException(status_code=400, detail=f"Payload validation error: {str(e)}")
-
-
-
-
-
-
-	Log.Terminal_Log("INFO", f"Payload : {Payload_Instance}")
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"Device ID : {Data.Info.ID}")
@@ -148,13 +143,10 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: Backgr
 		("Device_Time", bytes(Data.Info.TimeStamp, 'utf-8')), 
 		("Device_IP", bytes(request.client.host, 'utf-8')),
 		("Size", bytes(request.headers['content-length'], 'utf-8'))
-	] 
+	]
 
 	# Produce Message
 	Send_Kafka.add_task(Kafka.Send_To_Topic, APP_Settings.KAFKA_RAW_TOPIC, Request_Body, Header, 0)
 
 	# Send Response
-	return JSONResponse(
-		status_code=status.HTTP_200_OK, 
-		content={"Event": status.HTTP_200_OK}
-	)
+	return JSONResponse(content={"message": "Data received successfully"}, status_code=201)

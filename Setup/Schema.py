@@ -635,4 +635,4 @@ class Data_Pack(CustomBaseModel):
 	Device: Device
 
 	# Payload
-	Payload: Type[Dynamic_Payload]
+	Payload: Dynamic_Payload
