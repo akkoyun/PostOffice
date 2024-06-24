@@ -164,8 +164,8 @@ try:
 			Record_Count = 0
 
 			# Record  Measurements
-			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
-			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
+			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)
 			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Device.value)
 			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Location.value)
 			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Environment.value)
@@ -174,7 +174,7 @@ try:
 			Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.FOTA.value)
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'New Data    : {Record_Count}')
+			Log.Terminal_Log('INFO', f'New Payload : {Record_Count}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Commit Message
