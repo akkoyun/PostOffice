@@ -161,11 +161,12 @@ try:
 
 			# Define Record Count
 			Power_Record_Count = 0
+			IoT_Record_Count = 0
 			Payload_Record_Count = 0
 			
 			# Record  Measurements
 			Power_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
-			Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)
+			IoT_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)
 			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Device.value)
 			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Location.value)
 			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Environment.value)
@@ -175,6 +176,7 @@ try:
 
 			# Log Message
 			Log.Terminal_Log('INFO', f'New Power   : {Power_Record_Count}')
+			Log.Terminal_Log('INFO', f'New IoT     : {IoT_Record_Count}')
 			Log.Terminal_Log('INFO', f'New Payload : {Payload_Record_Count}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 

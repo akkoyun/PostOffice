@@ -127,8 +127,8 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: Backgr
 
 	# Log Message
 	Log.Terminal_Log("INFO", f"Device ID : {Data.Info.ID}")
-	Log.Terminal_Log("INFO", f"ICCID     : {Data.Device.IoT.ICCID}")
-	Log.Terminal_Log("INFO", f"IMEI      : {Data.Device.IoT.IMEI}")
+	Log.Terminal_Log("INFO", f"ICCID     : {Data.Info.ICCID}")
+	Log.Terminal_Log("INFO", f"IMEI      : {Data.Info.IMEI}")
 
 	# Get Request Body
 	Request_Body = ((await request.body()).decode("utf-8")).replace(" ", "").replace("\n", "").replace("\r", "")
