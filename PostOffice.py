@@ -1,5 +1,6 @@
 # Library Imports
-from fastapi import FastAPI, Request, status, BackgroundTasks
+from fastapi import FastAPI, Request, status, BackgroundTasks, HTTPException
+from pydantic import ValidationError
 from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
@@ -120,11 +121,15 @@ def Main_Root(request: Request):
 @PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_201_CREATED)
 async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: BackgroundTasks):
 
-	# Dynamic Payload doğrulama
 	try:
-		Payload_Instance = Schema.Dynamic_Payload(**Data.Payload)
-	except:
-		Payload_Instance = None
+		Payload_Instance = Schema.Dynamic_Payload(**Data.Payload.dict())
+	except ValidationError as e:
+		raise HTTPException(status_code=400, detail=f"Payload validation error: {str(e)}")
+
+
+
+
+
 
 	Log.Terminal_Log("INFO", f"Payload : {Payload_Instance}")
 
