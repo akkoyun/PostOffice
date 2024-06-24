@@ -609,7 +609,7 @@ def Create_Dynamic_Payload_Model():
 				)
 
 		# Create Dynamic Fields
-		return Type('DynamicModel', (CustomBaseModel,), Variable_List)
+		return type('DynamicModel', (CustomBaseModel,), Variable_List)
 
 	# Handle Exceptions
 	except SQLAlchemyError as e:
@@ -641,4 +641,4 @@ class Data_Pack(CustomBaseModel):
 	Device: Device
 
 	# Payload
-	Payload: Dynamic_Payload
+	Payload: Type[Dynamic_Payload]
