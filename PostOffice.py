@@ -1,13 +1,11 @@
 # Library Imports
-from Setup import Database, Schema, Models
+from Setup import Database, Schema
 from Setup.Config import APP_Settings
 from Functions import Log, FastApi_Functions, Database_Functions, Kafka
 from fastapi import FastAPI, Request, status, BackgroundTasks
 from fastapi.responses import HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
 import pytz
 
@@ -23,10 +21,6 @@ FastAPI_Tags = [
 	{
 		"name": "Hardware_Post",
 		"description": "This endpoint is used to receive data from IoT devices."
-	},
-	{
-		"name": "SIM Admin Panel",
-		"description": "This endpoint is used to manage SIM cards."
 	}
 ]
 
@@ -53,7 +47,12 @@ async def FastAPI_Lifespan(app: FastAPI):
 	time.sleep(10)
 
 # Define FastAPI Object
-PostOffice = FastAPI(version="02.04.00", title="PostOffice", openapi_tags=FastAPI_Tags, lifespan=FastAPI_Lifespan)
+PostOffice = FastAPI(
+	version="02.04.00", 
+	title="PostOffice", 
+	openapi_tags=FastAPI_Tags, 
+	lifespan=FastAPI_Lifespan
+)
 
 # Define Middleware
 PostOffice.add_middleware(FastApi_Functions.Pre_Request)
@@ -121,51 +120,6 @@ def Main_Root(request: Request):
 
 	# Return the HTML content
 	return HTMLResponse(content=Rendered_HTML)
-
-
-
-
-
-
-# Define Static Files
-PostOffice.mount("/Templates/SIM_View", StaticFiles(directory="Templates/SIM_View"), name="Templates/SIM_View")
-
-# Define Template
-SIM_Template = Jinja2Templates(directory="Templates/SIM_View")
-
-# SIM List Web Page
-@PostOffice.get("/SIM", tags=["SIM Admin Panel"], status_code=status.HTTP_200_OK)
-def SIM_List(request: Request):
-
-	with Database.SessionLocal() as DB_Module:
-
-		# Query ICCID
-		SIM_Query = (DB_Module.query(Models.SIM).all())
-
-	# Set SIM Data
-	sim_data = []
-	for sim in SIM_Query:
-		sim_dict = {
-			"ICCID": sim.ICCID,
-			"Operator": sim.Operator_ID,
-			"GSMNumber": sim.GSM_Number,
-			"Status": sim.Status,
-			"CreateTime": sim.Create_Time.astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
-		}
-		sim_data.append(sim_dict)
-
-	# Return Template
-	return SIM_Template.TemplateResponse("index.html", {"request": request, "sim_data": sim_data})
-
-
-
-
-
-
-
-
-
-
 
 # IoT Post Method
 @PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_201_CREATED)
