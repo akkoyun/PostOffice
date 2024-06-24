@@ -132,8 +132,6 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: Backgr
 
 
 
-	Log.Terminal_Log("INFO", f"Payload : {Payload_Instance}")
-
 	# Log Message
 	Log.Terminal_Log("INFO", f"Device ID : {Data.Info.ID}")
 	Log.Terminal_Log("INFO", f"ICCID     : {Data.Device.IoT.ICCID}")

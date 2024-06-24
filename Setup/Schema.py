@@ -579,7 +579,7 @@ class Device(CustomBaseModel):
 
 
 # Dynamic Payload Model Creator
-def Create_Dynamic_Payload_Model() -> Type[CustomBaseModel]:
+def Create_Dynamic_Payload_Model():
 
     # Define Variables List
     fields = {}
