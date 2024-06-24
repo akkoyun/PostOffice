@@ -122,15 +122,18 @@ def Main_Root(request: Request):
 	# Return the HTML content
 	return HTMLResponse(content=Rendered_HTML)
 
+
+
+
+# Define Static Files
+PostOffice.mount("/Templates/SIM_View", StaticFiles(directory="Templates/SIM_View"), name="Templates/SIM_View")
+
+# Define Template
+SIM_Template = Jinja2Templates(directory="Templates/SIM_View")
+
 # SIM List Web Page
 @PostOffice.get("/SIM", tags=["SIM Admin Panel"], status_code=status.HTTP_200_OK)
 def SIM_List(request: Request):
-
-	# Define Static Files
-	PostOffice.mount("/Templates/SIM_View", StaticFiles(directory="/Templates/SIM_View"), name="SIM List")
-
-	# Define Template
-	SIM_Template = Jinja2Templates(directory="Templates/SIM_View")
 
 	# Render Template
 	sim_data = [
