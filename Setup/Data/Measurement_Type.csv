@@ -20,6 +20,8 @@ B_CC,Battery Cycle Count,-,2
 B_Age,Battery Age,Day,2
 B_H,Battery Health,%,2
 B_CS,Battery Charge Status,-,2
+MCC,GSM Operator Country Code,-,3
+MNC,GSM Operator Network Code,-,3
 TAC,GSM TAC ID,-,3
 LAC,GSM LAC ID,-,3
 Cell_ID,GSM Cell ID,-,3
