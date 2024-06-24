@@ -152,6 +152,7 @@ def SIM_List(request: Request):
 			"Status": sim.Status,
 			"CreateTime": sim.Create_Time.astimezone(Local_Timezone).strftime("%Y-%m-%d %H:%M:%S")
 		}
+		sim_data.append(sim_dict)
 
 	# Return Template
 	return SIM_Template.TemplateResponse("index.html", {"request": request, "sim_data": sim_data})
