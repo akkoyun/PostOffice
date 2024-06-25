@@ -13,7 +13,7 @@ import time, json
 # Define Kafka Consumer
 Rule_Consumer_Config = {
     'bootstrap.servers': f'{Config.APP_Settings.KAFKA_HOSTNAME}:{Config.APP_Settings.KAFKA_PORT}',
-    'group.id': 'RAW_Handler_Group',
+    'group.id': 'Rule_Handler_Group',
     'auto.offset.reset': 'earliest',
 	'enable.auto.commit': False,
 }
@@ -63,7 +63,7 @@ try:
 		else:
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'Consumer Message: {Consumer_Message.value().decode("utf-8")}')
+			Log.Terminal_Log('INFO', f'{Consumer_Message.value().decode("utf-8")}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Commit Message
