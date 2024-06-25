@@ -102,6 +102,7 @@ class Info(CustomBaseModel):
 	# Timestamp
 	TimeStamp: Annotated[str, Field(
 		description="Measurement time stamp.",
+		default="2024-01-01T00:00:00",
 		json_schema_extra={
 			"example": "2023-10-29T08:28:32"
 		}
@@ -207,7 +208,6 @@ class Info(CustomBaseModel):
 		# Return Value
 		return value
 
-
 	# Device Firmware Version
 	Firmware: Annotated[Optional[str], Field(
 		description="Firmware version of device.",
@@ -241,10 +241,10 @@ Dynamic_IoT = Create_Dynamic_Model(3)
 class Device(CustomBaseModel):
 
 	# Device Power
-	Power: Dynamic_Power
+	Power: Optional[Dynamic_Power]
 
 	# Device IoT
-	IoT: Dynamic_IoT
+	IoT: Optional[Dynamic_IoT]
 
 # Define Payload payload
 Dynamic_Payload = Create_Dynamic_Model(0)
@@ -253,10 +253,10 @@ Dynamic_Payload = Create_Dynamic_Model(0)
 class Data_Pack(CustomBaseModel):
 
 	# Info
-	Info: Info
+	Info: Optional[Info]
 
 	# Device
-	Device: Device
+	Device: Optional[Device]
 
 	# Payload
-	Payload: Dynamic_Payload
+	Payload: Optional[Dynamic_Payload]
