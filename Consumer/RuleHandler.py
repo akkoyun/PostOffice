@@ -11,7 +11,7 @@ from pydantic import ValidationError
 import time, json
 
 # Define Kafka Consumer
-Consumer_Config = {
+Rule_Consumer_Config = {
     'bootstrap.servers': f'{Config.APP_Settings.KAFKA_HOSTNAME}:{Config.APP_Settings.KAFKA_PORT}',
     'group.id': 'RAW_Handler_Group',
     'auto.offset.reset': 'earliest',
@@ -19,10 +19,10 @@ Consumer_Config = {
 }
 
 # Define Consumer Class
-RAW_Consumer = Consumer(Consumer_Config)
+Rule_Consumer = Consumer(Rule_Consumer_Config)
 
 # Define Subscription Function
-RAW_Consumer.subscribe([Config.APP_Settings.KAFKA_RAW_TOPIC])
+Rule_Consumer.subscribe([Config.APP_Settings.KAFKA_RAW_TOPIC])
 
 # Log Consumer Start
 Log.Terminal_Log('INFO', 'Consumer is starting...')
@@ -33,7 +33,7 @@ try:
 	while True:
 
 		# Get Message
-		Consumer_Message = RAW_Consumer.poll(timeout=1.0)
+		Consumer_Message = Rule_Consumer.poll(timeout=1.0)
 
 		# Check for Message
 		if Consumer_Message is None:
@@ -63,7 +63,7 @@ try:
 		else:
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'Consumer Message: {Consumer_Message.value()}')
+			Log.Terminal_Log('INFO', f'Consumer Message: {Consumer_Message.value().decode("utf-8")}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Commit Message
@@ -80,4 +80,4 @@ finally:
 	time.sleep(2)
 
 	# Close Consumer
-	RAW_Consumer.close()
+	Rule_Consumer.close()
