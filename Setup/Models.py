@@ -519,8 +519,9 @@ class Rule_Chain(Base):
 	# Define Table Arguments
 	__table_args__ = (
 		Index('idx_rule_id', 'Rule_ID'),
-		Index('idx_device_id', 'Device_ID'),
-		Index('idx_rule_condition', 'Rule_Condition')
+		Index('idx_rulechain_device_id', 'Device_ID'),
+		Index('idx_rulechain_variable_id', 'Variable_ID'),
+		Index('idx_rulechain_condition', 'Rule_Condition')
 	)
 
 
