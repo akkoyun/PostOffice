@@ -72,7 +72,7 @@ try:
 			try:
 
 				# Decode Message
-				Message = Consumer_Message.value().decode('utf-8')
+				Message = json.loads(Consumer_Message.value().decode('utf-8'))
 
 			# Check for JSON Decode Error
 			except json.JSONDecodeError as e:
@@ -83,8 +83,11 @@ try:
 				# Continue
 				continue
 
+			# Get Payload
+			Payload = Message.get('payload', {})
+
 			# Log Message
-			Log.Terminal_Log('INFO', f'Received Message: {Message}')
+			Log.Terminal_Log('INFO', f'Received Message: {Payload}')
 			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
@@ -119,10 +122,10 @@ try:
 			for variable in keys_to_check:
 
 				# Check for Variable
-				if variable in Message:
+				if variable in Payload:
 
 					# Get Value
-					value = Message[variable]
+					value = Payload[variable]
 
 					# Check for Value
 					if value is not None and value != "":
