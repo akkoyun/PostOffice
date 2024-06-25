@@ -186,7 +186,7 @@ try:
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Commit Message
-			#RAW_Consumer.commit(asynchronous=False)
+			RAW_Consumer.commit(asynchronous=False)
 
 except KeyboardInterrupt:
 

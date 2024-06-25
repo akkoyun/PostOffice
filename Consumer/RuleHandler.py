@@ -67,7 +67,7 @@ try:
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Commit Message
-			#RAW_Consumer.commit(asynchronous=False)
+			Rule_Consumer.commit(asynchronous=False)
 
 except KeyboardInterrupt:
 
