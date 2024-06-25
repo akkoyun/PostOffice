@@ -83,10 +83,16 @@ try:
 				# Continue
 				continue
 
-			# Get Payload
+			# Get Data Packs
+			Power_Pack = Message.get('Device.Power', {})
+			IoT_Pack = Message.get('Device.IoT', {})
 			Payload = Message.get('Payload', {})
 
 
+			# Log Message
+			Log.Terminal_Log('INFO', Power_Pack)
+			Log.Terminal_Log('INFO', IoT_Pack)
+			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
 
