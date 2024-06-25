@@ -206,6 +206,7 @@ class Device(Base):
 	manufacturer = relationship("Manufacturer", back_populates="devices")
 	modem = relationship("Modem", back_populates="devices")
 	calibrations = relationship("Calibration", back_populates="device")
+	chain = relationship("Rule_Chain", back_populates="devices")
 
 	# Define Table Arguments
 	__table_args__ = (
@@ -281,6 +282,7 @@ class Variable(Base):
 	segment = relationship("Data_Segment", back_populates="variables")
 	measurements = relationship("Measurement", back_populates="variable")
 	calibrations = relationship("Calibration", back_populates="variable")
+	chain = relationship("Rule_Chain", back_populates="variables")
 
 	# Define Table Arguments
 	__table_args__ = (
