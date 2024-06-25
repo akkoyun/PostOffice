@@ -72,7 +72,7 @@ try:
 			try:
 
 				# Decode Message
-				Message = Consumer_Message.value.decode('utf-8')
+				Message = Consumer_Message.value().decode('utf-8')
 
 			# Check for JSON Decode Error
 			except json.JSONDecodeError as e:
