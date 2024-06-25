@@ -72,7 +72,7 @@ try:
 			try:
 
 				# Decode Message
-				Message = (Consumer_Message.value().decode('utf-8').dict(exclude_none=True)).json()
+				Message = Schema.Data_Pack(Consumer_Message.value).Payload
 
 			# Check for JSON Decode Error
 			except json.JSONDecodeError as e:
