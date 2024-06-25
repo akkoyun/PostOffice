@@ -62,10 +62,13 @@ try:
 		# Get Message
 		else:
 
-			# Log Message
-			Log.Terminal_Log('INFO', f'{Consumer_Message.value().decode("utf-8")}')
-			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
+			# Set Message Schema
+			Message = Schema.Data_Pack(**json.loads(Consumer_Message.value().decode('utf-8'))).dict(exclude_none=True)
 
+	
+			# Log Message
+			Log.Terminal_Log('INFO', f'{Message}')
+			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 
 
