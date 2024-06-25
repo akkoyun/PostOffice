@@ -76,8 +76,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		# Log Message
 		Log.Terminal_Log("ERROR", f"Error : {exc.errors()}")
 
-		# Message Content
-		Message_Content = {"Event": status.HTTP_400_BAD_REQUEST}
+		# Set Response
+		Response = Schema.Service_Response(Event=status.HTTP_400_BAD_REQUEST)
 
 	# Null Body
 	else:
@@ -85,13 +85,13 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 		# Message Status Code
 		Message_Status_Code = status.HTTP_406_NOT_ACCEPTABLE
 
-		# Message Content
-		Message_Content = {"Event": status.HTTP_406_NOT_ACCEPTABLE}
+		# Set Response
+		Response = Schema.Service_Response(Event=status.HTTP_406_NOT_ACCEPTABLE)
 
 	# Send Response
 	return JSONResponse(
 		status_code=Message_Status_Code, 
-		content=Message_Content
+		content=Response
 	)
 
 # Main Root Get Method
