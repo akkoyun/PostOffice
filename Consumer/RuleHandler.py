@@ -72,7 +72,7 @@ try:
 			try:
 
 				# Decode Message
-				Message = Schema.Data_Pack.parse_raw(Consumer_Message.value().decode('utf-8')).dict(exclude_none=True)
+				Message = Schema.Data_Pack.parse_raw(Consumer_Message.value().decode('utf-8'))
 
 			# Check for JSON Decode Error
 			except json.JSONDecodeError as e:
