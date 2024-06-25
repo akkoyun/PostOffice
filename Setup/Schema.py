@@ -232,10 +232,10 @@ class Info(CustomBaseModel):
 		return value
 
 # Define Device Power Model
-Dynamic_Power = Create_Dynamic_Model(2)
+Dynamic_Power = Create_Dynamic_Model(Constants.Variable_Segment.Power.value)
 
 # Define Device IoT Model
-Dynamic_IoT = Create_Dynamic_Model(3)
+Dynamic_IoT = Create_Dynamic_Model(Constants.Variable_Segment.GSM.value)
 
 # Define Device
 class Device(CustomBaseModel):
@@ -247,7 +247,7 @@ class Device(CustomBaseModel):
 	IoT: Optional[Dynamic_IoT]
 
 # Define Payload payload
-Dynamic_Payload = Create_Dynamic_Model(0)
+Dynamic_Payload = Create_Dynamic_Model(Constants.Variable_Segment.Unknown.value)
 
 # Define IoT RAW Data Base Model
 class Data_Pack(CustomBaseModel):
