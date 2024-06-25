@@ -3,6 +3,7 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
+from Setup.Definitions import Variable_Segment as Constants
 from Setup import Schema, Definitions, Config
 from Functions import Log, Database_Functions, ICCID_Functions
 from confluent_kafka import Consumer, KafkaError
@@ -165,18 +166,18 @@ try:
 			Payload_Record_Count = 0
 			
 			# Record Power Measurements
-			Power_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
+			Power_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Constants.Power.value)
 
 			# Record IoT Measurements
-			IoT_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)
+			IoT_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Constants.GSM.value)
 
 			# Record Payload Measurements
-			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Device.value)
-			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Location.value)
-			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Environment.value)
-			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Water.value)
-			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Energy.value)
-			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.FOTA.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Constants.Device.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Constants.Location.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Constants.Environment.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Constants.Water.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Constants.Energy.value)
+			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Constants.FOTA.value)
 
 			# Log Message
 			Log.Terminal_Log('INFO', f'New Power   : {Power_Record_Count}')
