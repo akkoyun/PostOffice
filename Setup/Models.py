@@ -470,3 +470,57 @@ class Connection(Base):
 
 	# Define Relationships
 	streams = relationship("Stream", back_populates="ip_address")
+
+# Rules Database Model
+class Rules(Base):
+
+	# Define Table Name
+	__tablename__ = "Rules"
+
+	# Define Columns
+	Rule_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Rule_Name = Column(String(100), nullable=True)
+	Rule_Description = Column(String(255), nullable=True)
+	Rule_Action_ID = Column(Integer, nullable=True)
+	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
+
+	# Define Relationships
+	chain = relationship("Rule_Chain", back_populates="rules")
+
+	# Define Table Arguments
+	__table_args__ = (
+		Index('idx_rule_name', 'Rule_Name'),
+		Index('idx_rule_description', 'Rule_Description')
+	)
+
+# Rule_Chain Database Model
+class Rule_Chain(Base):
+
+	# Define Table Name
+	__tablename__ = "Rule_Chain"
+
+	# Define Columns
+	Rule_Chain_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Rule_ID = Column(Integer, ForeignKey("Rules.Rule_ID", ondelete="CASCADE"), nullable=False)
+	Device_ID = Column(String(21), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
+	Variable_ID = Column(String(30), ForeignKey("Variable.Variable_ID", ondelete="CASCADE"), nullable=False)
+	Rule_Condition = Column(String(255), nullable=False)
+	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
+
+	# Define Relationships
+	rules = relationship("Rules", back_populates="chain")
+	devices = relationship("Device", back_populates="chain")
+	variables = relationship("Variable", back_populates="chain")
+
+	# Define Table Arguments
+	__table_args__ = (
+		Index('idx_rule_id', 'Rule_ID'),
+		Index('idx_device_id', 'Device_ID'),
+		Index('idx_variable_id', 'Variable_ID'),
+		Index('idx_rule_condition', 'Rule_Condition')
+	)
+
+
+
