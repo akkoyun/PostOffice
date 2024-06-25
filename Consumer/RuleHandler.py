@@ -83,11 +83,17 @@ try:
 				# Continue
 				continue
 
+
+			# Log entire message for debugging
+			Log.Terminal_Log('INFO', f'Full Message: {Message}')
+
 			# Get Payload
-			Payload = Message.get('payload', {})
+			Payload = Message.get('Payload', {})
+
+			# Log Payload for debugging
+			Log.Terminal_Log('INFO', f'Payload: {Payload}')
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'Received Message: {Payload}')
 			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
