@@ -122,7 +122,7 @@ def Main_Root(request: Request):
 	return HTMLResponse(content=Rendered_HTML)
 
 # IoT Post Method
-@PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_201_CREATED)
+@PostOffice.post("/", tags=["Hardware_Post"], status_code=status.HTTP_200_OK)
 async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: BackgroundTasks):
 
 	# Log Message
@@ -145,8 +145,11 @@ async def Data_POST(request: Request, Data: Schema.Data_Pack, Send_Kafka: Backgr
 	# Produce Message
 	Send_Kafka.add_task(Kafka.Send_To_Topic, APP_Settings.KAFKA_RAW_TOPIC, Request_Body, Header, 0)
 
+	# Set Response
+	Response = Schema.Service_Response(Event=status.HTTP_200_OK)
+
 	# Send Response
 	return JSONResponse(
 		status_code=status.HTTP_200_OK, 
-		content={"Event": status.HTTP_200_OK}
+		content=Response.dict()
 	)

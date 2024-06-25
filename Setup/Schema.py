@@ -260,3 +260,14 @@ class Data_Pack(CustomBaseModel):
 
 	# Payload
 	Payload: Optional[Dynamic_Payload]
+
+# Define Response Model
+class Service_Response(CustomBaseModel):
+
+	# Define Response
+	Event: Annotated[int, Field(
+		description="Response event code.",
+		json_schema_extra={
+			"example": 200
+		}
+	)]
