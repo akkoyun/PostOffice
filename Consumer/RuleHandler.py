@@ -84,8 +84,9 @@ try:
 				continue
 
 			# Get Data Packs
-			Power_Pack = Message.get('Device.Power', {})
-			IoT_Pack = Message.get('Device.IoT', {})
+			Device = Message.get('Device', {})
+			Power_Pack = Device.get('Power', {})
+			IoT_Pack = Device.get('IoT', {})
 			Payload = Message.get('Payload', {})
 
 
