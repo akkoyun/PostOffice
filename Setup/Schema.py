@@ -27,7 +27,7 @@ def Create_Dynamic_Model(Segment_ID: int = 0):
 			# Query all data types
 			if Segment_ID == 0:
 				Query_Variables = DB.query(Models.Variable).filter(
-					Models.Variable.Segment_ID([1, 4, 5, 6, 7, 8, 9])
+					Models.Variable.Segment_ID.in_([1, 4, 5, 6, 7, 8, 9])
 				).all()
 			else:
 				Query_Variables = DB.query(Models.Variable).filter(
