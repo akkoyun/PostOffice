@@ -83,18 +83,9 @@ try:
 				# Continue
 				continue
 
-
-			# Log entire message for debugging
-			Log.Terminal_Log('INFO', f'Full Message: {Message}')
-
 			# Get Payload
 			Payload = Message.get('Payload', {})
 
-			# Log Payload for debugging
-			Log.Terminal_Log('INFO', f'Payload: {Payload}')
-
-			# Log Message
-			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
 
@@ -141,6 +132,9 @@ try:
 
 			# Log Found Variables
 			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
+
+			# Log Message
+			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
 
