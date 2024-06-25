@@ -4,6 +4,8 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Library Includes
 from Setup.Definitions import Variable_Segment as Constants
+from Setup.Definitions import Constants as Default
+
 from Functions import Database_Functions
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional, Annotated
@@ -24,11 +26,11 @@ class Info(CustomBaseModel):
 	# Define Command
 	Command: Annotated[str, Field(
 		description="Pack command.",
-		default=Constants.INFO.DEFAULT_COMMAND,
+		default=Default.INFO.DEFAULT_COMMAND,
 		json_schema_extra={
-			"examples": Constants.INFO.COMMAND_ALLOWED,
-			"min_length": Constants.INFO.COMMAND_MIN_LENGTH,
-			"max_length": Constants.INFO.COMMAND_MAX_LENGTH
+			"examples": Default.INFO.COMMAND_ALLOWED,
+			"min_length": Default.INFO.COMMAND_MIN_LENGTH,
+			"max_length": Default.INFO.COMMAND_MAX_LENGTH
 		}
 	)]
 
@@ -37,10 +39,10 @@ class Info(CustomBaseModel):
 	def validate_command(cls, value: str) -> str:
 
 		# Check Command
-		if value not in Constants.INFO.COMMAND_ALLOWED:
+		if value not in Default.INFO.COMMAND_ALLOWED:
 
 			# Set Default Value
-			return Constants.INFO.DEFAULT_COMMAND
+			return Default.INFO.DEFAULT_COMMAND
 
 		# Return Command
 		return value
@@ -85,7 +87,7 @@ class Info(CustomBaseModel):
 	# Device ID
 	ID: Annotated[str, Field(
 		description="IoT device unique ID.",
-		default=Constants.INFO.DEFAULT_ID,
+		default=Default.INFO.DEFAULT_ID,
 		json_schema_extra={
 			"example": "8B00000000000000"
 		}
@@ -96,10 +98,10 @@ class Info(CustomBaseModel):
 	def validate_id(cls, value: str) -> str:
 
 		# Check ID
-		if not re.match(Constants.INFO.ID_PATTERN, value):
+		if not re.match(Default.INFO.ID_PATTERN, value):
 
 			# Set Default Value
-			return Constants.INFO.DEFAULT_ID
+			return Default.INFO.DEFAULT_ID
 
 		# Return ID
 		return value
@@ -110,9 +112,9 @@ class Info(CustomBaseModel):
 		default=None,
 		json_schema_extra={
 			"example": "356156060000000",
-			"min_length": Constants.IOT.IMEI_MIN_LENGTH,
-			"max_length": Constants.IOT.IMEI_MAX_LENGTH,
-			"pattern": Constants.IOT.IMEI_PATTERN
+			"min_length": Default.IOT.IMEI_MIN_LENGTH,
+			"max_length": Default.IOT.IMEI_MAX_LENGTH,
+			"pattern": Default.IOT.IMEI_PATTERN
 		}
 	)]
 
@@ -121,10 +123,10 @@ class Info(CustomBaseModel):
 	def validate_imei(cls, value: Optional[str]) -> Optional[str]:
 
 		# Check Value
-		if value is None or not re.match(Constants.IOT.IMEI_PATTERN, value):
+		if value is None or not re.match(Default.IOT.IMEI_PATTERN, value):
 
 			# Set Default Value
-			value = Constants.IOT.DEFAULT_IMEI
+			value = Default.IOT.DEFAULT_IMEI
 
 		# Return Value
 		return value
@@ -132,12 +134,12 @@ class Info(CustomBaseModel):
 	# SIM ICCID
 	ICCID: Annotated[str, Field(
 		description="SIM card ICCID number.",
-		default=Constants.IOT.DEFAULT_ICCID,
+		default=Default.IOT.DEFAULT_ICCID,
 		json_schema_extra={
 			"example": "8990011916180280000",
-			"min_length": Constants.IOT.ICCID_MIN_LENGTH,
-			"max_length": Constants.IOT.ICCID_MAX_LENGTH,
-			"pattern": Constants.IOT.ICCID_PATTERN 
+			"min_length": Default.IOT.ICCID_MIN_LENGTH,
+			"max_length": Default.IOT.ICCID_MAX_LENGTH,
+			"pattern": Default.IOT.ICCID_PATTERN 
 		}
 	)]
 
@@ -146,10 +148,10 @@ class Info(CustomBaseModel):
 	def validate_iccid(cls, value: str) -> str:
 
 		# Check Value
-		if value is None or not re.match(Constants.IOT.ICCID_PATTERN, value):
+		if value is None or not re.match(Default.IOT.ICCID_PATTERN, value):
 
 			# Set Default Value
-			return Constants.IOT.DEFAULT_ICCID
+			return Default.IOT.DEFAULT_ICCID
 
 		# Return Value
 		return value
@@ -157,10 +159,10 @@ class Info(CustomBaseModel):
 	# Device Firmware Version
 	Firmware: Annotated[Optional[str], Field(
 		description="Firmware version of device.",
-		default=Constants.INFO.DEFAULT_FIRMWARE,
+		default=Default.INFO.DEFAULT_FIRMWARE,
 		json_schema_extra={
 			"example": "01.00.00",
-			"pattern": Constants.INFO.FIRMWARE_PATTERN
+			"pattern": Default.INFO.FIRMWARE_PATTERN
 		}
 	)]
 
@@ -169,10 +171,10 @@ class Info(CustomBaseModel):
 	def validate_firmware(cls, value: Optional[str]) -> str:
 
 		# Check Value
-		if value is None or not re.match(Constants.INFO.FIRMWARE_PATTERN, value):
+		if value is None or not re.match(Default.INFO.FIRMWARE_PATTERN, value):
 
 			# Set Default Value
-			return Constants.INFO.DEFAULT_FIRMWARE
+			return Default.INFO.DEFAULT_FIRMWARE
 
 		# Return Value
 		return value
