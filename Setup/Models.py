@@ -520,7 +520,6 @@ class Rule_Chain(Base):
 	__table_args__ = (
 		Index('idx_rule_id', 'Rule_ID'),
 		Index('idx_device_id', 'Device_ID'),
-		Index('idx_variable_id', 'Variable_ID'),
 		Index('idx_rule_condition', 'Rule_Condition')
 	)
 
