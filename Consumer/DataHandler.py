@@ -164,9 +164,13 @@ try:
 			IoT_Record_Count = 0
 			Payload_Record_Count = 0
 			
-			# Record  Measurements
+			# Record Power Measurements
 			Power_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.Power, Stream_Data.stream_id, Definitions.Variable_Segment.Power.value)
+
+			# Record IoT Measurements
 			IoT_Record_Count = Database_Functions.Record_Measurement(Stream_Data.message.Device.IoT, Stream_Data.stream_id, Definitions.Variable_Segment.GSM.value)
+
+			# Record Payload Measurements
 			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Device.value)
 			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Location.value)
 			Payload_Record_Count += Database_Functions.Record_Measurement(Stream_Data.message.Payload, Stream_Data.stream_id, Definitions.Variable_Segment.Environment.value)
