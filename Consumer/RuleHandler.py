@@ -72,7 +72,7 @@ try:
 			try:
 
 				# Decode Message
-				Message = Schema.Data_Pack.parse_raw(Consumer_Message.value().decode('utf-8'))
+				Message = Schema.Data_Pack.parse_raw(Consumer_Message.value().decode('utf-8')).dict(exclude_none=True)
 
 			# Check for JSON Decode Error
 			except json.JSONDecodeError as e:
@@ -84,7 +84,7 @@ try:
 				continue
 
 			# Log Message
-			Log.Terminal_Log('INFO', f'Received Message: {Message}')
+			Log.Terminal_Log('INFO', f'Received Message: {Message.Payload}')
 			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
