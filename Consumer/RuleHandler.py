@@ -99,7 +99,7 @@ try:
 			keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
 			# Get Pack Dictionary
-			Pack_Dict = Message.__dict__
+			Pack_Dict = Message
 
 			# Check for Variables
 			for variable in keys_to_check:
