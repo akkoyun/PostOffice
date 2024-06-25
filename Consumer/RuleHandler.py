@@ -119,7 +119,7 @@ try:
 			for variable in keys_to_check:
 
 				# Check for Variable
-				if variable in Message:
+				if variable in Message.Payload:
 
 					# Get Value
 					value = Message[variable]
