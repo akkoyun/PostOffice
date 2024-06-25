@@ -63,7 +63,8 @@ try:
 		else:
 
 			# Set Message Schema
-			Message = Schema.Data_Pack(**json.loads(Consumer_Message.value().decode('utf-8'))).dict(exclude_none=True)
+#			Message = Schema.Data_Pack(**json.loads(Consumer_Message.value().decode('utf-8'))).dict(exclude_none=True)
+			Message = Consumer_Message.value().decode('utf-8')
 
 	
 			# Log Message
