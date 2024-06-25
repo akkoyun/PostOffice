@@ -29,6 +29,8 @@ Log.Terminal_Log('INFO', 'Consumer is starting...')
 
 # Define Consumer Topic Loop
 try:
+
+	# Loop Consumer
 	while True:
 
 		# Get Message
@@ -36,6 +38,7 @@ try:
 
 		# Check for Message
 		if Consumer_Message is None:
+
 			# Continue
 			continue
 
@@ -60,14 +63,6 @@ try:
 		# Get Message
 		else:
 
-
-
-
-
-
-
-
-
 			# Decode and parse the message
 			try:
 
@@ -89,21 +84,12 @@ try:
 			IoT_Pack = Device.get('IoT', {})
 			Payload = Message.get('Payload', {})
 
-
-			# Log Message
-			Log.Terminal_Log('INFO', Power_Pack)
-			Log.Terminal_Log('INFO', IoT_Pack)
-			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
-
-
-
-
-
 			# Define DB
 			DB_Module = Database.SessionLocal()
 
 			# Get Pack Dictionary
 			try:
+				
 				# Query all data types
 				Data_Type_Query = DB_Module.query(Models.Variable).all()
 
@@ -122,26 +108,37 @@ try:
 			# Check for Tuple and Extract Variable IDs
 			keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
-			# Check for Variables
-			for variable in keys_to_check:
+			# Function to check variables in a given pack
+			def Check_Variables_in_Pack(pack, pack_name):
 
-				# Check for Variable
-				if variable in Payload:
+				# Check for Pack
+				for variable in keys_to_check:
 
-					# Get Value
-					value = Payload[variable]
+					# Check for Variable
+					if variable in pack:
 
-					# Check for Value
-					if value is not None and value != "":
+						# Get Value
+						value = pack[variable]
 
-						# Add to Found Variables
-						Found_Variables[variable] = value
+						# Check for Value
+						if value is not None and value != "":
+
+							# Add to Found Variables
+							Found_Variables[variable] = value
+
+			# Check for variables in Payload, Power_Pack, and IoT_Pack
+			Check_Variables_in_Pack(Payload, 'Payload')
+			Check_Variables_in_Pack(Power_Pack, 'Power_Pack')
+			Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
 
 			# Log Found Variables
 			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
-
-			# Log Message
 			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
+
+
+
+
+
 
 
 
