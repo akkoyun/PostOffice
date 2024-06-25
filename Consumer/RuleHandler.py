@@ -24,6 +24,9 @@ RAW_Consumer = Consumer(Consumer_Config)
 # Define Subscription Function
 RAW_Consumer.subscribe([Config.APP_Settings.KAFKA_RAW_TOPIC])
 
+# Log Consumer Start
+Log.Terminal_Log('INFO', 'Consumer is starting...')
+
 # Define Consumer Topic Loop
 try:
 
@@ -64,7 +67,7 @@ try:
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Commit Message
-			RAW_Consumer.commit(asynchronous=False)
+			#RAW_Consumer.commit(asynchronous=False)
 
 except KeyboardInterrupt:
 
