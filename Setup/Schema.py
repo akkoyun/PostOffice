@@ -26,9 +26,13 @@ def Create_Dynamic_Model(Segment_ID: int = 0):
 
 			# Query all data types
 			if Segment_ID == 0:
-				Query_Variables = DB.query(Models.Variable).all()
+				Query_Variables = DB.query(Models.Variable).filter(
+					Models.Variable.Segment_ID([1, 4, 5, 6, 7, 8, 9])
+				).all()
 			else:
-				Query_Variables = DB.query(Models.Variable).filter(Models.Variable.Segment_ID == Segment_ID).all()
+				Query_Variables = DB.query(Models.Variable).filter(
+					Models.Variable.Segment_ID == Segment_ID
+				).all()
 
 			# Get Data Type List
 			for Variable in Query_Variables:
