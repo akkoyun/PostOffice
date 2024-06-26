@@ -193,7 +193,7 @@ try:
 			evaluate_composite_rules(Headers['Device_ID'], Found_Variables)
 
 			# Log Found Variables
-			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
+#			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
 			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
