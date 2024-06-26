@@ -8,7 +8,7 @@ from Setup import Schema, Definitions, Config, Database, Models
 from Functions import Log, Database_Functions, ICCID_Functions
 from confluent_kafka import Consumer, KafkaError
 from pydantic import ValidationError
-import time, json
+import time, json, operator
 
 # Define Kafka Consumer
 Rule_Consumer_Config = {
@@ -26,6 +26,115 @@ Rule_Consumer.subscribe([Config.APP_Settings.KAFKA_RAW_TOPIC])
 
 # Log Consumer Start
 Log.Terminal_Log('INFO', 'Consumer is starting...')
+
+
+
+
+
+def evaluate_condition(value, condition):
+
+	# Define Operators
+	ops = {
+		'>': operator.gt,
+		'<': operator.lt,
+		'>=': operator.ge,
+		'<=': operator.le,
+		'==': operator.eq,
+		'!=': operator.ne
+	}
+
+	# Check for Condition
+	for op_str, op_func in ops.items():
+
+		# Check for Operator
+		if op_str in condition:
+
+			# Check for Value
+			cond_value = float(condition.split(op_str)[-1].strip())
+
+			# Check for Operator
+			return op_func(value, cond_value)
+
+	# Return False
+	return False
+
+def evaluate_composite_rules(data):
+
+	# Record Measurements
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Get Rules
+			Rule_Query = DB_Module.query(Models.Rules).all()
+
+			for Rule in Rule_Query:
+
+				# Get Rule ID
+				Rule_ID = Rule.Rule_ID
+
+				# Get Rule Action
+				Rule_Action = Rule.Rule_Action_ID
+
+				# Get Rule Chain
+				Rule_Chain = DB_Module.query(Models.RuleChain).filter(Models.RuleChain.Rule_ID == Rule_ID).all()
+
+				# Define Condition Check
+				Condition_Check = True
+
+				# Check for Rule Chain
+				for Chain in Rule_Chain:
+
+					# Get Chain Variables
+					Device_ID = Chain.Device_ID
+					Variable_ID = Chain.Variable_ID
+					Condition = Chain.Rule_Condition
+
+					# Check for Device ID and Variable ID
+					if Device_ID in data and Variable_ID in data[Device_ID]:
+
+						# Get Value
+						Value = data[Device_ID][Variable_ID]
+
+						# Evaluate Condition
+						if not evaluate_condition(Value, Condition):
+
+							# Set Condition Check
+							Condition_Check = False
+
+							# Break Loop
+							break
+
+					# Check for Device ID and Variable ID
+					else:
+
+						# Set Condition Check
+						Condition_Check = False
+
+						# Break Loop
+						break
+
+				# Check for Condition Check
+				if Condition_Check:
+
+					# Log Rule Action
+					Log.Terminal_Log('INFO', f'Rule Action: {Rule_Action}')
+
+	except Exception as e:
+		
+		# Log Error
+		Log.Terminal_Log('ERROR', f'Error: {e}')
+
+
+
+
+
+
+
+
+
+
 
 # Define Consumer Topic Loop
 try:
@@ -127,12 +236,14 @@ try:
 							Found_Variables[variable] = value
 
 			# Check for variables in Payload, Power_Pack, and IoT_Pack
-			Check_Variables_in_Pack(Payload, 'Payload')
 			Check_Variables_in_Pack(Power_Pack, 'Power_Pack')
 			Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
+			Check_Variables_in_Pack(Payload, 'Payload')
+
+			evaluate_composite_rules(Found_Variables)
 
 			# Log Found Variables
-			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
+#			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
 			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
