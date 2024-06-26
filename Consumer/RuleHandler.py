@@ -27,13 +27,13 @@ Rule_Consumer.subscribe([Config.APP_Settings.KAFKA_RAW_TOPIC])
 # Log Consumer Start
 Log.Terminal_Log('INFO', 'Consumer is starting...')
 
+# Function to evaluate a single rule
+def Evaluate_Condition(value, condition):
 
+	# Define Operators
+	Operators = {
 
-
-
-def evaluate_condition(value, condition):
-
-	ops = {
+		# Arithmetic Operators
 		'>': operator.gt,
 		'<': operator.lt,
 		'>=': operator.ge,
@@ -42,47 +42,80 @@ def evaluate_condition(value, condition):
 		'!=': operator.ne
 	}
 
-	for op_str, op_func in ops.items():
-		if op_str in condition:
-			cond_value = float(condition.split(op_str)[-1].strip())
-			return op_func(value, cond_value)
+	# Check for Condition
+	for Operator_String, Operator_Function in Operators.items():
+
+		# Check for Operator
+		if Operator_String in condition:
+
+			# Check for Value
+			Condition_Value = float(condition.split(Operator_String)[-1].strip())
+
+			# Return Result
+			return Operator_Function(value, Condition_Value)
+
+	# Return False
 	return False
 
-def evaluate_composite_rules(device_id, data):
+# Function to evaluate composite rules
+def Evaluate_Composite_Rules(device_id, data):
 
-	with Database.SessionLocal() as session:
-		main_rules = session.query(Models.Rules).all()
-		
-		for main_rule in main_rules:
-			rule_id = main_rule.Rule_ID
-			action = main_rule.Rule_Action_ID
-			
-			sub_rules = session.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_ID == rule_id).all()
-			
-			all_conditions_met = True
-			for sub_rule in sub_rules:
-				rule_device_id, variable_id, condition = sub_rule.Device_ID, sub_rule.Variable_ID, sub_rule.Rule_Condition
-				if rule_device_id == device_id and variable_id in data:
-					value = data[variable_id]
-					if not evaluate_condition(value, condition):
-						all_conditions_met = False
-						break
-				else:
-					all_conditions_met = False
-					break
-			
-			if all_conditions_met:
-				Log.Terminal_Log('INFO', f'Rule Action: {action}')
+	# Define Action
+    with Database.SessionLocal() as session:
 
+        # Get all main rules
+        Rules = session.query(Models.Rules).all()
 
+		# Check for Rules
+        for Rule in Rules:
 
+            # Get Rule ID and Action
+            Rule_ID = Rule.Rule_ID
+            Rule_Action = Rule.Rule_Action_ID
 
+            # Get all sub rules
+            Rule_Chains = session.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_ID == Rule_ID).all()
 
+			# Define All Conditions Met
+            All_Conditions_Met = True
 
+			# Check for Rule Chains
+            for Rule_Chain in Rule_Chains:
 
+                # Get Rule Chain Data
+                Rule_Device_ID, Rule_Variable_ID, Rule_Condition = Rule_Chain.Device_ID, Rule_Chain.Variable_ID, Rule_Chain.Rule_Condition
 
+                # Check for Device ID and Variable ID
+                if Rule_Device_ID == device_id and Rule_Variable_ID in data:
 
+                    # Get Value
+                    Value = data[Rule_Variable_ID]
 
+                    # Evaluate Condition
+                    if not Evaluate_Condition(Value, Rule_Condition):
+
+						# Condition Not Met
+                        All_Conditions_Met = False
+
+						# Break
+                        break
+
+                else:
+
+					# Condition Not Met
+                    All_Conditions_Met = False
+
+					# Break
+                    break
+
+			# Check for All Conditions Met
+            if All_Conditions_Met:
+
+				# Return Action
+                return Rule_Action
+
+	# Return No Action
+    return 0
 
 # Define Consumer Topic Loop
 try:
@@ -164,6 +197,9 @@ try:
 			# Define Found Variables
 			Found_Variables = {}
 
+			# Define Rule Action
+			Action = 0
+
 			# Check for Tuple and Extract Variable IDs
 			keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
@@ -190,24 +226,22 @@ try:
 			Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
 			Check_Variables_in_Pack(Payload, 'Payload')
 
-			evaluate_composite_rules(Headers['Device_ID'], Found_Variables)
+			# Control for Rule Evaluation
+			Action = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
+
+			# Check for Action
+			if Action == 1:
+
+				# Log Action
+				Log.Terminal_Log('INFO', f'Action Triggered...')
+
+				# Log Action
+				Log.Terminal_Log('INFO', '-------------------------------------------------------------')
+
+
 
 			# Log Found Variables
 #			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
-			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
