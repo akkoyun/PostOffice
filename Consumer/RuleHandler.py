@@ -218,7 +218,7 @@ try:
 			keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
 			# Function to check variables in a given pack
-			def Check_Variables_in_Pack(pack, pack_name):
+			def Check_Variables_in_Pack(pack):
 
 				# Check for Pack
 				for variable in keys_to_check:
@@ -243,7 +243,7 @@ try:
 			evaluate_composite_rules(Found_Variables)
 
 			# Log Found Variables
-#			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
+			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
 			Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
 
