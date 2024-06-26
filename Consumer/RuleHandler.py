@@ -33,7 +33,6 @@ Log.Terminal_Log('INFO', 'Consumer is starting...')
 
 def evaluate_condition(value, condition):
 
-	# Define Operators
 	ops = {
 		'>': operator.gt,
 		'<': operator.lt,
@@ -43,85 +42,37 @@ def evaluate_condition(value, condition):
 		'!=': operator.ne
 	}
 
-	# Check for Condition
 	for op_str, op_func in ops.items():
-
-		# Check for Operator
 		if op_str in condition:
-
-			# Check for Value
 			cond_value = float(condition.split(op_str)[-1].strip())
-
-			# Check for Operator
 			return op_func(value, cond_value)
-
-	# Return False
 	return False
 
 def evaluate_composite_rules(device_id, data):
 
-	# Record Measurements
-	try:
-
-		# Define DB
-		with Database.SessionLocal() as DB_Module:
-
-			# Get Rules
-			Rule_Query = DB_Module.query(Models.Rules).all()
-
-			for Rule in Rule_Query:
-
-				# Get Rule ID
-				Rule_ID = Rule.Rule_ID
-
-				# Get Rule Action
-				Rule_Action = Rule.Rule_Action_ID
-
-				# Get Rule Chain
-				Rule_Chain = DB_Module.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_Chain_ID == Rule_ID).all()
-        
-				# Define Condition Check
-				Condition_Check = True
-
-				# Check for Rule Chain
-				for Chain in Rule_Chain:
-
-					Rule_Device_ID, Rule_Variable_ID, Rule_Condition = Chain.Device_ID, Chain.Variable_ID, Chain.Rule_Condition
-
-					# Check for Device ID and Variable ID
-					if Rule_Device_ID in data and Rule_Variable_ID in data[Rule_Device_ID]:
-
-						# Get Value
-						Value = data[Rule_Device_ID][Rule_Variable_ID]
-
-						# Evaluate Condition
-						if not evaluate_condition(Value, Rule_Condition):
-
-							# Set Condition Check
-							Condition_Check = False
-
-							# Break Loop
-							break
-
-					# Check for Device ID and Variable ID
-					else:
-
-						# Set Condition Check
-						Condition_Check = False
-
-						# Break Loop
-						break
-
-				# Check for Condition Check
-				if Condition_Check:
-
-					# Log Rule Action
-					Log.Terminal_Log('INFO', f'Rule Action: {Rule_Action}')
-
-	except Exception as e:
+	with Database.SessionLocal() as session:
+		main_rules = session.query(Models.Rules).all()
 		
-		# Log Error
-		Log.Terminal_Log('ERROR', f'Error: {e}')
+		for main_rule in main_rules:
+			rule_id = main_rule.Rule_ID
+			action = main_rule.Rule_Action_ID
+			
+			sub_rules = session.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_ID == rule_id).all()
+			
+			all_conditions_met = True
+			for sub_rule in sub_rules:
+				rule_device_id, variable_id, condition = sub_rule.Device_ID, sub_rule.Variable_ID, sub_rule.Rule_Condition
+				if rule_device_id == device_id and variable_id in data:
+					value = data[variable_id]
+					if not evaluate_condition(value, condition):
+						all_conditions_met = False
+						break
+				else:
+					all_conditions_met = False
+					break
+			
+			if all_conditions_met:
+				Log.Terminal_Log('INFO', f'Rule Action: {action}')
 
 
 
