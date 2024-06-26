@@ -78,7 +78,7 @@ def evaluate_composite_rules(data):
 				Rule_Action = Rule.Rule_Action_ID
 
 				# Get Rule Chain
-				Rule_Chain = DB_Module.query(Models.RuleChain).filter(Models.Rule_Chain.Rule_Chain_ID == Rule_ID).all()
+				Rule_Chain = DB_Module.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_Chain_ID == Rule_ID).all()
 
 				# Define Condition Check
 				Condition_Check = True
