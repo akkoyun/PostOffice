@@ -58,7 +58,7 @@ def evaluate_condition(value, condition):
 	# Return False
 	return False
 
-def evaluate_composite_rules(data):
+def evaluate_composite_rules(device_id, data):
 
 	# Record Measurements
 	try:
@@ -79,26 +79,23 @@ def evaluate_composite_rules(data):
 
 				# Get Rule Chain
 				Rule_Chain = DB_Module.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_Chain_ID == Rule_ID).all()
-
+        
 				# Define Condition Check
 				Condition_Check = True
 
 				# Check for Rule Chain
 				for Chain in Rule_Chain:
 
-					# Get Chain Variables
-					Device_ID = Chain.Device_ID
-					Variable_ID = Chain.Variable_ID
-					Condition = Chain.Rule_Condition
+					Rule_Device_ID, Rule_Variable_ID, Rule_Condition = Chain.Device_ID, Chain.Variable_ID, Chain.Rule_Condition
 
 					# Check for Device ID and Variable ID
-					if Device_ID in data and Variable_ID in data[Device_ID]:
+					if Rule_Device_ID in data and Rule_Variable_ID in data[Rule_Device_ID]:
 
 						# Get Value
-						Value = data[Device_ID][Variable_ID]
+						Value = data[Rule_Device_ID][Rule_Variable_ID]
 
 						# Evaluate Condition
-						if not evaluate_condition(Value, Condition):
+						if not evaluate_condition(Value, Rule_Condition):
 
 							# Set Condition Check
 							Condition_Check = False
@@ -187,6 +184,8 @@ try:
 				# Continue
 				continue
 
+			Headers = {key: value.decode('utf-8') for key, value in Consumer_Message.headers()}
+
 			# Get Data Packs
 			Device = Message.get('Device', {})
 			Power_Pack = Device.get('Power', {})
@@ -240,7 +239,7 @@ try:
 			Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
 			Check_Variables_in_Pack(Payload, 'Payload')
 
-			evaluate_composite_rules(Found_Variables)
+			evaluate_composite_rules(Headers['Device_ID'], Found_Variables)
 
 			# Log Found Variables
 			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
