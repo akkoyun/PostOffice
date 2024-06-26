@@ -3,11 +3,9 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
-from Setup.Definitions import Variable_Segment as Constants
-from Setup import Schema, Definitions, Config, Database, Models
-from Functions import Log, Database_Functions, ICCID_Functions
+from Setup import Config, Database, Models
+from Functions import Log
 from confluent_kafka import Consumer, KafkaError
-from pydantic import ValidationError
 import time, json, operator
 
 # Define Kafka Consumer
@@ -61,61 +59,71 @@ def Evaluate_Condition(value, condition):
 def Evaluate_Composite_Rules(device_id, data):
 
 	# Define Action
-    with Database.SessionLocal() as session:
+	with Database.SessionLocal() as session:
 
-        # Get all main rules
-        Rules = session.query(Models.Rules).all()
+		# Get all main rules
+		Rules = session.query(Models.Rules).all()
 
 		# Check for Rules
-        for Rule in Rules:
+		for Rule in Rules:
 
-            # Get Rule ID and Action
-            Rule_ID = Rule.Rule_ID
-            Rule_Action = Rule.Rule_Action_ID
+			# Get Rule ID and Action
+			Rule_ID = Rule.Rule_ID
+			Rule_Action = Rule.Rule_Action_ID
 
-            # Get all sub rules
-            Rule_Chains = session.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_ID == Rule_ID).all()
+			# Get all sub rules
+			Rule_Chains = session.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_ID == Rule_ID).all()
 
 			# Define All Conditions Met
-            All_Conditions_Met = True
+			All_Conditions_Met = True
 
 			# Check for Rule Chains
-            for Rule_Chain in Rule_Chains:
+			for Rule_Chain in Rule_Chains:
 
-                # Get Rule Chain Data
-                Rule_Device_ID, Rule_Variable_ID, Rule_Condition = Rule_Chain.Device_ID, Rule_Chain.Variable_ID, Rule_Chain.Rule_Condition
+				# Get Rule Chain Data
+				Rule_Device_ID, Rule_Variable_ID, Rule_Condition = Rule_Chain.Device_ID, Rule_Chain.Variable_ID, Rule_Chain.Rule_Condition
 
-                # Check for Device ID and Variable ID
-                if Rule_Device_ID == device_id and Rule_Variable_ID in data:
+				# Check for Device ID and Variable ID
+				if Rule_Device_ID == device_id and Rule_Variable_ID in data:
 
-                    # Get Value
-                    Value = data[Rule_Variable_ID]
+					# Get Value
+					Value = data[Rule_Variable_ID]
 
-                    # Evaluate Condition
-                    if not Evaluate_Condition(Value, Rule_Condition):
+					# Evaluate Condition
+					if not Evaluate_Condition(Value, Rule_Condition):
 
 						# Condition Not Met
-                        All_Conditions_Met = False
+						All_Conditions_Met = False
 
 						# Break
-                        break
+						break
 
-                else:
+				else:
 
 					# Condition Not Met
-                    All_Conditions_Met = False
+					All_Conditions_Met = False
 
 					# Break
-                    break
+					break
 
 			# Check for All Conditions Met
-            if All_Conditions_Met:
+			if All_Conditions_Met:
+
+				# Get Rule for Update
+				Rule_Update = session.query(Models.Rules).filter(Models.Rules.Rule_ID == Rule_ID).first()
+
+				# Update Rule
+				Rule_Update.Rule_Trigger_Count += 1
+
+				# Commit Update
+				session.commit()
 
 				# Return Action
-                return Rule_Action
+				return Rule_Action
+			
 
 	# Return No Action
-    return 0
+	return 0
 
 # Define Consumer Topic Loop
 try:
@@ -238,19 +246,21 @@ try:
 				# Log Action
 				Log.Terminal_Log('INFO', '-------------------------------------------------------------')
 
-
-
 			# Log Found Variables
 #			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
 
+# Check for Keyboard Interrupt
 except KeyboardInterrupt:
+
 	# Consumer Closed Manually
 	Log.Terminal_Log('INFO', 'Handler is shutting down...')
 
+# Check for Finally
 finally:
+
 	# Wait for Finish
 	time.sleep(2)
 

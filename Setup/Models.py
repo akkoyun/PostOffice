@@ -484,6 +484,7 @@ class Rules(Base):
 	Rule_Name = Column(String(100), nullable=True)
 	Rule_Description = Column(String(255), nullable=True)
 	Rule_Action_ID = Column(Integer, nullable=True)
+	Rule_Trigger_Count = Column(Integer, nullable=False, server_default="0")
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
 
