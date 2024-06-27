@@ -177,6 +177,7 @@ try:
 				# Continue
 				continue
 
+			# Get Headers
 			Headers = {key: value.decode('utf-8') for key, value in Consumer_Message.headers()}
 
 			# Get Data Packs
@@ -238,17 +239,14 @@ try:
 			# Control for Rule Evaluation
 			Action = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
 
-			# Check for Action
-			if Action == 1:
-
-				# Log Action
-				Log.Terminal_Log('INFO', f'Action Triggered...')
-
-				# Log Action
-				Log.Terminal_Log('INFO', '-------------------------------------------------------------')
+			# Log Found Variables
+			if Action == 0:
+				action_message = "[Not Triggered]"
+			else:
+				action_message = "[  Triggered  ]"
 
 			# Log Found Variables
-#			Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
+			Log.Terminal_Log('INFO', f'Rule --> [{Headers['Device_ID']}] - {action_message}')
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
