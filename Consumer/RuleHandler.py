@@ -128,6 +128,8 @@ def Evaluate_Composite_Rules(device_id, data):
 				# Append to Triggered Rules
 				Triggered_Rules.append(Rule_Action)
 
+	Log.Terminal_Log('INFO', 'Triggered Rules: ' + str(Triggered_Rules))
+
 	# Return Triggered Rules
 	return Triggered_Rules
 
