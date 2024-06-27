@@ -485,6 +485,7 @@ class Rules(Base):
 	Rule_Description = Column(String(255), nullable=True)
 	Rule_Action_ID = Column(Integer, nullable=True)
 	Rule_Trigger_Count = Column(Integer, nullable=False, server_default="0")
+	Rule_Status = Column(Boolean, nullable=False, server_default="1")
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
 
@@ -524,6 +525,4 @@ class Rule_Chain(Base):
 		Index('idx_rulechain_variable_id', 'Variable_ID'),
 		Index('idx_rulechain_condition', 'Rule_Condition')
 	)
-
-
 
