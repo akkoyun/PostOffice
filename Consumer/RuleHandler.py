@@ -239,7 +239,7 @@ try:
 			Rule_ID = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
 
 			# Log Found Variables
-			if Rule_ID is None:
+			if Rule_ID is 0:
 				action_message = "[Not Triggered]"
 			else:
 				action_message = "[  Triggered  ]"
