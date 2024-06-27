@@ -1,0 +1,18 @@
+[Unit]
+Description=PostOffice Rule Handler Service with Multiple Workers
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/home/postoffice/PostOffice/src
+Environment="PATH=/home/postoffice/PostOffice/PostOffice_ENV/bin"
+EnvironmentFile=/home/postoffice/PostOffice/src/Setup/.env
+ExecStart=/home/postoffice/PostOffice/src/Docs/Batch/RuleHandler_workers.sh
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

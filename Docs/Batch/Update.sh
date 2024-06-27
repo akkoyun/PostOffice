@@ -89,12 +89,7 @@ cd /home/postoffice/PostOffice/src
 # Stop Services
 Stop_Service PostOffice.service
 Stop_Service DataHandler.service
-#Stop_Service Handler_RAW.service
-#Stop_Service Handler_Parameter.service
-#Stop_Service Handler_Payload.service
-#Stop_Service Handler_Discord.service
-#Stop_Service WeatherStat.service
-#Stop_Service PostOffice_Service_Controller.service
+Stop_Service RuleHandler.service
 Stop_Service nginx.service
 
 # Message
@@ -119,11 +114,7 @@ echo "${yellow}Updating files...${reset}"
 # Copy Service Files
 Copy_File "/home/postoffice/PostOffice/src/Docs/Service/PostOffice.service" "/etc/systemd/system/PostOffice.service"
 Copy_File "/home/postoffice/PostOffice/src/Docs/Service/DataHandler.service" "/etc/systemd/system/DataHandler.service"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Payload.service" "/etc/systemd/system/Handler_Payload.service"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Handler_Discord.service" "/etc/systemd/system/Handler_Discord.service"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/PostOffice_Service_Controller.service" "/etc/systemd/system/PostOffice_Service_Controller.service"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/WeatherStat.service" "/etc/systemd/system/WeatherStat.service"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Service/Hardware.service" "/etc/systemd/system/Hardware.service"
+Copy_File "/home/postoffice/PostOffice/src/Docs/Service/RuleHandler.service" "/etc/systemd/system/RuleHandler.service"
 
 # Copy Nginx Files
 Copy_File "/home/postoffice/PostOffice/src/Docs/nginx/PostOffice" "/etc/nginx/sites-available/PostOffice"
@@ -131,12 +122,11 @@ Copy_File "/home/postoffice/PostOffice/src/Docs/nginx/nginx.conf" "/etc/nginx/ng
 
 # Copy SH Batch Files
 Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Update.sh" "/home/postoffice/"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Restart.sh" "/root/Restart.sh"
-#Copy_File "/home/postoffice/PostOffice/src/Docs/Batch/Service.sh" "/root/Service.sh"
 
 # Update sh Permission
 sudo chmod +x /home/postoffice/PostOffice/src/Docs/Batch/Update.sh
 sudo chmod +x /home/postoffice/PostOffice/src/Docs/Batch/DataHandler_workers.sh
+sudo chmod +x /home/postoffice/PostOffice/src/Docs/Batch/RuleHandler_workers.sh
 
 # Message
 echo "----------------------------------------------"
@@ -147,12 +137,7 @@ sudo systemctl daemon-reload
 # Start Services
 Start_Service PostOffice.service
 Start_Service DataHandler.service
-#Start_Service Handler_RAW.service
-#Start_Service Handler_Parameter.service
-#Start_Service Handler_Payload.service
-#Start_Service Handler_Discord.service
-#Start_Service WeatherStat.service
-#Start_Service PostOffice_Service_Controller.service
+Start_Service RuleHandler.service
 Start_Service nginx.service
 
 # Message
