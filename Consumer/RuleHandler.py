@@ -74,6 +74,7 @@ def Evaluate_Composite_Rules(device_id, data):
 			Rule_ID = Rule.Rule_ID
 			Rule_Action = Rule.Rule_Action_ID
 			Rule_Status = Rule.Rule_Status
+			Action_ID = Rule.Rule_Action_ID
 
 			# Get all sub rules
 			Rule_Chains = session.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_ID == Rule_ID).all()
@@ -122,7 +123,7 @@ def Evaluate_Composite_Rules(device_id, data):
 				session.commit()
 
 				# Log Rule Triggered
-				Log.Terminal_Log('INFO', f'Rule --> [{device_id}] - [Rule ID: {Rule_ID}] - Action Triggered')
+				Log.Terminal_Log('INFO', f'Rule --> [{device_id}] - [Rule ID: {Rule_ID} / Action ID: {Action_ID}] - Action Triggered')
 
 				# Append to Triggered Rules
 				Triggered_Rules.append(Rule_Action)
