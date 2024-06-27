@@ -59,7 +59,7 @@ def Evaluate_Condition(value, condition):
 def Evaluate_Composite_Rules(device_id, data):
 
 	# Define Triggered Rules
-	triggered_rules = []
+	Triggered_Rules = []
 
 	# Define Action
 	with Database.SessionLocal() as session:
@@ -125,10 +125,10 @@ def Evaluate_Composite_Rules(device_id, data):
 				Log.Terminal_Log('INFO', f'Rule --> [{device_id}] - [Rule ID: {Rule_ID}] - Action Triggered')
 
 				# Append to Triggered Rules
-				triggered_rules.append(Rule_Action)
+				Triggered_Rules.append(Rule_Action)
 
 	# Return Triggered Rules
-	return triggered_rules
+	return Triggered_Rules
 
 # Define Consumer Topic Loop
 try:
@@ -231,14 +231,10 @@ try:
 			Check_Variables_in_Pack(Payload, 'Payload')
 
 			# Evaluate and Log Rules
-			triggered_rules = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
+			Triggered_Rules = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
 
-			# Log Found Variables
-			if not triggered_rules:
-				Log.Terminal_Log('INFO', f'Rule --> [{Headers["Device_ID"]}] - No Action')
-			else:
-				for action in triggered_rules:
-					Log.Terminal_Log('INFO', f'Rule --> [{Headers["Device_ID"]}] - Action Triggered: {action}')
+			# Log Line
+			Log.Terminal_Log('INFO', '---------------------------------------------------------------')
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
