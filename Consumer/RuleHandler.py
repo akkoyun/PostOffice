@@ -126,12 +126,13 @@ def Evaluate_Composite_Rules(device_id, data):
 				Log.Terminal_Log('INFO', f'Rule --> [{device_id}] - [Rule ID: {Rule_ID} / Action ID: {Action_ID}] - Action Triggered')
 
 				# Append to Triggered Rules
-				Triggered_Rules.append((device_id, Rule_ID, Rule_Action))
+				Triggered_Rules.append({'Rule_ID': Rule_ID, 'Action_ID': Rule_Action})
 
-	Log.Terminal_Log('INFO', 'Triggered Rules: ' + str(Triggered_Rules))
+	# Define JSON Output
+	JSON_Output = {"Device_ID": device_id, "Triggered_Rules": Triggered_Rules}
 
 	# Return Triggered Rules
-	return Triggered_Rules
+	return JSON_Output
 
 # Define Consumer Topic Loop
 try:
