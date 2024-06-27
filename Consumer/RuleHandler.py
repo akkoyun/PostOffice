@@ -238,6 +238,7 @@ try:
 			Triggered_Rules = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
 
 			# Log Line
+			Log.Terminal_Log('INFO', f'Triggered Rules: {Triggered_Rules}')
 			Log.Terminal_Log('INFO', '---------------------------------------------------------------')
 
 			# Commit Message
