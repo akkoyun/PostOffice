@@ -58,6 +58,9 @@ def Evaluate_Condition(value, condition):
 # Function to evaluate composite rules
 def Evaluate_Composite_Rules(device_id, data):
 
+	# Define Triggered Rules
+	triggered_rules = []
+
 	# Define Action
 	with Database.SessionLocal() as session:
 
@@ -69,6 +72,7 @@ def Evaluate_Composite_Rules(device_id, data):
 
 			# Get Rule ID and Action
 			Rule_ID = Rule.Rule_ID
+			Rule_Action = Rule.Rule_Action_ID
 			Rule_Status = Rule.Rule_Status
 
 			# Get all sub rules
@@ -97,7 +101,6 @@ def Evaluate_Composite_Rules(device_id, data):
 
 						# Break
 						break
-
 				else:
 
 					# Condition Not Met
@@ -118,20 +121,14 @@ def Evaluate_Composite_Rules(device_id, data):
 				# Commit Update
 				session.commit()
 
-				# Log Found Variables
-				Log.Terminal_Log('INFO', f'[{Rule_ID}] -> [{Headers['Device_ID']}] - [  Triggered  ]')
+				# Log Rule Triggered
+				Log.Terminal_Log('INFO', f'Rule --> [{device_id}] - [Rule ID: {Rule_ID}] - Action Triggered')
 
-				# Return Action
-				return Rule_ID
-			
-			else:
+				# Append to Triggered Rules
+				triggered_rules.append(Rule_Action)
 
-				# Log Found Variables
-				Log.Terminal_Log('INFO', f'[{Rule_ID}] -> [{Headers['Device_ID']}] - [  Not Triggered  ]')
-			
-
-	# Return No Action
-	return 0
+	# Return Triggered Rules
+	return triggered_rules
 
 # Define Consumer Topic Loop
 try:
@@ -214,37 +211,34 @@ try:
 			# Define Found Variables
 			Found_Variables = {}
 
-			# Define Rule ID
-			Rule_ID = None
+			# Define Rule Action
+			Action = 0
 
 			# Check for Tuple and Extract Variable IDs
 			keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
 			# Function to check variables in a given pack
 			def Check_Variables_in_Pack(pack, pack_name):
-
-				# Check for Pack
 				for variable in keys_to_check:
-
-					# Check for Variable
 					if variable in pack:
-
-						# Get Value
 						value = pack[variable]
-
-						# Check for Value
 						if value is not None and value != "":
-
-							# Add to Found Variables
 							Found_Variables[variable] = value
 
-			# Check for variables in Payload, Power_Pack, and IoT_Pack
+			# Check Variables in Packs
 			Check_Variables_in_Pack(Power_Pack, 'Power_Pack')
 			Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
 			Check_Variables_in_Pack(Payload, 'Payload')
 
-			# Control for Rule Evaluation
-			Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
+			# Evaluate and Log Rules
+			triggered_rules = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
+
+			# Log Found Variables
+			if not triggered_rules:
+				Log.Terminal_Log('INFO', f'Rule --> [{Headers["Device_ID"]}] - No Action')
+			else:
+				for action in triggered_rules:
+					Log.Terminal_Log('INFO', f'Rule --> [{Headers["Device_ID"]}] - Action Triggered: {action}')
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
