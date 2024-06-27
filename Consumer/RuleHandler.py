@@ -69,7 +69,6 @@ def Evaluate_Composite_Rules(device_id, data):
 
 			# Get Rule ID and Action
 			Rule_ID = Rule.Rule_ID
-			Rule_Action = Rule.Rule_Action_ID
 			Rule_Status = Rule.Rule_Status
 
 			# Get all sub rules
@@ -120,7 +119,7 @@ def Evaluate_Composite_Rules(device_id, data):
 				session.commit()
 
 				# Return Action
-				return Rule_Action
+				return Rule_ID
 			
 
 	# Return No Action
@@ -207,8 +206,8 @@ try:
 			# Define Found Variables
 			Found_Variables = {}
 
-			# Define Rule Action
-			Action = 0
+			# Define Rule ID
+			Rule_ID = None
 
 			# Check for Tuple and Extract Variable IDs
 			keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
@@ -237,16 +236,16 @@ try:
 			Check_Variables_in_Pack(Payload, 'Payload')
 
 			# Control for Rule Evaluation
-			Action = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
+			Rule_ID = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
 
 			# Log Found Variables
-			if Action == 0:
+			if Rule_ID is None:
 				action_message = "[Not Triggered]"
 			else:
 				action_message = "[  Triggered  ]"
 
 			# Log Found Variables
-			Log.Terminal_Log('INFO', f'Rule --> [{Headers['Device_ID']}] - {action_message}')
+			Log.Terminal_Log('INFO', f'[{Rule_ID}] -> [{Headers['Device_ID']}] - {action_message}')
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
