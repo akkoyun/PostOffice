@@ -118,8 +118,16 @@ def Evaluate_Composite_Rules(device_id, data):
 				# Commit Update
 				session.commit()
 
+				# Log Found Variables
+				Log.Terminal_Log('INFO', f'[{Rule_ID}] -> [{Headers['Device_ID']}] - [  Triggered  ]')
+
 				# Return Action
 				return Rule_ID
+			
+			else:
+
+				# Log Found Variables
+				Log.Terminal_Log('INFO', f'[{Rule_ID}] -> [{Headers['Device_ID']}] - [  Not Triggered  ]')
 			
 
 	# Return No Action
@@ -236,16 +244,7 @@ try:
 			Check_Variables_in_Pack(Payload, 'Payload')
 
 			# Control for Rule Evaluation
-			Rule_ID = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
-
-			# Log Found Variables
-			if Rule_ID == 0:
-				action_message = "[Not Triggered]"
-			else:
-				action_message = "[  Triggered  ]"
-
-			# Log Found Variables
-			Log.Terminal_Log('INFO', f'[{Rule_ID}] -> [{Headers['Device_ID']}] - {action_message}')
+			Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
