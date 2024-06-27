@@ -70,6 +70,7 @@ def Evaluate_Composite_Rules(device_id, data):
 			# Get Rule ID and Action
 			Rule_ID = Rule.Rule_ID
 			Rule_Action = Rule.Rule_Action_ID
+			Rule_Status = Rule.Rule_Status
 
 			# Get all sub rules
 			Rule_Chains = session.query(Models.Rule_Chain).filter(Models.Rule_Chain.Rule_ID == Rule_ID).all()
@@ -84,7 +85,7 @@ def Evaluate_Composite_Rules(device_id, data):
 				Rule_Device_ID, Rule_Variable_ID, Rule_Condition = Rule_Chain.Device_ID, Rule_Chain.Variable_ID, Rule_Chain.Rule_Condition
 
 				# Check for Device ID and Variable ID
-				if Rule_Device_ID == device_id and Rule_Variable_ID in data:
+				if Rule_Device_ID == device_id and Rule_Status == True and Rule_Variable_ID in data:
 
 					# Get Value
 					Value = data[Rule_Variable_ID]
