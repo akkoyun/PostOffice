@@ -123,7 +123,7 @@ def Evaluate_Composite_Rules(device_id, data):
 				session.commit()
 
 				# Log Rule Triggered
-				Log.Terminal_Log('INFO', f'Rule --> [{device_id}] - [Rule ID: {Rule_ID} / Action ID: {Action_ID}] - Action Triggered')
+				Log.Terminal_Log('INFO', f'[{device_id}] - [Rule ID: {Rule_ID} / Action ID: {Action_ID}] - [Triggered]')
 
 				# Append to Triggered Rules
 				Triggered_Rules.append({'Rule_ID': Rule_ID, 'Action_ID': Rule_Action})
@@ -238,7 +238,6 @@ try:
 			Triggered_Rules = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
 
 			# Log Line
-			Log.Terminal_Log('INFO', f'Triggered Rules: {Triggered_Rules}')
 			Log.Terminal_Log('INFO', '---------------------------------------------------------------')
 
 			# Commit Message
