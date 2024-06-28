@@ -743,7 +743,7 @@ def Increase_Rule_Trigger_Count(Rule_ID: int) -> int:
 		return 0
 
 # Add Rule Log
-def Add_Rule_Log(Rule_ID: int, Action_ID: int, Device_ID: int) -> int:
+def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 
 	# Try to open a database session
 	try:
@@ -753,9 +753,8 @@ def Add_Rule_Log(Rule_ID: int, Action_ID: int, Device_ID: int) -> int:
 
 			# Create New Rule Log
 			New_Rule_Log = Models.Rule_Log(
-				Rule_ID = Rule_ID,
-				Action_ID = Action_ID,
 				Device_ID = Device_ID,
+				Rule_ID = Rule_ID
 			)
 
 			# Add Rule Log to DataBase
@@ -774,7 +773,7 @@ def Add_Rule_Log(Rule_ID: int, Action_ID: int, Device_ID: int) -> int:
 	except SQLAlchemyError as e:
 
 		# Log Error
-		Log.Terminal_Log('ERROR', f"Error while processing Rule ID: {Rule_ID} / Action ID: {Action_ID}: {e}")
+		Log.Terminal_Log('ERROR', f"Error while processing Rule ID: {Rule_ID}: {e}")
 
 		# Return Rule Log ID
 		return 0
