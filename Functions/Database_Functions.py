@@ -699,7 +699,7 @@ def Create_Dynamic_Model(Segment_ID: int = 0):
 		raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
 
 # Increase Rule Trigger Count
-def Increase_Rule_Trigger_Count(Rule_ID: int, Action_ID: int) -> int:
+def Increase_Rule_Trigger_Count(Rule_ID: int) -> int:
 
 	# Try to open a database session
 	try:
@@ -737,7 +737,7 @@ def Increase_Rule_Trigger_Count(Rule_ID: int, Action_ID: int) -> int:
 	except SQLAlchemyError as e:
 
 		# Log Error
-		Log.Terminal_Log('ERROR', f"Error while processing Rule ID: {Rule_ID} / Action ID: {Action_ID}: {e}")
+		Log.Terminal_Log('ERROR', f"Error while processing Rule ID: {Rule_ID}: {e}")
 
 		# Return Rule ID
 		return 0
