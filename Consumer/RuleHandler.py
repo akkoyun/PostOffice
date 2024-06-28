@@ -241,10 +241,10 @@ try:
 			Log.Terminal_Log('INFO', '---------------------------------------------------------------')
 
 			# Control for Triggered Rules
-			if Triggered_Rules is not None and len(Triggered_Rules) > 0:
+			if Triggered_Rules['Triggered_Rules']:
 
 				# Send to Kafka
-				Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_PUBLISH_TOPIC, Triggered_Rules, [('Device_ID', Headers['Device_ID'])])
+				Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_PUBLISH_TOPIC, Triggered_Rules, [])
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
