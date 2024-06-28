@@ -240,8 +240,11 @@ try:
 			# Log Line
 			Log.Terminal_Log('INFO', '---------------------------------------------------------------')
 
-			# Send to Kafka
-			Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_PUBLISH_TOPIC, Triggered_Rules, [('Device_ID', Headers['Device_ID'])])
+			# Control for Triggered Rules
+			if Triggered_Rules:
+
+				# Send to Kafka
+				Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_PUBLISH_TOPIC, Triggered_Rules, [('Device_ID', Headers['Device_ID'])])
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)
