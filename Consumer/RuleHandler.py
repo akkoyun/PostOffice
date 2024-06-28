@@ -4,7 +4,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
 from Setup import Config, Database, Models
-from Functions import Log
+from Functions import Log, Kafka
 from confluent_kafka import Consumer, KafkaError
 import time, json, operator
 
@@ -239,6 +239,9 @@ try:
 
 			# Log Line
 			Log.Terminal_Log('INFO', '---------------------------------------------------------------')
+
+			# Send to Kafka
+			Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_PUBLISH_TOPIC, Triggered_Rules, Headers, 0)
 
 			# Commit Message
 			Rule_Consumer.commit(asynchronous=False)

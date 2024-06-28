@@ -29,6 +29,7 @@ class Settings(BaseSettings):
 	KAFKA_HOSTNAME: str
 	KAFKA_PORT: int
 	KAFKA_RAW_TOPIC: str
+	KAFKA_PUBLISH_TOPIC: str
 
 	# File Settings
 	FILE_MANUFACTURER: str
