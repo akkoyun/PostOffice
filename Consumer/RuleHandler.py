@@ -5,8 +5,8 @@ sys.path.append('/home/postoffice/PostOffice/src')
 # Import Libraries
 from Setup import Config, Database, Models
 from Functions import Log, Kafka
-from confluent_kafka import Consumer, KafkaError
-import time, json, operator
+from confluent_kafka import Consumer
+import time, operator
 
 # Define Kafka Consumer
 Rule_Consumer_Config = {
@@ -141,113 +141,84 @@ try:
 	while True:
 
 		# Get Message
-		Consumer_Message = Rule_Consumer.poll(timeout=1.0)
+		Kafka_Message = Kafka.Get_Message_From_Topic(Rule_Consumer)
 
 		# Check for Message
-		if Consumer_Message is None:
+		if Kafka_Message is None:
 
 			# Continue
 			continue
+
+		# Set Message
+		Message, Headers, Consumer_Message = Kafka_Message
+
+		# Get Data Packs
+		Device = Message.get('Device', {})
+		Power_Pack = Device.get('Power', {})
+		IoT_Pack = Device.get('IoT', {})
+		Payload = Message.get('Payload', {})
+
+		# Define DB
+		DB_Module = Database.SessionLocal()
+
+		# Get Pack Dictionary
+		try:
+			
+			# Query all data types
+			Data_Type_Query = DB_Module.query(Models.Variable).all()
+
+			# Get Data Type List
+			Formatted_Data = [(Variable.Variable_ID, Variable.Variable_Unit) for Variable in Data_Type_Query]
 
 		# Check for Error
-		if Consumer_Message.error():
+		finally:
 
-			# Check for Error
-			if Consumer_Message.error().code() == KafkaError._PARTITION_EOF:
+			# Close Database
+			DB_Module.close()
 
-				# Continue
-				continue
+		# Define Found Variables
+		Found_Variables = {}
 
-			# Check for Error
-			elif Consumer_Message.error():
+		# Check for Tuple and Extract Variable IDs
+		Keys_To_Check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
-				# Log Error
-				Log.Terminal_Log('ERROR', f'Consumer Error: {Consumer_Message.error()}')
+		# Function To Check Variables in a Given Pack
+		def Check_Variables_in_Pack(pack, pack_name):
 
-			# Continue
-			continue
+			# Check for Variables
+			for variable in Keys_To_Check:
 
-		# Get Message
-		else:
+				# Check for Variable
+				if variable in pack:
 
-			# Decode and parse the message
-			try:
+					# Get Value
+					value = pack[variable]
 
-				# Decode Message
-				Message = json.loads(Consumer_Message.value().decode('utf-8'))
+					# Check for Value
+					if value is not None and value != "":
 
-			# Check for JSON Decode Error
-			except json.JSONDecodeError as e:
+						# Add to Found Variables
+						Found_Variables[variable] = value
 
-				# Log Error
-				Log.Terminal_Log('ERROR', f'JSON Decode Error: {e}')
+		# Check Variables in Packs
+		Check_Variables_in_Pack(Power_Pack, 'Power_Pack')
+		Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
+		Check_Variables_in_Pack(Payload, 'Payload')
 
-				# Continue
-				continue
+		# Evaluate and Log Rules
+		Triggered_Rules = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
 
-			# Get Headers
-			Headers = {key: value.decode('utf-8') for key, value in Consumer_Message.headers()}
+		# Log Line
+		Log.Terminal_Log('INFO', '---------------------------------------------------------------')
 
-			# Get Data Packs
-			Device = Message.get('Device', {})
-			Power_Pack = Device.get('Power', {})
-			IoT_Pack = Device.get('IoT', {})
-			Payload = Message.get('Payload', {})
+		# Control for Triggered Rules
+		if Triggered_Rules['Triggered_Rules']:
 
-			# Define DB
-			DB_Module = Database.SessionLocal()
+			# Send to Kafka
+			Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_PUBLISH_TOPIC, Triggered_Rules, [])
 
-			# Get Pack Dictionary
-			try:
-				
-				# Query all data types
-				Data_Type_Query = DB_Module.query(Models.Variable).all()
-
-				# Get Data Type List
-				Formatted_Data = [(Variable.Variable_ID, Variable.Variable_Unit) for Variable in Data_Type_Query]
-
-			# Check for Error
-			finally:
-
-				# Close Database
-				DB_Module.close()
-
-			# Define Found Variables
-			Found_Variables = {}
-
-			# Define Rule Action
-			Action = 0
-
-			# Check for Tuple and Extract Variable IDs
-			keys_to_check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
-
-			# Function to check variables in a given pack
-			def Check_Variables_in_Pack(pack, pack_name):
-				for variable in keys_to_check:
-					if variable in pack:
-						value = pack[variable]
-						if value is not None and value != "":
-							Found_Variables[variable] = value
-
-			# Check Variables in Packs
-			Check_Variables_in_Pack(Power_Pack, 'Power_Pack')
-			Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
-			Check_Variables_in_Pack(Payload, 'Payload')
-
-			# Evaluate and Log Rules
-			Triggered_Rules = Evaluate_Composite_Rules(Headers['Device_ID'], Found_Variables)
-
-			# Log Line
-			Log.Terminal_Log('INFO', '---------------------------------------------------------------')
-
-			# Control for Triggered Rules
-			if Triggered_Rules['Triggered_Rules']:
-
-				# Send to Kafka
-				Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_PUBLISH_TOPIC, Triggered_Rules, [])
-
-			# Commit Message
-			Rule_Consumer.commit(asynchronous=False)
+		# Commit Message
+		Rule_Consumer.commit(asynchronous=False)
 
 # Check for Keyboard Interrupt
 except KeyboardInterrupt:
@@ -263,3 +234,6 @@ finally:
 
 	# Close Consumer
 	Rule_Consumer.close()
+
+	# Log Consumer End
+	Log.Terminal_Log('INFO', 'Consumer is closed.')
