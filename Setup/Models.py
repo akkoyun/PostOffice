@@ -207,6 +207,7 @@ class Device(Base):
 	modem = relationship("Modem", back_populates="devices")
 	calibrations = relationship("Calibration", back_populates="device")
 	chain = relationship("Rule_Chain", back_populates="devices")
+	logs = relationship("Rule_Log", back_populates="devices")
 
 	# Define Table Arguments
 	__table_args__ = (
@@ -491,6 +492,7 @@ class Rules(Base):
 
 	# Define Relationships
 	chain = relationship("Rule_Chain", back_populates="rules")
+	logs = relationship("Rule_Log", back_populates="rules")
 
 	# Define Table Arguments
 	__table_args__ = (
@@ -524,5 +526,28 @@ class Rule_Chain(Base):
 		Index('idx_rulechain_device_id', 'Device_ID'),
 		Index('idx_rulechain_variable_id', 'Variable_ID'),
 		Index('idx_rulechain_condition', 'Rule_Condition')
+	)
+
+# Rule_Log Database Model
+class Rule_Log(Base):
+
+	# Define Table Name
+	__tablename__ = "Rule_Log"
+
+	# Define Columns
+	Rule_Log_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Device_ID = Column(String(21), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
+	Rule_ID = Column(Integer, ForeignKey("Rules.Rule_ID", ondelete="CASCADE"), nullable=False)
+	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+	# Define Relationships
+	rules = relationship("Rules", back_populates="logs")
+	devices = relationship("Device", back_populates="logs")
+
+	# Define Table Arguments
+	__table_args__ = (
+		Index('idx_rule_log_id', 'Rule_ID'),
+		Index('idx_rule_log_device_id', 'Device_ID'),
+		Index('idx_rule_log_time', 'Create_Time')
 	)
 
