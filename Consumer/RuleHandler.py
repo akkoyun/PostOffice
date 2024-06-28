@@ -4,7 +4,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
 from Setup import Config, Database, Models
-from Functions import Log, Kafka
+from Functions import Log, Kafka, Database_Functions
 from confluent_kafka import Consumer
 import time, operator
 
@@ -113,17 +113,14 @@ def Evaluate_Composite_Rules(device_id, data):
 			# Check for All Conditions Met
 			if All_Conditions_Met:
 
-				# Get Rule for Update
-				Rule_Update = session.query(Models.Rules).filter(Models.Rules.Rule_ID == Rule_ID).first()
-
-				# Update Rule
-				Rule_Update.Rule_Trigger_Count += 1
-
-				# Commit Update
-				session.commit()
+				# Update Rule Trigger Count
+				Database_Functions.Increase_Rule_Trigger_Count(Rule_ID)
 
 				# Log Rule Triggered
-				Log.Terminal_Log('INFO', f'[{device_id}] - [Rule ID: {Rule_ID} / Action ID: {Action_ID}] - [Triggered]')
+				Rule_Log_ID = Database_Functions.Add_Rule_Log(Rule_ID, device_id)
+
+				# Log Rule Triggered
+				Log.Terminal_Log('INFO', f'[{device_id}] - [Rule ID: {Rule_ID} / Action ID: {Action_ID}] - [Triggered] - [Rule Log ID: {Rule_Log_ID}]')
 
 				# Append to Triggered Rules
 				Triggered_Rules.append({'Rule_ID': Rule_ID, 'Action_ID': Rule_Action})

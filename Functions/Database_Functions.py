@@ -698,6 +698,84 @@ def Create_Dynamic_Model(Segment_ID: int = 0):
 		# Raise Error
 		raise RuntimeError(f"An unexpected error occurred while creating the dynamic model: {str(e)}") from e
 
+# Increase Rule Trigger Count
+def Increase_Rule_Trigger_Count(Rule_ID: int, Action_ID: int) -> int:
 
+	# Try to open a database session
+	try:
 
+		# Open a database session
+		with Database.DB_Session_Scope() as DB:
+
+			# Query Rule
+			Rule_Update = DB.query(Models.Rules).filter(
+				Models.Rules.Rule_ID == Rule_ID
+			).first()
+
+			# Rule Not Found
+			if Rule_Update is None:
+
+				# Log Error
+				Log.Terminal_Log('ERROR', f"Rule ID: {Rule_ID} not found")
+
+				# Return Rule ID
+				return 0
+			
+			# Update Rule
+			else:
+
+				# Update Rule
+				Rule_Update.Rule_Trigger_Count += 1
+
+				# Commit Update
+				DB.commit()
+
+				# Return Rule ID
+				return Rule_ID
+
+	# Handle Exceptions
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Error while processing Rule ID: {Rule_ID} / Action ID: {Action_ID}: {e}")
+
+		# Return Rule ID
+		return 0
+
+# Add Rule Log
+def Add_Rule_Log(Rule_ID: int, Action_ID: int, Device_ID: int) -> int:
+
+	# Try to open a database session
+	try:
+
+		# Open a database session
+		with Database.DB_Session_Scope() as DB:
+
+			# Create New Rule Log
+			New_Rule_Log = Models.Rule_Log(
+				Rule_ID = Rule_ID,
+				Action_ID = Action_ID,
+				Device_ID = Device_ID,
+			)
+
+			# Add Rule Log to DataBase
+			DB.add(New_Rule_Log)
+
+			# Commit DataBase
+			DB.commit()
+
+			# Refresh DataBase
+			DB.refresh(New_Rule_Log)
+
+			# Return Rule Log ID
+			return New_Rule_Log.Rule_Log_ID
+
+	# Handle Exceptions
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Error while processing Rule ID: {Rule_ID} / Action ID: {Action_ID}: {e}")
+
+		# Return Rule Log ID
+		return 0
 
