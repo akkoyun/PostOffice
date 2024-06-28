@@ -778,3 +778,28 @@ def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 		# Return Rule Log ID
 		return 0
 
+# Get All Variables
+def Get_All_Variables():
+
+	# Try to open a database session
+	try:
+
+		# Open a database session
+		with Database.DB_Session_Scope() as DB:
+
+			# Query all data types
+			Query_Variables = DB.query(Models.Variable).all()
+
+			# Get Data Type List
+			return [(Variable.Variable_ID, Variable.Variable_Unit) for Variable in Query_Variables]
+
+	# Handle Exceptions
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Error while Variable Get: {e}")
+
+		# Return Empty Dictionary
+		return {}
+
+

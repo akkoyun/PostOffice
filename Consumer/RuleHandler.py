@@ -158,20 +158,8 @@ try:
 		# Define DB
 		DB_Module = Database.SessionLocal()
 
-		# Get Pack Dictionary
-		try:
-			
-			# Query all data types
-			Data_Type_Query = DB_Module.query(Models.Variable).all()
-
-			# Get Data Type List
-			Formatted_Data = [(Variable.Variable_ID, Variable.Variable_Unit) for Variable in Data_Type_Query]
-
-		# Check for Error
-		finally:
-
-			# Close Database
-			DB_Module.close()
+		# Get All Variables
+		Formatted_Data = Database_Functions.Get_All_Variables()
 
 		# Define Found Variables
 		Found_Variables = {}
