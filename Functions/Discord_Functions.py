@@ -37,9 +37,6 @@ async def Send_Discord_Message(Discord_ID: int, Message: str):
                     # Get Channel_ID
                     Discord_Channel_ID = int(Discord_Query.Discord_Channel_ID)
 
-                    # Log Message
-                    Log.Terminal_Log('INFO', f"Token: {Discord_Token}, Channel_ID: {Discord_Channel_ID}")
-
                     # Set SSL Context
                     SSL_Context = ssl.create_default_context(cafile=certifi.where())
 
