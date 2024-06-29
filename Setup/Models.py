@@ -551,3 +551,27 @@ class Rule_Log(Base):
 		Index('idx_rule_log_time', 'Create_Time')
 	)
 
+# Disord Channel Database Model
+class Discord(Base):
+
+	# Define Table Name
+	__tablename__ = "Discord"
+
+	# Define Columns
+	Discord_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Discord_Token = Column(String(255), nullable=False)
+	Discord_Channel_ID = Column(Integer, nullable=False)
+	Discord_Channel_Name = Column(String(100), nullable=False)
+	Discord_Channel_Description = Column(String(255), nullable=True)
+	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
+
+	# Define Table Arguments
+	__table_args__ = (
+		Index('idx_discord_id', 'Discord_ID'),
+		Index('idx_discord_token', 'Discord_Token'),
+		Index('idx_discord_channel_id', 'Discord_Channel_ID'),
+		Index('idx_discord_channel_name', 'Discord_Channel_Name')
+	)
+
+

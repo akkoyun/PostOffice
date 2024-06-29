@@ -3,7 +3,7 @@ import sys
 sys.path.append('/home/postoffice/PostOffice/src')
 
 # Library Imports
-from Setup import Database, Models, Definitions, Database, Schema
+from Setup import Database, Models, Definitions, Schema
 from Functions import Log
 from pydantic import Field
 from sqlalchemy.exc import SQLAlchemyError
