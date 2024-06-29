@@ -37,6 +37,99 @@ def Send_Discord_Message(Discord_ID: int, Message: str):
 					# Get Channel_ID
 					Discord_Channel_ID = Discord_Query.Channel_ID
 
+					# Log Message
+					Log.Terminal_Log('INFO', f"Token: {Discord_Token}, Channel_ID: {Discord_Channel_ID}")
+
+					# Set SSL Context
+					SSL_Context = ssl.create_default_context(cafile=certifi.where())
+
+					# Define Client
+					Intents = discord.Intents.default()
+					Intents.message_content = True
+					Intents.presences = True
+					Intents.members = True
+
+					# Define Client
+					class MyClient(discord.Client):
+
+						# On Ready
+						async def On_Ready(self):
+
+							# Log Login
+							Log.Terminal_Log('INFO', f'Bot {self.user} logged in!')
+
+							# Try to send a message
+							try:
+
+								# Get Channel
+								Channel = self.get_channel(Discord_Channel_ID)
+
+								# Check if Channel Exists
+								if Channel:
+
+									# Send Message
+									await Channel.send(Message)
+
+									# Log Message
+									Log.Terminal_Log('INFO', f'Message sent to {Channel.name} channel.')
+
+								# Channel Not Found
+								else:
+
+									# Log Message
+									Log.Terminal_Log('ERROR', 'Channel not found.')
+
+							# Handle Exception
+							except Exception as e:
+
+								# Log Error
+								Log.Terminal_Log('ERROR', f"Error while sending message: {e}")
+
+							# Close Client
+							finally:
+
+								# Close Client
+								await self.close()
+
+						# Close Client
+						async def Close(self):
+
+							# Check if Session Exists
+							if self.http._HTTPClient__session:
+
+								# Close Session
+								await self.http._HTTPClient__session.close()
+
+
+							await super().close()
+
+					# Create Client
+					Client = MyClient(intents=Intents)
+
+					# Run Client
+					async def Run_Bot():
+
+						# Create Connection
+						conn = aiohttp.TCPConnector(ssl=SSL_Context)
+
+						# Create Session
+						async with aiohttp.ClientSession(connector=conn) as Session:
+
+							# Set Session
+							Client.http._HTTPClient__session = Session
+
+							# Start Client
+							await Client.start(Discord_Token)
+
+							# Close Client
+							await Client.close()
+
+							# Close Session
+							await Session.close()
+
+					# Run Bot
+					asyncio.run(Run_Bot())
+
 				# Channel Not Found
 				else:
 
@@ -58,95 +151,6 @@ def Send_Discord_Message(Discord_ID: int, Message: str):
 		# Log Error
 		Log.Terminal_Log('ERROR', f"Error while opening database session: {e}")
 
-	# Set SSL Context
-	SSL_Context = ssl.create_default_context(cafile=certifi.where())
-
-	# Define Client
-	Intents = discord.Intents.default()
-	Intents.message_content = True
-	Intents.presences = True
-	Intents.members = True
-
-	# Define Client
-	class MyClient(discord.Client):
-
-		# On Ready
-		async def On_Ready(self):
-
-			# Log Login
-			Log.Terminal_Log('INFO', f'Bot {self.user} logged in!')
-
-			# Try to send a message
-			try:
-
-				# Get Channel
-				Channel = self.get_channel(Discord_Channel_ID)
-
-				# Check if Channel Exists
-				if Channel:
-
-					# Send Message
-					await Channel.send(Message)
-
-					# Log Message
-					Log.Terminal_Log('INFO', f'Message sent to {Channel.name} channel.')
-
-				# Channel Not Found
-				else:
-
-					# Log Message
-					Log.Terminal_Log('ERROR', 'Channel not found.')
-
-			# Handle Exception
-			except Exception as e:
-
-				# Log Error
-				Log.Terminal_Log('ERROR', f"Error while sending message: {e}")
-
-			# Close Client
-			finally:
-
-				# Close Client
-				await self.close()
-
-		# Close Client
-		async def Close(self):
-
-			# Check if Session Exists
-			if self.http._HTTPClient__session:
-
-				# Close Session
-				await self.http._HTTPClient__session.close()
-
-
-			await super().close()
-
-	# Create Client
-	Client = MyClient(intents=Intents)
-
-	# Run Client
-	async def Run_Bot():
-
-		# Create Connection
-		conn = aiohttp.TCPConnector(ssl=SSL_Context)
-
-		# Create Session
-		async with aiohttp.ClientSession(connector=conn) as Session:
-
-			# Set Session
-			Client.http._HTTPClient__session = Session
-
-			# Start Client
-			await Client.start(Discord_Token)
-
-			# Close Client
-			await Client.close()
-
-			# Close Session
-			await Session.close()
-
-	# Run Bot
-	asyncio.run(Run_Bot())
 
 
 
