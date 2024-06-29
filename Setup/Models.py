@@ -560,7 +560,7 @@ class Discord(Base):
 	# Define Columns
 	Discord_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	Discord_Token = Column(String(255), nullable=False)
-	Discord_Channel_ID = Column(Integer, nullable=False)
+	Discord_Channel_ID = Column(String(255), nullable=False)
 	Discord_Channel_Name = Column(String(100), nullable=False)
 	Discord_Channel_Description = Column(String(255), nullable=True)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
