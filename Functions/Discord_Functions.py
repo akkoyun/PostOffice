@@ -148,3 +148,6 @@ def Send_Discord_Message(Discord_ID: int, Message: str):
 	# Run Bot
 	asyncio.run(Run_Bot())
 
+
+
+Send_Discord_Message(1, 'Birinci Deneme Mesajı')
