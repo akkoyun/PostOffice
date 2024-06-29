@@ -52,9 +52,6 @@ async def Send_Discord_Message(Discord_ID: int, Message: str):
                         # On Ready
                         async def on_ready(self):
 
-                            # Log Login
-                            Log.Terminal_Log('INFO', f'Bot {self.user} logged in!')
-
                             # Try to send a message
                             try:
 
@@ -147,5 +144,10 @@ async def Send_Discord_Message(Discord_ID: int, Message: str):
         # Log Error
         Log.Terminal_Log('ERROR', f"Error while opening database session: {e}")
 
+
+
+
+
 # Run Discord Message Sender
-asyncio.get_event_loop().run_until_complete(Send_Discord_Message(1, 'Birinci Deneme Mesajı'))
+asyncio.run(Send_Discord_Message(1, 'Birinci Deneme Mesajı'))
+asyncio.run(Send_Discord_Message(1, 'İkinci Deneme Mesajı'))
