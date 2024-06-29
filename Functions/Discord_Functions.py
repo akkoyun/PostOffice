@@ -35,7 +35,7 @@ async def Send_Discord_Message(Discord_ID: int, Message: str):
                     Discord_Token = Discord_Query.Discord_Token
 
                     # Get Channel_ID
-                    Discord_Channel_ID = Discord_Query.Discord_Channel_ID
+                    Discord_Channel_ID = int(Discord_Query.Discord_Channel_ID)
 
                     # Log Message
                     Log.Terminal_Log('INFO', f"Token: {Discord_Token}, Channel_ID: {Discord_Channel_ID}")
