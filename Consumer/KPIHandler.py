@@ -86,8 +86,14 @@ try:
 
 
 
+		# Control for VRMS_R, VRMS_S and VRMS_T
+		vrms_r = Found_Variables.get("VRMS_R")
+		vrms_s = Found_Variables.get("VRMS_S")
+		vrms_t = Found_Variables.get("VRMS_T")
+		vrms_imbalance = Found_Variables.get("VRMS_Imbalance")
 
-		Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
+
+		Log.Terminal_Log('INFO', f'VRMS : {vrms_r}')
 
 
 
