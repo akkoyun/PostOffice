@@ -155,50 +155,76 @@ def Import_Command():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Command is up to date.")
 
+# Import Data_Type Data
+def Import_Data_Type():
 
+	# New Data Count Definition
+	New_Data_Count = 0
 
+	# Define Data File
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_MEASUREMENT_TYPE)
 
+	# Rename Columns
+	Data_File.columns = ['Variable_ID', 'Variable_Description', 'Variable_Unit', 'Segment_ID']
 
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
 
+		# Iterate over each row in the CSV file
+		for index, row in Data_File.iterrows():
 
+			# Check if the record already exists
+			Query = DB.query(Models.Variable).filter(
+				Models.Variable.Variable_ID == str(row['Variable_ID'])
+			).first()
+			
+			# If the record does not exist
+			if not Query:
 
+				# Create a new record
+				New_Record = Models.Variable(
+					Variable_ID=str(row['Variable_ID']),
+					Variable_Description=str(row['Variable_Description']),
+					Variable_Unit=str(row['Variable_Unit']),
+					Segment_ID=int(row['Segment_ID'])
+				)
 
+				# Add Record to DataBase
+				try:
 
+					# Add Record to DataBase
+					DB.add(New_Record)
 
+					# Commit DataBase
+					DB.commit()
 
+					# Increase New Count
+					New_Data_Count += 1
 
+				except Exception as e:
 
+					# Rollback in case of error
+					DB.rollback()
 
+	# Log the result
+	if New_Data_Count > 0:
 
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data_Type Added.")
 
+	else:
 
+		# Log the result
+		Log.Terminal_Log("INFO", f"Data_Type is up to date.")
 
-
-# Define Data Root Path
-Data_Root_Path = "/home/postoffice/PostOffice/src/Setup/Data/"
-
-# Create DataBase
-Models.Base.metadata.create_all(bind=Database.DB_Engine)
-
-# Import Operator Data
+# Import GSM Operator Data
 def Import_GSM_Operator():
 
 	# New Data Count Definition
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_GSM_OPERATOR
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_GSM_OPERATOR)
 
 	# Rename Columns
 	Data_File.columns = ['MCC_ID', 'MCC_ISO', 'MCC_Country_Name', 'MCC_Country_Code', 'MCC_Country_Flag_Image_URL', 'MNC_ID', 'MNC_Brand_Name', 'MNC_Operator_Name', 'MNC_Operator_Image_URL']
@@ -266,18 +292,7 @@ def Import_Status():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_STATUS
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_STATUS)
 
 	# Rename Columns
 	Data_File.columns = ['Status_ID', 'Description']
@@ -337,18 +352,7 @@ def Import_Version():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_VERSION
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_VERSION)
 
 	# Rename Columns
 	Data_File.columns = ['Version_ID', 'Firmware']
@@ -408,18 +412,7 @@ def Import_Model():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_MODEL
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_MODEL)
 
 	# Rename Columns
 	Data_File.columns = ['Model_ID', 'Model_Name', 'Model_Description']
@@ -471,78 +464,7 @@ def Import_Model():
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Model is up to date.")
-
-# Import Manufacturer Data
-def Import_Manufacturer():
-
-	# New Data Count Definition
-	New_Data_Count = 0
-
-	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_MANUFACTURER
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
-
-	# Rename Columns
-	Data_File.columns = ['Manufacturer_ID', 'Manufacturer']
-
-	# Define DB
-	with Database.DB_Session_Scope() as DB:
-
-		# Add Record to DataBase
-		for index, row in Data_File.iterrows():
-
-			# Check for Existing
-			Query = DB.query(Models.Manufacturer).filter(
-				Models.Manufacturer.Manufacturer_Name.like(str(row['Manufacturer']))
-			).first()
-
-			# Record Not Found
-			if not Query:
-
-				# Create New Record
-				New_Record = Models.Manufacturer(
-					Manufacturer_ID=int(row['Manufacturer_ID']),
-					Manufacturer_Name=str(row['Manufacturer']),
-				)
-
-				# Add Record to DataBase
-				try:
-
-					# Add Record to DataBase
-					DB.add(New_Record)
-
-					# Commit DataBase
-					DB.commit()
-
-					# Increase New Count
-					New_Data_Count += 1
-
-				except Exception as e:
-
-					# Rollback in case of error
-					DB.rollback()
-
-	# Log the result
-	if New_Data_Count > 0:
-
-		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Manufacturer Added.")
-
-	else:
-
-		# Log the result
-		Log.Terminal_Log("INFO", f"Mamufacturer is up to date.")
+		Log.Terminal_Log("INFO", f"Model is up to date.")	
 
 # Import Modem Data
 def Import_Modem():
@@ -551,18 +473,7 @@ def Import_Modem():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_MODEM
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_MODEM)
 
 	# Rename Columns
 	Data_File.columns = ['IMEI', 'Model_ID', 'Manufacturer_ID']
@@ -623,21 +534,10 @@ def Import_Project():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_PROJECT
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_PROJECT)
 
 	# Rename Columns
-	Data_File.columns = ['Project_ID', 'Project_Name']
+	Data_File.columns = ['Project_ID', 'Project_Name', 'Project_Description']
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB:
@@ -657,7 +557,7 @@ def Import_Project():
 				New_Record = Models.Project(
 					Project_ID=int(row['Project_ID']),
 					Project_Name=str(row['Project_Name']),
-					Project_Description=str("-")
+					Project_Description=str(row['Project_Description'])
 				)
 
 				# Add Record to DataBase
@@ -695,18 +595,7 @@ def Import_Device():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_DEVICE
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_DEVICE)
 
 	# Rename Columns
 	Data_File.columns = ['Device_ID', 'Status_ID', 'Version_ID', 'Model_ID', 'IMEI', 'Project_ID']
@@ -771,18 +660,7 @@ def Import_SIM():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_SIM
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_SIM)
 
 	# Rename Columns
 	Data_File.columns = ['SIM_ICCID', 'MCC_ID', 'MNC_ID', 'SIM_Number']
@@ -836,79 +714,6 @@ def Import_SIM():
 		# Log the result
 		Log.Terminal_Log("INFO", f"SIM is up to date.")
 
-# Import Data_Type Data
-def Import_Data_Type():
-
-	# New Data Count Definition
-	New_Data_Count = 0
-
-	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_MEASUREMENT_TYPE
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
-
-	# Rename Columns to match the new table schema
-	Data_File.columns = ['Variable_ID', 'Variable_Description', 'Variable_Unit', 'Segment_ID']
-
-	# Define DB
-	with Database.DB_Session_Scope() as DB:
-
-		# Iterate over each row in the CSV file
-		for index, row in Data_File.iterrows():
-
-			# Check if the record already exists
-			Query = DB.query(Models.Variable).filter(
-				Models.Variable.Variable_ID == str(row['Variable_ID'])
-			).first()
-			
-			# If the record does not exist
-			if not Query:
-
-				# Create a new record
-				New_Record = Models.Variable(
-					Variable_ID=str(row['Variable_ID']),
-					Variable_Description=str(row['Variable_Description']),
-					Variable_Unit=str(row['Variable_Unit']),
-					Segment_ID=int(row['Segment_ID'])
-				)
-
-				# Add Record to DataBase
-				try:
-
-					# Add Record to DataBase
-					DB.add(New_Record)
-
-					# Commit DataBase
-					DB.commit()
-
-					# Increase New Count
-					New_Data_Count += 1
-
-				except Exception as e:
-
-					# Rollback in case of error
-					DB.rollback()
-
-	# Log the result
-	if New_Data_Count > 0:
-
-		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data_Type Added.")
-
-	else:
-
-		# Log the result
-		Log.Terminal_Log("INFO", f"Data_Type is up to date.")
-
 # Import Calibration Data
 def Import_Calibration():
 
@@ -916,18 +721,7 @@ def Import_Calibration():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_CALIBRATION
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_CALIBRATION)
 
 	# Rename Columns
 	Data_File.columns = ['Calibration_ID', 'Device_ID', 'Variable_ID', 'Gain', 'Offset']
@@ -984,6 +778,66 @@ def Import_Calibration():
 		# Log the result
 		Log.Terminal_Log("INFO", f"Calibration is up to date.")
 
+# Import Manufacturer Data
+def Import_Manufacturer():
+
+	# New Data Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File = Read_CSV_From_Github
+
+	# Rename Columns
+	Data_File.columns = ['Manufacturer_ID', 'Manufacturer']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Manufacturer).filter(
+				Models.Manufacturer.Manufacturer_Name.like(str(row['Manufacturer']))
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Manufacturer(
+					Manufacturer_ID=int(row['Manufacturer_ID']),
+					Manufacturer_Name=str(row['Manufacturer']),
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Manufacturer Added.")
+
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Mamufacturer is up to date.")
+
 # Import Connection Data
 def Import_Connection():
 
@@ -991,18 +845,7 @@ def Import_Connection():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_CONNECTION
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_CONNECTION)
 
 	# Rename Columns
 	Data_File.columns = ['IP_Address', 'IP_Pool']
