@@ -185,9 +185,6 @@ try:
 			Log.Terminal_Log('INFO', f'New Payload : {Payload_Record_Count}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
-			# Send to KPI Topic
-			Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_KPI_TOPIC, Stream_Data.message, '', 0)
-
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
 
