@@ -47,14 +47,18 @@ Perform_Git_Pull() {
     # Print Message
     echo "${yellow}Git repository updating...${reset}"
     
+    # Git Pull
+    git_pull_checkout=$(git checkout 2>&1)
     git_pull_output=$(git pull 2>&1)
     exit_code=$?
 
     if [ $exit_code -eq 0 ]; then
         echo "${gray}Update Succesful:${reset}"
+        echo "${blue}$git_pull_checkout${reset}"
         echo "${blue}$git_pull_output${reset}"
     else
         echo "${red}Update Fail:${reset}"
+        echo "${blue}$git_pull_checkout${reset}"
         echo "${blue}$git_pull_output${reset}"
     fi
 }
