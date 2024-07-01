@@ -737,8 +737,8 @@ def Import_Calibration():
 
 			# Check for Existing
 			Query = DB.query(Models.Calibration).filter(
-				Models.Calibration.Device_ID==str(row['Device_ID']),
-				Models.Calibration.Variable_ID==str(row['Variable_ID'])
+				Models.Calibration.Device_ID.like(str(row['Device_ID'])),
+				Models.Calibration.Variable_ID.like(str(row['Variable_ID']))
 			).first()
 
 			# Record Not Found
@@ -746,7 +746,6 @@ def Import_Calibration():
 
 				# Create New Record
 				New_Record = Models.Calibration(
-					Calibration_ID=int(row['Calibration_ID']),
 					Device_ID=str(row['Device_ID']),
 					Variable_ID=str(row['Variable_ID']),
 					Gain=float(row['Gain']),
