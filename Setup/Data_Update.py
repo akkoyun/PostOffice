@@ -902,10 +902,10 @@ def Import_Connection():
 		Log.Terminal_Log("INFO", f"IP address is up to date.")
 
 # Create Tables
-#Database.Base.metadata.create_all(bind=Database.DB_Engine)
+Database.Base.metadata.create_all(bind=Database.DB_Engine)
 
 # Update Tables
-#Import_Status()
+Import_Status()
 #Import_Version()
 #Import_Project()
 #Import_Model()
