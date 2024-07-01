@@ -8,11 +8,28 @@ from Setup import Models, Database
 from Functions import Log
 import pandas as pd
 
-# Define Data Root Path
-Data_Root_Path = "/home/postoffice/PostOffice/src/Setup/Data/"
+# Define Github Repository
+Github_Repository = "https://github.com/akkoyun/Standartlar/tree/main/PostOffice/Data"
 
-# Create DataBase
-Models.Base.metadata.create_all(bind=Database.DB_Engine)
+# Read CSV From Github
+def Read_CSV_From_Github(File_Name):
+
+	# Define URL
+	URL = f"{Github_Repository}/{File_Name}"
+
+	# Download Data File
+	try:
+		
+		# Download Data File
+		Data_File = pd.read_csv(URL)
+
+	except Exception as e:
+
+		# Log Message
+		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Return Data File
+	return Data_File
 
 # Import Data_Segment Data
 def Import_Data_Segment():
@@ -21,18 +38,7 @@ def Import_Data_Segment():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_DATA_SEGMENT
-
-	# Download Data File
-	try:
-
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_DATA_SEGMENT)
 
 	# Rename Columns
 	Data_File.columns = ['Segment_ID', 'Segment_Name', 'Description']
@@ -45,7 +51,6 @@ def Import_Data_Segment():
 
 			# Check for Existing
 			Query = DB.query(Models.Data_Segment).filter(
-				Models.Data_Segment.Segment_ID == int(row['Segment_ID']), 
 				Models.Data_Segment.Segment_Name == str(row['Segment_Name'])
 			).first()
 
@@ -82,10 +87,98 @@ def Import_Data_Segment():
 		# Log the result
 		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data Segment Added.")
 
+	# Up to Date
 	else:
 
 		# Log the result
 		Log.Terminal_Log("INFO", f"Data Segment is up to date.")
+
+# Import Command Data
+def Import_Command():
+
+	# New Calibration Count Definition
+	New_Data_Count = 0
+
+	# Define Data File
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_COMMAND)
+
+	# Rename Columns
+	Data_File.columns = ['Command_ID', 'Command', 'Description']
+
+	# Define DB
+	with Database.DB_Session_Scope() as DB:
+
+		# Add Record to DataBase
+		for index, row in Data_File.iterrows():
+
+			# Check for Existing
+			Query = DB.query(Models.Command).filter(
+				Models.Command.Command==str(row['Command'])
+			).first()
+
+			# Record Not Found
+			if not Query:
+
+				# Create New Record
+				New_Record = Models.Command(
+					Command_ID=int(row['Command_ID']),
+					Command=str(row['Command']),
+					Description=str(row['Description'])
+				)
+
+				# Add Record to DataBase
+				try:
+
+					# Add Record to DataBase
+					DB.add(New_Record)
+
+					# Commit DataBase
+					DB.commit()
+
+					# Increase New Count
+					New_Data_Count += 1
+
+				except Exception as e:
+
+					# Rollback in case of error
+					DB.rollback()
+
+	# Log the result
+	if New_Data_Count > 0:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Command Added.")
+
+	# Up to Date
+	else:
+
+		# Log the result
+		Log.Terminal_Log("INFO", f"Command is up to date.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Define Data Root Path
+Data_Root_Path = "/home/postoffice/PostOffice/src/Setup/Data/"
+
+# Create DataBase
+Models.Base.metadata.create_all(bind=Database.DB_Engine)
 
 # Import Operator Data
 def Import_GSM_Operator():
@@ -961,78 +1054,6 @@ def Import_Connection():
 
 		# Log the result
 		Log.Terminal_Log("INFO", f"IP address is up to date.")
-
-# Import Command Data
-def Import_Command():
-
-	# New Calibration Count Definition
-	New_Data_Count = 0
-
-	# Define Data File
-	Data_File_Name = Data_Root_Path + APP_Settings.FILE_COMMAND
-
-	# Download Data File
-	try:
-		
-		# Download Data File
-		Data_File = pd.read_csv(Data_File_Name)
-
-	except Exception as e:
-
-		# Log Message
-		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
-
-	# Rename Columns
-	Data_File.columns = ['Command_ID', 'Command', 'Description']
-
-	# Define DB
-	with Database.DB_Session_Scope() as DB:
-
-		# Add Record to DataBase
-		for index, row in Data_File.iterrows():
-
-			# Check for Existing
-			Query = DB.query(Models.Command).filter(
-				Models.Command.Command==str(row['Command'])
-			).first()
-
-			# Record Not Found
-			if not Query:
-
-				# Create New Record
-				New_Record = Models.Command(
-					Command_ID=int(row['Command_ID']),
-					Command=str(row['Command']),
-					Description=str(row['Description'])
-				)
-
-				# Add Record to DataBase
-				try:
-
-					# Add Record to DataBase
-					DB.add(New_Record)
-
-					# Commit DataBase
-					DB.commit()
-
-					# Increase New Count
-					New_Data_Count += 1
-
-				except Exception as e:
-
-					# Rollback in case of error
-					DB.rollback()
-
-	# Log the result
-	if New_Data_Count > 0:
-
-		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Command Added.")
-
-	else:
-
-		# Log the result
-		Log.Terminal_Log("INFO", f"Command is up to date.")
 
 # Update Data
 Import_Data_Segment()
