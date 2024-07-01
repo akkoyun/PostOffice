@@ -109,6 +109,8 @@ try:
 
 
 
+			Log.Terminal_Log('INFO', f'Message Received : {Stream_Data.message}')
+			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 
 
