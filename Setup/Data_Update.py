@@ -537,7 +537,7 @@ def Import_Project():
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_PROJECT)
 
 	# Rename Columns
-	Data_File.columns = ['Project_ID', 'Project_Name', 'Project_Description']
+	Data_File.columns = ['Project_ID', 'Project_Name']
 
 	# Define DB
 	with Database.DB_Session_Scope() as DB:
@@ -556,8 +556,7 @@ def Import_Project():
 				# Create New Record
 				New_Record = Models.Project(
 					Project_ID=int(row['Project_ID']),
-					Project_Name=str(row['Project_Name']),
-					Project_Description=str(row['Project_Description'])
+					Project_Name=str(row['Project_Name'])
 				)
 
 				# Add Record to DataBase
