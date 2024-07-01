@@ -60,8 +60,33 @@ try:
 		# Check for Tuple and Extract Variable IDs
 		Keys_To_Check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
+		# Function To Check Variables in a Given Pack
+		def Check_Variables_in_Pack(pack, pack_name):
 
-		Log.Terminal_Log('INFO', f'Keys to Check : {Keys_To_Check}')
+			# Check for Variables
+			for variable in Keys_To_Check:
+
+				# Check for Variable
+				if variable in pack:
+
+					# Get Value
+					value = pack[variable]
+
+					# Check for Value
+					if value is not None and value != "":
+
+						# Add to Found Variables
+						Found_Variables[variable] = value
+
+		# Check Variables in Packs
+		Check_Variables_in_Pack(Power_Pack, 'Power_Pack')
+		Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
+		Check_Variables_in_Pack(Payload, 'Payload')
+
+
+
+
+		Log.Terminal_Log('INFO', f'Keys to Check : {Found_Variables}')
 		Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 
