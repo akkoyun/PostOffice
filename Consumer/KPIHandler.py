@@ -97,11 +97,11 @@ try:
 			# Set Variable
 			VRMS_Array = [Found_Variables.get("VRMS_R"), Found_Variables.get("VRMS_S"), Found_Variables.get("VRMS_T")]
 
-			# Calculate Valuse
-			MAX_VRMS_Value = max(VRMS_Array)
-			MIN_VRMS_Value = min(VRMS_Array)
+			# Calculate Value
 			AVG_VRMS_Value = sum(VRMS_Array) / len(VRMS_Array)
-			Imbalance = ((MAX_VRMS_Value - MIN_VRMS_Value) / AVG_VRMS_Value) * 100
+			Deviations = [abs(vrms - AVG_VRMS_Value) for vrms in VRMS_Array]
+			MAX_Deviation = max(Deviations)
+			Imbalance = (MAX_Deviation / AVG_VRMS_Value) * 100
 
 			# Log Imbalance
 			Log.Terminal_Log('INFO', f'VRMS_IMB : {Imbalance}')
