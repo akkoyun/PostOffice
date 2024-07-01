@@ -4,7 +4,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 
 # Import Libraries
 from Setup import Config, Database, Models
-from Functions import Log, Kafka, Database_Functions
+from Functions import Log, Kafka, Database_Functions, KPI_Functions
 from confluent_kafka import Consumer
 import time, operator
 
@@ -90,22 +90,18 @@ try:
 
 
 
+		# Calculate Voltage Imbalance
+		Voltage_Imbalance = KPI_Functions.Calculate_Voltage_Imbalance(Found_Variables.get("VRMS_R"), Found_Variables.get("VRMS_S"), Found_Variables.get("VRMS_T"), Found_Variables.get("VRMS_IMB"))
 
-		# Control for VRMS_R, VRMS_S and VRMS_T
-		if (Found_Variables.get("VRMS_R") is not None and Found_Variables.get("VRMS_S") is not None and Found_Variables.get("VRMS_T") is not None) and Found_Variables.get("VRMS_IMB") is None:
-
-			# Set Variable
-			VRMS_Array = [Found_Variables.get("VRMS_R"), Found_Variables.get("VRMS_S"), Found_Variables.get("VRMS_T")]
-
-			# Calculate Value
-			AVG_VRMS_Value = sum(VRMS_Array) / len(VRMS_Array)
-			Deviations = [abs(vrms - AVG_VRMS_Value) for vrms in VRMS_Array]
-			MAX_Deviation = max(Deviations)
-			Imbalance = (MAX_Deviation / AVG_VRMS_Value) * 100
+		# Log Imbalance
+		if Voltage_Imbalance is not None:
 
 			# Log Imbalance
-			Log.Terminal_Log('INFO', f'VRMS_IMB : {Imbalance}')
+			Log.Terminal_Log('INFO', f'VRMS_IMB : {Voltage_Imbalance}')
 			
+
+
+
 
 
 
