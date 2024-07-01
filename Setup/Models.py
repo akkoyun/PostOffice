@@ -228,7 +228,7 @@ class Project(Base):
 	# Define Columns
 	Project_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
 	Project_Name = Column(String(100), nullable=False, unique=True)
-	Project_Description = Column(String(255), nullable=False)
+	Project_Description = Column(String(255), nullable=True)
 	Status = Column(Boolean, nullable=False, server_default="1")
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
