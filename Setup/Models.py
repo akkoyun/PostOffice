@@ -511,7 +511,8 @@ class Rule_Chain(Base):
 	Rule_ID = Column(Integer, ForeignKey("Rules.Rule_ID", ondelete="CASCADE"), nullable=False)
 	Device_ID = Column(String(21), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
 	Variable_ID = Column(String(30), ForeignKey("Variable.Variable_ID", ondelete="CASCADE"), nullable=False)
-	Rule_Condition = Column(String(255), nullable=False)
+	Rule_Operator = Column(String(10), nullable=False)
+	Rule_Value = Column(Float, nullable=False)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
 
@@ -525,7 +526,7 @@ class Rule_Chain(Base):
 		Index('idx_rule_id', 'Rule_ID'),
 		Index('idx_rulechain_device_id', 'Device_ID'),
 		Index('idx_rulechain_variable_id', 'Variable_ID'),
-		Index('idx_rulechain_condition', 'Rule_Condition')
+		Index('idx_rulechain_time', 'Create_Time')
 	)
 
 # Rule_Log Database Model

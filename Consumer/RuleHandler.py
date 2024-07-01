@@ -26,12 +26,10 @@ Rule_Consumer.subscribe([Config.APP_Settings.KAFKA_RAW_TOPIC])
 Log.Terminal_Log('INFO', 'Consumer is starting...')
 
 # Function to evaluate a single rule
-def Evaluate_Condition(value, condition):
+def Evaluate_Condition(Variable_Value, Operator, Condition_Value):
 
 	# Define Operators
 	Operators = {
-
-		# Arithmetic Operators
 		'>': operator.gt,
 		'<': operator.lt,
 		'>=': operator.ge,
@@ -40,19 +38,13 @@ def Evaluate_Condition(value, condition):
 		'!=': operator.ne
 	}
 
-	# Check for Condition
-	for Operator_String, Operator_Function in Operators.items():
+	# Evaluate Condition
+	if Operator in Operators:
 
-		# Check for Operator
-		if Operator_String in condition:
+		# Return Condition
+		return Operators[Operator](Variable_Value, Condition_Value)
 
-			# Check for Value
-			Condition_Value = float(condition.split(Operator_String)[-1].strip())
-
-			# Return Result
-			return Operator_Function(value, Condition_Value)
-
-	# Return False
+	# Return False if operator not found
 	return False
 
 # Function to evaluate composite rules
@@ -86,16 +78,16 @@ def Evaluate_Composite_Rules(device_id, data):
 			for Rule_Chain in Rule_Chains:
 
 				# Get Rule Chain Data
-				Rule_Device_ID, Rule_Variable_ID, Rule_Condition = Rule_Chain.Device_ID, Rule_Chain.Variable_ID, Rule_Chain.Rule_Condition
+				Rule_Device_ID, Rule_Variable_ID, Rule_Operator, Rule_Value = Rule_Chain.Device_ID, Rule_Chain.Variable_ID, Rule_Chain.Rule_Operator, Rule_Chain.Rule_Value
 
 				# Check for Device ID and Variable ID
-				if Rule_Device_ID == device_id and Rule_Status == True and Rule_Variable_ID in data:
+				if Rule_Device_ID == device_id and Rule_Status and Rule_Variable_ID in data:
 
 					# Get Value
 					Value = data[Rule_Variable_ID]
 
 					# Evaluate Condition
-					if not Evaluate_Condition(Value, Rule_Condition):
+					if not Evaluate_Condition(Value, Rule_Operator, Rule_Value):
 
 						# Condition Not Met
 						All_Conditions_Met = False
