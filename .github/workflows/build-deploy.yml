@@ -34,6 +34,7 @@ jobs:
       KAFKA_PORT: ${{secrets.KAFKA_PORT}}
       KAFKA_RAW_TOPIC: ${{secrets.KAFKA_RAW_TOPIC}}
       KAFKA_PUBLISH_TOPIC: ${{secrets.KAFKA_PUBLISH_TOPIC}}
+      KAFKA_KPI_TOPIC: ${{secrets.KAFKA_KPI_TOPIC}}
 
       # Set File Variables
       FILE_MANUFACTURER: ${{secrets.FILE_MANUFACTURER}}

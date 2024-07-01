@@ -30,6 +30,7 @@ class Settings(BaseSettings):
 	KAFKA_PORT: int
 	KAFKA_RAW_TOPIC: str
 	KAFKA_PUBLISH_TOPIC: str
+	KAFKA_KPI_TOPIC: str
 
 	# File Settings
 	FILE_MANUFACTURER: str

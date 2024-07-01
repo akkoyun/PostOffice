@@ -5,7 +5,7 @@ sys.path.append('/home/postoffice/PostOffice/src')
 # Import Libraries
 from Setup.Definitions import Variable_Segment as Constants
 from Setup import Schema, Definitions, Config
-from Functions import Log, Database_Functions, ICCID_Functions
+from Functions import Log, Database_Functions, ICCID_Functions, KPI_Functions, Kafka
 from confluent_kafka import Consumer, KafkaError
 from pydantic import ValidationError
 import time, json
@@ -184,6 +184,13 @@ try:
 			Log.Terminal_Log('INFO', f'New IoT     : {IoT_Record_Count}')
 			Log.Terminal_Log('INFO', f'New Payload : {Payload_Record_Count}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
+
+			# Send to KPI Topic
+			Kafka.Send_To_Topic(
+				Config.APP_Settings.KAFKA_KPI_TOPIC, 
+				Stream_Data.message, 
+				Headers
+			)
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
