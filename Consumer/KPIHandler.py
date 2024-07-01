@@ -90,10 +90,14 @@ try:
 		vrms_r = Found_Variables.get("VRMS_R")
 		vrms_s = Found_Variables.get("VRMS_S")
 		vrms_t = Found_Variables.get("VRMS_T")
-		vrms_imbalance = Found_Variables.get("VRMS_Imbalance")
+		vrms_imbalance = Found_Variables.get("VRMS_IMB")
 
 
-		Log.Terminal_Log('INFO', f'VRMS : {vrms_r}')
+		Log.Terminal_Log('INFO', f'VRMS_R : {vrms_r}')
+		Log.Terminal_Log('INFO', f'VRMS_S : {vrms_s}')
+		Log.Terminal_Log('INFO', f'VRMS_T : {vrms_t}')
+		Log.Terminal_Log('INFO', f'VRMS_IMB : {vrms_imbalance}')
+		
 
 
 
