@@ -11,7 +11,7 @@ import time, operator
 # Define Kafka Consumer
 KPI_Consumer_Config = {
 	'bootstrap.servers': f'{Config.APP_Settings.KAFKA_HOSTNAME}:{Config.APP_Settings.KAFKA_PORT}',
-	'group.id': 'Rule_Handler_Group',
+	'group.id': 'KPI_Handler_Group',
 	'auto.offset.reset': 'earliest',
 	'enable.auto.commit': False,
 }
