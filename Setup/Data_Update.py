@@ -721,6 +721,7 @@ def Import_SIM():
 def Import_Calibration():
 
 	# New Calibration Count Definition
+	Existing_Data_Count = 0
 	New_Data_Count = 0
 
 	# Define Data File
@@ -746,6 +747,7 @@ def Import_Calibration():
 
 				# Create New Record
 				New_Record = Models.Calibration(
+					Calibration_ID=int(row['Calibration_ID']),
 					Device_ID=str(row['Device_ID']),
 					Variable_ID=str(row['Variable_ID']),
 					Gain=float(row['Gain']),
@@ -769,16 +771,22 @@ def Import_Calibration():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Calibration Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Calibration Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Calibration is up to date.")
+		Log.Terminal_Log("INFO", f"Calibration is up to date [{Existing_Data_Count}].")
 
 # Import Manufacturer Data
 def Import_Manufacturer():
