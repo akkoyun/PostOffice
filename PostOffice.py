@@ -1,5 +1,5 @@
 # Library Imports
-from Setup import Database, Schema
+from Setup import Database, Schema, Data_Update
 from Setup.Config import APP_Settings
 from Functions import Log, FastApi_Functions, Database_Functions, Kafka
 from fastapi import FastAPI, Request, status, BackgroundTasks
@@ -36,6 +36,22 @@ async def FastAPI_Lifespan(app: FastAPI):
 
 	# Create Tables
 	Database.Base.metadata.create_all(bind=Database.DB_Engine)
+
+	# Update Tables
+	Data_Update.Import_Data_Segment()
+	Data_Update.Import_GSM_Operator()
+	Data_Update.Import_Status()
+	Data_Update.Import_Version()
+	Data_Update.Import_Model()
+	Data_Update.Import_Manufacturer()
+	Data_Update.Import_Modem()
+	Data_Update.Import_Project()
+	Data_Update.Import_Device()
+	Data_Update.Import_SIM()
+	Data_Update.Import_Data_Type()
+	Data_Update.Import_Calibration()
+	Data_Update.Import_Connection()
+	Data_Update.Import_Command()
 
 	# Run the application
 	yield

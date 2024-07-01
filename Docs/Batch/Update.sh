@@ -101,13 +101,6 @@ Perform_Git_Pull
 # Message
 echo "----------------------------------------------"
 
-# Table Update
-echo "${yellow}Table updating...${reset}"
-python3 /home/postoffice/PostOffice/src/Setup/Data_Update.py
-
-# Message
-echo "----------------------------------------------"
-
 # Copy Files
 echo "${yellow}Updating files...${reset}"
 
