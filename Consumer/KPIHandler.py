@@ -28,6 +28,7 @@ Log.Terminal_Log('INFO', 'KPI Consumer is starting...')
 # Define Consumer Topic Loop
 try:
 
+	# Loop Consumer
 	while True:
 
 		# Get Message
@@ -86,8 +87,7 @@ try:
 
 
 
-		Log.Terminal_Log('INFO', f'Keys to Check : {Found_Variables}')
-		Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
+		Log.Terminal_Log('INFO', f'Found Variables: {Found_Variables}')
 
 
 
@@ -97,48 +97,19 @@ try:
 
 
 
-
-
-		# Control for RMS Voltage Imbalance
-#		if (Stream_Data.message.Payload.VRMS_R is not None and Stream_Data.message.Payload.VRMS_S is not None and Stream_Data.message.Payload.VRMS_T is not None) and Stream_Data.message.Payload.VRMS_IMB is None:
-
-			# Calculate Voltage Imbalance
-#			Voltage_Imbalance = (max(Stream_Data.message.Payload.VRMS_R, Stream_Data.message.Payload.VRMS_S, Stream_Data.message.Payload.VRMS_T) - min(Stream_Data.message.Payload.VRMS_R, Stream_Data.message.Payload.VRMS_S, Stream_Data.message.Payload.VRMS_T)) / max(Stream_Data.message.Payload.VRMS_R, Stream_Data.message.Payload.VRMS_S, Stream_Data.message.Payload.VRMS_T)
-
-			# Log Message
-#			Log.Terminal_Log('WARNING', f'Voltage Imbalance Detected : {Voltage_Imbalance}')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		# Log Message
-		Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
+		# Log Line
+		Log.Terminal_Log('INFO', '---------------------------------------------------------------')
 
 		# Commit Message
 		KPI_Consumer.commit(asynchronous=False)
 
+# Check for Keyboard Interrupt
 except KeyboardInterrupt:
 
 	# Consumer Closed Manually
 	Log.Terminal_Log('INFO', 'Handler is shutting down...')
 
+# Check for Finally
 finally:
 
 	# Wait for Finish
@@ -146,3 +117,6 @@ finally:
 
 	# Close Consumer
 	KPI_Consumer.close()
+
+	# Log Consumer End
+	Log.Terminal_Log('INFO', 'Consumer is closed.')
