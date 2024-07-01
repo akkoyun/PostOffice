@@ -900,3 +900,22 @@ def Import_Connection():
 
 		# Log the result
 		Log.Terminal_Log("INFO", f"IP address is up to date.")
+
+# Create Tables
+Database.Base.metadata.create_all(bind=Database.DB_Engine)
+
+# Update Tables
+Import_Status()
+Import_Version()
+Import_Project()
+Import_Model()
+Import_Manufacturer()
+Import_Modem()
+Import_GSM_Operator()
+Import_SIM()
+Import_Connection()
+Import_Command()
+Import_Data_Segment()
+Import_Data_Type()
+Import_Calibration()
+Import_Device()

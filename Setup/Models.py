@@ -226,7 +226,7 @@ class Project(Base):
 	__tablename__ = "Project"
 
 	# Define Columns
-	Project_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Project_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
 	Project_Name = Column(String(100), nullable=False, unique=True)
 	Project_Description = Column(String(255), nullable=False)
 	Status = Column(Boolean, nullable=False, server_default="1")
