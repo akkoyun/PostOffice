@@ -53,6 +53,7 @@ PostOffice = FastAPI(
 
 # Define Middleware
 PostOffice.add_middleware(FastApi_Functions.Pre_Request)
+PostOffice.add_middleware(FastApi_Functions.Post_Request)
 
 # Schema Error Handler
 @PostOffice.exception_handler(RequestValidationError)
