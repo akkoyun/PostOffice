@@ -34,6 +34,9 @@ async def FastAPI_Lifespan(app: FastAPI):
 	# Startup Functions
 	Log.Terminal_Log("INFO", "Application is starting...")
 
+	# Create Tables
+	Database.Base.metadata.create_all(bind=Database.DB_Engine)
+
 	# Run the application
 	yield
 
