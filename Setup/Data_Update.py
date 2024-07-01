@@ -9,7 +9,7 @@ from Functions import Log
 import pandas as pd
 
 # Define Github Repository
-Github_Repository = "https://github.com/akkoyun/Standartlar/tree/main/PostOffice/Data"
+Github_Repository = "https://raw.githubusercontent.com/akkoyun/Standartlar/main/PostOffice/Data"
 
 # Read CSV From Github
 def Read_CSV_From_Github(File_Name):
