@@ -905,7 +905,7 @@ def Import_Connection():
 Database.Base.metadata.create_all(bind=Database.DB_Engine)
 
 # Update Tables
-#Import_Status()
+Import_Status()
 #Import_Version()
 #Import_Project()
 #Import_Model()
