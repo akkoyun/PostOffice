@@ -34,9 +34,6 @@ async def FastAPI_Lifespan(app: FastAPI):
 	# Startup Functions
 	Log.Terminal_Log("INFO", "Application is starting...")
 
-	# Create Tables
-	Database.Base.metadata.create_all(bind=Database.DB_Engine)
-
 	# Run the application
 	yield
 
@@ -44,7 +41,7 @@ async def FastAPI_Lifespan(app: FastAPI):
 	Log.Terminal_Log("INFO", "Application is shutting down.")
 
 	# Close Delays
-	time.sleep(10)
+	time.sleep(5)
 
 # Define FastAPI Object
 PostOffice = FastAPI(
