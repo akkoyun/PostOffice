@@ -16,7 +16,7 @@ class Model(Base):
 	__tablename__ = "Model"
 
 	# Define Columns
-	Model_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Model_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
 	Model_Name = Column(String(100), nullable=False)
 	Model_Description = Column(String(255), nullable=True, server_default="No description")
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
