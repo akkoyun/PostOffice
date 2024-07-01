@@ -186,11 +186,7 @@ try:
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 			# Send to KPI Topic
-			Kafka.Send_To_Topic(
-				Config.APP_Settings.KAFKA_KPI_TOPIC, 
-				Stream_Data.message, 
-				Headers
-			)
+			Kafka.Send_To_Topic(Config.APP_Settings.KAFKA_KPI_TOPIC, Stream_Data.message, '', 0)
 
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
