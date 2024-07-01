@@ -40,6 +40,7 @@ def Import_Data_Segment():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_DATA_SEGMENT)
@@ -85,23 +86,30 @@ def Import_Data_Segment():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data Segment Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data Segment Added [{Existing_Data_Count}].")
 
 	# Up to Date
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Data Segment is up to date.")
+		Log.Terminal_Log("INFO", f"Data Segment is up to date [{Existing_Data_Count}].")
 
 # Import Command Data
 def Import_Command():
 
 	# New Calibration Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_COMMAND)
@@ -147,23 +155,30 @@ def Import_Command():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Command Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Command Added [{Existing_Data_Count}].")
 
 	# Up to Date
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Command is up to date.")
+		Log.Terminal_Log("INFO", f"Command is up to date [{Existing_Data_Count}].")
 
 # Import Data_Type Data
 def Import_Data_Type():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_MEASUREMENT_TYPE)
@@ -210,22 +225,29 @@ def Import_Data_Type():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data_Type Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Data_Type Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Data_Type is up to date.")
+		Log.Terminal_Log("INFO", f"Data_Type is up to date [{Existing_Data_Count}].")
 
 # Import GSM Operator Data
 def Import_GSM_Operator():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_GSM_OPERATOR)
@@ -278,22 +300,29 @@ def Import_GSM_Operator():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New GSM Operator Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New GSM Operator Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"GSM Operator is up to date.")
+		Log.Terminal_Log("INFO", f"GSM Operator is up to date [{Existing_Data_Count}].")
 
 # Import Status Data
 def Import_Status():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_STATUS)
@@ -338,22 +367,29 @@ def Import_Status():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Status Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Status Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Status is up to date.")
+		Log.Terminal_Log("INFO", f"Status is up to date [{Existing_Data_Count}].")
 
 # Import Version Data
 def Import_Version():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_VERSION)
@@ -398,22 +434,29 @@ def Import_Version():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Version Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Version Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Version is up to date.")
+		Log.Terminal_Log("INFO", f"Version is up to date [{Existing_Data_Count}].")
 
 # Import Model Data
 def Import_Model():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_MODEL)
@@ -459,22 +502,29 @@ def Import_Model():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Model Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Model Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Model is up to date.")	
+		Log.Terminal_Log("INFO", f"Model is up to date [{Existing_Data_Count}].")	
 
 # Import Modem Data
 def Import_Modem():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_MODEM)
@@ -520,22 +570,29 @@ def Import_Modem():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Modem Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Modem Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Modem is up to date.")
+		Log.Terminal_Log("INFO", f"Modem is up to date [{Existing_Data_Count}].")
 
 # Import Project Data
 def Import_Project():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_PROJECT)
@@ -580,22 +637,29 @@ def Import_Project():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Project Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Project Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Project is up to date.")
+		Log.Terminal_Log("INFO", f"Project is up to date [{Existing_Data_Count}].")
 
 # Import Device Data
 def Import_Device():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_DEVICE)
@@ -645,22 +709,29 @@ def Import_Device():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Device Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Device Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Device is up to date.")
+		Log.Terminal_Log("INFO", f"Device is up to date [{Existing_Data_Count}].")
 
 # Import SIM Data
 def Import_SIM():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_SIM)
@@ -706,16 +777,22 @@ def Import_SIM():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New SIM Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New SIM Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"SIM is up to date.")
+		Log.Terminal_Log("INFO", f"SIM is up to date [{Existing_Data_Count}].")
 
 # Import Calibration Data
 def Import_Calibration():
@@ -793,6 +870,7 @@ def Import_Manufacturer():
 
 	# New Data Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_MANUFACTURER)
@@ -837,22 +915,29 @@ def Import_Manufacturer():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Manufacturer Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New Manufacturer Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Manufacturer is up to date.")
+		Log.Terminal_Log("INFO", f"Manufacturer is up to date [{Existing_Data_Count}].")
 
 # Import Connection Data
 def Import_Connection():
 
 	# New Calibration Count Definition
 	New_Data_Count = 0
+	Existing_Data_Count = 0
 
 	# Define Data File
 	Data_File = Read_CSV_From_Github(APP_Settings.FILE_CONNECTION)
@@ -897,16 +982,22 @@ def Import_Connection():
 					# Rollback in case of error
 					DB.rollback()
 
+			# Record Found
+			else:
+
+				# Increase Existing Count
+				Existing_Data_Count += 1
+
 	# Log the result
 	if New_Data_Count > 0:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New IP Addres Added.")
+		Log.Terminal_Log("INFO", f"[{New_Data_Count}] New IP Addres Added [{Existing_Data_Count}].")
 
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"IP address is up to date.")
+		Log.Terminal_Log("INFO", f"IP address is up to date [{Existing_Data_Count}].")
 
 # Create Tables
 Database.Base.metadata.create_all(bind=Database.DB_Engine)
