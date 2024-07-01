@@ -86,6 +86,11 @@ try:
 
 
 
+
+
+
+
+
 		# Control for VRMS_R, VRMS_S and VRMS_T
 		if (Found_Variables.get("VRMS_R") is not None and Found_Variables.get("VRMS_S") is not None and Found_Variables.get("VRMS_T") is not None) and Found_Variables.get("VRMS_IMB") is None:
 
@@ -96,10 +101,11 @@ try:
 			MAX_VRMS_Value = max(VRMS_Array)
 			MIN_VRMS_Value = min(VRMS_Array)
 			AVG_VRMS_Value = sum(VRMS_Array) / len(VRMS_Array)
-			Imbalance = (MAX_VRMS_Value - MIN_VRMS_Value) / AVG_VRMS_Value
+			Imbalance = ((MAX_VRMS_Value - MIN_VRMS_Value) / AVG_VRMS_Value) * 100
 
 			# Log Imbalance
-			Log.Terminal_Log('INFO', f'Voltage Imbalance : {Imbalance}')
+			Log.Terminal_Log('INFO', f'VRMS_IMB : {Imbalance}')
+			
 
 
 
