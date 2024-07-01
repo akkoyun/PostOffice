@@ -86,6 +86,9 @@ def Import_Data_Segment():
 					# Rollback in case of error
 					DB.rollback()
 
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
+
 			# Record Found
 			else:
 
@@ -154,6 +157,9 @@ def Import_Command():
 
 					# Rollback in case of error
 					DB.rollback()
+
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
 
 			# Record Found
 			else:
@@ -224,6 +230,9 @@ def Import_Data_Type():
 
 					# Rollback in case of error
 					DB.rollback()
+
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
 
 			# Record Found
 			else:
@@ -300,6 +309,9 @@ def Import_GSM_Operator():
 					# Rollback in case of error
 					DB.rollback()
 
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
+
 			# Record Found
 			else:
 
@@ -367,6 +379,9 @@ def Import_Status():
 					# Rollback in case of error
 					DB.rollback()
 
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
+
 			# Record Found
 			else:
 
@@ -433,6 +448,9 @@ def Import_Version():
 
 					# Rollback in case of error
 					DB.rollback()
+
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
 
 			# Record Found
 			else:
@@ -502,6 +520,9 @@ def Import_Model():
 					# Rollback in case of error
 					DB.rollback()
 
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
+
 			# Record Found
 			else:
 
@@ -570,6 +591,9 @@ def Import_Modem():
 					# Rollback in case of error
 					DB.rollback()
 
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
+
 			# Record Found
 			else:
 
@@ -636,6 +660,9 @@ def Import_Project():
 
 					# Rollback in case of error
 					DB.rollback()
+
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
 
 			# Record Found
 			else:
@@ -709,6 +736,9 @@ def Import_Device():
 					# Rollback in case of error
 					DB.rollback()
 
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
+
 			# Record Found
 			else:
 
@@ -776,6 +806,9 @@ def Import_SIM():
 
 					# Rollback in case of error
 					DB.rollback()
+
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
 
 			# Record Found
 			else:
@@ -848,6 +881,9 @@ def Import_Calibration():
 					# Rollback in case of error
 					DB.rollback()
 
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
+
 			# Record Found
 			else:
 
@@ -915,6 +951,9 @@ def Import_Manufacturer():
 					# Rollback in case of error
 					DB.rollback()
 
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
+
 			# Record Found
 			else:
 
@@ -981,6 +1020,9 @@ def Import_Connection():
 
 					# Rollback in case of error
 					DB.rollback()
+
+					# Log the result
+					Log.Terminal_Log("ERROR", f"Error : {e}")
 
 			# Record Found
 			else:

@@ -411,7 +411,7 @@ class Calibration(Base):
 	__tablename__ = "Calibration"
 
 	# Define Columns
-	Calibration_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Calibration_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
 	Device_ID = Column(String(21), ForeignKey("Device.Device_ID", ondelete="CASCADE"), nullable=False)
 	Variable_ID = Column(String(30), ForeignKey("Variable.Variable_ID", ondelete="CASCADE"), nullable=False)
 	Gain = Column(Float, nullable=False, server_default="1")
