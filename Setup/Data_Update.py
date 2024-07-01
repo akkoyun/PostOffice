@@ -788,7 +788,7 @@ def Import_Manufacturer():
 	New_Data_Count = 0
 
 	# Define Data File
-	Data_File = Read_CSV_From_Github
+	Data_File = Read_CSV_From_Github(APP_Settings.FILE_MANUFACTURER)
 
 	# Rename Columns
 	Data_File.columns = ['Manufacturer_ID', 'Manufacturer']
@@ -839,7 +839,7 @@ def Import_Manufacturer():
 	else:
 
 		# Log the result
-		Log.Terminal_Log("INFO", f"Mamufacturer is up to date.")
+		Log.Terminal_Log("INFO", f"Manufacturer is up to date.")
 
 # Import Connection Data
 def Import_Connection():

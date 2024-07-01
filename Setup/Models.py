@@ -38,7 +38,7 @@ class Manufacturer(Base):
 	__tablename__ = "Manufacturer"
 
 	# Define Columns
-	Manufacturer_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
+	Manufacturer_ID = Column(Integer, primary_key=True, unique=True, nullable=False)
 	Manufacturer_Name = Column(String(100), nullable=False)
 	Create_Time = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 	Update_Time = Column(TIMESTAMP(timezone=True), nullable=True, onupdate=text('now()'))
