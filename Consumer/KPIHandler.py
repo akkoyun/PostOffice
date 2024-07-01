@@ -20,7 +20,7 @@ KPI_Consumer_Config = {
 KPI_Consumer = Consumer(KPI_Consumer_Config)
 
 # Define Subscription Function
-KPI_Consumer.subscribe([Config.APP_Settings.KAFKA_KPI_TOPIC])
+KPI_Consumer.subscribe([Config.APP_Settings.KAFKA_RAW_TOPIC])
 
 # Log Consumer Start
 Log.Terminal_Log('INFO', 'KPI Consumer is starting...')
