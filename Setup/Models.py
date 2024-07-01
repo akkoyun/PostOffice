@@ -86,7 +86,7 @@ class GSM_Operator(Base):
 	# Define Columns
 	Operator_ID = Column(Integer, primary_key=True, unique=True, autoincrement=True, nullable=False)
 	MCC_ID = Column(Integer, nullable=False)
-	MCC_ISO = Column(String(10), nullable=False)
+	MCC_ISO = Column(String(20), nullable=False)
 	MCC_Country_Name = Column(String(100), nullable=False)
 	MCC_Country_Code = Column(Integer, nullable=True)
 	MCC_Country_Flag_Image_URL = Column(String(255), nullable=True)
