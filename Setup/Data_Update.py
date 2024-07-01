@@ -7,6 +7,7 @@ from Setup.Config import APP_Settings
 from Setup import Models, Database
 from Functions import Log
 import pandas as pd
+import time
 
 # Define Github Repository
 Github_Repository = "https://raw.githubusercontent.com/akkoyun/Standartlar/main/PostOffice/Data"
@@ -27,6 +28,9 @@ def Read_CSV_From_Github(File_Name):
 
 		# Log Message
 		Log.Terminal_Log("ERROR", f"Data file read error: {e}")
+
+	# Wait for 1 Second
+	time.sleep(1)
 
 	# Return Data File
 	return Data_File

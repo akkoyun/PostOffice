@@ -40,17 +40,17 @@ async def FastAPI_Lifespan(app: FastAPI):
 	# Update Tables
 	Data_Update.Import_Status()
 	Data_Update.Import_Version()
+	Data_Update.Import_Project()
 	Data_Update.Import_Model()
 	Data_Update.Import_Manufacturer()
-	Data_Update.Import_Project()
+	Data_Update.Import_Modem()
 	Data_Update.Import_GSM_Operator()
 	Data_Update.Import_SIM()
-	Data_Update.Import_Command()
 	Data_Update.Import_Connection()
+	Data_Update.Import_Command()
 	Data_Update.Import_Data_Segment()
 	Data_Update.Import_Data_Type()
 	Data_Update.Import_Calibration()
-	Data_Update.Import_Modem()
 	Data_Update.Import_Device()
 
 	# Run the application
