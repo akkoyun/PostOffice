@@ -700,15 +700,15 @@ def Get_Firmware_ID(Firmware: str) -> int:
 		with Database.SessionLocal() as DB_Module:
 
 			# Query Firmware
-			Firmware_Query = (DB_Module.query(Models.Firmware).filter(
-				Models.Firmware.Firmware.like(Firmware)
+			Firmware_Query = (DB_Module.query(Models.Version).filter(
+				Models.Version.Firmware.like(Firmware)
 			).first())
 
 			# Check if Firmware exists
 			if Firmware_Query is not None:
 
 				# Get existing Firmware ID
-				return Firmware_Query.Firmware_ID
+				return Firmware_Query.Version_ID
 			
 			# Firmware Not Found
 			else:
@@ -726,7 +726,7 @@ def Get_Firmware_ID(Firmware: str) -> int:
 		return Definitions.Firmware.Unknown.value
 
 # Create Firmware Function
-def Create_Firmware(Firmware: str) -> int:
+def Create_Firmware(firmware: str) -> int:
 
 	# Try to open a database session
 	try:
@@ -735,8 +735,8 @@ def Create_Firmware(Firmware: str) -> int:
 		with Database.SessionLocal() as DB_Module:
 
 			# Create New Firmware
-			New_Firmware = Models.Firmware(
-				Firmware = Firmware
+			New_Firmware = Models.Version(
+				Firmware = firmware
 			)
 
 			# Add Firmware to DataBase
