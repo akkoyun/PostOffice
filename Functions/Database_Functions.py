@@ -1026,10 +1026,10 @@ def Handle_Packet(Device_ID: str, Packet) -> dict:
 	Keys_To_Check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
 	# Get Data Packs
-	Device_Pack = Pack_Dict.get('Device', {})
-	Power_Pack = Device_Pack.get('Power', {})
-	IoT_Pack = Device_Pack.get('IoT', {})
-	Payload_Pack = Pack_Dict.get('Payload', {})
+	Device_Pack = Pack_Dict('Device')
+	Power_Pack = Device_Pack('Power')
+	IoT_Pack = Device_Pack('IoT')
+	Payload_Pack = Pack_Dict('Payload')
 
 	# Add Device ID to Found Variables
 	Found_Variables['Device_ID'] = Device_ID
