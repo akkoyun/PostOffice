@@ -1013,6 +1013,9 @@ def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 # Handle Packet Function
 def Handle_Packet(Device_ID: str, Packet: dict) -> dict:
 
+	# Get Pack Dictionary
+	Pack_Dict = Packet.__dict__
+
 	# Get All Variables
 	Formatted_Data = Get_All_Variables()
 
@@ -1023,10 +1026,10 @@ def Handle_Packet(Device_ID: str, Packet: dict) -> dict:
 	Keys_To_Check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
 	# Get Data Packs
-	Device_Pack = Packet.get('Device', {})
+	Device_Pack = Pack_Dict.get('Device', {})
 	Power_Pack = Device_Pack.get('Power', {})
 	IoT_Pack = Device_Pack.get('IoT', {})
-	Payload_Pack = Packet.get('Payload', {})
+	Payload_Pack = Pack_Dict.get('Payload', {})
 
 	# Add Device ID to Found Variables
 	Found_Variables['Device_ID'] = Device_ID
