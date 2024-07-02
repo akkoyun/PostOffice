@@ -7,7 +7,7 @@ from Setup import Database, Models, Definitions, Schema
 from Functions import Log
 from pydantic import Field
 from sqlalchemy.exc import SQLAlchemyError
-import pytz, time
+import pytz, time, json
 from typing import Optional
 
 # Set Timezone
@@ -1014,11 +1014,7 @@ def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 def Handle_Packet(Device_ID: str, Packet) -> dict:
 
 	# Convert Packet to dictionary
-	Pack_Dict = vars(Packet)
-
-	# Ensure Packet is a dictionary
-	if not isinstance(Packet, dict):
-		raise ValueError("Packet must be a dictionary")
+	Pack_Dict = json.loads(json.dumps(Packet, default=lambda o: o.__dict__))
 
 	# Get All Variables
 	Formatted_Data = Get_All_Variables()
@@ -1039,7 +1035,7 @@ def Handle_Packet(Device_ID: str, Packet) -> dict:
 	Found_Variables['Device_ID'] = Device_ID
 
 	# Function To Check Variables in a Given Pack
-	def Check_Variables_in_Pack(pack, pack_name):
+	def Check_Variables_in_Pack(pack):
 
 		# Check for Variables
 		for variable in Keys_To_Check:
@@ -1057,9 +1053,9 @@ def Handle_Packet(Device_ID: str, Packet) -> dict:
 					Found_Variables[variable] = value
 
 	# Check Variables in Packs
-	Check_Variables_in_Pack(Power_Pack, 'Power_Pack')
-	Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
-	Check_Variables_in_Pack(Payload_Pack, 'Payload')
+	Check_Variables_in_Pack(Power_Pack)
+	Check_Variables_in_Pack(IoT_Pack)
+	Check_Variables_in_Pack(Payload_Pack)
 
 	# Return Found Variables
 	return Found_Variables
