@@ -58,63 +58,11 @@ def Record_Unknown_Data(Client_IP: str, RAW_Data: str):
 		# Log Message
 		Log.Terminal_Log("ERROR", f"An error occurred: {str(e)}")
 
-# Get Command ID Function
-def Get_Command_ID(Command: str) -> int:
-
-    # Check for Command
-    if not Command:
-
-        # Return 'Unknown' Command ID
-        return Definitions.Command.Unknown.value
-
-    # Try to open a database session
-    try:
-
-		# Define DB
-        with Database.SessionLocal() as DB_Module:
-
-            # Try to query the Command
-            try:
-
-                # Query Command
-                Command_Query = DB_Module.query(Models.Command).filter(
-                    Models.Command.Command.like(Command)
-                ).first()
-
-                # Check if Command exists
-                if Command_Query is not None:
-
-                    # Get existing Command ID
-                    return Command_Query.Command_ID
-                
-                # Command Not Found
-                else:
-
-                    # Return 'Unknown' Command ID
-                    return Definitions.Command.Unknown.value
-
-			# Except SQLAlchemy Error
-            except SQLAlchemyError as e:
-
-                # Log Error
-                Log.Terminal_Log('ERROR', f"Error while processing {Command}: {e}")
-
-                # Return 'Unknown' Command ID
-                return Definitions.Command.Unknown.value
-
-    except SQLAlchemyError as e:
-
-        # Log Error
-        Log.Terminal_Log('ERROR', f"Database session error: {e}")
-
-        # Return 'Unknown' Command ID
-        return Definitions.Command.Unknown.value
-
 # Get or Create Connection Function
 def Get_or_Create_Connection(ip: str) -> bool:
 
 	# Check for IP Address
-	if ip is None:
+	if not ip:
 
 		# End Function
 		return False
@@ -125,59 +73,44 @@ def Get_or_Create_Connection(ip: str) -> bool:
 		# Define DB
 		with Database.SessionLocal() as DB_Module:
 
-			# Control Service
-			try:
+			# Query IP Address
+			IP_Query = (DB_Module.query(Models.Connection).filter(
+				Models.Connection.IP_Address.like(ip)
+			).first())
 
-				# Query IP Address
-				IP_Query = (DB_Module.query(Models.Connection).filter(
-					Models.Connection.IP_Address.like(ip)
-				).first())
+			# IP Address Found
+			if IP_Query is not None:
 
-				# IP Address Found
-				if IP_Query is not None:
+				# Update Connection
+				IP_Query.Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
-					# Update Connection
-					IP_Query.Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+				# Commit DataBase
+				DB_Module.commit()
 
-					# Commit DataBase
-					DB_Module.commit()
-
-					# Return Existed Connection
-					return False
-
-				# IP Address Not Found
-				else:
-
-					# Create New Connection
-					New_IP = Models.Connection(
-						IP_Address = ip,
-						IP_Pool = 0,
-						Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
-					)
-
-					# Add Connection to DataBase
-					DB_Module.add(New_IP)
-
-					# Commit DataBase
-					DB_Module.commit()
-
-					# Refresh DataBase
-					DB_Module.refresh(New_IP)
-
-					# Return New Connection
-					return True
-
-			# Error Handling
-			except SQLAlchemyError as e:
-
-				# Log Error
-				Log.Terminal_Log('ERROR', f"Error while processing {ip}: {e}")
-
-				# Rollback DataBase
-				DB_Module.rollback()
-
-				# Return False
+				# Return Existed Connection
 				return False
+
+			# IP Address Not Found
+			else:
+
+				# Create New Connection
+				New_IP = Models.Connection(
+					IP_Address = ip,
+					IP_Pool = 0,
+					Update_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+				)
+
+				# Add Connection to DataBase
+				DB_Module.add(New_IP)
+
+				# Commit DataBase
+				DB_Module.commit()
+
+				# Refresh DataBase
+				DB_Module.refresh(New_IP)
+
+				# Return New Connection
+				return True
 
 	# Error Handling
 	except SQLAlchemyError as e:
@@ -185,227 +118,10 @@ def Get_or_Create_Connection(ip: str) -> bool:
 		# Log Error
 		Log.Terminal_Log('ERROR', f"Database session error: {e}")
 
+		# Rollback DataBase
+		DB_Module.rollback()
+
 		# Return False
-		return False
-
-# Get or Create SIM Function
-def Get_or_Create_SIM(iccid: str, mcc: int, mnc: int) -> int:
-
-	# Check for ICCID
-	if not iccid:
-
-		# Return 'Unknown' SIM ID
-		return 1
-
-	# Try to open a database session
-	try:
-
-		with Database.SessionLocal() as DB_Module:
-
-			# Try to query the Command
-			try:
-
-				# Query ICCID
-				SIM_Query = (DB_Module.query(Models.SIM).filter(
-					Models.SIM.ICCID.like(iccid)
-				).first())
-
-				# SIM Found
-				if SIM_Query is not None:
-
-					# Get existing SIM ID
-					return SIM_Query.SIM_ID
-
-				# SIM Not Found
-				else:
-
-					# Check for MCC and MNC
-					if mcc is None or mnc is None:
-						mcc = 286
-						mnc = 1
-
-					# Check for Operator_ID
-					Operator_Query = (DB_Module.query(Models.GSM_Operator).filter(
-						Models.GSM_Operator.MCC_ID == mcc,
-						Models.GSM_Operator.MNC_ID == mnc
-					).first())
-
-					# Operator Found
-					if Operator_Query is not None:
-
-						# Get Operator ID
-						Operator_ID = Operator_Query.Operator_ID
-
-					# Create New SIM
-					New_SIM = Models.SIM(
-						ICCID = iccid,
-						Operator_ID = Operator_ID
-					)
-
-					# Add SIM to DataBase
-					DB_Module.add(New_SIM)
-
-					# Commit DataBase
-					DB_Module.commit()
-
-					# Refresh DataBase
-					DB_Module.refresh(New_SIM)
-
-					# Return New SIM
-					return New_SIM.SIM_ID
-
-			# Except SQLAlchemy Error
-			except SQLAlchemyError as e:
-
-				# Log Error
-				Log.Terminal_Log('ERROR', f"Error while processing {iccid}: {e}")
-
-				# Return 'Unknown' SIM ID
-				return 1
-
-	# Except SQLAlchemy Error
-	except SQLAlchemyError as e:
-
-		# Log Error
-		Log.Terminal_Log('ERROR', f"Database session error: {e}")
-
-		# Return 'Unknown' SIM ID
-		return 1
-
-# Get or Create Firmware Function
-def Get_or_Create_Firmware(firmware: str) -> int:
-
-	# Check for Firmware
-	if not firmware:
-
-		# Return 'Unknown' Firmware ID
-		return 0
-
-	# Try to open a database session
-	try:
-
-		# Define DB
-		with Database.SessionLocal() as DB_Module:
-
-			# Try to query the Command
-			try:
-
-				# Query Firmware
-				Firmware_Query = (DB_Module.query(Models.Version).filter(
-					Models.Version.Firmware.like(firmware)
-				).first())
-
-				# Check if Firmware exists
-				if Firmware_Query is not None:
-
-					# Get existing Firmware ID
-					return Firmware_Query.Version_ID
-				
-				# Firmware Not Found
-				else:
-
-					# Create New Firmware
-					New_Firmware = Models.Version(
-						Firmware = firmware
-					)
-
-					# Add Firmware to DataBase
-					DB_Module.add(New_Firmware)
-
-					# Commit DataBase
-					DB_Module.commit()
-
-					# Refresh DataBase
-					DB_Module.refresh(New_Firmware)
-
-					# Return New Firmware
-					return New_Firmware.Version_ID
-			
-			# Except SQLAlchemy Error
-			except SQLAlchemyError as e:
-
-				# Log Error
-				Log.Terminal_Log('ERROR', f"Error while processing {firmware}: {e}")
-
-				# Return 'Unknown' Firmware ID
-				return 0
-	
-	# Except SQLAlchemy Error
-	except SQLAlchemyError as e:
-
-		# Log Error
-		Log.Terminal_Log('ERROR', f"Database session error: {e}")
-
-		# Return 'Unknown' Firmware ID
-		return 0
-
-# Get or Create Modem Function
-def Get_or_Create_Modem(imei: str) -> bool:
-
-	# Check for IMEI
-	if not imei:
-
-		# Return 'Unknown' Modem
-		return False
-
-	# Try to open a database session
-	try:
-
-		# Define DB
-		with Database.SessionLocal() as DB_Module:
-
-			# Try to query the Command
-			try:
-
-				# Query Modem
-				Modem_Query = (DB_Module.query(Models.Modem).filter(
-					Models.Modem.IMEI.like(imei)
-				).first())
-
-				# Check if Modem exists
-				if Modem_Query is not None:
-
-					# Get existing Modem ID
-					return False
-				
-				# Modem Not Found
-				else:
-
-					# Create New Modem
-					New_Modem = Models.Modem(
-						IMEI = imei,
-						Model_ID = 0,
-						Manufacturer_ID = 0
-					)
-
-					# Add Modem to DataBase
-					DB_Module.add(New_Modem)
-
-					# Commit DataBase
-					DB_Module.commit()
-
-					# Refresh DataBase
-					DB_Module.refresh(New_Modem)
-
-					# Return New Modem
-					return True
-
-			# Except SQLAlchemy Error
-			except SQLAlchemyError as e:
-
-				# Log Error
-				Log.Terminal_Log('ERROR', f"Error while processing {imei}: {e}")
-
-				# Return 'Unknown' Modem
-				return False
-
-	# Except SQLAlchemy Error
-	except SQLAlchemyError as e:
-
-		# Log Error
-		Log.Terminal_Log('ERROR', f"Database session error: {e}")
-
-		# Return 'Unknown' Modem
 		return False
 
 # Get or Create Device Function
@@ -742,6 +458,451 @@ def Increase_Rule_Trigger_Count(Rule_ID: int) -> int:
 		# Return Rule ID
 		return 0
 
+# Get All Variables
+def Get_All_Variables():
+
+	# Try to open a database session
+	try:
+
+		# Open a database session
+		with Database.DB_Session_Scope() as DB:
+
+			# Query all data types
+			Query_Variables = DB.query(Models.Variable).all()
+
+			# Get Data Type List
+			return [(Variable.Variable_ID, Variable.Variable_Unit) for Variable in Query_Variables]
+
+	# Handle Exceptions
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Error while Variable Get: {e}")
+
+		# Return Empty Dictionary
+		return {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Get Command ID Function
+def Get_Command_ID(Command: str) -> int:
+
+	# Check for Command
+	if not Command:
+
+		# Return 'Unknown' Command ID
+		return Definitions.Command.Unknown.value
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Query Command
+			Command_Query = DB_Module.query(Models.Command).filter(
+				Models.Command.Command.like(Command)
+			).first()
+
+			# Check if Command exists
+			if Command_Query is not None:
+
+				# Get existing Command ID
+				return Command_Query.Command_ID
+				
+			# Command Not Found
+			else:
+
+				# Return 'Unknown' Command ID
+				return Definitions.Command.Unknown.value
+
+	# Error Handling
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Rollback DataBase
+		DB_Module.rollback()
+
+		# Return 'Unknown' Command ID
+		return Definitions.Command.Unknown.value
+
+# Get Operator ID Function
+def Get_Operator_ID(MCC: int, MNC: int) -> int:
+
+	# Set Default MCC
+	if MCC is None:
+		MCC = Definitions.GSM_Operator.Default_MCC.value
+	
+	# Set Default MNC
+	if MNC is None:
+		MNC = Definitions.GSM_Operator.Default_MNC.value
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Query Operator
+			Operator_Query = (DB_Module.query(Models.GSM_Operator).filter(
+				Models.GSM_Operator.MCC_ID == MCC,
+				Models.GSM_Operator.MNC_ID == MNC
+			).first())
+
+			# Check if Operator exists
+			if Operator_Query is not None:
+
+				# Get existing Operator ID
+				return Operator_Query.Operator_ID
+			
+			# Operator Not Found
+			else:
+
+				# Return 'Unknown' Operator ID
+				return Definitions.GSM_Operator.Unknown.value
+
+	# Error Handling
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Return 'Unknown' Operator ID
+		return Definitions.GSM_Operator.Unknown.value
+
+# Create New SIM Function
+def Create_New_SIM(ICCID: str, Operator_ID: int) -> int:
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Create New SIM
+			New_SIM = Models.SIM(
+				ICCID = ICCID,
+				Operator_ID = Operator_ID
+			)
+
+			# Add SIM to DataBase
+			DB_Module.add(New_SIM)
+
+			# Commit DataBase
+			DB_Module.commit()
+
+			# Refresh DataBase
+			DB_Module.refresh(New_SIM)
+
+			# Return New SIM
+			return New_SIM.SIM_ID
+
+	# Error Handling
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Return 'Unknown' SIM ID
+		return Definitions.SIM.Unknown.value
+
+# Get SIM ID Function
+def Get_SIM_ID(ICCID: str) -> int:
+
+	# Check for ICCID
+	if not ICCID:
+
+		# Return 'Unknown' SIM ID
+		return Definitions.SIM.Unknown.value
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Query ICCID
+			SIM_Query = (DB_Module.query(Models.SIM).filter(
+				Models.SIM.ICCID.like(ICCID)
+			).first())
+
+			# SIM Found
+			if SIM_Query is not None:
+
+				# Get existing SIM ID
+				return SIM_Query.SIM_ID
+
+			# SIM Not Found
+			else:
+
+				# Return 'Unknown' SIM ID
+				return Definitions.SIM.Unknown.value
+
+	# Except SQLAlchemy Error
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Return 'Unknown' SIM ID
+		return Definitions.SIM.Unknown.value
+
+# Get or Create SIM Function
+def Get_or_Create_SIM(iccid: str, mcc: int, mnc: int) -> int:
+
+	# Get SIM ID
+	SIM_ID = Get_SIM_ID(iccid)
+
+	# SIM Found
+	if SIM_ID != Definitions.SIM.Unknown.value:
+
+		# Return Existing SIM ID
+		return SIM_ID
+	
+	# SIM Not Found
+	else:
+
+		# Get Operator ID
+		Operator_ID = Get_Operator_ID(mcc, mnc)
+
+		# Record New SIM
+		New_SIM_ID = Create_New_SIM(iccid, Operator_ID)
+
+		# Return New SIM ID
+		return New_SIM_ID
+
+# Get Firmware ID Function
+def Get_Firmware_ID(Firmware: str) -> int:
+
+	# Check for Firmware
+	if not Firmware:
+
+		# Return 'Unknown' Firmware ID
+		return Definitions.Firmware.Unknown.value
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Query Firmware
+			Firmware_Query = (DB_Module.query(Models.Firmware).filter(
+				Models.Firmware.Firmware.like(Firmware)
+			).first())
+
+			# Check if Firmware exists
+			if Firmware_Query is not None:
+
+				# Get existing Firmware ID
+				return Firmware_Query.Firmware_ID
+			
+			# Firmware Not Found
+			else:
+
+				# Return 'Unknown' Firmware ID
+				return Definitions.Firmware.Unknown.value
+
+	# Error Handling
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Return 'Unknown' Firmware ID
+		return Definitions.Firmware.Unknown.value
+
+# Create Firmware Function
+def Create_Firmware(Firmware: str) -> int:
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Create New Firmware
+			New_Firmware = Models.Firmware(
+				Firmware = Firmware
+			)
+
+			# Add Firmware to DataBase
+			DB_Module.add(New_Firmware)
+
+			# Commit DataBase
+			DB_Module.commit()
+
+			# Refresh DataBase
+			DB_Module.refresh(New_Firmware)
+
+			# Return New Firmware
+			return New_Firmware.Firmware_ID
+
+	# Error Handling
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Return 'Unknown' Firmware ID
+		return Definitions.Firmware.Unknown.value
+
+# Get or Create Firmware Function
+def Get_or_Create_Firmware(firmware: str) -> int:
+
+	# Get Firmware ID
+	Firmware_ID = Get_Firmware_ID(firmware)
+
+	# Firmware Found
+	if Firmware_ID != Definitions.Firmware.Unknown.value:
+
+		# Return Existing Firmware ID
+		return Firmware_ID
+	
+	# Firmware Not Found
+	else:
+
+		# Create New Firmware
+		New_Firmware_ID = Create_Firmware(firmware)
+
+		# Return New Firmware ID
+		return New_Firmware_ID
+
+# Control Modem Function
+def Control_Modem(IMEI: str) -> bool:
+
+	# Check for IMEI
+	if not IMEI:
+
+		# Return False
+		return False
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Query Modem
+			Modem_Query = (DB_Module.query(Models.Modem).filter(
+				Models.Modem.IMEI.like(IMEI)
+			).first())
+
+			# Check if Modem exists
+			if Modem_Query is not None:
+
+				# Return True
+				return True
+			
+			# Modem Not Found
+			else:
+
+				# Return False
+				return False
+
+	# Error Handling
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Return False
+		return False
+
+# Create New Modem Function
+def Create_New_Modem(IMEI: str, Model: int, Manufacturer: int) -> bool:
+
+	# Check for Model
+	if Model is None:
+		Model = 0
+
+	# Check for Manufacturer
+	if Manufacturer is None:
+		Manufacturer = 0
+
+	# Check for IMEI
+	if not IMEI:
+		return False
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Create New Modem
+			New_Modem = Models.Modem(
+				IMEI = IMEI,
+				Model_ID = Model,
+				Manufacturer_ID = Manufacturer
+			)
+
+			# Add Modem to DataBase
+			DB_Module.add(New_Modem)
+
+			# Commit DataBase
+			DB_Module.commit()
+
+			# Refresh DataBase
+			DB_Module.refresh(New_Modem)
+
+			# Return New Modem
+			return True
+
+	# Error Handling
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Rollback DataBase
+		DB_Module.rollback()
+
+		# Return 'Unknown' Modem ID
+		return False
+
+# Get or Create Modem Function
+def Get_or_Create_Modem(imei: str) -> bool:
+
+	# Control Modem
+	Modem_Control = Control_Modem(imei)
+
+	# Modem Found
+	if Modem_Control:
+
+		# Return Existing Modem
+		return True
+	
+	# Modem Not Found
+	else:
+
+		# Create New Modem
+		New_Modem = Create_New_Modem(imei, 0, 0)
+
+		# Return New Modem
+		return New_Modem
+
+
+
+
+
+
+
+
+
 # Add Rule Log
 def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 
@@ -778,28 +939,11 @@ def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 		# Return Rule Log ID
 		return 0
 
-# Get All Variables
-def Get_All_Variables():
 
-	# Try to open a database session
-	try:
 
-		# Open a database session
-		with Database.DB_Session_Scope() as DB:
 
-			# Query all data types
-			Query_Variables = DB.query(Models.Variable).all()
 
-			# Get Data Type List
-			return [(Variable.Variable_ID, Variable.Variable_Unit) for Variable in Query_Variables]
 
-	# Handle Exceptions
-	except SQLAlchemyError as e:
 
-		# Log Error
-		Log.Terminal_Log('ERROR', f"Error while Variable Get: {e}")
-
-		# Return Empty Dictionary
-		return {}
 
 

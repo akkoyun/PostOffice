@@ -159,3 +159,33 @@ class StreamData:
 	# Define Repr Function
 	def __repr__(self):
 		return (f"StreamData(stream_id={self.stream_id}, command_id={self.command_id}, device_firmware_id={self.device_firmware_id}, sim_id={self.sim_id}, new_modem={self.new_modem}, new_device={self.new_device}), message={self.message}, iccid={self.iccid})")
+
+
+
+
+
+
+# Operation Enum Class
+class GSM_Operator(Enum):
+
+	# Define Enumerations
+	Unknown = 0
+
+	# Default Values
+	Default_MCC = 286
+	Default_MNC = 1
+
+# SIM Enum Class
+class SIM(Enum):
+
+	# Define Enumerations
+	Unknown = 1
+
+# Firmware Enum Class
+class Firmware(Enum):
+
+	# Define Enumerations
+	Unknown = 0
+
+
+
