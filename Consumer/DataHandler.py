@@ -185,8 +185,10 @@ try:
 			Log.Terminal_Log('INFO', f'New Payload : {Payload_Record_Count}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
-			handle_pack = Database_Functions.Handle_Packet(Stream_Data.message, Stream_Data.message.Info.ID)
-			Log.Terminal_Log('INFO', f'Packet Handled : {handle_pack}')
+#			handle_pack = Database_Functions.Handle_Packet(Stream_Data.message, Stream_Data.message.Info.ID)
+#			Log.Terminal_Log('INFO', f'Packet Handled : {handle_pack}')
+			Log.Terminal_Log('INFO', f'Pack : {Stream_Data.message} / pack type : {type(Stream_Data.message)}')
+
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
 
