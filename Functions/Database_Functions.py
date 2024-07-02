@@ -1013,8 +1013,9 @@ def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 # Handle Packet Function
 def Handle_Packet(Device_ID: str, Packet: dict) -> dict:
 
-	# Get Pack Dictionary
-	Pack_Dict = Packet.__dict__
+	# Ensure Packet is a dictionary
+	if not isinstance(Packet, dict):
+		raise ValueError("Packet must be a dictionary")
 
 	# Get All Variables
 	Formatted_Data = Get_All_Variables()
@@ -1026,16 +1027,16 @@ def Handle_Packet(Device_ID: str, Packet: dict) -> dict:
 	Keys_To_Check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
 
 	# Get Data Packs
-	Device_Pack = Pack_Dict.get('Device', {})
+	Device_Pack = Packet.get('Device', {})
 	Power_Pack = Device_Pack.get('Power', {})
 	IoT_Pack = Device_Pack.get('IoT', {})
-	Payload_Pack = Pack_Dict.get('Payload', {})
+	Payload_Pack = Packet.get('Payload', {})
 
 	# Add Device ID to Found Variables
 	Found_Variables['Device_ID'] = Device_ID
 
 	# Function To Check Variables in a Given Pack
-	def Check_Variables_in_Pack(pack):
+	def Check_Variables_in_Pack(pack, pack_name):
 
 		# Check for Variables
 		for variable in Keys_To_Check:
@@ -1053,9 +1054,9 @@ def Handle_Packet(Device_ID: str, Packet: dict) -> dict:
 					Found_Variables[variable] = value
 
 	# Check Variables in Packs
-	Check_Variables_in_Pack(Power_Pack)
-	Check_Variables_in_Pack(IoT_Pack)
-	Check_Variables_in_Pack(Payload_Pack)
+	Check_Variables_in_Pack(Power_Pack, 'Power_Pack')
+	Check_Variables_in_Pack(IoT_Pack, 'IoT_Pack')
+	Check_Variables_in_Pack(Payload_Pack, 'Payload')
 
 	# Return Found Variables
 	return Found_Variables
