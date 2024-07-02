@@ -185,6 +185,12 @@ try:
 			Log.Terminal_Log('INFO', f'New Payload : {Payload_Record_Count}')
 			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
 
+			handle_pack = Database_Functions.Handle_Packet(Stream_Data.message, Stream_Data.message.Info.ID)
+			Log.Terminal_Log('INFO', f'Packet Handled : {handle_pack}')
+			Log.Terminal_Log('INFO', f'-------------------------------------------------------------')
+
+
+
 			# Commit Message
 			RAW_Consumer.commit(asynchronous=False)
 

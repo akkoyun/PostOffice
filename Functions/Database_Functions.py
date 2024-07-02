@@ -895,7 +895,67 @@ def Get_or_Create_Modem(imei: str) -> bool:
 		# Return New Modem
 		return New_Modem
 
+# Control Device Function
+def Control_Device(ID: str, Version_ID: int, IP: str, Connection_Time: str) -> bool:
 
+	# Check for ID
+	if not ID:
+
+		# Return False
+		return False
+
+	# Check for Version ID
+	if Version_ID is None:
+		Version_ID = Definitions.Firmware.Unknown.value
+
+	# Check for IP
+	if not IP:
+		IP = "0.0.0.0"
+
+	# Check for Connection Time
+	if not Connection_Time:
+		Connection_Time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+
+	# Try to open a database session
+	try:
+
+		# Define DB
+		with Database.SessionLocal() as DB_Module:
+
+			# Query Device
+			Device_Query = (DB_Module.query(Models.Device).filter(
+				Models.Device.Device_ID.like(ID)
+			).first())
+
+			# Check if Device exists
+			if Device_Query is not None:
+
+				# Update Device
+				Device_Query.Last_Connection_IP = IP
+				Device_Query.Last_Connection_Time = Connection_Time
+				Device_Query.Version_ID = Version_ID
+
+				# Return True
+				return True
+			
+			# Device Not Found
+			else:
+
+				# Return False
+				return False
+
+	# Error Handling
+	except SQLAlchemyError as e:
+
+		# Log Error
+		Log.Terminal_Log('ERROR', f"Database session error: {e}")
+
+		# Return False
+		return False
+
+
+
+	
 
 
 
@@ -946,4 +1006,54 @@ def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 
 
 
+
+
+
+
+# Handle Packet Function
+def Handle_Packet(Device_ID: str, Packet: dict) -> dict:
+
+	# Get All Variables
+	Formatted_Data = Get_All_Variables()
+
+	# Define Found Variables
+	Found_Variables = {}
+
+	# Check for Tuple and Extract Variable IDs
+	Keys_To_Check = [var[0] if isinstance(var, tuple) else var for var in Formatted_Data]
+
+	# Get Data Packs
+	Device_Pack = Packet.get('Device', {})
+	Power_Pack = Device_Pack.get('Power', {})
+	IoT_Pack = Device_Pack.get('IoT', {})
+	Payload_Pack = Packet.get('Payload', {})
+
+	# Add Device ID to Found Variables
+	Found_Variables['Device_ID'] = Device_ID
+
+	# Function To Check Variables in a Given Pack
+	def Check_Variables_in_Pack(pack):
+
+		# Check for Variables
+		for variable in Keys_To_Check:
+
+			# Check for Variable
+			if variable in pack:
+
+				# Get Value
+				value = pack[variable]
+
+				# Check for Value
+				if value is not None and value != "":
+
+					# Add to Found Variables
+					Found_Variables[variable] = value
+
+	# Check Variables in Packs
+	Check_Variables_in_Pack(Power_Pack)
+	Check_Variables_in_Pack(IoT_Pack)
+	Check_Variables_in_Pack(Payload_Pack)
+
+	# Return Found Variables
+	return Found_Variables
 
