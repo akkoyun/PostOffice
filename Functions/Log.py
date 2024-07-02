@@ -8,7 +8,7 @@ import logging
 import os
 
 # Define Formats
-Log_Format = "{asctime} [{levelname:^9}] --> {message}"
+Log_Format = "[{levelname:^9}] {message}"
 Log_Formats = {
     logging.DEBUG: Log_Format,
     logging.INFO: f"\33[36m{Log_Format}\33[0m",
