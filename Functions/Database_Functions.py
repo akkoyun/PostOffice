@@ -1011,10 +1011,17 @@ def Add_Rule_Log(Rule_ID: int, Device_ID: int) -> int:
 
 
 # Handle Packet Function
-def Handle_Packet(Device_ID: str, Packet) -> dict:
+def Handle_Packet(Device_ID: str, Packet: str) -> dict:
 
-	# Convert Packet to dictionary
-	Pack_Dict = json.loads(json.dumps(Packet, default=lambda o: o.__dict__))
+	# Convert Packet JSON string to dictionary
+	try:
+		Pack_Dict = json.loads(Packet)
+	except json.JSONDecodeError as e:
+		raise ValueError(f"Invalid JSON data: {e}")
+
+	# Ensure Pack_Dict is a dictionary
+	if not isinstance(Pack_Dict, dict):
+		raise ValueError("Pack_Dict must be a dictionary")
 
 	# Get All Variables
 	Formatted_Data = Get_All_Variables()
